@@ -1,0 +1,7 @@
+sketch.properties
+build-tmp/
+*.sublime-workspace
+*.iml
+Trees.sublime-project
+.DS_Store
+.idea/*

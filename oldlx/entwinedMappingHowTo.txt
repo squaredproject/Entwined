@@ -1,0 +1,84 @@
+How to map the Entwined trees:
+
+Setting up the installation:
+The layout of the installation(How many trees, where they are, and what size)
+is stored in the file data/entwinedTrees.json. 
+
+The json file must be edited directly in order to change the installation layout. 
+
+Here is an example entwinedTrees.json file from the original install:
+[
+	{
+		"canopyMajorLengths" : [300, 200, 120],
+		"layerBaseHeights" : [40, 113, 169],
+		"ry" : 180,
+		"x" : 150,
+		"z" : 300
+	},
+	{
+		"canopyMajorLengths" : [240, 160, 96],
+		"layerBaseHeights" : [20, 71, 112],
+		"ry" : 180,
+		"x" : 0,
+		"z" : 0
+	},
+	{
+		"canopyMajorLengths" : [180, 120],
+		"layerBaseHeights" : [43, 95],
+		"ry" : 180,
+		"x" : 400,
+		"z" : 0
+	},
+	{
+		"canopyMajorLengths" : [72],
+		"layerBaseHeights" : [24],
+		"ry" : 180,
+		"x" : 350,
+		"z" : -100
+	},
+	{
+		"canopyMajorLengths" : [72],
+		"layerBaseHeights" : [24],
+		"ry" : 180,
+		"x" : 450,
+		"z" : -100
+	}
+]
+This example willl set up 5 trees. 
+
+canopyMajorLengths defines how many layers of branches there are for each tree, and the sizes of those layers(there is a defining dimension in the CAD model in the same name that is in inches).
+
+layerBaseHeights defines how high each layer is, this is also pulled from the CAD model and is in inches.
+
+There are 4 different variations of canopyMajorLengths/layerBaseHeights in this example, these correspond to the 4 different sizes of  tree that were made in the original installation(Large, Medium, Small, and Mini)
+
+ry is the rotation of the tree in degrees
+
+x is the X location of the tree in inches
+
+z is the Z location of the tree in inches
+
+Edit and save the entwinedTrees.json file so that it is set up to reflect the current installation.
+
+
+The mapping of the trees is stored in data/entwinedCubes.json. Most of the mapping work is done in the GUI, but for now there must be at least one cube defiined per IP address in entwinedCubes.json in order to be able to add more from that IP address. So if you add or change an NDB, you must manually add a line to the JSON file or change an IP address that was from the NDB you swapped. Maybe we'll fix this someday, it didn't happen in the half of a week there was to adapt the software to entwined before it shipped :). The line you would add would be:
+{"treeIndex":0,"layerIndex":0,"branchIndex":0,"mountPointIndex":0,"ipAddress":"<<new IP address>>","outputIndex":0,"cubeSizeIndex":0,"isActive":true}
+
+Mapping in the GUI:
+For the larger trees, mapping is best done from above and some distance away if you have a boomlift on site.
+
+Start the program, and make sure the installation layout is correct. 
+
+Turn the faders down for all of the patterns, and click "Enabled" on the mapping tool.
+
+The idea will be to cycle through each NDB(one NDB = one IP address) and each of the 16 outputs on that NDB, and map the cube that that NDB and output is connected to.
+
+When a real cube blinks somewhere on the installation from the NDB and output you have selected in the mapping tool, check that "cube active" is lit up at the bottom. If it says "cube inacive", click that to change it.
+
+Next, change the Tree, Layer, Branch, and Point  in that order so that the cube's location in the program matches what you see in reality. Sometimes it is hard to see what Branch a cube is on in the program when Point is at a low number, so moving Point to a higher number can be helpful in those cases.
+
+Finally, adjust the Size so it matches the size of the cube. The original install had small cubes(size 0) and larger cubes(size 1). Note that changing the size does not change what is displayed until restart.
+
+Proceed to the next cube by going to the next output or NDB and repeat. It's a good idea to click Save as you go.
+
+Click Save and restart the program, and mapping should be done.
