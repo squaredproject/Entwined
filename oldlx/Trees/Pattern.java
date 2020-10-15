@@ -109,4 +109,3 @@ abstract class TSTriggerablePattern extends TSPattern implements Triggerable {
   public void addOutputTriggeredListener(LXParameterListener listener) {
   }
 }
-

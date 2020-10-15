@@ -42,14 +42,19 @@ final static float BOLT = 22*Geometry.INCHES;
 
 static List<CubeConfig> cubeConfig;
 static List<TreeConfig> treeConfig;
+static List<ShrubCubeConfig> shrubCubeConfig;
+static List<ShrubConfig> shrubConfig;
 
 Model model;
 P3LX lx;
 ProcessingEngine engine;
 LXDatagramOutput output;
+LXDatagramOutput shrubOutput;
 BasicParameter outputBrightness;
 LXDatagram[] datagrams;
+LXDatagram[] shrubDatagrams;
 UIChannelFaders uiFaders;
+UIChannelFaders uiShrubFaders;
 UIMultiDeck uiDeck;
 BPMTool bpmTool;
 MappingTool mappingTool;
@@ -59,6 +64,7 @@ DiscreteParameter automationSlot;
 LXListenableNormalizedParameter[] effectKnobParameters;
 BooleanParameter[] previewChannels;
 ChannelTreeLevels[] channelTreeLevels;
+ChannelShrubLevels[] channelShrubLevels;
 
 void setup() {
   size(1148, 720, OPENGL);
@@ -89,14 +95,17 @@ class ProcessingEngine extends Engine {
   void postCreateLX() {
     super.postCreateLX();
 
-    lx.addEffect(mappingTool = new MappingTool(lx, cubeConfig));
+    lx.addEffect(mappingTool = new MappingTool(lx, cubeConfig, shrubCubeConfig));
 
     Trees.this.cubeConfig = cubeConfig;
+    Trees.this.shrubCubeConfig = shrubCubeConfig;
     Trees.this.model = model;
     Trees.this.lx = getLX();
     Trees.this.output = output;
+    Trees.this.shrubOutput = shrubOutput;
     Trees.this.outputBrightness = outputBrightness;
     Trees.this.datagrams = datagrams;
+    Trees.this.shrubDatagrams = shrubDatagrams;
     Trees.this.bpmTool = bpmTool;
     Trees.this.automation = automation;
     Trees.this.automationStop = automationStop; 
@@ -104,6 +113,7 @@ class ProcessingEngine extends Engine {
     Trees.this.effectKnobParameters = effectKnobParameters;
     Trees.this.previewChannels = previewChannels;
     Trees.this.channelTreeLevels = channelTreeLevels;
+    Trees.this.channelShrubLevels = channelShrubLevels;
     uiDeck = Trees.this.uiDeck = new UIMultiDeck(Trees.this.lx.ui);
     configureUI();
   }
@@ -139,12 +149,17 @@ void configureUI() {
     .addComponent(new UITrees())
   );
   if (Config.enableOutputBigtree) {
-    lx.ui.addLayer(new UIOutput(lx.ui, 4, 4));
+    lx.ui.addLayer(new UIOutput(lx.ui, 4, 4));    
   }
+  lx.ui.addLayer(new UIShrubOutput(lx.ui, 4, 4));
   lx.ui.addLayer(new UIMapping(lx.ui));
+  lx.ui.addLayer(new UIShrubMapping(lx.ui));
+  
   UITreeFaders treeFaders = new UITreeFaders(lx.ui, channelTreeLevels, model.trees.size());
   lx.ui.addLayer(treeFaders);
-  lx.ui.addLayer(uiFaders = new UIChannelFaders(lx.ui, treeFaders));
+  UIShrubFaders shrubFaders = new UIShrubFaders(lx.ui, channelShrubLevels, model.shrubs.size());
+  lx.ui.addLayer(shrubFaders);
+  lx.ui.addLayer(uiFaders = new UIChannelFaders(lx.ui, treeFaders, shrubFaders));
   lx.ui.addLayer(new UIEffects(lx.ui, effectKnobParameters));
   lx.ui.addLayer(uiDeck);
   lx.ui.addLayer(new UILoopRecorder(lx.ui));
@@ -159,6 +174,8 @@ TreesTransition getFaderTransition(LXChannel channel) {
   return (TreesTransition) channel.getFaderTransition();
 }
 
+
+
 void keyPressed() {
   switch (key) {
     case 'a':
@@ -168,7 +185,12 @@ void keyPressed() {
           datagram.enabled.setValue(toEnable);
         }
       }
+      if (shrubDatagrams.length > 0) {
+        boolean toEnable = !shrubDatagrams[0].enabled.isOn();
+        for (LXDatagram shrubDatagram : shrubDatagrams) {
+          shrubDatagram.enabled.setValue(toEnable);
+        }
+      }
       break;
   }
 }
-

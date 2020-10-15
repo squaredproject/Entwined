@@ -51,7 +51,7 @@ class Pixels extends TSPattern {
     addParameter(pHue);
     addModulator(hueLFO).start();
 
-    int numCubes = model.cubes.size();
+    int numCubes = model.cubes.size() + model.shrubCubes.size();
     pixelStates = new PixelState[numCubes];
     for (int n = 0; n < numCubes; n++)
       pixelStates[n] = new PixelState(lx);
@@ -74,13 +74,13 @@ class Pixels extends TSPattern {
     float firesPerSec = minFiresPerSec + vSpeed * (maxFiresPerSec - minFiresPerSec);
     float timeBetween = 1000 / firesPerSec;
     while (lastFireTime + timeBetween < now) {
-      int which = (int)Utils.random(0, model.cubes.size());
+      int which = (int)Utils.random(0, model.cubes.size() + model.shrubCubes.size());
       pixelStates[which].fire(now, vLifetime * 1000 + 10, hueLFO.getValuef(), (1 - vSat));
       lastFireTime += timeBetween;
     } 
     
     int i = 0;
-    for (i = 0; i < model.cubes.size(); i++) {
+    for (i = 0; i < (model.cubes.size() + model.shrubCubes.size()); i++) {
       colors[i] = pixelStates[i].currentColor(now);
     }
   }
@@ -124,7 +124,13 @@ class Wedges extends TSPattern {
         Math.floor((rotation - cube.transformedTheta) / quant) * quant + vHue * 360.0f,
         (1 - vSat) * 100,
         100);
-    }     
+    }  
+    for (ShrubCube cube : model.shrubCubes) {
+      colors[cube.index] = LXColor.hsb(
+        Math.floor((rotation - cube.transformedTheta) / quant) * quant + vHue * 360.0f,
+        (1 - vSat) * 100,
+        100);
+    }    
   } 
 }
 
@@ -208,7 +214,24 @@ class Parallax extends TSPattern {
           break;
         }
       }
-    }     
+    } 
+
+    for (ShrubCube cube : model.shrubCubes) {
+      colors[cube.index] = lx.hsb(0, 0, 0);
+
+      for (ColorBar colorBar : colorBars) {
+        if (colorBar.intersects(bouncedNow, cube.transformedY)) {
+          colors[cube.index] = colorBar.getColor(pHue.getValuef() * 360);
+          break;
+        }
+      }
+    } 
+    // number of cubes: 224
+    // number of shrubcubes: 120
+    // number of colors: 344
+    // System.out.println("number of cubes: " + model.cubes.size());   
+    // System.out.println("number of shrubcubes: " + model.shrubCubes.size());      
+    // System.out.println("number of colors: " + colors.length);      
+
   } 
 }
-

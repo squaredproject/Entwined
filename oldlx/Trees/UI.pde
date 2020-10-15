@@ -35,6 +35,7 @@ class UITrees extends UI3dComponent {
     endShape(CLOSE);
 
     drawTrees(ui);
+    drawShrubs(ui);
     drawLights(ui);
   }
 
@@ -66,6 +67,34 @@ class UITrees extends UI3dComponent {
     }
   }
 
+  private void drawShrubs(UI ui) {
+    noStroke();
+    fill(#333333);
+    for (Shrub shrub : model.shrubs) {
+      pushMatrix();
+      translate(shrub.x, 0, shrub.z);
+      rotateY(-shrub.ry * Utils.PI / 180);
+      drawShrub(ui, shrub);
+      popMatrix();
+    }
+  }
+
+  private void drawShrub(UI ui, Shrub shrub) {
+    int squareHalfSize = 2;
+    for (EntwinedCluster shrubCluster: shrub.shrubClusters){ // drew diamonds at every mount point. Crude, but does the job for now!
+      for (Rod rod: shrubCluster.rods){
+        Vec3D p = rod.mountingPoint;
+          beginShape();
+          vertex(p.x - squareHalfSize, p.y, p.z);
+          vertex(p.x, p.y, p.z + squareHalfSize);
+          vertex(p.x + squareHalfSize, p.y, p.z);
+          vertex(p.x, p.y, p.z - squareHalfSize);
+          endShape(CLOSE);
+        
+      }
+    }
+  }
+  
   private void drawLights(UI ui) {
 
     int[] colors;
@@ -95,12 +124,17 @@ class UITrees extends UI3dComponent {
     if (mappingTool.isEnabled()) {
       Cube cube = mappingTool.getCube();
       drawCube(cube, colors);
+      ShrubCube shrubCube = mappingTool.getShrubCube();
+      drawShrubCube(shrubCube, colors);
     }
     else {
       for (Cube cube : model.cubes) {
         if (cube.config.isActive) {
           drawCube(cube, colors);
         }
+      }
+      for (ShrubCube shrubCube : model.shrubCubes) {
+          drawShrubCube(shrubCube, colors);
       }
     }
     noLights();
@@ -122,6 +156,25 @@ class UITrees extends UI3dComponent {
     rotateX(-cube.rx * Utils.PI / 180);
     rotateZ(-cube.rz * Utils.PI / 180);
     box(cube.size, cube.size, cube.size);
+    popMatrix();
+  }
+  
+  void drawShrubCube(ShrubCube shrubCube, int[] colors) {
+    pushMatrix();
+    fill(colors[shrubCube.index]);
+    if (mappingTool.isEnabled()) {
+      Vec3D updatedPoint = model.getShrubMountPoint(shrubCube.config);
+      if (updatedPoint != null) {
+        translate(updatedPoint.x, updatedPoint.y, updatedPoint.z);
+      }
+    }
+    else {
+      translate(shrubCube.x, shrubCube.y, shrubCube.z);
+    }
+    rotateY(-shrubCube.ry * Utils.PI / 180);
+    rotateX(-shrubCube.rx * Utils.PI / 180);
+    rotateZ(-shrubCube.rz * Utils.PI / 180);
+    box(shrubCube.size, shrubCube.size, shrubCube.size);
     popMatrix();
   }
 }
@@ -237,7 +290,7 @@ class UIChannelFaders extends UI2dContext {
   final static int HEIGHT = 140;
   final static int PERF_PADDING = PADDING + 1;
 
-  UIChannelFaders(final UI ui, final UITreeFaders treeFaders) {
+  UIChannelFaders(final UI ui, final UITreeFaders treeFaders, final UIShrubFaders shrubFaders) {
     super(ui, 180, Trees.this.height-HEIGHT-PADDING, WIDTH, HEIGHT);
     setBackgroundColor(#292929);
     setBorderColor(#444444);
@@ -270,6 +323,7 @@ class UIChannelFaders extends UI2dContext {
           lx.engine.focusedChannel.setValue(channel.getIndex());
 
           treeFaders.setChannel(channel.getIndex());
+          shrubFaders.setChannel(channel.getIndex());
           //treeLevelSliders[0].setParameter(channel.getParameter("tree0"));
         }
         protected void onKeyPressed(KeyEvent keyEvent, char keyChar, int keyCode) {
@@ -538,6 +592,62 @@ class UITreeFaders extends UI2dContext {
   public void setChannel(int channelIndex){
     for (int i = 0; i < numTrees; i++) {
       sliders[i].setParameter(channelTreeLevels[channelIndex].getParameter(i));
+    }
+  }
+}
+
+class UIShrubFaders extends UI2dContext {
+  final static int SPACER = 30;
+  final static int PADDING = 4;
+  final static int BUTTON_HEIGHT = 14;
+  final static int FADER_WIDTH = 40;
+  final static int HEIGHT = 140;
+  final public UISlider[] sliders;
+  final private ChannelShrubLevels[] channelShrubLevels;
+  final int numShrubs;
+  UIShrubFaders(final UI ui, final ChannelShrubLevels[] channelShrubLevels, final int numShrubs) {
+    super(ui, 800, Trees.this.height-HEIGHT-PADDING, 2 * SPACER + PADDING + (PADDING+FADER_WIDTH)*(numShrubs), HEIGHT);
+    sliders = new UISlider[numShrubs];
+    this.channelShrubLevels = channelShrubLevels;
+    this.numShrubs = numShrubs;
+    setBackgroundColor(#292929);
+    setBorderColor(#444444);
+    final UILabel[] labels = new UILabel[numShrubs];
+
+    for (int i = 0; i < numShrubs; i++) {
+      float xPos = PADDING + i*(PADDING+FADER_WIDTH) + SPACER;
+      sliders[i] = new UISlider(UISlider.Direction.VERTICAL, xPos, 1*BUTTON_HEIGHT + 2*PADDING, FADER_WIDTH, this.height - 3*BUTTON_HEIGHT - 5*PADDING) {
+        @Override
+        protected void onDraw(UI ui, PGraphics pg) {
+          int primaryColor = ui.theme.getPrimaryColor();
+          ui.theme.setPrimaryColor(0xff222222);
+          super.onDraw(ui, pg);
+          ui.theme.setPrimaryColor(primaryColor);
+        }
+      };
+      sliders[i]
+              .setShowLabel(false)
+              .addToContainer(this);
+      labels[i] = new UILabel(xPos, this.height - 2*PADDING - 2*BUTTON_HEIGHT, FADER_WIDTH, BUTTON_HEIGHT);
+      labels[i]
+              .setLabel("Shrub" + (i+1))
+              .setAlignment(CENTER, CENTER)
+              .setFontColor(#999999)
+              .setBackgroundColor(#292929)
+              .setBorderColor(#666666)
+              .addToContainer(this);
+    }
+    setChannel(0);
+    float labelX = PADDING;
+    new UILabel(labelX, 2*PADDING+1*BUTTON_HEIGHT+2, 0, 0)
+            .setLabel("LEVEL")
+            .setFontColor(#666666)
+            .addToContainer(this);
+
+  }
+  public void setChannel(int channelIndex){
+    for (int i = 0; i < numShrubs; i++) {
+      sliders[i].setParameter(channelShrubLevels[channelIndex].getParameter(i));
     }
   }
 }
@@ -1037,6 +1147,205 @@ class UIOutput extends UIWindow {
 
     void onMousePressed() {
       datagram.enabled.toggle();
+    }
+  }
+}
+
+/////////////////////////////////////////
+
+class UIShrubMapping extends UIWindow {
+
+  final UILabel shrubIpAddress;
+  final UIIntegerBox shrubIndex;
+  final UIIntegerBox clusterIndex;
+  final UIIntegerBox rodIndex;
+  //final UIIntegerBox mountPointIndex;
+  final UIIntegerBox cubeSizeIndex;
+  final UIButton isActive;
+
+  UIShrubMapping(UI ui) {
+    super(ui, "SHRUB TOOL", 4, Trees.this.height - 294 - 240, 140, 240);
+
+    final UIIntegerBox shrubIpIndex = new UIIntegerBox().setParameter(mappingTool.shrubIpIndex);
+    final UIIntegerBox shrubOutputIndex = new UIIntegerBox().setParameter(mappingTool.shrubOutputIndex);
+
+    (shrubIpAddress = new UILabel()).setAlignment(CENTER, CENTER).setBorderColor(#666666).setBackgroundColor(#292929);
+    shrubIndex = new UIIntegerBox() {
+      protected void onValueChange(int value) {
+        mappingTool.getShrubConfig().shrubIndex = value;
+        clusterIndex.setRange(0, model.shrubs.get(value).shrubClusters.size() - 1);
+      }
+    }.setRange(0, model.shrubs.size() - 1);
+    clusterIndex = new UIIntegerBox() {
+      protected void onValueChange(int value) {
+        mappingTool.getShrubConfig().clusterIndex =  value;
+        rodIndex.setRange(0, model.shrubs.get(shrubIndex.getValue()).shrubClusters.get(value).rods.size() - 1);
+
+      }
+    }.setRange(0, 12);
+
+    rodIndex = new UIIntegerBox() {
+      protected void onValueChange(int value) {
+        mappingTool.getShrubConfig().rodIndex =  value;
+        //mountPointIndex.setRange(0, model.shrubs.get(shrubIndex.getValue()).shrubClusters.get(clusterIndex.getValue()).rods.get(value).mountingPoint.size() - 1);
+      }
+    }.setRange(0, 5);
+
+    //mountPointIndex = new UIIntegerBox() {
+    //  protected void onValueChange(int value) {
+    //    mappingTool.getShrubConfig().mountPointIndex = value;
+    //  }
+    //}.setRange(0, 1);
+
+    cubeSizeIndex = new UIIntegerBox() {
+      protected void onValueChange(int value) {
+        mappingTool.getShrubConfig().cubeSizeIndex = value;
+      }
+    }.setRange(0, 1);
+
+
+    mappingTool.shrubIpIndex.addListener(new LXParameterListener() {
+      public void onParameterChanged(LXParameter parameter) {
+        updateParameters(true);
+      }
+    });
+
+    mappingTool.shrubOutputIndex.addListener(new LXParameterListener() {
+      public void onParameterChanged(LXParameter parameter) {
+        updateParameters(false);
+      }
+    });
+
+    float yPos = TITLE_LABEL_HEIGHT;
+    new UIButton(4, yPos, width-8, 20) {
+      void onToggle(boolean enabled) {
+        if (enabled) {
+          shrubIpIndex.focus();
+        }
+      }
+    }
+            .setInactiveLabel("Disabled")
+            .setActiveLabel("Enabled")
+            .setParameter(mappingTool.enabled)
+            .addToContainer(this);
+    yPos += 24;
+
+    yPos = labelRow(yPos, "NDB", shrubIpIndex);
+    yPos = labelRow(yPos, "OUTPUT", shrubOutputIndex);
+    yPos = labelRow(yPos, "IP", shrubIpAddress);
+    yPos = labelRow(yPos, "SHRUB", shrubIndex);
+    yPos = labelRow(yPos, "CLUSTER", clusterIndex);
+    //yPos = labelRow(yPos, "MOUNT", mountPointIndex);
+    yPos = labelRow(yPos, "ROD", rodIndex);
+    //yPos = labelRow(yPos, "SIZE", cubeSizeIndex);
+
+
+    isActive = (UIButton) new UIButton(4, yPos, width-8, 20) {
+      void onToggle(boolean enabled) {
+        ShrubCubeConfig c = mappingTool.getShrubConfig();
+        //c.isActive = enabled;
+        //if (enabled) {
+          c.clusterIndex = clusterIndex.getValue();
+          //c.mountPointIndex = mountPointIndex.getValue();
+          c.rodIndex = rodIndex.getValue();
+        //}
+      }
+    }
+    .setInactiveLabel("Cube inactive")
+    .setActiveLabel("Cube active")
+    .addToContainer(this);
+    yPos += 24;
+
+    new UIButton(4, yPos, this.width-8, 20) {
+      void onToggle(boolean active) {
+        if (active) {
+          String backupFileName = Config.SHRUB_CUBE_CONFIG_FILE + ".backup." + month() + "." + day() + "." + hour() + "." + minute() + "." + second();
+          saveStream(backupFileName, Config.SHRUB_CUBE_CONFIG_FILE);
+          engine.saveShrubCubeConfigs();
+          setLabel("Saved. Restart needed.");
+        }
+      }
+    }.setMomentary(true).setLabel("Save Changes").addToContainer(this);
+
+    updateParameters(true);
+  }
+
+  float labelRow(float yPos, String label, UI2dComponent obj) {
+    new UILabel(4, yPos+5, 50, 20)
+            .setLabel(label)
+            .addToContainer(this);
+    obj
+            .setPosition(58, yPos)
+            .setSize(width-62, 20)
+            .addToContainer(this);
+    yPos += 24;
+    return yPos;
+  }
+
+  void updateParameters(boolean resetAll){
+    ShrubCubeConfig c = mappingTool.getShrubConfig();
+    shrubIpAddress.setLabel(c.shrubIpAddress);
+    shrubIndex.setValue(c.shrubIndex);
+    if (resetAll /*|| c.isActive*/) {
+      clusterIndex.setValue(c.clusterIndex);
+      //mountPointIndex.setValue(c.mountPointIndex);
+      rodIndex.setValue(c.rodIndex);
+    }
+    cubeSizeIndex.setValue(c.cubeSizeIndex);
+    //isActive.setActive(c.isActive);
+  }
+}
+
+class UIShrubOutput extends UIWindow {
+  static final int LIST_NUM_ROWS = 3;
+  static final int LIST_ROW_HEIGHT = 20;
+  static final int LIST_HEIGHT = LIST_NUM_ROWS * LIST_ROW_HEIGHT;
+  static final int BUTTON_HEIGHT = 20;
+  static final int SPACER = 8;
+  UIShrubOutput(UI ui, float x, float y) {
+    super(ui, "LIVE SHRUB OUTPUT", x, y + 100, 140, UIWindow.TITLE_LABEL_HEIGHT - 1 + BUTTON_HEIGHT + SPACER + LIST_HEIGHT);
+    float yPos = UIWindow.TITLE_LABEL_HEIGHT - 2;
+    new UIButton(4, yPos, width-8, BUTTON_HEIGHT)
+            .setParameter(shrubOutput.enabled)
+            .setActiveLabel("Enabled")
+            .setInactiveLabel("Disabled")
+            .addToContainer(this);
+    yPos += BUTTON_HEIGHT + SPACER;
+
+    List<UIItemList.Item> items = new ArrayList<UIItemList.Item>();
+    for (LXDatagram shrubDatagram : shrubDatagrams) {
+      System.out.println(shrubDatagram);
+      items.add(new ShrubDatagramItem(shrubDatagram));
+    }
+    new UIItemList(1, yPos, width-2, LIST_HEIGHT)
+            .setItems(items)
+            .setBackgroundColor(0xff0000)
+            .addToContainer(this);
+  }
+
+  class ShrubDatagramItem extends UIItemList.AbstractItem {
+
+    final LXDatagram shrubDatagram;
+
+    ShrubDatagramItem(LXDatagram shrubDatagram) {
+      this.shrubDatagram = shrubDatagram;
+      shrubDatagram.enabled.addListener(new LXParameterListener() {
+        public void onParameterChanged(LXParameter parameter) {
+          redraw();
+        }
+      });
+    }
+
+    String getLabel() {
+      return shrubDatagram.getAddress().toString();
+    }
+
+    boolean isSelected() {
+      return shrubDatagram.enabled.isOn();
+    }
+
+    void onMousePressed() {
+      shrubDatagram.enabled.toggle();
     }
   }
 }

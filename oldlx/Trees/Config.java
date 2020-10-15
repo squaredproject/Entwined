@@ -12,5 +12,8 @@ final class Config {
 
   static final String CUBE_CONFIG_FILE = "data/entwinedCubes.json";
   static final String TREE_CONFIG_FILE = "data/entwinedTrees.json";
+  static final String SHRUB_CUBE_CONFIG_FILE = "data/entwinedShrubCubes.json";
+  static final String SHRUB_CONFIG_FILE = "data/entwinedShrubs.json";
+
 
 }

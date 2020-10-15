@@ -35,6 +35,14 @@ class DoubleHelix extends TSPattern {
         Utils.max(0, 100 - 2*LXUtils.wrapdistf(cube.transformedTheta, theta.getValuef() + coilf, 180))
       );
     }
+    for (ShrubCube cube : model.shrubCubes) {
+      float coilf = coil.getValuef() * (cube.cy - model.cy);
+      colors[cube.index] = lx.hsb(
+        lx.getBaseHuef() + .4f*Utils.abs(cube.transformedY - model.cy) +.2f* Utils.abs(cube.transformedTheta - 180),
+        100,
+        Utils.max(0, 100 - 2*LXUtils.wrapdistf(cube.transformedTheta, theta.getValuef() + coilf, 180))
+      );
+    }
   }
 }
 
@@ -61,6 +69,13 @@ class ColoredLeaves extends TSPattern {
     if (getChannel().getFader().getNormalized() == 0) return;
 
     for (Cube cube : model.cubes) {
+      colors[cube.index] = lx.hsb(
+        (360 + movement[cube.index  % movement.length].getValuef()) % 360,
+        100,
+        bright[cube.index % bright.length].getValuef()
+      );
+    }
+    for (ShrubCube cube : model.shrubCubes) {
       colors[cube.index] = lx.hsb(
         (360 + movement[cube.index  % movement.length].getValuef()) % 360,
         100,
@@ -136,6 +151,17 @@ class Twister extends TSPattern {
         df
       );
     }
+    for (ShrubCube cube : model.shrubCubes) {
+      float wrapdist = LXUtils.wrapdistf(cube.transformedTheta, spinf + (model.yMax - cube.transformedY)*coilf, 360);
+      float yn = (cube.transformedY / model.yMax);
+      float width = 10 + 30 * yn;
+      float df = Utils.max(0, 100 - (100 / 45) * Utils.max(0, wrapdist-width));
+      colors[cube.index] = lx.hsb(
+        (lx.getBaseHuef() + .2f*cube.transformedY - 360 - wrapdist) % 360,
+        Utils.max(0, 100 - 500*Utils.max(0, yn-.8f)),
+        df
+      );
+    }
   }
 }
 
@@ -177,6 +203,14 @@ class SweepPattern extends TSPattern {
     if (getChannel().getFader().getNormalized() == 0) return;
 
     for (Cube cube : model.cubes) {
+      float yp = yPos.getValuef() + amp.getValuef() * Utils.sin((cube.cx - model.cx) * .01f + offset.getValuef());
+      colors[cube.index] = lx.hsb(
+        (lx.getBaseHuef() + Utils.abs(cube.x - model.cx) * .2f +  cube.cz*.1f + cube.cy*.1f) % 360,
+        Utils.constrain(Utils.abs(cube.transformedY - model.cy), 0, 100),
+        Utils.max(0, 100 - (100/width.getValuef())*Utils.abs(cube.cy - yp - height.getValuef()))
+      );
+    }
+    for (ShrubCube cube : model.shrubCubes) {
       float yp = yPos.getValuef() + amp.getValuef() * Utils.sin((cube.cx - model.cx) * .01f + offset.getValuef());
       colors[cube.index] = lx.hsb(
         (lx.getBaseHuef() + Utils.abs(cube.x - model.cx) * .2f +  cube.cz*.1f + cube.cy*.1f) % 360,
@@ -240,7 +274,15 @@ class TestPattern extends TSPattern {
         Utils.max(0, 100 - 30*Utils.abs((ci % CUBE_MOD) - cubeIndex.getValuef()))
       ));
       ++ci;
-    
+    }
+    ci = 0;
+    for (ShrubCube cube : model.shrubCubes) {
+      setColor(cube, lx.hsb(
+        (lx.getBaseHuef() + cube.cx + cube.cy) % 360,
+        100,
+        Utils.max(0, 100 - 30*Utils.abs((ci % CUBE_MOD) - cubeIndex.getValuef()))
+      ));
+      ++ci;
     }
   }
 }
@@ -329,4 +371,3 @@ class ColorEffect2 extends ColorEffect {
     super(lx);
   }
 }
-

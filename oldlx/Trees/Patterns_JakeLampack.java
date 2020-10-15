@@ -21,6 +21,12 @@ class AcidTrip extends TSPattern {
         100
       );
     }
+    for (ShrubCube cube : model.shrubCubes) {
+      colors[cube.index] = lx.hsb(
+        Utils.abs(model.cy - cube.transformedY) + Utils.abs(model.cy - cube.transformedTheta) + trails.getValuef() % 360,
+        100,
+        100
+      );
+    }
   }
 }
-
