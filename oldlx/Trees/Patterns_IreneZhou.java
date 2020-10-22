@@ -156,10 +156,10 @@ class Fireflies extends TSTriggerablePattern {
           float distSq = Utils.pow((LXUtils.wrapdistf(fly.theta, cube.transformedTheta, 360)), 2) + Utils.pow(fly.yPos - cube.transformedY, 2);
           float brt = Utils.max(0, 100 - Utils.sqrt(distSq * 4) - blinkers[fly.blinkIndex].getValuef());
           if (brt > LXColor.b(colors[cube.index])) {
-            System.out.println("number of cubes: " + model.cubes.size());   
-            System.out.println("shrubcube index: " + cube.index);      
-            System.out.println("number of colors: " + colors.length); 
-            System.out.println("current colors index: " + (cube.index + model.cubes.size())); 
+            //System.out.println("number of cubes: " + model.cubes.size());   
+            //System.out.println("shrubcube index: " + cube.index);      
+            //System.out.println("number of colors: " + colors.length); 
+            //System.out.println("current colors index: " + (cube.index + model.cubes.size())); 
 
             colors[cube.index] = lx.hsb(
               (lx.getBaseHuef() + hue.getValuef()) % 360,
