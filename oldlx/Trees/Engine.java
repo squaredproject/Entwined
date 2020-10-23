@@ -176,6 +176,9 @@ abstract class Engine {
     registerPatternController("Lightning", new Lightning(lx));
     registerPatternController("Wisps", new Wisps(lx));
     registerPatternController("Fireworks", new Explosions(lx));
+
+
+    registerPatternController("ColorWave", new ColorWave(lx));
   }
 
   void registerIPadEffects() {
@@ -261,6 +264,7 @@ abstract class Engine {
     patterns.add(new Pixels(lx));
     patterns.add(new Wedges(lx));
     patterns.add(new Parallax(lx));
+    patterns.add(new ColorWave(lx));
   }
 
   LXPattern[] getPatternListForChannels() {
@@ -466,7 +470,7 @@ abstract class Engine {
       String data = new Gson().toJson(shrubCubeConfigs);
       saveJSONToFile(data, Config.SHRUB_CUBE_CONFIG_FILE);
     }
-  
+
   void saveJSONToFile(String data, String filename) {
     PrintWriter writer = null;
     try {
@@ -1004,7 +1008,7 @@ class TreesTransition extends LXTransition {
       }
       treeIndex++;
     }
-    
+
     int shrubIndex = 0;
     double shrubLevel;
     for (Shrub shrub : model.shrubs) {
