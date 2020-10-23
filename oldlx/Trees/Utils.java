@@ -69,7 +69,7 @@ class Utils {
   static public final float acos(float value) {
     return (float)Math.acos(value);
   }
-  
+
   static public final float atan2(float y, float x) {
     return (float)Math.atan2(y, x);
   }
@@ -112,5 +112,14 @@ class Utils {
     if (low >= high) return low;
     float diff = high - low;
     return random(diff) + low;
+  }
+
+  // Maps a value
+  //static public final float map(float value, float currentMin, float currentMax, float targetMin, float targetMax) {
+    
+  //}
+
+  static public final float map(float value, float currentMin, float currentMax) {
+    return (value - currentMin) / (currentMax - currentMin); 
   }
 }
