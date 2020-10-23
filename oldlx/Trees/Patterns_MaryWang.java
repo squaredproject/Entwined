@@ -17,8 +17,8 @@ class Twinkle extends TSPattern {
     super(lx);
     addParameter(brightnessParam);
 
-    sparkleTimeOuts = new int[model.cubes.size()];
-    cubeToModulatorMapping = new int[model.cubes.size()];
+    sparkleTimeOuts = new int[model.cubes.size() + model.shrubCubes.size()];
+    cubeToModulatorMapping = new int[model.cubes.size() + model.shrubCubes.size()];
 
     for (int i = 0; i < cubeToModulatorMapping.length; i++ ) {
       cubeToModulatorMapping[i] = (int)Utils.random(numBrights);
@@ -59,9 +59,24 @@ class Twinkle extends TSPattern {
         sparkleTimeOuts[cube.index] = Utils.millis() + (int)Utils.random(11100, 23300);
       }
       colors[cube.index] = lx.hsb(
-      0, 
-      0, 
-      bright[cubeToModulatorMapping[cube.index]].getValuef() * brightnessParam.getValuef()
+        0, 
+        0, 
+        bright[cubeToModulatorMapping[cube.index]].getValuef() * brightnessParam.getValuef()
+        );
+    }
+
+    for (ShrubCube cube : model.shrubCubes) {
+      if (sparkleTimeOuts[cube.index] < Utils.millis()) {
+        // randomly change modulators        
+        if (Utils.random(10) <= 3) {
+          cubeToModulatorMapping[cube.index] = (int)Utils.random(numBrights);
+        }
+        sparkleTimeOuts[cube.index] = Utils.millis() + (int)Utils.random(11100, 23300);
+      }
+      colors[cube.index] = lx.hsb(
+        0, 
+        0, 
+        bright[cubeToModulatorMapping[cube.index]].getValuef() * brightnessParam.getValuef()
         );
     }
   }
@@ -105,6 +120,18 @@ class VerticalSweep extends TSPattern {
 
       colors[cube.index] = LXColor.lerp(color1, color2, amt);
     }
+
+    for (ShrubCube cube : model.shrubCubes) {
+      float progress = ((cube.transformedTheta / 360.0f) + range.getValuef()) % 1; // value is 0-1
+      float scaledProgress = (colorPalette.length) * progress; // value is 0-3
+      int color1Index = Utils.floor(scaledProgress);
+      int color1Hue = (int) colorPalette[color1Index];
+      int color2Hue = (int) colorPalette[Utils.ceil(scaledProgress) % colorPalette.length];
+      int color1 = lx.hsb( color1Hue, saturation, 100 );
+      int color2 = lx.hsb( color2Hue, saturation, 100 );
+      float amt = scaledProgress-color1Index;
+
+      colors[cube.index] = LXColor.lerp(color1, color2, amt);
+    }
   }
 }
-

@@ -147,6 +147,9 @@ class BassSlam extends TSTriggerablePattern {
       for (Cube cube : model.cubes) {
         setColor(cube.index, lx.hsb(patternHue, 100, LXUtils.constrainf(100 - 2 * Utils.abs(y - cube.transformedY), 0, 100)));
       }
+      for (ShrubCube cube : model.shrubCubes) {
+        setColor(cube.index, lx.hsb(patternHue, 100, LXUtils.constrainf(100 - 2 * Utils.abs(y - cube.transformedY), 0, 100)));
+      }
     }
   }
 
@@ -217,6 +220,10 @@ abstract class MultiObjectPattern <ObjectType extends MultiObject> extends TSTri
       for (Cube cube : model.cubes) {
         blendColor(cube.index, lx.hsb(0, 0, 100 * Utils.max(0, (float)(1 - deltaMs / fadeTime))), LXColor.Blend.MULTIPLY);
       }
+      for (ShrubCube cube : model.shrubCubes) {
+      	blendColor(cube.index, lx.hsb(0, 0, 100 * Utils.max(0, (float)(1 - deltaMs / fadeTime))), LXColor.Blend.MULTIPLY);
+      }
+
     } else {
       clearColors();
     }
@@ -281,6 +288,9 @@ abstract class MultiObject extends Layer {
         for (Cube cube : model.cubes) {
           blendColor(cube.index, getColorForCube(cube), LXColor.Blend.LIGHTEST);
         }
+//        for (ShrubCube cube : model.shrubCubes) {
+//          blendColor(cube.index, getColorForCube(cube), LXColor.Blend.LIGHTEST);
+//        }
       }
     }
   }
@@ -677,6 +687,13 @@ class RandomColor extends TSPattern {
           100
         );
       }
+      for (ShrubCube cube : model.shrubCubes) {
+        colors[cube.index] = lx.hsb(
+          Utils.random(360),
+          100,
+          100
+        );
+      }
       frameCount = 0;
     }
   }
@@ -728,6 +745,21 @@ class RandomColorGlitch extends TSPattern {
         );
       }
     }
+    for (ShrubCube cube : model.shrubCubes) {
+      if (cube.index == brokenCubeIndex) {
+        colors[cube.index] = lx.hsb(
+          Utils.random(360),
+          100,
+          100
+        );
+      } else {
+        colors[cube.index] = lx.hsb(
+          cubeColor,
+          100,
+          100
+        );
+      }
+    }
   }
 }
 
@@ -755,6 +787,13 @@ class Fade extends TSPattern {
         100
       );
     }
+    for (ShrubCube cube : model.shrubCubes) {
+      colors[cube.index] = lx.hsb(
+        (int)((int)colr.getValuef() * smoothness.getValuef() / 100) * 100 / smoothness.getValuef(), 
+        100, 
+        100
+      );
+    }
   }
 }
 
@@ -769,6 +808,13 @@ class Palette extends TSPattern {
     if (getChannel().getFader().getNormalized() == 0) return;
 
     for (Cube cube : model.cubes) {
+      colors[cube.index] = lx.hsb(
+        cube.index % 360,
+        100,
+        100
+      );
+    }
+    for (ShrubCube cube : model.shrubCubes) {
       colors[cube.index] = lx.hsb(
         cube.index % 360,
         100,
@@ -815,6 +861,13 @@ class ClusterLineTest extends TSPattern {
     
     Vec2D origin = new Vec2D(theta.getValuef(), y.getValuef());
     for (Cube cube : model.cubes) {
+      Vec2D cubePointPrime = VecUtils.movePointToSamePlane(origin, cube.transformedCylinderPoint);
+      float dist = origin.distanceTo(cubePointPrime);
+      float cubeTheta = (spin.getValuef() + 15) + cubePointPrime.sub(origin).heading() * 180 / Utils.PI + 360;
+      colors[cube.index] = lx.hsb(135, 100, 100
+          * LXUtils.constrainf((1 - Utils.abs(cubeTheta % 90 - 15) / 100 / Utils.asin(20 / Utils.max(20, dist))), 0, 1));
+    }
+    for (ShrubCube cube : model.shrubCubes) {
       Vec2D cubePointPrime = VecUtils.movePointToSamePlane(origin, cube.transformedCylinderPoint);
       float dist = origin.distanceTo(cubePointPrime);
       float cubeTheta = (spin.getValuef() + 15) + cubePointPrime.sub(origin).heading() * 180 / Utils.PI + 360;
@@ -1195,6 +1248,19 @@ class CandyCloud extends TSPattern {
 
     time += deltaMs;
     for (Cube cube : model.cubes) {
+      double adjustedX = cube.x / scale.getValue();
+      double adjustedY = cube.y / scale.getValue();
+      double adjustedZ = cube.z / scale.getValue();
+      double adjustedTime = time * speed.getValue() / 5000;
+
+      float hue = ((float)SimplexNoise.noise(adjustedX, adjustedY, adjustedZ, adjustedTime) + 1) / 2 * 1080 % 360;
+
+      float brightness = Utils.min(Utils.max((float)SimplexNoise.noise(cube.x / 250, cube.y / 250, cube.z / 250 + 10000, time / 5000) * 8 + 8 - darkness.getValuef(), 0), 1) * 100;
+      
+      colors[cube.index] = lx.hsb(hue, 100, brightness);
+    }
+
+    for (ShrubCube cube : model.shrubCubes) {
       double adjustedX = cube.x / scale.getValue();
       double adjustedY = cube.y / scale.getValue();
       double adjustedZ = cube.z / scale.getValue();

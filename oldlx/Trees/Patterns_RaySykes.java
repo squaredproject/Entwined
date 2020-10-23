@@ -22,6 +22,7 @@ class SparkleHelix extends TSPattern {
   final SawLFO spin = new SawLFO(0, Utils.TWO_PI, rate);
   final SinLFO width = new SinLFO(10, 20, 11000);
   int[] sparkleTimeOuts;
+
   SparkleHelix(LX lx) {
     super(lx);
     addParameter(minCoil);
@@ -33,13 +34,29 @@ class SparkleHelix extends TSPattern {
     addModulator(coil).start();    
     addModulator(spin).start();
     addModulator(width).start();
-    sparkleTimeOuts = new int[model.cubes.size()];
+    sparkleTimeOuts = new int[model.cubes.size() + model.shrubCubes.size()];
   }
   
   public void run(double deltaMs) {
     if (getChannel().getFader().getNormalized() == 0) return;
 
     for (Cube cube : model.cubes) {
+      float compensatedWidth = (0.7f + .02f / coil.getValuef()) * width.getValuef();
+      float spiralVal = Utils.max(0, 100 - (100*Utils.TWO_PI / (compensatedWidth))*LXUtils.wrapdistf((Utils.TWO_PI / 360) * cube.transformedTheta, 8*Utils.TWO_PI + spin.getValuef() + coil.getValuef()*(cube.transformedY-model.cy), Utils.TWO_PI));
+      float counterSpiralVal = counterSpiralStrength.getValuef() * Utils.max(0, 100 - (100*Utils.TWO_PI / (compensatedWidth))*LXUtils.wrapdistf((Utils.TWO_PI / 360) * cube.transformedTheta, 8*Utils.TWO_PI - spin.getValuef() - coil.getValuef()*(cube.transformedY-model.cy), Utils.TWO_PI));
+      float hueVal = (lx.getBaseHuef() + .1f*cube.transformedY) % 360;
+      if (sparkleTimeOuts[cube.index] > Utils.millis()){        
+        colors[cube.index] = lx.hsb(hueVal, sparkleSaturation.getValuef(), 100);
+      }
+      else{
+        colors[cube.index] = lx.hsb(hueVal, 100, Utils.max(spiralVal, counterSpiralVal));        
+        if (Utils.random(Utils.max(spiralVal, counterSpiralVal)) > sparkle.getValuef()){
+          sparkleTimeOuts[cube.index] = Utils.millis() + 100;
+        }
+      }
+    }
+
+    for (ShrubCube cube : model.shrubCubes) {
       float compensatedWidth = (0.7f + .02f / coil.getValuef()) * width.getValuef();
       float spiralVal = Utils.max(0, 100 - (100*Utils.TWO_PI / (compensatedWidth))*LXUtils.wrapdistf((Utils.TWO_PI / 360) * cube.transformedTheta, 8*Utils.TWO_PI + spin.getValuef() + coil.getValuef()*(cube.transformedY-model.cy), Utils.TWO_PI));
       float counterSpiralVal = counterSpiralStrength.getValuef() * Utils.max(0, 100 - (100*Utils.TWO_PI / (compensatedWidth))*LXUtils.wrapdistf((Utils.TWO_PI / 360) * cube.transformedTheta, 8*Utils.TWO_PI - spin.getValuef() - coil.getValuef()*(cube.transformedY-model.cy), Utils.TWO_PI));
@@ -100,6 +117,18 @@ class MultiSine extends TSPattern {
       float satVal = 90 + 10 * Utils.sin(Utils.TWO_PI * (combinedDistanceSines[0] + combinedDistanceSines[1]));
       colors[cube.index] = lx.hsb(hueVal,  satVal, brightVal);
     }
+
+    for (ShrubCube cube : model.shrubCubes) {
+      float[] combinedDistanceSines = {0, 0};
+      for (int i = 0; i < numLayers; i++){
+        combinedDistanceSines[0] += Utils.sin(Utils.TWO_PI * frequencies[i].getValuef() + cube.transformedY / distLayerDivisors[0][i]) / numLayers;
+        combinedDistanceSines[1] += Utils.sin(Utils.TWO_PI * frequencies[i].getValuef() + Utils.TWO_PI*(cube.transformedTheta / distLayerDivisors[1][i])) / numLayers;
+      }
+      float hueVal = (lx.getBaseHuef() + 20 * Utils.sin(Utils.TWO_PI * (combinedDistanceSines[0] + combinedDistanceSines[1]))) % 360;
+      float brightVal = (100 - brightEffect.getValuef()) + brightEffect.getValuef() * (2 + combinedDistanceSines[0] + combinedDistanceSines[1]) / 4;
+      float satVal = 90 + 10 * Utils.sin(Utils.TWO_PI * (combinedDistanceSines[0] + combinedDistanceSines[1]));
+      colors[cube.index] = lx.hsb(hueVal,  satVal, brightVal);
+    }
   }
 }
 
@@ -123,6 +152,12 @@ class Stripes extends TSPattern {
     if (getChannel().getFader().getNormalized() == 0) return;
 
     for (Cube cube : model.cubes) {  
+      float hueVal = (lx.getBaseHuef() + .1f*cube.transformedY) % 360;
+      float brightVal = 50 + 50 * Utils.sin(spacing.getValuef() * (Utils.sin((Utils.TWO_PI / 360) * 4 * cube.transformedTheta) + slopeFactor.getValuef() * cube.transformedY)); 
+      colors[cube.index] = lx.hsb(hueVal,  100, brightVal);
+    }
+
+    for (ShrubCube cube : model.shrubCubes) {  
       float hueVal = (lx.getBaseHuef() + .1f*cube.transformedY) % 360;
       float brightVal = 50 + 50 * Utils.sin(spacing.getValuef() * (Utils.sin((Utils.TWO_PI / 360) * 4 * cube.transformedTheta) + slopeFactor.getValuef() * cube.transformedY)); 
       colors[cube.index] = lx.hsb(hueVal,  100, brightVal);
@@ -175,6 +210,21 @@ class Ripple extends TSPattern {
       }
       colors[cube.index] = lx.hsb(hueVal,  100, brightVal);
     }
+    for (ShrubCube cube : model.shrubCubes) {
+      float distVal = Utils.sqrt(Utils.pow((LXUtils.wrapdistf(thetaCenter, cube.transformedTheta, 360)) * 0.8f, 2) + Utils.pow(yCenter - cube.transformedY, 2));
+      float heightHueVariance = 0.1f * cube.transformedY;
+      if (distVal < radius){
+        float rippleDecayFactor = (100 - rippleAge.getValuef()) / 100;
+        float timeDistanceCombination = distVal / 20 - rippleAge.getValuef();
+        hueVal = (lx.getBaseHuef() + 40 * Utils.sin(Utils.TWO_PI * (12.5f + rippleAge.getValuef() )/ 200) * rippleDecayFactor * Utils.sin(timeDistanceCombination) + heightHueVariance + 360) % 360;
+        brightVal = Utils.constrain((baseBrightness.getValuef() + rippleDecayFactor * (100 - baseBrightness.getValuef()) + 80 * rippleDecayFactor * Utils.sin(timeDistanceCombination + Utils.TWO_PI / 8)), 0, 100);
+      }
+      else {
+        hueVal = (lx.getBaseHuef() + heightHueVariance) % 360;
+        brightVal = baseBrightness.getValuef(); 
+      }
+      colors[cube.index] = lx.hsb(hueVal,  100, brightVal);
+    }
   }
 }
 
@@ -194,7 +244,7 @@ class SparkleTakeOver extends TSPattern {
   float oldBrightVal = 100;
   SparkleTakeOver(LX lx) {
     super(lx);
-    sparkleTimeOuts = new int[model.cubes.size()];
+    sparkleTimeOuts = new int[model.cubes.size() + model.shrubCubes.size()];
     addModulator(timing).start();    
     addModulator(coverage).start();
     addParameter(hueVariation);
@@ -213,7 +263,7 @@ class SparkleTakeOver extends TSPattern {
         else {
           newBrightVal = (newBrightVal == 100) ? 70 : 100;          
         }
-        for (int i = 0; i < model.cubes.size(); i++){
+        for (int i = 0; i < sparkleTimeOuts.length; i++){
           sparkleTimeOuts[i] = 0;
         }        
         resetDone = true;
@@ -236,10 +286,25 @@ class SparkleTakeOver extends TSPattern {
         }
         else if (chance > 1.1f * (100 - coverage.getValuef())){
           sparkleTimeOuts[cube.index] = Utils.millis() + 100;
-        }
-          
+        }   
       }
-        
+    }
+    for (ShrubCube cube : model.shrubCubes) {  
+      float newHueVal = (lx.getBaseHuef() + complimentaryToggle * hueSeparation + hueVariation.getValuef() * cube.transformedY) % 360;
+      float oldHueVal = (lx.getBaseHuef() + lastComplimentaryToggle * hueSeparation + hueVariation.getValuef() * cube.transformedY) % 360;
+      if (sparkleTimeOuts[cube.index] > Utils.millis()){        
+        colors[cube.index] = lx.hsb(newHueVal,  (30 + coverage.getValuef()) / 1.3f, newBrightVal);
+      }
+      else {
+        colors[cube.index] = lx.hsb(oldHueVal,  (140 - coverage.getValuef()) / 1.4f, oldBrightVal);
+        float chance = Utils.random(Utils.abs(Utils.sin((Utils.TWO_PI / 360) * cube.transformedTheta * 4) * 50) + Utils.abs(Utils.sin(Utils.TWO_PI * (cube.transformedY / 9000))) * 50);
+        if (chance > (100 - 100*(Utils.pow(coverage.getValuef()/100, 2)))){
+          sparkleTimeOuts[cube.index] = Utils.millis() + 50000;
+        }
+        else if (chance > 1.1f * (100 - coverage.getValuef())){
+          sparkleTimeOuts[cube.index] = Utils.millis() + 100;
+        }   
+     }
     }
   }
 }
@@ -495,6 +560,35 @@ class IceCrystals extends TSPattern {
       }
       colors[cube.index] = lx.hsb(hueVal,  satVal, brightVal);
     }
+
+    for (ShrubCube cube : model.shrubCubes) {
+      float lineFactor = crystal.getLineFactor(cube.transformedY, cube.transformedTheta);
+      if (lineFactor > 110) {
+        lineFactor = 200 - lineFactor;  
+      }
+      float hueVal;
+      float satVal;
+      float brightVal = Utils.min(100, 20 + lineFactor);
+      if (lineFactor > 100){
+        brightVal = 100;
+        hueVal = 180;
+        satVal = 0;
+      }
+      else if (lineFactor < 20){
+        hueVal = 220;
+        satVal = 100;
+      }
+      else if (lineFactor < 50){
+        hueVal = 240;
+        satVal = 60;
+      }
+      else {
+        hueVal = 240;
+        satVal = 60 - 60 * (lineFactor / 100);
+      }
+      colors[cube.index] = lx.hsb(hueVal,  satVal, brightVal);
+    }
+    
   }
   void startCrystal(){
     crystal.doReset();
@@ -729,5 +823,3 @@ class IceCrystalLine {
     return lifeCycleState == 6 || lifeCycleState == -1;
   }
 }
-
-

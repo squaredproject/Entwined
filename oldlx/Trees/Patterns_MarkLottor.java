@@ -80,6 +80,12 @@ class MarkLottor extends TSPattern {
           LXColor.s(colors[cube.index]),
           LXColor.b(colors[cube.index]) * (1.0f-(p4v*p4v)));  
       }
+      for (ShrubCube cube : model.shrubCubes) {
+        colors[cube.index] = lx.hsb(
+          LXColor.h(colors[cube.index]),
+          LXColor.s(colors[cube.index]),
+          LXColor.b(colors[cube.index]) * (1.0f-(p4v*p4v)));  
+      }
       /*
     // dim everything already on cube
       for (Cube cube : model.cubes) {
@@ -125,11 +131,16 @@ class MarkLottor extends TSPattern {
 
       // light up any cubes "near" this ball
       for (Cube cube : model.cubes) {
-	if ((Utils.abs(theta - cube.transformedTheta) < (50*p1v)) &&
-	    (Utils.abs(y - cube.transformedY) < (50*p1v)))
-	  colors[cube.index] = balls[n].getcolor();
-      }
-    }
+       if ((Utils.abs(theta - cube.transformedTheta) < (50*p1v)) &&
+         (Utils.abs(y - cube.transformedY) < (50*p1v)))
+         colors[cube.index] = balls[n].getcolor();
+     }
+     for (ShrubCube cube : model.shrubCubes) {
+       if ((Utils.abs(theta - cube.transformedTheta) < (50*p1v)) &&
+         (Utils.abs(y - cube.transformedY) < (50*p1v)))
+         colors[cube.index] = balls[n].getcolor();
+     }
+   }
 
     /*
     for (Tree tree : model.trees) {
