@@ -265,6 +265,7 @@ abstract class Engine {
     patterns.add(new Wedges(lx));
     patterns.add(new Parallax(lx));
     patterns.add(new ColorWave(lx));
+    patterns.add(new BeachBall(lx));
   }
 
   LXPattern[] getPatternListForChannels() {

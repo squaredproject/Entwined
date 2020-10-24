@@ -21,7 +21,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import toxi.math.noise.PerlinNoise;
 import toxi.math.noise.SimplexNoise;
 
-
+/**
+An RGB wave that covers the whole field.
+*/
 class ColorWave extends TSPattern {
 
   // Variable Declarations go here
@@ -30,7 +32,7 @@ class ColorWave extends TSPattern {
   private float waveWidth = 1;
   private float speedMult = 1000;
 
-  final BasicParameter speedParam = new BasicParameter("Speed", 5, 20, 0);
+  final BasicParameter speedParam = new BasicParameter("Speed", 5, 20, .01);
   final BasicParameter waveSlope = new BasicParameter("waveSlope", 360, 1, 720);
   final SawLFO wave = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
 
@@ -67,15 +69,29 @@ class ColorWave extends TSPattern {
   }
 }
 
-
-/*
-class PatternTemplate extends TSPattern {
+class BeachBall extends TSPattern {
 
   // Variable Declarations go here
+  private float treex;
+  private float treez;
+
+  private Tree theTree;
+
+  final BasicParameter speed = new BasicParameter("Speed", 5000, 20000, 1000);
+  final BasicParameter swirlMult = new BasicParameter("Swirl", .5, 2, .1);
+  final SawLFO spinner = new SawLFO(0, 360, speed);
 
   // Constructor
-  PatternTemplate(LX lx) {
+  BeachBall(LX lx) {
     super(lx);
+
+    addModulator(spinner).start();
+    addParameter(speed);
+    addParameter(swirlMult);
+
+    theTree = model.trees.get(0);
+    treex = theTree.x;
+    treez = theTree.z;
 
   }
 
@@ -85,6 +101,58 @@ class PatternTemplate extends TSPattern {
 
       // Use a for loop here to set the cube colors
       for (Cube cube : model.cubes) {
+        colors[cube.index] = lx.hsb(
+        // Color is based on degrees from the center point, plus the spinner saw wave to rotate
+        (float) Math.toDegrees(Math.atan2((double)(treez - cube.z), (double)(treex - cube.x))) + spinner.getValuef()
+        // plus the further from the center, the more hue is added, giving a swirl effect
+        - (float)(Math.hypot(treez - cube.z, treex - cube.x) * swirlMult.getValuef()),
+        100.0f,
+        100.0f);
+      }
+
+      for (ShrubCube cube : model.shrubCubes) {
+        colors[cube.index] = lx.hsb(
+        (float) Math.toDegrees(Math.atan2((double)(treez - cube.z), (double)(treex - cube.x))) + spinner.getValuef()
+        // plus the further from the center, the more hue is added, giving a swirl effect
+        - (float)(Math.hypot(treez - cube.z, treex - cube.x) * swirlMult.getValuef()),
+        100.0f,
+        100.0f);
+      }
+  }
+}
+
+/**
+A template pattern to get ya started.
+*/
+
+/*
+class PatternTemplate extends TSPattern {
+
+  // Variable declarations, parameters, and modulators go here
+  final BasicParameter parameterName = new BasicParameter("parameterName", startValue, minValue, maxValue);
+  final SawLFO modulatorName = new SawLFO(minValue, maxValue, startValue);
+
+  // Constructor
+  PatternTemplate(LX lx) {
+    super(lx);
+
+    // Add any needed modulators or parameters here
+    addModulator(modulatorName).start();
+    addParameter(parameterName);
+
+  }
+
+
+  // This is the pattern loop, which will run continuously via LX
+  public void run(double deltaMs) {
+
+      // Use a for loop here to set the cube colors
+      for (Cube cube : model.cubes) {
+        colors[cube.index] = lx.hsb( , , );
+      }
+
+      // for now we also have a separate loop for shrub cubes, might fix in future
+      for (ShrubCube cube : model.shrubCubes) {
         colors[cube.index] = lx.hsb( , , );
       }
   }
