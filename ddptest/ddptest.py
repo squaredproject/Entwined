@@ -52,7 +52,7 @@
 
 import socket
 import time
-import sys
+import argparse
 
 
 DESTINATION_IP = "10.0.0.146"
@@ -64,7 +64,7 @@ header_buf: bytearray = bytearray(0)
 NUM_LEDS = 40
 leds = bytearray(40 * 3)  # this constructor creates with the given length and filled with 0's
 
-pallette = {
+palette = {
     'red': (0xff, 0x00, 0x00),
     'green': (0x00, 0xff, 0x00),
     'blue': (0x00, 0x00, 0xbb),
@@ -179,7 +179,7 @@ def network_init():
     global sock
 
     print("UDP target IP:", DESTINATION_IP)
-    print("UDP target port:", DESTINATION_PORT)
+    #print("UDP target port:", DESTINATION_PORT)
 
     # create outbound socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # UDP
@@ -213,9 +213,9 @@ def sendto(buf: bytearray) -> None:
 
 
 # loop over all colors listed above, once a second
-def pattern_pallette():
+def pattern_palette():
     while True:
-        for name, color in pallette.items():
+        for name, color in palette.items():
             print('Sending color: {}'.format(name) )
             color_fill(leds, color)
             leds_send()
@@ -243,15 +243,43 @@ def pattern_order():
         leds_send()
         time.sleep(0.5)
 
+def arg_init():
+    parser = argparse.ArgumentParser(prog='ddptest', description='Send DDP packets to an NDB for testing')
+    parser.add_argument('--host', type=str, help='IP address for destination')
+    parser.add_argument('--pattern', '-p', type=str, help='one of: palette, hsv, order')
+    parser.add_argument('--leds', '-l', type=int, help='number of leds')
 
-# send everything in pallette once a second
+    global DESTINATION_IP, NUM_LEDS, leds
+
+
+    args = parser.parse_args()
+    if args.host:
+        DESTINATION_IP = args.host
+    if args.leds:
+        NUM_LEDS = args.leds
+        leds = bytearray(NUM_LEDS * 3) 
+
+    return args
+
+
+# send everything in palette once a second
 
 def main():
+    args = arg_init()
+
     network_init()
 
-    #pattern_pallette()
-    #pattern_hsv()
-    pattern_order()
+    if not args.pattern:
+        pattern_palette()
+    elif args.pattern == 'palette':
+        pattern_palette()
+    elif args.pattern == 'hsv':
+        pattern_hsv()
+    elif args.pattern == 'order':
+        pattern_order()
+    else:
+        print(' pattern must be one of palette, hsv, order')
+
 
 
 # Press the green button in the gutter to run the script.
