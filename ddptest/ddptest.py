@@ -262,7 +262,7 @@ def arg_init():
     return args
 
 
-# send everything in palette once a second
+# inits then pattern so simple
 
 def main():
     args = arg_init()
@@ -282,6 +282,6 @@ def main():
 
 
 
-# Press the green button in the gutter to run the script.
+# only effects when we're being run as a module but whatever
 if __name__ == '__main__':
     main()
