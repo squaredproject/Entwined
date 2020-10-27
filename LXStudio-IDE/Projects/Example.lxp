@@ -1,6 +1,6 @@
 {
   "version": "0.2.0",
-  "timestamp": 1590706826604,
+  "timestamp": 1602544079744,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -449,9 +449,9 @@
                 },
                 "parameters": {
                   "label": "Gradient",
-                  "xAmount": 0.7333333194255829,
-                  "yAmount": -0.36666668578982353,
-                  "zAmount": 0.0,
+                  "xAmount": 0.533333320170641,
+                  "yAmount": -0.46666663885116577,
+                  "zAmount": 0.5999999865889549,
                   "xOffset": 0.0,
                   "yOffset": 0.0,
                   "zOffset": 0.0,
@@ -503,9 +503,44 @@
                           "exp": 0.0
                         },
                         "children": {},
-                        "basis": 0.7382520511105776
+                        "basis": 0.4720865239728525
                       }
                     ],
+                    "modulations": [],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1
+              },
+              {
+                "id": 135,
+                "class": "heronarts.lx.pattern.color.SolidPattern",
+                "internal": {
+                  "modulationColor": 0,
+                  "expanded": true,
+                  "modulationExpanded": false,
+                  "autoCycleEligible": true
+                },
+                "parameters": {
+                  "label": "Solid",
+                  "color/brightness": 100.0,
+                  "color/saturation": 100.0,
+                  "color/hue": 0.0,
+                  "colorMode": 0,
+                  "paletteIndex": 1
+                },
+                "children": {
+                  "modulation": {
+                    "id": 136,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [],
                     "modulations": [],
                     "triggers": []
                   }
@@ -689,8 +724,8 @@
         "camera": {
           "active": false,
           "radius": 468.5445980446526,
-          "theta": -0.07398678525229603,
-          "phi": 0.11522995324995422,
+          "theta": -0.08258606470068597,
+          "phi": 0.3990051897075406,
           "x": 145.0,
           "y": 25.0,
           "z": 140.69287109375
@@ -699,8 +734,8 @@
           {
             "active": false,
             "radius": 468.5445980446526,
-            "theta": -0.07398678525229603,
-            "phi": 0.11522995324995422,
+            "theta": -0.08258606470068597,
+            "phi": 0.3990051897075406,
             "x": 145.0,
             "y": 25.0,
             "z": 140.69287109375
