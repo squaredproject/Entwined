@@ -33,7 +33,7 @@ class MappingPattern extends TSPattern {
   MappingPattern(LX lx) {
     super(lx);
 
-    numBits = model.cubes.size();
+    numBits = model.cubes.size() + model.shrubCubes.size();
   }
 
   public void run(double deltaMs) {
@@ -52,6 +52,9 @@ class MappingPattern extends TSPattern {
     } else {
       for (Cube cube : model.cubes) {
         setColor(cube.index, cube.index == count ? LXColor.WHITE : LXColor.BLACK);
+      }
+      for (ShrubCube shrubCube : model.shrubCubes) {
+          setColor(shrubCube.index, shrubCube.index == count ? LXColor.WHITE : LXColor.BLACK);
       }
     }
     cycleCount = (cycleCount + 1) % (numCyclesToShowFrame + numResetCycles + 2*numCyclesBlack);
@@ -288,9 +291,9 @@ abstract class MultiObject extends Layer {
         for (Cube cube : model.cubes) {
           blendColor(cube.index, getColorForCube(cube), LXColor.Blend.LIGHTEST);
         }
-//        for (ShrubCube cube : model.shrubCubes) {
-//          blendColor(cube.index, getColorForCube(cube), LXColor.Blend.LIGHTEST);
-//        }
+        for (ShrubCube cube : model.shrubCubes) {
+          blendColor(cube.index, getColorForCube(cube), LXColor.Blend.LIGHTEST);
+        }
       }
     }
   }
@@ -348,6 +351,41 @@ abstract class MultiObject extends Layer {
   public float getDistanceFromGeometry(Cube cube, Vec2D cubePointPrime, Vec2D currentPoint) {
     return cubePointPrime.distanceTo(currentPoint);
   }
+  
+  public int getColorForCube(ShrubCube cube) {
+      return lx.hsb(hue, 100, getBrightnessForCube(cube));
+    }
+    
+    public float getBrightnessForCube(ShrubCube cube) {
+      Vec2D cubePointPrime = VecUtils.movePointToSamePlane(currentPoint, cube.transformedCylinderPoint);
+      float dist = Float.MAX_VALUE;
+
+      Vec2D localLastPoint = lastPoint;
+      if (localLastPoint != null) {
+        while (localLastPoint.distanceToSquared(currentPoint) > 100) {
+          Vec2D point = currentPoint.sub(localLastPoint);
+          point.limit(10).addSelf(localLastPoint);
+
+          if (isInsideBoundingBox(cube, cubePointPrime, point)) {
+            dist = Utils.min(dist, getDistanceFromGeometry(cube, cubePointPrime, point));
+          }
+          localLastPoint = point;
+        }
+      }
+
+      if (isInsideBoundingBox(cube, cubePointPrime, currentPoint)) {
+        dist = Utils.min(dist, getDistanceFromGeometry(cube, cubePointPrime, currentPoint));
+      }
+      return 100 * Utils.min(Utils.max(1 - dist / thickness, 0), 1) * fadeIn * fadeOut;
+    }
+
+    public boolean isInsideBoundingBox(ShrubCube cube, Vec2D cubePointPrime, Vec2D currentPoint) {
+      return VecUtils.insideOfBoundingBox(currentPoint, cubePointPrime, thickness, thickness);
+    }
+
+    public float getDistanceFromGeometry(ShrubCube cube, Vec2D cubePointPrime, Vec2D currentPoint) {
+      return cubePointPrime.distanceTo(currentPoint);
+    }
   
   void init() { }
   
@@ -463,6 +501,24 @@ class Explosion extends MultiObject {
             * explosionFade.getValuef();
     }
   }
+  
+  public float getBrightnessForCube(ShrubCube cube) {
+      Vec2D cubePointPrime = VecUtils.movePointToSamePlane(origin, cube.transformedCylinderPoint);
+      float dist = origin.distanceTo(cubePointPrime);
+      switch (state) {
+        case EXPLOSION_STATE_IMPLOSION_EXPAND:
+        case EXPLOSION_STATE_IMPLOSION_WAIT:
+        case EXPLOSION_STATE_IMPLOSION_CONTRACT:
+          return 100 * LXUtils.constrainf((implosionRadius.getValuef() - dist) / 10, 0, 1);
+        default:
+          float theta = explosionThetaOffset + cubePointPrime.sub(origin).heading() * 180 / Utils.PI + 360;
+          return 100
+              * LXUtils.constrainf(1 - (dist - explosionRadius.getValuef()) / 10, 0, 1)
+              * LXUtils.constrainf(1 - (explosionRadius.getValuef() - dist) / 200, 0, 1)
+              * LXUtils.constrainf((1 - Utils.abs(theta % 30 - 15) / 100 / Utils.asin(20 / Utils.max(20, dist))), 0, 1)
+              * explosionFade.getValuef();
+      }
+    }
 }
 
 class Wisps extends MultiObjectPattern<Wisp> {
@@ -725,6 +781,8 @@ class RandomColorGlitch extends TSPattern {
   }
   
   final int brokenCubeIndex = (int)Utils.random(model.cubes.size());
+  final int brokenShrubCubeIndex = (int)Utils.random(model.shrubCubes.size());
+
   final int cubeColor = (int)Utils.random(360);
   
   public void run(double deltaMs) {
@@ -746,7 +804,7 @@ class RandomColorGlitch extends TSPattern {
       }
     }
     for (ShrubCube cube : model.shrubCubes) {
-      if (cube.index == brokenCubeIndex) {
+      if (cube.index == brokenShrubCubeIndex) {
         colors[cube.index] = lx.hsb(
           Utils.random(360),
           100,
@@ -986,6 +1044,11 @@ class ScrambleEffect extends Effect {
         colors[tree.cubes.get(i).index] = colors[tree.cubes.get((i + offset) % tree.cubes.size()).index];
       }
     }
+    for (Shrub shrub : model.shrubs) {
+        for (int i = Utils.min(shrub.cubes.size() - 1, getAmount()); i > 0; i--) {
+          colors[shrub.cubes.get(i).index] = colors[shrub.cubes.get((i + offset) % shrub.cubes.size()).index];
+        }
+      }
   }
 }
 
@@ -1057,6 +1120,9 @@ class RotationEffect extends ModelTransform {
       for (Cube cube : model.cubes) {
         cube.transformedTheta = (cube.transformedTheta + 360 - rotationTheta) % 360;
       }
+      for (ShrubCube cube : model.shrubCubes) {
+          cube.transformedTheta = (cube.transformedTheta + 360 - rotationTheta) % 360;
+        }
     }
   }
 }
@@ -1094,6 +1160,9 @@ class SpinEffect extends ModelTransform {
       for (Cube cube : model.cubes) {
         cube.transformedTheta = (cube.transformedTheta + 360 - rotationTheta) % 360;
       }
+      for (ShrubCube cube : model.shrubCubes) {
+          cube.transformedTheta = (cube.transformedTheta + 360 - rotationTheta) % 360;
+        }
     }
   }
 }
@@ -1161,6 +1230,9 @@ class AcidTripTextureEffect extends Effect {
       for (int i = 0; i < colors.length; i++) {
         int oldColor = colors[i];
         Cube cube = model.cubes.get(i);
+        // TODO ashley modify the rest of the file for shrubCubes
+        // ShrubCube shrubCube = model.shrubCubes.get(i);
+
         float newHue = Utils.abs(model.cy - cube.transformedY) + Utils.abs(model.cy - cube.transformedTheta) + trails.getValuef() % 360;
         int newColor = lx.hsb(newHue, 100, 100);
         int blendedColor = LXColor.lerp(oldColor, newColor, amount.getValuef());
