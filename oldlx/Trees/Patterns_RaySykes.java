@@ -310,20 +310,20 @@ class SparkleTakeOver extends TSPattern {
 }
 
 class Lightning extends TSTriggerablePattern {
-  private LightningLine[] bolts = new LightningLine[model.trees.size()];
+  private LightningLine[] bolts = new LightningLine[model.trees.size() + model.shrubs.size()];
   final BasicParameter boltAngle = new BasicParameter("Angle", 35, 0, 55);
   final BasicParameter propagationSpeed = new BasicParameter("Speed", 10, 0.5, 20);
   final BasicParameter maxBoltWidth = new BasicParameter("Width", 60, 20, 150);
   final BasicParameter lightningChance = new BasicParameter("Chance", 5, 1, 10);
   final BasicParameter forkingChance = new BasicParameter("Fork", 3, 1, 10);
   final BooleanParameter firesOnBeat = new BooleanParameter("Beat");
-  int[] randomCheckTimeOuts = new int[model.trees.size()];
+  int[] randomCheckTimeOuts = new int[model.trees.size() + model.shrubs.size()];
 
   Lightning(LX lx) {
     super(lx);
 
     patternMode = PATTERN_MODE_FIRED;
-    for (int i=0; i < model.trees.size(); i++){
+    for (int i=0; i < (model.trees.size() + model.shrubs.size()); i++){
       bolts[i] = makeBolt();
       randomCheckTimeOuts[i] = 0;
     }
@@ -394,6 +394,63 @@ class Lightning extends TSTriggerablePattern {
       }
       treeIndex ++;
     }
+    
+    int shrubIndex = model.trees.size();
+
+    if (!triggered) {
+      boolean running = false;
+      for (Shrub shrub : model.shrubs) {
+        if (!bolts[shrubIndex].isDead()) {
+          running = true;
+          break;
+        }
+        shrubIndex++;
+      }
+      if (!running) {
+        setCallRun(false);
+      }
+    }
+
+    shrubIndex = model.trees.size();
+    for (Shrub shrub : model.shrubs){
+      if (triggered) {
+        if (bolts[shrubIndex].isDead()) {
+          if (firesOnBeat.isOn()) {
+            if (lx.tempo.beat()) {
+              randomCheckTimeOuts[shrubIndex] = Utils.millis() + 100;
+              bolts[shrubIndex] = makeBolt();
+            }
+          } else {
+            if (randomCheckTimeOuts[shrubIndex] < Utils.millis()){
+              randomCheckTimeOuts[shrubIndex] = Utils.millis() + 100;
+              if (Utils.random(15) < lightningChance.getValuef()){
+                bolts[shrubIndex] = makeBolt();
+              }
+            }
+          }
+        }
+      }
+      for (ShrubCube cube : shrub.cubes) {
+        float hueVal = 300;
+        float lightningFactor = bolts[shrubIndex].getLightningFactor(cube.transformedY, cube.transformedTheta);
+        float brightVal = lightningFactor;
+        float satVal;
+        if (lightningFactor < 20){
+          hueVal = 300;
+          satVal = 100;
+        }
+        else if (lightningFactor < 50){
+          hueVal = 280;
+          satVal = 100;
+        }
+        else {
+          hueVal = 280;
+          satVal = 100 - 2 * (lightningFactor - 50);
+        }
+        colors[cube.index] = lx.hsb(hueVal,  satVal, brightVal);
+      }
+      shrubIndex ++;
+    }
   }
   LightningLine makeBolt(){
     float theta = 45 * (int) Utils.random(8);
@@ -414,6 +471,15 @@ class Lightning extends TSTriggerablePattern {
         bolts[treeIndex] = makeBolt();
       }
       treeIndex ++;
+    }
+    int shrubIndex = model.trees.size();
+    
+    for (Shrub shrub : model.shrubs){
+      if (bolts[shrubIndex].isDead()){
+        randomCheckTimeOuts[shrubIndex] = Utils.millis() + 100;
+        bolts[shrubIndex] = makeBolt();
+      }
+      shrubIndex ++;
     }
   }
 }
