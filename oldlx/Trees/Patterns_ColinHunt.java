@@ -99,22 +99,32 @@ class BeachBall extends TSPattern {
   // This is the pattern loop, which will run continuously via LX
   public void run(double deltaMs) {
 
-      // Use a for loop here to set the cube colors
-      for (Cube cube : model.cubes) {
-        colors[cube.index] = lx.hsb(
-        // Color is based on degrees from the center point, plus the spinner saw wave to rotate
-        (float) Math.toDegrees(Math.atan2((double)(treez - cube.z), (double)(treex - cube.x))) + spinner.getValuef()
-        // plus the further from the center, the more hue is added, giving a swirl effect
-        - (float)(Math.hypot(treez - cube.z, treex - cube.x) * swirlMult.getValuef()),
-        100.0f,
-        100.0f);
-      }
+      // // Use a for loop here to set the cube colors
+      // for (Cube cube : model.cubes) {
+      //   colors[cube.index] = lx.hsb(
+      //   // Color is based on degrees from the center point, plus the spinner saw wave to rotate
+      //   (float) Math.toDegrees(Math.atan2((double)(treez - cube.z), (double)(treex - cube.x))) + spinner.getValuef()
+      //   // plus the further from the center, the more hue is added, giving a swirl effect
+      //   - (float)(Math.hypot(treez - cube.z, treex - cube.x) * swirlMult.getValuef()),
+      //   100.0f,
+      //   100.0f);
+      // }
+      //
+      // for (ShrubCube cube : model.shrubCubes) {
+      //   colors[cube.index] = lx.hsb(
+      //   (float) Math.toDegrees(Math.atan2((double)(treez - cube.z), (double)(treex - cube.x))) + spinner.getValuef()
+      //   // plus the further from the center, the more hue is added, giving a swirl effect
+      //   - (float)(Math.hypot(treez - cube.z, treex - cube.x) * swirlMult.getValuef()),
+      //   100.0f,
+      //   100.0f);
+      // }
 
-      for (ShrubCube cube : model.shrubCubes) {
-        colors[cube.index] = lx.hsb(
-        (float) Math.toDegrees(Math.atan2((double)(treez - cube.z), (double)(treex - cube.x))) + spinner.getValuef()
+      for (BaseCube baseCube : model.baseCubes) {
+        colors[baseCube.index] = lx.hsb(
+        // Color is based on degrees from the center point, plus the spinner saw wave to rotate
+        (float) Math.toDegrees(Math.atan2((double)(treez - baseCube.z), (double)(treex - baseCube.x))) + spinner.getValuef()
         // plus the further from the center, the more hue is added, giving a swirl effect
-        - (float)(Math.hypot(treez - cube.z, treex - cube.x) * swirlMult.getValuef()),
+        - (float)(Math.hypot(treez - baseCube.z, treex - baseCube.x) * swirlMult.getValuef()),
         100.0f,
         100.0f);
       }
