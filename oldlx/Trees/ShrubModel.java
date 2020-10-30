@@ -392,29 +392,12 @@ class ShrubCube extends BaseCube {
   public static final int[] PIXELS_PER_CUBE = { 6, 6, 6, 12, 12 }; // Tiny cubes actually have less, but for Entwined we want to
                                                                    // tell the NDB that everything is 6
   public static final float[] CUBE_SIZES = { 4f, 7.5f, 11.25f, 15f, 16.5f };
-
-
     /**
      * Size of this cube, one of SMALL/MEDIUM/LARGE/GIANT
      */
     public final float size;
 
     public final int pixels;
-    /**
-     * x-position of cube, relative to center of shrub base
-     */
-    public final float sx;
-
-    /**
-     * y-position of cube, relative to center of shrub base
-     */
-    public final float sy;
-
-    /**
-     * z-position of cube, relative to center of shrub base
-     */
-    public final float sz;
-
 
     public ShrubCubeConfig config = null;
 
@@ -423,9 +406,6 @@ class ShrubCube extends BaseCube {
 
         this.size = CUBE_SIZES[config.cubeSizeIndex];
         this.pixels = PIXELS_PER_CUBE[config.cubeSizeIndex];
-        this.sx = sculpturePosition.x;
-        this.sy = sculpturePosition.y;
-        this.sz = sculpturePosition.z;
         this.config = config;
     }
 }

@@ -83,17 +83,17 @@ class BaseCube extends LXModel {
     /**
      * x-position of cube, relative to center of tree base
      */
-    public final float tx;
+    public final float sx;
 
     /**
      * y-position of cube, relative to center of tree base
      */
-    public final float ty;
+    public final float sy;
 
     /**
      * z-position of cube, relative to center of tree base
      */
-    public final float tz;
+    public final float sz;
 
     /**
      * Radial distance from cube center to center of tree in x-z plane
@@ -126,9 +126,9 @@ class BaseCube extends LXModel {
         this.x = globalPosition.x;
         this.y = globalPosition.y;
         this.z = globalPosition.z;
-        this.tx = sculpturePosition.x;
-        this.ty = sculpturePosition.y;
-        this.tz = sculpturePosition.z;
+        this.sx = sculpturePosition.x;
+        this.sy = sculpturePosition.y;
+        this.sz = sculpturePosition.z;
         this.r = (float) Point2D.distance(sculpturePosition.x, sculpturePosition.z, 0, 0);
         this.theta = 180 + 180 / Utils.PI * Utils.atan2(sculpturePosition.z, sculpturePosition.x);
         //this.config = config;
