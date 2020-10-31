@@ -17,6 +17,11 @@ import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.transform.LXTransform;
 
+/**
+* The parent Cube class, which is extended by the Tree and Shrub Cubes.
+* This allows us to use a single for loop to run through both sets of cubes.
+* Cube configuration info is left out of the parent Cube and left for child cubes to handle.
+*/
 class BaseCube extends LXModel {
 
     // public static final int[] PIXELS_PER_CUBE = { 6, 6, 6, 12, 12 }; // Tiny cubes actually have less, but for Entwined we want to
@@ -145,7 +150,9 @@ class BaseCube extends LXModel {
     }
 }
 
-
+/**
+* Configuration info for the cubes, this version is somewhat "agnostic" and hypothetically could handle Tree and Shrub configs, though it only currently handles Tree Cube config
+*/
 class CubeConfig {
     int sculptureIndex;
     int cubeSizeIndex;
@@ -153,15 +160,14 @@ class CubeConfig {
     String ipAddress;
 
     // For Tree
-
-        int treeIndex;
+    int treeIndex;
     int layerIndex;
     int branchIndex;
     int mountPointIndex;
     boolean isActive;
 
     // For Shrub
-        int shrubIndex;
+    int shrubIndex;
     int clusterIndex;
     int rodIndex;
 }

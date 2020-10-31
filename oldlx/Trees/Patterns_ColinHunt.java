@@ -131,16 +131,51 @@ class BeachBall extends TSPattern {
   }
 }
 
-/**
-A template pattern to get ya started.
-*/
 
+class Breath extends TSPattern {
+
+  // Variable declarations, parameters, and modulators go here
+  //final BasicParameter parameterName = new BasicParameter("parameterName", startValue, minValue, maxValue);
+  float minValue = 0.f;
+  float maxValue = 100.f;
+  float period = 10000;
+  final SinLFO breath = new SinLFO(minValue, maxValue, period);
+
+  // Constructor
+  Breath(LX lx) {
+    super(lx);
+
+    // Add any needed modulators or parameters here
+    addModulator(breath).start();
+    //addParameter(parameterName);
+
+  }
+
+
+  // This is the pattern loop, which will run continuously via LX
+  public void run(double deltaMs) {
+      breath.setPeriod(period - (Math.abs(breath.getValuef() - 50.0f) * 50));
+
+      // Use a for loop here to set the cube colors
+      for (BaseCube cube : model.baseCubes) {
+        colors[cube.index] = lx.hsb( 180, 25, breath.getValuef());
+      }
+  }
+}
+
+/**
+* A template pattern to get ya started.
+*/
 /*
 class PatternTemplate extends TSPattern {
 
   // Variable declarations, parameters, and modulators go here
+  float minValue;
+  float maxValue;
+  float startValue;
+  float period;
   final BasicParameter parameterName = new BasicParameter("parameterName", startValue, minValue, maxValue);
-  final SawLFO modulatorName = new SawLFO(minValue, maxValue, startValue);
+  final SawLFO modulatorName = new SawLFO(minValue, maxValue, period);
 
   // Constructor
   PatternTemplate(LX lx) {
@@ -157,12 +192,7 @@ class PatternTemplate extends TSPattern {
   public void run(double deltaMs) {
 
       // Use a for loop here to set the cube colors
-      for (Cube cube : model.cubes) {
-        colors[cube.index] = lx.hsb( , , );
-      }
-
-      // for now we also have a separate loop for shrub cubes, might fix in future
-      for (ShrubCube cube : model.shrubCubes) {
+      for (BaseCube cube : model.baseCubes) {
         colors[cube.index] = lx.hsb( , , );
       }
   }

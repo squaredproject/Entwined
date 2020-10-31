@@ -264,8 +264,11 @@ abstract class Engine {
     patterns.add(new Pixels(lx));
     patterns.add(new Wedges(lx));
     patterns.add(new Parallax(lx));
+
+    // Colin Hunt Patterns
     patterns.add(new ColorWave(lx));
     patterns.add(new BeachBall(lx));
+    patterns.add(new Breath(lx));
   }
 
   LXPattern[] getPatternListForChannels() {
