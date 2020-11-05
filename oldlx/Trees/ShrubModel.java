@@ -56,60 +56,56 @@ class Rod {
 
         LXTransform transform = new LXTransform();
         // clockwise, starting at the longest left-most cluster
-        
+
         // A -> 0, 1
         // B -> 2, 3, 10, 11
         // C -> 4, 5, 8, 9
         // D -> 6, 7
-        
+
         transform.rotateY(clusterIndex * 0.5236);
 
 
-//            double ratio = (newX - xKeyPoint[keyPointIndex - 1]) / (xKeyPoint[keyPointIndex] - xKeyPoint[keyPointIndex - 1]);
-//            double newY = yKeyPoint[keyPointIndex - 1] + ratio * (yKeyPoint[keyPointIndex] - yKeyPoint[keyPointIndex - 1])
-//                    + clusterBaseHeight;
-//            double newZ = zKeyPoint[keyPointIndex - 1] + ratio * (zKeyPoint[keyPointIndex] - zKeyPoint[keyPointIndex - 1]);
-//            transform.push();
-//            transform.translate((float) newX, (float) newY, (float) newZ);
+        //            double ratio = (newX - xKeyPoint[keyPointIndex - 1]) / (xKeyPoint[keyPointIndex] - xKeyPoint[keyPointIndex - 1]);
+        //            double newY = yKeyPoint[keyPointIndex - 1] + ratio * (yKeyPoint[keyPointIndex] - yKeyPoint[keyPointIndex - 1])
+        //                    + clusterBaseHeight;
+        //            double newZ = zKeyPoint[keyPointIndex - 1] + ratio * (zKeyPoint[keyPointIndex] - zKeyPoint[keyPointIndex - 1]);
+        //            transform.push();
+        //            transform.translate((float) newX, (float) newY, (float) newZ);
 
         transform.push();
         transform.translate((float) xKeyPoint, (float) yKeyPoint, (float) zKeyPoint);
         this.mountingPoint = new Vec3D(transform.x(), transform.y(), transform.z());
         transform.pop();
-       
-    
-    
-    
-//        List<Vec3D> _availableMountingPoints = new ArrayList<Vec3D>();
-//        LXTransform transform = new LXTransform();
-//        transform.rotateY(rotationalPosition * 45 * (Utils.PI / 180));
-//        double newX = xKeyPoints[0] + 2;
-//        while (newX < xKeyPoints[NUM_KEYPOINTS - 1]) {
-//            int keyPointIndex = 0;
-//            while (xKeyPoints[keyPointIndex] < newX && keyPointIndex < NUM_KEYPOINTS) {
-//                keyPointIndex++;
-//            }
-//            if (keyPointIndex < NUM_KEYPOINTS) {
-//                double ratio = (newX - xKeyPoints[keyPointIndex - 1]) / (xKeyPoints[keyPointIndex] - xKeyPoints[keyPointIndex - 1]);
-//                double newY = yKeyPoints[keyPointIndex - 1] + ratio * (yKeyPoints[keyPointIndex] - yKeyPoints[keyPointIndex - 1])
-//                        + layerBaseHeight;
-//                double newZ = zKeyPoints[keyPointIndex - 1] + ratio * (zKeyPoints[keyPointIndex] - zKeyPoints[keyPointIndex - 1]);
-//                transform.push();
-//                transform.translate((float) newX, (float) newY, (float) newZ);
-//                _availableMountingPoints.add(new Vec3D(transform.x(), transform.y(), transform.z()));
-//                transform.pop();
-//                transform.push();
-//                transform.translate((float) newX, (float) newY, (float) (-newZ));
-//                _availableMountingPoints.add(new Vec3D(transform.x(), transform.y(), transform.z()));
-//                transform.pop();
-//            }
-//            newX += holeSpacing;
-//        }
-//        this.availableMountingPoints = Collections.unmodifiableList(_availableMountingPoints);
-    
-    
-    
-    
+
+
+        //        List<Vec3D> _availableMountingPoints = new ArrayList<Vec3D>();
+        //        LXTransform transform = new LXTransform();
+        //        transform.rotateY(rotationalPosition * 45 * (Utils.PI / 180));
+        //        double newX = xKeyPoints[0] + 2;
+        //        while (newX < xKeyPoints[NUM_KEYPOINTS - 1]) {
+        //            int keyPointIndex = 0;
+        //            while (xKeyPoints[keyPointIndex] < newX && keyPointIndex < NUM_KEYPOINTS) {
+        //                keyPointIndex++;
+        //            }
+        //            if (keyPointIndex < NUM_KEYPOINTS) {
+        //                double ratio = (newX - xKeyPoints[keyPointIndex - 1]) / (xKeyPoints[keyPointIndex] - xKeyPoints[keyPointIndex - 1]);
+        //                double newY = yKeyPoints[keyPointIndex - 1] + ratio * (yKeyPoints[keyPointIndex] - yKeyPoints[keyPointIndex - 1])
+        //                        + layerBaseHeight;
+        //                double newZ = zKeyPoints[keyPointIndex - 1] + ratio * (zKeyPoints[keyPointIndex] - zKeyPoints[keyPointIndex - 1]);
+        //                transform.push();
+        //                transform.translate((float) newX, (float) newY, (float) newZ);
+        //                _availableMountingPoints.add(new Vec3D(transform.x(), transform.y(), transform.z()));
+        //                transform.pop();
+        //                transform.push();
+        //                transform.translate((float) newX, (float) newY, (float) (-newZ));
+        //                _availableMountingPoints.add(new Vec3D(transform.x(), transform.y(), transform.z()));
+        //                transform.pop();
+        //            }
+        //            newX += holeSpacing;
+        //        }
+        //        this.availableMountingPoints = Collections.unmodifiableList(_availableMountingPoints);
+
+
     }
 
 }
@@ -119,12 +115,12 @@ class EntwinedCluster {
 
     EntwinedCluster(int clusterIndex) {
         List<Rod> _rods = new ArrayList<Rod>();
-        int rodPositions[] = new int[] { 0, 1, 2, 3, 4 };
+        int rodPositions[] = new int[]{0, 1, 2, 3, 4};
 
         int clusterMaxRodLength;
         switch (clusterIndex) {
             // clockwise, starting at the longest left-most cluster
-            
+
             // A -> 0, 1
             // B -> 2, 3, 10, 11
             // C -> 4, 5, 8, 9
@@ -248,19 +244,19 @@ class ShrubCubeConfig {
     int shrubIndex; // each shrubIndex maps to an ipAddress, consider pushing ipAddress up to ShrubConfig
     int clusterIndex;
     int rodIndex;
-//    int mountPointIndex;
+    //    int mountPointIndex;
     int shrubOutputIndex;
     int cubeSizeIndex;
     String shrubIpAddress;
 }
 
-class ShrubConfig {
-    float x;
-    float z;
-    float ry;
-//    int[] canopyMajorLengths;
-//    int[] clusterBaseHeights;
-//    String ipAddress;
+class ShrubConfig  {
+  float x;
+  float z;
+  float ry;
+  //    int[] canopyMajorLengths;
+  //    int[] clusterBaseHeights;
+  //    String ipAddress;
 }
 
 class Shrub extends LXModel {
@@ -324,7 +320,7 @@ class Shrub extends LXModel {
         public final Map<String, ShrubCube[]> shrubIpMap = new HashMap<String, ShrubCube[]>();
         public final LXTransform shrubTransform;
         int NUM_CLUSTERS_IN_SHRUB = 12;
-        
+
         Fixture(List<ShrubCubeConfig> shrubCubeConfig, int shrubIndex, float x, float z, float ry) {
             shrubTransform = new LXTransform();
             shrubTransform.translate(x, 0, z);
@@ -337,7 +333,7 @@ class Shrub extends LXModel {
                     Vec3D p;
                     try {
                         p = shrubClusters.get(cc.clusterIndex).rods.get(cc.rodIndex - 1).mountingPoint;
-//                        System.out.println(cc.rodIndex);
+                        //                        System.out.println(cc.rodIndex);
 
                     } catch (Exception e) {
                         System.out.println("Error loading config point");
@@ -351,7 +347,7 @@ class Shrub extends LXModel {
                             shrubIpMap.put(cc.shrubIpAddress, new ShrubCube[60]);
                         }
                         ShrubCube[] ndbCubes = shrubIpMap.get(cc.shrubIpAddress);
-//                        System.out.println(cc.shrubIpAddress);
+                        //                        System.out.println(cc.shrubIpAddress);
                         ndbCubes[cc.shrubOutputIndex] = cube;
                     }
                 }
@@ -361,7 +357,7 @@ class Shrub extends LXModel {
                 ShrubCube[] ndbCubes = entry.getValue();
                 for (int i = 0; i < 16; i++) {
                     if (ndbCubes[i] == null) { // fill all empty outputs with an inactive cube. Maybe this would be nicer to do at
-                                               // the model level in the future.
+                        // the model level in the future.
                         ShrubCubeConfig cc = new ShrubCubeConfig();
                         cc.shrubIndex = shrubIndex;
                         cc.rodIndex = 0;
@@ -392,17 +388,10 @@ class Shrub extends LXModel {
     }
 }
 
-class ShrubCube extends LXModel {
-
-    public static final int[] PIXELS_PER_CUBE = { 6, 6, 6, 12, 12 }; // Tiny cubes actually have less, but for Entwined we want to
-                                                                     // tell the NDB that everything is 6
-    public static final float[] CUBE_SIZES = { 4f, 7.5f, 11.25f, 15f, 16.5f };
-
-    /**
-     * Index of this cube in color buffer, colors[cube.index]
-     */
-    public final int index;
-
+class ShrubCube extends BaseCube {
+  public static final int[] PIXELS_PER_CUBE = { 6, 6, 6, 12, 12 }; // Tiny cubes actually have less, but for Entwined we want to
+                                                                   // tell the NDB that everything is 6
+  public static final float[] CUBE_SIZES = { 4f, 7.5f, 11.25f, 15f, 16.5f };
     /**
      * Size of this cube, one of SMALL/MEDIUM/LARGE/GIANT
      */
@@ -410,115 +399,14 @@ class ShrubCube extends LXModel {
 
     public final int pixels;
 
-    /**
-     * Global x-position of center of cube
-     */
-    public final float x;
-
-    /**
-     * Global y-position of center of cube
-     */
-    public final float y;
-
-    /**
-     * Global z-position of center of cube
-     */
-    public final float z;
-
-    /**
-     * Pitch of cube, in degrees, relative to cluster
-     */
-    public final float rx;
-
-    /**
-     * Yaw of cube, in degrees, relative to cluster, after pitch
-     */
-    public final float ry;
-
-    /**
-     * Roll of cube, in degrees, relative to cluster, after pitch+yaw
-     */
-    public final float rz;
-
-    /**
-     * Local x-position of cube, relative to cluster base
-     */
-    public final float lx;
-
-    /**
-     * Local y-position of cube, relative to cluster base
-     */
-    public final float ly;
-
-    /**
-     * Local z-position of cube, relative to cluster base
-     */
-    public final float lz;
-
-    /**
-     * x-position of cube, relative to center of shrub base
-     */
-    public final float sx;
-
-    /**
-     * y-position of cube, relative to center of shrub base
-     */
-    public final float sy;
-
-    /**
-     * z-position of cube, relative to center of shrub base
-     */
-    public final float sz;
-
-    /**
-     * Radial distance from cube center to center of shrub in x-z plane
-     */
-    public final float r;
-
-    /**
-     * Angle in degrees from cube center to center of shrub in x-z plane
-     */
-    public final float theta;
-
-    /**
-     * Point of the cube in the form (theta, y) relative to center of shrub base
-     */
-
-    public float transformedY;
-    public float transformedTheta;
-    public Vec2D transformedCylinderPoint;
     public ShrubCubeConfig config = null;
 
-    ShrubCube(Vec3D globalPosition, Vec3D shrubPosition, ShrubCubeConfig config) {
-        super(Arrays.asList(new LXPoint[] { new LXPoint(globalPosition.x, globalPosition.y, globalPosition.z) }));
-        this.index = this.points.get(0).index;
+    ShrubCube(Vec3D globalPosition, Vec3D sculpturePosition, ShrubCubeConfig config) {
+        super( globalPosition,  sculpturePosition);
+
         this.size = CUBE_SIZES[config.cubeSizeIndex];
         this.pixels = PIXELS_PER_CUBE[config.cubeSizeIndex];
-        this.rx = 0;
-        this.ry = 0;
-        this.rz = 0;
-        this.lx = 0;
-        this.ly = 0;
-        this.lz = 0;
-        this.x = globalPosition.x;
-        this.y = globalPosition.y;
-        this.z = globalPosition.z;
-        this.sx = shrubPosition.x;
-        this.sy = shrubPosition.y;
-        this.sz = shrubPosition.z;
-        this.r = (float) Point2D.distance(shrubPosition.x, shrubPosition.z, 0, 0);
-        this.theta = 180 + 180 / Utils.PI * Utils.atan2(shrubPosition.z, shrubPosition.x);
         this.config = config;
-    }
-
-    void resetTransform() {
-
-        transformedTheta = theta;
-        transformedY = y;
-    }
-
-    void didTransform() {
-        transformedCylinderPoint = new Vec2D(transformedTheta, transformedY);
     }
 }
 
