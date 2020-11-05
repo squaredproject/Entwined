@@ -71,21 +71,6 @@ class BaseCube extends LXModel {
     public final float rz;
 
     /**
-     * Local x-position of cube, relative to cluster
-     */
-    public final float lx;
-
-    /**
-     * Local y-position of cube, relative to cluster
-     */
-    public final float ly;
-
-    /**
-     * Local z-position of cube, relative to cluster
-     */
-    public final float lz;
-
-    /**
      * x-position of cube, relative to center of tree base
      */
     public final float sx;
@@ -125,9 +110,6 @@ class BaseCube extends LXModel {
         this.rx = 0;
         this.ry = 0;
         this.rz = 0;
-        this.lx = 0;
-        this.ly = 0;
-        this.lz = 0;
         this.x = globalPosition.x;
         this.y = globalPosition.y;
         this.z = globalPosition.z;
