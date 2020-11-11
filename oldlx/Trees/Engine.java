@@ -177,8 +177,9 @@ abstract class Engine {
     registerPatternController("Wisps", new Wisps(lx));
     registerPatternController("Fireworks", new Explosions(lx));
 
-
     registerPatternController("ColorWave", new ColorWave(lx));
+
+    registerPatternController("Pond", new Pond(lx));
   }
 
   void registerIPadEffects() {
@@ -269,6 +270,9 @@ abstract class Engine {
     patterns.add(new ColorWave(lx));
     patterns.add(new BeachBall(lx));
     patterns.add(new Breath(lx));
+
+    // Grant Patterson Patterns
+    patterns.add(new Pond(lx));
   }
 
   LXPattern[] getPatternListForChannels() {
@@ -320,6 +324,8 @@ abstract class Engine {
     registerPattern(new Wisps(lx, 1, 210, 100, 90, 130, 3.5, 10), "3707000050aba4"); // multidirection colorful wisps
     registerPattern(new Wisps(lx, 3, 210, 10, 270, 0, 3.5, 10), ""); // rain storm of wisps
     registerPattern(new Wisps(lx, 35, 210, 180, 180, 15, 2, 15), "3707000050a8ee"); // twister of wisps
+    
+    registerPattern(new Pond(lx), "");
   }
 
   void registerOneShotTriggerables() {
