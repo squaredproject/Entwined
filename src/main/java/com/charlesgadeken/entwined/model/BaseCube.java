@@ -1,98 +1,68 @@
 package com.charlesgadeken.entwined.model;
 
-import static com.charlesgadeken.entwined.Utils;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
+import java.awt.geom.Point2D;
+import java.util.Arrays;
 import toxi.geom.Vec2D;
 import toxi.geom.Vec3D;
 
-import java.awt.geom.Point2D;
-import java.util.Arrays;
-
 public class BaseCube extends LXModel {
 
-    // public static final int[] PIXELS_PER_CUBE = { 6, 6, 6, 12, 12 }; // Tiny cubes actually have less, but for Entwined we want to
-    //                                                                  // tell the NDB that everything is 6
-    // public static final float[] CUBE_SIZES = { 4f, 7.5f, 11.25f, 15f, 16.5f };
-
-    /**
-     * Index of this cube in color buffer, colors[cube.index]
-     */
+    /** Index of this cube in color buffer, colors[cube.index] */
     public final int index;
 
-    /**
-     * Size of this cube, one of SMALL/MEDIUM/LARGE/GIANT
-     */
+    /** Size of this cube, one of SMALL/MEDIUM/LARGE/GIANT */
     // public final float size;
     //
     // public final int pixels;
 
-    /**
-     * Global x-position of center of cube
-     */
+    /** Global x-position of center of cube */
     public final float x;
 
-    /**
-     * Global y-position of center of cube
-     */
+    /** Global y-position of center of cube */
     public final float y;
 
-    /**
-     * Global z-position of center of cube
-     */
+    /** Global z-position of center of cube */
     public final float z;
 
-    /**
-     * Pitch of cube, in degrees, relative to cluster
-     */
+    /** Pitch of cube, in degrees, relative to cluster */
     public final float rx;
 
-    /**
-     * Yaw of cube, in degrees, relative to cluster, after pitch
-     */
+    /** Yaw of cube, in degrees, relative to cluster, after pitch */
     public final float ry;
 
-    /**
-     * Roll of cube, in degrees, relative to cluster, after pitch+yaw
-     */
+    /** Roll of cube, in degrees, relative to cluster, after pitch+yaw */
     public final float rz;
 
-    /**
-     * x-position of cube, relative to center of tree base
-     */
+    /** x-position of cube, relative to center of tree base */
     public final float sx;
 
-    /**
-     * y-position of cube, relative to center of tree base
-     */
+    /** y-position of cube, relative to center of tree base */
     public final float sy;
 
-    /**
-     * z-position of cube, relative to center of tree base
-     */
+    /** z-position of cube, relative to center of tree base */
     public final float sz;
 
-    /**
-     * Radial distance from cube center to center of tree in x-z plane
-     */
+    /** Radial distance from cube center to center of tree in x-z plane */
     public final float r;
 
-    /**
-     * Angle in degrees from cube center to center of tree in x-z plane
-     */
+    /** Angle in degrees from cube center to center of tree in x-z plane */
     public final float theta;
 
-    /**
-     * Point of the cube in the form (theta, y) relative to center of tree base
-     */
-
+    /** Point of the cube in the form (theta, y) relative to center of tree base */
     public float transformedY;
+
     public float transformedTheta;
     public Vec2D transformedCylinderPoint;
-    //public CubeConfig config = null;
+    // public CubeConfig config = null;
 
     BaseCube(Vec3D globalPosition, Vec3D sculpturePosition) {
-        super(Arrays.asList(new LXPoint[] { new LXPoint(globalPosition.x, globalPosition.y, globalPosition.z) }));
+        super(
+                Arrays.asList(
+                        new LXPoint[] {
+                            new LXPoint(globalPosition.x, globalPosition.y, globalPosition.z)
+                        }));
         this.index = this.points[0].index;
         this.rx = 0;
         this.ry = 0;
@@ -104,12 +74,15 @@ public class BaseCube extends LXModel {
         this.sy = sculpturePosition.y;
         this.sz = sculpturePosition.z;
         this.r = (float) Point2D.distance(sculpturePosition.x, sculpturePosition.z, 0, 0);
-        this.theta = 180 + 180 / Utils.PI * Utils.atan2(sculpturePosition.z, sculpturePosition.x);
-        //this.config = config;
+        this.theta =
+                180
+                        + 180
+                                / com.charlesgadeken.entwined.Utils.PI
+                                * com.charlesgadeken.entwined.Utils.atan2(
+                                        sculpturePosition.z, sculpturePosition.x);
     }
 
     void resetTransform() {
-
         transformedTheta = theta;
         transformedY = y;
     }

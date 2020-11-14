@@ -1,94 +1,97 @@
 import java.util.Random;
 
-class Utils {
+public class Utils {
 
-  static final float PI = (float) Math.PI;
-  static final float HALF_PI = (float) (Math.PI / 2.0);
-  static final float THIRD_PI = (float) (Math.PI / 3.0);
-  static final float QUARTER_PI = (float) (Math.PI / 4.0);
-  static final float TWO_PI = (float) (2.0 * Math.PI);
+    public static final float PI = (float) Math.PI;
+    public static final float HALF_PI = (float) (Math.PI / 2.0);
+    public static final float THIRD_PI = (float) (Math.PI / 3.0);
+    public static final float QUARTER_PI = (float) (Math.PI / 4.0);
+    public static final float TWO_PI = (float) (2.0 * Math.PI);
 
-  static private final long millisOffset = System.currentTimeMillis();
+    private static  final long millisOffset = System.currentTimeMillis();
 
-  static public int millis() {
+  public static int millis() {
     return (int) (System.currentTimeMillis() - millisOffset);
   }
 
-  static public final float abs(float n) {
+  public static float abs(float n) {
     return (n < 0) ? -n : n;
   }
 
-  static public final int abs(int n) {
+  public static int abs(int n) {
     return (n < 0) ? -n : n;
   }
 
-  static public final float sqrt(float n) {
+  public static float sqrt(float n) {
     return (float)Math.sqrt(n);
   }
 
-  static public final float pow(float n, float e) {
+  public static final float pow(float n, float e) {
     return (float)Math.pow(n, e);
   }
 
-  static public final int max(int a, int b) {
+  public static  int max(int a, int b) {
     return (a > b) ? a : b;
   }
 
-  static public final float max(float a, float b) {
+  public static  float max(float a, float b) {
     return (a > b) ? a : b;
   }
 
-  static public final int min(int a, int b) {
+  public static  int min(int a, int b) {
     return (a < b) ? a : b;
   }
 
-  static public final float min(float a, float b) {
+  public static  float min(float a, float b) {
     return (a < b) ? a : b;
   }
 
-  static public final int constrain(int amt, int low, int high) {
+    public static   int constrain(int amt, int low, int high) {
     return (amt < low) ? low : ((amt > high) ? high : amt);
   }
 
-  static public final float constrain(float amt, float low, float high) {
+    public static   float constrain(float amt, float low, float high) {
     return (amt < low) ? low : ((amt > high) ? high : amt);
   }
 
-  static public final float sin(float angle) {
+    public static   float sin(float angle) {
     return (float)Math.sin(angle);
   }
 
-  static public final float cos(float angle) {
+    public static   float cos(float angle) {
     return (float)Math.cos(angle);
   }
 
-  static public final float asin(float value) {
+    public static  float asin(float value) {
     return (float)Math.asin(value);
   }
 
-  static public final float acos(float value) {
+    public static  float acos(float value) {
     return (float)Math.acos(value);
   }
 
-  static public final float atan2(float y, float x) {
+    public static   float atan2(float y, float x) {
+        return (float)Math.atan2(y, x);
+    }
+    public static   float atan2(float y, float x) {
     return (float)Math.atan2(y, x);
   }
 
-  static public final int ceil(float n) {
+    public static   int ceil(float n) {
     return (int) Math.ceil(n);
   }
 
-  static public final int floor(float n) {
+    public static   int floor(float n) {
     return (int) Math.floor(n);
   }
 
-  static public final float lerp(float start, float stop, float amt) {
+    public static   float lerp(float start, float stop, float amt) {
     return start + (stop-start) * amt;
   }
 
-  static private Random internalRandom;
+    private static  Random internalRandom;
 
-  static public final float random(float high) {
+    public static   float random(float high) {
     // avoid an infinite loop when 0 or NaN are passed in
     if (high == 0 || high != high) {
       return 0;
@@ -108,18 +111,18 @@ class Utils {
     return value;
   }
 
-  static public final float random(float low, float high) {
+    public static   float random(float low, float high) {
     if (low >= high) return low;
     float diff = high - low;
     return random(diff) + low;
   }
 
   // Maps a value
-  //static public final float map(float value, float currentMin, float currentMax, float targetMin, float targetMax) {
-    
+  //public static final float map(float value, float currentMin, float currentMax, float targetMin, float targetMax) {
+
   //}
 
-  static public final float map(float value, float currentMin, float currentMax) {
-    return (value - currentMin) / (currentMax - currentMin); 
+    public static   float map(float value, float currentMin, float currentMax) {
+    return (value - currentMin) / (currentMax - currentMin);
   }
 }

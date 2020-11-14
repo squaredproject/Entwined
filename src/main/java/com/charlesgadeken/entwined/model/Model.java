@@ -1,19 +1,8 @@
 package com.charlesgadeken.entwined.model;
 
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.charlesgadeken.entwined.model.config.CubeConfig;
 import com.charlesgadeken.entwined.model.config.ShrubConfig;
 import com.charlesgadeken.entwined.model.config.ShrubCubeConfig;
-import toxi.geom.Vec2D;
-import toxi.geom.Vec3D;
-
 import heronarts.lx.LX;
 import heronarts.lx.LXLayer;
 import heronarts.lx.LXLoopTask;
@@ -21,20 +10,20 @@ import heronarts.lx.model.LXAbstractFixture;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.transform.LXTransform;
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import toxi.geom.Vec3D;
 
 class Model extends LXModel {
 
-    /**
-     * Trees in the model
-     */
+    /** Trees in the model */
     public final List<Tree> trees;
 
-    /**
-     * Cubes in the model
-     */
+    /** Cubes in the model */
     public final List<Cube> cubes;
-
 
     public final List<BaseCube> baseCubes;
 
@@ -43,8 +32,11 @@ class Model extends LXModel {
     private final ArrayList<ModelTransform> modelTransforms = new ArrayList<ModelTransform>();
     private final List<TreeConfig> treeConfigs;
 
-    Model(List<TreeConfig> treeConfigs, List<CubeConfig> cubeConfig, List<ShrubConfig> shrubConfigs,
-          List<ShrubCubeConfig> shrubCubeConfig) {
+    Model(
+            List<TreeConfig> treeConfigs,
+            List<CubeConfig> cubeConfig,
+            List<ShrubConfig> shrubConfigs,
+            List<ShrubCubeConfig> shrubCubeConfig) {
 
         super(new Fixture(treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig));
 
@@ -69,21 +61,19 @@ class Model extends LXModel {
         }
         this.shrubCubes = Collections.unmodifiableList(_shrubCubes);
 
-
         // Adding all cubes to baseCubes
         List<BaseCube> _baseCubes = new ArrayList<BaseCube>();
 
         for (Tree tree : this.trees) {
-            //ipMap.putAll(tree.ipMap);
+            // ipMap.putAll(tree.ipMap);
             _baseCubes.addAll(tree.cubes);
         }
 
         for (Shrub shrub : this.shrubs) {
-            //shrubIpMap.putAll(shrub.ipMap);
+            // shrubIpMap.putAll(shrub.ipMap);
             _baseCubes.addAll(shrub.cubes);
         }
         this.baseCubes = Collections.unmodifiableList(_baseCubes);
-
     }
 
     private static class Fixture extends LXAbstractFixture {
@@ -92,11 +82,22 @@ class Model extends LXModel {
 
         final List<Shrub> shrubs = new ArrayList<Shrub>();
 
-        private Fixture(List<TreeConfig> treeConfigs, List<CubeConfig> cubeConfigs, List<ShrubConfig> shrubConfigs,
-                        List<ShrubCubeConfig> shrubCubeConfigs) {
+        private Fixture(
+                List<TreeConfig> treeConfigs,
+                List<CubeConfig> cubeConfigs,
+                List<ShrubConfig> shrubConfigs,
+                List<ShrubCubeConfig> shrubCubeConfigs) {
             for (int i = 0; i < treeConfigs.size(); i++) {
                 TreeConfig tc = treeConfigs.get(i);
-                trees.add(new Tree(cubeConfigs, i, tc.x, tc.z, tc.ry, tc.canopyMajorLengths, tc.layerBaseHeights));
+                trees.add(
+                        new Tree(
+                                cubeConfigs,
+                                i,
+                                tc.x,
+                                tc.z,
+                                tc.ry,
+                                tc.canopyMajorLengths,
+                                tc.layerBaseHeights));
             }
             for (Tree tree : trees) {
                 for (LXPoint p : tree.points) {
@@ -122,7 +123,13 @@ class Model extends LXModel {
         Shrub shrub;
         try {
             tree = this.trees.get(c.treeIndex);
-            p = tree.treeLayers.get(c.layerIndex).branches.get(c.branchIndex).availableMountingPoints.get(c.mountPointIndex);
+            p =
+                    tree.treeLayers
+                            .get(c.layerIndex)
+                            .branches
+                            .get(c.branchIndex)
+                            .availableMountingPoints
+                            .get(c.mountPointIndex);
             return tree.transformPoint(p);
         } catch (Exception e) {
             System.out.println("Error resolving mount point");
@@ -134,7 +141,6 @@ class Model extends LXModel {
     public void addModelTransform(ModelTransform modelTransform) {
         modelTransforms.add(modelTransform);
         shrubModelTransforms.add(modelTransform);
-
     }
 
     public void runTransforms() {
@@ -164,20 +170,16 @@ class Model extends LXModel {
         }
     }
 
-    /**
-     * Shrubs in the model
-     */
+    /** Shrubs in the model */
     public final List<Shrub> shrubs;
 
-    /**
-     * ShrubCubes in the model
-     */
+    /** ShrubCubes in the model */
     public final List<ShrubCube> shrubCubes;
+
     public final Map<String, ShrubCube[]> shrubIpMap = new HashMap<String, ShrubCube[]>();
 
     private final ArrayList<ModelTransform> shrubModelTransforms = new ArrayList<>();
     private final List<ShrubConfig> shrubConfigs;
-
 
     public Vec3D getShrubMountPoint(ShrubCubeConfig c) {
         Vec3D p = null;
@@ -213,49 +215,40 @@ class Model extends LXModel {
 
     public void addModelTransform(Effect shrubModelTransform) {
         shrubModelTransforms.add((ModelTransform) shrubModelTransform);
-
-
     }
 }
 
 class Tree extends LXModel {
 
-    /**
-     * NDBs in the tree
-     */
+    /** NDBs in the tree */
     public final Map<String, Cube[]> ipMap;
 
-    /**
-     * Cubes in the tree
-     */
+    /** Cubes in the tree */
     public final List<Cube> cubes;
 
-    /**
-     * Layers in the tree
-     */
+    /** Layers in the tree */
     public final List<EntwinedLayer> treeLayers;
 
-    /**
-     * index of the tree
-     */
+    /** index of the tree */
     public final int index;
 
-    /**
-     * x-position of center of base of tree
-     */
+    /** x-position of center of base of tree */
     public final float x;
 
-    /**
-     * z-position of center of base of tree
-     */
+    /** z-position of center of base of tree */
     public final float z;
 
-    /**
-     * Rotation in degrees of tree about vertical y-axis
-     */
+    /** Rotation in degrees of tree about vertical y-axis */
     public final float ry;
 
-    Tree(List<CubeConfig> cubeConfig, int treeIndex, float x, float z, float ry, int[] canopyMajorLengths, int[] layerBaseHeights) {
+    Tree(
+            List<CubeConfig> cubeConfig,
+            int treeIndex,
+            float x,
+            float z,
+            float ry,
+            int[] canopyMajorLengths,
+            int[] layerBaseHeights) {
         super(new Fixture(cubeConfig, treeIndex, x, z, ry, canopyMajorLengths, layerBaseHeights));
         Fixture f = (Fixture) this.fixtures.get(0);
         this.index = treeIndex;
@@ -265,7 +258,6 @@ class Tree extends LXModel {
         this.x = x;
         this.z = z;
         this.ry = ry;
-
     }
 
     public Vec3D transformPoint(Vec3D point) {
@@ -280,7 +272,14 @@ class Tree extends LXModel {
         public final LXTransform transform;
         public final List<CubeConfig> inactiveCubeConfigs = new ArrayList();
 
-        Fixture(List<CubeConfig> cubeConfig, int treeIndex, float x, float z, float ry, int[] canopyMajorLengths, int[] layerBaseHeights) {
+        Fixture(
+                List<CubeConfig> cubeConfig,
+                int treeIndex,
+                float x,
+                float z,
+                float ry,
+                int[] canopyMajorLengths,
+                int[] layerBaseHeights) {
             transform = new LXTransform();
             transform.translate(x, 0, z);
             transform.rotateY(ry * Utils.PI / 180);
@@ -291,7 +290,13 @@ class Tree extends LXModel {
                 if (cc.treeIndex == treeIndex) {
                     Vec3D p;
                     try {
-                        p = treeLayers.get(cc.layerIndex).branches.get(cc.branchIndex).availableMountingPoints.get(cc.mountPointIndex);
+                        p =
+                                treeLayers
+                                        .get(cc.layerIndex)
+                                        .branches
+                                        .get(cc.branchIndex)
+                                        .availableMountingPoints
+                                        .get(cc.mountPointIndex);
                     } catch (Exception e) {
                         System.out.println("Error loading config point");
                         System.out.println(e);
@@ -313,7 +318,9 @@ class Tree extends LXModel {
                 String ip = entry.getKey();
                 Cube[] ndbCubes = entry.getValue();
                 for (int i = 0; i < 16; i++) {
-                    if (ndbCubes[i] == null) { // fill all empty outputs with an inactive cube. Maybe this would be nicer to do at
+                    if (ndbCubes[i]
+                            == null) { // fill all empty outputs with an inactive cube. Maybe this
+                        // would be nicer to do at
                         // the model level in the future.
                         CubeConfig cc = new CubeConfig();
                         cc.treeIndex = treeIndex;
@@ -363,19 +370,20 @@ class EntwinedLayer {
         int rotationalPositions[];
         switch (layerType) {
             case 0:
-                rotationalPositions = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
+                rotationalPositions = new int[] {0, 1, 2, 3, 4, 5, 6, 7};
                 break;
             case 1:
-                rotationalPositions = new int[]{0, 2, 4, 6};
+                rotationalPositions = new int[] {0, 2, 4, 6};
                 break;
             case 2:
-                rotationalPositions = new int[]{1, 3, 5, 7};
+                rotationalPositions = new int[] {1, 3, 5, 7};
                 break;
             default:
-                rotationalPositions = new int[]{};
+                rotationalPositions = new int[] {};
         }
         for (int i = 0; i < rotationalPositions.length; i++) {
-            EntwinedBranch b = new EntwinedBranch(canopyMajorLength, rotationalPositions[i], layerBaseHeight);
+            EntwinedBranch b =
+                    new EntwinedBranch(canopyMajorLength, rotationalPositions[i], layerBaseHeight);
             _branches.add(b);
         }
         this.branches = Collections.unmodifiableList(_branches);
@@ -384,18 +392,20 @@ class EntwinedLayer {
 
 class EntwinedBranch {
     /**
-     * This defines the available mounting points on a given branch variation. The variable names and ratios for the keypoints
-     * reflect what is in the CAD drawings for the branches
+     * This defines the available mounting points on a given branch variation. The variable names
+     * and ratios for the keypoints reflect what is in the CAD drawings for the branches
      */
     public List<Vec3D> availableMountingPoints;
-    static final private int NUM_KEYPOINTS = 5;
+
+    private static final int NUM_KEYPOINTS = 5;
     private double[] xKeyPoints = new double[NUM_KEYPOINTS];
     private double[] yKeyPoints = new double[NUM_KEYPOINTS];
     private double[] zKeyPoints = new double[NUM_KEYPOINTS];
     private static final double holeSpacing = 8;
 
     EntwinedBranch(int canopyMajorLength, int rotationalPosition, int layerBaseHeight) {
-        int rotationIndex = rotationalPosition > 4 ? 4 - rotationalPosition % 4 : rotationalPosition;
+        int rotationIndex =
+                rotationalPosition > 4 ? 4 - rotationalPosition % 4 : rotationalPosition;
         float canopyScaling = canopyMajorLength / 180;
         double branchLengthRatios[] = {0.37, 0.41, 0.50, 0.56, 0.63};
         double heightAdjustmentFactors[] = {1.0, 0.96, 0.92, 0.88, 0.85};
@@ -425,42 +435,53 @@ class EntwinedBranch {
                 keyPointIndex++;
             }
             if (keyPointIndex < NUM_KEYPOINTS) {
-                double ratio = (newX - xKeyPoints[keyPointIndex - 1]) / (xKeyPoints[keyPointIndex] - xKeyPoints[keyPointIndex - 1]);
-                double newY = yKeyPoints[keyPointIndex - 1] + ratio * (yKeyPoints[keyPointIndex] - yKeyPoints[keyPointIndex - 1])
-                        + layerBaseHeight;
-                double newZ = zKeyPoints[keyPointIndex - 1] + ratio * (zKeyPoints[keyPointIndex] - zKeyPoints[keyPointIndex - 1]);
+                double ratio =
+                        (newX - xKeyPoints[keyPointIndex - 1])
+                                / (xKeyPoints[keyPointIndex] - xKeyPoints[keyPointIndex - 1]);
+                double newY =
+                        yKeyPoints[keyPointIndex - 1]
+                                + ratio
+                                        * (yKeyPoints[keyPointIndex]
+                                                - yKeyPoints[keyPointIndex - 1])
+                                + layerBaseHeight;
+                double newZ =
+                        zKeyPoints[keyPointIndex - 1]
+                                + ratio
+                                        * (zKeyPoints[keyPointIndex]
+                                                - zKeyPoints[keyPointIndex - 1]);
                 transform.push();
                 transform.translate((float) newX, (float) newY, (float) newZ);
-                _availableMountingPoints.add(new Vec3D(transform.x(), transform.y(), transform.z()));
+                _availableMountingPoints.add(
+                        new Vec3D(transform.x(), transform.y(), transform.z()));
                 transform.pop();
                 transform.push();
                 transform.translate((float) newX, (float) newY, (float) (-newZ));
-                _availableMountingPoints.add(new Vec3D(transform.x(), transform.y(), transform.z()));
+                _availableMountingPoints.add(
+                        new Vec3D(transform.x(), transform.y(), transform.z()));
                 transform.pop();
             }
             newX += holeSpacing;
         }
         this.availableMountingPoints = Collections.unmodifiableList(_availableMountingPoints);
     }
-
 }
 
 class Cube extends BaseCube {
-  public static final int[] PIXELS_PER_CUBE = { 6, 6, 6, 12, 12 }; // Tiny cubes actually have less, but for Entwined we want to
-                                                                   // tell the NDB that everything is 6
-  public static final float[] CUBE_SIZES = { 4f, 7.5f, 11.25f, 15f, 16.5f };
-  /**
-   * Size of this cube, one of SMALL/MEDIUM/LARGE/GIANT
-   */
-  public final float size;
+    public static final int[] PIXELS_PER_CUBE = {
+        6, 6, 6, 12, 12
+    }; // Tiny cubes actually have less, but for Entwined we want to
+    // tell the NDB that everything is 6
+    public static final float[] CUBE_SIZES = {4f, 7.5f, 11.25f, 15f, 16.5f};
+    /** Size of this cube, one of SMALL/MEDIUM/LARGE/GIANT */
+    public final float size;
 
-  public final int pixels;
-  public CubeConfig config = null;
+    public final int pixels;
+    public CubeConfig config = null;
 
     Cube(Vec3D globalPosition, Vec3D treePosition, CubeConfig config) {
-      super(globalPosition, treePosition);
-    this.size = CUBE_SIZES[config.cubeSizeIndex];
-    this.pixels = PIXELS_PER_CUBE[config.cubeSizeIndex];
+        super(globalPosition, treePosition);
+        this.size = CUBE_SIZES[config.cubeSizeIndex];
+        this.pixels = PIXELS_PER_CUBE[config.cubeSizeIndex];
         this.config = config;
     }
 }
@@ -479,12 +500,11 @@ abstract class ModelTransform extends Effect {
     ModelTransform(LX lx) {
         super(lx);
         model.addModelTransform(this);
-    //           ((ShrubModel) shrubModel).addShrubModelTransform(this);
+        //           ((ShrubModel) shrubModel).addShrubModelTransform(this);
     }
 
     @Override
-    public void run(double deltaMs) {
-    }
+    public void run(double deltaMs) {}
 
     abstract void transform(Model model);
 }
@@ -500,11 +520,11 @@ class ModelTransformTask implements LXLoopTask {
     @Override
     public void loop(double deltaMs) {
         model.runTransforms();
-    //        model.runShrubTransforms();
+        //        model.runShrubTransforms();
     }
 }
 
 class Geometry {
-    final static int INCHES = 1;
-    final static int FEET = 12 * INCHES;
+    static final int INCHES = 1;
+    static final int FEET = 12 * INCHES;
 }
