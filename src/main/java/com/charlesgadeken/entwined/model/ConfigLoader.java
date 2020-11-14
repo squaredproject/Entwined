@@ -15,14 +15,9 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 /**
- * This is the module which load the JSON configuration of:
- *  - The cubes
- *  - The trees
- *  - The ShrubCubes
- *  - The Entwined shrubs
- *  That makeup the geometry for the goldengate park exposition
+ * This is the module which load the JSON configuration of: - The cubes - The trees - The ShrubCubes
+ * - The Entwined shrubs That makeup the geometry for the goldengate park exposition
  */
-
 public class ConfigLoader {
     static final boolean enableIPad = false;
     static final boolean autoplayBMSet = false;
@@ -34,10 +29,10 @@ public class ConfigLoader {
     static final boolean enableOutputMinitree = false;
     static final boolean enableOutputBigtree = true;
 
-    static final String CUBE_CONFIG_FILE = "data/entwinedCubes.json";
-    static final String TREE_CONFIG_FILE = "data/entwinedTrees.json";
-    static final String SHRUB_CUBE_CONFIG_FILE = "data/entwinedShrubCubes.json";
-    static final String SHRUB_CONFIG_FILE = "data/entwinedShrubs.json";
+    static final String CUBE_CONFIG_FILE = "entwinedCubes.json";
+    static final String TREE_CONFIG_FILE = "entwinedTrees.json";
+    static final String SHRUB_CUBE_CONFIG_FILE = "entwinedShrubCubes.json";
+    static final String SHRUB_CONFIG_FILE = "entwinedShrubs.json";
 
     public List<CubeConfig> loadCubeConfigFile() {
         return loadJSONFile(
