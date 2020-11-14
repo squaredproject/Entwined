@@ -31,6 +31,7 @@ class Model extends LXModelInterceptor {
 
     /**
      * Build a new Entwined model from the expected configuration files.
+     *
      * @param lx The LX instance to use
      * @return An instantiated model
      */
