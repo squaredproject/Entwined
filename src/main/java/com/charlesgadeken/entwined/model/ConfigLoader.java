@@ -29,30 +29,31 @@ public class ConfigLoader {
     static final String SHRUB_CUBE_CONFIG_FILE = "data/entwinedShrubCubes.json";
     static final String SHRUB_CONFIG_FILE = "data/entwinedShrubs.json";
 
-    public static List<CubeConfig> loadCubeConfigFile() {
+    public List<CubeConfig> loadCubeConfigFile() {
         return loadJSONFile(
                 ConfigLoader.CUBE_CONFIG_FILE, new TypeToken<List<CubeConfig>>() {}.getType());
     }
 
-    public static List<TreeConfig> loadTreeConfigFile() {
+    public List<TreeConfig> loadTreeConfigFile() {
         return loadJSONFile(
                 ConfigLoader.TREE_CONFIG_FILE, new TypeToken<List<TreeConfig>>() {}.getType());
     }
 
-    public static List<ShrubCubeConfig> loadShrubCubeConfigFile() {
+    public List<ShrubCubeConfig> loadShrubCubeConfigFile() {
         return loadJSONFile(
                 ConfigLoader.SHRUB_CUBE_CONFIG_FILE,
                 new TypeToken<List<ShrubCubeConfig>>() {}.getType());
     }
 
-    public static List<ShrubConfig> loadShrubConfigFile() {
+    public List<ShrubConfig> loadShrubConfigFile() {
         return loadJSONFile(
                 ConfigLoader.SHRUB_CONFIG_FILE, new TypeToken<List<ShrubConfig>>() {}.getType());
     }
 
-    private static <T> T loadJSONFile(String filename, Type typeToken) {
+    private <T>  T loadJSONFile(String filename, Type typeToken) {
         Reader reader = null;
         try {
+            getClass().getClassLoader().getResourceAsStream(filename);
             reader = new BufferedReader(new FileReader(sketchPath(filename)));
             return new Gson().fromJson(reader, typeToken);
         } catch (IOException ioe) {
