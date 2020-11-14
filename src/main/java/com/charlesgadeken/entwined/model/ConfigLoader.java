@@ -7,8 +7,9 @@ import com.charlesgadeken.entwined.model.config.TreeConfig;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -50,13 +51,13 @@ public class ConfigLoader {
                 ConfigLoader.SHRUB_CONFIG_FILE, new TypeToken<List<ShrubConfig>>() {}.getType());
     }
 
-    private <T>  T loadJSONFile(String filename, Type typeToken) {
+    private <T> T loadJSONFile(String filename, Type typeToken) {
         Reader reader = null;
         try {
-            getClass().getClassLoader().getResourceAsStream(filename);
-            reader = new BufferedReader(new FileReader(sketchPath(filename)));
+            InputStream is = getClass().getClassLoader().getResourceAsStream(filename);
+            reader = new BufferedReader(new InputStreamReader((is)));
             return new Gson().fromJson(reader, typeToken);
-        } catch (IOException ioe) {
+        } catch (Exception ioe) {
             System.out.println("Error reading json file: ");
             System.out.println(ioe);
         } finally {
