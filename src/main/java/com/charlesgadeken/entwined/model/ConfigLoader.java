@@ -1,7 +1,16 @@
 package com.charlesgadeken.entwined.model;
 
 import com.charlesgadeken.entwined.model.config.CubeConfig;
-import heronarts.lx.model.LXModel;
+import com.charlesgadeken.entwined.model.config.ShrubConfig;
+import com.charlesgadeken.entwined.model.config.ShrubCubeConfig;
+import com.charlesgadeken.entwined.model.config.TreeConfig;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class ConfigLoader {
@@ -32,11 +41,31 @@ public class ConfigLoader {
 
     public static List<ShrubCubeConfig> loadShrubCubeConfigFile() {
         return loadJSONFile(
-                ConfigLoader.SHRUB_CUBE_CONFIG_FILE, new TypeToken<List<ShrubCubeConfig>>() {}.getType());
+                ConfigLoader.SHRUB_CUBE_CONFIG_FILE,
+                new TypeToken<List<ShrubCubeConfig>>() {}.getType());
     }
 
     public static List<ShrubConfig> loadShrubConfigFile() {
         return loadJSONFile(
                 ConfigLoader.SHRUB_CONFIG_FILE, new TypeToken<List<ShrubConfig>>() {}.getType());
+    }
+
+    private static <T> T loadJSONFile(String filename, Type typeToken) {
+        Reader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(sketchPath(filename)));
+            return new Gson().fromJson(reader, typeToken);
+        } catch (IOException ioe) {
+            System.out.println("Error reading json file: ");
+            System.out.println(ioe);
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException ioe) {
+                }
+            }
+        }
+        return null;
     }
 }
