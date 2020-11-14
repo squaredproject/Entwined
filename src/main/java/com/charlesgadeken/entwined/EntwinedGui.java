@@ -1,5 +1,5 @@
+
 package com.charlesgadeken.entwined;
-I
 import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
 import heronarts.lx.studio.LXStudio;
@@ -9,7 +9,7 @@ import java.io.File;
 
 public class EntwinedGui extends PApplet implements LXPlugin {
 
-  private static final String WINDOW_TITLE = "LX Studio";
+  private static final String WINDOW_TITLE = "Entwined";
 
   private static int WIDTH = 1280;
   private static int HEIGHT = 800;
