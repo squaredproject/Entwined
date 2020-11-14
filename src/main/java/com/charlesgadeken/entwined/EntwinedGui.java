@@ -1,5 +1,5 @@
-
 package com.charlesgadeken.entwined;
+
 import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
 import heronarts.lx.studio.LXStudio;
@@ -58,6 +58,15 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     File projectFile = null;
     for (int i = 0; i < args.length; ++i) {
       if ("--help".equals(args[i]) || "-h".equals(args[i])) {
+        System.out.println(
+            "java -jar path/to/entwined/jar SOMEPROJECT.lxp --flags\n" +
+            "Flags:\n" +
+            "\t--headless run in headless mode\n" +
+            "\t--fullscreen | -f : Run in fullscreen\n" +
+            "\t--width | -w : Set the width of the screen\n" +
+            "\t--height | -h : Set the height of the screen \n"
+        );
+        System.exit(0);
       } else if ("--headless".equals(args[i])) {
         headless = true;
       } else if ("--fullscreen".equals(args[i]) || "-f".equals(args[i])) {
@@ -93,7 +102,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
       }
       LX.headless(flags, projectFile);
     } else {
-      PApplet.main("heronarts.lx.app.LXStudioApp", args);
+      PApplet.main(new String[] {EntwinedGui.class.getName()});
     }
   }
 }

@@ -13,11 +13,11 @@ dependencies {
   implementation fileTree("${libPath}/processing-3.5.4")
 }
 
-mainClassName = 'com.charlesgadeken.EntwinedGui'
+mainClassName = 'com.charlesgadeken.entwined.EntwinedGui'
 
 jar {
   manifest {
-    attributes["Main-Class"] = "com.charlesgadeken.EntwinedGui"
+    attributes["Main-Class"] = "com.charlesgadeken.entwined.EntwinedGui"
     attributes["Implementation-Title"] = "entwined"
     attributes["Implementation-Version"] = "0.0.1"
   }
