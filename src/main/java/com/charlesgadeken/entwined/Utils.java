@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Utils {
 
-    public static final float PI = (float) Math.PI;
+    public static float PI = (float) Math.PI;
     static final float HALF_PI = (float) (Math.PI / 2.0);
     static final float THIRD_PI = (float) (Math.PI / 3.0);
     static final float QUARTER_PI = (float) (Math.PI / 4.0);
@@ -28,69 +28,69 @@ public class Utils {
         return (float) Math.sqrt(n);
     }
 
-    public static final float pow(float n, float e) {
+    public static float pow(float n, float e) {
         return (float) Math.pow(n, e);
     }
 
-    public static final int max(int a, int b) {
+    public static int max(int a, int b) {
         return (a > b) ? a : b;
     }
 
-    public static final float max(float a, float b) {
+    public static float max(float a, float b) {
         return (a > b) ? a : b;
     }
 
-    public static final int min(int a, int b) {
+    public static int min(int a, int b) {
         return (a < b) ? a : b;
     }
 
-    public static final float min(float a, float b) {
+    public static float min(float a, float b) {
         return (a < b) ? a : b;
     }
 
-    public static final int constrain(int amt, int low, int high) {
+    public static int constrain(int amt, int low, int high) {
         return (amt < low) ? low : ((amt > high) ? high : amt);
     }
 
-    public static final float constrain(float amt, float low, float high) {
+    public static float constrain(float amt, float low, float high) {
         return (amt < low) ? low : ((amt > high) ? high : amt);
     }
 
-    public static final float sin(float angle) {
+    public static float sin(float angle) {
         return (float) Math.sin(angle);
     }
 
-    public static final float cos(float angle) {
+    public static float cos(float angle) {
         return (float) Math.cos(angle);
     }
 
-    public static final float asin(float value) {
+    public static float asin(float value) {
         return (float) Math.asin(value);
     }
 
-    public static final float acos(float value) {
+    public static float acos(float value) {
         return (float) Math.acos(value);
     }
 
-    public static final float atan2(float y, float x) {
+    public static float atan2(float y, float x) {
         return (float) Math.atan2(y, x);
     }
 
-    public static final int ceil(float n) {
+    public static int ceil(float n) {
         return (int) Math.ceil(n);
     }
 
-    public static final int floor(float n) {
+    public static int floor(float n) {
         return (int) Math.floor(n);
     }
 
-    public static final float lerp(float start, float stop, float amt) {
+    public static float lerp(float start, float stop, float amt) {
         return start + (stop - start) * amt;
     }
 
     private static Random internalRandom;
 
-    public static final float random(float high) {
+    public static float random(float high) {
         // avoid an infinite loop when 0 or NaN are passed in
         if (high == 0 || high != high) {
             return 0;
@@ -110,7 +110,7 @@ public class Utils {
         return value;
     }
 
-    public static final float random(float low, float high) {
+    public static float random(float low, float high) {
         if (low >= high) return low;
         float diff = high - low;
         return random(diff) + low;
@@ -122,7 +122,7 @@ public class Utils {
 
     // }
 
-    public static final float map(float value, float currentMin, float currentMax) {
+    public static float map(float value, float currentMin, float currentMax) {
         return (value - currentMin) / (currentMax - currentMin);
     }
 }
