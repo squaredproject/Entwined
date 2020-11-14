@@ -14,6 +14,15 @@ import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.List;
 
+/**
+ * This is the module which load the JSON configuration of:
+ *  - The cubes
+ *  - The trees
+ *  - The ShrubCubes
+ *  - The Entwined shrubs
+ *  That makeup the geometry for the goldengate park exposition
+ */
+
 public class ConfigLoader {
     static final boolean enableIPad = false;
     static final boolean autoplayBMSet = false;
