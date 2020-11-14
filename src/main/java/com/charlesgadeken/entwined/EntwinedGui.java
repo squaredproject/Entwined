@@ -1,6 +1,7 @@
 package com.charlesgadeken.entwined;
 
 import com.charlesgadeken.entwined.model.Entwined;
+import com.charlesgadeken.entwined.model.Model;
 import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
 import heronarts.lx.model.LXModel;
@@ -33,7 +34,8 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         flags.useGLPointCloud = false;
         flags.startMultiThreaded = true;
 
-        LXModel model = new Entwined(10);
+        LX lx = new LX();
+        LXModel model = Model.fromConfigs(lx);
 
         new LXStudio(this, flags, model);
         this.surface.setTitle(WINDOW_TITLE);

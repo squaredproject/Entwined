@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import toxi.geom.Vec3D;
 
-class Model extends LXModelInterceptor {
+public class Model extends LXModelInterceptor {
     /** Trees in the model */
     public final List<Tree> trees;
 
