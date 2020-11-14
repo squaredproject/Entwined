@@ -3,7 +3,6 @@ package com.charlesgadeken.entwined;
 import java.util.Random;
 
 public class Utils {
-
     public static float PI = (float) Math.PI;
     static final float HALF_PI = (float) (Math.PI / 2.0);
     static final float THIRD_PI = (float) (Math.PI / 3.0);
@@ -115,12 +114,6 @@ public class Utils {
         float diff = high - low;
         return random(diff) + low;
     }
-
-    // Maps a value
-    // static public final float map(float value, float currentMin, float currentMax, float
-    // targetMin, float targetMax) {
-
-    // }
 
     public static float map(float value, float currentMin, float currentMax) {
         return (value - currentMin) / (currentMax - currentMin);
