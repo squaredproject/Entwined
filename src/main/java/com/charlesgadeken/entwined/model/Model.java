@@ -1,5 +1,6 @@
 package com.charlesgadeken.entwined.model;
 
+import com.charlesgadeken.entwined.model.config.ConfigLoader;
 import com.charlesgadeken.entwined.model.config.CubeConfig;
 import com.charlesgadeken.entwined.model.config.ShrubConfig;
 import com.charlesgadeken.entwined.model.config.ShrubCubeConfig;
@@ -28,7 +29,20 @@ class Model extends LXModelInterceptor {
     private final ArrayList<ModelTransform> modelTransforms = new ArrayList<ModelTransform>();
     private final List<TreeConfig> treeConfigs;
 
-    Model(
+    /**
+     * Build a new Entwined model from the expected configuration files.
+     * @param lx The LX instance to use
+     * @return An instantiated model
+     */
+    public static Model fromConfigs(LX lx) {
+        List<CubeConfig> cubeConfig = ConfigLoader.loadCubeConfigFile();
+        List<TreeConfig> treeConfigs = ConfigLoader.loadTreeConfigFile();
+        List<ShrubCubeConfig> shrubCubeConfig = ConfigLoader.loadShrubCubeConfigFile();
+        List<ShrubConfig> shrubConfigs = ConfigLoader.loadShrubConfigFile();
+        return new Model(lx, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig);
+    }
+
+    private Model(
             LX lx,
             List<TreeConfig> treeConfigs,
             List<CubeConfig> cubeConfig,

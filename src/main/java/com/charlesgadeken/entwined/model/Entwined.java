@@ -11,7 +11,7 @@ public class Entwined extends LXModel {
     public final int length;
 
     public Entwined(Entwined.Metrics metrics) {
-        super(makePoints(metrics), new String[] {"strip"});
+        super(makePoints(metrics), "strip");
         this.metrics = metrics;
         this.length = metrics.length;
     }
