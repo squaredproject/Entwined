@@ -2,9 +2,7 @@ package com.charlesgadeken.entwined.model;
 
 import com.charlesgadeken.entwined.model.config.ShrubCubeConfig;
 import heronarts.lx.LX;
-import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.structure.LXBasicFixture;
 import heronarts.lx.transform.LXTransform;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,8 +11,7 @@ import java.util.List;
 import java.util.Map;
 import toxi.geom.Vec3D;
 
-public class Shrub extends LXModel {
-
+public class Shrub extends LXModelInterceptor {
     /** NDBs in the shrub */
     public final Map<String, ShrubCube[]> ipMap;
 
@@ -36,6 +33,8 @@ public class Shrub extends LXModel {
     /** Rotation in degrees of shrub about vertical y-axis */
     public final float ry;
 
+    private final LX lx;
+
     Shrub(
             LX lx,
             List<ShrubCubeConfig> shrubCubeConfig,
@@ -43,8 +42,9 @@ public class Shrub extends LXModel {
             float x,
             float z,
             float ry) {
-        super(new Fixture(shrubCubeConfig, shrubIndex, x, z, ry));
-        Fixture f = (Fixture) this.fixtures.get(0);
+        super(new Fixture(lx, shrubCubeConfig, shrubIndex, x, z, ry));
+        this.lx = lx;
+        Fixture f = (Fixture) this.getFixture();
         this.index = shrubIndex;
         this.cubes = Collections.unmodifiableList(f.shrubCubes);
         this.shrubClusters = f.shrubClusters;
@@ -55,18 +55,26 @@ public class Shrub extends LXModel {
     }
 
     public Vec3D transformPoint(Vec3D point) {
-        return ((Fixture) this.fixtures.get(0)).transformPoint(point);
+        return ((Fixture) this.lx.structure.fixtures.get(0)).transformPoint(point);
     }
 
-    private static class Fixture extends LXBasicFixture {
-
-        final List<ShrubCube> shrubCubes = new ArrayList<ShrubCube>();
-        final List<EntwinedCluster> shrubClusters = new ArrayList<EntwinedCluster>();
-        public final Map<String, ShrubCube[]> shrubIpMap = new HashMap<String, ShrubCube[]>();
+    protected static class Fixture extends PseudoAbstractFixture {
+        final List<ShrubCube> shrubCubes = new ArrayList<>();
+        final List<EntwinedCluster> shrubClusters = new ArrayList<>();
+        public final LX lx;
+        public final Map<String, ShrubCube[]> shrubIpMap = new HashMap<>();
         public final LXTransform shrubTransform;
         int NUM_CLUSTERS_IN_SHRUB = 12;
 
-        Fixture(List<ShrubCubeConfig> shrubCubeConfig, int shrubIndex, float x, float z, float ry) {
+        Fixture(
+                LX lx,
+                List<ShrubCubeConfig> shrubCubeConfig,
+                int shrubIndex,
+                float x,
+                float z,
+                float ry) {
+            super(lx, "Shrub");
+            this.lx = lx;
             shrubTransform = new LXTransform();
             shrubTransform.translate(x, 0, z);
             shrubTransform.rotateY(ry * com.charlesgadeken.entwined.Utils.PI / 180);
@@ -123,11 +131,12 @@ public class Shrub extends LXModel {
                     }
                 }
             }
+
+            List<LXPoint> pts = new ArrayList<>();
             for (ShrubCube cube : this.shrubCubes) {
-                for (LXPoint p : cube.points) {
-                    this.points.add(p);
-                }
+                Collections.addAll(pts, cube.points);
             }
+            this.setPoints(pts);
         }
 
         public Vec3D transformPoint(Vec3D point) {

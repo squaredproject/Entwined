@@ -173,10 +173,10 @@ class ShrubModel extends LXModel {
     private final List<ShrubConfig> shrubConfigs;
 
     ShrubModel(List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfig) {
-        super(new ShrubFixture(shrubConfigs, shrubCubeConfig));
+        super(new Fixture(shrubConfigs, shrubCubeConfig));
         this.shrubConfigs = shrubConfigs;
         ShrubFixture f = (ShrubFixture) this.fixtures.get(0);
-        List<ShrubCube> _cubes = new ArrayList<ShrubCube>();
+        List<ShrubCube> _cubes = new ArrayList<>();
         this.shrubs = Collections.unmodifiableList(f.shrubs);
         for (Shrub shrub : this.shrubs) {
             shrubIpMap.putAll(shrub.ipMap);
@@ -185,11 +185,11 @@ class ShrubModel extends LXModel {
         this.shrubCubes = Collections.unmodifiableList(_cubes);
     }
 
-    private static class ShrubFixture extends LXAbstractFixture {
+    private static class Fixture extends LXAbstractFixture {
 
         final List<Shrub> shrubs = new ArrayList<Shrub>();
 
-        private ShrubFixture(List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfigs) {
+        private Fixture(List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfigs) {
             for (int i = 0; i < shrubConfigs.size(); i++) {
                 ShrubConfig sc = shrubConfigs.get(i);
                 shrubs.add(new Shrub(shrubCubeConfigs, i, sc.x, sc.z, sc.ry));
@@ -420,7 +420,6 @@ abstract class ShrubLayer extends LXLayer {
 abstract class ShrubModelTransform extends Effect {
     ShrubModelTransform(LX lx) {
         super(lx);
-
         shrubModel.addModelTransform(this);
     }
 

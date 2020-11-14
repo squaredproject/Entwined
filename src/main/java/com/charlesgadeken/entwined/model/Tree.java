@@ -1,7 +1,7 @@
 package com.charlesgadeken.entwined.model;
 
 import com.charlesgadeken.entwined.model.config.CubeConfig;
-import heronarts.lx.model.LXModel;
+import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.transform.LXTransform;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import toxi.geom.Vec3D;
 
-public class Tree extends LXModel {
+public class Tree extends LXModelInterceptor {
 
     /** NDBs in the tree */
     public final Map<String, Cube[]> ipMap;
@@ -34,7 +34,10 @@ public class Tree extends LXModel {
     /** Rotation in degrees of tree about vertical y-axis */
     public final float ry;
 
+    private final LX lx;
+
     Tree(
+            LX lx,
             List<CubeConfig> cubeConfig,
             int treeIndex,
             float x,
@@ -42,8 +45,12 @@ public class Tree extends LXModel {
             float ry,
             int[] canopyMajorLengths,
             int[] layerBaseHeights) {
-        super(new Fixture(cubeConfig, treeIndex, x, z, ry, canopyMajorLengths, layerBaseHeights));
-        Fixture f = (Fixture) this.fixtures.get(0);
+        super(
+                new Fixture(
+                        lx, cubeConfig, treeIndex, x, z, ry, canopyMajorLengths, layerBaseHeights));
+        this.lx = lx;
+
+        Fixture f = (Fixture) this.getFixture();
         this.index = treeIndex;
         this.cubes = Collections.unmodifiableList(f.cubes);
         this.treeLayers = f.treeLayers;
@@ -54,18 +61,19 @@ public class Tree extends LXModel {
     }
 
     public Vec3D transformPoint(Vec3D point) {
-        return ((Fixture) this.fixtures.get(0)).transformPoint(point);
+        return ((Fixture) this.lx.structure.fixtures.get(0)).transformPoint(point);
     }
 
-    private static class Fixture extends LXAbstractFixture {
+    private static class Fixture extends PseudoAbstractFixture {
 
-        final List<Cube> cubes = new ArrayList<Cube>();
-        final List<EntwinedLayer> treeLayers = new ArrayList<EntwinedLayer>();
-        public final Map<String, Cube[]> ipMap = new HashMap();
+        final List<Cube> cubes = new ArrayList<>();
+        final List<EntwinedLayer> treeLayers = new ArrayList<>();
+        public final Map<String, Cube[]> ipMap = new HashMap<>();
         public final LXTransform transform;
-        public final List<CubeConfig> inactiveCubeConfigs = new ArrayList();
+        public final List<CubeConfig> inactiveCubeConfigs = new ArrayList<>();
 
         Fixture(
+                LX lx,
                 List<CubeConfig> cubeConfig,
                 int treeIndex,
                 float x,
@@ -73,6 +81,7 @@ public class Tree extends LXModel {
                 float ry,
                 int[] canopyMajorLengths,
                 int[] layerBaseHeights) {
+            super(lx, "Tree");
             transform = new LXTransform();
             transform.translate(x, 0, z);
             transform.rotateY(ry * com.charlesgadeken.entwined.Utils.PI / 180);
@@ -111,8 +120,8 @@ public class Tree extends LXModel {
                 String ip = entry.getKey();
                 Cube[] ndbCubes = entry.getValue();
                 for (int i = 0; i < 16; i++) {
-                    if (ndbCubes[i]
-                            == null) { // fill all empty outputs with an inactive cube. Maybe this
+                    if (ndbCubes[i] == null) {
+                        // fill all empty outputs with an inactive cube. Maybe this
                         // would be nicer to do at
                         // the model level in the future.
                         CubeConfig cc = new CubeConfig();
@@ -130,11 +139,11 @@ public class Tree extends LXModel {
                     }
                 }
             }
+            List<LXPoint> pts = new ArrayList<>();
             for (Cube cube : this.cubes) {
-                for (LXPoint p : cube.points) {
-                    this.points.add(p);
-                }
+                Collections.addAll(pts, cube.points);
             }
+            this.setPoints(pts);
         }
 
         public Vec3D transformPoint(Vec3D point) {

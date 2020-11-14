@@ -8,6 +8,6 @@ public abstract class Layer extends LXLayer {
 
     Layer(LX lx) {
         super(lx);
-        model = (Model) lx.model;
+        model = (Model) lx.structure.getModel();
     }
 }

@@ -1,9 +1,5 @@
-package com.charlesgadeken.entwined.model;
+package com.charlesgadeken.entwined.model.config;
 
-import com.charlesgadeken.entwined.model.config.CubeConfig;
-import com.charlesgadeken.entwined.model.config.ShrubConfig;
-import com.charlesgadeken.entwined.model.config.ShrubCubeConfig;
-import com.charlesgadeken.entwined.model.config.TreeConfig;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
@@ -34,31 +30,31 @@ public class ConfigLoader {
     static final String SHRUB_CUBE_CONFIG_FILE = "entwinedShrubCubes.json";
     static final String SHRUB_CONFIG_FILE = "entwinedShrubs.json";
 
-    public List<CubeConfig> loadCubeConfigFile() {
+    public static List<CubeConfig> loadCubeConfigFile() {
         return loadJSONFile(
                 ConfigLoader.CUBE_CONFIG_FILE, new TypeToken<List<CubeConfig>>() {}.getType());
     }
 
-    public List<TreeConfig> loadTreeConfigFile() {
+    public static List<TreeConfig> loadTreeConfigFile() {
         return loadJSONFile(
                 ConfigLoader.TREE_CONFIG_FILE, new TypeToken<List<TreeConfig>>() {}.getType());
     }
 
-    public List<ShrubCubeConfig> loadShrubCubeConfigFile() {
+    public static List<ShrubCubeConfig> loadShrubCubeConfigFile() {
         return loadJSONFile(
                 ConfigLoader.SHRUB_CUBE_CONFIG_FILE,
                 new TypeToken<List<ShrubCubeConfig>>() {}.getType());
     }
 
-    public List<ShrubConfig> loadShrubConfigFile() {
+    public static List<ShrubConfig> loadShrubConfigFile() {
         return loadJSONFile(
                 ConfigLoader.SHRUB_CONFIG_FILE, new TypeToken<List<ShrubConfig>>() {}.getType());
     }
 
-    private <T> T loadJSONFile(String filename, Type typeToken) {
+    private static <T> T loadJSONFile(String filename, Type typeToken) {
         Reader reader = null;
         try {
-            InputStream is = getClass().getClassLoader().getResourceAsStream(filename);
+            InputStream is = ConfigLoader.class.getClassLoader().getResourceAsStream(filename);
             reader = new BufferedReader(new InputStreamReader((is)));
             return new Gson().fromJson(reader, typeToken);
         } catch (Exception ioe) {

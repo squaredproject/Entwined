@@ -21,7 +21,7 @@ public class Entwined extends LXModel {
     }
 
     private static List<LXPoint> makePoints(Entwined.Metrics metrics) {
-        List<LXPoint> points = new ArrayList(metrics.length);
+        List<LXPoint> points = new ArrayList<>(metrics.length);
 
         for (int i = 0; i < metrics.length; ++i) {
             points.add(

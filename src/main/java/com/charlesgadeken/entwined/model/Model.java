@@ -3,9 +3,9 @@ package com.charlesgadeken.entwined.model;
 import com.charlesgadeken.entwined.model.config.CubeConfig;
 import com.charlesgadeken.entwined.model.config.ShrubConfig;
 import com.charlesgadeken.entwined.model.config.ShrubCubeConfig;
+import com.charlesgadeken.entwined.model.config.TreeConfig;
 import heronarts.lx.LX;
-import heronarts.lx.LXComponent;
-import heronarts.lx.model.LXModel;
+import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXPoint;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import toxi.geom.Vec3D;
 
-class Model extends LXModel {
+class Model extends LXModelInterceptor {
     /** Trees in the model */
     public final List<Tree> trees;
 
@@ -23,7 +23,7 @@ class Model extends LXModel {
 
     public final List<BaseCube> baseCubes;
 
-    public final Map<String, Cube[]> ipMap = new HashMap();
+    public final Map<String, Cube[]> ipMap = new HashMap<>();
 
     private final ArrayList<ModelTransform> modelTransforms = new ArrayList<ModelTransform>();
     private final List<TreeConfig> treeConfigs;
@@ -37,11 +37,11 @@ class Model extends LXModel {
 
         super(new Fixture(lx, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig));
 
-        Fixture f = (Fixture) this.fixtures.get(0);
+        Fixture f = (Fixture) this.getFixture();
 
         this.treeConfigs = treeConfigs;
-        List<Cube> _cubes = new ArrayList<Cube>();
-        List<CubeConfig> _inactiveCubeConfigs = new ArrayList();
+        List<Cube> _cubes = new ArrayList<>();
+        List<CubeConfig> _inactiveCubeConfigs = new ArrayList<>();
         this.trees = Collections.unmodifiableList(f.trees);
         for (Tree tree : this.trees) {
             ipMap.putAll(tree.ipMap);
@@ -73,9 +73,9 @@ class Model extends LXModel {
         this.baseCubes = Collections.unmodifiableList(_baseCubes);
     }
 
-    private static class Fixture extends LXComponent {
+    private static class Fixture extends PseudoAbstractFixture {
         final List<Tree> trees = new ArrayList<>();
-        final List<Shrub> shrubs = new ArrayList<Shrub>();
+        final List<Shrub> shrubs = new ArrayList<>();
 
         private Fixture(
                 LX lx,
@@ -84,12 +84,12 @@ class Model extends LXModel {
                 List<ShrubConfig> shrubConfigs,
                 List<ShrubCubeConfig> shrubCubeConfigs) {
             super(lx, "TheInstallation");
-
             for (int i = 0; i < treeConfigs.size(); i++) {
 
                 TreeConfig tc = treeConfigs.get(i);
                 trees.add(
                         new Tree(
+                                lx,
                                 cubeConfigs,
                                 i,
                                 tc.x,
@@ -98,21 +98,21 @@ class Model extends LXModel {
                                 tc.canopyMajorLengths,
                                 tc.layerBaseHeights));
             }
+
+            List<LXPoint> pts = new ArrayList<>();
+
             for (Tree tree : trees) {
-                for (LXPoint p : tree.points) {
-                    points.add(p);
-                }
+                Collections.addAll(pts, tree.points);
             }
 
             for (int i = 0; i < shrubConfigs.size(); i++) {
                 ShrubConfig sc = shrubConfigs.get(i);
-                shrubs.add(new Shrub(shrubCubeConfigs, i, sc.x, sc.z, sc.ry));
+                shrubs.add(new Shrub(lx, shrubCubeConfigs, i, sc.x, sc.z, sc.ry));
             }
             for (Shrub shrub : shrubs) {
-                for (LXPoint p : shrub.points) {
-                    points.add(p);
-                }
+                Collections.addAll(pts, shrub.points);
             }
+            this.setPoints(pts);
         }
     }
 
@@ -201,7 +201,7 @@ class Model extends LXModel {
         for (ShrubCube cube : shrubCubes) {
             cube.resetTransform();
         }
-        for (Effect modelTransform : shrubModelTransforms) {
+        for (LXEffect modelTransform : shrubModelTransforms) {
             ShrubModelTransform shrubModelTransform = (ShrubModelTransform) modelTransform;
             if (shrubModelTransform.isEnabled()) {
                 shrubModelTransform.transform(this);
