@@ -89,15 +89,7 @@ class Fireflies extends TSTriggerablePattern {
       setCallRun(false);
     }
 
-    for (Cube cube : model.cubes) {
-      colors[cube.index] = lx.hsb(
-        0,
-        0,
-        0
-      );
-    }
-
-    for (ShrubCube cube : model.shrubCubes) {
+    for (BaseCube cube : model.baseCubes) {
       colors[cube.index] = lx.hsb(
         0,
         0,
@@ -138,29 +130,11 @@ class Fireflies extends TSTriggerablePattern {
     }
 
     for (Firefly fly:fireflies) {
-      for (Cube cube: model.cubes) {
+      for (BaseCube cube : model.baseCubes) {
         if (Utils.abs(fly.yPos - cube.transformedY) <= radius && Utils.abs(fly.theta - cube.transformedTheta) <= radius) {
           float distSq = Utils.pow((LXUtils.wrapdistf(fly.theta, cube.transformedTheta, 360)), 2) + Utils.pow(fly.yPos - cube.transformedY, 2);
           float brt = Utils.max(0, 100 - Utils.sqrt(distSq * 4) - blinkers[fly.blinkIndex].getValuef());
           if (brt > LXColor.b(colors[cube.index])) {
-            colors[cube.index] = lx.hsb(
-              (lx.getBaseHuef() + hue.getValuef()) % 360,
-              100 - brt,
-              brt
-            );
-          }
-        }
-      }
-      for (ShrubCube cube: model.shrubCubes) {
-        if (Utils.abs(fly.yPos - cube.transformedY) <= radius && Utils.abs(fly.theta - cube.transformedTheta) <= radius) {
-          float distSq = Utils.pow((LXUtils.wrapdistf(fly.theta, cube.transformedTheta, 360)), 2) + Utils.pow(fly.yPos - cube.transformedY, 2);
-          float brt = Utils.max(0, 100 - Utils.sqrt(distSq * 4) - blinkers[fly.blinkIndex].getValuef());
-          if (brt > LXColor.b(colors[cube.index])) {
-            //System.out.println("number of cubes: " + model.cubes.size());   
-            //System.out.println("shrubcube index: " + cube.index);      
-            //System.out.println("number of colors: " + colors.length); 
-            //System.out.println("current colors index: " + (cube.index + model.cubes.size())); 
-
             colors[cube.index] = lx.hsb(
               (lx.getBaseHuef() + hue.getValuef()) % 360,
               100 - brt,
@@ -216,19 +190,7 @@ class Lattice extends TSPattern {
 
     float spinf = spin.getValuef();
     float coilf = 2*coil(spin.getBasisf());
-    for (Cube cube : model.cubes) {
-      float wrapdistleft = LXUtils.wrapdistf(cube.transformedTheta, spinf + (model.yMax - cube.transformedY) * coilf, 180);
-      float wrapdistright = LXUtils.wrapdistf(cube.transformedTheta, -spinf - (model.yMax - cube.transformedY) * coilf, 180);
-      float width = yClimb.getValuef() + ((cube.transformedY - yHeight.getValuef())/model.yMax) * 50;
-      float df = Utils.min(100, 3 * Utils.max(0, wrapdistleft - width) + 3 * Utils.max(0, wrapdistright - width));
-
-      colors[cube.index] = lx.hsb(
-        (hue.getValuef() + lx.getBaseHuef() + .2f*cube.transformedY - 360) % 360, 
-        100, 
-        df
-      );
-    }
-    for (ShrubCube cube : model.shrubCubes) {
+    for (BaseCube cube : model.baseCubes) {
       float wrapdistleft = LXUtils.wrapdistf(cube.transformedTheta, spinf + (model.yMax - cube.transformedY) * coilf, 180);
       float wrapdistright = LXUtils.wrapdistf(cube.transformedTheta, -spinf - (model.yMax - cube.transformedY) * coilf, 180);
       float width = yClimb.getValuef() + ((cube.transformedY - yHeight.getValuef())/model.yMax) * 50;
@@ -326,7 +288,7 @@ class Fire extends TSTriggerablePattern {
       }
     }
 
-    for (Cube cube: model.cubes) {
+    for (BaseCube cube : model.baseCubes) {
       float yn = (cube.transformedY - model.yMin) / model.yMax;
       float cBrt = 0;
       float cHue = 0;
@@ -344,23 +306,6 @@ class Fire extends TSTriggerablePattern {
       );
     }
 
-    for (ShrubCube cube: model.shrubCubes) {
-      float yn = (cube.transformedY - model.yMin) / model.yMax;
-      float cBrt = 0;
-      float cHue = 0;
-      float flameWidth = flameSize.getValuef() / 2;
-      for (int i = 0; i < flames.size(); ++i) {
-        if (Utils.abs(flames.get(i).theta - cube.transformedTheta) < (flameWidth * (1- yn))) {
-          cBrt = Utils.min(100, Utils.max(0, Utils.max(cBrt, (100 - 2 * Utils.abs(cube.transformedY - flames.get(i).decay.getValuef()) - flames.get(i).decay.getBasisf() * 25) * Utils.min(1, 2 * (1 - flames.get(i).decay.getBasisf())) )));
-          cHue = Utils.max(0,  (cHue + cBrt * 0.7f) * 0.5f);
-        }
-      }
-      colors[cube.index] = lx.hsb(
-        (cHue + hue.getValuef()) % 360,
-        100,
-        Utils.min(100, cBrt + Utils.pow(Utils.max(0, (height - 0.3f) / 0.7f), 0.5f) * Utils.pow(Utils.max(0, 0.8f - yn), 2) * 75)
-      );
-    }
   }
 
   public void onTriggered(float strength) {
@@ -437,14 +382,7 @@ class Bubbles extends TSTriggerablePattern {
       setCallRun(false);
     }
 
-    for (Cube cube : model.cubes) {
-      colors[cube.index] = lx.hsb(
-        0,
-        0,
-        0
-      );
-    }
-    for (ShrubCube cube : model.shrubCubes) {
+    for (BaseCube cube : model.baseCubes) {
       colors[cube.index] = lx.hsb(
         0,
         0,
@@ -473,23 +411,7 @@ class Bubbles extends TSTriggerablePattern {
     }
       
     for (Bubble bubble: bubbles) {
-      for (Cube cube : model.cubes) {
-        if (Utils.abs(bubble.theta - cube.transformedTheta) < bubble.radius && Utils.abs(bubble.yPos - (cube.transformedY - model.yMin)) < bubble.radius) {
-          float distTheta = LXUtils.wrapdistf(bubble.theta, cube.transformedTheta, 360) * 0.8f;
-          float distY = bubble.yPos - (cube.transformedY - model.yMin);
-          float distSq = distTheta * distTheta + distY * distY;
-          
-          if (distSq < bubble.radius * bubble.radius) {
-            float dist = Utils.sqrt(distSq);
-            colors[cube.index] = lx.hsb(
-              (bubble.bHue + hue.getValuef()) % 360,
-              50 + dist/bubble.radius * 50,
-              Utils.constrain(cube.transformedY/model.yMax * 125 - 50 * (dist/bubble.radius), 0, 100)
-            );
-          }
-        }
-      }
-      for (ShrubCube cube : model.shrubCubes) {
+      for (BaseCube cube : model.baseCubes) {
         if (Utils.abs(bubble.theta - cube.transformedTheta) < bubble.radius && Utils.abs(bubble.yPos - (cube.transformedY - model.yMin)) < bubble.radius) {
           float distTheta = LXUtils.wrapdistf(bubble.theta, cube.transformedTheta, 360) * 0.8f;
           float distY = bubble.yPos - (cube.transformedY - model.yMin);
@@ -567,29 +489,7 @@ class Voronoi extends TSPattern {
   public void run(double deltaMs) {
     if (getChannel().getFader().getNormalized() == 0) return;
 
-    for (Cube cube: model.cubes) {
-      float minDistSq = 1000000;
-      float nextMinDistSq = 1000000;
-      for (int i = 0; i < sites.length; ++i) {
-        if (Utils.abs(sites[i].yPos - cube.transformedY) < 150) { //restraint on calculation
-          float distSq = Utils.pow((LXUtils.wrapdistf(sites[i].theta, cube.transformedTheta, 360)), 2) + Utils.pow(sites[i].yPos - cube.transformedY, 2);
-          if (distSq < nextMinDistSq) {
-            if (distSq < minDistSq) {
-              nextMinDistSq = minDistSq;
-              minDistSq = distSq;
-            } else {
-              nextMinDistSq = distSq;
-            }
-          }
-        }
-      }
-      colors[cube.index] = lx.hsb(
-        (lx.getBaseHuef() + hue.getValuef()) % 360,
-        100,
-        Utils.max(0, Utils.min(100, 100 - Utils.sqrt(nextMinDistSq - minDistSq) / width.getValuef()))
-      );
-    }
-    for (ShrubCube cube: model.shrubCubes) {
+    for (BaseCube cube : model.baseCubes) {
       float minDistSq = 1000000;
       float nextMinDistSq = 1000000;
       for (int i = 0; i < sites.length; ++i) {
@@ -657,29 +557,7 @@ class Cells extends TSPattern {
   public void run(double deltaMs) {
     if (getChannel().getFader().getNormalized() == 0) return;
 
-    for (Cube cube: model.cubes) {
-      float minDistSq = 1000000;
-      float nextMinDistSq = 1000000;
-      for (int i = 0; i < sites.length; ++i) {
-        if (Utils.abs(sites[i].yPos - cube.transformedY) < 150) { //restraint on calculation
-          float distSq = Utils.pow((LXUtils.wrapdistf(sites[i].theta, cube.transformedTheta, 360)), 2) + Utils.pow(sites[i].yPos - cube.transformedY, 2);
-          if (distSq < nextMinDistSq) {
-            if (distSq < minDistSq) {
-              nextMinDistSq = minDistSq;
-              minDistSq = distSq;
-            } else {
-              nextMinDistSq = distSq;
-            }
-          }
-        }
-      }
-      colors[cube.index] = lx.hsb(
-        (lx.getBaseHuef() + hue.getValuef()) % 360,
-        100,
-        Utils.max(0, Utils.min(100, 100 - Utils.sqrt(nextMinDistSq - 2 * minDistSq)))
-      );
-    }
-    for (ShrubCube cube: model.shrubCubes) {
+    for (BaseCube cube : model.baseCubes) {
       float minDistSq = 1000000;
       float nextMinDistSq = 1000000;
       for (int i = 0; i < sites.length; ++i) {
@@ -752,30 +630,7 @@ class Fumes extends TSPattern {
     if (getChannel().getFader().getNormalized() == 0) return;
     
     float minSat = sat.getValuef();
-    for (Cube cube: model.cubes) {
-      float minDistSq = 1000000;
-      float nextMinDistSq = 1000000;
-      for (int i = 0; i < sites.length; ++i) {
-        if (Utils.abs(sites[i].yPos - cube.transformedY) < 150) { //restraint on calculation
-          float distSq = Utils.pow((LXUtils.wrapdistf(sites[i].theta, cube.transformedTheta, 360)), 2) + Utils.pow(sites[i].yPos - cube.transformedY, 2);
-          if (distSq < nextMinDistSq) {
-            if (distSq < minDistSq) {
-              nextMinDistSq = minDistSq;
-              minDistSq = distSq;
-            } else {
-              nextMinDistSq = distSq;
-            }
-          }
-        }
-      }
-      float brt = Utils.max(0, 100 - Utils.sqrt(nextMinDistSq));
-      colors[cube.index] = lx.hsb(
-        (lx.getBaseHuef() + hue.getValuef()) % 360,
-        100 - Utils.min( minSat, brt),
-        brt
-      );
-    }
-    for (ShrubCube cube: model.shrubCubes) {
+    for (BaseCube cube : model.baseCubes) {
       float minDistSq = 1000000;
       float nextMinDistSq = 1000000;
       for (int i = 0; i < sites.length; ++i) {
@@ -909,15 +764,6 @@ class Pulley extends TSTriggerablePattern { //ported from SugarCubes
           Utils.max(0, 100 - Utils.abs(cube.transformedY/2 - 50 - gravity[gi].getValuef())*falloff)
         );
       }
-      for (ShrubCube cube : model.shrubCubes) {
-        int gi = (int) Utils.constrain((cube.x - model.xMin) * NUM_DIVISIONS / (model.xMax - model.xMin), 0, NUM_DIVISIONS-1);
-        float yn =  cube.transformedY/model.yMax;
-        colors[cube.index] = lx.hsb(
-          (lx.getBaseHuef() + Utils.abs(cube.x - model.cx)*.8f + cube.transformedY*.4f) % 360, 
-          Utils.constrain(100 *(0.8f -  yn * yn), 0, 100), 
-          Utils.max(0, 100 - Utils.abs(cube.transformedY/2 - 50 - gravity[gi].getValuef())*falloff)
-        );
-      }
     }
   }
 
@@ -997,18 +843,7 @@ class Springs extends TSPattern {
     float spinf = spin.getValuef();
     float coilf = 2*coil(spin.getBasisf());
     
-    for (Cube cube : model.cubes) {
-      float yn =  cube.transformedY/model.yMax;
-      float width = (1-yn) * 25;
-      float wrapdist = LXUtils.wrapdistf(cube.transformedTheta, spinf + (cube.transformedY) * 1/(gravity.getValuef() + 0.2f), 360);
-      float df = Utils.max(0, 100 - Utils.max(0, wrapdist-width));
-      colors[cube.index] = lx.hsb(
-        Utils.max(0, (lx.getBaseHuef() - yn * 20 + hue.getValuef()) % 360), 
-        Utils.constrain((1- yn) * 100 + wrapdist, 0, 100),
-        Utils.max(0, df - yn * 50)
-      );
-    }
-    for (ShrubCube cube : model.shrubCubes) {
+    for (BaseCube cube : model.baseCubes) {
       float yn =  cube.transformedY/model.yMax;
       float width = (1-yn) * 25;
       float wrapdist = LXUtils.wrapdistf(cube.transformedTheta, spinf + (cube.transformedY) * 1/(gravity.getValuef() + 0.2f), 360);
@@ -1174,21 +1009,7 @@ class Pulleys extends TSTriggerablePattern { //ported from SugarCubes
       }
   
       float falloff = 100.f / (3 + sz.getValuef() * 36 + fPos * beatAmount.getValuef()*48);
-      for (Cube cube : model.cubes) {
-        float cBrt = 0;
-        float cHue = 0;
-        for (int j = 0; j < pulleys.size(); ++j) {
-          cHue = (lx.getBaseHuef() + Utils.abs(cube.x - model.cx)*.8f + cube.transformedY*.4f + pulleys.get(j).baseHue) % 360;
-          cBrt += Utils.max(0, pulleys.get(j).maxBrt.getValuef() * (100 - Utils.abs(cube.transformedY/2 - 50 - pulleys.get(j).gravity.getValuef())*falloff));
-        }
-        float yn =  cube.transformedY/model.yMax;
-        colors[cube.index] = lx.hsb(
-          cHue, 
-          Utils.constrain(100 *(0.8f -  yn * yn), 0, 100), 
-          Utils.min(100, cBrt)
-        );
-      }
-      for (ShrubCube cube : model.shrubCubes) {
+      for (BaseCube cube : model.baseCubes) {
         float cBrt = 0;
         float cHue = 0;
         for (int j = 0; j < pulleys.size(); ++j) {

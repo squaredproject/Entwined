@@ -58,12 +58,7 @@ class ColorWave extends TSPattern {
     wave.setPeriod(speedParam.getValuef() * speedMult);
 
       // Use a for loop here to set the cube colors
-      for (Cube cube : model.cubes) {
-        colors[cube.index] = lx.hsb( (float)( (wave.getValuef() + waveSlope.getValuef() * Utils.map(cube.x, minx, maxx) ) % 360), 100, 100);
-      }
-
-
-      for (ShrubCube cube : model.shrubCubes) {
+      for (BaseCube cube : model.baseCubes) {
         colors[cube.index] = lx.hsb( (float)( (wave.getValuef() + waveSlope.getValuef() * Utils.map(cube.x, minx, maxx) ) % 360), 100, 100);
       }
   }
@@ -100,7 +95,7 @@ class BeachBall extends TSPattern {
   public void run(double deltaMs) {
 
       // // Use a for loop here to set the cube colors
-      // for (Cube cube : model.cubes) {
+      // for (BaseCube cube : model.baseCubes) {
       //   colors[cube.index] = lx.hsb(
       //   // Color is based on degrees from the center point, plus the spinner saw wave to rotate
       //   (float) Math.toDegrees(Math.atan2((double)(treez - cube.z), (double)(treex - cube.x))) + spinner.getValuef()
@@ -110,14 +105,6 @@ class BeachBall extends TSPattern {
       //   100.0f);
       // }
       //
-      // for (ShrubCube cube : model.shrubCubes) {
-      //   colors[cube.index] = lx.hsb(
-      //   (float) Math.toDegrees(Math.atan2((double)(treez - cube.z), (double)(treex - cube.x))) + spinner.getValuef()
-      //   // plus the further from the center, the more hue is added, giving a swirl effect
-      //   - (float)(Math.hypot(treez - cube.z, treex - cube.x) * swirlMult.getValuef()),
-      //   100.0f,
-      //   100.0f);
-      // }
 
       for (BaseCube baseCube : model.baseCubes) {
         colors[baseCube.index] = lx.hsb(

@@ -130,16 +130,12 @@ class MarkLottor extends TSPattern {
       y     = balls[n].getposy();
 
       // light up any cubes "near" this ball
-      for (Cube cube : model.cubes) {
+     for (BaseCube cube : model.baseCubes) {
        if ((Utils.abs(theta - cube.transformedTheta) < (50*p1v)) &&
          (Utils.abs(y - cube.transformedY) < (50*p1v)))
          colors[cube.index] = balls[n].getcolor();
      }
-     for (ShrubCube cube : model.shrubCubes) {
-       if ((Utils.abs(theta - cube.transformedTheta) < (50*p1v)) &&
-         (Utils.abs(y - cube.transformedY) < (50*p1v)))
-         colors[cube.index] = balls[n].getcolor();
-     }
+
    }
 
     /*

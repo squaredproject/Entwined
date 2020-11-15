@@ -33,7 +33,7 @@ class MappingPattern extends TSPattern {
   MappingPattern(LX lx) {
     super(lx);
 
-    numBits = model.cubes.size() + model.shrubCubes.size();
+    numBits = model.baseCubes.size();
   }
 
   public void run(double deltaMs) {
@@ -50,11 +50,8 @@ class MappingPattern extends TSPattern {
         setColors(LXColor.BLACK);
       }
     } else {
-      for (Cube cube : model.cubes) {
+      for (BaseCube cube : model.baseCubes) {
         setColor(cube.index, cube.index == count ? LXColor.WHITE : LXColor.BLACK);
-      }
-      for (ShrubCube shrubCube : model.shrubCubes) {
-          setColor(shrubCube.index, shrubCube.index == count ? LXColor.WHITE : LXColor.BLACK);
       }
     }
     cycleCount = (cycleCount + 1) % (numCyclesToShowFrame + numResetCycles + 2*numCyclesBlack);
@@ -147,10 +144,7 @@ class BassSlam extends TSTriggerablePattern {
       }
       y = Utils.max(0, 100 * (y - 1) + 250);
       
-      for (Cube cube : model.cubes) {
-        setColor(cube.index, lx.hsb(patternHue, 100, LXUtils.constrainf(100 - 2 * Utils.abs(y - cube.transformedY), 0, 100)));
-      }
-      for (ShrubCube cube : model.shrubCubes) {
+      for (BaseCube cube : model.baseCubes) {
         setColor(cube.index, lx.hsb(patternHue, 100, LXUtils.constrainf(100 - 2 * Utils.abs(y - cube.transformedY), 0, 100)));
       }
     }
@@ -220,11 +214,8 @@ abstract class MultiObjectPattern <ObjectType extends MultiObject> extends TSTri
     }
     
     if (shouldAutofade) {
-      for (Cube cube : model.cubes) {
+      for (BaseCube cube : model.baseCubes) {
         blendColor(cube.index, lx.hsb(0, 0, 100 * Utils.max(0, (float)(1 - deltaMs / fadeTime))), LXColor.Blend.MULTIPLY);
-      }
-      for (ShrubCube cube : model.shrubCubes) {
-      	blendColor(cube.index, lx.hsb(0, 0, 100 * Utils.max(0, (float)(1 - deltaMs / fadeTime))), LXColor.Blend.MULTIPLY);
       }
 
     } else {
@@ -288,10 +279,7 @@ abstract class MultiObject extends Layer {
         advance(deltaMs);
       }
       if (running) {
-        for (Cube cube : model.cubes) {
-          blendColor(cube.index, getColorForCube(cube), LXColor.Blend.LIGHTEST);
-        }
-        for (ShrubCube cube : model.shrubCubes) {
+        for (BaseCube cube : model.baseCubes) {
           blendColor(cube.index, getColorForCube(cube), LXColor.Blend.LIGHTEST);
         }
       }
@@ -317,11 +305,11 @@ abstract class MultiObject extends Layer {
     }
   }
   
-  public int getColorForCube(Cube cube) {
+  public int getColorForCube(BaseCube cube) {
     return lx.hsb(hue, 100, getBrightnessForCube(cube));
   }
   
-  public float getBrightnessForCube(Cube cube) {
+  public float getBrightnessForCube(BaseCube cube) {
     Vec2D cubePointPrime = VecUtils.movePointToSamePlane(currentPoint, cube.transformedCylinderPoint);
     float dist = Float.MAX_VALUE;
 
@@ -344,49 +332,14 @@ abstract class MultiObject extends Layer {
     return 100 * Utils.min(Utils.max(1 - dist / thickness, 0), 1) * fadeIn * fadeOut;
   }
 
-  public boolean isInsideBoundingBox(Cube cube, Vec2D cubePointPrime, Vec2D currentPoint) {
+  public boolean isInsideBoundingBox(BaseCube cube, Vec2D cubePointPrime, Vec2D currentPoint) {
     return VecUtils.insideOfBoundingBox(currentPoint, cubePointPrime, thickness, thickness);
   }
 
-  public float getDistanceFromGeometry(Cube cube, Vec2D cubePointPrime, Vec2D currentPoint) {
+  public float getDistanceFromGeometry(BaseCube cube, Vec2D cubePointPrime, Vec2D currentPoint) {
     return cubePointPrime.distanceTo(currentPoint);
   }
-  
-  public int getColorForCube(ShrubCube cube) {
-      return lx.hsb(hue, 100, getBrightnessForCube(cube));
-    }
     
-    public float getBrightnessForCube(ShrubCube cube) {
-      Vec2D cubePointPrime = VecUtils.movePointToSamePlane(currentPoint, cube.transformedCylinderPoint);
-      float dist = Float.MAX_VALUE;
-
-      Vec2D localLastPoint = lastPoint;
-      if (localLastPoint != null) {
-        while (localLastPoint.distanceToSquared(currentPoint) > 100) {
-          Vec2D point = currentPoint.sub(localLastPoint);
-          point.limit(10).addSelf(localLastPoint);
-
-          if (isInsideBoundingBox(cube, cubePointPrime, point)) {
-            dist = Utils.min(dist, getDistanceFromGeometry(cube, cubePointPrime, point));
-          }
-          localLastPoint = point;
-        }
-      }
-
-      if (isInsideBoundingBox(cube, cubePointPrime, currentPoint)) {
-        dist = Utils.min(dist, getDistanceFromGeometry(cube, cubePointPrime, currentPoint));
-      }
-      return 100 * Utils.min(Utils.max(1 - dist / thickness, 0), 1) * fadeIn * fadeOut;
-    }
-
-    public boolean isInsideBoundingBox(ShrubCube cube, Vec2D cubePointPrime, Vec2D currentPoint) {
-      return VecUtils.insideOfBoundingBox(currentPoint, cubePointPrime, thickness, thickness);
-    }
-
-    public float getDistanceFromGeometry(ShrubCube cube, Vec2D cubePointPrime, Vec2D currentPoint) {
-      return cubePointPrime.distanceTo(currentPoint);
-    }
-  
   void init() { }
   
   public void onProgressChanged(float progress) { }
@@ -484,7 +437,7 @@ class Explosion extends MultiObject {
     }
   }
   
-  public float getBrightnessForCube(Cube cube) {
+  public float getBrightnessForCube(BaseCube cube) {
     Vec2D cubePointPrime = VecUtils.movePointToSamePlane(origin, cube.transformedCylinderPoint);
     float dist = origin.distanceTo(cubePointPrime);
     switch (state) {
@@ -502,23 +455,6 @@ class Explosion extends MultiObject {
     }
   }
   
-  public float getBrightnessForCube(ShrubCube cube) {
-      Vec2D cubePointPrime = VecUtils.movePointToSamePlane(origin, cube.transformedCylinderPoint);
-      float dist = origin.distanceTo(cubePointPrime);
-      switch (state) {
-        case EXPLOSION_STATE_IMPLOSION_EXPAND:
-        case EXPLOSION_STATE_IMPLOSION_WAIT:
-        case EXPLOSION_STATE_IMPLOSION_CONTRACT:
-          return 100 * LXUtils.constrainf((implosionRadius.getValuef() - dist) / 10, 0, 1);
-        default:
-          float theta = explosionThetaOffset + cubePointPrime.sub(origin).heading() * 180 / Utils.PI + 360;
-          return 100
-              * LXUtils.constrainf(1 - (dist - explosionRadius.getValuef()) / 10, 0, 1)
-              * LXUtils.constrainf(1 - (explosionRadius.getValuef() - dist) / 200, 0, 1)
-              * LXUtils.constrainf((1 - Utils.abs(theta % 30 - 15) / 100 / Utils.asin(20 / Utils.max(20, dist))), 0, 1)
-              * explosionFade.getValuef();
-      }
-    }
 }
 
 class Wisps extends MultiObjectPattern<Wisp> {
@@ -736,14 +672,7 @@ class RandomColor extends TSPattern {
 
     frameCount++;
     if (frameCount >= speed.getValuef()) {
-      for (Cube cube : model.cubes) {
-        colors[cube.index] = lx.hsb(
-          Utils.random(360),
-          100,
-          100
-        );
-      }
-      for (ShrubCube cube : model.shrubCubes) {
+      for (BaseCube cube : model.baseCubes) {
         colors[cube.index] = lx.hsb(
           Utils.random(360),
           100,
@@ -780,31 +709,15 @@ class RandomColorGlitch extends TSPattern {
     super(lx);
   }
   
-  final int brokenCubeIndex = (int)Utils.random(model.cubes.size());
-  final int brokenShrubCubeIndex = (int)Utils.random(model.shrubCubes.size());
+  final int brokenCubeIndex = (int)Utils.random(model.baseCubes.size());
 
   final int cubeColor = (int)Utils.random(360);
   
   public void run(double deltaMs) {
     if (getChannel().getFader().getNormalized() == 0) return;
 
-    for (Cube cube : model.cubes) {
+    for (BaseCube cube : model.baseCubes) {
       if (cube.index == brokenCubeIndex) {
-        colors[cube.index] = lx.hsb(
-          Utils.random(360),
-          100,
-          100
-        );
-      } else {
-        colors[cube.index] = lx.hsb(
-          cubeColor,
-          100,
-          100
-        );
-      }
-    }
-    for (ShrubCube cube : model.shrubCubes) {
-      if (cube.index == brokenShrubCubeIndex) {
         colors[cube.index] = lx.hsb(
           Utils.random(360),
           100,
@@ -838,14 +751,7 @@ class Fade extends TSPattern {
   public void run(double deltaMs) {
     if (getChannel().getFader().getNormalized() == 0) return;
 
-    for (Cube cube : model.cubes) {
-      colors[cube.index] = lx.hsb(
-        (int)((int)colr.getValuef() * smoothness.getValuef() / 100) * 100 / smoothness.getValuef(), 
-        100, 
-        100
-      );
-    }
-    for (ShrubCube cube : model.shrubCubes) {
+    for (BaseCube cube : model.baseCubes) {
       colors[cube.index] = lx.hsb(
         (int)((int)colr.getValuef() * smoothness.getValuef() / 100) * 100 / smoothness.getValuef(), 
         100, 
@@ -865,14 +771,7 @@ class Palette extends TSPattern {
   public void run(double deltaMs) {
     if (getChannel().getFader().getNormalized() == 0) return;
 
-    for (Cube cube : model.cubes) {
-      colors[cube.index] = lx.hsb(
-        cube.index % 360,
-        100,
-        100
-      );
-    }
-    for (ShrubCube cube : model.shrubCubes) {
+    for (BaseCube cube : model.baseCubes) {
       colors[cube.index] = lx.hsb(
         cube.index % 360,
         100,
@@ -918,14 +817,7 @@ class ClusterLineTest extends TSPattern {
     if (getChannel().getFader().getNormalized() == 0) return;
     
     Vec2D origin = new Vec2D(theta.getValuef(), y.getValuef());
-    for (Cube cube : model.cubes) {
-      Vec2D cubePointPrime = VecUtils.movePointToSamePlane(origin, cube.transformedCylinderPoint);
-      float dist = origin.distanceTo(cubePointPrime);
-      float cubeTheta = (spin.getValuef() + 15) + cubePointPrime.sub(origin).heading() * 180 / Utils.PI + 360;
-      colors[cube.index] = lx.hsb(135, 100, 100
-          * LXUtils.constrainf((1 - Utils.abs(cubeTheta % 90 - 15) / 100 / Utils.asin(20 / Utils.max(20, dist))), 0, 1));
-    }
-    for (ShrubCube cube : model.shrubCubes) {
+    for (BaseCube cube : model.baseCubes) {
       Vec2D cubePointPrime = VecUtils.movePointToSamePlane(origin, cube.transformedCylinderPoint);
       float dist = origin.distanceTo(cubePointPrime);
       float cubeTheta = (spin.getValuef() + 15) + cubePointPrime.sub(origin).heading() * 180 / Utils.PI + 360;
@@ -1117,12 +1009,9 @@ class RotationEffect extends ModelTransform {
   void transform(Model model) {
     if (rotation.getValue() > 0) {
       float rotationTheta = rotation.getValuef();
-      for (Cube cube : model.cubes) {
+      for (BaseCube cube : model.baseCubes) {
         cube.transformedTheta = (cube.transformedTheta + 360 - rotationTheta) % 360;
       }
-      for (ShrubCube cube : model.shrubCubes) {
-          cube.transformedTheta = (cube.transformedTheta + 360 - rotationTheta) % 360;
-        }
     }
   }
 }
@@ -1157,12 +1046,15 @@ class SpinEffect extends ModelTransform {
   void transform(Model model) {
     if (rotation.getValue() > 0 && rotation.getValue() < 360) {
       float rotationTheta = rotation.getValuef();
+      for (BaseCube cube : model.baseCubes) {
+        cube.transformedTheta = (cube.transformedTheta + 360 - rotationTheta) % 360;
+      }
       for (Cube cube : model.cubes) {
         cube.transformedTheta = (cube.transformedTheta + 360 - rotationTheta) % 360;
       }
       for (ShrubCube cube : model.shrubCubes) {
-          cube.transformedTheta = (cube.transformedTheta + 360 - rotationTheta) % 360;
-        }
+        cube.transformedTheta = (cube.transformedTheta + 360 - rotationTheta) % 360;
+      }
     }
   }
 }
@@ -1319,7 +1211,7 @@ class CandyCloud extends TSPattern {
     if (getChannel().getFader().getNormalized() == 0) return;
 
     time += deltaMs;
-    for (Cube cube : model.cubes) {
+    for (BaseCube cube : model.baseCubes) {
       double adjustedX = cube.x / scale.getValue();
       double adjustedY = cube.y / scale.getValue();
       double adjustedZ = cube.z / scale.getValue();
@@ -1332,18 +1224,6 @@ class CandyCloud extends TSPattern {
       colors[cube.index] = lx.hsb(hue, 100, brightness);
     }
 
-    for (ShrubCube cube : model.shrubCubes) {
-      double adjustedX = cube.x / scale.getValue();
-      double adjustedY = cube.y / scale.getValue();
-      double adjustedZ = cube.z / scale.getValue();
-      double adjustedTime = time * speed.getValue() / 5000;
-
-      float hue = ((float)SimplexNoise.noise(adjustedX, adjustedY, adjustedZ, adjustedTime) + 1) / 2 * 1080 % 360;
-
-      float brightness = Utils.min(Utils.max((float)SimplexNoise.noise(cube.x / 250, cube.y / 250, cube.z / 250 + 10000, time / 5000) * 8 + 8 - darkness.getValuef(), 0), 1) * 100;
-      
-      colors[cube.index] = lx.hsb(hue, 100, brightness);
-    }
   }
 }
 

@@ -102,12 +102,10 @@ class Pond extends TSPattern {
       }
     }
     // Run common code to render each Cube and ShrubCube
-    for (Cube cube : model.cubes) {
+    for (BaseCube cube : model.baseCubes) {
       runCube(cube);
     }
-    for (ShrubCube cube : model.shrubCubes) {
-      runCube(cube);
-    }
+
     // If we aren't at maxRipples, create a new ripple if a random number is inside bounds defined by
     // time passed since last render loop and our amountParam.
     if (ripples.size() < maxRipples && Math.random() * deltaMs < amountParam.getValuef()) {
@@ -190,10 +188,7 @@ class Planes extends TSPattern {
       // Here we want full saturation most of the time, so turn 0 into full and -1 or 1 into none.
       // But take the square root to curve a little back towards less saturation.
       int saturation = (int)((1.0 - Math.sqrt(Math.abs(SimplexNoise.noise(i * colorVariance, colorOffset, seed, 600)))) * 100);
-      for (Cube cube : model.cubes) {
-        runCube(cube, plane, hue, saturation);
-      }
-      for (ShrubCube cube : model.shrubCubes) {
+      for (BaseCube cube : model.baseCubes) {
         runCube(cube, plane, hue, saturation);
       }
     }

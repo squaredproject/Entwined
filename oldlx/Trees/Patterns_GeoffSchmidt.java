@@ -51,7 +51,7 @@ class Pixels extends TSPattern {
     addParameter(pHue);
     addModulator(hueLFO).start();
 
-    int numCubes = model.cubes.size() + model.shrubCubes.size();
+    int numCubes = model.baseCubes.size();
     pixelStates = new PixelState[numCubes];
     for (int n = 0; n < numCubes; n++)
       pixelStates[n] = new PixelState(lx);
@@ -80,7 +80,7 @@ class Pixels extends TSPattern {
     } 
     
     int i = 0;
-    for (i = 0; i < (model.cubes.size() + model.shrubCubes.size()); i++) {
+    for (i = 0; i < (model.baseCubes.size()); i++) {
       colors[i] = pixelStates[i].currentColor(now);
     }
   }
@@ -119,18 +119,12 @@ class Wedges extends TSPattern {
     double sections = Math.floor(1.0f + vCount * 10.0f);
     double quant = 360.0f/sections;
 
-    for (Cube cube : model.cubes) {
+    for (BaseCube cube : model.baseCubes) {
       colors[cube.index] = LXColor.hsb(
         Math.floor((rotation - cube.transformedTheta) / quant) * quant + vHue * 360.0f,
         (1 - vSat) * 100,
         100);
     }  
-    for (ShrubCube cube : model.shrubCubes) {
-      colors[cube.index] = LXColor.hsb(
-        Math.floor((rotation - cube.transformedTheta) / quant) * quant + vHue * 360.0f,
-        (1 - vSat) * 100,
-        100);
-    }    
   } 
 }
 
@@ -205,7 +199,7 @@ class Parallax extends TSPattern {
         colorBars[i] = new ColorBar(now);
     }
 
-    for (Cube cube : model.cubes) {
+    for (BaseCube cube : model.baseCubes) {
       colors[cube.index] = lx.hsb(0, 0, 0);
 
       for (ColorBar colorBar : colorBars) {
@@ -216,16 +210,6 @@ class Parallax extends TSPattern {
       }
     } 
 
-    for (ShrubCube cube : model.shrubCubes) {
-      colors[cube.index] = lx.hsb(0, 0, 0);
-
-      for (ColorBar colorBar : colorBars) {
-        if (colorBar.intersects(bouncedNow, cube.transformedY)) {
-          colors[cube.index] = colorBar.getColor(pHue.getValuef() * 360);
-          break;
-        }
-      }
-    } 
     // number of cubes: 224
     // number of shrubcubes: 120
     // number of colors: 344
