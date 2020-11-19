@@ -12,4 +12,3 @@ tree mappings. Work can continue here as we integrate the new LX studio.
 # LXStudio-IDE
 
 This directory is the new LX Studio. It is a staging place to see if we can get the new LX Studio working.
-
