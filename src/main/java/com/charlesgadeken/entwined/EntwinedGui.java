@@ -1,6 +1,5 @@
 package com.charlesgadeken.entwined;
 
-import com.charlesgadeken.entwined.model.Entwined;
 import com.charlesgadeken.entwined.model.Model;
 import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
