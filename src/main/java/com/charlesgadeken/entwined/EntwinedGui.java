@@ -1,10 +1,11 @@
 package com.charlesgadeken.entwined;
 
-import com.charlesgadeken.entwined.model.Entwined;
 import com.charlesgadeken.entwined.model.Model;
+import com.charlesgadeken.entwined.patterns.general.ExamplePattern;
+import com.charlesgadeken.entwined.patterns.original.DoubleHelix;
+import com.charlesgadeken.entwined.patterns.original.SweepPattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
-import heronarts.lx.model.LXModel;
 import heronarts.lx.studio.LXStudio;
 import java.io.File;
 import processing.core.PApplet;
@@ -35,7 +36,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         flags.startMultiThreaded = true;
 
         LX lx = new LX();
-        LXModel model = Model.fromConfigs(lx);
+        Model model = Model.fromConfigs(lx);
 
         new LXStudio(this, flags, model);
         this.surface.setTitle(WINDOW_TITLE);
@@ -49,6 +50,9 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         // available.
 
         // Register custom pattern and effect types
+        lx.registry.addPattern(ExamplePattern.class);
+        lx.registry.addPattern(DoubleHelix.class);
+        lx.registry.addPattern(SweepPattern.class);
     }
 
     public void initializeUI(LXStudio lx, LXStudio.UI ui) {
@@ -60,7 +64,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     public void onUIReady(LXStudio lx, LXStudio.UI ui) {
         // At this point, the LX Studio application UI has been built. You may now add
         // additional views and components to the Ui heirarchy.
-        lx.ui.preview.pointCloud.setPointSize(20);
+        //        lx.ui.preview.pointCloud.setPointSize(20);
     }
 
     @Override

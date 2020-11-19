@@ -2,12 +2,12 @@ package com.charlesgadeken.entwined;
 
 import java.util.Random;
 
-public class Utils {
+public class Utilities {
     public static float PI = (float) Math.PI;
-    static final float HALF_PI = (float) (Math.PI / 2.0);
-    static final float THIRD_PI = (float) (Math.PI / 3.0);
-    static final float QUARTER_PI = (float) (Math.PI / 4.0);
-    static final float TWO_PI = (float) (2.0 * Math.PI);
+    public static final float HALF_PI = (float) (Math.PI / 2.0);
+    public static final float THIRD_PI = (float) (Math.PI / 3.0);
+    public static final float QUARTER_PI = (float) (Math.PI / 4.0);
+    public static final float TWO_PI = (float) (2.0 * Math.PI);
 
     private static final long millisOffset = System.currentTimeMillis();
 

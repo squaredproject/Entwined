@@ -1,6 +1,6 @@
 package com.charlesgadeken.entwined.model;
 
 public class Geometry {
-    static final int INCHES = 1;
-    static final int FEET = 12 * INCHES;
+    public static final int INCHES = 1;
+    public static final int FEET = 12 * INCHES;
 }

@@ -1,6 +1,6 @@
 package com.charlesgadeken.entwined.model;
 
-import com.charlesgadeken.entwined.Utils;
+import com.charlesgadeken.entwined.Utilities;
 import heronarts.lx.transform.LXTransform;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,7 +44,7 @@ public class EntwinedBranch {
         zKeyPoints[0] = branchLength * (-0.05);
         List<Vec3D> _availableMountingPoints = new ArrayList<Vec3D>();
         LXTransform transform = new LXTransform();
-        transform.rotateY(rotationalPosition * 45 * (Utils.PI / 180));
+        transform.rotateY(rotationalPosition * 45 * (Utilities.PI / 180));
         double newX = xKeyPoints[0] + 2;
         while (newX < xKeyPoints[NUM_KEYPOINTS - 1]) {
             int keyPointIndex = 0;

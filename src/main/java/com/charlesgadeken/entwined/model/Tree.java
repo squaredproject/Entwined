@@ -1,5 +1,6 @@
 package com.charlesgadeken.entwined.model;
 
+import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.config.CubeConfig;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
@@ -84,7 +85,7 @@ public class Tree extends LXModelInterceptor {
             super(lx, "Tree");
             transform = new LXTransform();
             transform.translate(x, 0, z);
-            transform.rotateY(ry * com.charlesgadeken.entwined.Utils.PI / 180);
+            transform.rotateY(ry * Utilities.PI / 180);
             for (int i = 0; i < canopyMajorLengths.length; i++) {
                 treeLayers.add(new EntwinedLayer(canopyMajorLengths[i], i, layerBaseHeights[i]));
             }

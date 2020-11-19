@@ -1,5 +1,6 @@
 package com.charlesgadeken.entwined.model;
 
+import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.config.ShrubCubeConfig;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
@@ -77,7 +78,7 @@ public class Shrub extends LXModelInterceptor {
             this.lx = lx;
             shrubTransform = new LXTransform();
             shrubTransform.translate(x, 0, z);
-            shrubTransform.rotateY(ry * com.charlesgadeken.entwined.Utils.PI / 180);
+            shrubTransform.rotateY(ry * Utilities.PI / 180);
             for (int i = 0; i < NUM_CLUSTERS_IN_SHRUB; i++) {
                 shrubClusters.add(new EntwinedCluster(i));
             }
