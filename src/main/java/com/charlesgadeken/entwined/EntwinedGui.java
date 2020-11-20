@@ -1,13 +1,12 @@
 package com.charlesgadeken.entwined;
 
 import com.charlesgadeken.entwined.model.Model;
-import com.charlesgadeken.entwined.patterns.general.ExamplePattern;
-import com.charlesgadeken.entwined.patterns.original.DoubleHelix;
-import com.charlesgadeken.entwined.patterns.original.SweepPattern;
+import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
 import heronarts.lx.studio.LXStudio;
 import java.io.File;
+import org.reflections.Reflections;
 import processing.core.PApplet;
 
 public class EntwinedGui extends PApplet implements LXPlugin {
@@ -42,6 +41,12 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         this.surface.setTitle(WINDOW_TITLE);
     }
 
+    private void loadPatterns(LX lx) {
+        Reflections reflections = new Reflections("com.charlesgadeken");
+
+        reflections.getSubTypesOf(EntwinedBasePattern.class).forEach(lx.registry::addPattern);
+    }
+
     @Override
     public void initialize(LX lx) {
         // Here is where you should register any custom components or make modifications
@@ -50,9 +55,8 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         // available.
 
         // Register custom pattern and effect types
-        lx.registry.addPattern(ExamplePattern.class);
-        lx.registry.addPattern(DoubleHelix.class);
-        lx.registry.addPattern(SweepPattern.class);
+
+        loadPatterns(lx);
     }
 
     public void initializeUI(LXStudio lx, LXStudio.UI ui) {
