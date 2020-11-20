@@ -1,5 +1,6 @@
 package com.charlesgadeken.entwined.effects.original;
 
+import com.charlesgadeken.entwined.EntwinedCategory;
 import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.effects.EntwinedBaseEffect;
 import heronarts.lx.LX;
@@ -8,7 +9,7 @@ import heronarts.lx.color.LXColor;
 import heronarts.lx.modulator.DampedParameter;
 import heronarts.lx.parameter.BoundedParameter;
 
-@LXCategory("Original")
+@LXCategory(EntwinedCategory.ORIGINAL)
 public class ColorEffect extends EntwinedBaseEffect {
 
     final BoundedParameter desaturation = new BoundedParameter("WHT", 0);

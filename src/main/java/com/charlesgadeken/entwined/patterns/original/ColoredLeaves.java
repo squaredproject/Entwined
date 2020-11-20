@@ -1,5 +1,6 @@
 package com.charlesgadeken.entwined.patterns.original;
 
+import com.charlesgadeken.entwined.EntwinedCategory;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
@@ -7,7 +8,7 @@ import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
 
-@LXCategory("Original")
+@LXCategory(EntwinedCategory.ORIGINAL)
 public class ColoredLeaves extends EntwinedBasePattern {
 
     private final SawLFO[] movement;

@@ -1,5 +1,6 @@
 package com.charlesgadeken.entwined.patterns.test;
 
+import com.charlesgadeken.entwined.EntwinedCategory;
 import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
@@ -8,7 +9,7 @@ import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
 
-@LXCategory("Testing Patterns")
+@LXCategory(EntwinedCategory.TESTPATTERN)
 public class TestCubePattern extends EntwinedBasePattern {
 
     int CUBE_MOD = 14;

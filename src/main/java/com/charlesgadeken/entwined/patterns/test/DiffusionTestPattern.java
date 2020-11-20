@@ -1,5 +1,6 @@
 package com.charlesgadeken.entwined.patterns.test;
 
+import com.charlesgadeken.entwined.EntwinedCategory;
 import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
@@ -7,7 +8,7 @@ import heronarts.lx.LXCategory;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.parameter.BoundedParameter;
 
-@LXCategory("Testing Patterns")
+@LXCategory(EntwinedCategory.TESTPATTERN)
 public class DiffusionTestPattern extends EntwinedBasePattern {
 
     final BoundedParameter hue = new BoundedParameter("HUE", 0, 360);

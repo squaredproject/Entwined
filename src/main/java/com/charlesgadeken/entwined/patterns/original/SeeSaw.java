@@ -1,5 +1,6 @@
 package com.charlesgadeken.entwined.patterns.original;
 
+import com.charlesgadeken.entwined.EntwinedCategory;
 import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.Geometry;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
@@ -10,7 +11,7 @@ import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.transform.LXProjection;
 import heronarts.lx.transform.LXVector;
 
-@LXCategory("Original")
+@LXCategory(EntwinedCategory.ORIGINAL)
 public class SeeSaw extends EntwinedBasePattern {
 
     final LXProjection projection = new LXProjection(model);
