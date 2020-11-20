@@ -1,6 +1,6 @@
 package com.charlesgadeken.entwined.model;
 
-import com.charlesgadeken.entwined.model.config.CubeConfig;
+import com.charlesgadeken.entwined.config.CubeConfig;
 import toxi.geom.Vec3D;
 
 public class Cube extends BaseCube {

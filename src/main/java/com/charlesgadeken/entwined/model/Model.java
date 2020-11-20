@@ -1,10 +1,10 @@
 package com.charlesgadeken.entwined.model;
 
-import com.charlesgadeken.entwined.model.config.ConfigLoader;
-import com.charlesgadeken.entwined.model.config.CubeConfig;
-import com.charlesgadeken.entwined.model.config.ShrubConfig;
-import com.charlesgadeken.entwined.model.config.ShrubCubeConfig;
-import com.charlesgadeken.entwined.model.config.TreeConfig;
+import com.charlesgadeken.entwined.config.ConfigLoader;
+import com.charlesgadeken.entwined.config.CubeConfig;
+import com.charlesgadeken.entwined.config.ShrubConfig;
+import com.charlesgadeken.entwined.config.ShrubCubeConfig;
+import com.charlesgadeken.entwined.config.TreeConfig;
 import heronarts.lx.LX;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXPoint;
@@ -26,7 +26,6 @@ public class Model extends LXModelInterceptor {
 
     public final Map<String, Cube[]> ipMap = new HashMap<>();
 
-    private final ArrayList<ModelTransform> modelTransforms = new ArrayList<ModelTransform>();
     private final List<TreeConfig> treeConfigs;
 
     /**
@@ -131,59 +130,6 @@ public class Model extends LXModelInterceptor {
         }
     }
 
-    public Vec3D getMountPoint(CubeConfig c) {
-        Vec3D p = null;
-        Tree tree;
-        Shrub shrub;
-        try {
-            tree = this.trees.get(c.treeIndex);
-            p =
-                    tree.treeLayers
-                            .get(c.layerIndex)
-                            .branches
-                            .get(c.branchIndex)
-                            .availableMountingPoints
-                            .get(c.mountPointIndex);
-            return tree.transformPoint(p);
-        } catch (Exception e) {
-            System.out.println("Error resolving mount point");
-            System.out.println(e);
-            return null;
-        }
-    }
-
-    public void addModelTransform(ModelTransform modelTransform) {
-        modelTransforms.add(modelTransform);
-        shrubModelTransforms.add(modelTransform);
-    }
-
-    public void runTransforms() {
-        for (Cube cube : cubes) {
-            cube.resetTransform();
-        }
-        for (ModelTransform modelTransform : modelTransforms) {
-            if (modelTransform.isEnabled()) {
-                modelTransform.transform(this);
-            }
-        }
-        for (Cube cube : cubes) {
-            cube.didTransform();
-        }
-
-        for (ShrubCube cube : shrubCubes) {
-            cube.resetTransform();
-        }
-        for (Effect modelTransform : shrubModelTransforms) {
-            ModelTransform shrubModelTransform = (ModelTransform) modelTransform;
-            if (shrubModelTransform.isEnabled()) {
-                shrubModelTransform.transform(this);
-            }
-        }
-        for (ShrubCube cube : shrubCubes) {
-            cube.didTransform();
-        }
-    }
-
     /** Shrubs in the model */
     public final List<Shrub> shrubs;
 
@@ -192,42 +138,5 @@ public class Model extends LXModelInterceptor {
 
     public final Map<String, ShrubCube[]> shrubIpMap = new HashMap<String, ShrubCube[]>();
 
-    private final ArrayList<ModelTransform> shrubModelTransforms = new ArrayList<>();
     private final List<ShrubConfig> shrubConfigs;
-
-    public Vec3D getShrubMountPoint(ShrubCubeConfig c) {
-        Vec3D p = null;
-        Shrub shrub;
-        try {
-            shrub = this.shrubs.get(c.shrubIndex);
-            p = shrub.shrubClusters.get(c.clusterIndex).rods.get(c.rodIndex).mountingPoint;
-            return shrub.transformPoint(p);
-        } catch (Exception e) {
-            System.out.println("Error resolving mount point");
-            System.out.println(e);
-            return null;
-        }
-    }
-
-    //    public void addShrubModelTransform(ShrubModelTransform modelTransform) {
-    //        shrubModelTransforms.add(modelTransform);
-    //    }
-    public void runShrubTransforms() {
-        for (ShrubCube cube : shrubCubes) {
-            cube.resetTransform();
-        }
-        for (LXEffect modelTransform : shrubModelTransforms) {
-            ShrubModelTransform shrubModelTransform = (ShrubModelTransform) modelTransform;
-            if (shrubModelTransform.isEnabled()) {
-                shrubModelTransform.transform(this);
-            }
-        }
-        for (ShrubCube cube : shrubCubes) {
-            cube.didTransform();
-        }
-    }
-
-    public void addModelTransform(Effect shrubModelTransform) {
-        shrubModelTransforms.add((ModelTransform) shrubModelTransform);
-    }
 }

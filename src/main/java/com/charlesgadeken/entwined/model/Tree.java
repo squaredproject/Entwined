@@ -1,7 +1,7 @@
 package com.charlesgadeken.entwined.model;
 
 import com.charlesgadeken.entwined.Utilities;
-import com.charlesgadeken.entwined.model.config.CubeConfig;
+import com.charlesgadeken.entwined.config.CubeConfig;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.transform.LXTransform;

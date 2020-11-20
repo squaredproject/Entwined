@@ -2,11 +2,11 @@ package com.charlesgadeken.entwined.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.charlesgadeken.entwined.model.config.ConfigLoader;
-import com.charlesgadeken.entwined.model.config.CubeConfig;
-import com.charlesgadeken.entwined.model.config.ShrubConfig;
-import com.charlesgadeken.entwined.model.config.ShrubCubeConfig;
-import com.charlesgadeken.entwined.model.config.TreeConfig;
+import com.charlesgadeken.entwined.config.ConfigLoader;
+import com.charlesgadeken.entwined.config.CubeConfig;
+import com.charlesgadeken.entwined.config.ShrubConfig;
+import com.charlesgadeken.entwined.config.ShrubCubeConfig;
+import com.charlesgadeken.entwined.config.TreeConfig;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

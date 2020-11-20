@@ -1,7 +1,7 @@
 package com.charlesgadeken.entwined.model;
 
-import com.charlesgadeken.entwined.model.config.ShrubConfig;
-import com.charlesgadeken.entwined.model.config.ShrubCubeConfig;
+import com.charlesgadeken.entwined.config.ShrubConfig;
+import com.charlesgadeken.entwined.config.ShrubCubeConfig;
 import heronarts.lx.LX;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXPoint;
@@ -22,7 +22,6 @@ public class ShrubModel extends LXModelInterceptor {
 
     public final Map<String, ShrubCube[]> shrubIpMap = new HashMap<String, ShrubCube[]>();
 
-    private final ArrayList<Effect> shrubModelTransforms = new ArrayList<>();
     private final List<ShrubConfig> shrubConfigs;
 
     ShrubModel(LX lx, List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfig) {
@@ -55,40 +54,5 @@ public class ShrubModel extends LXModelInterceptor {
             }
             this.setPoints(pts);
         }
-    }
-
-    public Vec3D getShrubMountPoint(ShrubCubeConfig c) {
-        try {
-            Shrub shrub = this.shrubs.get(c.shrubIndex);
-            Vec3D p = shrub.shrubClusters.get(c.clusterIndex).rods.get(c.rodIndex).mountingPoint;
-            return shrub.transformPoint(p);
-        } catch (Exception e) {
-            System.out.println("Error resolving mount point");
-            System.out.println(e);
-            return null;
-        }
-    }
-
-    public void addShrubModelTransform(ShrubModelTransform shrubModelTransform) {
-        shrubModelTransforms.add(shrubModelTransform);
-    }
-
-    public void runShrubTransforms() {
-        for (ShrubCube cube : shrubCubes) {
-            cube.resetTransform();
-        }
-        for (LXEffect modelTransform : shrubModelTransforms) {
-            ShrubModelTransform shrubModelTransform = (ShrubModelTransform) modelTransform;
-            if (shrubModelTransform.isEnabled()) {
-                shrubModelTransform.transform(this);
-            }
-        }
-        for (ShrubCube cube : shrubCubes) {
-            cube.didTransform();
-        }
-    }
-
-    public void addShrubModelTransform(ModelTransform modelTransform) {
-        addShrubModelTransform(modelTransform);
     }
 }
