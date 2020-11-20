@@ -1,5 +1,6 @@
 package com.charlesgadeken.entwined.patterns.original;
 
+import com.charlesgadeken.entwined.EntwinedCategory;
 import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.model.Geometry;
@@ -11,7 +12,7 @@ import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.LXParameter;
 
-@LXCategory("Original")
+@LXCategory(EntwinedCategory.ORIGINAL)
 public class SweepPattern extends EntwinedBasePattern {
 
     final SinLFO speedMod = new SinLFO(3000, 9000, 5400);

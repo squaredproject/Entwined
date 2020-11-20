@@ -1,5 +1,6 @@
 package com.charlesgadeken.entwined.patterns.original;
 
+import com.charlesgadeken.entwined.EntwinedCategory;
 import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
@@ -9,7 +10,7 @@ import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.utils.LXUtils;
 
-@LXCategory("Original")
+@LXCategory(EntwinedCategory.ORIGINAL)
 public class DoubleHelix extends EntwinedBasePattern {
 
     final SinLFO rate = new SinLFO(400, 3000, 11000);
