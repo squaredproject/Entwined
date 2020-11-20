@@ -1,8 +1,8 @@
-package com.charlesgadeken.entwined.patterns.geoffSchmidt;
+package com.charlesgadeken.entwined.patterns.contributors.geoffSchmidt;
 
 import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
-import com.charlesgadeken.entwined.patterns.geoffSchmidt.utils.PixelState;
+import com.charlesgadeken.entwined.patterns.contributors.geoffSchmidt.utils.PixelState;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SawLFO;

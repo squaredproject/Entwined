@@ -1,4 +1,4 @@
-package com.charlesgadeken.entwined.patterns.geoffSchmidt.utils;
+package com.charlesgadeken.entwined.patterns.contributors.geoffSchmidt.utils;
 
 import com.charlesgadeken.entwined.Utilities;
 import heronarts.lx.color.LXColor;

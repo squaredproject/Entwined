@@ -1,4 +1,4 @@
-package com.charlesgadeken.entwined.patterns.grantPatterson;
+package com.charlesgadeken.entwined.patterns.contributors.grantPatterson;
 
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;

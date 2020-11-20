@@ -1,4 +1,4 @@
-package com.charlesgadeken.entwined.patterns.jackLampack;
+package com.charlesgadeken.entwined.patterns.contributors.jackLampack;
 
 import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.BaseCube;

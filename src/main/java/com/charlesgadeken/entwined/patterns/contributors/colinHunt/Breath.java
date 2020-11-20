@@ -1,4 +1,4 @@
-package com.charlesgadeken.entwined.patterns.colinHunt;
+package com.charlesgadeken.entwined.patterns.contributors.colinHunt;
 
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;

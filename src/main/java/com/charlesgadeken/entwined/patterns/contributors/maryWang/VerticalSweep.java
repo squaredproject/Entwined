@@ -1,4 +1,4 @@
-package com.charlesgadeken.entwined.patterns.maryWang;
+package com.charlesgadeken.entwined.patterns.contributors.maryWang;
 
 import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.Cube;

@@ -1,4 +1,4 @@
-package com.charlesgadeken.entwined.patterns.alchemy;
+package com.charlesgadeken.entwined.patterns.contributors.alchemy;
 
 import com.charlesgadeken.entwined.model.Cube;
 import com.charlesgadeken.entwined.model.ShrubCube;

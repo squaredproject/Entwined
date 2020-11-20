@@ -1,4 +1,4 @@
-package com.charlesgadeken.entwined.patterns.markLottor;
+package com.charlesgadeken.entwined.patterns.contributors.markLottor;
 
 import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.BaseCube;
