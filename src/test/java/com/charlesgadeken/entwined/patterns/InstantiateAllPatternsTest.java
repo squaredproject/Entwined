@@ -1,6 +1,6 @@
 package com.charlesgadeken.entwined.patterns;
 
-import com.charlesgadeken.entwined.model.Model;
+import com.charlesgadeken.entwined.model.Entwined;
 import heronarts.lx.LX;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -17,11 +17,11 @@ import org.reflections.Reflections;
 @TestInstance(Lifecycle.PER_CLASS)
 public class InstantiateAllPatternsTest {
 
-    Model model;
+    Entwined model;
 
     @BeforeAll
     void init() {
-        this.model = Model.fromConfigs(new LX());
+        this.model = Entwined.fromConfigs(new LX());
     }
 
     Stream<Class<?>> findPatterns() {

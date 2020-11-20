@@ -1,7 +1,7 @@
 package com.charlesgadeken.entwined.patterns.contributors.alchemy;
 
-import com.charlesgadeken.entwined.model.Cube;
-import com.charlesgadeken.entwined.model.ShrubCube;
+import com.charlesgadeken.entwined.model.cube.Cube;
+import com.charlesgadeken.entwined.model.shrub.ShrubCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;

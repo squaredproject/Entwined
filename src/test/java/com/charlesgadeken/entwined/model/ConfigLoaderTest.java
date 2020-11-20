@@ -3,10 +3,10 @@ package com.charlesgadeken.entwined.model;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.charlesgadeken.entwined.config.ConfigLoader;
-import com.charlesgadeken.entwined.config.CubeConfig;
-import com.charlesgadeken.entwined.config.ShrubConfig;
-import com.charlesgadeken.entwined.config.ShrubCubeConfig;
-import com.charlesgadeken.entwined.config.TreeConfig;
+import com.charlesgadeken.entwined.model.cube.CubeConfig;
+import com.charlesgadeken.entwined.model.shrub.ShrubConfig;
+import com.charlesgadeken.entwined.model.shrub.ShrubCubeConfig;
+import com.charlesgadeken.entwined.model.tree.TreeConfig;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

@@ -2,7 +2,7 @@ package com.charlesgadeken.entwined.patterns.test;
 
 import com.charlesgadeken.entwined.EntwinedCategory;
 import com.charlesgadeken.entwined.Utilities;
-import com.charlesgadeken.entwined.model.BaseCube;
+import com.charlesgadeken.entwined.model.cube.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;

@@ -1,6 +1,6 @@
 package com.charlesgadeken.entwined.patterns.contributors.geoffSchmidt;
 
-import com.charlesgadeken.entwined.model.BaseCube;
+import com.charlesgadeken.entwined.model.cube.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import com.charlesgadeken.entwined.patterns.contributors.geoffSchmidt.utils.ColorBar;
 import heronarts.lx.LX;

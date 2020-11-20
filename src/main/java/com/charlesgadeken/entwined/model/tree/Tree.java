@@ -1,7 +1,10 @@
-package com.charlesgadeken.entwined.model;
+package com.charlesgadeken.entwined.model.tree;
 
 import com.charlesgadeken.entwined.Utilities;
-import com.charlesgadeken.entwined.config.CubeConfig;
+import com.charlesgadeken.entwined.model.cube.CubeConfig;
+import com.charlesgadeken.entwined.model.LXModelInterceptor;
+import com.charlesgadeken.entwined.model.PseudoAbstractFixture;
+import com.charlesgadeken.entwined.model.cube.Cube;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.transform.LXTransform;
@@ -21,7 +24,7 @@ public class Tree extends LXModelInterceptor {
     public final List<Cube> cubes;
 
     /** Layers in the tree */
-    public final List<EntwinedLayer> treeLayers;
+    public final List<Canopy> treeLayers;
 
     /** index of the tree */
     public final int index;
@@ -37,15 +40,15 @@ public class Tree extends LXModelInterceptor {
 
     private final LX lx;
 
-    Tree(
-            LX lx,
-            List<CubeConfig> cubeConfig,
-            int treeIndex,
-            float x,
-            float z,
-            float ry,
-            int[] canopyMajorLengths,
-            int[] layerBaseHeights) {
+    public Tree(
+        LX lx,
+        List<CubeConfig> cubeConfig,
+        int treeIndex,
+        float x,
+        float z,
+        float ry,
+        int[] canopyMajorLengths,
+        int[] layerBaseHeights) {
         super(
                 new Fixture(
                         lx, cubeConfig, treeIndex, x, z, ry, canopyMajorLengths, layerBaseHeights));
@@ -68,7 +71,7 @@ public class Tree extends LXModelInterceptor {
     private static class Fixture extends PseudoAbstractFixture {
 
         final List<Cube> cubes = new ArrayList<>();
-        final List<EntwinedLayer> treeLayers = new ArrayList<>();
+        final List<Canopy> treeLayers = new ArrayList<>();
         public final Map<String, Cube[]> ipMap = new HashMap<>();
         public final LXTransform transform;
         public final List<CubeConfig> inactiveCubeConfigs = new ArrayList<>();
@@ -87,7 +90,7 @@ public class Tree extends LXModelInterceptor {
             transform.translate(x, 0, z);
             transform.rotateY(ry * Utilities.PI / 180);
             for (int i = 0; i < canopyMajorLengths.length; i++) {
-                treeLayers.add(new EntwinedLayer(canopyMajorLengths[i], i, layerBaseHeights[i]));
+                treeLayers.add(new Canopy(canopyMajorLengths[i], i, layerBaseHeights[i]));
             }
             for (CubeConfig cc : cubeConfig) {
                 if (cc.treeIndex == treeIndex) {

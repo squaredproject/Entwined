@@ -1,5 +1,9 @@
 package com.charlesgadeken.entwined.config;
 
+import com.charlesgadeken.entwined.model.cube.CubeConfig;
+import com.charlesgadeken.entwined.model.shrub.ShrubConfig;
+import com.charlesgadeken.entwined.model.shrub.ShrubCubeConfig;
+import com.charlesgadeken.entwined.model.tree.TreeConfig;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;

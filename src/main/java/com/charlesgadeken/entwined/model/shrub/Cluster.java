@@ -1,13 +1,15 @@
-package com.charlesgadeken.entwined.model;
+package com.charlesgadeken.entwined.model.shrub;
+
+import com.charlesgadeken.entwined.model.shrub.Rod;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class EntwinedCluster {
-    List<Rod> rods;
+public class Cluster {
+    public List<Rod> rods;
 
-    EntwinedCluster(int clusterIndex) {
+    public Cluster(int clusterIndex) {
         List<Rod> _rods = new ArrayList<Rod>();
         int rodPositions[] = new int[] {0, 1, 2, 3, 4};
 

@@ -9,7 +9,7 @@ import java.util.List;
 public abstract class PseudoAbstractFixture extends LXBasicFixture {
     private List<LXPoint> points;
 
-    PseudoAbstractFixture(LX lx, String name) {
+    public PseudoAbstractFixture(LX lx, String name) {
         super(lx, name);
     }
 

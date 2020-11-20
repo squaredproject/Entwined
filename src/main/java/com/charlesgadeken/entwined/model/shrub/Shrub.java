@@ -1,7 +1,8 @@
-package com.charlesgadeken.entwined.model;
+package com.charlesgadeken.entwined.model.shrub;
 
 import com.charlesgadeken.entwined.Utilities;
-import com.charlesgadeken.entwined.config.ShrubCubeConfig;
+import com.charlesgadeken.entwined.model.LXModelInterceptor;
+import com.charlesgadeken.entwined.model.PseudoAbstractFixture;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.transform.LXTransform;
@@ -20,7 +21,7 @@ public class Shrub extends LXModelInterceptor {
     public final List<ShrubCube> cubes;
 
     /** Clusters in the shrub */
-    public final List<EntwinedCluster> shrubClusters;
+    public final List<Cluster> shrubClusters;
 
     /** index of the shrub */
     public final int index;
@@ -36,7 +37,7 @@ public class Shrub extends LXModelInterceptor {
 
     private final LX lx;
 
-    Shrub(
+    public Shrub(
             LX lx,
             List<ShrubCubeConfig> shrubCubeConfig,
             int shrubIndex,
@@ -61,7 +62,7 @@ public class Shrub extends LXModelInterceptor {
 
     protected static class Fixture extends PseudoAbstractFixture {
         final List<ShrubCube> shrubCubes = new ArrayList<>();
-        final List<EntwinedCluster> shrubClusters = new ArrayList<>();
+        final List<Cluster> shrubClusters = new ArrayList<>();
         public final LX lx;
         public final Map<String, ShrubCube[]> shrubIpMap = new HashMap<>();
         public final LXTransform shrubTransform;
@@ -80,7 +81,7 @@ public class Shrub extends LXModelInterceptor {
             shrubTransform.translate(x, 0, z);
             shrubTransform.rotateY(ry * Utilities.PI / 180);
             for (int i = 0; i < NUM_CLUSTERS_IN_SHRUB; i++) {
-                shrubClusters.add(new EntwinedCluster(i));
+                shrubClusters.add(new Cluster(i));
             }
             for (ShrubCubeConfig cc : shrubCubeConfig) {
                 if (cc.shrubIndex == shrubIndex) {

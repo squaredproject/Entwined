@@ -1,7 +1,7 @@
-package com.charlesgadeken.entwined.model;
+package com.charlesgadeken.entwined.model.shrub;
 
-import com.charlesgadeken.entwined.config.ShrubConfig;
-import com.charlesgadeken.entwined.config.ShrubCubeConfig;
+import com.charlesgadeken.entwined.model.LXModelInterceptor;
+import com.charlesgadeken.entwined.model.PseudoAbstractFixture;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class ShrubModel extends LXModelInterceptor {
 
     private final List<ShrubConfig> shrubConfigs;
 
-    ShrubModel(LX lx, List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfig) {
+    public ShrubModel(LX lx, List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfig) {
         super(new ShrubFixture(lx, shrubConfigs, shrubCubeConfig));
         this.shrubConfigs = shrubConfigs;
         ShrubFixture f = (ShrubFixture) this.getFixture();

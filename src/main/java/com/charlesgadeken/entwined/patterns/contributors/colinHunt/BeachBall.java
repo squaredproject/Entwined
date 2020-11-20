@@ -1,7 +1,7 @@
 package com.charlesgadeken.entwined.patterns.contributors.colinHunt;
 
-import com.charlesgadeken.entwined.model.BaseCube;
-import com.charlesgadeken.entwined.model.Tree;
+import com.charlesgadeken.entwined.model.cube.BaseCube;
+import com.charlesgadeken.entwined.model.tree.Tree;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;

@@ -1,10 +1,15 @@
 package com.charlesgadeken.entwined.model;
 
 import com.charlesgadeken.entwined.config.ConfigLoader;
-import com.charlesgadeken.entwined.config.CubeConfig;
-import com.charlesgadeken.entwined.config.ShrubConfig;
-import com.charlesgadeken.entwined.config.ShrubCubeConfig;
-import com.charlesgadeken.entwined.config.TreeConfig;
+import com.charlesgadeken.entwined.model.cube.CubeConfig;
+import com.charlesgadeken.entwined.model.shrub.ShrubConfig;
+import com.charlesgadeken.entwined.model.shrub.ShrubCubeConfig;
+import com.charlesgadeken.entwined.model.tree.TreeConfig;
+import com.charlesgadeken.entwined.model.cube.BaseCube;
+import com.charlesgadeken.entwined.model.cube.Cube;
+import com.charlesgadeken.entwined.model.shrub.Shrub;
+import com.charlesgadeken.entwined.model.shrub.ShrubCube;
+import com.charlesgadeken.entwined.model.tree.Tree;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import java.util.ArrayList;
@@ -13,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Model extends LXModelInterceptor {
+public class Entwined extends LXModelInterceptor {
     /** Trees in the model */
     public final List<Tree> trees;
 
@@ -32,15 +37,15 @@ public class Model extends LXModelInterceptor {
      * @param lx The LX instance to use
      * @return An instantiated model
      */
-    public static Model fromConfigs(LX lx) {
+    public static Entwined fromConfigs(LX lx) {
         List<CubeConfig> cubeConfig = ConfigLoader.loadCubeConfigFile();
         List<TreeConfig> treeConfigs = ConfigLoader.loadTreeConfigFile();
         List<ShrubCubeConfig> shrubCubeConfig = ConfigLoader.loadShrubCubeConfigFile();
         List<ShrubConfig> shrubConfigs = ConfigLoader.loadShrubConfigFile();
-        return new Model(lx, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig);
+        return new Entwined(lx, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig);
     }
 
-    private Model(
+    private Entwined(
             LX lx,
             List<TreeConfig> treeConfigs,
             List<CubeConfig> cubeConfig,

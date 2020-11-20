@@ -1,4 +1,4 @@
-package com.charlesgadeken.entwined.config;
+package com.charlesgadeken.entwined.model.shrub;
 
 public class ShrubConfig {
     public float x;

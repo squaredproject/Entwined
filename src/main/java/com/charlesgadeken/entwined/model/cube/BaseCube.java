@@ -1,4 +1,4 @@
-package com.charlesgadeken.entwined.model;
+package com.charlesgadeken.entwined.model.cube;
 
 import com.charlesgadeken.entwined.Utilities;
 import heronarts.lx.model.LXModel;
@@ -58,7 +58,7 @@ public class BaseCube extends LXModel {
     public Vec2D transformedCylinderPoint;
     // public CubeConfig config = null;
 
-    BaseCube(Vec3D globalPosition, Vec3D sculpturePosition) {
+    public BaseCube(Vec3D globalPosition, Vec3D sculpturePosition) {
         super(
                 Arrays.asList(
                         new LXPoint[] {

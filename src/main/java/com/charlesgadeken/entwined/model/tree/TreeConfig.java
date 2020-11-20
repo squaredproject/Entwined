@@ -1,4 +1,4 @@
-package com.charlesgadeken.entwined.config;
+package com.charlesgadeken.entwined.model.tree;
 
 public class TreeConfig {
     public float x;

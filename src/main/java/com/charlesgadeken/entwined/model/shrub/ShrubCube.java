@@ -1,6 +1,6 @@
-package com.charlesgadeken.entwined.model;
+package com.charlesgadeken.entwined.model.shrub;
 
-import com.charlesgadeken.entwined.config.ShrubCubeConfig;
+import com.charlesgadeken.entwined.model.cube.BaseCube;
 import toxi.geom.Vec3D;
 
 public class ShrubCube extends BaseCube {
@@ -16,7 +16,7 @@ public class ShrubCube extends BaseCube {
 
     public ShrubCubeConfig config = null;
 
-    ShrubCube(Vec3D globalPosition, Vec3D sculpturePosition, ShrubCubeConfig config) {
+    public ShrubCube(Vec3D globalPosition, Vec3D sculpturePosition, ShrubCubeConfig config) {
         super(globalPosition, sculpturePosition);
 
         this.size = CUBE_SIZES[config.cubeSizeIndex];

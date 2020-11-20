@@ -1,4 +1,4 @@
-package com.charlesgadeken.entwined.config;
+package com.charlesgadeken.entwined.model.cube;
 
 public class CubeConfig {
     public int sculptureIndex;

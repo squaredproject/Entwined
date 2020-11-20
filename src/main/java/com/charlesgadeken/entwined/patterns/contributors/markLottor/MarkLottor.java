@@ -1,9 +1,9 @@
 package com.charlesgadeken.entwined.patterns.contributors.markLottor;
 
 import com.charlesgadeken.entwined.Utilities;
-import com.charlesgadeken.entwined.model.BaseCube;
-import com.charlesgadeken.entwined.model.Cube;
-import com.charlesgadeken.entwined.model.ShrubCube;
+import com.charlesgadeken.entwined.model.cube.BaseCube;
+import com.charlesgadeken.entwined.model.cube.Cube;
+import com.charlesgadeken.entwined.model.shrub.ShrubCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import com.charlesgadeken.entwined.triggers.ParameterTriggerableAdapter;
 import heronarts.lx.LX;

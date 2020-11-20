@@ -1,6 +1,6 @@
 package com.charlesgadeken.entwined.patterns;
 
-import com.charlesgadeken.entwined.model.Model;
+import com.charlesgadeken.entwined.model.Entwined;
 import com.charlesgadeken.entwined.triggers.ParameterTriggerableAdapter;
 import heronarts.lx.LX;
 import heronarts.lx.pattern.LXPattern;
@@ -9,11 +9,11 @@ public abstract class EntwinedBasePattern extends LXPattern {
     ParameterTriggerableAdapter parameterTriggerableAdapter;
     String readableName;
 
-    protected final Model model;
+    protected final Entwined model;
 
     protected EntwinedBasePattern(LX lx) {
         super(lx);
-        model = (Model) lx.getModel();
+        model = (Entwined) lx.getModel();
     }
 
     void onTriggerableModeEnabled() {

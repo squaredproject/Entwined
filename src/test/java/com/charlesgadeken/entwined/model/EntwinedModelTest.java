@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import heronarts.lx.LX;
 import org.junit.jupiter.api.Test;
 
-public class ModelTest {
+public class EntwinedModelTest {
     @Test
     public void testModelFromConfigs() {
         LX lx = new LX();
-        Model m = Model.fromConfigs(lx);
+        Entwined m = Entwined.fromConfigs(lx);
         assertNotNull(m);
     }
 }

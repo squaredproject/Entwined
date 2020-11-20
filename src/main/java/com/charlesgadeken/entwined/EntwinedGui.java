@@ -1,7 +1,7 @@
 package com.charlesgadeken.entwined;
 
 import com.charlesgadeken.entwined.effects.EntwinedBaseEffect;
-import com.charlesgadeken.entwined.model.Model;
+import com.charlesgadeken.entwined.model.Entwined;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
@@ -38,7 +38,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         flags.startMultiThreaded = true;
 
         LX lx = new LX();
-        Model model = Model.fromConfigs(lx);
+        Entwined model = Entwined.fromConfigs(lx);
 
         new LXStudio(this, flags, model);
         this.surface.setTitle(WINDOW_TITLE);

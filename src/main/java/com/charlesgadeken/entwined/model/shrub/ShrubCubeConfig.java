@@ -1,4 +1,4 @@
-package com.charlesgadeken.entwined.config;
+package com.charlesgadeken.entwined.model.shrub;
 
 public class ShrubCubeConfig {
     // each shrubIndex maps to an ipAddress, consider pushing ipAddress up to

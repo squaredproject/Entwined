@@ -1,14 +1,16 @@
-package com.charlesgadeken.entwined.model;
+package com.charlesgadeken.entwined.model.tree;
+
+import com.charlesgadeken.entwined.model.tree.Branch;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class EntwinedLayer {
-    List<EntwinedBranch> branches;
+public class Canopy {
+    public List<Branch> branches;
 
-    EntwinedLayer(int canopyMajorLength, int layerType, int layerBaseHeight) {
-        List<EntwinedBranch> _branches = new ArrayList<EntwinedBranch>();
+    public Canopy(int canopyMajorLength, int layerType, int layerBaseHeight) {
+        List<Branch> _branches = new ArrayList<Branch>();
         int rotationalPositions[];
         switch (layerType) {
             case 0:
@@ -24,8 +26,8 @@ public class EntwinedLayer {
                 rotationalPositions = new int[] {};
         }
         for (int i = 0; i < rotationalPositions.length; i++) {
-            EntwinedBranch b =
-                    new EntwinedBranch(canopyMajorLength, rotationalPositions[i], layerBaseHeight);
+            Branch b =
+                    new Branch(canopyMajorLength, rotationalPositions[i], layerBaseHeight);
             _branches.add(b);
         }
         this.branches = Collections.unmodifiableList(_branches);

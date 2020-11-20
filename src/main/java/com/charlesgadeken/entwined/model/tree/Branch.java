@@ -1,4 +1,4 @@
-package com.charlesgadeken.entwined.model;
+package com.charlesgadeken.entwined.model.tree;
 
 import com.charlesgadeken.entwined.Utilities;
 import heronarts.lx.transform.LXTransform;
@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import toxi.geom.Vec3D;
 
-public class EntwinedBranch {
+public class Branch {
     /**
      * This defines the available mounting points on a given branch variation. The variable names
      * and ratios for the keypoints reflect what is in the CAD drawings for the branches
@@ -20,7 +20,7 @@ public class EntwinedBranch {
     private double[] zKeyPoints = new double[NUM_KEYPOINTS];
     private static final double holeSpacing = 8;
 
-    EntwinedBranch(int canopyMajorLength, int rotationalPosition, int layerBaseHeight) {
+    public Branch(int canopyMajorLength, int rotationalPosition, int layerBaseHeight) {
         int rotationIndex =
                 rotationalPosition > 4 ? 4 - rotationalPosition % 4 : rotationalPosition;
         float canopyScaling = canopyMajorLength / 180;
