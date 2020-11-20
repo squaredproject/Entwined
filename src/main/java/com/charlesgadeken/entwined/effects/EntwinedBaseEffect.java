@@ -4,12 +4,12 @@ import com.charlesgadeken.entwined.model.Model;
 import heronarts.lx.LX;
 import heronarts.lx.effect.LXEffect;
 
-public abstract class EntwinedEffect extends LXEffect {
+public abstract class EntwinedBaseEffect extends LXEffect {
 
   protected final Model model;
   protected final Model shrubModel;
 
-  public EntwinedEffect(LX lx) {
+  public EntwinedBaseEffect(LX lx) {
     super(lx);
     model = (Model)lx.getModel();
     shrubModel = (Model) lx.getModel();

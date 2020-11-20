@@ -1,6 +1,6 @@
 package com.charlesgadeken.entwined;
 
-import com.charlesgadeken.entwined.effects.EntwinedEffect;
+import com.charlesgadeken.entwined.effects.EntwinedBaseEffect;
 import com.charlesgadeken.entwined.model.Model;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
@@ -49,7 +49,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     }
 
     private void loadEffects(LX lx) {
-        reflections.getSubTypesOf(EntwinedEffect.class).forEach(lx.registry::addEffect);
+        reflections.getSubTypesOf(EntwinedBaseEffect.class).forEach(lx.registry::addEffect);
     }
 
 
