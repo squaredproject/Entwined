@@ -1,4 +1,4 @@
-package com.charlesgadeken.entwined.model;
+package com.charlesgadeken.entwined.config;
 
 import static org.junit.jupiter.api.Assertions.*;
 
