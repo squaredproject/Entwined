@@ -52,7 +52,6 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         reflections.getSubTypesOf(EntwinedBaseEffect.class).forEach(lx.registry::addEffect);
     }
 
-
     @Override
     public void initialize(LX lx) {
         // Here is where you should register any custom components or make modifications

@@ -17,27 +17,27 @@ import org.reflections.Reflections;
 @TestInstance(Lifecycle.PER_CLASS)
 public class InstantiateAllEffectsTest {
 
-  Model model;
+    Model model;
 
-  @BeforeAll
-  void init() {
-    this.model = Model.fromConfigs(new LX());
-  }
+    @BeforeAll
+    void init() {
+        this.model = Model.fromConfigs(new LX());
+    }
 
-  Stream<Class<?>> findEffects() {
-    Reflections reflection = new Reflections("com.charlesgadeken");
-    Set<Class<? extends EntwinedBaseEffect>> patterns =
-        reflection.getSubTypesOf(EntwinedBaseEffect.class);
-    List list = Arrays.asList(patterns.toArray());
+    Stream<Class<?>> findEffects() {
+        Reflections reflection = new Reflections("com.charlesgadeken");
+        Set<Class<? extends EntwinedBaseEffect>> patterns =
+                reflection.getSubTypesOf(EntwinedBaseEffect.class);
+        List list = Arrays.asList(patterns.toArray());
 
-    return list.stream();
-  }
+        return list.stream();
+    }
 
-  @ParameterizedTest
-  @MethodSource("findEffects")
-  void validateEffectsFromBaseInstantiate(Class<?> cls)
-      throws IllegalAccessException, InstantiationException, NoSuchMethodException,
-      InvocationTargetException {
-    cls.getConstructor(LX.class).newInstance(new LX(model));
-  }
+    @ParameterizedTest
+    @MethodSource("findEffects")
+    void validateEffectsFromBaseInstantiate(Class<?> cls)
+            throws IllegalAccessException, InstantiationException, NoSuchMethodException,
+                    InvocationTargetException {
+        cls.getConstructor(LX.class).newInstance(new LX(model));
+    }
 }
