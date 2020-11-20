@@ -1,5 +1,6 @@
 package com.charlesgadeken.entwined;
 
+import com.charlesgadeken.entwined.effects.EntwinedEffect;
 import com.charlesgadeken.entwined.model.Model;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
@@ -16,6 +17,8 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     private static int WIDTH = 1280;
     private static int HEIGHT = 800;
     private static boolean FULLSCREEN = false;
+
+    Reflections reflections = new Reflections("com.charlesgadeken");
 
     @Override
     public void settings() {
@@ -42,10 +45,13 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     }
 
     private void loadPatterns(LX lx) {
-        Reflections reflections = new Reflections("com.charlesgadeken");
-
         reflections.getSubTypesOf(EntwinedBasePattern.class).forEach(lx.registry::addPattern);
     }
+
+    private void loadEffects(LX lx) {
+        reflections.getSubTypesOf(EntwinedEffect.class).forEach(lx.registry::addEffect);
+    }
+
 
     @Override
     public void initialize(LX lx) {
@@ -57,6 +63,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         // Register custom pattern and effect types
 
         loadPatterns(lx);
+        loadEffects(lx);
     }
 
     public void initializeUI(LXStudio lx, LXStudio.UI ui) {
