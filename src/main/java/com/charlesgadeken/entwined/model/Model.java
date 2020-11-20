@@ -6,14 +6,12 @@ import com.charlesgadeken.entwined.config.ShrubConfig;
 import com.charlesgadeken.entwined.config.ShrubCubeConfig;
 import com.charlesgadeken.entwined.config.TreeConfig;
 import heronarts.lx.LX;
-import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXPoint;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import toxi.geom.Vec3D;
 
 public class Model extends LXModelInterceptor {
     /** Trees in the model */
