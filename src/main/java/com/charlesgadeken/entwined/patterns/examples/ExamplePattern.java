@@ -1,4 +1,4 @@
-package com.charlesgadeken.entwined.patterns.general;
+package com.charlesgadeken.entwined.patterns.examples;
 
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;

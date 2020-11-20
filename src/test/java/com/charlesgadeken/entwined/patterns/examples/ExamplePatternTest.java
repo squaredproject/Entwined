@@ -1,6 +1,4 @@
-package com.charlesgadeken.entwined.patterns.general;
-
-import static org.junit.jupiter.api.Assertions.*;
+package com.charlesgadeken.entwined.patterns.examples;
 
 import com.charlesgadeken.entwined.model.Model;
 import heronarts.lx.LX;
