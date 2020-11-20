@@ -3,7 +3,7 @@ package com.charlesgadeken.entwined.patterns.original;
 import com.charlesgadeken.entwined.EntwinedCategory;
 import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.BaseCube;
-import com.charlesgadeken.entwined.model.Geometry;
+import com.charlesgadeken.entwined.Conversions;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
@@ -17,12 +17,12 @@ public class SweepPattern extends EntwinedBasePattern {
 
     final SinLFO speedMod = new SinLFO(3000, 9000, 5400);
     final SinLFO yPos = new SinLFO(model.yMin, model.yMax, speedMod);
-    final SinLFO width = new SinLFO("WIDTH", 2 * Geometry.FEET, 20 * Geometry.FEET, 19000);
+    final SinLFO width = new SinLFO("WIDTH", 2 * Conversions.FEET, 20 * Conversions.FEET, 19000);
 
     final SawLFO offset = new SawLFO(0, Utilities.TWO_PI, 9000);
 
     final BoundedParameter amplitude =
-            new BoundedParameter("AMP", 10 * Geometry.FEET, 0, 20 * Geometry.FEET);
+            new BoundedParameter("AMP", 10 * Conversions.FEET, 0, 20 * Conversions.FEET);
     final BoundedParameter speed = new BoundedParameter("SPEED", 1, 0, 3);
     final BoundedParameter height = new BoundedParameter("HEIGHT", 0, -300, 300);
     final SinLFO amp = new SinLFO(0, amplitude, 5000);

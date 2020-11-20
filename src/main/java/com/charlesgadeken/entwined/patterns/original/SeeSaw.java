@@ -2,7 +2,7 @@ package com.charlesgadeken.entwined.patterns.original;
 
 import com.charlesgadeken.entwined.EntwinedCategory;
 import com.charlesgadeken.entwined.Utilities;
-import com.charlesgadeken.entwined.model.Geometry;
+import com.charlesgadeken.entwined.Conversions;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
@@ -19,7 +19,7 @@ public class SeeSaw extends EntwinedBasePattern {
     final SinLFO rate = new SinLFO(2000, 11000, 19000);
     final SinLFO rz = new SinLFO(-15, 15, rate);
     final SinLFO rx = new SinLFO(-70, 70, 11000);
-    final SinLFO width = new SinLFO(1 * Geometry.FEET, 8 * Geometry.FEET, 13000);
+    final SinLFO width = new SinLFO(1 * Conversions.FEET, 8 * Conversions.FEET, 13000);
 
     final BoundedParameter bgLevel = new BoundedParameter("BG", 25, 0, 50);
 
@@ -49,7 +49,7 @@ public class SeeSaw extends EntwinedBasePattern {
                             Utilities.max(
                                     bgLevel.getValuef(),
                                     100
-                                            - (100 / (1 * Geometry.FEET))
+                                            - (100 / (1 * Conversions.FEET))
                                                     * Utilities.max(
                                                             0,
                                                             Utilities.abs(v.y)
