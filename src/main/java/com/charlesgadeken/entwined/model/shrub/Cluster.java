@@ -1,7 +1,5 @@
 package com.charlesgadeken.entwined.model.shrub;
 
-import com.charlesgadeken.entwined.model.shrub.Rod;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

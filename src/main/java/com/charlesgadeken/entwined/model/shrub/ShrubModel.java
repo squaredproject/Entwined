@@ -22,7 +22,8 @@ public class ShrubModel extends LXModelInterceptor {
 
     private final List<ShrubConfig> shrubConfigs;
 
-    public ShrubModel(LX lx, List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfig) {
+    public ShrubModel(
+            LX lx, List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfig) {
         super(new ShrubFixture(lx, shrubConfigs, shrubCubeConfig));
         this.shrubConfigs = shrubConfigs;
         ShrubFixture f = (ShrubFixture) this.getFixture();

@@ -1,10 +1,10 @@
 package com.charlesgadeken.entwined.model.tree;
 
 import com.charlesgadeken.entwined.Utilities;
-import com.charlesgadeken.entwined.model.cube.CubeConfig;
 import com.charlesgadeken.entwined.model.LXModelInterceptor;
 import com.charlesgadeken.entwined.model.PseudoAbstractFixture;
 import com.charlesgadeken.entwined.model.cube.Cube;
+import com.charlesgadeken.entwined.model.cube.CubeConfig;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.transform.LXTransform;
@@ -41,14 +41,14 @@ public class Tree extends LXModelInterceptor {
     private final LX lx;
 
     public Tree(
-        LX lx,
-        List<CubeConfig> cubeConfig,
-        int treeIndex,
-        float x,
-        float z,
-        float ry,
-        int[] canopyMajorLengths,
-        int[] layerBaseHeights) {
+            LX lx,
+            List<CubeConfig> cubeConfig,
+            int treeIndex,
+            float x,
+            float z,
+            float ry,
+            int[] canopyMajorLengths,
+            int[] layerBaseHeights) {
         super(
                 new Fixture(
                         lx, cubeConfig, treeIndex, x, z, ry, canopyMajorLengths, layerBaseHeights));

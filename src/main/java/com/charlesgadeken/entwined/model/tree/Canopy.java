@@ -1,7 +1,5 @@
 package com.charlesgadeken.entwined.model.tree;
 
-import com.charlesgadeken.entwined.model.tree.Branch;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,8 +24,7 @@ public class Canopy {
                 rotationalPositions = new int[] {};
         }
         for (int i = 0; i < rotationalPositions.length; i++) {
-            Branch b =
-                    new Branch(canopyMajorLength, rotationalPositions[i], layerBaseHeight);
+            Branch b = new Branch(canopyMajorLength, rotationalPositions[i], layerBaseHeight);
             _branches.add(b);
         }
         this.branches = Collections.unmodifiableList(_branches);

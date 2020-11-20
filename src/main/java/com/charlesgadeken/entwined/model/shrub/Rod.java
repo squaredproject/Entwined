@@ -52,6 +52,5 @@ public class Rod {
         transform.translate((float) xKeyPoint, (float) yKeyPoint, (float) zKeyPoint);
         this.mountingPoint = new Vec3D(transform.x(), transform.y(), transform.z());
         transform.pop();
-
     }
 }
