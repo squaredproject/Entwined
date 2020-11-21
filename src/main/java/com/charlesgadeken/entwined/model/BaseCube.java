@@ -56,7 +56,7 @@ public class BaseCube extends LXModel {
 
     public float transformedTheta;
     public Vec2D transformedCylinderPoint;
-    // public CubeConfig config = null;
+    // public TreeCubeConfig config = null;
 
     BaseCube(Vec3D globalPosition, Vec3D sculpturePosition) {
         super(

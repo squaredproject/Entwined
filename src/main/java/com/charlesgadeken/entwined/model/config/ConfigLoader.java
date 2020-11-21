@@ -30,9 +30,9 @@ public class ConfigLoader {
     static final String SHRUB_CUBE_CONFIG_FILE = "entwinedShrubCubes.json";
     static final String SHRUB_CONFIG_FILE = "entwinedShrubs.json";
 
-    public static List<CubeConfig> loadCubeConfigFile() {
+    public static List<TreeCubeConfig> loadCubeConfigFile() {
         return loadJSONFile(
-                ConfigLoader.CUBE_CONFIG_FILE, new TypeToken<List<CubeConfig>>() {}.getType());
+                ConfigLoader.CUBE_CONFIG_FILE, new TypeToken<List<TreeCubeConfig>>() {}.getType());
     }
 
     public static List<TreeConfig> loadTreeConfigFile() {

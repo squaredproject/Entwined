@@ -1,6 +1,6 @@
 package com.charlesgadeken.entwined.model.config;
 
-public class CubeConfig {
+public class TreeCubeConfig {
     public int sculptureIndex;
     public int cubeSizeIndex;
     public int outputIndex;

@@ -8,7 +8,7 @@ import heronarts.lx.parameter.DiscreteParameter;
 
 class MappingTool extends Effect {
 
-  final List<CubeConfig> cubeConfig;
+  final List<TreeCubeConfig> cubeConfig;
   final List<ShrubCubeConfig> shrubCubeConfig;
 
   final SinLFO strobe = new SinLFO(20, 100, 1000);
@@ -21,7 +21,7 @@ class MappingTool extends Effect {
   final Object[] ipList;
   final Object[] shrubIpList;
 
-  MappingTool(LX lx, List<CubeConfig> cubeConfig, List<ShrubCubeConfig> shrubCubeConfig) {
+  MappingTool(LX lx, List<TreeCubeConfig> cubeConfig, List<ShrubCubeConfig> shrubCubeConfig) {
     super(lx);
     this.cubeConfig = cubeConfig;
     this.shrubCubeConfig = shrubCubeConfig;
@@ -42,7 +42,7 @@ class MappingTool extends Effect {
     return model.ipMap.get(this.ipList[ipIndex.getValuei()])[outputIndex.getValuei()];
   }
 
-  CubeConfig getConfig(){
+  TreeCubeConfig getConfig(){
     return getCube().config;
   }
   

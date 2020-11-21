@@ -1,7 +1,7 @@
 package com.charlesgadeken.entwined.model;
 
 import com.charlesgadeken.entwined.model.config.ConfigLoader;
-import com.charlesgadeken.entwined.model.config.CubeConfig;
+import com.charlesgadeken.entwined.model.config.TreeCubeConfig;
 import com.charlesgadeken.entwined.model.config.ShrubConfig;
 import com.charlesgadeken.entwined.model.config.ShrubCubeConfig;
 import com.charlesgadeken.entwined.model.config.TreeConfig;
@@ -36,7 +36,7 @@ public class Model extends LXModelInterceptor {
      * @return An instantiated model
      */
     public static Model fromConfigs(LX lx) {
-        List<CubeConfig> cubeConfig = ConfigLoader.loadCubeConfigFile();
+        List<TreeCubeConfig> cubeConfig = ConfigLoader.loadCubeConfigFile();
         List<TreeConfig> treeConfigs = ConfigLoader.loadTreeConfigFile();
         List<ShrubCubeConfig> shrubCubeConfig = ConfigLoader.loadShrubCubeConfigFile();
         List<ShrubConfig> shrubConfigs = ConfigLoader.loadShrubConfigFile();
@@ -46,7 +46,7 @@ public class Model extends LXModelInterceptor {
     private Model(
             LX lx,
             List<TreeConfig> treeConfigs,
-            List<CubeConfig> cubeConfig,
+            List<TreeCubeConfig> cubeConfig,
             List<ShrubConfig> shrubConfigs,
             List<ShrubCubeConfig> shrubCubeConfig) {
 
@@ -56,7 +56,7 @@ public class Model extends LXModelInterceptor {
 
         this.treeConfigs = treeConfigs;
         List<Cube> _cubes = new ArrayList<>();
-        List<CubeConfig> _inactiveCubeConfigs = new ArrayList<>();
+        List<TreeCubeConfig> _inactiveCubeConfigs = new ArrayList<>();
         this.trees = Collections.unmodifiableList(f.trees);
         for (Tree tree : this.trees) {
             ipMap.putAll(tree.ipMap);
@@ -95,7 +95,7 @@ public class Model extends LXModelInterceptor {
         private Fixture(
                 LX lx,
                 List<TreeConfig> treeConfigs,
-                List<CubeConfig> cubeConfigs,
+                List<TreeCubeConfig> cubeConfigs,
                 List<ShrubConfig> shrubConfigs,
                 List<ShrubCubeConfig> shrubCubeConfigs) {
             super(lx, "TheInstallation");
@@ -131,7 +131,7 @@ public class Model extends LXModelInterceptor {
         }
     }
 
-    public Vec3D getMountPoint(CubeConfig c) {
+    public Vec3D getMountPoint(TreeCubeConfig c) {
         Vec3D p = null;
         Tree tree;
         Shrub shrub;

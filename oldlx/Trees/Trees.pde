@@ -40,7 +40,7 @@ final static int MINUTES = 60*SECONDS;
 final static float CHAIN = -12*Geometry.INCHES;
 final static float BOLT = 22*Geometry.INCHES;
 
-static List<CubeConfig> cubeConfig;
+static List<TreeCubeConfig> cubeConfig;
 static List<TreeConfig> treeConfig;
 static List<ShrubCubeConfig> shrubCubeConfig;
 static List<ShrubConfig> shrubConfig;

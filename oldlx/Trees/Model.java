@@ -38,7 +38,7 @@ class Model extends LXModel {
     private final ArrayList<ModelTransform> modelTransforms = new ArrayList<ModelTransform>();
     private final List<TreeConfig> treeConfigs;
 
-    Model(List<TreeConfig> treeConfigs, List<CubeConfig> cubeConfig, List<ShrubConfig> shrubConfigs,
+    Model(List<TreeConfig> treeConfigs, List<TreeCubeConfig> cubeConfig, List<ShrubConfig> shrubConfigs,
           List<ShrubCubeConfig> shrubCubeConfig) {
 
         super(new Fixture(treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig));
@@ -47,7 +47,7 @@ class Model extends LXModel {
 
         this.treeConfigs = treeConfigs;
         List<Cube> _cubes = new ArrayList<Cube>();
-        List<CubeConfig> _inactiveCubeConfigs = new ArrayList();
+        List<TreeCubeConfig> _inactiveCubeConfigs = new ArrayList();
         this.trees = Collections.unmodifiableList(f.trees);
         for (Tree tree : this.trees) {
             ipMap.putAll(tree.ipMap);
@@ -87,7 +87,7 @@ class Model extends LXModel {
 
         final List<Shrub> shrubs = new ArrayList<Shrub>();
 
-        private Fixture(List<TreeConfig> treeConfigs, List<CubeConfig> cubeConfigs, List<ShrubConfig> shrubConfigs,
+        private Fixture(List<TreeConfig> treeConfigs, List<TreeCubeConfig> cubeConfigs, List<ShrubConfig> shrubConfigs,
                         List<ShrubCubeConfig> shrubCubeConfigs) {
             for (int i = 0; i < treeConfigs.size(); i++) {
                 TreeConfig tc = treeConfigs.get(i);
@@ -111,7 +111,7 @@ class Model extends LXModel {
         }
     }
 
-    public Vec3D getMountPoint(CubeConfig c) {
+    public Vec3D getMountPoint(TreeCubeConfig c) {
         Vec3D p = null;
         Tree tree;
         Shrub shrub;
@@ -250,7 +250,7 @@ class Tree extends LXModel {
      */
     public final float ry;
 
-    Tree(List<CubeConfig> cubeConfig, int treeIndex, float x, float z, float ry, int[] canopyMajorLengths, int[] layerBaseHeights) {
+    Tree(List<TreeCubeConfig> cubeConfig, int treeIndex, float x, float z, float ry, int[] canopyMajorLengths, int[] layerBaseHeights) {
         super(new Fixture(cubeConfig, treeIndex, x, z, ry, canopyMajorLengths, layerBaseHeights));
         Fixture f = (Fixture) this.fixtures.get(0);
         this.index = treeIndex;
@@ -273,16 +273,16 @@ class Tree extends LXModel {
         final List<EntwinedLayer> treeLayers = new ArrayList<EntwinedLayer>();
         public final Map<String, Cube[]> ipMap = new HashMap();
         public final LXTransform transform;
-        public final List<CubeConfig> inactiveCubeConfigs = new ArrayList();
+        public final List<TreeCubeConfig> inactiveCubeConfigs = new ArrayList();
 
-        Fixture(List<CubeConfig> cubeConfig, int treeIndex, float x, float z, float ry, int[] canopyMajorLengths, int[] layerBaseHeights) {
+        Fixture(List<TreeCubeConfig> cubeConfig, int treeIndex, float x, float z, float ry, int[] canopyMajorLengths, int[] layerBaseHeights) {
             transform = new LXTransform();
             transform.translate(x, 0, z);
             transform.rotateY(ry * Utils.PI / 180);
             for (int i = 0; i < canopyMajorLengths.length; i++) {
                 treeLayers.add(new EntwinedLayer(canopyMajorLengths[i], i, layerBaseHeights[i]));
             }
-            for (CubeConfig cc : cubeConfig) {
+            for (TreeCubeConfig cc : cubeConfig) {
                 if (cc.treeIndex == treeIndex) {
                     Vec3D p;
                     try {
@@ -310,7 +310,7 @@ class Tree extends LXModel {
                 for (int i = 0; i < 16; i++) {
                     if (ndbCubes[i] == null) { // fill all empty outputs with an inactive cube. Maybe this would be nicer to do at
                         // the model level in the future.
-                        CubeConfig cc = new CubeConfig();
+                        TreeCubeConfig cc = new TreeCubeConfig();
                         cc.treeIndex = treeIndex;
                         cc.branchIndex = 0;
                         cc.cubeSizeIndex = 0;
@@ -450,14 +450,32 @@ class Cube extends BaseCube {
   public final float size;
 
   public final int pixels;
-  public CubeConfig config = null;
+  public TreeCubeConfig config = null;
 
-    Cube(Vec3D globalPosition, Vec3D treePosition, CubeConfig config) {
-      super(globalPosition, treePosition);
+    Cube(Vec3D globalPosition, Vec3D treePosition, TreeCubeConfig config) {
+      super(globalPosition, treePosition, config.treeIndex, config.treeOrShrub);
     this.size = CUBE_SIZES[config.cubeSizeIndex];
     this.pixels = PIXELS_PER_CUBE[config.cubeSizeIndex];
         this.config = config;
     }
+}
+
+/**
+* Configuration info for the cubes in the tree
+*/
+class TreeCubeConfig {
+    int sculptureIndex;
+    int cubeSizeIndex;
+    int outputIndex;
+    String ipAddress;
+    TreeOrShrub treeOrShrub = TreeOrShrub.TREE;
+
+    // For Tree
+    int treeIndex;
+    int layerIndex;
+    int branchIndex;
+    int mountPointIndex;
+    boolean isActive;
 }
 
 abstract class Layer extends LXLayer {

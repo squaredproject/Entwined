@@ -313,4 +313,3 @@ class MidiEngine {
     return (TreesTransition) channel.getFaderTransition();
   }
 }
-
