@@ -4,4 +4,3 @@ interface InterfaceController {
   void scroll(int delta);
   void knob(int delta);
 }
-

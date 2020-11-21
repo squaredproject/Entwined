@@ -1044,7 +1044,7 @@ class UIMapping extends UIWindow {
 
     isActive = (UIButton) new UIButton(4, yPos, width-8, 20) {
       void onToggle(boolean enabled) {
-        CubeConfig c = mappingTool.getConfig();
+        TreeCubeConfig c = mappingTool.getConfig();
         c.isActive = enabled;
         if (enabled) {
           c.layerIndex = layerIndex.getValue();
@@ -1085,7 +1085,7 @@ class UIMapping extends UIWindow {
   }
 
   void updateParameters(boolean resetAll){
-    CubeConfig c = mappingTool.getConfig();
+    TreeCubeConfig c = mappingTool.getConfig();
     ipAddress.setLabel(c.ipAddress);
     treeIndex.setValue(c.treeIndex);
     if (resetAll || c.isActive) {

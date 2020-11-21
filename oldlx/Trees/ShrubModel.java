@@ -240,16 +240,6 @@ class ShrubModel extends LXModel {
     }
 }
 
-class ShrubCubeConfig {
-    int shrubIndex; // each shrubIndex maps to an ipAddress, consider pushing ipAddress up to ShrubConfig
-    int clusterIndex;
-    int rodIndex;
-    //    int mountPointIndex;
-    int shrubOutputIndex;
-    int cubeSizeIndex;
-    String shrubIpAddress;
-}
-
 class ShrubConfig  {
   float x;
   float z;
@@ -402,12 +392,24 @@ class ShrubCube extends BaseCube {
     public ShrubCubeConfig config = null;
 
     ShrubCube(Vec3D globalPosition, Vec3D sculpturePosition, ShrubCubeConfig config) {
-        super( globalPosition,  sculpturePosition);
+        super( globalPosition,  sculpturePosition, config.shrubIndex, config.treeOrShrub);
 
         this.size = CUBE_SIZES[config.cubeSizeIndex];
         this.pixels = PIXELS_PER_CUBE[config.cubeSizeIndex];
         this.config = config;
     }
+}
+
+class ShrubCubeConfig {
+    int shrubIndex; // each shrubIndex maps to an ipAddress, consider pushing ipAddress up to ShrubConfig
+    int clusterIndex;
+    int rodIndex;
+    TreeOrShrub treeOrShrub = TreeOrShrub.SHRUB;
+
+    //    int mountPointIndex;
+    int shrubOutputIndex;
+    int cubeSizeIndex;
+    String shrubIpAddress;
 }
 
 abstract class ShrubLayer extends LXLayer {

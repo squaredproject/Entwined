@@ -45,7 +45,7 @@ abstract class Engine {
   static final int NUM_AUTOMATION = 4;
 
   final String projectPath;
-  final List<CubeConfig> cubeConfig;
+  final List<TreeCubeConfig> cubeConfig;
   final List<TreeConfig> treeConfigs;
     final List<ShrubCubeConfig> shrubCubeConfig;
     final List<ShrubConfig> shrubConfigs;
@@ -326,7 +326,7 @@ abstract class Engine {
     registerPattern(new Wisps(lx, 1, 210, 100, 90, 130, 3.5, 10), "3707000050aba4"); // multidirection colorful wisps
     registerPattern(new Wisps(lx, 3, 210, 10, 270, 0, 3.5, 10), ""); // rain storm of wisps
     registerPattern(new Wisps(lx, 35, 210, 180, 180, 15, 2, 15), "3707000050a8ee"); // twister of wisps
-    
+
     registerPattern(new Pond(lx), "");
     registerPattern(new Planes(lx), "");
   }
@@ -422,8 +422,8 @@ abstract class Engine {
     return projectPath + "/" + filename;
   }
 
-  List<CubeConfig> loadCubeConfigFile() {
-    return loadJSONFile(Config.CUBE_CONFIG_FILE, new TypeToken<List<CubeConfig>>() {
+  List<TreeCubeConfig> loadCubeConfigFile() {
+    return loadJSONFile(Config.CUBE_CONFIG_FILE, new TypeToken<List<TreeCubeConfig>>() {
     }.getType());
   }
   List<TreeConfig> loadTreeConfigFile() {
@@ -465,7 +465,7 @@ abstract class Engine {
   }
 
   void saveCubeConfigs(){
-    List<CubeConfig> cubeConfigs = new ArrayList();
+    List<TreeCubeConfig> cubeConfigs = new ArrayList();
     for (Cube cube: model.cubes){
       if (cube.config.isActive){
         cubeConfigs.add(cube.config);

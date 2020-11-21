@@ -1,7 +1,7 @@
 package com.charlesgadeken.entwined.model;
 
 import com.charlesgadeken.entwined.Utilities;
-import com.charlesgadeken.entwined.model.config.CubeConfig;
+import com.charlesgadeken.entwined.model.config.TreeCubeConfig;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.transform.LXTransform;
@@ -39,7 +39,7 @@ public class Tree extends LXModelInterceptor {
 
     Tree(
             LX lx,
-            List<CubeConfig> cubeConfig,
+            List<TreeCubeConfig> cubeConfig,
             int treeIndex,
             float x,
             float z,
@@ -71,11 +71,11 @@ public class Tree extends LXModelInterceptor {
         final List<EntwinedLayer> treeLayers = new ArrayList<>();
         public final Map<String, Cube[]> ipMap = new HashMap<>();
         public final LXTransform transform;
-        public final List<CubeConfig> inactiveCubeConfigs = new ArrayList<>();
+        public final List<TreeCubeConfig> inactiveCubeConfigs = new ArrayList<>();
 
         Fixture(
                 LX lx,
-                List<CubeConfig> cubeConfig,
+                List<TreeCubeConfig> cubeConfig,
                 int treeIndex,
                 float x,
                 float z,
@@ -89,7 +89,7 @@ public class Tree extends LXModelInterceptor {
             for (int i = 0; i < canopyMajorLengths.length; i++) {
                 treeLayers.add(new EntwinedLayer(canopyMajorLengths[i], i, layerBaseHeights[i]));
             }
-            for (CubeConfig cc : cubeConfig) {
+            for (TreeCubeConfig cc : cubeConfig) {
                 if (cc.treeIndex == treeIndex) {
                     Vec3D p;
                     try {
@@ -125,7 +125,7 @@ public class Tree extends LXModelInterceptor {
                         // fill all empty outputs with an inactive cube. Maybe this
                         // would be nicer to do at
                         // the model level in the future.
-                        CubeConfig cc = new CubeConfig();
+                        TreeCubeConfig cc = new TreeCubeConfig();
                         cc.treeIndex = treeIndex;
                         cc.branchIndex = 0;
                         cc.cubeSizeIndex = 0;
