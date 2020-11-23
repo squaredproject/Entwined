@@ -1314,7 +1314,7 @@ class UIShrubOutput extends UIWindow {
 
     List<UIItemList.Item> items = new ArrayList<UIItemList.Item>();
     for (LXDatagram shrubDatagram : shrubDatagrams) {
-      System.out.println(shrubDatagram);
+      //System.out.println(shrubDatagram);
       items.add(new ShrubDatagramItem(shrubDatagram));
     }
     new UIItemList(1, yPos, width-2, LIST_HEIGHT)

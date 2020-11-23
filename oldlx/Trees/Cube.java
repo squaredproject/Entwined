@@ -133,7 +133,7 @@ class BaseCube extends LXModel {
         this.r = (float) Point2D.distance(sculpturePosition.x, sculpturePosition.z, 0, 0);
         this.theta = 180 + 180 / Utils.PI * Utils.atan2(sculpturePosition.z, sculpturePosition.x);
         this.gr = (float) Point2D.distance(this.x, this.z, 0, 0);
-        System.out.println("gr: " + this.gr);
+        // System.out.println("gr: " + this.gr);
         this.globalTheta = (float) Math.toDegrees(Math.atan2((double)(0 - this.z), (double)(0 - this.x)));
     }
 
