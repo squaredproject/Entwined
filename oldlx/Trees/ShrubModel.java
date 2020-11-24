@@ -62,7 +62,7 @@ class Rod {
         // C -> 4, 5, 8, 9
         // D -> 6, 7
 
-        transform.rotateY(clusterIndex * 0.5236);
+        transform.rotateY(clusterIndex * -0.5236);
 
 
         //            double ratio = (newX - xKeyPoint[keyPointIndex - 1]) / (xKeyPoint[keyPointIndex] - xKeyPoint[keyPointIndex - 1]);
@@ -115,7 +115,7 @@ class EntwinedCluster {
 
     EntwinedCluster(int clusterIndex) {
         List<Rod> _rods = new ArrayList<Rod>();
-        int rodPositions[] = new int[]{0, 1, 2, 3, 4};
+        int rodPositions[] = new int[]{4, 3, 2, 1, 0};
 
         int clusterMaxRodLength;
         switch (clusterIndex) {
@@ -296,6 +296,12 @@ class Shrub extends LXModel {
         this.x = x;
         this.z = z;
         this.ry = ry;
+        // Very useful print to see if I'm going the right directions
+        //if (shrubIndex == 0) {
+        //    for (ShrubCube cube : this.cubes) {
+        //        System.out.println("si: "+cube.sculptureIndex+" idx: "+cube.index+" sx: "+cube.sx+" sy: "+cube.sy+" sz: "+cube.sz);
+        //    }
+        //}
 
     }
 
