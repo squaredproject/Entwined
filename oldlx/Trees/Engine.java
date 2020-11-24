@@ -62,8 +62,8 @@ abstract class Engine {
   TSDrumpad apc40Drumpad;
   NFCEngine nfcEngine;
   LXListenableNormalizedParameter[] effectKnobParameters;
-  final ChannelTreeLevels[] channelTreeLevels = new ChannelTreeLevels[NUM_CHANNELS];
-  final ChannelShrubLevels[] channelShrubLevels = new ChannelShrubLevels[NUM_CHANNELS];
+  final ChannelTreeLevels[] channelTreeLevels = new ChannelTreeLevels[NUM_CHANNELS + NUM_IPAD_CHANNELS];
+  final ChannelShrubLevels[] channelShrubLevels = new ChannelShrubLevels[NUM_CHANNELS + NUM_IPAD_CHANNELS];
   final BasicParameter dissolveTime = new BasicParameter("DSLV", 400, 50, 1000);
   final BasicParameter drumpadVelocity = new BasicParameter("DVEL", 1);
   final TSAutomationRecorder[] automation = new TSAutomationRecorder[Engine.NUM_AUTOMATION];
@@ -89,7 +89,7 @@ abstract class Engine {
 
     lx.engine.addParameter(drumpadVelocity);
 
-    for (int i=0; i<NUM_CHANNELS; i++){
+    for (int i=0; i<(NUM_CHANNELS + NUM_IPAD_CHANNELS); i++){
       channelTreeLevels[i] = new ChannelTreeLevels(model.trees.size());
       channelShrubLevels[i] = new ChannelShrubLevels(model.shrubs.size());
     }
@@ -542,6 +542,7 @@ abstract class Engine {
       if (i == 0) {
         channel.getFader().setValue(1);
       }
+
       channel.goIndex(i);
     }
     engineController.baseChannelIndex = lx.engine.getChannels().size() - 1;
