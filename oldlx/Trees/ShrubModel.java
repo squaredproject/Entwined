@@ -298,8 +298,9 @@ class Shrub extends LXModel {
         this.ry = ry;
         // Very useful print to see if I'm going the right directions
         //if (shrubIndex == 0) {
-        //    for (ShrubCube cube : this.cubes) {
-        //        System.out.println("si: "+cube.sculptureIndex+" idx: "+cube.index+" sx: "+cube.sx+" sy: "+cube.sy+" sz: "+cube.sz);
+        //      for (ShrubCube cube : this.cubes) {
+        //          System.out.println("si: "+cube.sculptureIndex+" idx: "+cube.index+" sx: "+cube.sx+" sy: "+cube.sy+" sz: "+cube.sz);
+        //          System.out.println("    theta: "+cube.theta+" y: "+cube.y);
         //    }
         //}
 
@@ -385,9 +386,9 @@ class Shrub extends LXModel {
 }
 
 class ShrubCube extends BaseCube {
-  public static final int[] PIXELS_PER_CUBE = { 6, 6, 6, 12, 12 }; // Tiny cubes actually have less, but for Entwined we want to
+  //public static final int[] PIXELS_PER_CUBE = { 6, 6, 6, 12, 12 }; // Tiny cubes actually have less, but for Entwined we want to
                                                                    // tell the NDB that everything is 6
-  public static final float[] CUBE_SIZES = { 4f, 7.5f, 11.25f, 15f, 16.5f };
+  // public static final float[] CUBE_SIZES = { 4f, 7.5f, 11.25f, 15f, 16.5f };
     /**
      * Size of this cube, one of SMALL/MEDIUM/LARGE/GIANT
      */
@@ -400,8 +401,8 @@ class ShrubCube extends BaseCube {
     ShrubCube(Vec3D globalPosition, Vec3D sculpturePosition, ShrubCubeConfig config) {
         super( globalPosition,  sculpturePosition, config.shrubIndex, config.treeOrShrub);
 
-        this.size = CUBE_SIZES[config.cubeSizeIndex];
-        this.pixels = PIXELS_PER_CUBE[config.cubeSizeIndex];
+        this.size = 4f; // cubes are about 4 inches across
+        this.pixels = 4; // LEDs per cube - doesn't change in this model
         this.config = config;
     }
 }
