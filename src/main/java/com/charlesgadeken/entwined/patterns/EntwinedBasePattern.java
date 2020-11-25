@@ -7,7 +7,7 @@ import heronarts.lx.pattern.LXPattern;
 
 public abstract class EntwinedBasePattern extends LXPattern {
     ParameterTriggerableAdapter parameterTriggerableAdapter;
-    String readableName;
+    public String readableName;
 
     protected final Model model;
 
