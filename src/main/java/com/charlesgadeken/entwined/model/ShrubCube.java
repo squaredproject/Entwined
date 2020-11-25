@@ -1,6 +1,6 @@
 package com.charlesgadeken.entwined.model;
 
-import com.charlesgadeken.entwined.model.config.ShrubCubeConfig;
+import com.charlesgadeken.entwined.config.ShrubCubeConfig;
 import toxi.geom.Vec3D;
 
 public class ShrubCube extends BaseCube {
