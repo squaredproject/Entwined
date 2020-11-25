@@ -1,10 +1,10 @@
 package com.charlesgadeken.entwined.model;
 
 import com.charlesgadeken.entwined.Utilities;
+import com.google.common.collect.Lists;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import java.awt.geom.Point2D;
-import java.util.Arrays;
 import toxi.geom.Vec2D;
 import toxi.geom.Vec3D;
 
@@ -60,10 +60,8 @@ public class BaseCube extends LXModel {
 
     BaseCube(Vec3D globalPosition, Vec3D sculpturePosition) {
         super(
-                Arrays.asList(
-                        new LXPoint[] {
-                            new LXPoint(globalPosition.x, globalPosition.y, globalPosition.z)
-                        }));
+                Lists.newArrayList(
+                        new LXPoint(globalPosition.x, globalPosition.y, globalPosition.z)));
         this.index = this.points[0].index;
         this.rx = 0;
         this.ry = 0;

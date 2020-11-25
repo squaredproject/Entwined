@@ -34,10 +34,7 @@ public class Shrub extends LXModelInterceptor {
     /** Rotation in degrees of shrub about vertical y-axis */
     public final float ry;
 
-    private final LX lx;
-
     Shrub(
-            LX lx,
             List<ShrubCubeConfig> shrubCubeConfig,
             int shrubIndex,
             float x,
