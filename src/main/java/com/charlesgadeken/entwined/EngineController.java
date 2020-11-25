@@ -47,17 +47,19 @@ public class EngineController {
     }
 
     public void setChannelPattern(int channelIndex, int patternIndex) {
-        // NOTE(meawoppl) - Needs review from @Slee?
-        // Previously this was:
-        //        if (patternIndex == -1) {
-        //            patternIndex = 0;
-        //        } else {
-        //            patternIndex++;
-        //        }
-        ((LXChannel) lx.engine.mixer.getChannel(channelIndex)).goIndex(patternIndex);
-        // Trying....
-        lx.engine.mixer.setFocusedChannel(lx.engine.mixer.getChannel(channelIndex));
-        // ??
+        if (patternIndex == -1) {
+            patternIndex = 0;
+        } else {
+            patternIndex++;
+        }
+
+        LXAbstractChannel c = lx.engine.mixer.getChannel(channelIndex);
+        if(c instanceof LXChannel){
+            ((LXChannel) c).goPatternIndex(patternIndex);
+        } else {
+            System.err.printf("WARNING: Ignoring attempt to set channel %d to pattern %d", channelIndex, patternIndex);
+        }
+
     }
 
     public void setChannelVisibility(int channelIndex, double visibility) {
