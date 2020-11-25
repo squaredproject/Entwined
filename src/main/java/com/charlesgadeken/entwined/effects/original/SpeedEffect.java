@@ -12,11 +12,12 @@ public class SpeedEffect extends EntwinedBaseEffect {
     SpeedEffect(final LX lx) {
         super(lx);
 
-        speed.addListener(new LXParameterListener() {
-            public void onParameterChanged(LXParameter parameter) {
-                lx.engine.setSpeed(speed.getValue());
-            }
-        });
+        speed.addListener(
+                new LXParameterListener() {
+                    public void onParameterChanged(LXParameter parameter) {
+                        lx.engine.setSpeed(speed.getValue());
+                    }
+                });
     }
 
     protected void onEnable() {

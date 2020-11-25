@@ -21,18 +21,20 @@ public class ScrambleEffect extends EntwinedBaseEffect {
     }
 
     int getAmount() {
-        return (int)(amount.getValue() * lx.getModel().size / 2);
+        return (int) (amount.getValue() * lx.getModel().size / 2);
     }
 
     protected void run(double deltaMs, double unused) {
         for (Tree tree : model.trees) {
             for (int i = Utilities.min(tree.cubes.size() - 1, getAmount()); i > 0; i--) {
-                colors[tree.cubes.get(i).index] = colors[tree.cubes.get((i + offset) % tree.cubes.size()).index];
+                colors[tree.cubes.get(i).index] =
+                        colors[tree.cubes.get((i + offset) % tree.cubes.size()).index];
             }
         }
         for (Shrub shrub : model.shrubs) {
             for (int i = Utilities.min(shrub.cubes.size() - 1, getAmount()); i > 0; i--) {
-                colors[shrub.cubes.get(i).index] = colors[shrub.cubes.get((i + offset) % shrub.cubes.size()).index];
+                colors[shrub.cubes.get(i).index] =
+                        colors[shrub.cubes.get((i + offset) % shrub.cubes.size()).index];
             }
         }
     }

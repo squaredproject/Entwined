@@ -4,7 +4,6 @@ import com.charlesgadeken.entwined.EngineController;
 import com.charlesgadeken.entwined.effects.TSEffectController;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.mixer.LXChannel;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,13 +36,14 @@ public class ClientModelUpdater {
             channelParams.put("currentPatternIndex", currentPatternIndex);
             channelParams.put("visibility", channel.fader.getValue());
 
-            List<Map<String, Object>> patternsParams = new ArrayList<>(channel.getPatterns().size());
+            List<Map<String, Object>> patternsParams =
+                    new ArrayList<>(channel.getPatterns().size());
             for (int i = 1; i < channel.getPatterns().size(); i++) {
                 EntwinedBasePattern pattern = (EntwinedBasePattern) channel.getPatterns().get(i);
                 Map<String, Object> patternParams = new HashMap<>();
                 // TODO(meawoppl) wat VV
                 patternParams.put("name", pattern.readableName);
-                patternParams.put("index", i-1);
+                patternParams.put("index", i - 1);
                 patternsParams.add(patternParams);
             }
             channelParams.put("patterns", patternsParams);
@@ -52,7 +52,8 @@ public class ClientModelUpdater {
         }
         returnParams.put("channels", channelsParams);
 
-        List<Map<String, Object>> effectsParams = new ArrayList<>(engineController.effectControllers.size());
+        List<Map<String, Object>> effectsParams =
+                new ArrayList<>(engineController.effectControllers.size());
         for (int i = 0; i < engineController.effectControllers.size(); i++) {
             TSEffectController effectController = engineController.effectControllers.get(i);
             Map<String, Object> effectParams = new HashMap<String, Object>();

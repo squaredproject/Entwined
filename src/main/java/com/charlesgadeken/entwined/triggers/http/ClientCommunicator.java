@@ -1,7 +1,6 @@
 package com.charlesgadeken.entwined.triggers.http;
 
 import com.google.gson.Gson;
-
 import java.util.HashMap;
 import java.util.Map;
 

@@ -8,7 +8,6 @@ import heronarts.lx.LX;
 import heronarts.lx.effect.BlurEffect;
 import heronarts.lx.mixer.LXAbstractChannel;
 import heronarts.lx.mixer.LXChannel;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,7 +39,10 @@ public class EngineController {
 
     public List<LXChannel> getChannels() {
         // NOTE(meawoppl) dangercast here. @Slee?
-        return lx.engine.mixer.getChannels().subList(baseChannelIndex, baseChannelIndex + numChannels).stream().map(c -> (LXChannel) c).collect(Collectors.toList());
+        return lx.engine.mixer.getChannels()
+                .subList(baseChannelIndex, baseChannelIndex + numChannels).stream()
+                .map(c -> (LXChannel) c)
+                .collect(Collectors.toList());
     }
 
     public void setChannelPattern(int channelIndex, int patternIndex) {
@@ -66,12 +68,14 @@ public class EngineController {
             return;
         }
         if (activeEffectControllerIndex != -1) {
-            TSEffectController effectController = effectControllers.get(activeEffectControllerIndex);
+            TSEffectController effectController =
+                    effectControllers.get(activeEffectControllerIndex);
             effectController.setEnabled(false);
         }
         activeEffectControllerIndex = effectIndex;
         if (activeEffectControllerIndex != -1) {
-            TSEffectController effectController = effectControllers.get(activeEffectControllerIndex);
+            TSEffectController effectController =
+                    effectControllers.get(activeEffectControllerIndex);
             effectController.setEnabled(true);
         }
     }
@@ -127,14 +131,14 @@ public class EngineController {
             }
 
             // @Slee lx.engine.getEffects() doesn't seem to exist any more:
-//            for (int i = 0; i < lx.engine.getEffects().size(); i++) {
-//                LXEffect effect = lx.engine.getEffects().get(i);
-//                if (i < startEffectIndex) {
-//                    effect.enabled.setValue(autoplay);
-//                } else if (i < endEffectIndex) {
-//                    effect.enabled.setValue(!autoplay);
-//                }
-//            }
+            //            for (int i = 0; i < lx.engine.getEffects().size(); i++) {
+            //                LXEffect effect = lx.engine.getEffects().get(i);
+            //                if (i < startEffectIndex) {
+            //                    effect.enabled.setValue(autoplay);
+            //                } else if (i < endEffectIndex) {
+            //                    effect.enabled.setValue(!autoplay);
+            //                }
+            //            }
 
             // End Commented out
         }

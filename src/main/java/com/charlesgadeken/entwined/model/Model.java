@@ -134,11 +134,11 @@ public class Model extends LXModelInterceptor {
     public final Map<String, ShrubCube[]> shrubIpMap = new HashMap<String, ShrubCube[]>();
 
     private final List<ShrubConfig> shrubConfigs;
+
     public void addModelTransform(ModelTransform modelTransform) {
         // TODO(meawoppl) fixme?
         //        modelTransforms.add(modelTransform);
         //        shrubModelTransforms.add(modelTransform);
         System.err.println("WARNING: Model transforms currently dropped :(");
     }
-
 }
