@@ -6,6 +6,7 @@ import com.charlesgadeken.entwined.effects.original.SpeedEffect;
 import com.charlesgadeken.entwined.effects.original.SpinEffect;
 import heronarts.lx.LX;
 import heronarts.lx.effect.BlurEffect;
+import heronarts.lx.effect.LXEffect;
 import heronarts.lx.mixer.LXAbstractChannel;
 import heronarts.lx.mixer.LXChannel;
 import java.util.ArrayList;
@@ -38,9 +39,9 @@ public class EngineController {
     }
 
     public List<LXChannel> getChannels() {
-        // NOTE(meawoppl) dangercast here. @Slee?
         return lx.engine.mixer.getChannels()
                 .subList(baseChannelIndex, baseChannelIndex + numChannels).stream()
+                .filter(c->c instanceof LXChannel)
                 .map(c -> (LXChannel) c)
                 .collect(Collectors.toList());
     }
@@ -53,7 +54,7 @@ public class EngineController {
         //        } else {
         //            patternIndex++;
         //        }
-        //        lx.engine.getChannel(channelIndex).goIndex(patternIndex);
+        ((LXChannel) lx.engine.mixer.getChannel(channelIndex)).goIndex(patternIndex);
         // Trying....
         lx.engine.mixer.setFocusedChannel(lx.engine.mixer.getChannel(channelIndex));
         // ??
@@ -130,17 +131,15 @@ public class EngineController {
                 }
             }
 
-            // @Slee lx.engine.getEffects() doesn't seem to exist any more:
-            //            for (int i = 0; i < lx.engine.getEffects().size(); i++) {
-            //                LXEffect effect = lx.engine.getEffects().get(i);
-            //                if (i < startEffectIndex) {
-            //                    effect.enabled.setValue(autoplay);
-            //                } else if (i < endEffectIndex) {
-            //                    effect.enabled.setValue(!autoplay);
-            //                }
-            //            }
-
-            // End Commented out
+            List<LXEffect> effects = lx.engine.mixer.masterBus.getEffects();
+            for (int i = 0; i < effects.size(); i++) {
+                LXEffect effect = effects.get(i);
+                if (i < startEffectIndex) {
+                    effect.enabled.setValue(autoplay);
+                } else if (i < endEffectIndex) {
+                    effect.enabled.setValue(!autoplay);
+                }
+            }
         }
     }
 }
