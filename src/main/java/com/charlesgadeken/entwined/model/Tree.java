@@ -1,7 +1,7 @@
 package com.charlesgadeken.entwined.model;
 
 import com.charlesgadeken.entwined.Utilities;
-import com.charlesgadeken.entwined.model.config.TreeCubeConfig;
+import com.charlesgadeken.entwined.config.TreeCubeConfig;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.transform.LXTransform;
@@ -37,7 +37,7 @@ public class Tree extends LXModelInterceptor {
 
     private final LX lx;
 
-    Tree(
+    public Tree(
             LX lx,
             List<TreeCubeConfig> cubeConfig,
             int treeIndex,

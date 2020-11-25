@@ -1,4 +1,4 @@
-package com.charlesgadeken.entwined.model.config;
+package com.charlesgadeken.entwined.config;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
