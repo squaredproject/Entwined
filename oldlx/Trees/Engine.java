@@ -122,7 +122,6 @@ abstract class Engine {
       configureMIDI();
     }
     if (Config.enableIPad) {
-      engineController.setAutoplay(Config.autoplayBMSet, true);
       configureServer();
     }
 
@@ -144,44 +143,44 @@ abstract class Engine {
   void postCreateLX() {
   }
 
-  void registerIPadPatterns() {
-    registerPatternController("None", new NoPattern(lx));
-    registerPatternController("Twister", new Twister(lx));
-    registerPatternController("Lottor", new MarkLottor(lx));
-    registerPatternController("Ripple", new Ripple(lx));
-    registerPatternController("Stripes", new Stripes(lx));
-    registerPatternController("Lattice", new Lattice(lx));
-    registerPatternController("Fumes", new Fumes(lx));
-    registerPatternController("Voronoi", new Voronoi(lx));
-    registerPatternController("Candy Cloud", new CandyCloud(lx));
-    // registerPatternController("Galaxy Cloud", new GalaxyCloud(lx));
+  // void registerIPadPatterns() {
+  //   registerPatternController("None", new NoPattern(lx));
+  //   registerPatternController("Twister", new Twister(lx));
+  //   registerPatternController("Lottor", new MarkLottor(lx));
+  //   registerPatternController("Ripple", new Ripple(lx));
+  //   registerPatternController("Stripes", new Stripes(lx));
+  //   registerPatternController("Lattice", new Lattice(lx));
+  //   registerPatternController("Fumes", new Fumes(lx));
+  //   registerPatternController("Voronoi", new Voronoi(lx));
+  //   registerPatternController("Candy Cloud", new CandyCloud(lx));
+  //   // registerPatternController("Galaxy Cloud", new GalaxyCloud(lx));
 
-    registerPatternController("Color Strobe", new ColorStrobe(lx));
-    registerPatternController("Strobe", new Strobe(lx));
-    registerPatternController("Sparkle Takeover", new SparkleTakeOver(lx));
-    registerPatternController("Multi-Sine", new MultiSine(lx));
-    registerPatternController("Seesaw", new SeeSaw(lx));
-    registerPatternController("Cells", new Cells(lx));
-    registerPatternController("Fade", new Fade(lx));
+  //   registerPatternController("Color Strobe", new ColorStrobe(lx));
+  //   registerPatternController("Strobe", new Strobe(lx));
+  //   registerPatternController("Sparkle Takeover", new SparkleTakeOver(lx));
+  //   registerPatternController("Multi-Sine", new MultiSine(lx));
+  //   registerPatternController("Seesaw", new SeeSaw(lx));
+  //   registerPatternController("Cells", new Cells(lx));
+  //   registerPatternController("Fade", new Fade(lx));
 
-    registerPatternController("Ice Crystals", new IceCrystals(lx));
-    registerPatternController("Fire", new Fire(lx));
+  //   registerPatternController("Ice Crystals", new IceCrystals(lx));
+  //   registerPatternController("Fire", new Fire(lx));
 
-    registerPatternController("Acid Trip", new AcidTrip(lx));
-    registerPatternController("Rain", new Rain(lx));
-    registerPatternController("Bass Slam", new BassSlam(lx));
+  //   registerPatternController("Acid Trip", new AcidTrip(lx));
+  //   registerPatternController("Rain", new Rain(lx));
+  //   registerPatternController("Bass Slam", new BassSlam(lx));
 
-    registerPatternController("Fireflies", new Fireflies(lx));
-    registerPatternController("Bubbles", new Bubbles(lx));
-    registerPatternController("Lightning", new Lightning(lx));
-    registerPatternController("Wisps", new Wisps(lx));
-    registerPatternController("Fireworks", new Explosions(lx));
+  //   registerPatternController("Fireflies", new Fireflies(lx));
+  //   registerPatternController("Bubbles", new Bubbles(lx));
+  //   registerPatternController("Lightning", new Lightning(lx));
+  //   registerPatternController("Wisps", new Wisps(lx));
+  //   registerPatternController("Fireworks", new Explosions(lx));
 
-    registerPatternController("ColorWave", new ColorWave(lx));
+  //   registerPatternController("ColorWave", new ColorWave(lx));
 
-    registerPatternController("Pond", new Pond(lx));
-    registerPatternController("Planes", new Twister(lx));
-  }
+  //   registerPatternController("Pond", new Pond(lx));
+  //   registerPatternController("Planes", new Twister(lx));
+  // }
 
   void registerIPadEffects() {
     ColorEffect colorEffect = new ColorEffect2(lx);
@@ -544,24 +543,7 @@ abstract class Engine {
       }
       channel.goIndex(i);
     }
-    engineController.baseChannelIndex = lx.engine.getChannels().size() - 1;
-
-    if (Config.enableIPad) {
-      for (int i = 0; i < Engine.NUM_IPAD_CHANNELS; ++i) {
-        patterns = new ArrayList<TSPattern>();
-        registerIPadPatterns();
-
-        LXChannel channel = lx.engine.addChannel(patterns.toArray(new TSPattern[0]));
-        setupChannel(channel, true);
-        channel.getFader().setValue(1);
-
-        if (i == 0) {
-          channel.goIndex(1);
-        }
-      }
-      patterns = null;
-      engineController.numChannels = NUM_IPAD_CHANNELS;
-    }
+    engineController.numChannels = NUM_CHANNELS;
 
     lx.engine.removeChannel(lx.engine.getDefaultChannel());
   }
@@ -843,7 +825,6 @@ abstract class Engine {
 class EngineController {
   LX lx;
 
-  int baseChannelIndex;
   int numChannels;
 
   int startEffectIndex;
@@ -866,7 +847,7 @@ class EngineController {
   }
 
   List<LXChannel> getChannels() {
-    return lx.engine.getChannels().subList(baseChannelIndex, baseChannelIndex + numChannels);
+    return lx.engine.getChannels();
   }
 
   void setChannelPattern(int channelIndex, int patternIndex) {
@@ -930,16 +911,7 @@ class EngineController {
       }
 
       for (LXChannel channel : lx.engine.getChannels()) {
-        boolean toEnable;
-        if (channel.getIndex() < baseChannelIndex) {
-          toEnable = autoplay;
-        } else if (channel.getIndex() < baseChannelIndex + numChannels) {
-          toEnable = !autoplay;
-        } else {
-          toEnable = autoplay;
-        }
-
-        if (toEnable) {
+        if (autoplay) {
           channel.enabled.setValue(previousChannelIsOn[channel.getIndex()]);
         } else {
           previousChannelIsOn[channel.getIndex()] = channel.enabled.isOn();
