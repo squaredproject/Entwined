@@ -98,6 +98,8 @@ abstract class Engine {
 
     if (Config.enableNFC) {
       configureNFC();
+      // this line to allow any nfc reader to read any cube
+      nfcEngine.disableVisualTypeRestrictions = true;
     }
 
     configureTriggerables();
@@ -772,8 +774,6 @@ abstract class Engine {
     }
 
     nfcEngine.registerReaderPatternTypeRestrictions(Arrays.asList(readerPatternTypeRestrictions()));
-    // this line to allow any nfc reader to read any cube
-    nfcEngine.disableVisualTypeRestrictions = true;
   }
 
   /* configureExternalOutput */
@@ -950,7 +950,6 @@ class EngineController {
       for (int i = 0; i < lx.engine.getEffects().size(); i++) {
         LXEffect effect = lx.engine.getEffects().get(i);
         if (i < startEffectIndex) {
-          effect.enabled.setValue(autoplay);
           effect.enabled.setValue(autoplay);
         } else if (i < endEffectIndex) {
           effect.enabled.setValue(!autoplay);
