@@ -12,7 +12,7 @@ import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.LXParameter;
 
 @LXCategory("Irene Zhou")
-public class Pulley extends EntwinedTriggerablePattern { //ported from SugarCubes
+public class Pulley extends EntwinedTriggerablePattern { // ported from SugarCubes
     final int NUM_DIVISIONS = 2;
     private final Accelerator[] gravity = new Accelerator[NUM_DIVISIONS];
     private final float[] baseSpeed = new float[NUM_DIVISIONS];
@@ -27,7 +27,6 @@ public class Pulley extends EntwinedTriggerablePattern { //ported from SugarCube
     private BoundedParameter beatAmount = new BoundedParameter("BEAT", 0);
     private BooleanParameter automated = new BooleanParameter("AUTO", true);
     private BoundedParameter speed = new BoundedParameter("SPEED", 1, -3, 3);
-
 
     public Pulley(LX lx) {
         super(lx);
@@ -67,8 +66,7 @@ public class Pulley extends EntwinedTriggerablePattern { //ported from SugarCube
             if (isRising) {
                 baseSpeed[j] = Utilities.random(20, 33);
                 gravity[j].setSpeed(baseSpeed[j], 0).start();
-            }
-            else {
+            } else {
                 gravity[j].setVelocity(0).setAcceleration(-420);
                 delays[j].setPeriod(Utilities.random(0, 500)).trigger();
             }
@@ -81,11 +79,11 @@ public class Pulley extends EntwinedTriggerablePattern { //ported from SugarCube
 
         if (turnOff.click()) {
             triggered = false;
-            setColors(LX.hsb(0,0,0));
+            setColors(LX.hsb(0, 0, 0));
             turnOff.stop();
             turnOff.reset();
         }
-        if(triggered) {
+        if (triggered) {
             if (!isRising) {
                 int j = 0;
                 for (Click d : delays) {
@@ -96,27 +94,44 @@ public class Pulley extends EntwinedTriggerablePattern { //ported from SugarCube
                     ++j;
                 }
                 for (Accelerator g : gravity) {
-                    if (g.getValuef() < 0) { //bounce
+                    if (g.getValuef() < 0) { // bounce
                         g.setValue(-g.getValuef());
                         g.setVelocity(-g.getVelocityf() * Utilities.random(0.74f, 0.84f));
                     }
                 }
             }
 
-            float fPos = 1 -lx.engine.tempo.rampf();
+            float fPos = 1 - lx.engine.tempo.rampf();
             if (fPos < .2f) {
                 fPos = .2f + 4 * (.2f - fPos);
             }
 
-            float falloff = 100.f / (3 + sz.getValuef() * 36 + fPos * beatAmount.getValuef()*48);
+            float falloff = 100.f / (3 + sz.getValuef() * 36 + fPos * beatAmount.getValuef() * 48);
             for (Cube cube : model.cubes) {
-                int gi = (int) Utilities.constrain((cube.x - model.xMin) * NUM_DIVISIONS / (model.xMax - model.xMin), 0, NUM_DIVISIONS-1);
-                float yn =  cube.transformedY/model.yMax;
-                colors[cube.index] = LX.hsb(
-                    (lx.engine.palette.getHuef() + Utilities.abs(cube.x - model.cx)*.8f + cube.transformedY*.4f) % 360,
-                    Utilities.constrain(100 *(0.8f -  yn * yn), 0, 100),
-                    Utilities.max(0, 100 - Utilities.abs(cube.transformedY/2 - 50 - gravity[gi].getValuef())*falloff)
-                );
+                int gi =
+                        (int)
+                                Utilities.constrain(
+                                        (cube.x - model.xMin)
+                                                * NUM_DIVISIONS
+                                                / (model.xMax - model.xMin),
+                                        0,
+                                        NUM_DIVISIONS - 1);
+                float yn = cube.transformedY / model.yMax;
+                colors[cube.index] =
+                        LX.hsb(
+                                (lx.engine.palette.getHuef()
+                                                + Utilities.abs(cube.x - model.cx) * .8f
+                                                + cube.transformedY * .4f)
+                                        % 360,
+                                Utilities.constrain(100 * (0.8f - yn * yn), 0, 100),
+                                Utilities.max(
+                                        0,
+                                        100
+                                                - Utilities.abs(
+                                                                cube.transformedY / 2
+                                                                        - 50
+                                                                        - gravity[gi].getValuef())
+                                                        * falloff));
             }
         }
     }
@@ -131,12 +146,11 @@ public class Pulley extends EntwinedTriggerablePattern { //ported from SugarCube
         isRising = true;
         turnOff.start();
 
-        for (Accelerator g: gravity) {
+        for (Accelerator g : gravity) {
             g.setValue(225);
         }
         trigger();
     }
 
-    public void onRelease() {
-    }
+    public void onRelease() {}
 }

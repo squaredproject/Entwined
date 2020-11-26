@@ -20,12 +20,12 @@ public class Voronoi extends EntwinedBasePattern {
     private class Site {
         public float theta = 0;
         public float yPos = 0;
-        public Vec2D velocity = new Vec2D(0,0);
+        public Vec2D velocity = new Vec2D(0, 0);
 
         public Site() {
             theta = Utilities.random(0, 360);
             yPos = Utilities.random(model.yMin, model.yMax);
-            velocity = new Vec2D(Utilities.random(-1,1), Utilities.random(-1,1));
+            velocity = new Vec2D(Utilities.random(-1, 1), Utilities.random(-1, 1));
         }
 
         public void move(float speed) {
@@ -54,8 +54,14 @@ public class Voronoi extends EntwinedBasePattern {
             float minDistSq = 1000000;
             float nextMinDistSq = 1000000;
             for (int i = 0; i < sites.length; ++i) {
-                if (Utilities.abs(sites[i].yPos - cube.transformedY) < 150) { //restraint on calculation
-                    float distSq = Utilities.pow((LXUtils.wrapdistf(sites[i].theta, cube.transformedTheta, 360)), 2) + Utilities.pow(sites[i].yPos - cube.transformedY, 2);
+                if (Utilities.abs(sites[i].yPos - cube.transformedY)
+                        < 150) { // restraint on calculation
+                    float distSq =
+                            Utilities.pow(
+                                            (LXUtils.wrapdistf(
+                                                    sites[i].theta, cube.transformedTheta, 360)),
+                                            2)
+                                    + Utilities.pow(sites[i].yPos - cube.transformedY, 2);
                     if (distSq < nextMinDistSq) {
                         if (distSq < minDistSq) {
                             nextMinDistSq = minDistSq;
@@ -66,14 +72,20 @@ public class Voronoi extends EntwinedBasePattern {
                     }
                 }
             }
-            colors[cube.index] = LX.hsb(
-                (lx.engine.palette.getHuef() + hue.getValuef()) % 360,
-                100,
-                Utilities.max(0, Utilities.min(100, 100 - Utilities.sqrt(nextMinDistSq - minDistSq) / width.getValuef()))
-            );
+            colors[cube.index] =
+                    LX.hsb(
+                            (lx.engine.palette.getHuef() + hue.getValuef()) % 360,
+                            100,
+                            Utilities.max(
+                                    0,
+                                    Utilities.min(
+                                            100,
+                                            100
+                                                    - Utilities.sqrt(nextMinDistSq - minDistSq)
+                                                            / width.getValuef())));
         }
-        for (Site site: sites) {
-            site.move(speed.getValuef() * (float)deltaMs * 60 / 1000);
+        for (Site site : sites) {
+            site.move(speed.getValuef() * (float) deltaMs * 60 / 1000);
         }
     }
 }

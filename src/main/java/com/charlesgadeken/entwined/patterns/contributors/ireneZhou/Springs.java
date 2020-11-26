@@ -23,7 +23,7 @@ public class Springs extends EntwinedBasePattern {
     final SinLFO spin = new SinLFO(0, 360, 9600);
 
     float coil(float basis) {
-        return 4 * Utilities.sin(basis*Utilities.TWO_PI + Utilities.PI) ;
+        return 4 * Utilities.sin(basis * Utilities.TWO_PI + Utilities.PI);
     }
 
     public Springs(LX lx) {
@@ -49,8 +49,7 @@ public class Springs extends EntwinedBasePattern {
         isRising = !isRising;
         if (isRising) {
             gravity.setSpeed(0.25f, 0).start();
-        }
-        else {
+        } else {
             gravity.setVelocity(0).setAcceleration(-1.75f);
         }
     }
@@ -67,18 +66,25 @@ public class Springs extends EntwinedBasePattern {
         }
 
         float spinf = spin.getValuef();
-        float coilf = 2*coil(spin.getBasisf());
+        float coilf = 2 * coil(spin.getBasisf());
 
         for (BaseCube cube : model.baseCubes) {
-            float yn =  cube.transformedY/model.yMax;
-            float width = (1-yn) * 25;
-            float wrapdist = LXUtils.wrapdistf(cube.transformedTheta, spinf + (cube.transformedY) * 1/(gravity.getValuef() + 0.2f), 360);
-            float df = Utilities.max(0, 100 - Utilities.max(0, wrapdist-width));
-            colors[cube.index] = LX.hsb(
-                Utilities.max(0, (lx.engine.palette.getHuef() - yn * 20 + hue.getValuef()) % 360),
-                Utilities.constrain((1- yn) * 100 + wrapdist, 0, 100),
-                Utilities.max(0, df - yn * 50)
-            );
+            float yn = cube.transformedY / model.yMax;
+            float width = (1 - yn) * 25;
+            float wrapdist =
+                    LXUtils.wrapdistf(
+                            cube.transformedTheta,
+                            spinf + (cube.transformedY) * 1 / (gravity.getValuef() + 0.2f),
+                            360);
+            float df = Utilities.max(0, 100 - Utilities.max(0, wrapdist - width));
+            colors[cube.index] =
+                    LX.hsb(
+                            Utilities.max(
+                                    0,
+                                    (lx.engine.palette.getHuef() - yn * 20 + hue.getValuef())
+                                            % 360),
+                            Utilities.constrain((1 - yn) * 100 + wrapdist, 0, 100),
+                            Utilities.max(0, df - yn * 50));
         }
     }
 }
