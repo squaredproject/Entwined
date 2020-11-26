@@ -6,7 +6,7 @@ public class TurnOffDeadPixelsEffect extends EntwinedBaseEffect {
     int[] deadPixelIndices = new int[] {};
     int[] deadPixelClusters = new int[] {};
 
-    TurnOffDeadPixelsEffect(LX lx) {
+    public TurnOffDeadPixelsEffect(LX lx) {
         super(lx);
     }
 
