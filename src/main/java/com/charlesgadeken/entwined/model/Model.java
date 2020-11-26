@@ -1,6 +1,7 @@
 package com.charlesgadeken.entwined.model;
 
 import com.charlesgadeken.entwined.config.*;
+import com.charlesgadeken.entwined.effects.ModelTransform;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import java.util.ArrayList;
@@ -133,4 +134,11 @@ public class Model extends LXModelInterceptor {
     public final Map<String, ShrubCube[]> shrubIpMap = new HashMap<String, ShrubCube[]>();
 
     private final List<ShrubConfig> shrubConfigs;
+
+    public void addModelTransform(ModelTransform modelTransform) {
+        // TODO(meawoppl) fixme?
+        //        modelTransforms.add(modelTransform);
+        //        shrubModelTransforms.add(modelTransform);
+        System.err.println("WARNING: Model transforms currently dropped :(");
+    }
 }

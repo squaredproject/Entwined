@@ -2,7 +2,7 @@ package com.charlesgadeken.entwined.triggers;
 
 import heronarts.lx.parameter.LXParameterListener;
 
-interface Triggerable {
+public interface Triggerable {
     boolean isTriggered();
 
     void onTriggered(float strength);
