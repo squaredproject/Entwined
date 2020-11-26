@@ -24,7 +24,8 @@ public class InstantiateAllEffectsTest {
 
     Stream<Class<? extends EntwinedBaseEffect>> findEffects() {
         Reflections reflection = new Reflections("com.charlesgadeken");
-        return reflection.getSubTypesOf(EntwinedBaseEffect.class).stream().filter(e-> !Modifier.isAbstract(e.getModifiers()));
+        return reflection.getSubTypesOf(EntwinedBaseEffect.class).stream()
+                .filter(e -> !Modifier.isAbstract(e.getModifiers()));
     }
 
     @ParameterizedTest
