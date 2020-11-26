@@ -951,6 +951,7 @@ class EngineController {
         LXEffect effect = lx.engine.getEffects().get(i);
         if (i < startEffectIndex) {
           effect.enabled.setValue(autoplay);
+          effect.enabled.setValue(autoplay);
         } else if (i < endEffectIndex) {
           effect.enabled.setValue(!autoplay);
         }

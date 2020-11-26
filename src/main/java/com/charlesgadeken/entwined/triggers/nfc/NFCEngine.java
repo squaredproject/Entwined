@@ -5,7 +5,6 @@ import com.charlesgadeken.entwined.triggers.Triggerable;
 import heronarts.lx.LX;
 import heronarts.lx.LXLoopTask;
 import heronarts.lx.parameter.BooleanParameter;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,7 +14,8 @@ import java.util.Map;
 public class NFCEngine {
     private class NFCEngineCardListener implements NFCCardListener {
         public void onReaderAdded(String reader) {
-            VisualType nextPatternType = readerPatternTypeRestrictionArray.get(readerPatternTypeRestrictionIndex);
+            VisualType nextPatternType =
+                    readerPatternTypeRestrictionArray.get(readerPatternTypeRestrictionIndex);
             readerPatternTypeRestrictionIndex++;
             readerToPatternTypeRestrictionMap.put(reader, nextPatternType);
         }
@@ -116,11 +116,14 @@ public class NFCEngine {
     private LibNFC libNFC;
     private LibNFCMainThread libNFCMainThread;
     private final NFCEngineCardListener cardReader = new NFCEngineCardListener();
-    private final Map<String, NFCEngineVisual> cardToTriggerableMap = new HashMap<String, NFCEngineVisual>();
-    private final Map<String, VisualType> readerToPatternTypeRestrictionMap = new HashMap<String, VisualType>();
+    private final Map<String, NFCEngineVisual> cardToTriggerableMap =
+            new HashMap<String, NFCEngineVisual>();
+    private final Map<String, VisualType> readerToPatternTypeRestrictionMap =
+            new HashMap<String, VisualType>();
     private List<VisualType> readerPatternTypeRestrictionArray;
     private int readerPatternTypeRestrictionIndex = 0;
-    private final List<NFCMessage> nfcThreadEventQueue = Collections.synchronizedList(new ArrayList<NFCMessage>());
+    private final List<NFCMessage> nfcThreadEventQueue =
+            Collections.synchronizedList(new ArrayList<NFCMessage>());
     private final NFCLoopTaskDispatch nfcLoopTaskDispatch = new NFCLoopTaskDispatch();
 
     public NFCEngine(LX lx) {
@@ -129,7 +132,7 @@ public class NFCEngine {
             libNFC = new LibNFC();
             libNFCMainThread = new LibNFCMainThread(libNFC, cardReader);
             lx.engine.addLoopTask(nfcLoopTaskDispatch);
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("nfc engine initialization error: " + e.toString());
             libNFC = null;
             libNFCMainThread = null;
@@ -149,11 +152,17 @@ public class NFCEngine {
     //   }
     // }
 
-    public void registerTriggerable(String serialNumber, Triggerable triggerable, VisualType VisualType, BooleanParameter toggle) {
-        cardToTriggerableMap.put(serialNumber, new NFCEngineVisual(triggerable, VisualType, toggle));
+    public void registerTriggerable(
+            String serialNumber,
+            Triggerable triggerable,
+            VisualType VisualType,
+            BooleanParameter toggle) {
+        cardToTriggerableMap.put(
+                serialNumber, new NFCEngineVisual(triggerable, VisualType, toggle));
     }
 
-    public void registerReaderPatternTypeRestrictions(List<VisualType> readerPatternTypeRestrictionArray) {
+    public void registerReaderPatternTypeRestrictions(
+            List<VisualType> readerPatternTypeRestrictionArray) {
         this.readerPatternTypeRestrictionArray = readerPatternTypeRestrictionArray;
     }
 

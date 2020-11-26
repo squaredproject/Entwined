@@ -120,7 +120,7 @@ public class Utilities {
         return (value - currentMin) / (currentMax - currentMin);
     }
 
-    public static boolean isConcrete(Class<?> cls){
+    public static boolean isConcrete(Class<?> cls) {
         return !Modifier.isAbstract(cls.getModifiers());
     }
 }

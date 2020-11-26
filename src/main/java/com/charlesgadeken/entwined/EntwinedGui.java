@@ -11,21 +11,17 @@ import com.charlesgadeken.entwined.triggers.nfc.NFCEngine;
 import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
 import heronarts.lx.output.DDPDatagram;
-import heronarts.lx.output.DDPOutputGroup;
 import heronarts.lx.output.FadecandySocket;
-import heronarts.lx.output.LXBufferOutput;
-import heronarts.lx.output.LXDatagram;
+import heronarts.lx.output.LXOutputGroup;
 import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.studio.LXStudio;
 import java.io.File;
 import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.Map;
-
+import javax.annotation.Nullable;
 import org.reflections.Reflections;
 import processing.core.PApplet;
-
-import javax.annotation.Nullable;
 
 public class EntwinedGui extends PApplet implements LXPlugin {
 
@@ -39,8 +35,10 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     private EngineController engineController;
 
     private LX lx;
+    private Model model;
     private NFCEngine nfcEngine;
     final BooleanParameter[][] nfcToggles = new BooleanParameter[6][9];
+    final BasicParameterProxy outputBrightness = new BasicParameterProxy(1);
 
     @Override
     public void settings() {
@@ -58,14 +56,14 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         flags.useGLPointCloud = false;
         flags.startMultiThreaded = true;
 
-        Model model = Model.fromConfigs();
+        model = Model.fromConfigs();
 
         lx = new LXStudio(this, flags, model);
         this.surface.setTitle(WINDOW_TITLE);
 
         engineController = new EngineController(lx);
 
-        if (ConfigLoader.enableNFC){
+        if (ConfigLoader.enableNFC) {
             configureNFC(lx);
         }
 
@@ -78,19 +76,21 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         System.out.println("setup() completed");
     }
 
-
     /* configureExternalOutput */
 
     void configureExternalOutput() {
         // Output stage
         try {
-            output = new LXDatagramOutput(lx);
-            datagrams = new LXDatagram[model.ipMap.size()];
+            LXOutputGroup output = new LXOutputGroup(lx);
+            DDPDatagram[] datagrams = new DDPDatagram[model.ipMap.size()];
             int ci = 0;
             for (Map.Entry<String, Cube[]> entry : model.ipMap.entrySet()) {
                 String ip = entry.getKey();
                 Cube[] cubes = entry.getValue();
-                output.addDatagram(datagrams[ci++] = Output.clusterDatagram(cubes).setAddress(ip));
+                DDPDatagram datagram = Output.clusterDatagram(lx, cubes);
+                datagram.setAddress(InetAddress.getByName(ip));
+                datagrams[ci++] = datagram;
+                output.addChild(datagrams[ci]);
             }
             outputBrightness.parameters.add(output.brightness);
             output.enabled.setValue(true);
@@ -99,13 +99,16 @@ public class EntwinedGui extends PApplet implements LXPlugin {
             System.out.println(x);
         }
         try {
-            shrubOutput = new LXDatagramOutput(lx);
-            shrubDatagrams = new LXDatagram[model.shrubIpMap.size()];
+            LXOutputGroup shrubOutput = new LXOutputGroup(lx);
+            DDPDatagram[] shrubDatagrams = new DDPDatagram[model.shrubIpMap.size()];
             int ci = 0;
-            for (Entry<String, ShrubCube[]> entry : model.shrubIpMap.entrySet()) {
+            for (Map.Entry<String, ShrubCube[]> entry : model.shrubIpMap.entrySet()) {
                 String shrubIp = entry.getKey();
                 ShrubCube[] shrubCubes = entry.getValue();
-                shrubOutput.addDatagram(shrubDatagrams[ci++] = Output.shrubClusterDatagram(shrubCubes).setAddress(shrubIp));
+                DDPDatagram datagram = Output.shrubClusterDatagram(lx, shrubCubes);
+                datagram.setAddress(InetAddress.getByName(shrubIp));
+                shrubDatagrams[ci++] = datagram;
+                shrubOutput.addChild(shrubDatagrams[ci]);
             }
             outputBrightness.parameters.add(shrubOutput.brightness);
             shrubOutput.enabled.setValue(true);
@@ -118,13 +121,14 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     /* configureFadeCandyOutput */
 
     void configureFadeCandyOutput() {
-        int[] clusterOrdering = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+        int[] clusterOrdering = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
         int numCubesInCluster = clusterOrdering.length;
         int numClusters = 48;
         int[] pixelOrder = new int[numClusters * numCubesInCluster];
         for (int cluster = 0; cluster < numClusters; cluster++) {
             for (int cube = 0; cube < numCubesInCluster; cube++) {
-                pixelOrder[cluster * numCubesInCluster + cube] = cluster * numCubesInCluster + clusterOrdering[cube];
+                pixelOrder[cluster * numCubesInCluster + cube] =
+                        cluster * numCubesInCluster + clusterOrdering[cube];
             }
         }
         try {
@@ -156,12 +160,14 @@ public class EntwinedGui extends PApplet implements LXPlugin {
             }
         }
 
-        nfcEngine.registerReaderPatternTypeRestrictions(Arrays.asList(readerPatternTypeRestrictions()));
+        nfcEngine.registerReaderPatternTypeRestrictions(
+                Arrays.asList(readerPatternTypeRestrictions()));
         // this line to allow any nfc reader to read any cube
         nfcEngine.disableVisualTypeRestrictions = true;
     }
+
     VisualType[] readerPatternTypeRestrictions() {
-        return new VisualType[]{
+        return new VisualType[] {
             VisualType.Pattern,
             VisualType.Pattern,
             VisualType.Pattern,
@@ -174,6 +180,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
             VisualType.Pattern,
         };
     }
+
     private void loadPatterns(LX lx) {
         reflections.getSubTypesOf(EntwinedBasePattern.class).forEach(lx.registry::addPattern);
     }
@@ -268,7 +275,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         }
     }
 
-    public static LX.Flags headlessInit(@Nullable File projectFile){
+    public static LX.Flags headlessInit(@Nullable File projectFile) {
         LX.Flags flags = new LX.Flags();
         flags.initialize = new EntwinedGui();
         if (projectFile == null) {

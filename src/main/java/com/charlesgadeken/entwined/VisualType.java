@@ -5,4 +5,3 @@ public enum VisualType {
     OneShot,
     Effect
 }
-
