@@ -5,9 +5,11 @@ import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import com.charlesgadeken.entwined.triggers.ParameterTriggerableAdapter;
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.DiscreteParameter;
 
+@LXCategory("Ray Sykes")
 public class IceCrystals extends EntwinedBasePattern {
     private IceCrystalLine crystal;
     final BoundedParameter propagationSpeed = new BoundedParameter("Speed", 5, 1, 20);

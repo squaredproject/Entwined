@@ -4,9 +4,11 @@ import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
 
+@LXCategory("Ray Sykes")
 public class Stripes extends EntwinedBasePattern {
     final BoundedParameter minSpacing = new BoundedParameter("MinSpacing", 0.5, .3, 2.5);
     final BoundedParameter maxSpacing = new BoundedParameter("MaxSpacing", 2, .3, 2.5);

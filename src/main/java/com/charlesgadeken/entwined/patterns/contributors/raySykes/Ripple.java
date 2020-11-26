@@ -4,10 +4,12 @@ import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.utils.LXUtils;
 
+@LXCategory("Ray Sykes")
 public class Ripple extends EntwinedBasePattern {
     final BoundedParameter speed = new BoundedParameter("Speed", 15000, 25000, 8000);
     final BoundedParameter baseBrightness = new BoundedParameter("Bright", 0, 0, 100);

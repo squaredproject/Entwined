@@ -7,9 +7,11 @@ import com.charlesgadeken.entwined.model.Shrub;
 import com.charlesgadeken.entwined.model.ShrubCube;
 import com.charlesgadeken.entwined.model.Tree;
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.parameter.BoundedParameter;
 
+@LXCategory("Ray Sykes")
 public class Lightning extends EntwinedTriggerablePattern {
     private LightningLine[] bolts = new LightningLine[model.trees.size() + model.shrubs.size()];
     final BoundedParameter boltAngle = new BoundedParameter("Angle", 35, 0, 55);

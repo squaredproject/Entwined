@@ -4,9 +4,11 @@ import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
 
+@LXCategory("Ray Sykes")
 public class MultiSine extends EntwinedBasePattern {
     final int numLayers = 3;
     int[][] distLayerDivisors = {{50, 140, 200}, {360, 60, 45}};

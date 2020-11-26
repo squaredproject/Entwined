@@ -4,11 +4,13 @@ import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.utils.LXUtils;
 
+@LXCategory("Ray Sykes")
 public class SparkleHelix extends EntwinedBasePattern {
     final BoundedParameter minCoil = new BoundedParameter("MinCOIL", .02, .005, .05);
     final BoundedParameter maxCoil = new BoundedParameter("MaxCOIL", .03, .005, .05);

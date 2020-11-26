@@ -4,10 +4,12 @@ import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
 
+@LXCategory("Ray Sykes")
 public class SparkleTakeOver extends EntwinedBasePattern {
     int[] sparkleTimeOuts;
     int lastComplimentaryToggle = 0;
