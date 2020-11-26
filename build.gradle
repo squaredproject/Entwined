@@ -12,6 +12,9 @@ repositories {
 }
 
 dependencies {
+	// https://mvnrepository.com/artifact/net.java.dev.jna/jna
+	compile group: 'net.java.dev.jna', name: 'jna', version: '4.1.0'
+
 	implementation files("${libPath}/lx-${lxVersion}-jar-with-dependencies.jar")
 	implementation files("${libPath}/p3lx-${lxVersion}.jar")
 	implementation files("${libPath}/lxstudio-${lxVersion}.jar")
