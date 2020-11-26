@@ -73,6 +73,10 @@ public class EntwinedGui extends PApplet implements LXPlugin {
             configureExternalOutput();
         }
 
+        if (ConfigLoader.enableOutputMinitree) {
+            configureFadeCandyOutput();
+        }
+
         System.out.println("setup() completed");
     }
 
