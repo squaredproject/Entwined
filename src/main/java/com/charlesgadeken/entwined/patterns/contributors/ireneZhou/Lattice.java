@@ -4,11 +4,13 @@ import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.utils.LXUtils;
 
+@LXCategory("Irene Zhou")
 public class Lattice extends EntwinedBasePattern {
     final SawLFO spin = new SawLFO(0, 4320, 24000);
     final SinLFO yClimb = new SinLFO(60, 30, 24000);

@@ -4,6 +4,7 @@ import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.Accelerator;
 import heronarts.lx.modulator.Click;
 import heronarts.lx.modulator.SinLFO;
@@ -12,6 +13,7 @@ import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.LXParameter;
 import heronarts.lx.utils.LXUtils;
 
+@LXCategory("Irene Zhou")
 public class Springs extends EntwinedBasePattern {
     final BoundedParameter hue = new BoundedParameter("HUE", 0, 0, 360);
     private BooleanParameter automated = new BooleanParameter("AUTO", true);

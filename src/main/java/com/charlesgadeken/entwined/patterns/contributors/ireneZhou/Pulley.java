@@ -4,12 +4,14 @@ import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.Cube;
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.Accelerator;
 import heronarts.lx.modulator.Click;
 import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.LXParameter;
 
+@LXCategory("Irene Zhou")
 public class Pulley extends EntwinedTriggerablePattern { //ported from SugarCubes
     final int NUM_DIVISIONS = 2;
     private final Accelerator[] gravity = new Accelerator[NUM_DIVISIONS];

@@ -4,11 +4,13 @@ import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.LinearEnvelope;
 import heronarts.lx.parameter.BoundedParameter;
 import java.util.ArrayList;
 import java.util.List;
 
+@LXCategory("Irene Zhou")
 public class Fire extends EntwinedTriggerablePattern {
     final BoundedParameter maxHeight = new BoundedParameter("HEIGHT", 0.8, 0.3, 1);
     final BoundedParameter flameSize = new BoundedParameter("SIZE", 30, 10, 75);

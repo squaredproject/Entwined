@@ -4,10 +4,12 @@ import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.utils.LXUtils;
 import toxi.geom.Vec2D;
 
+@LXCategory("Irene Zhou")
 public class Cells extends EntwinedBasePattern {
     final BoundedParameter speed = new BoundedParameter("SPEED", 1, 0, 5);
     final BoundedParameter width = new BoundedParameter("WIDTH", 0.75, 0.5, 1.25);

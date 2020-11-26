@@ -4,6 +4,7 @@ import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.LinearEnvelope;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.DiscreteParameter;
@@ -11,6 +12,7 @@ import heronarts.lx.utils.LXUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+@LXCategory("Irene Zhou")
 public class Bubbles extends EntwinedTriggerablePattern {
     final DiscreteParameter ballCount = new DiscreteParameter("NUM", 10, 1, 150);
     final BoundedParameter maxRadius = new BoundedParameter("RAD", 50, 5, 100);

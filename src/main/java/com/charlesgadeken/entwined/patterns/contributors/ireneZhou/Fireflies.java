@@ -4,6 +4,7 @@ import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.modulator.LinearEnvelope;
 import heronarts.lx.modulator.SinLFO;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import toxi.geom.Vec2D;
 
+@LXCategory("Irene Zhou")
 public class Fireflies extends EntwinedTriggerablePattern {
     final DiscreteParameter flyCount = new DiscreteParameter("NUM", 20, 1, 100);
     final BoundedParameter speed = new BoundedParameter("SPEED", 1, 0, 7.5);

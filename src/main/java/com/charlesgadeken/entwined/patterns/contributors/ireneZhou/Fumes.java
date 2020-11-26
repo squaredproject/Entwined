@@ -4,10 +4,12 @@ import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.utils.LXUtils;
 import toxi.geom.Vec2D;
 
+@LXCategory("Irene Zhou")
 public class Fumes extends EntwinedBasePattern {
     final BoundedParameter speed = new BoundedParameter("SPEED", 2, 0, 20);
     final BoundedParameter hue = new BoundedParameter("HUE", 0, 0, 360);
