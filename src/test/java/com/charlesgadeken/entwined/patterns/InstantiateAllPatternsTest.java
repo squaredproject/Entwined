@@ -1,8 +1,10 @@
 package com.charlesgadeken.entwined.patterns;
 
+import com.charlesgadeken.entwined.effects.EntwinedBaseEffect;
 import com.charlesgadeken.entwined.model.Model;
 import heronarts.lx.LX;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -24,13 +26,9 @@ public class InstantiateAllPatternsTest {
         this.model = Model.fromConfigs();
     }
 
-    Stream<Class<?>> findPatterns() {
+    Stream<Class<? extends EntwinedBasePattern>> findPatterns() {
         Reflections reflection = new Reflections("com.charlesgadeken");
-        Set<Class<? extends EntwinedBasePattern>> patterns =
-                reflection.getSubTypesOf(EntwinedBasePattern.class);
-        List list = Arrays.asList(patterns.toArray());
-
-        return list.stream();
+        return reflection.getSubTypesOf(EntwinedBasePattern.class).stream().filter(p-> !Modifier.isAbstract(p.getModifiers()));
     }
 
     @ParameterizedTest

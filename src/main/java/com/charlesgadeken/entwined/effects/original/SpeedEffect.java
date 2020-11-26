@@ -9,15 +9,9 @@ import heronarts.lx.parameter.LXParameterListener;
 public class SpeedEffect extends EntwinedBaseEffect {
     public final BoundedParameter speed = new BoundedParameter("SPEED", 1, .1, 10);
 
-    SpeedEffect(final LX lx) {
+    public SpeedEffect(LX lx) {
         super(lx);
-
-        speed.addListener(
-                new LXParameterListener() {
-                    public void onParameterChanged(LXParameter parameter) {
-                        lx.engine.setSpeed(speed.getValue());
-                    }
-                });
+        speed.addListener((unused) -> lx.engine.setSpeed(speed.getValue()));
     }
 
     protected void onEnable() {
