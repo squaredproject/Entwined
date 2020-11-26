@@ -5,3 +5,4 @@ build-tmp/
 Trees.sublime-project
 .DS_Store
 .idea/*
+.vscode/*

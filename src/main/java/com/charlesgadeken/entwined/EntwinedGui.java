@@ -1,11 +1,13 @@
 package com.charlesgadeken.entwined;
 
+import com.charlesgadeken.entwined.effects.EntwinedBaseEffect;
 import com.charlesgadeken.entwined.model.Model;
+import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
-import heronarts.lx.model.LXModel;
 import heronarts.lx.studio.LXStudio;
 import java.io.File;
+import org.reflections.Reflections;
 import processing.core.PApplet;
 
 public class EntwinedGui extends PApplet implements LXPlugin {
@@ -15,6 +17,8 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     private static int WIDTH = 1280;
     private static int HEIGHT = 800;
     private static boolean FULLSCREEN = false;
+
+    Reflections reflections = new Reflections("com.charlesgadeken");
 
     @Override
     public void settings() {
@@ -34,10 +38,18 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         flags.startMultiThreaded = true;
 
         LX lx = new LX();
-        LXModel model = Model.fromConfigs(lx);
+        Model model = Model.fromConfigs(lx);
 
         new LXStudio(this, flags, model);
         this.surface.setTitle(WINDOW_TITLE);
+    }
+
+    private void loadPatterns(LX lx) {
+        reflections.getSubTypesOf(EntwinedBasePattern.class).forEach(lx.registry::addPattern);
+    }
+
+    private void loadEffects(LX lx) {
+        reflections.getSubTypesOf(EntwinedBaseEffect.class).forEach(lx.registry::addEffect);
     }
 
     @Override
@@ -48,6 +60,9 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         // available.
 
         // Register custom pattern and effect types
+
+        loadPatterns(lx);
+        loadEffects(lx);
     }
 
     public void initializeUI(LXStudio lx, LXStudio.UI ui) {
@@ -59,7 +74,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     public void onUIReady(LXStudio lx, LXStudio.UI ui) {
         // At this point, the LX Studio application UI has been built. You may now add
         // additional views and components to the Ui heirarchy.
-        lx.ui.preview.pointCloud.setPointSize(20);
+        //        lx.ui.preview.pointCloud.setPointSize(20);
     }
 
     @Override

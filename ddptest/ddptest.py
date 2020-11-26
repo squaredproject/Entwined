@@ -55,14 +55,14 @@ import time
 import argparse
 
 
-DESTINATION_IP = "10.0.0.146"
+DESTINATION_IP = "10.0.0.1"
 DESTINATION_PORT = 4048
 sock: socket = None
 xmit_buf: bytearray = bytearray(0)
 header_buf: bytearray = bytearray(0)
 
 NUM_LEDS = 40
-leds = bytearray(40 * 3)  # this constructor creates with the given length and filled with 0's
+leds = bytearray(NUM_LEDS * 3)  # this constructor creates with the given length and filled with 0's
 
 palette = {
     'red': (0xff, 0x00, 0x00),
@@ -176,9 +176,9 @@ def print_bytearray(b) -> None:
 
 
 def network_init():
-    global sock
+    global sock, NUM_LEDS, leds
 
-    print("UDP target IP:", DESTINATION_IP)
+    print("UDP target IP {} num leds {} len leds array {}".format( DESTINATION_IP,NUM_LEDS,len(leds) ) )
     #print("UDP target port:", DESTINATION_PORT)
 
     # create outbound socket
@@ -191,9 +191,12 @@ def network_init():
     # build a header
     b0 = (0x01 << 6) | 0x01 # version, plus push flag, all else 0
     b3 = 1
+
     # bytes 8, 9 are DATA LENGTH in bytes
-    b8 = len(leds) >> 8
+    # // is integer "floor division"
+    b8 = (len(leds) // 256) & 0xff
     b9 = len(leds) & 0xff
+
     # bytes 4,5,6,7 are OFFSET in data-type. Not clear why you would ever need this much offset
     header_buf = bytearray([b0, 0, 0, b3, 0, 0, 0, 0, b8, b9])
     xmit_buf = bytearray(int(len(leds) + len(header_buf)))
@@ -204,7 +207,7 @@ def network_init():
 def leds_send(leds=leds) -> None:
     global xmit_buf
     xmit_buf[10:] = leds
-    #print_bytearray(xmit_buf)
+    # print_bytearray(xmit_buf)
     sock.sendto(xmit_buf, (DESTINATION_IP, DESTINATION_PORT))
 
 # use this if you want to compute your own everything
@@ -214,25 +217,28 @@ def sendto(buf: bytearray) -> None:
 
 # loop over all colors listed above, once a second
 def pattern_palette():
+    global leds
     while True:
         for name, color in palette.items():
             print('Sending color: {}'.format(name) )
             color_fill(leds, color)
-            leds_send()
+            leds_send(leds)
             time.sleep(1.0)
 
 # ring around the HSV, high fps
 def pattern_hsv():
+    global leds
     h = 0.0
     while True:
         h += 0.01
         color_fill(leds, hsv_to_rgb( h, 1.0, 1.0) )
         if h > 1.0:  h = 0.0
-        leds_send()
+        leds_send(leds)
         time.sleep(0.2)
 
 # just hit each pixel one by one:
 def pattern_order():
+    global leds, NUM_LEDS
     for i in range(NUM_LEDS * 3): leds[i] = 0x00
     i = 0
     while True:
@@ -240,7 +246,7 @@ def pattern_order():
         color_set(leds,(255,255,255),i)
         color_set(leds,(0,0,0),i-1)
         i += 1
-        leds_send()
+        leds_send(leds)
         time.sleep(0.5)
 
 def arg_init():
@@ -256,6 +262,7 @@ def arg_init():
     if args.host:
         DESTINATION_IP = args.host
     if args.leds:
+        print( "arg leds: {}".format(args.leds))
         NUM_LEDS = args.leds
         leds = bytearray(NUM_LEDS * 3) 
 

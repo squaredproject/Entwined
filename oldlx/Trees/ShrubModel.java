@@ -62,7 +62,7 @@ class Rod {
         // C -> 4, 5, 8, 9
         // D -> 6, 7
 
-        transform.rotateY(clusterIndex * 0.5236);
+        transform.rotateY(clusterIndex * -0.5236);
 
 
         //            double ratio = (newX - xKeyPoint[keyPointIndex - 1]) / (xKeyPoint[keyPointIndex] - xKeyPoint[keyPointIndex - 1]);
@@ -115,7 +115,7 @@ class EntwinedCluster {
 
     EntwinedCluster(int clusterIndex) {
         List<Rod> _rods = new ArrayList<Rod>();
-        int rodPositions[] = new int[]{0, 1, 2, 3, 4};
+        int rodPositions[] = new int[]{4, 3, 2, 1, 0};
 
         int clusterMaxRodLength;
         switch (clusterIndex) {
@@ -240,16 +240,6 @@ class ShrubModel extends LXModel {
     }
 }
 
-class ShrubCubeConfig {
-    int shrubIndex; // each shrubIndex maps to an ipAddress, consider pushing ipAddress up to ShrubConfig
-    int clusterIndex;
-    int rodIndex;
-    //    int mountPointIndex;
-    int shrubOutputIndex;
-    int cubeSizeIndex;
-    String shrubIpAddress;
-}
-
 class ShrubConfig  {
   float x;
   float z;
@@ -306,6 +296,13 @@ class Shrub extends LXModel {
         this.x = x;
         this.z = z;
         this.ry = ry;
+        // Very useful print to see if I'm going the right directions
+        //if (shrubIndex == 0) {
+        //      for (ShrubCube cube : this.cubes) {
+        //          System.out.println("si: "+cube.sculptureIndex+" idx: "+cube.index+" sx: "+cube.sx+" sy: "+cube.sy+" sz: "+cube.sz);
+        //          System.out.println("    theta: "+cube.theta+" y: "+cube.y);
+        //    }
+        //}
 
     }
 
@@ -389,9 +386,9 @@ class Shrub extends LXModel {
 }
 
 class ShrubCube extends BaseCube {
-  public static final int[] PIXELS_PER_CUBE = { 6, 6, 6, 12, 12 }; // Tiny cubes actually have less, but for Entwined we want to
+  //public static final int[] PIXELS_PER_CUBE = { 6, 6, 6, 12, 12 }; // Tiny cubes actually have less, but for Entwined we want to
                                                                    // tell the NDB that everything is 6
-  public static final float[] CUBE_SIZES = { 4f, 7.5f, 11.25f, 15f, 16.5f };
+  // public static final float[] CUBE_SIZES = { 4f, 7.5f, 11.25f, 15f, 16.5f };
     /**
      * Size of this cube, one of SMALL/MEDIUM/LARGE/GIANT
      */
@@ -402,12 +399,24 @@ class ShrubCube extends BaseCube {
     public ShrubCubeConfig config = null;
 
     ShrubCube(Vec3D globalPosition, Vec3D sculpturePosition, ShrubCubeConfig config) {
-        super( globalPosition,  sculpturePosition);
+        super( globalPosition,  sculpturePosition, config.shrubIndex, config.treeOrShrub);
 
-        this.size = CUBE_SIZES[config.cubeSizeIndex];
-        this.pixels = PIXELS_PER_CUBE[config.cubeSizeIndex];
+        this.size = 4f; // cubes are about 4 inches across
+        this.pixels = 4; // LEDs per cube - doesn't change in this model
         this.config = config;
     }
+}
+
+class ShrubCubeConfig {
+    int shrubIndex; // each shrubIndex maps to an ipAddress, consider pushing ipAddress up to ShrubConfig
+    int clusterIndex;
+    int rodIndex;
+    TreeOrShrub treeOrShrub = TreeOrShrub.SHRUB;
+
+    //    int mountPointIndex;
+    int shrubOutputIndex;
+    int cubeSizeIndex;
+    String shrubIpAddress;
 }
 
 abstract class ShrubLayer extends LXLayer {

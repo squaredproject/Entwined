@@ -4,6 +4,25 @@ Entwined software repository picks up where '2squared's Entwined branch leaves o
 
 More information will be added as the project comes into being.
 
+# Gradle LX
+
+Ensure you have java 8 installed and set on your machine
+
+## Lint
+```shell
+$ ./gradlew spotlessApply
+```
+
+## Run the gui
+```shell
+$ ./gradlew run
+```
+
+## Run headless
+```shell
+$ ./gradlew run --args="--headless"
+```
+
 # OLDLX
 
 This directory uses a version of LX studio from many years ago - but it works, and has all the functional

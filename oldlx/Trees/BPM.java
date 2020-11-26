@@ -358,4 +358,3 @@ class TempoAdapter extends LXModulator {
     return progress;
   }
 }
-

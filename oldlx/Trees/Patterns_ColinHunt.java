@@ -27,8 +27,8 @@ An RGB wave that covers the whole field.
 class ColorWave extends TSPattern {
 
   // Variable Declarations go here
-  private float minx = Float.MAX_VALUE;
-  private float maxx = -Float.MAX_VALUE;
+  private float minz = Float.MAX_VALUE;
+  private float maxz = -Float.MAX_VALUE;
   private float waveWidth = 1;
   private float speedMult = 1000;
 
@@ -47,8 +47,8 @@ class ColorWave extends TSPattern {
     addParameter(speedParam);
 
     for (Cube cube : model.cubes) {
-      if (cube.x < minx) {minx = cube.x;}
-      if (cube.x > maxx) {maxx = cube.x;}
+      if (cube.z < minz) {minz = cube.z;}
+      if (cube.z > maxz) {maxz = cube.z;}
     }
   }
 
@@ -59,7 +59,7 @@ class ColorWave extends TSPattern {
 
       // Use a for loop here to set the cube colors
       for (BaseCube cube : model.baseCubes) {
-        colors[cube.index] = lx.hsb( (float)( (wave.getValuef() + waveSlope.getValuef() * Utils.map(cube.x, minx, maxx) ) % 360), 100, 100);
+        colors[cube.index] = lx.hsb( (float)( (wave.getValuef() + waveSlope.getValuef() * Utils.map(cube.z, minz, maxz) ) % 360), 100, 100);
       }
   }
 }
@@ -94,24 +94,12 @@ class BeachBall extends TSPattern {
   // This is the pattern loop, which will run continuously via LX
   public void run(double deltaMs) {
 
-      // // Use a for loop here to set the cube colors
-      // for (BaseCube cube : model.baseCubes) {
-      //   colors[cube.index] = lx.hsb(
-      //   // Color is based on degrees from the center point, plus the spinner saw wave to rotate
-      //   (float) Math.toDegrees(Math.atan2((double)(treez - cube.z), (double)(treex - cube.x))) + spinner.getValuef()
-      //   // plus the further from the center, the more hue is added, giving a swirl effect
-      //   - (float)(Math.hypot(treez - cube.z, treex - cube.x) * swirlMult.getValuef()),
-      //   100.0f,
-      //   100.0f);
-      // }
-      //
-
       for (BaseCube baseCube : model.baseCubes) {
         colors[baseCube.index] = lx.hsb(
         // Color is based on degrees from the center point, plus the spinner saw wave to rotate
-        (float) Math.toDegrees(Math.atan2((double)(treez - baseCube.z), (double)(treex - baseCube.x))) + spinner.getValuef()
+        baseCube.globalTheta + spinner.getValuef()
         // plus the further from the center, the more hue is added, giving a swirl effect
-        - (float)(Math.hypot(treez - baseCube.z, treex - baseCube.x) * swirlMult.getValuef()),
+        - baseCube.r * swirlMult.getValuef(),
         100.0f,
         100.0f);
       }
@@ -128,21 +116,23 @@ class Breath extends TSPattern {
   float period = 10000;
   final SinLFO breath = new SinLFO(minValue, maxValue, period);
 
+
+    int highestSoFar = -1;
+    int treeyes = 0;
+    int shrubtes = 0;
+
   // Constructor
   Breath(LX lx) {
     super(lx);
-
     // Add any needed modulators or parameters here
     addModulator(breath).start();
     //addParameter(parameterName);
-
   }
 
 
   // This is the pattern loop, which will run continuously via LX
   public void run(double deltaMs) {
       breath.setPeriod(period - (Math.abs(breath.getValuef() - 50.0f) * 50));
-
       // Use a for loop here to set the cube colors
       for (BaseCube cube : model.baseCubes) {
         colors[cube.index] = lx.hsb( 180, 25, breath.getValuef());

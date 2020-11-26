@@ -1,6 +1,6 @@
 package com.charlesgadeken.entwined.model;
 
-import com.charlesgadeken.entwined.model.config.CubeConfig;
+import com.charlesgadeken.entwined.config.TreeCubeConfig;
 import toxi.geom.Vec3D;
 
 public class Cube extends BaseCube {
@@ -11,9 +11,9 @@ public class Cube extends BaseCube {
     public final float size;
 
     public final int pixels;
-    public CubeConfig config = null;
+    public TreeCubeConfig config = null;
 
-    Cube(Vec3D globalPosition, Vec3D treePosition, CubeConfig config) {
+    Cube(Vec3D globalPosition, Vec3D treePosition, TreeCubeConfig config) {
         super(globalPosition, treePosition);
         this.size = CUBE_SIZES[config.cubeSizeIndex];
         this.pixels = PIXELS_PER_CUBE[config.cubeSizeIndex];

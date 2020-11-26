@@ -1,5 +1,6 @@
 package com.charlesgadeken.entwined.model;
 
+import com.charlesgadeken.entwined.Utilities;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import java.awt.geom.Point2D;
@@ -55,7 +56,7 @@ public class BaseCube extends LXModel {
 
     public float transformedTheta;
     public Vec2D transformedCylinderPoint;
-    // public CubeConfig config = null;
+    // public TreeCubeConfig config = null;
 
     BaseCube(Vec3D globalPosition, Vec3D sculpturePosition) {
         super(
@@ -77,9 +78,8 @@ public class BaseCube extends LXModel {
         this.theta =
                 180
                         + 180
-                                / com.charlesgadeken.entwined.Utils.PI
-                                * com.charlesgadeken.entwined.Utils.atan2(
-                                        sculpturePosition.z, sculpturePosition.x);
+                                / Utilities.PI
+                                * Utilities.atan2(sculpturePosition.z, sculpturePosition.x);
     }
 
     void resetTransform() {

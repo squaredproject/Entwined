@@ -34,11 +34,14 @@ class BaseCube extends LXModel {
     public final int index;
 
     /**
-     * Size of this cube, one of SMALL/MEDIUM/LARGE/GIANT
+     * Index indicating which sculpture this cube lives inside.
      */
-    // public final float size;
-    //
-    // public final int pixels;
+    public final int sculptureIndex;
+
+    /**
+     * Enum stating whether this cube is part of a TREE or SHRUB
+     */
+    public final TreeOrShrub treeOrShrub;
 
     /**
      * Global x-position of center of cube
@@ -86,7 +89,7 @@ class BaseCube extends LXModel {
     public final float sz;
 
     /**
-     * Radial distance from cube center to center of tree in x-z plane
+     * Radial distance from sculpture center to field center (0, 0) in x-z plane
      */
     public final float r;
 
@@ -96,17 +99,28 @@ class BaseCube extends LXModel {
     public final float theta;
 
     /**
+     * Global radial distance from cube center to center of the field (0, 0) also the center of main tree. x-z plane
+     */
+    public final float gr;
+
+    /**
+     * Global angle in degrees from cube center to center of the field (0, 0) also the center of main tree. x-z plane
+     */
+    public final float globalTheta;
+
+    /**
      * Point of the cube in the form (theta, y) relative to center of tree base
      */
-
     public float transformedY;
     public float transformedTheta;
     public Vec2D transformedCylinderPoint;
-    //public CubeConfig config = null;
+    //public TreeCubeConfig config = null;
 
-    BaseCube(Vec3D globalPosition, Vec3D sculpturePosition) {
+    BaseCube(Vec3D globalPosition, Vec3D sculpturePosition, int sculptureIdx, TreeOrShrub treeOrShrub) {
         super(Arrays.asList(new LXPoint[] { new LXPoint(globalPosition.x, globalPosition.y, globalPosition.z) }));
         this.index = this.points.get(0).index;
+        this.sculptureIndex = sculptureIdx;
+        this.treeOrShrub = treeOrShrub;
         this.rx = 0;
         this.ry = 0;
         this.rz = 0;
@@ -118,7 +132,9 @@ class BaseCube extends LXModel {
         this.sz = sculpturePosition.z;
         this.r = (float) Point2D.distance(sculpturePosition.x, sculpturePosition.z, 0, 0);
         this.theta = 180 + 180 / Utils.PI * Utils.atan2(sculpturePosition.z, sculpturePosition.x);
-        //this.config = config;
+        this.gr = (float) Point2D.distance(this.x, this.z, 0, 0);
+        // System.out.println("gr: " + this.gr);
+        this.globalTheta = (float) Math.toDegrees(Math.atan2((double)(0 - this.z), (double)(0 - this.x)));
     }
 
     void resetTransform() {
@@ -132,24 +148,7 @@ class BaseCube extends LXModel {
     }
 }
 
-/**
-* Configuration info for the cubes, this version is somewhat "agnostic" and hypothetically could handle Tree and Shrub configs, though it only currently handles Tree Cube config
-*/
-class CubeConfig {
-    int sculptureIndex;
-    int cubeSizeIndex;
-    int outputIndex;
-    String ipAddress;
-
-    // For Tree
-    int treeIndex;
-    int layerIndex;
-    int branchIndex;
-    int mountPointIndex;
-    boolean isActive;
-
-    // For Shrub
-    int shrubIndex;
-    int clusterIndex;
-    int rodIndex;
+enum TreeOrShrub {
+  TREE,
+  SHRUB
 }
