@@ -37,8 +37,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         flags.useGLPointCloud = false;
         flags.startMultiThreaded = true;
 
-        LX lx = new LX();
-        Model model = Model.fromConfigs(lx);
+        Model model = Model.fromConfigs();
 
         new LXStudio(this, flags, model);
         this.surface.setTitle(WINDOW_TITLE);

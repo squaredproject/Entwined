@@ -2,7 +2,6 @@ package com.charlesgadeken.entwined.model;
 
 import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.config.ShrubCubeConfig;
-
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.transform.LXTransform;
 import java.util.ArrayList;
@@ -34,12 +33,7 @@ public class Shrub extends LXModelInterceptor {
     /** Rotation in degrees of shrub about vertical y-axis */
     public final float ry;
 
-    Shrub(
-            List<ShrubCubeConfig> shrubCubeConfig,
-            int shrubIndex,
-            float x,
-            float z,
-            float ry) {
+    Shrub(List<ShrubCubeConfig> shrubCubeConfig, int shrubIndex, float x, float z, float ry) {
         super(new Fixture("ShrubCube", shrubCubeConfig, shrubIndex, x, z, ry));
         Fixture f = (Fixture) this.getFixture();
         this.index = shrubIndex;
@@ -55,18 +49,19 @@ public class Shrub extends LXModelInterceptor {
         final List<ShrubCube> shrubCubes = new ArrayList<>();
         final List<EntwinedCluster> shrubClusters = new ArrayList<>();
 
-        public  Map<String, ShrubCube[]> shrubIpMap = new HashMap<>();
+        public Map<String, ShrubCube[]> shrubIpMap = new HashMap<>();
         public LXTransform shrubTransform;
         int NUM_CLUSTERS_IN_SHRUB = 12;
 
-        private final List<ShrubCubeConfig> shrubCubeConfig;
-        private final int shrubIndex;
-        private final float x;
-        private final float z;
-        private final float ry;
+        public Fixture(
+                String name,
+                List<ShrubCubeConfig> shrubCubeConfig,
+                int shrubIndex,
+                float x,
+                float z,
+                float ry) {
+            super(name);
 
-        @Override
-        List<LXPoint> computePoints() {
             shrubTransform = new LXTransform();
             shrubTransform.translate(x, 0, z);
             shrubTransform.rotateY(ry * Utilities.PI / 180);
@@ -128,16 +123,7 @@ public class Shrub extends LXModelInterceptor {
             for (ShrubCube cube : this.shrubCubes) {
                 Collections.addAll(pts, cube.points);
             }
-            return pts;
-        }
-
-        public Fixture(String name, List<ShrubCubeConfig> shrubCubeConfig, int shrubIndex, float x, float z, float ry) {
-            super(name);
-            this.shrubCubeConfig = shrubCubeConfig;
-            this.shrubIndex = shrubIndex;
-            this.x = x;
-            this.z = z;
-            this.ry = ry;
+            setPoints(pts);
         }
 
         public Vec3D transformPoint(Vec3D point) {

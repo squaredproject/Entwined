@@ -21,7 +21,7 @@ public class InstantiateAllPatternsTest {
 
     @BeforeAll
     void init() {
-        this.model = Model.fromConfigs(new LX());
+        this.model = Model.fromConfigs();
     }
 
     Stream<Class<?>> findPatterns() {
