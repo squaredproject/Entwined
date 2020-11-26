@@ -41,7 +41,7 @@ public class EngineController {
     public List<LXChannel> getChannels() {
         return lx.engine.mixer.getChannels()
                 .subList(baseChannelIndex, baseChannelIndex + numChannels).stream()
-                .filter(c->c instanceof LXChannel)
+                .filter(c -> c instanceof LXChannel)
                 .map(c -> (LXChannel) c)
                 .collect(Collectors.toList());
     }
@@ -54,12 +54,13 @@ public class EngineController {
         }
 
         LXAbstractChannel c = lx.engine.mixer.getChannel(channelIndex);
-        if(c instanceof LXChannel){
+        if (c instanceof LXChannel) {
             ((LXChannel) c).goPatternIndex(patternIndex);
         } else {
-            System.err.printf("WARNING: Ignoring attempt to set channel %d to pattern %d", channelIndex, patternIndex);
+            System.err.printf(
+                    "WARNING: Ignoring attempt to set channel %d to pattern %d",
+                    channelIndex, patternIndex);
         }
-
     }
 
     public void setChannelVisibility(int channelIndex, double visibility) {
