@@ -1,14 +1,31 @@
 package com.charlesgadeken.entwined;
 
+import com.charlesgadeken.entwined.config.ConfigLoader;
 import com.charlesgadeken.entwined.effects.EntwinedBaseEffect;
+import com.charlesgadeken.entwined.model.Cube;
 import com.charlesgadeken.entwined.model.Model;
+import com.charlesgadeken.entwined.model.ShrubCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
+import com.charlesgadeken.entwined.triggers.http.AppServer;
+import com.charlesgadeken.entwined.triggers.nfc.NFCEngine;
 import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
+import heronarts.lx.output.DDPDatagram;
+import heronarts.lx.output.DDPOutputGroup;
+import heronarts.lx.output.FadecandySocket;
+import heronarts.lx.output.LXBufferOutput;
+import heronarts.lx.output.LXDatagram;
+import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.studio.LXStudio;
 import java.io.File;
+import java.net.InetAddress;
+import java.util.Arrays;
+import java.util.Map;
+
 import org.reflections.Reflections;
 import processing.core.PApplet;
+
+import javax.annotation.Nullable;
 
 public class EntwinedGui extends PApplet implements LXPlugin {
 
@@ -19,6 +36,11 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     private static boolean FULLSCREEN = false;
 
     Reflections reflections = new Reflections("com.charlesgadeken");
+    private EngineController engineController;
+
+    private LX lx;
+    private NFCEngine nfcEngine;
+    final BooleanParameter[][] nfcToggles = new BooleanParameter[6][9];
 
     @Override
     public void settings() {
@@ -31,7 +53,6 @@ public class EntwinedGui extends PApplet implements LXPlugin {
 
     @Override
     public void setup() {
-
         LXStudio.Flags flags = new LXStudio.Flags(this);
         flags.resizable = true;
         flags.useGLPointCloud = false;
@@ -39,10 +60,120 @@ public class EntwinedGui extends PApplet implements LXPlugin {
 
         Model model = Model.fromConfigs();
 
-        new LXStudio(this, flags, model);
+        lx = new LXStudio(this, flags, model);
         this.surface.setTitle(WINDOW_TITLE);
+
+        engineController = new EngineController(lx);
+
+        if (ConfigLoader.enableNFC){
+            configureNFC(lx);
+        }
+
+        if (ConfigLoader.enableOutputBigtree) {
+            // MRG TODO
+            // lx.addEffect(new TurnOffDeadPixelsEffect(lx));
+            configureExternalOutput();
+        }
+
+        System.out.println("setup() completed");
     }
 
+
+    /* configureExternalOutput */
+
+    void configureExternalOutput() {
+        // Output stage
+        try {
+            output = new LXDatagramOutput(lx);
+            datagrams = new LXDatagram[model.ipMap.size()];
+            int ci = 0;
+            for (Map.Entry<String, Cube[]> entry : model.ipMap.entrySet()) {
+                String ip = entry.getKey();
+                Cube[] cubes = entry.getValue();
+                output.addDatagram(datagrams[ci++] = Output.clusterDatagram(cubes).setAddress(ip));
+            }
+            outputBrightness.parameters.add(output.brightness);
+            output.enabled.setValue(true);
+            lx.addOutput(output);
+        } catch (Exception x) {
+            System.out.println(x);
+        }
+        try {
+            shrubOutput = new LXDatagramOutput(lx);
+            shrubDatagrams = new LXDatagram[model.shrubIpMap.size()];
+            int ci = 0;
+            for (Entry<String, ShrubCube[]> entry : model.shrubIpMap.entrySet()) {
+                String shrubIp = entry.getKey();
+                ShrubCube[] shrubCubes = entry.getValue();
+                shrubOutput.addDatagram(shrubDatagrams[ci++] = Output.shrubClusterDatagram(shrubCubes).setAddress(shrubIp));
+            }
+            outputBrightness.parameters.add(shrubOutput.brightness);
+            shrubOutput.enabled.setValue(true);
+            lx.addOutput(shrubOutput);
+        } catch (Exception x) {
+            System.out.println(x);
+        }
+    }
+
+    /* configureFadeCandyOutput */
+
+    void configureFadeCandyOutput() {
+        int[] clusterOrdering = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+        int numCubesInCluster = clusterOrdering.length;
+        int numClusters = 48;
+        int[] pixelOrder = new int[numClusters * numCubesInCluster];
+        for (int cluster = 0; cluster < numClusters; cluster++) {
+            for (int cube = 0; cube < numCubesInCluster; cube++) {
+                pixelOrder[cluster * numCubesInCluster + cube] = cluster * numCubesInCluster + clusterOrdering[cube];
+            }
+        }
+        try {
+            FadecandySocket fadecandyOutput = new FadecandySocket(lx);
+            fadecandyOutput.setAddress(InetAddress.getByName("127.0.0.1"));
+            fadecandyOutput.setPort(7890);
+            fadecandyOutput.updateIndexBuffer(pixelOrder);
+
+            outputBrightness.parameters.add(fadecandyOutput.brightness);
+            lx.addOutput(fadecandyOutput);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    /* configureServer */
+
+    void configureServer() {
+        new AppServer(lx, engineController).start();
+    }
+
+    void configureNFC(LX lx) {
+        nfcEngine = new NFCEngine(lx);
+        nfcEngine.start();
+
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 9; j++) {
+                nfcToggles[i][j] = new BooleanParameter("toggle");
+            }
+        }
+
+        nfcEngine.registerReaderPatternTypeRestrictions(Arrays.asList(readerPatternTypeRestrictions()));
+        // this line to allow any nfc reader to read any cube
+        nfcEngine.disableVisualTypeRestrictions = true;
+    }
+    VisualType[] readerPatternTypeRestrictions() {
+        return new VisualType[]{
+            VisualType.Pattern,
+            VisualType.Pattern,
+            VisualType.Pattern,
+            VisualType.OneShot,
+            VisualType.OneShot,
+            VisualType.OneShot,
+            VisualType.Effect,
+            VisualType.Effect,
+            VisualType.Effect,
+            VisualType.Pattern,
+        };
+    }
     private void loadPatterns(LX lx) {
         reflections.getSubTypesOf(EntwinedBasePattern.class).forEach(lx.registry::addPattern);
     }
@@ -131,14 +262,19 @@ public class EntwinedGui extends PApplet implements LXPlugin {
             // We're not actually going to run this as a PApplet, but we need to explicitly
             // construct and set the initialize callback so that any custom components
             // will be run
-            LX.Flags flags = new LX.Flags();
-            flags.initialize = new EntwinedGui();
-            if (projectFile == null) {
-                LX.log("WARNING: No project filename was specified for headless mode!");
-            }
-            LX.headless(flags, projectFile);
+            headlessInit(projectFile);
         } else {
             PApplet.main(new String[] {EntwinedGui.class.getName()});
         }
+    }
+
+    public static LX.Flags headlessInit(@Nullable File projectFile){
+        LX.Flags flags = new LX.Flags();
+        flags.initialize = new EntwinedGui();
+        if (projectFile == null) {
+            LX.log("WARNING: No project filename was specified for headless mode!");
+        }
+        LX.headless(flags, projectFile);
+        return flags;
     }
 }

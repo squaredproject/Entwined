@@ -34,7 +34,7 @@ class NFCEngine {
       }
       System.out.println(reader + " added card " + cardId);
     }
-    
+
     public void onCardRemoved(String reader, String cardId) {
       NFCEngineVisual visual = cardToTriggerableMap.get(cardId);
       if (visual != null) {
@@ -88,7 +88,7 @@ class NFCEngine {
     NFCTriggeredMessage(Triggerable triggerable) {
       super(triggerable);
     }
-    
+
     void dispatch() {
       triggerable.onTriggered(1);
     }
@@ -106,7 +106,7 @@ class NFCEngine {
     }
   }
 
-  boolean disableVisualTypeRestrictions;
+  public boolean disableVisualTypeRestrictions;
 
   private final LX lx;
   private LibNFC libNFC;
@@ -118,7 +118,7 @@ class NFCEngine {
   private int readerPatternTypeRestrictionIndex = 0;
   private final List<NFCMessage> nfcThreadEventQueue = Collections.synchronizedList(new ArrayList<NFCMessage>());
   private final NFCLoopTaskDispatch nfcLoopTaskDispatch = new NFCLoopTaskDispatch();
-  
+
   public NFCEngine(LX lx) {
     this.lx = lx;
     try {
@@ -131,20 +131,20 @@ class NFCEngine {
       libNFCMainThread = null;
     }
   }
-  
+
   public void start() {
     if (libNFCMainThread != null) {
       libNFCMainThread.start();
     }
   }
-  
+
   // Thread.stop() is deprecated
   // public void stop() {
   //   if (libNFCMainThread != null) {
   //     libNFCMainThread.stop();
   //   }
   // }
-  
+
   public void registerTriggerable(String serialNumber, Triggerable triggerable, VisualType VisualType, BooleanParameter toggle) {
     cardToTriggerableMap.put(serialNumber, new NFCEngineVisual(triggerable, VisualType, toggle));
   }

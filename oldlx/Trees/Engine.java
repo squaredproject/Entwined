@@ -98,8 +98,6 @@ abstract class Engine {
 
     if (Config.enableNFC) {
       configureNFC();
-      // this line to allow any nfc reader to read any cube
-      nfcEngine.disableVisualTypeRestrictions = true;
     }
 
     configureTriggerables();
@@ -774,6 +772,8 @@ abstract class Engine {
     }
 
     nfcEngine.registerReaderPatternTypeRestrictions(Arrays.asList(readerPatternTypeRestrictions()));
+    // this line to allow any nfc reader to read any cube
+    nfcEngine.disableVisualTypeRestrictions = true;
   }
 
   /* configureExternalOutput */
