@@ -2,7 +2,6 @@ package com.charlesgadeken.entwined.model;
 
 import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.config.TreeCubeConfig;
-import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.transform.LXTransform;
 import java.util.ArrayList;
@@ -35,10 +34,7 @@ public class Tree extends LXModelInterceptor {
     /** Rotation in degrees of tree about vertical y-axis */
     public final float ry;
 
-    private final LX lx;
-
     public Tree(
-            LX lx,
             List<TreeCubeConfig> cubeConfig,
             int treeIndex,
             float x,
@@ -46,10 +42,7 @@ public class Tree extends LXModelInterceptor {
             float ry,
             int[] canopyMajorLengths,
             int[] layerBaseHeights) {
-        super(
-                new Fixture(
-                        lx, cubeConfig, treeIndex, x, z, ry, canopyMajorLengths, layerBaseHeights));
-        this.lx = lx;
+        super(new Fixture(cubeConfig, treeIndex, x, z, ry, canopyMajorLengths, layerBaseHeights));
 
         Fixture f = (Fixture) this.getFixture();
         this.index = treeIndex;
@@ -62,7 +55,7 @@ public class Tree extends LXModelInterceptor {
     }
 
     public Vec3D transformPoint(Vec3D point) {
-        return ((Fixture) this.lx.structure.fixtures.get(0)).transformPoint(point);
+        return ((Fixture) this.getFixture()).transformPoint(point);
     }
 
     private static class Fixture extends PseudoAbstractFixture {
@@ -74,7 +67,6 @@ public class Tree extends LXModelInterceptor {
         public final List<TreeCubeConfig> inactiveCubeConfigs = new ArrayList<>();
 
         Fixture(
-                LX lx,
                 List<TreeCubeConfig> cubeConfig,
                 int treeIndex,
                 float x,
@@ -82,7 +74,7 @@ public class Tree extends LXModelInterceptor {
                 float ry,
                 int[] canopyMajorLengths,
                 int[] layerBaseHeights) {
-            super(lx, "Tree");
+            super("Tree");
             transform = new LXTransform();
             transform.translate(x, 0, z);
             transform.rotateY(ry * Utilities.PI / 180);
@@ -144,7 +136,7 @@ public class Tree extends LXModelInterceptor {
             for (Cube cube : this.cubes) {
                 Collections.addAll(pts, cube.points);
             }
-            this.setPoints(pts);
+            setPoints(pts);
         }
 
         public Vec3D transformPoint(Vec3D point) {

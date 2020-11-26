@@ -3,9 +3,7 @@ package com.charlesgadeken.entwined.patterns;
 import com.charlesgadeken.entwined.model.Model;
 import heronarts.lx.LX;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.lang.reflect.Modifier;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
@@ -21,16 +19,13 @@ public class InstantiateAllPatternsTest {
 
     @BeforeAll
     void init() {
-        this.model = Model.fromConfigs(new LX());
+        this.model = Model.fromConfigs();
     }
 
-    Stream<Class<?>> findPatterns() {
+    Stream<Class<? extends EntwinedBasePattern>> findPatterns() {
         Reflections reflection = new Reflections("com.charlesgadeken");
-        Set<Class<? extends EntwinedBasePattern>> patterns =
-                reflection.getSubTypesOf(EntwinedBasePattern.class);
-        List list = Arrays.asList(patterns.toArray());
-
-        return list.stream();
+        return reflection.getSubTypesOf(EntwinedBasePattern.class).stream()
+                .filter(p -> !Modifier.isAbstract(p.getModifiers()));
     }
 
     @ParameterizedTest

@@ -23,7 +23,7 @@ public class ShrubModel extends LXModelInterceptor {
     private final List<ShrubConfig> shrubConfigs;
 
     ShrubModel(LX lx, List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfig) {
-        super(new ShrubFixture(lx, shrubConfigs, shrubCubeConfig));
+        super(new ShrubFixture(shrubConfigs, shrubCubeConfig));
         this.shrubConfigs = shrubConfigs;
         ShrubFixture f = (ShrubFixture) this.getFixture();
         List<ShrubCube> _cubes = new ArrayList<ShrubCube>();
@@ -36,21 +36,21 @@ public class ShrubModel extends LXModelInterceptor {
     }
 
     private static class ShrubFixture extends PseudoAbstractFixture {
-
         final List<Shrub> shrubs = new ArrayList<>();
 
         private ShrubFixture(
-                LX lx, List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfigs) {
-            super(lx, "Shrub");
+                List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfigs) {
+            super("Shrub");
+
             for (int i = 0; i < shrubConfigs.size(); i++) {
                 ShrubConfig sc = shrubConfigs.get(i);
-                shrubs.add(new Shrub(lx, shrubCubeConfigs, i, sc.x, sc.z, sc.ry));
+                shrubs.add(new Shrub(shrubCubeConfigs, i, sc.x, sc.z, sc.ry));
             }
             List<LXPoint> pts = new ArrayList<>();
             for (Shrub shrub : shrubs) {
                 Collections.addAll(pts, shrub.points);
             }
-            this.setPoints(pts);
+            setPoints(pts);
         }
     }
 }

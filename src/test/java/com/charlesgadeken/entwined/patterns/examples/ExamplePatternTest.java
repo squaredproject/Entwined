@@ -9,7 +9,7 @@ class ExamplePatternTest {
     @Test
     void testBuild() {
         LX lx = new LX();
-        Model model = Model.fromConfigs(lx);
+        Model model = Model.fromConfigs();
         new ExamplePattern(new LX(model));
     }
 }

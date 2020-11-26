@@ -2,7 +2,6 @@ package com.charlesgadeken.entwined.model;
 
 import com.charlesgadeken.entwined.config.*;
 import com.charlesgadeken.entwined.effects.ModelTransform;
-import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,25 +25,23 @@ public class Model extends LXModelInterceptor {
     /**
      * Build a new Entwined model from the expected configuration files.
      *
-     * @param lx The LX instance to use
      * @return An instantiated model
      */
-    public static Model fromConfigs(LX lx) {
+    public static Model fromConfigs() {
         List<TreeCubeConfig> cubeConfig = ConfigLoader.loadCubeConfigFile();
         List<TreeConfig> treeConfigs = ConfigLoader.loadTreeConfigFile();
         List<ShrubCubeConfig> shrubCubeConfig = ConfigLoader.loadShrubCubeConfigFile();
         List<ShrubConfig> shrubConfigs = ConfigLoader.loadShrubConfigFile();
-        return new Model(lx, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig);
+        return new Model(treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig);
     }
 
     private Model(
-            LX lx,
             List<TreeConfig> treeConfigs,
             List<TreeCubeConfig> cubeConfig,
             List<ShrubConfig> shrubConfigs,
             List<ShrubCubeConfig> shrubCubeConfig) {
 
-        super(new Fixture(lx, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig));
+        super(new Fixture(treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig));
 
         Fixture f = (Fixture) this.getFixture();
 
@@ -87,18 +84,16 @@ public class Model extends LXModelInterceptor {
         final List<Shrub> shrubs = new ArrayList<>();
 
         private Fixture(
-                LX lx,
                 List<TreeConfig> treeConfigs,
                 List<TreeCubeConfig> cubeConfigs,
                 List<ShrubConfig> shrubConfigs,
                 List<ShrubCubeConfig> shrubCubeConfigs) {
-            super(lx, "TheInstallation");
+            super("Entwined");
             for (int i = 0; i < treeConfigs.size(); i++) {
 
                 TreeConfig tc = treeConfigs.get(i);
                 trees.add(
                         new Tree(
-                                lx,
                                 cubeConfigs,
                                 i,
                                 tc.x,
@@ -109,19 +104,18 @@ public class Model extends LXModelInterceptor {
             }
 
             List<LXPoint> pts = new ArrayList<>();
-
             for (Tree tree : trees) {
                 Collections.addAll(pts, tree.points);
             }
 
             for (int i = 0; i < shrubConfigs.size(); i++) {
                 ShrubConfig sc = shrubConfigs.get(i);
-                shrubs.add(new Shrub(lx, shrubCubeConfigs, i, sc.x, sc.z, sc.ry));
+                shrubs.add(new Shrub(shrubCubeConfigs, i, sc.x, sc.z, sc.ry));
             }
             for (Shrub shrub : shrubs) {
                 Collections.addAll(pts, shrub.points);
             }
-            this.setPoints(pts);
+            setPoints(pts);
         }
     }
 
@@ -131,7 +125,7 @@ public class Model extends LXModelInterceptor {
     /** ShrubCubes in the model */
     public final List<ShrubCube> shrubCubes;
 
-    public final Map<String, ShrubCube[]> shrubIpMap = new HashMap<String, ShrubCube[]>();
+    public final Map<String, ShrubCube[]> shrubIpMap = new HashMap<>();
 
     private final List<ShrubConfig> shrubConfigs;
 

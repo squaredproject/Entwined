@@ -8,7 +8,7 @@ public class EntwinedCluster {
     List<Rod> rods;
 
     EntwinedCluster(int clusterIndex) {
-        List<Rod> _rods = new ArrayList<Rod>();
+        List<Rod> _rods = new ArrayList<>();
         int rodPositions[] = new int[] {0, 1, 2, 3, 4};
 
         int clusterMaxRodLength;

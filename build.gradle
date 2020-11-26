@@ -26,6 +26,10 @@ dependencies {
 
 	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.4.2'
 	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.7.0'
+
+	// https://mvnrepository.com/artifact/com.google.guava/guava
+	compile group: 'com.google.guava', name: 'guava', version: '29.0-jre'
+
 }
 
 mainClassName = 'com.charlesgadeken.entwined.EntwinedGui'
