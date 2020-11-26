@@ -1,5 +1,6 @@
 package com.charlesgadeken.entwined;
 
+import java.lang.reflect.Modifier;
 import java.util.Random;
 
 public class Utilities {
@@ -117,5 +118,9 @@ public class Utilities {
 
     public static float map(float value, float currentMin, float currentMax) {
         return (value - currentMin) / (currentMax - currentMin);
+    }
+
+    public static boolean isConcrete(Class<?> cls){
+        return !Modifier.isAbstract(cls.getModifiers());
     }
 }
