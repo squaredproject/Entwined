@@ -7,12 +7,12 @@ public class AppServer {
     LX lx;
     EngineController engineController;
 
-    AppServer(LX lx, EngineController engineController) {
+    public AppServer(LX lx, EngineController engineController) {
         this.lx = lx;
         this.engineController = engineController;
     }
 
-    void start() {
+    public void start() {
         Server server = new Server(5204);
 
         ClientCommunicator clientCommunicator = new ClientCommunicator(server);

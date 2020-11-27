@@ -15,15 +15,15 @@ import java.util.List;
  * - The Entwined shrubs That makeup the geometry for the goldengate park exposition
  */
 public class ConfigLoader {
-    static final boolean enableIPad = false;
-    static final boolean autoplayBMSet = false;
+    public static final boolean enableIPad = false;
+    public static final boolean autoplayBMSet = false;
 
-    static final boolean enableNFC = false;
-    static final boolean enableAPC40 = false;
-    static final boolean enableSoundSyphon = false;
+    public static final boolean enableNFC = false;
+    public static final boolean enableAPC40 = false;
+    public static final boolean enableSoundSyphon = false;
 
-    static final boolean enableOutputMinitree = false;
-    static final boolean enableOutputBigtree = true;
+    public static final boolean enableOutputMinitree = false;
+    public static final boolean enableOutputBigtree = true;
 
     static final String CUBE_CONFIG_FILE = "entwinedCubes.json";
     static final String TREE_CONFIG_FILE = "entwinedTrees.json";

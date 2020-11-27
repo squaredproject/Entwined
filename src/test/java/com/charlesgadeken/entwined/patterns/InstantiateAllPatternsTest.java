@@ -1,5 +1,6 @@
 package com.charlesgadeken.entwined.patterns;
 
+import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.Model;
 import heronarts.lx.LX;
 import java.lang.reflect.InvocationTargetException;
@@ -26,7 +27,8 @@ public class InstantiateAllPatternsTest {
         Reflections reflection = new Reflections("com.charlesgadeken");
         return reflection.getSubTypesOf(EntwinedBasePattern.class).stream()
                 .filter(p -> !Modifier.isAbstract(p.getModifiers()))
-                .sorted(Comparator.comparing(Class::getName, String::compareTo));
+                .sorted(Comparator.comparing(Class::getName, String::compareTo))
+                .filter(Utilities::isConcrete);
     }
 
     @ParameterizedTest
