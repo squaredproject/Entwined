@@ -14,7 +14,7 @@ import heronarts.lx.parameter.LXParameterListener;
 
 public class SpinEffect extends ModelTransform {
 
-    final BoundedParameter spin = new BoundedParameter("SPIN");
+    public final BoundedParameter spin = new BoundedParameter("SPIN");
     final FunctionalParameter rotationPeriodMs =
             new FunctionalParameter() {
                 public double getValue() {

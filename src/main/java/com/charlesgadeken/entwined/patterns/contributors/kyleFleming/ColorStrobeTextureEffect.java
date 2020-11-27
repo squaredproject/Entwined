@@ -8,7 +8,7 @@ import heronarts.lx.parameter.BoundedParameter;
 
 public class ColorStrobeTextureEffect extends EntwinedBaseEffect {
 
-    final BoundedParameter amount =
+    public final BoundedParameter amount =
             new BoundedParameter(
                     "SEIZ", 0, 0, 1); // TODO(meawoppl), BoundedParameter.Scaling.QUAD_IN);
 

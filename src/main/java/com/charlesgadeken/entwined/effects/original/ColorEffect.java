@@ -12,15 +12,15 @@ import heronarts.lx.parameter.BoundedParameter;
 @LXCategory(EntwinedCategory.ORIGINAL)
 public class ColorEffect extends EntwinedBaseEffect {
 
-    final BoundedParameter desaturation = new BoundedParameter("WHT", 0);
-    final BoundedParameter hueShift = new BoundedParameter("HUE", 0, 360);
-    final BoundedParameter sharp = new BoundedParameter("SHRP", 0);
-    final BoundedParameter soft = new BoundedParameter("SOFT", 0);
-    final BoundedParameter mono = new BoundedParameter("MON", 0);
-    final BoundedParameter rainbow = new BoundedParameter("ACID", 0);
+    public final BoundedParameter desaturation = new BoundedParameter("WHT", 0);
+    public final BoundedParameter hueShift = new BoundedParameter("HUE", 0, 360);
+    public final BoundedParameter sharp = new BoundedParameter("SHRP", 0);
+    public final BoundedParameter soft = new BoundedParameter("SOFT", 0);
+    public final BoundedParameter mono = new BoundedParameter("MON", 0);
+    public final BoundedParameter rainbow = new BoundedParameter("ACID", 0);
 
-    private final DampedParameter hueShiftd = new DampedParameter(hueShift, 180);
-    private final DampedParameter rainbowd = new DampedParameter(rainbow, 1);
+    public final DampedParameter hueShiftd = new DampedParameter(hueShift, 180);
+    public final DampedParameter rainbowd = new DampedParameter(rainbow, 1);
 
     private float[] hsb = new float[3];
 

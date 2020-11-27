@@ -8,7 +8,7 @@ import heronarts.lx.parameter.BoundedParameter;
 import toxi.math.noise.SimplexNoise;
 
 public class CandyCloudTextureEffect extends EntwinedBaseEffect {
-    final BoundedParameter amount = new BoundedParameter("CLOU");
+    public final BoundedParameter amount = new BoundedParameter("CLOU");
 
     double time = 0;
     final double scale = 2400;

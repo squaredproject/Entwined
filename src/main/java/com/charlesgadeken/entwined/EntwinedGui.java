@@ -2,23 +2,15 @@ package com.charlesgadeken.entwined;
 
 import com.charlesgadeken.entwined.config.ConfigLoader;
 import com.charlesgadeken.entwined.effects.EntwinedBaseEffect;
-import com.charlesgadeken.entwined.model.Cube;
+import com.charlesgadeken.entwined.effects.TurnOffDeadPixelsEffect;
 import com.charlesgadeken.entwined.model.Model;
-import com.charlesgadeken.entwined.model.ShrubCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
-import com.charlesgadeken.entwined.triggers.http.AppServer;
 import com.charlesgadeken.entwined.triggers.nfc.NFCEngine;
 import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
-import heronarts.lx.output.DDPDatagram;
-import heronarts.lx.output.FadecandySocket;
-import heronarts.lx.output.LXOutputGroup;
 import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.studio.LXStudio;
 import java.io.File;
-import java.net.InetAddress;
-import java.util.Arrays;
-import java.util.Map;
 import javax.annotation.Nullable;
 import org.reflections.Reflections;
 import processing.core.PApplet;
@@ -38,7 +30,8 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     private Model model;
     private NFCEngine nfcEngine;
     final BooleanParameter[][] nfcToggles = new BooleanParameter[6][9];
-    final BasicParameterProxy outputBrightness = new BasicParameterProxy(1);
+
+    private EntwinedTriggers triggers;
 
     @Override
     public void settings() {
@@ -63,112 +56,35 @@ public class EntwinedGui extends PApplet implements LXPlugin {
 
         engineController = new EngineController(lx);
 
+        triggers = new EntwinedTriggers(lx);
+
         if (ConfigLoader.enableNFC) {
-            configureNFC(lx);
+            triggers.configureNFC();
         }
 
+        EntwinedOutput output = new EntwinedOutput(lx, model);
+
         if (ConfigLoader.enableOutputBigtree) {
-            // MRG TODO
-            // lx.addEffect(new TurnOffDeadPixelsEffect(lx));
-            configureExternalOutput();
+            lx.addEffect(new TurnOffDeadPixelsEffect(lx));
+            output.configureExternalOutput();
         }
 
         if (ConfigLoader.enableOutputMinitree) {
-            configureFadeCandyOutput();
+            output.configureFadeCandyOutput();
+        }
+
+        if (ConfigLoader.enableAPC40) {
+            triggers.configureMIDI();
+        }
+        if (ConfigLoader.enableIPad) {
+            engineController.setAutoplay(ConfigLoader.autoplayBMSet, true);
+            triggers.configureServer();
         }
 
         System.out.println("setup() completed");
     }
 
-    /* configureExternalOutput */
-
-    void configureExternalOutput() {
-        // Output stage
-        try {
-            LXOutputGroup output = new LXOutputGroup(lx);
-            DDPDatagram[] datagrams = new DDPDatagram[model.ipMap.size()];
-            int ci = 0;
-            for (Map.Entry<String, Cube[]> entry : model.ipMap.entrySet()) {
-                String ip = entry.getKey();
-                Cube[] cubes = entry.getValue();
-                DDPDatagram datagram = Output.clusterDatagram(lx, cubes);
-                datagram.setAddress(InetAddress.getByName(ip));
-                datagrams[ci++] = datagram;
-                output.addChild(datagrams[ci]);
-            }
-            outputBrightness.parameters.add(output.brightness);
-            output.enabled.setValue(true);
-            lx.addOutput(output);
-        } catch (Exception x) {
-            System.out.println(x);
-        }
-        try {
-            LXOutputGroup shrubOutput = new LXOutputGroup(lx);
-            DDPDatagram[] shrubDatagrams = new DDPDatagram[model.shrubIpMap.size()];
-            int ci = 0;
-            for (Map.Entry<String, ShrubCube[]> entry : model.shrubIpMap.entrySet()) {
-                String shrubIp = entry.getKey();
-                ShrubCube[] shrubCubes = entry.getValue();
-                DDPDatagram datagram = Output.shrubClusterDatagram(lx, shrubCubes);
-                datagram.setAddress(InetAddress.getByName(shrubIp));
-                shrubDatagrams[ci++] = datagram;
-                shrubOutput.addChild(shrubDatagrams[ci]);
-            }
-            outputBrightness.parameters.add(shrubOutput.brightness);
-            shrubOutput.enabled.setValue(true);
-            lx.addOutput(shrubOutput);
-        } catch (Exception x) {
-            System.out.println(x);
-        }
-    }
-
-    /* configureFadeCandyOutput */
-
-    void configureFadeCandyOutput() {
-        int[] clusterOrdering = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-        int numCubesInCluster = clusterOrdering.length;
-        int numClusters = 48;
-        int[] pixelOrder = new int[numClusters * numCubesInCluster];
-        for (int cluster = 0; cluster < numClusters; cluster++) {
-            for (int cube = 0; cube < numCubesInCluster; cube++) {
-                pixelOrder[cluster * numCubesInCluster + cube] =
-                        cluster * numCubesInCluster + clusterOrdering[cube];
-            }
-        }
-        try {
-            FadecandySocket fadecandyOutput = new FadecandySocket(lx);
-            fadecandyOutput.setAddress(InetAddress.getByName("127.0.0.1"));
-            fadecandyOutput.setPort(7890);
-            fadecandyOutput.updateIndexBuffer(pixelOrder);
-
-            outputBrightness.parameters.add(fadecandyOutput.brightness);
-            lx.addOutput(fadecandyOutput);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
     /* configureServer */
-
-    void configureServer() {
-        new AppServer(lx, engineController).start();
-    }
-
-    void configureNFC(LX lx) {
-        nfcEngine = new NFCEngine(lx);
-        nfcEngine.start();
-
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 9; j++) {
-                nfcToggles[i][j] = new BooleanParameter("toggle");
-            }
-        }
-
-        nfcEngine.registerReaderPatternTypeRestrictions(
-                Arrays.asList(readerPatternTypeRestrictions()));
-        // this line to allow any nfc reader to read any cube
-        nfcEngine.disableVisualTypeRestrictions = true;
-    }
 
     VisualType[] readerPatternTypeRestrictions() {
         return new VisualType[] {

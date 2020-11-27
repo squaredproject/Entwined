@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class GhostEffect extends EntwinedBaseEffect {
-    final BoundedParameter amount =
+    public final BoundedParameter amount =
             new BoundedParameter(
                     "GHOS", 0, 0, 1); // TODO(meawoppl), BoundedParameter.Scaling.QUAD_IN);
 

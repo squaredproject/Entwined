@@ -10,7 +10,7 @@ import heronarts.lx.parameter.BoundedParameter;
 
 public class AcidTripTextureEffect extends EntwinedBaseEffect {
 
-    final BoundedParameter amount = new BoundedParameter("ACID");
+    public final BoundedParameter amount = new BoundedParameter("ACID");
 
     final SawLFO trails = new SawLFO(360, 0, 7000);
 
