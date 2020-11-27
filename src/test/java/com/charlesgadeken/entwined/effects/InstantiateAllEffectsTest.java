@@ -4,6 +4,7 @@ import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.model.Model;
 import heronarts.lx.LX;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Comparator;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
@@ -25,6 +26,7 @@ public class InstantiateAllEffectsTest {
     Stream<Class<? extends EntwinedBaseEffect>> findEffects() {
         Reflections reflection = new Reflections("com.charlesgadeken");
         return reflection.getSubTypesOf(EntwinedBaseEffect.class).stream()
+                .sorted(Comparator.comparing(Class::getName, String::compareTo))
                 .filter(Utilities::isConcrete);
     }
 
