@@ -230,12 +230,12 @@ public class EntwinedTriggers {
     }
 
     public void registerPattern(
-            EntwinedBasePattern pattern, String nfcSerialNumber, int apc40DrumpadRow) {
+            EntwinedTriggerablePattern pattern, String nfcSerialNumber, int apc40DrumpadRow) {
         registerVisual(pattern, nfcSerialNumber, apc40DrumpadRow, VisualType.Pattern);
     }
 
     void registerVisual(
-            EntwinedBasePattern pattern,
+            EntwinedTriggerablePattern pattern,
             String nfcSerialNumber,
             int apc40DrumpadRow,
             VisualType visualType) {
