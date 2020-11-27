@@ -158,11 +158,11 @@ public class EntwinedTriggers {
         registerOneShot(new Explosions(lx), "3707000050ab6a", 5);
     }
 
-    void registerOneShot(EntwinedBasePattern pattern, String nfcSerialNumber) {
+    void registerOneShot(EntwinedTriggerablePattern pattern, String nfcSerialNumber) {
         registerOneShot(pattern, nfcSerialNumber, 4);
     }
 
-    void registerOneShot(EntwinedBasePattern pattern, String nfcSerialNumber, int apc40DrumpadRow) {
+    void registerOneShot(EntwinedTriggerablePattern pattern, String nfcSerialNumber, int apc40DrumpadRow) {
         registerVisual(pattern, nfcSerialNumber, apc40DrumpadRow, VisualType.OneShot);
     }
 
@@ -239,10 +239,10 @@ public class EntwinedTriggers {
             String nfcSerialNumber,
             int apc40DrumpadRow,
             VisualType visualType) {
-        LXBlend t =
-                new DissolveBlend(
-                        lx); // NOTE(meawopp) same question below.  re `.setDuration(dissolveTime);`
 
+        LXBlend t = new DissolveBlend(lx);
+
+        // NOTE(meawoppl) @Slee same question below.  re `.setDuration(dissolveTime);`
         pattern.setTransition(t);
 
         Triggerable triggerable = configurePatternAsTriggerable(pattern);
@@ -270,10 +270,15 @@ public class EntwinedTriggers {
 
     void setupChannel(final LXChannel channel, boolean noOpWhenNotRunning) {
         // @Slee, honestly no idea what the intention is here...
-        // It looks like paterns used to have associated "trastitions" have have moved to the
+        // It looks like patterns used to have associated traditionss" have have moved to the
         // `blend` language, but I don't seen any analogue for that remaining....
         channel.setFaderTransition(
                 new TreesTransition(lx, channel, model, channelTreeLevels, channelShrubLevels));
+
+        // channel.transitionBlendMode.setObjects(new TreesTransition[] {new TreesTransition(lx, channel, model, channelTreeLevels, channelShrubLevels)})
+        // ??
+
+
         channel.addListener(
                 new LXChannel.AbstractListener() {
                     LXTransition transition;
@@ -304,12 +309,12 @@ public class EntwinedTriggers {
     }
 
     void registerPatternController(String name, EntwinedBasePattern pattern) {
-        LXBlend t =
-                new DissolveBlend(
-                        lx); // @Slee is there a modern version of `.setDuration(dissolveTime);` on
+        // @Slee is there a modern version of `.setDuration(dissolveTime);` on
         // blends?
+        LXBlend t = new DissolveBlend(lx);
 
-        pattern.setTransition(t); // @Slee not sure where `.setTranstion` got to...
+        // @Slee not sure where `.setTranstion` got to...
+        pattern.setTransition(t);
         pattern.readableName = name;
         patterns.add(pattern);
     }
