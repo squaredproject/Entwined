@@ -16,19 +16,7 @@ public abstract class EntwinedBasePattern extends LXPattern {
         model = (Model) lx.getModel();
     }
 
-    void onTriggerableModeEnabled() {
-        getChannel().fader.setValue(0);
-        parameterTriggerableAdapter = getParameterTriggerableAdapter();
-        parameterTriggerableAdapter.addOutputTriggeredListener(
-                parameter -> setCallRun(parameter.getValue() != 0));
-        setCallRun(false);
-    }
-
-    void setCallRun(boolean callRun) {
+    protected void setCallRun(boolean callRun) {
         getChannel().enabled.setValue(callRun);
-    }
-
-    ParameterTriggerableAdapter getParameterTriggerableAdapter() {
-        return new ParameterTriggerableAdapter(lx, getChannel().fader);
     }
 }
