@@ -1,3 +1,5 @@
+import toxi.geom.Vec2D;
+
 import heronarts.lx.LX;
 import heronarts.lx.LXUtils;
 import heronarts.lx.color.LXColor;
@@ -327,4 +329,65 @@ class ColorEffect2 extends ColorEffect {
   ColorEffect2(LX lx) {
     super(lx);
   }
+}
+
+class TestShrubSweep extends TSPattern {
+    
+    final BasicParameter x;
+    final BasicParameter y;
+    final BasicParameter z;
+    
+    TestShrubSweep(LX lx) {
+        super(lx);
+        addParameter(x = new BasicParameter("X", 200, lx.model.xMin, lx.model.xMax));
+        addParameter(y = new BasicParameter("Y", 200, lx.model.yMin, lx.model.yMax));
+        addParameter(z = new BasicParameter("Z", 200, lx.model.zMin, lx.model.zMax));
+        
+    }
+    
+    public void run(double deltaMs) {
+        if (getChannel().getFader().getNormalized() == 0) return;
+        
+        for (BaseCube cube : model.baseCubes) {
+            if (cube.treeOrShrub == TreeOrShrub.SHRUB) {
+                if (Utils.abs(cube.ax - x.getValuef()) < 1 || Utils.abs(cube.ay - y.getValuef()) < 1 || Utils.abs(cube.az - z.getValuef()) < 1) {
+                    colors[cube.index] = lx.hsb(135, 100, 100);    
+                } else {
+                    colors[cube.index] = lx.hsb(135, 100, 0);    
+                }
+            }
+        }
+    }
+}
+
+class TestShrubLayers extends TSPattern {
+    
+    final BasicParameter rodLayer;
+    final BasicParameter clusterIndex;
+    final BasicParameter shrubIndex;
+    
+    TestShrubLayers(LX lx) {
+        super(lx);
+        // lowest level means turning that param off
+        addParameter(rodLayer = new BasicParameter("layer", 0, 0, 5));
+        addParameter(clusterIndex = new BasicParameter("clusterIndex", -1, -1, 11));
+        addParameter(shrubIndex = new BasicParameter("shrubIndex", -1, -1, 19));
+        
+    }
+    
+    public void run(double deltaMs) {
+        if (getChannel().getFader().getNormalized() == 0) return;
+        
+        for (BaseCube cube : model.baseCubes) {
+            if (cube.treeOrShrub == TreeOrShrub.SHRUB) {
+                ShrubCube shrubCube = (ShrubCube) cube;              
+                
+                if (shrubCube.config.rodIndex == (int)rodLayer.getValue() || shrubCube.config.clusterIndex == (int)clusterIndex.getValue() || shrubCube.config.shrubIndex == (int)shrubIndex.getValue()) {
+                    colors[cube.index] = lx.hsb(135, 100, 100);    
+                } else {
+                    colors[cube.index] = lx.hsb(135, 100, 0);    
+                }
+            }
+        }
+    }
 }

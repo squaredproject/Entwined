@@ -226,6 +226,8 @@ abstract class Engine {
     // The order here is the order it shows up in the patterns list
     // patterns.add(new SolidColor(lx));
     // patterns.add(new ClusterLineTest(lx));
+//    patterns.add(new TestShrubSweep(lx));
+//    patterns.add(new TestShrubLayers(lx));
     // patterns.add(new OrderTest(lx));
     patterns.add(new Twister(lx));
     patterns.add(new CandyCloud(lx));

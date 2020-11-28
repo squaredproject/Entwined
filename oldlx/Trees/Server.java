@@ -179,7 +179,6 @@ class ClientCommunicator {
   Gson gson = new Gson();
 
   Server server;
-  Server server;
 
   ClientCommunicator(Server server) {
     this.server = server;
