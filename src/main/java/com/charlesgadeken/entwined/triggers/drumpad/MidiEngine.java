@@ -12,8 +12,6 @@ import javax.sound.midi.*;
 import java.util.ArrayList;
 
 public class MidiEngine {
-
-
     private final LX lx;
     private final DiscreteParameter automationSlot;
     // private final LXAutomationRecorder[] automation;
@@ -54,7 +52,9 @@ public class MidiEngine {
 
             // Add this input to the midi engine so that events are recorded
             // lx.engine.midi.inputs.add(apcInput);
-            assert lx.engine.midi.inputs.contains(apcInput);
+            if (!lx.engine.midi.inputs.contains(apcInput)){
+                throw new RuntimeException("Expected APC40 in inputs");
+            }
             lx.engine.midi.addListener(
                     new LXAbstractMidiListener() {
                         public void noteOnReceived(MidiNoteOn note) {

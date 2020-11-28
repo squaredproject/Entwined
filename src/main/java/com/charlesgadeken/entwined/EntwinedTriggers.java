@@ -63,7 +63,6 @@ public class EntwinedTriggers {
         apc40Drumpad = new TSDrumpad();
         apc40Drumpad.triggerables = apc40DrumpadTriggerables;
 
-        // TODO(meawoppl)
         bpmTool = new BPMTool(lx, effectKnobParameters);
 
         // MIDI control
