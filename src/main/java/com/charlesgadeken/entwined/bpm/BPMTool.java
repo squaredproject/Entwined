@@ -16,19 +16,19 @@ public class BPMTool {
 
     private final LX lx;
 
-    final BooleanParameter tapTempo = new BooleanParameter("Tap");
-    final BooleanParameter nudgeUpTempo = new BooleanParameter("Nudge +");
-    final BooleanParameter nudgeDownTempo = new BooleanParameter("Nudge -");
+    public final BooleanParameter tapTempo = new BooleanParameter("Tap");
+    public final BooleanParameter nudgeUpTempo = new BooleanParameter("Nudge +");
+    public final BooleanParameter nudgeDownTempo = new BooleanParameter("Nudge -");
 
     final String[] bpmLabels = {"SIN", "SAW", "TRI", "QD", "SQR"};
-    final DiscreteParameter tempoLfoType = new DiscreteParameter("Tempo LFO", bpmLabels.length);
+    public final DiscreteParameter tempoLfoType = new DiscreteParameter("Tempo LFO", bpmLabels.length);
 
     final String[] beatLabels = {"1", "\u00bd", "\u00bc", "1/16"}; // 1, 1/2, 1/4, 1/16
-    final DiscreteParameter beatType = new DiscreteParameter("Beat", beatLabels.length);
+    public final DiscreteParameter beatType = new DiscreteParameter("Beat", beatLabels.length);
     final double[] beatScale = {1, 2, 4, 16};
 
-    final BooleanParameter addTempoLfo = new BooleanParameter("Add Tempo LFO");
-    final BooleanParameter clearAllTempoLfos = new BooleanParameter("Clear All Tempo LFOs");
+    public final BooleanParameter addTempoLfo = new BooleanParameter("Add Tempo LFO");
+    public final BooleanParameter clearAllTempoLfos = new BooleanParameter("Clear All Tempo LFOs");
 
     private LXChannel currentActiveChannel = null;
     private final List<BPMParameterListener> parameterListeners =
@@ -39,7 +39,7 @@ public class BPMTool {
     private final ParameterModulatorController[] modulatorControllers;
     final ParameterModulationController modulationController;
 
-    BPMTool(LX lx, LXListenableNormalizedParameter[] effectKnobParameters) {
+    public BPMTool(LX lx, LXListenableNormalizedParameter[] effectKnobParameters) {
         this.lx = lx;
 
         ParameterModulatorControllerFactory factory = new ParameterModulatorControllerFactory();
@@ -91,8 +91,8 @@ public class BPMTool {
                 new LXParameterListener() {
                     public void onParameterChanged(LXParameter parameter) {
                         if (addTempoLfo.isOn()) {
-                            watchPatternParameters(
-                                    lx.engine.getFocusedChannel().getActivePattern());
+//                            watchPatternParameters(
+//                                    lx.engine.mixer.focusedChannel.getActivePattern());
                             watchMasterEffectParameters(effectKnobParameters);
                         } else {
                             unwatchPatternParameters();
@@ -113,26 +113,26 @@ public class BPMTool {
         watchEngine(lx.engine);
     }
 
-    private final LXChannel.AbstractListener bindPatternParametersListener =
-            new LXChannel.AbstractListener() {
-                @Override
-                public void patternDidChange(LXChannel channel, LXPattern pattern) {
-                    watchPatternParameters(pattern);
-                }
-            };
+//    private final LXChannel.AbstractListener bindPatternParametersListener =
+//            new LXChannel.AbstractListener() {
+//                @Override
+//                public void patternDidChange(LXChannel channel, LXPattern pattern) {
+//                    watchPatternParameters(pattern);
+//                }
+//            };
 
     private void watchEngine(final LXEngine engine) {
-        engine.focusedChannel.addListener((parameter) -> watchDeck(engine.getFocusedChannel()));
-        watchDeck(engine.getFocusedChannel());
+//        engine.focusedChannel.addListener((parameter) -> watchDeck(engine.getFocusedChannel()));
+//        watchDeck(engine.getFocusedChannel());
     }
 
     private void watchDeck(LXChannel channel) {
         if (this.currentActiveChannel != channel) {
             if (this.currentActiveChannel != null) {
-                this.currentActiveChannel.removeListener(this.bindPatternParametersListener);
+             //   this.currentActiveChannel.removeListener(this.bindPatternParametersListener);
             }
             this.currentActiveChannel = channel;
-            this.currentActiveChannel.addListener(this.bindPatternParametersListener);
+           // this.currentActiveChannel.addListener(this.bindPatternParametersListener);
         }
         watchPatternParameters(channel.getActivePattern());
     }

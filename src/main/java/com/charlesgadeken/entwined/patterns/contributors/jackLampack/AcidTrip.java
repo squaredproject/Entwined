@@ -1,6 +1,7 @@
 package com.charlesgadeken.entwined.patterns.contributors.jackLampack;
 
 import com.charlesgadeken.entwined.Utilities;
+import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
@@ -8,7 +9,7 @@ import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SawLFO;
 
 @LXCategory("Jack Lampack")
-public class AcidTrip extends EntwinedBasePattern {
+public class AcidTrip extends EntwinedTriggerablePattern {
 
     final SawLFO trails = new SawLFO(360, 0, 7000);
 

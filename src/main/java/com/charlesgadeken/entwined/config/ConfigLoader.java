@@ -19,11 +19,16 @@ public class ConfigLoader {
     public static final boolean autoplayBMSet = false;
 
     public static final boolean enableNFC = false;
-    public static final boolean enableAPC40 = false;
+    public static final boolean enableAPC40 = true;
     public static final boolean enableSoundSyphon = false;
 
     public static final boolean enableOutputMinitree = false;
     public static final boolean enableOutputBigtree = true;
+
+    public static final int NUM_CHANNELS = 8;
+    public static final int NUM_IPAD_CHANNELS = 3;
+    public static final int NUM_KNOBS = 8;
+    public static final int NUM_AUTOMATION = 4;
 
     static final String CUBE_CONFIG_FILE = "entwinedCubes.json";
     static final String TREE_CONFIG_FILE = "entwinedTrees.json";

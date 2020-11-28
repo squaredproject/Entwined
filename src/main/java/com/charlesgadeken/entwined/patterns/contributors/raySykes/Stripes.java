@@ -1,6 +1,7 @@
 package com.charlesgadeken.entwined.patterns.contributors.raySykes;
 
 import com.charlesgadeken.entwined.Utilities;
+import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
@@ -9,7 +10,7 @@ import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
 
 @LXCategory("Ray Sykes")
-public class Stripes extends EntwinedBasePattern {
+public class Stripes extends EntwinedTriggerablePattern {
     final BoundedParameter minSpacing = new BoundedParameter("MinSpacing", 0.5, .3, 2.5);
     final BoundedParameter maxSpacing = new BoundedParameter("MaxSpacing", 2, .3, 2.5);
     final SinLFO spacing = new SinLFO(minSpacing, maxSpacing, 8000);

@@ -28,9 +28,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
 
     private LX lx;
     private Model model;
-    private NFCEngine nfcEngine;
-    final BooleanParameter[][] nfcToggles = new BooleanParameter[6][9];
-
+    final BasicParameterProxy outputBrightness = new BasicParameterProxy(1);
     private EntwinedTriggers triggers;
 
     @Override
@@ -56,7 +54,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
 
         engineController = new EngineController(lx);
 
-        triggers = new EntwinedTriggers(lx);
+        triggers = new EntwinedTriggers(lx, outputBrightness);
 
         if (ConfigLoader.enableNFC) {
             triggers.configureNFC();

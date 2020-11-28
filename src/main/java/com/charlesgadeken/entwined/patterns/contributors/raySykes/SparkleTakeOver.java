@@ -1,6 +1,7 @@
 package com.charlesgadeken.entwined.patterns.contributors.raySykes;
 
 import com.charlesgadeken.entwined.Utilities;
+import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
@@ -10,7 +11,7 @@ import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
 
 @LXCategory("Ray Sykes")
-public class SparkleTakeOver extends EntwinedBasePattern {
+public class SparkleTakeOver extends EntwinedTriggerablePattern {
     int[] sparkleTimeOuts;
     int lastComplimentaryToggle = 0;
     int complimentaryToggle = 0;

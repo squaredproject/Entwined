@@ -2,6 +2,7 @@ package com.charlesgadeken.entwined.patterns.original;
 
 import com.charlesgadeken.entwined.EntwinedCategory;
 import com.charlesgadeken.entwined.Utilities;
+import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
@@ -10,7 +11,7 @@ import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.utils.LXUtils;
 
 @LXCategory(EntwinedCategory.ORIGINAL)
-public class Twister extends EntwinedBasePattern {
+public class Twister extends EntwinedTriggerablePattern {
 
     final SinLFO spin = new SinLFO(0, 5 * 360, 16000);
 

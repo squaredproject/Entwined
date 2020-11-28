@@ -1,5 +1,7 @@
 package com.charlesgadeken.entwined;
 
+import com.charlesgadeken.entwined.bpm.BPMTool;
+import com.charlesgadeken.entwined.config.ConfigLoader;
 import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.effects.TSEffectController;
 import com.charlesgadeken.entwined.effects.original.ColorEffect;
@@ -17,6 +19,7 @@ import com.charlesgadeken.entwined.patterns.original.SeeSaw;
 import com.charlesgadeken.entwined.patterns.original.Twister;
 import com.charlesgadeken.entwined.triggers.ParameterTriggerableAdapter;
 import com.charlesgadeken.entwined.triggers.Triggerable;
+import com.charlesgadeken.entwined.triggers.drumpad.MidiEngine;
 import com.charlesgadeken.entwined.triggers.drumpad.TSDrumpad;
 import com.charlesgadeken.entwined.triggers.http.AppServer;
 import com.charlesgadeken.entwined.triggers.nfc.NFCEngine;
@@ -26,9 +29,8 @@ import heronarts.lx.blend.LXBlend;
 import heronarts.lx.effect.BlurEffect;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.mixer.LXChannel;
-import heronarts.lx.parameter.BooleanParameter;
-import heronarts.lx.parameter.LXListenableNormalizedParameter;
-import heronarts.lx.pattern.LXPattern;
+import heronarts.lx.parameter.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -37,17 +39,24 @@ public class EntwinedTriggers {
     private NFCEngine nfcEngine;
     final BooleanParameter[][] nfcToggles = new BooleanParameter[6][9];
 
-    private TSDrumpad apc40Drumpad;
+    final BoundedParameter drumpadVelocity = new BoundedParameter("DVEL", 1);
+    final BooleanParameter[] previewChannels = new BooleanParameter[ConfigLoader.NUM_CHANNELS];
+    BPMTool bpmTool;
 
+    private TSDrumpad apc40Drumpad;
+    BasicParameterProxy outputBrightness;
     ArrayList<Triggerable>[] apc40DrumpadTriggerablesLists;
     Triggerable[][] apc40DrumpadTriggerables;
-
+    final DiscreteParameter automationSlot = new DiscreteParameter("AUTO", ConfigLoader.NUM_AUTOMATION);
+    final BooleanParameter[] automationStop = new BooleanParameter[ConfigLoader.NUM_AUTOMATION];
+    MidiEngine midiEngine;
     LXListenableNormalizedParameter[] effectKnobParameters;
     public final EngineController engineController;
 
-    public EntwinedTriggers(LX lx) {
+    public EntwinedTriggers(LX lx, BasicParameterProxy outputBrightness) {
         this.lx = lx;
         this.engineController = new EngineController(lx);
+        this.outputBrightness = outputBrightness;
     }
 
     void configureMIDI() {
@@ -55,10 +64,12 @@ public class EntwinedTriggers {
         apc40Drumpad.triggerables = apc40DrumpadTriggerables;
 
         // TODO(meawoppl)
+        bpmTool = new BPMTool(lx, effectKnobParameters);
+
         // MIDI control
-        // midiEngine = new MidiEngine(lx, effectKnobParameters, apc40Drumpad, drumpadVelocity,
-        // previewChannels, bpmTool, uiDeck, nfcToggles, outputBrightness, automationSlot,
-        // automation, automationStop);
+        midiEngine = new MidiEngine(lx, effectKnobParameters, apc40Drumpad, drumpadVelocity,
+            previewChannels, bpmTool, null, nfcToggles, outputBrightness, automationSlot,
+            automationStop);
     }
 
     /* configureNFC */
@@ -225,7 +236,7 @@ public class EntwinedTriggers {
                 };
     }
 
-    public void registerPattern(EntwinedBasePattern pattern, String nfcSerialNumber) {
+    public void registerPattern(EntwinedTriggerablePattern pattern, String nfcSerialNumber) {
         registerPattern(pattern, nfcSerialNumber, 2);
     }
 
@@ -243,7 +254,7 @@ public class EntwinedTriggers {
         LXBlend t = new DissolveBlend(lx);
 
         // NOTE(meawoppl) @Slee same question below.  re `.setDuration(dissolveTime);`
-        pattern.setTransition(t);
+        // pattern.setTransition(t);
 
         Triggerable triggerable = configurePatternAsTriggerable(pattern);
         BooleanParameter toggle = null;
@@ -272,34 +283,34 @@ public class EntwinedTriggers {
         // @Slee, honestly no idea what the intention is here...
         // It looks like patterns used to have associated traditionss" have have moved to the
         // `blend` language, but I don't seen any analogue for that remaining....
-        channel.setFaderTransition(
-                new TreesTransition(lx, channel, model, channelTreeLevels, channelShrubLevels));
+//        channel.setFaderTransition(
+//                new TreesTransition(lx, channel, model, channelTreeLevels, channelShrubLevels));
 
         // channel.transitionBlendMode.setObjects(new TreesTransition[] {new TreesTransition(lx, channel, model, channelTreeLevels, channelShrubLevels)})
         // ??
 
 
-        channel.addListener(
-                new LXChannel.AbstractListener() {
-                    LXTransition transition;
-
-                    @Override
-                    public void patternWillChange(
-                            LXChannel channel, LXPattern pattern, LXPattern nextPattern) {
-                        if (!channel.enabled.isOn()) {
-                            transition = nextPattern.getTransition();
-                            nextPattern.setTransition(null);
-                        }
-                    }
-
-                    @Override
-                    public void patternDidChange(LXChannel channel, LXPattern pattern) {
-                        if (transition != null) {
-                            pattern.setTransition(transition);
-                            transition = null;
-                        }
-                    }
-                });
+//        channel.addListener(
+//                new LXChannel.AbstractListener() {
+//                    LXTransition transition;
+//
+//                    @Override
+//                    public void patternWillChange(
+//                            LXChannel channel, LXPattern pattern, LXPattern nextPattern) {
+//                        if (!channel.enabled.isOn()) {
+//                            transition = nextPattern.getTransition();
+//                            nextPattern.setTransition(null);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void patternDidChange(LXChannel channel, LXPattern pattern) {
+//                        if (transition != null) {
+//                            pattern.setTransition(transition);
+//                            transition = null;
+//                        }
+//                    }
+//                });
 
         if (noOpWhenNotRunning) {
             channel.enabled.setValue(channel.fader.getValue() != 0);
@@ -312,11 +323,11 @@ public class EntwinedTriggers {
         // @Slee is there a modern version of `.setDuration(dissolveTime);` on
         // blends?
         LXBlend t = new DissolveBlend(lx);
-
-        // @Slee not sure where `.setTranstion` got to...
-        pattern.setTransition(t);
-        pattern.readableName = name;
-        patterns.add(pattern);
+//
+//        // @Slee not sure where `.setTranstion` got to...
+//        pattern.setTransition(t);
+//        pattern.readableName = name;
+//        patterns.add(pattern);
     }
 
     void registerEffect(LXEffect effect, String nfcSerialNumber) {
@@ -378,7 +389,7 @@ public class EntwinedTriggers {
 
     void registerEffectController(
             String name, LXEffect effect, LXListenableNormalizedParameter parameter) {
-        ParameterTriggerableAdapter triggerable = new ParameterTriggerableAdapter(lx, parameter);
+        ParameterTriggerableAdapter triggerable = new ParameterTriggerableAdapter(lx, (CompoundParameter) parameter);
         TSEffectController effectController = new TSEffectController(name, effect, triggerable);
 
         engineController.effectControllers.add(effectController);

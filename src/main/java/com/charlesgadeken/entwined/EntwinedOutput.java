@@ -38,8 +38,10 @@ public class EntwinedOutput {
             output.enabled.setValue(true);
             lx.addOutput(output);
         } catch (Exception x) {
+            System.out.println("Can not setup Cubes DDP");
             System.out.println(x);
         }
+
         try {
             LXOutputGroup shrubOutput = new LXOutputGroup(lx);
             DDPDatagram[] shrubDatagrams = new DDPDatagram[model.shrubIpMap.size()];
@@ -56,6 +58,7 @@ public class EntwinedOutput {
             shrubOutput.enabled.setValue(true);
             lx.addOutput(shrubOutput);
         } catch (Exception x) {
+            System.out.println("Can not setup Shrubs DDP");
             System.out.println(x);
         }
     }
@@ -82,6 +85,7 @@ public class EntwinedOutput {
             brightness.parameters.add(fadecandyOutput.brightness);
             lx.addOutput(fadecandyOutput);
         } catch (Exception e) {
+            System.out.println("Can not setup fadecandy output :(");
             System.out.println(e);
         }
     }

@@ -1,5 +1,6 @@
 package com.charlesgadeken.entwined.patterns.contributors.grantPatterson;
 
+import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
@@ -12,7 +13,7 @@ import toxi.geom.Vec3D;
 import toxi.math.noise.SimplexNoise;
 
 @LXCategory("Grant Patterson")
-public class Planes extends EntwinedBasePattern {
+public class Planes extends EntwinedTriggerablePattern {
     // Random seed for our noise functions so it's different on every run
     double seed;
     // These offsets increase relative to deltaMs and speed parameters

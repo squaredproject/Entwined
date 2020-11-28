@@ -1,13 +1,14 @@
 package com.charlesgadeken.entwined.patterns.contributors.kyleFleming;
 
 import com.charlesgadeken.entwined.Utilities;
+import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
 import heronarts.lx.parameter.BoundedParameter;
 import toxi.math.noise.SimplexNoise;
 
-public class CandyCloud extends EntwinedBasePattern {
+public class CandyCloud extends EntwinedTriggerablePattern {
 
     final BoundedParameter darkness = new BoundedParameter("DARK", 8, 0, 12);
 

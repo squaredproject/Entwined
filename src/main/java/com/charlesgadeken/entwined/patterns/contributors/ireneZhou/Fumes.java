@@ -1,6 +1,7 @@
 package com.charlesgadeken.entwined.patterns.contributors.ireneZhou;
 
 import com.charlesgadeken.entwined.Utilities;
+import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
@@ -10,7 +11,7 @@ import heronarts.lx.utils.LXUtils;
 import toxi.geom.Vec2D;
 
 @LXCategory("Irene Zhou")
-public class Fumes extends EntwinedBasePattern {
+public class Fumes extends EntwinedTriggerablePattern {
     final BoundedParameter speed = new BoundedParameter("SPEED", 2, 0, 20);
     final BoundedParameter hue = new BoundedParameter("HUE", 0, 0, 360);
     final BoundedParameter sat = new BoundedParameter("SAT", 25, 0, 100);

@@ -1,6 +1,7 @@
 package com.charlesgadeken.entwined.patterns.contributors.raySykes;
 
 import com.charlesgadeken.entwined.Utilities;
+import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
@@ -10,7 +11,7 @@ import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.utils.LXUtils;
 
 @LXCategory("Ray Sykes")
-public class Ripple extends EntwinedBasePattern {
+public class Ripple extends EntwinedTriggerablePattern {
     final BoundedParameter speed = new BoundedParameter("Speed", 15000, 25000, 8000);
     final BoundedParameter baseBrightness = new BoundedParameter("Bright", 0, 0, 100);
     final SawLFO rippleAge = new SawLFO(0, 100, speed);
