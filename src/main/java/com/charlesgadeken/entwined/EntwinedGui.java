@@ -73,7 +73,6 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         System.out.println("setup() completed");
     }
 
-
     void configureServer() {
         new AppServer(lx, engineController).start();
     }

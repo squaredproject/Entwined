@@ -7,7 +7,6 @@ import heronarts.lx.LX;
 import heronarts.lx.output.DDPDatagram;
 import heronarts.lx.output.FadecandySocket;
 import heronarts.lx.output.LXOutputGroup;
-
 import java.net.InetAddress;
 import java.util.Map;
 
