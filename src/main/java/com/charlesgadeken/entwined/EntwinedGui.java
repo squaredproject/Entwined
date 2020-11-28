@@ -81,7 +81,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         }
         if (ConfigLoader.enableIPad) {
             // TODO(meawoppl) Call fails
-            //engineController.setAutoplay(ConfigLoader.autoplayBMSet, true);
+            // engineController.setAutoplay(ConfigLoader.autoplayBMSet, true);
             triggers.configureServer();
         }
 
@@ -118,7 +118,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         }
 
         // TODO(meawoppl) Right now this tosses an exception :(
-        //lx.engine.mixer.removeChannel(lx.engine.mixer.getDefaultChannel());
+        // lx.engine.mixer.removeChannel(lx.engine.mixer.getDefaultChannel());
     }
 
     void setupChannel(final LXChannel channel, boolean noOpWhenNotRunning) {

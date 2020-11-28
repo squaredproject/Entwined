@@ -62,7 +62,8 @@ public class EntwinedTriggers {
     private final EntwinedParameters parameters;
     private final Model model;
 
-    public EntwinedTriggers(LX lx, Model model, EngineController engineController, EntwinedParameters parameters) {
+    public EntwinedTriggers(
+            LX lx, Model model, EngineController engineController, EntwinedParameters parameters) {
         this.lx = lx;
         this.engineController = engineController;
         this.model = model;
@@ -72,14 +73,15 @@ public class EntwinedTriggers {
     @SuppressWarnings("unchecked")
     void configureTriggerables() {
         if (apc40Drumpad != null) {
-            apc40DrumpadTriggerablesLists = new ArrayList[]{
-                new ArrayList<Triggerable>(),
-                new ArrayList<Triggerable>(),
-                new ArrayList<Triggerable>(),
-                new ArrayList<Triggerable>(),
-                new ArrayList<Triggerable>(),
-                new ArrayList<Triggerable>()
-            };
+            apc40DrumpadTriggerablesLists =
+                    new ArrayList[] {
+                        new ArrayList<Triggerable>(),
+                        new ArrayList<Triggerable>(),
+                        new ArrayList<Triggerable>(),
+                        new ArrayList<Triggerable>(),
+                        new ArrayList<Triggerable>(),
+                        new ArrayList<Triggerable>()
+                    };
         }
 
         registerPatternTriggerables();
@@ -96,7 +98,8 @@ public class EntwinedTriggers {
             apc40DrumpadTriggerables = new Triggerable[apc40DrumpadTriggerablesLists.length][];
             for (int i = 0; i < apc40DrumpadTriggerablesLists.length; i++) {
                 ArrayList<Triggerable> triggerablesList = apc40DrumpadTriggerablesLists[i];
-                apc40DrumpadTriggerables[i] = triggerablesList.toArray(new Triggerable[triggerablesList.size()]);
+                apc40DrumpadTriggerables[i] =
+                        triggerablesList.toArray(new Triggerable[triggerablesList.size()]);
             }
             apc40DrumpadTriggerablesLists = null;
         }
@@ -132,9 +135,11 @@ public class EntwinedTriggers {
         lx.addEffect(scrambleEffect);
         // lx.addEffect(rotationEffect);
 
-        registerEffectController("Rainbow", candyCloudTextureEffect, candyCloudTextureEffect.amount);
+        registerEffectController(
+                "Rainbow", candyCloudTextureEffect, candyCloudTextureEffect.amount);
         registerEffectController("Candy Chaos", candyTextureEffect, candyTextureEffect.amount);
-        registerEffectController("Color Strobe", colorStrobeTextureEffect, colorStrobeTextureEffect.amount);
+        registerEffectController(
+                "Color Strobe", colorStrobeTextureEffect, colorStrobeTextureEffect.amount);
         registerEffectController("Fade", fadeTextureEffect, fadeTextureEffect.amount);
         registerEffectController("Monochrome", colorEffect, colorEffect.mono);
         registerEffectController("White", colorEffect, colorEffect.desaturation);
@@ -528,8 +533,7 @@ public class EntwinedTriggers {
 
     void registerEffectController(
             String name, LXEffect effect, LXListenableNormalizedParameter parameter) {
-        ParameterTriggerableAdapter triggerable =
-                new ParameterTriggerableAdapter(lx, parameter);
+        ParameterTriggerableAdapter triggerable = new ParameterTriggerableAdapter(lx, parameter);
         TSEffectController effectController = new TSEffectController(name, effect, triggerable);
 
         engineController.effectControllers.add(effectController);
