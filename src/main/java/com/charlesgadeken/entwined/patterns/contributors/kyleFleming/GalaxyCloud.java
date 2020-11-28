@@ -3,7 +3,6 @@ package com.charlesgadeken.entwined.patterns.contributors.kyleFleming;
 import com.charlesgadeken.entwined.Utilities;
 import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.Cube;
-import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
 import toxi.math.noise.PerlinNoise;
 

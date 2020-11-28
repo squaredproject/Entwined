@@ -1,6 +1,8 @@
 package com.charlesgadeken.entwined.levels;
 
 import heronarts.lx.parameter.BoundedParameter;
+import java.util.Arrays;
+import java.util.List;
 
 public class ChannelShrubLevels {
     private BoundedParameter[] levels;
@@ -18,5 +20,9 @@ public class ChannelShrubLevels {
 
     public double getValue(int i) {
         return this.levels[i].getValue();
+    }
+
+    public List<BoundedParameter> getLevels() {
+        return Arrays.asList(levels);
     }
 }

@@ -2,23 +2,14 @@ package com.charlesgadeken.entwined.triggers.drumpad;
 
 import heronarts.lx.LX;
 import heronarts.lx.midi.*;
-import heronarts.lx.midi.surface.LXMidiSurface;
 import heronarts.lx.mixer.LXChannel;
-import heronarts.lx.parameter.LXParameter;
-import org.apache.commons.lang3.tuple.Pair;
 
-import javax.sound.midi.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
-
-public class APC40 extends LXMidiSurface {
+public class APC40mk1 extends LXMidiDeviceBackport {
     public static final int ANY_CHANNEL = -1;
     public static final int NOTE_VELOCITY = -1;
     public static final int CC_VALUE = -1;
     public static final int DIRECT = 1;
     public static final int TOGGLE = 2;
-
 
     public static final int VOLUME = 7;
     public static final int MASTER_FADER = 14;
@@ -79,80 +70,20 @@ public class APC40 extends LXMidiSurface {
     public static final String DEVICE_NAME = "APC40";
     private LXChannel deviceControlChannel;
 
-    private Consumer<MidiNoteOn> onNoteOn;
-    private Consumer<MidiControlChange> onControlChange;
+    public final LXMidiInput input;
+    public final LXMidiOutput output;
 
     public static LXMidiInput matchInput(LX lx) {
         return lx.engine.midi.matchInput("APC40");
     }
 
-    public static LXMidiOutput matchOutput(LX lx) { return lx.engine.midi.matchOutput("APC40"); }
-
-    private Map<Pair<Integer, Integer>, LXParameter> noteBindings;
-
-    public void setOnNoteOn(Consumer<MidiNoteOn> onNoteOn){
-        this.onNoteOn = onNoteOn;
+    public static LXMidiOutput matchOutput(LX lx) {
+        return lx.engine.midi.matchOutput("APC40");
     }
 
-    public void setOnControlChange(Consumer<MidiControlChange> cc){
-        this.onControlChange = cc;
-    }
-
-    public static APC40 getAPC40(LX lx) {
-        return new APC40(lx, matchInput(lx), matchOutput(lx));
-    }
-
-    public APC40(LX lx, LXMidiInput input, LXMidiOutput output){
-        super(lx, input, output);
-        noteBindings = new HashMap<>();
-    }
-
-    public APC40(LX lx){
-        super(lx, APC40.matchInput(lx), APC40.matchOutput(lx));
-    }
-
-    @Override
-    public void noteOnReceived(MidiNoteOn note) {
-        super.noteOnReceived(note);
-        if(onNoteOn != null){
-            onNoteOn.accept(note);
-        }
-
-        Pair<Integer, Integer> channelNote = Pair.of(note.getChannel(), note.getPitch());
-        if(noteBindings.containsKey(channelNote)){
-            LXParameter parameter = noteBindings.get(channelNote);
-            parameter.setValue(1);
-        }
-    }
-
-    @Override
-    public void noteOffReceived(MidiNote note) {
-        super.noteOffReceived(note);
-
-        Pair<Integer, Integer> channelNote = Pair.of(note.getChannel(), note.getPitch());
-        if(noteBindings.containsKey(channelNote)){
-            LXParameter parameter = noteBindings.get(channelNote);
-            parameter.setValue(0);
-        }
-    }
-
-    @Override
-    public void controlChangeReceived(MidiControlChange cc) {
-        super.controlChangeReceived(cc);
-
-        if( onControlChange != null) {
-            onControlChange.accept(cc);
-        }
-
-    }
-
-    public void bindNote(LXParameter parameter, int channel, int note) {
-        noteBindings.put(Pair.of(channel, note), parameter);
-    }
-
-    public void bindNotes(LXParameter parameter, int[] channels, int note){
-        for (int channel: channels) {
-            bindNote(parameter, channel, note);
-        }
+    public APC40mk1(LXMidiInput input, LXMidiOutput output) {
+        super(input, output);
+        this.input = input;
+        this.output = output;
     }
 }

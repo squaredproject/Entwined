@@ -6,7 +6,14 @@ import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.effects.TSEffectController;
 import com.charlesgadeken.entwined.effects.original.ColorEffect;
 import com.charlesgadeken.entwined.effects.original.ScrambleEffect;
+import com.charlesgadeken.entwined.effects.original.SpeedEffect;
+import com.charlesgadeken.entwined.effects.original.SpinEffect;
+import com.charlesgadeken.entwined.model.Model;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
+import com.charlesgadeken.entwined.patterns.contributors.colinHunt.BeachBall;
+import com.charlesgadeken.entwined.patterns.contributors.colinHunt.Breath;
+import com.charlesgadeken.entwined.patterns.contributors.colinHunt.ColorWave;
+import com.charlesgadeken.entwined.patterns.contributors.geoffSchmidt.Parallax;
 import com.charlesgadeken.entwined.patterns.contributors.geoffSchmidt.Pixels;
 import com.charlesgadeken.entwined.patterns.contributors.grantPatterson.Planes;
 import com.charlesgadeken.entwined.patterns.contributors.grantPatterson.Pond;
@@ -14,8 +21,12 @@ import com.charlesgadeken.entwined.patterns.contributors.ireneZhou.*;
 import com.charlesgadeken.entwined.patterns.contributors.jackLampack.AcidTrip;
 import com.charlesgadeken.entwined.patterns.contributors.kyleFleming.*;
 import com.charlesgadeken.entwined.patterns.contributors.markLottor.MarkLottor;
+import com.charlesgadeken.entwined.patterns.contributors.maryWang.Twinkle;
+import com.charlesgadeken.entwined.patterns.contributors.maryWang.VerticalSweep;
 import com.charlesgadeken.entwined.patterns.contributors.raySykes.*;
+import com.charlesgadeken.entwined.patterns.original.ColoredLeaves;
 import com.charlesgadeken.entwined.patterns.original.SeeSaw;
+import com.charlesgadeken.entwined.patterns.original.SweepPattern;
 import com.charlesgadeken.entwined.patterns.original.Twister;
 import com.charlesgadeken.entwined.triggers.ParameterTriggerableAdapter;
 import com.charlesgadeken.entwined.triggers.Triggerable;
@@ -30,33 +41,159 @@ import heronarts.lx.effect.BlurEffect;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.parameter.*;
-
+import heronarts.lx.pattern.LXPattern;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class EntwinedTriggers {
     private final LX lx;
     private NFCEngine nfcEngine;
-    final BooleanParameter[][] nfcToggles = new BooleanParameter[6][9];
 
-    final BoundedParameter drumpadVelocity = new BoundedParameter("DVEL", 1);
-    final BooleanParameter[] previewChannels = new BooleanParameter[ConfigLoader.NUM_CHANNELS];
     BPMTool bpmTool;
 
     private TSDrumpad apc40Drumpad;
-    BasicParameterProxy outputBrightness;
     ArrayList<Triggerable>[] apc40DrumpadTriggerablesLists;
     Triggerable[][] apc40DrumpadTriggerables;
-    final DiscreteParameter automationSlot = new DiscreteParameter("AUTO", ConfigLoader.NUM_AUTOMATION);
-    final BooleanParameter[] automationStop = new BooleanParameter[ConfigLoader.NUM_AUTOMATION];
     MidiEngine midiEngine;
     LXListenableNormalizedParameter[] effectKnobParameters;
     public final EngineController engineController;
 
-    public EntwinedTriggers(LX lx, BasicParameterProxy outputBrightness) {
+    private final EntwinedParameters parameters;
+    private final Model model;
+
+    public EntwinedTriggers(LX lx, Model model, EngineController engineController, EntwinedParameters parameters) {
         this.lx = lx;
-        this.engineController = new EngineController(lx);
-        this.outputBrightness = outputBrightness;
+        this.engineController = engineController;
+        this.model = model;
+        this.parameters = parameters;
+    }
+
+    @SuppressWarnings("unchecked")
+    void configureTriggerables() {
+        if (apc40Drumpad != null) {
+            apc40DrumpadTriggerablesLists = new ArrayList[]{
+                new ArrayList<Triggerable>(),
+                new ArrayList<Triggerable>(),
+                new ArrayList<Triggerable>(),
+                new ArrayList<Triggerable>(),
+                new ArrayList<Triggerable>(),
+                new ArrayList<Triggerable>()
+            };
+        }
+
+        registerPatternTriggerables();
+        registerOneShotTriggerables();
+        registerEffectTriggerables();
+
+        if (ConfigLoader.enableIPad) {
+            engineController.startEffectIndex = lx.engine.mixer.masterBus.getEffects().size();
+            registerIPadEffects();
+            engineController.endEffectIndex = lx.engine.mixer.masterBus.getEffects().size();
+        }
+
+        if (apc40Drumpad != null) {
+            apc40DrumpadTriggerables = new Triggerable[apc40DrumpadTriggerablesLists.length][];
+            for (int i = 0; i < apc40DrumpadTriggerablesLists.length; i++) {
+                ArrayList<Triggerable> triggerablesList = apc40DrumpadTriggerablesLists[i];
+                apc40DrumpadTriggerables[i] = triggerablesList.toArray(new Triggerable[triggerablesList.size()]);
+            }
+            apc40DrumpadTriggerablesLists = null;
+        }
+    }
+
+    void registerIPadEffects() {
+        ColorEffect colorEffect = new ColorEffect(lx);
+        ColorStrobeTextureEffect colorStrobeTextureEffect = new ColorStrobeTextureEffect(lx);
+        FadeTextureEffect fadeTextureEffect = new FadeTextureEffect(lx);
+        AcidTripTextureEffect acidTripTextureEffect = new AcidTripTextureEffect(lx);
+        CandyTextureEffect candyTextureEffect = new CandyTextureEffect(lx);
+        CandyCloudTextureEffect candyCloudTextureEffect = new CandyCloudTextureEffect(lx);
+        // GhostEffect ghostEffect = new GhostEffect(lx);
+        // RotationEffect rotationEffect = new RotationEffect(lx);
+
+        SpeedEffect speedEffect = engineController.speedEffect;
+        SpinEffect spinEffect = engineController.spinEffect;
+        BlurEffect blurEffect = engineController.blurEffect;
+        ScrambleEffect scrambleEffect = engineController.scrambleEffect;
+        // StaticEffect staticEffect = engineController.staticEffect = new StaticEffect(lx);
+
+        lx.addEffect(blurEffect);
+        lx.addEffect(colorEffect);
+        // lx.addEffect(staticEffect);
+        lx.addEffect(spinEffect);
+        lx.addEffect(speedEffect);
+        lx.addEffect(colorStrobeTextureEffect);
+        lx.addEffect(fadeTextureEffect);
+        // lx.addEffect(acidTripTextureEffect);
+        lx.addEffect(candyTextureEffect);
+        lx.addEffect(candyCloudTextureEffect);
+        // lx.addEffect(ghostEffect);
+        lx.addEffect(scrambleEffect);
+        // lx.addEffect(rotationEffect);
+
+        registerEffectController("Rainbow", candyCloudTextureEffect, candyCloudTextureEffect.amount);
+        registerEffectController("Candy Chaos", candyTextureEffect, candyTextureEffect.amount);
+        registerEffectController("Color Strobe", colorStrobeTextureEffect, colorStrobeTextureEffect.amount);
+        registerEffectController("Fade", fadeTextureEffect, fadeTextureEffect.amount);
+        registerEffectController("Monochrome", colorEffect, colorEffect.mono);
+        registerEffectController("White", colorEffect, colorEffect.desaturation);
+    }
+
+    void addPatterns(List<LXPattern> patterns) {
+        // Add patterns here.
+        // The order here is the order it shows up in the patterns list
+        // patterns.add(new SolidColor(lx));
+        // patterns.add(new ClusterLineTest(lx));
+        // patterns.add(new OrderTest(lx));
+        patterns.add(new Twister(lx));
+        patterns.add(new CandyCloud(lx));
+        patterns.add(new MarkLottor(lx));
+        patterns.add(new SolidColor(lx));
+        // patterns.add(new DoubleHelix(lx));
+        patterns.add(new SparkleHelix(lx));
+        patterns.add(new Lightning(lx));
+        patterns.add(new SparkleTakeOver(lx));
+        patterns.add(new MultiSine(lx));
+        patterns.add(new Ripple(lx));
+        patterns.add(new SeeSaw(lx));
+        patterns.add(new SweepPattern(lx));
+        patterns.add(new IceCrystals(lx));
+        patterns.add(new ColoredLeaves(lx));
+        patterns.add(new Stripes(lx));
+        patterns.add(new AcidTrip(lx));
+        patterns.add(new Springs(lx));
+        patterns.add(new Lattice(lx));
+        patterns.add(new Fire(lx));
+        patterns.add(new Fireflies(lx));
+        patterns.add(new Fumes(lx));
+        patterns.add(new Voronoi(lx));
+        patterns.add(new Cells(lx));
+        patterns.add(new Bubbles(lx));
+        patterns.add(new Pulleys(lx));
+
+        patterns.add(new Wisps(lx));
+        patterns.add(new Explosions(lx));
+        patterns.add(new BassSlam(lx));
+        patterns.add(new Rain(lx));
+        patterns.add(new Fade(lx));
+        patterns.add(new Strobe(lx));
+        patterns.add(new Twinkle(lx));
+        patterns.add(new VerticalSweep(lx));
+        patterns.add(new RandomColor(lx));
+        patterns.add(new ColorStrobe(lx));
+        patterns.add(new Pixels(lx));
+        // patterns.add(new Wedges(lx));
+        patterns.add(new Parallax(lx));
+
+        // Colin Hunt Patterns
+        patterns.add(new ColorWave(lx));
+        patterns.add(new BeachBall(lx));
+        patterns.add(new Breath(lx));
+
+        // Grant Patterson Patterns
+        patterns.add(new Pond(lx));
+        patterns.add(new Planes(lx));
     }
 
     void configureMIDI() {
@@ -66,9 +203,7 @@ public class EntwinedTriggers {
         bpmTool = new BPMTool(lx, effectKnobParameters);
 
         // MIDI control
-        midiEngine = new MidiEngine(lx, effectKnobParameters, apc40Drumpad, drumpadVelocity,
-            previewChannels, bpmTool, null, nfcToggles, outputBrightness, automationSlot,
-            automationStop);
+        midiEngine = new MidiEngine(lx, parameters, apc40Drumpad, bpmTool, null);
     }
 
     /* configureNFC */
@@ -76,13 +211,6 @@ public class EntwinedTriggers {
     void configureNFC() {
         nfcEngine = new NFCEngine(lx);
         nfcEngine.start();
-
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 9; j++) {
-                nfcToggles[i][j] = new BooleanParameter("toggle");
-            }
-        }
-
         nfcEngine.registerReaderPatternTypeRestrictions(
                 Arrays.asList(readerPatternTypeRestrictions()));
     }
@@ -172,7 +300,8 @@ public class EntwinedTriggers {
         registerOneShot(pattern, nfcSerialNumber, 4);
     }
 
-    void registerOneShot(EntwinedTriggerablePattern pattern, String nfcSerialNumber, int apc40DrumpadRow) {
+    void registerOneShot(
+            EntwinedTriggerablePattern pattern, String nfcSerialNumber, int apc40DrumpadRow) {
         registerVisual(pattern, nfcSerialNumber, apc40DrumpadRow, VisualType.OneShot);
     }
 
@@ -222,7 +351,7 @@ public class EntwinedTriggers {
         registerEffectControlParameter(staticEffect.amount, "3707000050a8b3", 0, .3, 1);
         registerEffectControlParameter(candyTextureEffect.amount, "3707000050aafc", 0, 1, 5);
 
-        effectKnobParameters =
+        parameters.effectKnobParameters =
                 new LXListenableNormalizedParameter[] {
                     colorEffect.hueShift,
                     colorEffect.mono,
@@ -260,7 +389,8 @@ public class EntwinedTriggers {
         if (apc40Drumpad != null) {
             toggle =
                     apc40DrumpadTriggerablesLists[apc40DrumpadRow].size() < 9
-                            ? nfcToggles[apc40DrumpadRow][
+                            ? parameters
+                                    .nfcToggles[apc40DrumpadRow][
                                     apc40DrumpadTriggerablesLists[apc40DrumpadRow].size()]
                             : null;
             apc40DrumpadTriggerablesLists[apc40DrumpadRow].add(triggerable);
@@ -282,34 +412,44 @@ public class EntwinedTriggers {
         // @Slee, honestly no idea what the intention is here...
         // It looks like patterns used to have associated traditionss" have have moved to the
         // `blend` language, but I don't seen any analogue for that remaining....
-//        channel.setFaderTransition(
-//                new TreesTransition(lx, channel, model, channelTreeLevels, channelShrubLevels));
+        //        channel.setFaderTransition(
+        //                new TreesTransition(lx, channel, model, parameters.channelTreeLevels,
+        // parameters.channelShrubLevels));
 
-        // channel.transitionBlendMode.setObjects(new TreesTransition[] {new TreesTransition(lx, channel, model, channelTreeLevels, channelShrubLevels)})
-        // ??
+        // Trying the following:
+        channel.transitionBlendMode.setObjects(
+                new TreesTransition[] {
+                    new TreesTransition(
+                            lx,
+                            channel,
+                            model,
+                            parameters.channelTreeLevels,
+                            parameters.channelShrubLevels)
+                });
 
+        channel.addListener(
+                new LXChannel.Listener() {
+                    LXBlend transition;
 
-//        channel.addListener(
-//                new LXChannel.AbstractListener() {
-//                    LXTransition transition;
-//
-//                    @Override
-//                    public void patternWillChange(
-//                            LXChannel channel, LXPattern pattern, LXPattern nextPattern) {
-//                        if (!channel.enabled.isOn()) {
-//                            transition = nextPattern.getTransition();
-//                            nextPattern.setTransition(null);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void patternDidChange(LXChannel channel, LXPattern pattern) {
-//                        if (transition != null) {
-//                            pattern.setTransition(transition);
-//                            transition = null;
-//                        }
-//                    }
-//                });
+                    @Override
+                    public void patternWillChange(
+                            LXChannel channel, LXPattern pattern, LXPattern nextPattern) {
+                        if (!channel.enabled.isOn()) {
+                            // TODO(meawoppl) - IDK
+                            // transition = nextPattern.getTransition();
+                            //  nextPattern.setTransition(null);
+                        }
+                    }
+
+                    @Override
+                    public void patternDidChange(LXChannel channel, LXPattern pattern) {
+                        if (transition != null) {
+                            // TODO(meawoppl) IDK
+                            // pattern.setTransition(transition);
+                            // transition = null;
+                        }
+                    }
+                });
 
         if (noOpWhenNotRunning) {
             channel.enabled.setValue(channel.fader.getValue() != 0);
@@ -322,11 +462,11 @@ public class EntwinedTriggers {
         // @Slee is there a modern version of `.setDuration(dissolveTime);` on
         // blends?
         LXBlend t = new DissolveBlend(lx);
-//
-//        // @Slee not sure where `.setTranstion` got to...
-//        pattern.setTransition(t);
-//        pattern.readableName = name;
-//        patterns.add(pattern);
+        //
+        //        // @Slee not sure where `.setTranstion` got to...
+        //        pattern.setTransition(t);
+        //        pattern.readableName = name;
+        //        patterns.add(pattern);
     }
 
     void registerEffect(LXEffect effect, String nfcSerialNumber) {
@@ -336,7 +476,7 @@ public class EntwinedTriggers {
             if (apc40Drumpad != null) {
                 toggle =
                         apc40DrumpadTriggerablesLists[0].size() < 9
-                                ? nfcToggles[0][apc40DrumpadTriggerablesLists[0].size()]
+                                ? parameters.nfcToggles[0][apc40DrumpadTriggerablesLists[0].size()]
                                 : null;
                 apc40DrumpadTriggerablesLists[0].add(triggerable);
             }
@@ -377,7 +517,7 @@ public class EntwinedTriggers {
         if (apc40Drumpad != null) {
             toggle =
                     apc40DrumpadTriggerablesLists[row].size() < 9
-                            ? nfcToggles[row][apc40DrumpadTriggerablesLists[row].size()]
+                            ? parameters.nfcToggles[row][apc40DrumpadTriggerablesLists[row].size()]
                             : null;
             apc40DrumpadTriggerablesLists[row].add(triggerable);
         }
@@ -388,7 +528,8 @@ public class EntwinedTriggers {
 
     void registerEffectController(
             String name, LXEffect effect, LXListenableNormalizedParameter parameter) {
-        ParameterTriggerableAdapter triggerable = new ParameterTriggerableAdapter(lx, (CompoundParameter) parameter);
+        ParameterTriggerableAdapter triggerable =
+                new ParameterTriggerableAdapter(lx, parameter);
         TSEffectController effectController = new TSEffectController(name, effect, triggerable);
 
         engineController.effectControllers.add(effectController);

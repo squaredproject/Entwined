@@ -21,7 +21,8 @@ public class BPMTool {
     public final BooleanParameter nudgeDownTempo = new BooleanParameter("Nudge -");
 
     final String[] bpmLabels = {"SIN", "SAW", "TRI", "QD", "SQR"};
-    public final DiscreteParameter tempoLfoType = new DiscreteParameter("Tempo LFO", bpmLabels.length);
+    public final DiscreteParameter tempoLfoType =
+            new DiscreteParameter("Tempo LFO", bpmLabels.length);
 
     final String[] beatLabels = {"1", "\u00bd", "\u00bc", "1/16"}; // 1, 1/2, 1/4, 1/16
     public final DiscreteParameter beatType = new DiscreteParameter("Beat", beatLabels.length);
@@ -91,8 +92,9 @@ public class BPMTool {
                 new LXParameterListener() {
                     public void onParameterChanged(LXParameter parameter) {
                         if (addTempoLfo.isOn()) {
-//                            watchPatternParameters(
-//                                    lx.engine.mixer.focusedChannel.getActivePattern());
+                            //                            watchPatternParameters(
+                            //
+                            // lx.engine.mixer.focusedChannel.getActivePattern());
                             watchMasterEffectParameters(effectKnobParameters);
                         } else {
                             unwatchPatternParameters();
@@ -113,26 +115,27 @@ public class BPMTool {
         watchEngine(lx.engine);
     }
 
-//    private final LXChannel.AbstractListener bindPatternParametersListener =
-//            new LXChannel.AbstractListener() {
-//                @Override
-//                public void patternDidChange(LXChannel channel, LXPattern pattern) {
-//                    watchPatternParameters(pattern);
-//                }
-//            };
+    //    private final LXChannel.AbstractListener bindPatternParametersListener =
+    //            new LXChannel.AbstractListener() {
+    //                @Override
+    //                public void patternDidChange(LXChannel channel, LXPattern pattern) {
+    //                    watchPatternParameters(pattern);
+    //                }
+    //            };
 
     private void watchEngine(final LXEngine engine) {
-//        engine.focusedChannel.addListener((parameter) -> watchDeck(engine.getFocusedChannel()));
-//        watchDeck(engine.getFocusedChannel());
+        //        engine.focusedChannel.addListener((parameter) ->
+        // watchDeck(engine.getFocusedChannel()));
+        //        watchDeck(engine.getFocusedChannel());
     }
 
     private void watchDeck(LXChannel channel) {
         if (this.currentActiveChannel != channel) {
             if (this.currentActiveChannel != null) {
-             //   this.currentActiveChannel.removeListener(this.bindPatternParametersListener);
+                //   this.currentActiveChannel.removeListener(this.bindPatternParametersListener);
             }
             this.currentActiveChannel = channel;
-           // this.currentActiveChannel.addListener(this.bindPatternParametersListener);
+            // this.currentActiveChannel.addListener(this.bindPatternParametersListener);
         }
         watchPatternParameters(channel.getActivePattern());
     }

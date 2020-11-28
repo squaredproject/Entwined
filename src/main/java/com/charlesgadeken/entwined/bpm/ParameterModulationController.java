@@ -19,7 +19,7 @@ class ParameterModulationController {
 
         tempoAdapter = new TempoAdapter(lx.engine.tempo);
         // @Slee not sure what the modern equivalent is here...
-    //        lx.addModulator(tempoAdapter).start();
+        //        lx.addModulator(tempoAdapter).start();
 
         for (ParameterModulatorController modulatorController : modulatorControllers) {
             modulatorController.modulationController = this;

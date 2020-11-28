@@ -1,18 +1,18 @@
 package com.charlesgadeken.entwined;
 
-import heronarts.lx.LX;
-import heronarts.lx.parameter.BoundedParameter;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import com.charlesgadeken.entwined.model.Model;
+import heronarts.lx.LX;
+import org.junit.jupiter.api.Test;
 
 class EntwinedTriggersTest {
     @Test
-    public void testEntwinedTriggers(){
+    public void testEntwinedTriggers() {
         LX lx = new LX();
-        BasicParameterProxy bp = new BasicParameterProxy(1);
-        EntwinedTriggers et = new EntwinedTriggers(lx, bp);
+        Model model = Model.fromConfigs();
+        EntwinedParameters parameters = new EntwinedParameters(lx, model);
+        EntwinedTriggers et = new EntwinedTriggers(lx, model, parameters);
         et.configureMIDI();
     }
-
 }

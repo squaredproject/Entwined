@@ -1,5 +1,6 @@
 package com.charlesgadeken.entwined.triggers.drumpad;
 
+import com.charlesgadeken.entwined.EntwinedParameters;
 import com.charlesgadeken.entwined.TreesTransition;
 import com.charlesgadeken.entwined.bpm.BPMTool;
 import com.charlesgadeken.entwined.config.ConfigLoader;
@@ -7,34 +8,26 @@ import heronarts.lx.LX;
 import heronarts.lx.midi.*;
 import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.parameter.*;
-
 import javax.sound.midi.*;
-import java.util.ArrayList;
 
 public class MidiEngine {
     private final LX lx;
-    private final DiscreteParameter automationSlot;
     // private final LXAutomationRecorder[] automation;
-    private final BooleanParameter[] automationStop;
+
+    private final EntwinedParameters parameters;
 
     public MidiEngine(
             final LX lx,
-            LXListenableNormalizedParameter[] effectKnobParameters,
+            EntwinedParameters parameters,
             final TSDrumpad apc40Drumpad,
-            final BoundedParameter drumpadVelocity,
-            final BooleanParameter[] previewChannels,
             final BPMTool bpmTool,
-            final InterfaceController uiDeck,
-            final BooleanParameter[][] nfcToggles,
-            final BoundedParameter outputBrightness,
-            DiscreteParameter automationSlot,
+            final InterfaceController uiDeck
             // LXAutomationRecorder[] automation,
-            BooleanParameter[] automationStop) {
+            ) {
 
         this.lx = lx;
-        this.automationSlot = automationSlot;
+        this.parameters = parameters;
         // this.automation = automation;
-        this.automationStop = automationStop;
 
         try {
             setAPC40Mode();
@@ -44,135 +37,134 @@ public class MidiEngine {
             return;
         }
 
-        LXMidiInput apcInput = lx.engine.midi.matchInput(APC40.DEVICE_NAME);
-        LXMidiOutput apcOutput = lx.engine.midi.matchOutput(APC40.DEVICE_NAME);
+        LXMidiInput apcInput = lx.engine.midi.matchInput(APC40mk1.DEVICE_NAME);
+        LXMidiOutput apcOutput = lx.engine.midi.matchOutput(APC40mk1.DEVICE_NAME);
 
+        apcInput.enabled.setValue(true);
+        apcOutput.enabled.setValue(true);
         System.out.println("MIDI Setup...");
         if (apcInput != null) {
 
             // Add this input to the midi engine so that events are recorded
-            // lx.engine.midi.inputs.add(apcInput);
-            if (!lx.engine.midi.inputs.contains(apcInput)){
+            if (!lx.engine.midi.inputs.contains(apcInput)) {
                 throw new RuntimeException("Expected APC40 in inputs");
             }
+
+            lx.engine.midi.addListener(new MidiListenerHelper());
+
             lx.engine.midi.addListener(
                     new LXAbstractMidiListener() {
                         public void noteOnReceived(MidiNoteOn note) {
-                            System.out.println(note);
                             int channel = note.getChannel();
                             int pitch = note.getPitch();
                             switch (pitch) {
-                                case APC40.CLIP_LAUNCH:
-                                case APC40.CLIP_LAUNCH + 1:
-                                case APC40.CLIP_LAUNCH + 2:
-                                case APC40.CLIP_LAUNCH + 3:
-                                case APC40.CLIP_LAUNCH + 4:
+                                case APC40mk1.CLIP_LAUNCH:
+                                case APC40mk1.CLIP_LAUNCH + 1:
+                                case APC40mk1.CLIP_LAUNCH + 2:
+                                case APC40mk1.CLIP_LAUNCH + 3:
+                                case APC40mk1.CLIP_LAUNCH + 4:
                                     apc40Drumpad.padTriggered(
-                                            pitch - APC40.CLIP_LAUNCH,
+                                            pitch - APC40mk1.CLIP_LAUNCH,
                                             channel,
-                                            drumpadVelocity.getValuef());
+                                            parameters.drumpadVelocity.getValuef());
                                     break;
-                                case APC40.CLIP_STOP:
+                                case APC40mk1.CLIP_STOP:
                                     apc40Drumpad.padTriggered(
-                                            5, channel, drumpadVelocity.getValuef());
+                                            5, channel, parameters.drumpadVelocity.getValuef());
                                     break;
-                                case APC40.SCENE_LAUNCH:
-                                case APC40.SCENE_LAUNCH + 1:
-                                case APC40.SCENE_LAUNCH + 2:
-                                case APC40.SCENE_LAUNCH + 3:
-                                case APC40.SCENE_LAUNCH + 4:
+                                case APC40mk1.SCENE_LAUNCH:
+                                case APC40mk1.SCENE_LAUNCH + 1:
+                                case APC40mk1.SCENE_LAUNCH + 2:
+                                case APC40mk1.SCENE_LAUNCH + 3:
+                                case APC40mk1.SCENE_LAUNCH + 4:
                                     apc40Drumpad.padTriggered(
-                                            pitch - APC40.SCENE_LAUNCH,
+                                            pitch - APC40mk1.SCENE_LAUNCH,
                                             8,
-                                            drumpadVelocity.getValuef());
+                                            parameters.drumpadVelocity.getValuef());
                                     break;
-                                case APC40.STOP_ALL_CLIPS:
-                                    apc40Drumpad.padTriggered(5, 8, drumpadVelocity.getValuef());
+                                case APC40mk1.STOP_ALL_CLIPS:
+                                    apc40Drumpad.padTriggered(
+                                            5, 8, parameters.drumpadVelocity.getValuef());
                                     break;
                             }
                         }
 
                         public void noteOffReceived(MidiNote note) {
-                            System.out.println(note);
                             int channel = note.getChannel();
                             int pitch = note.getPitch();
                             switch (pitch) {
-                                case APC40.CLIP_LAUNCH:
-                                case APC40.CLIP_LAUNCH + 1:
-                                case APC40.CLIP_LAUNCH + 2:
-                                case APC40.CLIP_LAUNCH + 3:
-                                case APC40.CLIP_LAUNCH + 4:
-                                    apc40Drumpad.padReleased(pitch - APC40.CLIP_LAUNCH, channel);
+                                case APC40mk1.CLIP_LAUNCH:
+                                case APC40mk1.CLIP_LAUNCH + 1:
+                                case APC40mk1.CLIP_LAUNCH + 2:
+                                case APC40mk1.CLIP_LAUNCH + 3:
+                                case APC40mk1.CLIP_LAUNCH + 4:
+                                    apc40Drumpad.padReleased(pitch - APC40mk1.CLIP_LAUNCH, channel);
                                     break;
-                                case APC40.CLIP_STOP:
+                                case APC40mk1.CLIP_STOP:
                                     apc40Drumpad.padReleased(5, channel);
                                     break;
-                                case APC40.SCENE_LAUNCH:
-                                case APC40.SCENE_LAUNCH + 1:
-                                case APC40.SCENE_LAUNCH + 2:
-                                case APC40.SCENE_LAUNCH + 3:
-                                case APC40.SCENE_LAUNCH + 4:
-                                    apc40Drumpad.padReleased(pitch - APC40.SCENE_LAUNCH, 8);
+                                case APC40mk1.SCENE_LAUNCH:
+                                case APC40mk1.SCENE_LAUNCH + 1:
+                                case APC40mk1.SCENE_LAUNCH + 2:
+                                case APC40mk1.SCENE_LAUNCH + 3:
+                                case APC40mk1.SCENE_LAUNCH + 4:
+                                    apc40Drumpad.padReleased(pitch - APC40mk1.SCENE_LAUNCH, 8);
                                     break;
-                                case APC40.STOP_ALL_CLIPS:
+                                case APC40mk1.STOP_ALL_CLIPS:
                                     apc40Drumpad.padReleased(5, 8);
                                     break;
                             }
                         }
-
-                        @Override
-                        public void controlChangeReceived(MidiControlChange cc) {
-                            System.out.println(cc);
-                        }
                     });
 
-            final APC40 apc40 = new APC40(lx, apcInput, apcOutput);
+            final APC40mk1 apc40Mk1 =
+                    new APC40mk1(apcInput, apcOutput) {
+                        protected void noteOn(MidiNoteOn note) {
+                            int channel = note.getChannel();
+                            switch (note.getPitch()) {
+                                case APC40mk1.SOLO_CUE:
+                                    if (parameters.previewChannels[channel].isOn()
+                                            && channel != focusedChannel()) {
+                                        lx.engine.mixer.focusedChannel.setValue(channel);
+                                    }
+                                    break;
 
-            lx.engine.midi.addListener(apc40);
+                                case APC40mk1.SEND_A:
+                                    bpmTool.beatType.increment();
+                                    break;
+                                case APC40mk1.SEND_B:
+                                    bpmTool.tempoLfoType.increment();
+                                    break;
 
-            apc40.setOnNoteOn((MidiNoteOn note) -> {
-                int channel = note.getChannel();
-                switch (note.getPitch()) {
-                    case APC40.SOLO_CUE:
-                        if (previewChannels[channel].isOn()
-                                && channel != focusedChannel()) {
-                            lx.engine.mixer.focusedChannel.setValue(channel);
+                                case APC40mk1.MASTER_TRACK:
+                                case APC40mk1.SHIFT:
+                                    if (uiDeck != null) uiDeck.select();
+                                    break;
+                                case APC40mk1.BANK_UP:
+                                    if (uiDeck != null) uiDeck.scroll(-1);
+                                    break;
+                                case APC40mk1.BANK_DOWN:
+                                    if (uiDeck != null) uiDeck.scroll(1);
+                                    break;
+                                case APC40mk1.BANK_RIGHT:
+                                    lx.engine.mixer.focusedChannel.increment();
+                                    break;
+                                case APC40mk1.BANK_LEFT:
+                                    lx.engine.mixer.focusedChannel.decrement();
+                                    break;
+                            }
                         }
-                        break;
 
-                    case APC40.SEND_A:
-                        bpmTool.beatType.increment();
-                        break;
-                    case APC40.SEND_B:
-                        bpmTool.tempoLfoType.increment();
-                        break;
-
-                    case APC40.MASTER_TRACK:
-                    case APC40.SHIFT:
-                        if (uiDeck != null) uiDeck.select();
-                        break;
-                    case APC40.BANK_UP:
-                        if (uiDeck != null) uiDeck.scroll(-1);
-                        break;
-                    case APC40.BANK_DOWN:
-                        if (uiDeck != null) uiDeck.scroll(1);
-                        break;
-                    case APC40.BANK_RIGHT:
-                        lx.engine.mixer.focusedChannel.increment();
-                        break;
-                    case APC40.BANK_LEFT:
-                        lx.engine.mixer.focusedChannel.decrement();
-                        break;
-                }
-            });
-
-            apc40.setOnControlChange((MidiControlChange controller)  -> {
+                        protected void controlChange(MidiControlChange controller) {
                             switch (controller.getCC()) {
-                                case APC40.CUE_LEVEL:
+                                case APC40mk1.CUE_LEVEL:
                                     if (uiDeck != null) uiDeck.knob(controller.getValue());
                                     break;
                             }
-                        });
+                        }
+                    };
+
+            lx.engine.midi.addListener(apc40Mk1);
 
             // Breadcrumb: there was some code here to init the NFC subsystem.
             // We aren't using NFC anymore, but if you want to revive it, go look
@@ -186,90 +178,105 @@ public class MidiEngine {
             }
 
             // Track selection
-            apc40.bindNotes(lx.engine.mixer.focusedChannel, channelIndices, APC40.TRACK_SELECTION);
+            apc40Mk1.bindNotes(
+                    lx.engine.mixer.focusedChannel, channelIndices, APC40mk1.TRACK_SELECTION);
 
-//            for (int i = 0; i < ConfigLoader.NUM_CHANNELS; i++) {
-//                // Cue activators
-//                apc40.bindNote(previewChannels[i], i, APC40.SOLO_CUE, LXMidiDevice.TOGGLE);
-//
-//                apc40.bindController(
-//                        lx.engine.mixer.getChannel(i).fader,
-//                        i,
-//                        APC40.VOLUME,
-//                        LXMidiDevice.TakeoverMode.PICKUP);
-//            }
-//
-//            for (int i = 0; i < 8; ++i) {
-//                // NOTE(meawoppl) Not sure if this is right, previously was... `apc40.sendController(...)`
-//                apc40.output.sendControlChange(0, APC40.TRACK_CONTROL_LED_MODE + i, APC40.LED_MODE_VOLUME);
-//                apc40.output.sendControlChange(0, APC40.DEVICE_CONTROL_LED_MODE + i, APC40.LED_MODE_VOLUME);
-//            }
-//
-//            // Master fader
-//            apc40.bindController(
-//                    outputBrightness, 0, APC40.MASTER_FADER, LXMidiDevice.TakeoverMode.PICKUP);
-//
-//            apc40.bindController(drumpadVelocity, 0, APC40.CROSSFADER);
-//
-//            // Effect knobs + buttons
-//            for (int i = 0; i < effectKnobParameters.length; ++i) {
-//                if (effectKnobParameters[i] != null) {
-//                    apc40.bindController(effectKnobParameters[i], 0, APC40.TRACK_CONTROL + i);
-//                }
-//            }
-//
-//            // Pattern control
-//            apc40.bindDeviceControlKnobs(lx.engine);
-//            lx.engine.mixer.focusedChannel.addListener(
-//                    new LXParameterListener() {
-//                        public void onParameterChanged(LXParameter parameter) {
-//                            apc40.bindNotes(
-//                                    getFaderTransition(lx.engine.getFocusedChannel()).blendMode,
-//                                    0,
-//                                    new int[] {
-//                                        APC40.CLIP_TRACK,
-//                                        APC40.DEVICE_ON_OFF,
-//                                        APC40.LEFT_ARROW,
-//                                        APC40.RIGHT_ARROW
-//                                    });
-//                        }
-//                    });
-//
-//            // Tap Tempo
-//            apc40.bindNote(new BooleanParameter("ANON", false), 0, APC40.SEND_A, APC40.DIRECT);
-//            apc40.bindNote(new BooleanParameter("ANON", false), 0, APC40.SEND_B, APC40.DIRECT);
-//            apc40.bindNote(bpmTool.addTempoLfo, 0, APC40.PAN, APC40.DIRECT);
-//            apc40.bindNote(bpmTool.clearAllTempoLfos, 0, APC40.SEND_C, APC40.DIRECT);
-//            apc40.bindNote(bpmTool.tapTempo, 0, APC40.TAP_TEMPO, APC40.DIRECT);
-//            apc40.bindNote(bpmTool.nudgeUpTempo, 0, APC40.NUDGE_PLUS, APC40.DIRECT);
-//            apc40.bindNote(bpmTool.nudgeDownTempo, 0, APC40.NUDGE_MINUS, APC40.DIRECT);
+            for (int i = 0; i < ConfigLoader.NUM_CHANNELS; i++) {
+                // Cue activators
+                apc40Mk1.bindNote(
+                        parameters.previewChannels[i],
+                        i,
+                        APC40mk1.SOLO_CUE,
+                        LXMidiDeviceBackport.TOGGLE);
+                apc40Mk1.bindController(
+                        lx.engine.mixer.getChannel(i).fader,
+                        i,
+                        APC40mk1.VOLUME,
+                        LXMidiDeviceBackport.TakeoverMode.PICKUP);
+            }
 
-//            apc40.bindNotes(
-//                    getFaderTransition(lx.engine.getFocusedChannel()).blendMode,
-//                    0,
-//                    new int[] {
-//                        APC40.CLIP_TRACK, APC40.DEVICE_ON_OFF, APC40.LEFT_ARROW, APC40.RIGHT_ARROW
-//                    });
-//            apc40.bindNotes(
-//                    automationSlot,
-//                    0,
-//                    new int[] {
-//                        APC40.DETAIL_VIEW,
-//                        APC40.REC_QUANTIZATION,
-//                        APC40.MIDI_OVERDUB,
-//                        APC40.METRONOME
-//                    });
-//            automationSlot.addListener((parameter) -> setAutomation(apc40));
-//            setAutomation(apc40);
-//        }
+            for (int i = 0; i < 8; ++i) {
+                apc40Mk1.sendController(
+                        0, APC40mk1.TRACK_CONTROL_LED_MODE + i, APC40mk1.LED_MODE_VOLUME);
+                apc40Mk1.sendController(
+                        0, APC40mk1.DEVICE_CONTROL_LED_MODE + i, APC40mk1.LED_MODE_VOLUME);
+            }
+
+            // Master fader
+            apc40Mk1.bindController(
+                    parameters.outputBrightness,
+                    0,
+                    APC40mk1.MASTER_FADER,
+                    LXMidiDeviceBackport.TakeoverMode.PICKUP);
+
+            apc40Mk1.bindController(parameters.drumpadVelocity, 0, APC40mk1.CROSSFADER);
+
+            // Effect knobs + buttons
+            for (int i = 0; i < parameters.effectKnobParameters.length; ++i) {
+                if (parameters.effectKnobParameters[i] != null) {
+                    apc40Mk1.bindController(
+                            parameters.effectKnobParameters[i], 0, APC40mk1.TRACK_CONTROL + i);
+                }
+            }
+
+            // Pattern control
+            apc40Mk1.bindDeviceControlKnobs(lx.engine);
+            lx.engine.mixer.focusedChannel.addListener(
+                    (LXParameter parameter) -> {
+                        apc40Mk1.bindNotes(
+                                getFaderTransition((LXChannel) lx.engine.mixer.getFocusedChannel())
+                                        .blendMode,
+                                0,
+                                new int[] {
+                                    APC40mk1.CLIP_TRACK,
+                                    APC40mk1.DEVICE_ON_OFF,
+                                    APC40mk1.LEFT_ARROW,
+                                    APC40mk1.RIGHT_ARROW
+                                });
+                    });
+
+            // Tap Tempo
+            apc40Mk1.bindNote(
+                    new BooleanParameter("ANON", false), 0, APC40mk1.SEND_A, APC40mk1.DIRECT);
+            apc40Mk1.bindNote(
+                    new BooleanParameter("ANON", false), 0, APC40mk1.SEND_B, APC40mk1.DIRECT);
+            apc40Mk1.bindNote(bpmTool.addTempoLfo, 0, APC40mk1.PAN, APC40mk1.DIRECT);
+            apc40Mk1.bindNote(bpmTool.clearAllTempoLfos, 0, APC40mk1.SEND_C, APC40mk1.DIRECT);
+            apc40Mk1.bindNote(bpmTool.tapTempo, 0, APC40mk1.TAP_TEMPO, APC40mk1.DIRECT);
+            apc40Mk1.bindNote(bpmTool.nudgeUpTempo, 0, APC40mk1.NUDGE_PLUS, APC40mk1.DIRECT);
+            apc40Mk1.bindNote(bpmTool.nudgeDownTempo, 0, APC40mk1.NUDGE_MINUS, APC40mk1.DIRECT);
+
+            apc40Mk1.bindNotes(
+                    getFaderTransition((LXChannel) lx.engine.mixer.getFocusedChannel()).blendMode,
+                    0,
+                    new int[] {
+                        APC40mk1.CLIP_TRACK,
+                        APC40mk1.DEVICE_ON_OFF,
+                        APC40mk1.LEFT_ARROW,
+                        APC40mk1.RIGHT_ARROW
+                    });
+            apc40Mk1.bindNotes(
+                    parameters.automationSlot,
+                    0,
+                    new int[] {
+                        APC40mk1.DETAIL_VIEW,
+                        APC40mk1.REC_QUANTIZATION,
+                        APC40mk1.MIDI_OVERDUB,
+                        APC40mk1.METRONOME
+                    });
+            parameters.automationSlot.addListener((parameter) -> setAutomation(apc40Mk1));
+            setAutomation(apc40Mk1);
+        }
     }
 
-//    void setAutomation(APC40 apc40) {
-//        LXAutomationRecorder auto = automation[automationSlot.getValuei()];
-//        apc40.bindNoteOn(auto.isRunning, 0, APC40.PLAY, LXMidiDevice.TOGGLE);
-//        apc40.bindNoteOn(auto.armRecord, 0, APC40.REC, LXMidiDevice.TOGGLE);
-//        apc40.bindNote(
-//                automationStop[automationSlot.getValuei()], 0, APC40.STOP, LXMidiDevice.DIRECT);
+    void setAutomation(APC40mk1 apc40) {
+        // TODO(meawoppl)?
+        //        LXAutomationRecorder auto = automation[automationSlot.getValuei()];
+        //        apc40.bindNoteOn(auto.isRunning, 0, APC40.PLAY, LXMidiDevice.TOGGLE);
+        //        apc40.bindNoteOn(auto.armRecord, 0, APC40.REC, LXMidiDevice.TOGGLE);
+        //        apc40.bindNote(
+        //                automationStop[automationSlot.getValuei()], 0, APC40mk1.STOP,
+        // LXMidiDeviceBackport.DIRECT);
     }
 
     // This is theproblem with the APC40 that it requires a special SYSEX to say we're
@@ -278,18 +285,18 @@ public class MidiEngine {
     // here in 2018 and seems to play nicely on multiple platforms
     void setAPC40Mode() {
         final byte[] APC_MODE_SYSEX = {
-                (byte) 0xf0, // sysex start
-                (byte) 0x47, // manufacturers id
-                (byte) 0x00, // device id
-                (byte) 0x73, // product model id
-                (byte) 0x60, // message
-                (byte) 0x00, // bytes MSB
-                (byte) 0x04, // bytes LSB
-                (byte) 0x42, // ableton mode 2
-                (byte) 0x08, // version maj
-                (byte) 0x01, // version min
-                (byte) 0x01, // version bugfix
-                (byte) 0xf7, // sysex end
+            (byte) 0xf0, // sysex start
+            (byte) 0x47, // manufacturers id
+            (byte) 0x00, // device id
+            (byte) 0x73, // product model id
+            (byte) 0x60, // message
+            (byte) 0x00, // bytes MSB
+            (byte) 0x04, // bytes LSB
+            (byte) 0x42, // ableton mode 2
+            (byte) 0x08, // version maj
+            (byte) 0x01, // version min
+            (byte) 0x01, // version bugfix
+            (byte) 0xf7, // sysex end
         };
 
         boolean sentSysEx = false;
