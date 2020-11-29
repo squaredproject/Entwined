@@ -65,8 +65,8 @@ public class EntwinedTriggers {
     public EntwinedTriggers(
             LX lx, Model model, EngineController engineController, EntwinedParameters parameters) {
         this.lx = lx;
-        this.engineController = engineController;
         this.model = model;
+        this.engineController = engineController;
         this.parameters = parameters;
     }
 
@@ -89,6 +89,7 @@ public class EntwinedTriggers {
         registerEffectTriggerables();
 
         if (ConfigLoader.enableIPad) {
+            // NOTE(meawoppl) slightly hacky way to get offsets/indices into a parent array
             engineController.startEffectIndex = lx.engine.mixer.masterBus.getEffects().size();
             registerIPadEffects();
             engineController.endEffectIndex = lx.engine.mixer.masterBus.getEffects().size();
@@ -98,8 +99,7 @@ public class EntwinedTriggers {
             apc40DrumpadTriggerables = new Triggerable[apc40DrumpadTriggerablesLists.length][];
             for (int i = 0; i < apc40DrumpadTriggerablesLists.length; i++) {
                 ArrayList<Triggerable> triggerablesList = apc40DrumpadTriggerablesLists[i];
-                apc40DrumpadTriggerables[i] =
-                        triggerablesList.toArray(new Triggerable[triggerablesList.size()]);
+                apc40DrumpadTriggerables[i] = triggerablesList.toArray(new Triggerable[0]);
             }
             apc40DrumpadTriggerablesLists = null;
         }

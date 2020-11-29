@@ -50,9 +50,8 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         flags.startMultiThreaded = true;
 
         model = Model.fromConfigs();
-        parameters = new EntwinedParameters(lx, model);
-
         lx = new LXStudio(this, flags, model);
+        parameters = new EntwinedParameters(lx, model);
         this.surface.setTitle(WINDOW_TITLE);
 
         engineController = new EngineController(lx);

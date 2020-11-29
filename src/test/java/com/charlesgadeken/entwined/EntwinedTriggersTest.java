@@ -12,7 +12,9 @@ class EntwinedTriggersTest {
         LX lx = new LX();
         Model model = Model.fromConfigs();
         EntwinedParameters parameters = new EntwinedParameters(lx, model);
-        EntwinedTriggers et = new EntwinedTriggers(lx, model, parameters);
+        EngineController engineController = new EngineController(lx);
+        EntwinedTriggers et = new EntwinedTriggers(lx, model, engineController, parameters);
+        et.configureTriggerables();
         et.configureMIDI();
     }
 }
