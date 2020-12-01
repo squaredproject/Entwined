@@ -33,9 +33,7 @@ import com.charlesgadeken.entwined.triggers.Triggerable;
 import com.charlesgadeken.entwined.triggers.drumpad.MidiEngine;
 import com.charlesgadeken.entwined.triggers.drumpad.TSDrumpad;
 import com.charlesgadeken.entwined.triggers.http.AppServer;
-import com.charlesgadeken.entwined.triggers.nfc.NFCEngine;
 import heronarts.lx.LX;
-import heronarts.lx.blend.DissolveBlend;
 import heronarts.lx.blend.LXBlend;
 import heronarts.lx.effect.BlurEffect;
 import heronarts.lx.effect.LXEffect;
@@ -43,12 +41,10 @@ import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.parameter.*;
 import heronarts.lx.pattern.LXPattern;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class EntwinedTriggers {
     private final LX lx;
-    private NFCEngine nfcEngine;
 
     BPMTool bpmTool;
 
@@ -211,31 +207,6 @@ public class EntwinedTriggers {
         midiEngine = new MidiEngine(lx, parameters, apc40Drumpad, bpmTool, null);
     }
 
-    /* configureNFC */
-
-    void configureNFC() {
-        nfcEngine = new NFCEngine(lx);
-        nfcEngine.start();
-        nfcEngine.registerReaderPatternTypeRestrictions(
-                Arrays.asList(readerPatternTypeRestrictions()));
-    }
-
-    // TODO(meawoppl) This is static data...
-    VisualType[] readerPatternTypeRestrictions() {
-        return new VisualType[] {
-            VisualType.Pattern,
-            VisualType.Pattern,
-            VisualType.Pattern,
-            VisualType.OneShot,
-            VisualType.OneShot,
-            VisualType.OneShot,
-            VisualType.Effect,
-            VisualType.Effect,
-            VisualType.Effect,
-            VisualType.Pattern,
-        };
-    }
-
     void registerPatternTriggerables() {
         // The 2nd parameter is the NFC tag serial number
         // Specify a blank string to only add it to the apc40 drumpad
@@ -243,71 +214,64 @@ public class EntwinedTriggers {
         // defaults to the 3rd row
         // the row parameter is zero indexed
 
-        registerPattern(new Twister(lx), "3707000050a8fb");
-        registerPattern(new MarkLottor(lx), "3707000050a8d5");
-        registerPattern(new Ripple(lx), "3707000050a908");
-        registerPattern(new Stripes(lx), "3707000050a8ad");
-        registerPattern(new Lattice(lx), "3707000050a8b9");
-        registerPattern(new Fumes(lx), "3707000050a9b1");
-        registerPattern(new Voronoi(lx), "3707000050a952");
-        registerPattern(new CandyCloud(lx), "3707000050aab4");
-        registerPattern(new GalaxyCloud(lx), "3707000050a91d");
+        registerPattern(new Twister(lx));
+        registerPattern(new MarkLottor(lx));
+        registerPattern(new Ripple(lx));
+        registerPattern(new Stripes(lx));
+        registerPattern(new Lattice(lx));
+        registerPattern(new Fumes(lx));
+        registerPattern(new Voronoi(lx));
+        registerPattern(new CandyCloud(lx));
+        registerPattern(new GalaxyCloud(lx));
 
-        registerPattern(new ColorStrobe(lx), "3707000050a975", 3);
-        registerPattern(new Explosions(lx, 20), "3707000050a8bf", 3);
-        registerPattern(new Strobe(lx), "3707000050ab3a", 3);
-        registerPattern(new SparkleTakeOver(lx), "3707000050ab68", 3);
-        registerPattern(new MultiSine(lx), "3707000050ab38", 3);
-        registerPattern(new SeeSaw(lx), "3707000050ab76", 3);
-        registerPattern(new Cells(lx), "3707000050abca", 3);
-        registerPattern(new Fade(lx), "3707000050a8b0", 3);
-        registerPattern(new Pixels(lx), "3707000050ab38", 3);
+        registerPattern(new ColorStrobe(lx), 3);
+        registerPattern(new Explosions(lx, 20), 3);
+        registerPattern(new Strobe(lx), 3);
+        registerPattern(new SparkleTakeOver(lx), 3);
+        registerPattern(new MultiSine(lx), 3);
+        registerPattern(new SeeSaw(lx), 3);
+        registerPattern(new Cells(lx), 3);
+        registerPattern(new Fade(lx), 3);
+        registerPattern(new Pixels(lx), 3);
 
-        registerPattern(new IceCrystals(lx), "3707000050a89b", 5);
-        registerPattern(new Fire(lx), "-", 5); // Make red
+        registerPattern(new IceCrystals(lx), 5);
+        registerPattern(new Fire(lx), 5); // Make red
 
         // registerPattern(new DoubleHelix(lx), "");
-        registerPattern(new AcidTrip(lx), "3707000050a914");
-        registerPattern(new Rain(lx), "3707000050a937");
+        registerPattern(new AcidTrip(lx));
+        registerPattern(new Rain(lx));
 
+        registerPattern(new Wisps(lx, 1, 60, 50, 270, 20, 3.5, 10)); // downward yellow wisp
+        registerPattern(new Wisps(lx, 30, 210, 100, 90, 20, 3.5, 10)); // colorful wisp storm
         registerPattern(
-                new Wisps(lx, 1, 60, 50, 270, 20, 3.5, 10),
-                "3707000050a905"); // downward yellow wisp
-        registerPattern(
-                new Wisps(lx, 30, 210, 100, 90, 20, 3.5, 10),
-                "3707000050ab1a"); // colorful wisp storm
-        registerPattern(
-                new Wisps(lx, 1, 210, 100, 90, 130, 3.5, 10),
-                "3707000050aba4"); // multidirection colorful wisps
-        registerPattern(new Wisps(lx, 3, 210, 10, 270, 0, 3.5, 10), ""); // rain storm of wisps
-        registerPattern(
-                new Wisps(lx, 35, 210, 180, 180, 15, 2, 15), "3707000050a8ee"); // twister of wisps
+                new Wisps(lx, 1, 210, 100, 90, 130, 3.5, 10)); // multidirection colorful wisps
+        registerPattern(new Wisps(lx, 3, 210, 10, 270, 0, 3.5, 10)); // rain storm of wisps
+        registerPattern(new Wisps(lx, 35, 210, 180, 180, 15, 2, 15)); // twister of wisps
 
-        registerPattern(new Pond(lx), "");
-        registerPattern(new Planes(lx), "");
+        registerPattern(new Pond(lx));
+        registerPattern(new Planes(lx));
     }
 
     void registerOneShotTriggerables() {
-        registerOneShot(new Pulleys(lx), "3707000050a939");
-        registerOneShot(new StrobeOneshot(lx), "3707000050abb0");
-        registerOneShot(new BassSlam(lx), "3707000050a991");
-        registerOneShot(new Fireflies(lx, 70, 6, 180), "3707000050ab2e");
-        registerOneShot(new Fireflies(lx, 40, 7.5f, 90), "3707000050a92b");
+        registerOneShot(new Pulleys(lx));
+        registerOneShot(new StrobeOneshot(lx));
+        registerOneShot(new BassSlam(lx));
+        registerOneShot(new Fireflies(lx, 70, 6, 180));
+        registerOneShot(new Fireflies(lx, 40, 7.5f, 90));
 
-        registerOneShot(new Fireflies(lx), "3707000050ab56", 5);
-        registerOneShot(new Bubbles(lx), "3707000050a8ef", 5);
-        registerOneShot(new Lightning(lx), "3707000050ab18", 5);
-        registerOneShot(new Wisps(lx), "3707000050a9cd", 5);
-        registerOneShot(new Explosions(lx), "3707000050ab6a", 5);
+        registerOneShot(new Fireflies(lx), 5);
+        registerOneShot(new Bubbles(lx), 5);
+        registerOneShot(new Lightning(lx), 5);
+        registerOneShot(new Wisps(lx), 5);
+        registerOneShot(new Explosions(lx), 5);
     }
 
-    void registerOneShot(EntwinedTriggerablePattern pattern, String nfcSerialNumber) {
-        registerOneShot(pattern, nfcSerialNumber, 4);
+    void registerOneShot(EntwinedTriggerablePattern pattern) {
+        registerOneShot(pattern, 4);
     }
 
-    void registerOneShot(
-            EntwinedTriggerablePattern pattern, String nfcSerialNumber, int apc40DrumpadRow) {
-        registerVisual(pattern, nfcSerialNumber, apc40DrumpadRow, VisualType.OneShot);
+    void registerOneShot(EntwinedTriggerablePattern pattern, int apc40DrumpadRow) {
+        registerVisual(pattern, apc40DrumpadRow);
     }
 
     void registerEffectTriggerables() {
@@ -339,22 +303,22 @@ public class EntwinedTriggers {
         lx.addEffect(candyTextureEffect);
         lx.addEffect(candyCloudTextureEffect);
 
-        registerEffectControlParameter(speedEffect.speed, "3707000050abae", 1, 0.4);
-        registerEffectControlParameter(speedEffect.speed, "3707000050a916", 1, 5);
-        registerEffectControlParameter(colorEffect.rainbow, "3707000050a98f");
-        registerEffectControlParameter(colorEffect.mono, "3707000050aafe");
-        registerEffectControlParameter(colorEffect.desaturation, "3707000050a969");
-        registerEffectControlParameter(colorEffect.sharp, "3707000050aafc");
-        registerEffectControlParameter(blurEffect.level, "3707000050a973", 0.65);
-        registerEffectControlParameter(spinEffect.spin, "3707000050ab2c", 0.65);
-        registerEffectControlParameter(ghostEffect.amount, "3707000050aaf2", 0, 0.16, 1);
-        registerEffectControlParameter(scrambleEffect.amount, "3707000050a8cc", 0, 1, 1);
-        registerEffectControlParameter(colorStrobeTextureEffect.amount, "3707000050a946", 0, 1, 1);
-        registerEffectControlParameter(fadeTextureEffect.amount, "3707000050a967", 0, 1, 1);
-        registerEffectControlParameter(acidTripTextureEffect.amount, "3707000050a953", 0, 1, 1);
-        registerEffectControlParameter(candyCloudTextureEffect.amount, "3707000050a92d", 0, 1, 1);
-        registerEffectControlParameter(staticEffect.amount, "3707000050a8b3", 0, .3, 1);
-        registerEffectControlParameter(candyTextureEffect.amount, "3707000050aafc", 0, 1, 5);
+        registerEffectControlParameter(speedEffect.speed, 1, 0.4);
+        registerEffectControlParameter(speedEffect.speed, 1, 5);
+        registerEffectControlParameter(colorEffect.rainbow);
+        registerEffectControlParameter(colorEffect.mono);
+        registerEffectControlParameter(colorEffect.desaturation);
+        registerEffectControlParameter(colorEffect.sharp);
+        registerEffectControlParameter(blurEffect.level, 0.65);
+        registerEffectControlParameter(spinEffect.spin, 0.65);
+        registerEffectControlParameter(ghostEffect.amount, 0, 0.16, 1);
+        registerEffectControlParameter(scrambleEffect.amount, 0, 1, 1);
+        registerEffectControlParameter(colorStrobeTextureEffect.amount, 0, 1, 1);
+        registerEffectControlParameter(fadeTextureEffect.amount, 0, 1, 1);
+        registerEffectControlParameter(acidTripTextureEffect.amount, 0, 1, 1);
+        registerEffectControlParameter(candyCloudTextureEffect.amount, 0, 1, 1);
+        registerEffectControlParameter(staticEffect.amount, 0, .3, 1);
+        registerEffectControlParameter(candyTextureEffect.amount, 0, 1, 5);
 
         parameters.effectKnobParameters =
                 new LXListenableNormalizedParameter[] {
@@ -369,40 +333,24 @@ public class EntwinedTriggers {
                 };
     }
 
-    public void registerPattern(EntwinedTriggerablePattern pattern, String nfcSerialNumber) {
-        registerPattern(pattern, nfcSerialNumber, 2);
+    public void registerPattern(EntwinedTriggerablePattern pattern) {
+        registerPattern(pattern, 2);
     }
 
-    public void registerPattern(
-            EntwinedTriggerablePattern pattern, String nfcSerialNumber, int apc40DrumpadRow) {
-        registerVisual(pattern, nfcSerialNumber, apc40DrumpadRow, VisualType.Pattern);
+    public void registerPattern(EntwinedTriggerablePattern pattern, int apc40DrumpadRow) {
+        registerVisual(pattern, apc40DrumpadRow);
     }
 
-    void registerVisual(
-            EntwinedTriggerablePattern pattern,
-            String nfcSerialNumber,
-            int apc40DrumpadRow,
-            VisualType visualType) {
-
-        LXBlend t = new DissolveBlend(lx);
+    void registerVisual(EntwinedTriggerablePattern pattern, int apc40DrumpadRow) {
 
         // TODO(meawoppl)
         // NOTE(meawoppl) @Slee same question below.  re `.setDuration(dissolveTime);`
+        // LXBlend t = new DissolveBlend(lx);
         // pattern.setTransition(t);
 
         Triggerable triggerable = configurePatternAsTriggerable(pattern);
-        BooleanParameter toggle = null;
         if (apc40Drumpad != null) {
-            toggle =
-                    apc40DrumpadTriggerablesLists[apc40DrumpadRow].size() < 9
-                            ? parameters
-                                    .nfcToggles[apc40DrumpadRow][
-                                    apc40DrumpadTriggerablesLists[apc40DrumpadRow].size()]
-                            : null;
             apc40DrumpadTriggerablesLists[apc40DrumpadRow].add(triggerable);
-        }
-        if (nfcEngine != null) {
-            nfcEngine.registerTriggerable(nfcSerialNumber, triggerable, visualType, toggle);
         }
     }
 
@@ -465,72 +413,25 @@ public class EntwinedTriggers {
         }
     }
 
-    void registerPatternController(String name, EntwinedBasePattern pattern) {
-        // TODO(meawoppl)
-        // @Slee is there a modern version of `.setDuration(dissolveTime);` on
-        // blends?
-        LXBlend t = new DissolveBlend(lx);
-        //
-        //        // @Slee not sure where `.setTranstion` got to...
-        //        pattern.setTransition(t);
-        //        pattern.readableName = name;
-        //        patterns.add(pattern);
+    void registerEffectControlParameter(LXListenableNormalizedParameter parameter) {
+        registerEffectControlParameter(parameter, 0, 1, 0);
     }
 
-    void registerEffect(LXEffect effect, String nfcSerialNumber) {
-        if (effect instanceof Triggerable) {
-            Triggerable triggerable = (Triggerable) effect;
-            BooleanParameter toggle = null;
-            if (apc40Drumpad != null) {
-                toggle =
-                        apc40DrumpadTriggerablesLists[0].size() < 9
-                                ? parameters.nfcToggles[0][apc40DrumpadTriggerablesLists[0].size()]
-                                : null;
-                apc40DrumpadTriggerablesLists[0].add(triggerable);
-            }
-            if (nfcEngine != null) {
-                nfcEngine.registerTriggerable(
-                        nfcSerialNumber, triggerable, VisualType.Effect, toggle);
-            }
-        }
+    void registerEffectControlParameter(LXListenableNormalizedParameter parameter, double onValue) {
+        registerEffectControlParameter(parameter, 0, onValue, 0);
     }
 
     void registerEffectControlParameter(
-            LXListenableNormalizedParameter parameter, String nfcSerialNumber) {
-        registerEffectControlParameter(parameter, nfcSerialNumber, 0, 1, 0);
+            LXListenableNormalizedParameter parameter, double offValue, double onValue) {
+        registerEffectControlParameter(parameter, offValue, onValue, 0);
     }
 
     void registerEffectControlParameter(
-            LXListenableNormalizedParameter parameter, String nfcSerialNumber, double onValue) {
-        registerEffectControlParameter(parameter, nfcSerialNumber, 0, onValue, 0);
-    }
-
-    void registerEffectControlParameter(
-            LXListenableNormalizedParameter parameter,
-            String nfcSerialNumber,
-            double offValue,
-            double onValue) {
-        registerEffectControlParameter(parameter, nfcSerialNumber, offValue, onValue, 0);
-    }
-
-    void registerEffectControlParameter(
-            LXListenableNormalizedParameter parameter,
-            String nfcSerialNumber,
-            double offValue,
-            double onValue,
-            int row) {
+            LXListenableNormalizedParameter parameter, double offValue, double onValue, int row) {
         ParameterTriggerableAdapter triggerable =
                 new ParameterTriggerableAdapter(lx, parameter, offValue, onValue);
-        BooleanParameter toggle = null;
         if (apc40Drumpad != null) {
-            toggle =
-                    apc40DrumpadTriggerablesLists[row].size() < 9
-                            ? parameters.nfcToggles[row][apc40DrumpadTriggerablesLists[row].size()]
-                            : null;
             apc40DrumpadTriggerablesLists[row].add(triggerable);
-        }
-        if (nfcEngine != null) {
-            nfcEngine.registerTriggerable(nfcSerialNumber, triggerable, VisualType.Effect, toggle);
         }
     }
 
