@@ -17,11 +17,11 @@ public class ParameterTriggerableAdapter implements Triggerable, LXLoopTask {
     private final double offValue;
     private final double onValue;
 
-    public ParameterTriggerableAdapter(LX lx, CompoundParameter enabledParameter) {
+    public ParameterTriggerableAdapter(LX lx, LXListenableNormalizedParameter enabledParameter) {
         this(lx, enabledParameter, 0, 1);
     }
 
-    ParameterTriggerableAdapter(
+    public ParameterTriggerableAdapter(
             LX lx, LXNormalizedParameter enabledParameter, double offValue, double onValue) {
         this.enabledParameter = enabledParameter;
         this.offValue = offValue;

@@ -2,22 +2,23 @@ package com.charlesgadeken.entwined;
 
 import com.charlesgadeken.entwined.config.ConfigLoader;
 import com.charlesgadeken.entwined.effects.EntwinedBaseEffect;
+import com.charlesgadeken.entwined.effects.TurnOffDeadPixelsEffect;
 import com.charlesgadeken.entwined.model.Model;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
-import com.charlesgadeken.entwined.triggers.http.AppServer;
-import com.charlesgadeken.entwined.triggers.nfc.NFCEngine;
 import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
-import heronarts.lx.parameter.BooleanParameter;
+import heronarts.lx.blend.DissolveBlend;
+import heronarts.lx.blend.LXBlend;
+import heronarts.lx.mixer.LXChannel;
+import heronarts.lx.parameter.LXParameter;
 import heronarts.lx.studio.LXStudio;
 import java.io.File;
-import java.util.Arrays;
+import java.util.List;
 import javax.annotation.Nullable;
 import org.reflections.Reflections;
 import processing.core.PApplet;
 
 public class EntwinedGui extends PApplet implements LXPlugin {
-
     private static final String WINDOW_TITLE = "Entwined";
 
     private static int WIDTH = 1280;
@@ -29,9 +30,8 @@ public class EntwinedGui extends PApplet implements LXPlugin {
 
     private LX lx;
     private Model model;
-    private NFCEngine nfcEngine;
-    final BooleanParameter[][] nfcToggles = new BooleanParameter[6][9];
-    final BasicParameterProxy outputBrightness = new BasicParameterProxy(1);
+    private EntwinedTriggers triggers;
+    private EntwinedParameters parameters;
 
     @Override
     public void settings() {
@@ -50,62 +50,93 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         flags.startMultiThreaded = true;
 
         model = Model.fromConfigs();
-
         lx = new LXStudio(this, flags, model);
+        parameters = new EntwinedParameters(lx, model);
         this.surface.setTitle(WINDOW_TITLE);
 
         engineController = new EngineController(lx);
+        configureChannels();
+
+        triggers = new EntwinedTriggers(lx, model, engineController, parameters);
+        triggers.configureTriggerables();
 
         if (ConfigLoader.enableNFC) {
-            configureNFC(lx);
+            triggers.configureNFC();
         }
 
+        EntwinedOutput output = new EntwinedOutput(lx, model);
+
         if (ConfigLoader.enableOutputBigtree) {
-            // MRG TODO
-            // lx.addEffect(new TurnOffDeadPixelsEffect(lx));
-            Output.configureExternalOutput(lx, model, outputBrightness);
+            lx.addEffect(new TurnOffDeadPixelsEffect(lx));
+            output.configureExternalOutput();
         }
 
         if (ConfigLoader.enableOutputMinitree) {
-            Output.configureFadeCandyOutput(lx, outputBrightness);
+            output.configureFadeCandyOutput();
+        }
+
+        if (ConfigLoader.enableAPC40) {
+            triggers.configureMIDI();
+        }
+        if (ConfigLoader.enableIPad) {
+            // TODO(meawoppl) Call fails
+            // engineController.setAutoplay(ConfigLoader.autoplayBMSet, true);
+            triggers.configureServer();
         }
 
         System.out.println("setup() completed");
     }
 
-    void configureServer() {
-        new AppServer(lx, engineController).start();
-    }
-
-    void configureNFC(LX lx) {
-        nfcEngine = new NFCEngine(lx);
-        nfcEngine.start();
-
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 9; j++) {
-                nfcToggles[i][j] = new BooleanParameter("toggle");
+    void configureChannels() {
+        for (int i = 0; i < ConfigLoader.NUM_CHANNELS; ++i) {
+            LXChannel channel =
+                    lx.engine.mixer.addChannel(EntwinedPatterns.getPatternListForChannels(lx));
+            setupChannel(channel, true);
+            if (i == 0) {
+                channel.fader.setValue(1);
             }
+            channel.goPatternIndex(i);
+        }
+        engineController.baseChannelIndex = lx.engine.mixer.getChannels().size() - 1;
+
+        if (ConfigLoader.enableIPad) {
+            for (int i = 0; i < ConfigLoader.NUM_IPAD_CHANNELS; ++i) {
+                List<EntwinedBasePattern> patterns = EntwinedPatterns.registerIPadPatterns(lx);
+
+                LXChannel channel =
+                        lx.engine.mixer.addChannel(patterns.toArray(new EntwinedBasePattern[0]));
+                setupChannel(channel, true);
+                channel.fader.setValue(1);
+                channel.blendMode.setObjects(new LXBlend[] {new DissolveBlend(lx)});
+
+                if (i == 0) {
+                    channel.goPatternIndex(1);
+                }
+            }
+            engineController.numChannels = ConfigLoader.NUM_IPAD_CHANNELS;
         }
 
-        nfcEngine.registerReaderPatternTypeRestrictions(
-                Arrays.asList(readerPatternTypeRestrictions()));
-        // this line to allow any nfc reader to read any cube
-        nfcEngine.disableVisualTypeRestrictions = true;
+        // TODO(meawoppl) Right now this tosses an exception :(
+        // lx.engine.mixer.removeChannel(lx.engine.mixer.getDefaultChannel());
     }
 
-    VisualType[] readerPatternTypeRestrictions() {
-        return new VisualType[] {
-            VisualType.Pattern,
-            VisualType.Pattern,
-            VisualType.Pattern,
-            VisualType.OneShot,
-            VisualType.OneShot,
-            VisualType.OneShot,
-            VisualType.Effect,
-            VisualType.Effect,
-            VisualType.Effect,
-            VisualType.Pattern,
-        };
+    void setupChannel(final LXChannel channel, boolean noOpWhenNotRunning) {
+        channel.transitionBlendMode.setObjects(
+                new LXBlend[] {
+                    new TreesTransition(
+                            lx,
+                            channel,
+                            model,
+                            parameters.channelTreeLevels,
+                            parameters.channelShrubLevels)
+                });
+
+        if (noOpWhenNotRunning) {
+            channel.enabled.setValue(channel.fader.getValue() != 0);
+            channel.fader.addListener(
+                    (LXParameter parameter) ->
+                            channel.enabled.setValue(channel.fader.getValue() != 0));
+        }
     }
 
     private void loadPatterns(LX lx) {

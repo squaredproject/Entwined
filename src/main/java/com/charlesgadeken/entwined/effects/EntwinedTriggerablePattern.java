@@ -24,7 +24,7 @@ public abstract class EntwinedTriggerablePattern extends EntwinedBasePattern
         super(lx);
     }
 
-    protected void onTriggerableModeEnabled() {
+    public void onTriggerableModeEnabled() {
         getChannel().fader.setValue(1);
         if (patternMode == PATTERN_MODE_TRIGGER || patternMode == PATTERN_MODE_FIRED) {
             setCallRun(false);
@@ -33,7 +33,7 @@ public abstract class EntwinedTriggerablePattern extends EntwinedBasePattern
         triggered = false;
     }
 
-    Triggerable getTriggerable() {
+    public Triggerable getTriggerable() {
         return this;
     }
 

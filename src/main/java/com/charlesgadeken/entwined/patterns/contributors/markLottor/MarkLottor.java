@@ -1,10 +1,10 @@
 package com.charlesgadeken.entwined.patterns.contributors.markLottor;
 
 import com.charlesgadeken.entwined.Utilities;
+import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
 import com.charlesgadeken.entwined.model.Cube;
 import com.charlesgadeken.entwined.model.ShrubCube;
-import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import com.charlesgadeken.entwined.triggers.ParameterTriggerableAdapter;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
@@ -14,7 +14,7 @@ import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
 
 @LXCategory("Mark Lottor")
-public class MarkLottor extends EntwinedBasePattern {
+public class MarkLottor extends EntwinedTriggerablePattern {
 
     // These parameters will be knobs on the UI
     final BoundedParameter p1 = new BoundedParameter("SIZ", 0.25);

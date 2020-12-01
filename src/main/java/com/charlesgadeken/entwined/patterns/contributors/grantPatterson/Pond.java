@@ -1,7 +1,7 @@
 package com.charlesgadeken.entwined.patterns.contributors.grantPatterson;
 
+import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
-import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.color.LXColor;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 
 @LXCategory("Grant Patterson")
-public class Pond extends EntwinedBasePattern {
+public class Pond extends EntwinedTriggerablePattern {
     // Rendering is O(cubes * ripples), so limit the number of concurrent ripples
     static final int maxRipples = 20;
 

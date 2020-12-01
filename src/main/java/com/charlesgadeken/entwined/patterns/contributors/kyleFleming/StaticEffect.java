@@ -7,7 +7,7 @@ import heronarts.lx.parameter.BoundedParameter;
 
 public class StaticEffect extends EntwinedBaseEffect {
 
-    final BoundedParameter amount = new BoundedParameter("STTC");
+    public final BoundedParameter amount = new BoundedParameter("STTC");
 
     private boolean isCreatingStatic = false;
 

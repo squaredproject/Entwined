@@ -1,15 +1,15 @@
 package com.charlesgadeken.entwined.patterns.contributors.raySykes;
 
 import com.charlesgadeken.entwined.Utilities;
+import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
-import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
 
 @LXCategory("Ray Sykes")
-public class MultiSine extends EntwinedBasePattern {
+public class MultiSine extends EntwinedTriggerablePattern {
     final int numLayers = 3;
     int[][] distLayerDivisors = {{50, 140, 200}, {360, 60, 45}};
     final BoundedParameter brightEffect = new BoundedParameter("Bright", 100, 0, 100);

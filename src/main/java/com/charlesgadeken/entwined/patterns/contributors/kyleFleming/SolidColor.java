@@ -18,6 +18,6 @@ public class SolidColor extends EntwinedBasePattern {
     public void run(double deltaMs) {
         if (getChannel().fader.getNormalized() == 0) return;
 
-        setColors(lx.hsb(hue.getValuef(), 100, (float) brightness.getValue()));
+        setColors(LX.hsb(hue.getValuef(), 100, (float) brightness.getValue()));
     }
 }

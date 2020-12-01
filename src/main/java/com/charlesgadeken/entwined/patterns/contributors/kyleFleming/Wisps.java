@@ -31,7 +31,7 @@ public class Wisps extends MultiObjectPattern<Wisp> {
         this(lx, .5f, 210, 10, 90, 20, 3.5f, 10);
     }
 
-    Wisps(
+    public Wisps(
             LX lx,
             double initial_frequency,
             double initial_color,

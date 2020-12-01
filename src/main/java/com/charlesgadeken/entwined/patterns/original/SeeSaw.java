@@ -2,8 +2,8 @@ package com.charlesgadeken.entwined.patterns.original;
 
 import com.charlesgadeken.entwined.EntwinedCategory;
 import com.charlesgadeken.entwined.Utilities;
+import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.Geometry;
-import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SinLFO;
@@ -12,7 +12,7 @@ import heronarts.lx.transform.LXProjection;
 import heronarts.lx.transform.LXVector;
 
 @LXCategory(EntwinedCategory.ORIGINAL)
-public class SeeSaw extends EntwinedBasePattern {
+public class SeeSaw extends EntwinedTriggerablePattern {
 
     final LXProjection projection = new LXProjection(model);
 

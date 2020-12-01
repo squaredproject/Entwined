@@ -1,7 +1,7 @@
 package com.charlesgadeken.entwined.patterns.contributors.geoffSchmidt;
 
 import com.charlesgadeken.entwined.Utilities;
-import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
+import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.patterns.contributors.geoffSchmidt.utils.PixelState;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
@@ -9,7 +9,7 @@ import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.parameter.BoundedParameter;
 
 @LXCategory("Geoff Schmidt")
-public class Pixels extends EntwinedBasePattern {
+public class Pixels extends EntwinedTriggerablePattern {
     final BoundedParameter pSpeed = new BoundedParameter("SPD", 2.0 / 15.0);
     final BoundedParameter pLifetime = new BoundedParameter("LIFE", 3.0 / 15.0);
     final BoundedParameter pHue = new BoundedParameter("HUE", 0.5);

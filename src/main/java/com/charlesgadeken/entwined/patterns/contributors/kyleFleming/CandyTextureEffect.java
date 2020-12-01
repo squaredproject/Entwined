@@ -6,7 +6,7 @@ import heronarts.lx.color.LXColor;
 import heronarts.lx.parameter.BoundedParameter;
 
 public class CandyTextureEffect extends EntwinedBaseEffect {
-    final BoundedParameter amount = new BoundedParameter("CAND");
+    public final BoundedParameter amount = new BoundedParameter("CAND");
 
     double time = 0;
 

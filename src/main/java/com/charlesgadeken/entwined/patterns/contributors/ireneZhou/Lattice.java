@@ -1,8 +1,8 @@
 package com.charlesgadeken.entwined.patterns.contributors.ireneZhou;
 
 import com.charlesgadeken.entwined.Utilities;
+import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
-import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SawLFO;
@@ -11,7 +11,7 @@ import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.utils.LXUtils;
 
 @LXCategory("Irene Zhou")
-public class Lattice extends EntwinedBasePattern {
+public class Lattice extends EntwinedTriggerablePattern {
     final SawLFO spin = new SawLFO(0, 4320, 24000);
     final SinLFO yClimb = new SinLFO(60, 30, 24000);
     final BoundedParameter hue = new BoundedParameter("HUE", 0, 0, 360);

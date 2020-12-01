@@ -1,8 +1,8 @@
 package com.charlesgadeken.entwined.patterns.contributors.ireneZhou;
 
 import com.charlesgadeken.entwined.Utilities;
+import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
-import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.parameter.BoundedParameter;
@@ -10,7 +10,7 @@ import heronarts.lx.utils.LXUtils;
 import toxi.geom.Vec2D;
 
 @LXCategory("Irene Zhou")
-public class Cells extends EntwinedBasePattern {
+public class Cells extends EntwinedTriggerablePattern {
     final BoundedParameter speed = new BoundedParameter("SPEED", 1, 0, 5);
     final BoundedParameter width = new BoundedParameter("WIDTH", 0.75, 0.5, 1.25);
     final BoundedParameter hue = new BoundedParameter("HUE", 0, 0, 360);

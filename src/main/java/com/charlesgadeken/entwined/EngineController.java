@@ -1,5 +1,6 @@
 package com.charlesgadeken.entwined;
 
+import com.charlesgadeken.entwined.effects.TSBlurEffect;
 import com.charlesgadeken.entwined.effects.TSEffectController;
 import com.charlesgadeken.entwined.effects.original.ScrambleEffect;
 import com.charlesgadeken.entwined.effects.original.SpeedEffect;
@@ -36,6 +37,10 @@ public class EngineController {
 
     public EngineController(LX lx) {
         this.lx = lx;
+        speedEffect = new SpeedEffect(lx);
+        spinEffect = new SpinEffect(lx);
+        blurEffect = new TSBlurEffect(lx);
+        scrambleEffect = new ScrambleEffect(lx);
     }
 
     public List<LXChannel> getChannels() {

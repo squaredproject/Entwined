@@ -1,8 +1,8 @@
 package com.charlesgadeken.entwined.patterns.contributors.raySykes;
 
 import com.charlesgadeken.entwined.Utilities;
+import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
-import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import com.charlesgadeken.entwined.triggers.ParameterTriggerableAdapter;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
@@ -10,7 +10,7 @@ import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.DiscreteParameter;
 
 @LXCategory("Ray Sykes")
-public class IceCrystals extends EntwinedBasePattern {
+public class IceCrystals extends EntwinedTriggerablePattern {
     private IceCrystalLine crystal;
     final BoundedParameter propagationSpeed = new BoundedParameter("Speed", 5, 1, 20);
     final BoundedParameter lineWidth = new BoundedParameter("Width", 60, 20, 150);
