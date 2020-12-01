@@ -19,13 +19,13 @@ public class ClientModelUpdater {
     }
 
     void sendModel() {
-        Map<String, Object> returnParams = new HashMap<String, Object>();
+        Map<String, Object> returnParams = new HashMap<>();
 
         returnParams.put("autoplay", engineController.isAutoplaying);
 
-        List<Map> channelsParams = new ArrayList<>(engineController.numChannels);
+        List<Map<String, Object>> channelsParams = new ArrayList<>(engineController.numChannels);
         for (LXChannel channel : engineController.getChannels()) {
-            Map<String, Object> channelParams = new HashMap<String, Object>();
+            Map<String, Object> channelParams = new HashMap<>();
             channelParams.put("index", channel.getIndex() - engineController.baseChannelIndex);
             int currentPatternIndex = channel.getNextPatternIndex();
             if (currentPatternIndex == 0) {

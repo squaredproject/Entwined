@@ -9,12 +9,12 @@ import org.junit.jupiter.api.Test;
 class EntwinedTriggersTest {
     @Test
     public void testEntwinedTriggers() {
-        LX lx = new LX();
         Model model = Model.fromConfigs();
+        LX lx = new LX(model);
         EntwinedParameters parameters = new EntwinedParameters(lx, model);
         EngineController engineController = new EngineController(lx);
         EntwinedTriggers et = new EntwinedTriggers(lx, model, engineController, parameters);
         et.configureTriggerables();
-        et.configureMIDI();
+        // et.configureMIDI();
     }
 }
