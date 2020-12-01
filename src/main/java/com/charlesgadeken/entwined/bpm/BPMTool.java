@@ -7,13 +7,11 @@ import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.parameter.LXListenableNormalizedParameter;
 import heronarts.lx.parameter.LXParameter;
-import heronarts.lx.parameter.LXParameterListener;
 import heronarts.lx.pattern.LXPattern;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BPMTool {
-
     private final LX lx;
 
     public final BooleanParameter tapTempo = new BooleanParameter("Tap");
@@ -32,10 +30,8 @@ public class BPMTool {
     public final BooleanParameter clearAllTempoLfos = new BooleanParameter("Clear All Tempo LFOs");
 
     private LXChannel currentActiveChannel = null;
-    private final List<BPMParameterListener> parameterListeners =
-            new ArrayList<BPMParameterListener>();
-    private final List<BPMParameterListener> masterEffectParameterListeners =
-            new ArrayList<BPMParameterListener>();
+    private final List<BPMParameterListener> parameterListeners = new ArrayList<>();
+    private final List<BPMParameterListener> masterEffectParameterListeners = new ArrayList<>();
 
     private final ParameterModulatorController[] modulatorControllers;
     final ParameterModulationController modulationController;
@@ -62,80 +58,73 @@ public class BPMTool {
     public void addActionListeners(final LXListenableNormalizedParameter[] effectKnobParameters) {
 
         tapTempo.addListener(
-                new LXParameterListener() {
-                    public void onParameterChanged(LXParameter parameter) {
-                        if (tapTempo.isOn()) {
-                            lx.engine.tempo.tap();
-                        }
+                (LXParameter parameter) -> {
+                    if (tapTempo.isOn()) {
+                        lx.engine.tempo.tap();
                     }
                 });
 
         nudgeUpTempo.addListener(
-                new LXParameterListener() {
-                    public void onParameterChanged(LXParameter parameter) {
-                        if (nudgeUpTempo.isOn()) {
-                            lx.engine.tempo.adjustBpm(1);
-                        }
+                (LXParameter parameter) -> {
+                    if (nudgeUpTempo.isOn()) {
+                        lx.engine.tempo.adjustBpm(1);
                     }
                 });
 
         nudgeDownTempo.addListener(
-                new LXParameterListener() {
-                    public void onParameterChanged(LXParameter parameter) {
-                        if (nudgeDownTempo.isOn()) {
-                            lx.engine.tempo.adjustBpm(-1);
-                        }
+                (LXParameter parameter) -> {
+                    if (nudgeDownTempo.isOn()) {
+                        lx.engine.tempo.adjustBpm(-1);
                     }
                 });
 
         addTempoLfo.addListener(
-                new LXParameterListener() {
-                    public void onParameterChanged(LXParameter parameter) {
-                        if (addTempoLfo.isOn()) {
-                            //                            watchPatternParameters(
-                            //
-                            // lx.engine.mixer.focusedChannel.getActivePattern());
-                            watchMasterEffectParameters(effectKnobParameters);
-                        } else {
-                            unwatchPatternParameters();
-                            unwatchMasterEffectParameters();
-                        }
+                (LXParameter parameter) -> {
+                    if (addTempoLfo.isOn()) {
+                        // NOTE(meawoppl) Added these unchecked casts in the porting process :/
+                        watchPatternParameters(
+                                ((LXChannel) lx.engine.mixer.getFocusedChannel())
+                                        .getActivePattern());
+                        watchMasterEffectParameters(effectKnobParameters);
+                    } else {
+                        unwatchPatternParameters();
+                        unwatchMasterEffectParameters();
                     }
                 });
 
         clearAllTempoLfos.addListener(
-                new LXParameterListener() {
-                    public void onParameterChanged(LXParameter parameter) {
-                        if (clearAllTempoLfos.isOn()) {
-                            modulationController.unbindAllParameters();
-                        }
+                (LXParameter parameter) -> {
+                    if (clearAllTempoLfos.isOn()) {
+                        modulationController.unbindAllParameters();
                     }
                 });
 
         watchEngine(lx.engine);
     }
 
-    //    private final LXChannel.AbstractListener bindPatternParametersListener =
-    //            new LXChannel.AbstractListener() {
-    //                @Override
-    //                public void patternDidChange(LXChannel channel, LXPattern pattern) {
-    //                    watchPatternParameters(pattern);
-    //                }
-    //            };
+    // TODO(meawoppl) Not sure what this is about...
+    private final LXChannel.Listener bindPatternParametersListener =
+            new LXChannel.Listener() {
+                @Override
+                public void patternDidChange(LXChannel channel, LXPattern pattern) {
+                    watchPatternParameters(pattern);
+                }
+            };
 
     private void watchEngine(final LXEngine engine) {
-        //        engine.focusedChannel.addListener((parameter) ->
-        // watchDeck(engine.getFocusedChannel()));
-        //        watchDeck(engine.getFocusedChannel());
+        // NOTE(meawoppl) Added these unchecked casts in the porting process :/
+        engine.mixer.focusedChannel.addListener(
+                (parameter) -> watchDeck((LXChannel) engine.mixer.getFocusedChannel()));
+        watchDeck((LXChannel) engine.mixer.getFocusedChannel());
     }
 
     private void watchDeck(LXChannel channel) {
         if (this.currentActiveChannel != channel) {
             if (this.currentActiveChannel != null) {
-                //   this.currentActiveChannel.removeListener(this.bindPatternParametersListener);
+                this.currentActiveChannel.removeListener(this.bindPatternParametersListener);
             }
             this.currentActiveChannel = channel;
-            // this.currentActiveChannel.addListener(this.bindPatternParametersListener);
+            this.currentActiveChannel.addListener(this.bindPatternParametersListener);
         }
         watchPatternParameters(channel.getActivePattern());
     }
