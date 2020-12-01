@@ -4,6 +4,7 @@ import heronarts.lx.LX;
 import heronarts.lx.midi.*;
 import heronarts.lx.mixer.LXChannel;
 
+/** @Slee please forgive my explicit theft of these from an earlier version of LX */
 public class APC40mk1 extends LXMidiDeviceBackport {
     public static final int ANY_CHANNEL = -1;
     public static final int NOTE_VELOCITY = -1;

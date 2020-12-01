@@ -5,7 +5,6 @@ import heronarts.lx.parameter.LXListenableNormalizedParameter;
 import heronarts.lx.parameter.LXParameter;
 import heronarts.lx.parameter.LXParameterListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 class ParameterModulatorController implements LXParameterListener {
@@ -32,19 +31,16 @@ class ParameterModulatorController implements LXParameterListener {
     }
 
     public void onParameterChanged(LXParameter parameter) {
-        if (parameterControllers.size() > 0) {
-            Iterator<ParameterController> iter = parameterControllers.iterator();
-            while (iter.hasNext()) {
-                ParameterController parameterController = iter.next();
-                if (parameterController.parameterWasChanged()) {
-                    iter.remove();
-                    modulationController.onParameterUnboundItself(parameterController.parameter);
-                } else {
-                    double scaledValue = (parameter.getValue() * parameterController.scale) % 1;
-                    double transformedValue = modulator.setBasis(scaledValue).getValue();
-                    parameterController.setValue(transformedValue);
-                }
-            }
-        }
+        parameterControllers.forEach(
+                (ParameterController parameterController) -> {
+                    if (parameterController.parameterWasChanged()) {
+                        modulationController.onParameterUnboundItself(
+                                parameterController.parameter);
+                    } else {
+                        double scaledValue = (parameter.getValue() * parameterController.scale) % 1;
+                        double transformedValue = modulator.setBasis(scaledValue).getValue();
+                        parameterController.setValue(transformedValue);
+                    }
+                });
     }
 }

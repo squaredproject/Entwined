@@ -12,6 +12,7 @@ import javax.sound.midi.*;
 
 public class MidiEngine {
     private final LX lx;
+    // TODO(meawoppl) Restore this functionality
     // private final LXAutomationRecorder[] automation;
 
     private final EntwinedParameters parameters;

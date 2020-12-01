@@ -386,6 +386,7 @@ public class EntwinedTriggers {
 
         LXBlend t = new DissolveBlend(lx);
 
+        // TODO(meawoppl)
         // NOTE(meawoppl) @Slee same question below.  re `.setDuration(dissolveTime);`
         // pattern.setTransition(t);
 
@@ -414,6 +415,7 @@ public class EntwinedTriggers {
     }
 
     void setupChannel(final LXChannel channel, boolean noOpWhenNotRunning) {
+        // TODO(meawoppl)
         // @Slee, honestly no idea what the intention is here...
         // It looks like patterns used to have associated traditionss" have have moved to the
         // `blend` language, but I don't seen any analogue for that remaining....
@@ -464,6 +466,7 @@ public class EntwinedTriggers {
     }
 
     void registerPatternController(String name, EntwinedBasePattern pattern) {
+        // TODO(meawoppl)
         // @Slee is there a modern version of `.setDuration(dissolveTime);` on
         // blends?
         LXBlend t = new DissolveBlend(lx);

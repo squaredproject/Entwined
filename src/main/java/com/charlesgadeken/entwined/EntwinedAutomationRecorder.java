@@ -2,6 +2,7 @@ package com.charlesgadeken.entwined;
 
 import heronarts.lx.LXEngine;
 
+// TODO(meawoppl)
 // @Slee there used to be a class called LXAutomationRecorder...
 // Def. not sure how to deal with that...
 public class EntwinedAutomationRecorder extends FakeLXAutomationRecorder {

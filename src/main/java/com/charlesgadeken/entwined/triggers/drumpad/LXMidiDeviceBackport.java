@@ -22,6 +22,7 @@ import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.utils.LXUtils;
 import java.util.Iterator;
 
+/** @Slee please forgive this whole-hog theft... */
 public class LXMidiDeviceBackport implements LXMidiListener {
     private static final int MIDI_RANGE = 128;
     private static final int MIDI_CHANNELS = 16;
