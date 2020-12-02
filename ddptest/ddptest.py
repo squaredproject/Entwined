@@ -247,12 +247,54 @@ def pattern_order():
         color_set(leds,(0,0,0),i-1)
         i += 1
         leds_send(leds)
-        time.sleep(0.5)
+        time.sleep(0.1)
+
+LEDS_PER_CUBE = 4
+CUBES_PER_RANK = 12
+RANKS_PER_SHRUB = 5
+
+# rank is 0 to 4
+# cube is 0 to 11
+def shrub_cube_set(rank, cube, color):
+	start_cube = (rank * CUBES_PER_RANK) + cube
+	start_led = LEDS_PER_CUBE * start_cube
+	for i in range(LEDS_PER_CUBE):
+		color_set(leds,color,i+start_led)
+
+def shrub_rank_set(r):
+	global leds, NUM_LEDS, LED_PER_CUBE, CUBES_PER_RANK, RANKS_PER_SHRUB
+	leds_color_fill( palette["black"] ) # do the dumb
+	for i in range(CUBES_PER_RANK):
+		shrub_cube_set(r, i, palette["white"] )
+
+
+# each rank in order
+def pattern_shrub_rank():
+    global leds, NUM_LEDS
+    while True:
+    	for i in range(RANKS_PER_SHRUB):
+    		shrub_rank_set(i)
+    		leds_send(leds)
+    		time.sleep(2.0)
+
+# they say this will be good for testing
+# for each rank, add each cube at 1 second, then hold the rank for 3 seconds
+def pattern_shrub_rank_order():
+    global leds, NUM_LEDS
+    while True:
+    	for rank in range(RANKS_PER_SHRUB):
+    		print(" testing rank: {}".format(rank))
+    		leds_color_fill ( palette["black"] )
+    		for cube in range(CUBES_PER_RANK):
+    			shrub_cube_set(rank, cube, palette["white"] )
+    			leds_send(leds)
+    			time.sleep(1.0)
+    		time.sleep(3.0)
 
 def arg_init():
     parser = argparse.ArgumentParser(prog='ddptest', description='Send DDP packets to an NDB for testing')
     parser.add_argument('--host', type=str, help='IP address for destination')
-    parser.add_argument('--pattern', '-p', type=str, help='one of: palette, hsv, order')
+    parser.add_argument('--pattern', '-p', type=str, help='one of: palette, hsv, order, rank, rank_order')
     parser.add_argument('--leds', '-l', type=int, help='number of leds')
 
     global DESTINATION_IP, NUM_LEDS, leds
@@ -284,6 +326,10 @@ def main():
         pattern_hsv()
     elif args.pattern == 'order':
         pattern_order()
+    elif args.pattern == 'rank':
+    	pattern_shrub_rank()
+    elif args.pattern == 'rank_order':
+    	pattern_shrub_rank_order()
     else:
         print(' pattern must be one of palette, hsv, order')
 
