@@ -32,16 +32,12 @@ import heronarts.lx.effect.LXEffect;
 import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.parameter.*;
 import heronarts.lx.pattern.LXPattern;
-import java.util.ArrayList;
 
 public class EntwinedTriggers {
     private final LX lx;
-
     BPMTool bpmTool;
-
     private EntwinedDrumpad apc40Drumpad;
-    ArrayList<Triggerable>[] apc40DrumpadTriggerablesLists;
-    Triggerable[][] apc40DrumpadTriggerables;
+    private EntwinedDrumpad.Builder drumpadBuilder;
     MidiEngine midiEngine;
     LXListenableNormalizedParameter[] effectKnobParameters;
     public final EngineController engineController;
@@ -55,23 +51,11 @@ public class EntwinedTriggers {
         this.model = model;
         this.engineController = engineController;
         this.parameters = parameters;
+        this.drumpadBuilder = new EntwinedDrumpad.Builder();
     }
 
     @SuppressWarnings("unchecked")
     void configureTriggerables() {
-        if (ConfigLoader.enableAPC40) {
-            // NOTE(meawoppl) This is basically a nasty builder for the apc40 drumpad array-array :/
-            apc40DrumpadTriggerablesLists =
-                    new ArrayList[] {
-                        new ArrayList<Triggerable>(),
-                        new ArrayList<Triggerable>(),
-                        new ArrayList<Triggerable>(),
-                        new ArrayList<Triggerable>(),
-                        new ArrayList<Triggerable>(),
-                        new ArrayList<Triggerable>()
-                    };
-        }
-
         registerPatternTriggerables();
         registerOneShotTriggerables();
         registerEffectTriggerables();
@@ -81,15 +65,6 @@ public class EntwinedTriggers {
             engineController.startEffectIndex = lx.engine.mixer.masterBus.getEffects().size();
             registerIPadEffects();
             engineController.endEffectIndex = lx.engine.mixer.masterBus.getEffects().size();
-        }
-
-        if (ConfigLoader.enableAPC40) {
-            apc40DrumpadTriggerables = new Triggerable[apc40DrumpadTriggerablesLists.length][];
-            for (int i = 0; i < apc40DrumpadTriggerablesLists.length; i++) {
-                ArrayList<Triggerable> triggerablesList = apc40DrumpadTriggerablesLists[i];
-                apc40DrumpadTriggerables[i] = triggerablesList.toArray(new Triggerable[0]);
-            }
-            apc40DrumpadTriggerablesLists = null;
         }
     }
 
@@ -134,7 +109,7 @@ public class EntwinedTriggers {
     }
 
     void configureMIDI() {
-        apc40Drumpad = new EntwinedDrumpad(apc40DrumpadTriggerables);
+        apc40Drumpad = drumpadBuilder.build();
         bpmTool = new BPMTool(lx, effectKnobParameters);
         midiEngine = new MidiEngine(lx, parameters, apc40Drumpad, bpmTool, null);
     }
@@ -275,15 +250,9 @@ public class EntwinedTriggers {
     }
 
     void registerVisual(EntwinedTriggerablePattern pattern, int apc40DrumpadRow) {
-
-        // TODO(meawoppl)
-        // NOTE(meawoppl) @Slee same question below.  re `.setDuration(dissolveTime);`
-        // LXBlend t = new DissolveBlend(lx);
-        // pattern.setTransition(t);
-
         Triggerable triggerable = configurePatternAsTriggerable(pattern);
         if (ConfigLoader.enableAPC40) {
-            apc40DrumpadTriggerablesLists[apc40DrumpadRow].add(triggerable);
+            drumpadBuilder.addTriggerableToRow(apc40DrumpadRow, triggerable);
         }
     }
 
@@ -366,9 +335,7 @@ public class EntwinedTriggers {
             LXListenableNormalizedParameter parameter, double offValue, double onValue, int row) {
         ParameterTriggerableAdapter triggerable =
                 new ParameterTriggerableAdapter(lx, parameter, offValue, onValue);
-        if (ConfigLoader.enableAPC40) {
-            apc40DrumpadTriggerablesLists[row].add(triggerable);
-        }
+        drumpadBuilder.addTriggerableToRow(row, triggerable);
     }
 
     void registerEffectController(
