@@ -46,7 +46,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     @Override
     public void setup() {
         LXStudio.Flags flags = new LXStudio.Flags(this);
-        flags.resizable = true;
+        flags.resizable = false;
         flags.useGLPointCloud = false;
         flags.startMultiThreaded = true;
 
