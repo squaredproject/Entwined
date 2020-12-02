@@ -10,10 +10,6 @@ import com.charlesgadeken.entwined.effects.original.SpeedEffect;
 import com.charlesgadeken.entwined.effects.original.SpinEffect;
 import com.charlesgadeken.entwined.model.Model;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
-import com.charlesgadeken.entwined.patterns.contributors.colinHunt.BeachBall;
-import com.charlesgadeken.entwined.patterns.contributors.colinHunt.Breath;
-import com.charlesgadeken.entwined.patterns.contributors.colinHunt.ColorWave;
-import com.charlesgadeken.entwined.patterns.contributors.geoffSchmidt.Parallax;
 import com.charlesgadeken.entwined.patterns.contributors.geoffSchmidt.Pixels;
 import com.charlesgadeken.entwined.patterns.contributors.grantPatterson.Planes;
 import com.charlesgadeken.entwined.patterns.contributors.grantPatterson.Pond;
@@ -21,17 +17,13 @@ import com.charlesgadeken.entwined.patterns.contributors.ireneZhou.*;
 import com.charlesgadeken.entwined.patterns.contributors.jackLampack.AcidTrip;
 import com.charlesgadeken.entwined.patterns.contributors.kyleFleming.*;
 import com.charlesgadeken.entwined.patterns.contributors.markLottor.MarkLottor;
-import com.charlesgadeken.entwined.patterns.contributors.maryWang.Twinkle;
-import com.charlesgadeken.entwined.patterns.contributors.maryWang.VerticalSweep;
 import com.charlesgadeken.entwined.patterns.contributors.raySykes.*;
-import com.charlesgadeken.entwined.patterns.original.ColoredLeaves;
 import com.charlesgadeken.entwined.patterns.original.SeeSaw;
-import com.charlesgadeken.entwined.patterns.original.SweepPattern;
 import com.charlesgadeken.entwined.patterns.original.Twister;
 import com.charlesgadeken.entwined.triggers.ParameterTriggerableAdapter;
 import com.charlesgadeken.entwined.triggers.Triggerable;
+import com.charlesgadeken.entwined.triggers.drumpad.EntwinedDrumpad;
 import com.charlesgadeken.entwined.triggers.drumpad.MidiEngine;
-import com.charlesgadeken.entwined.triggers.drumpad.TSDrumpad;
 import com.charlesgadeken.entwined.triggers.http.AppServer;
 import heronarts.lx.LX;
 import heronarts.lx.blend.LXBlend;
@@ -41,14 +33,13 @@ import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.parameter.*;
 import heronarts.lx.pattern.LXPattern;
 import java.util.ArrayList;
-import java.util.List;
 
 public class EntwinedTriggers {
     private final LX lx;
 
     BPMTool bpmTool;
 
-    private TSDrumpad apc40Drumpad;
+    private EntwinedDrumpad apc40Drumpad;
     ArrayList<Triggerable>[] apc40DrumpadTriggerablesLists;
     Triggerable[][] apc40DrumpadTriggerables;
     MidiEngine midiEngine;
@@ -68,7 +59,8 @@ public class EntwinedTriggers {
 
     @SuppressWarnings("unchecked")
     void configureTriggerables() {
-        if (apc40Drumpad != null) {
+        if (ConfigLoader.enableAPC40) {
+            // NOTE(meawoppl) This is basically a nasty builder for the apc40 drumpad array-array :/
             apc40DrumpadTriggerablesLists =
                     new ArrayList[] {
                         new ArrayList<Triggerable>(),
@@ -91,7 +83,7 @@ public class EntwinedTriggers {
             engineController.endEffectIndex = lx.engine.mixer.masterBus.getEffects().size();
         }
 
-        if (apc40Drumpad != null) {
+        if (ConfigLoader.enableAPC40) {
             apc40DrumpadTriggerables = new Triggerable[apc40DrumpadTriggerablesLists.length][];
             for (int i = 0; i < apc40DrumpadTriggerablesLists.length; i++) {
                 ArrayList<Triggerable> triggerablesList = apc40DrumpadTriggerablesLists[i];
@@ -141,69 +133,9 @@ public class EntwinedTriggers {
         registerEffectController("White", colorEffect, colorEffect.desaturation);
     }
 
-    void addPatterns(List<LXPattern> patterns) {
-        // Add patterns here.
-        // The order here is the order it shows up in the patterns list
-        // patterns.add(new SolidColor(lx));
-        // patterns.add(new ClusterLineTest(lx));
-        // patterns.add(new OrderTest(lx));
-        patterns.add(new Twister(lx));
-        patterns.add(new CandyCloud(lx));
-        patterns.add(new MarkLottor(lx));
-        patterns.add(new SolidColor(lx));
-        // patterns.add(new DoubleHelix(lx));
-        patterns.add(new SparkleHelix(lx));
-        patterns.add(new Lightning(lx));
-        patterns.add(new SparkleTakeOver(lx));
-        patterns.add(new MultiSine(lx));
-        patterns.add(new Ripple(lx));
-        patterns.add(new SeeSaw(lx));
-        patterns.add(new SweepPattern(lx));
-        patterns.add(new IceCrystals(lx));
-        patterns.add(new ColoredLeaves(lx));
-        patterns.add(new Stripes(lx));
-        patterns.add(new AcidTrip(lx));
-        patterns.add(new Springs(lx));
-        patterns.add(new Lattice(lx));
-        patterns.add(new Fire(lx));
-        patterns.add(new Fireflies(lx));
-        patterns.add(new Fumes(lx));
-        patterns.add(new Voronoi(lx));
-        patterns.add(new Cells(lx));
-        patterns.add(new Bubbles(lx));
-        patterns.add(new Pulleys(lx));
-
-        patterns.add(new Wisps(lx));
-        patterns.add(new Explosions(lx));
-        patterns.add(new BassSlam(lx));
-        patterns.add(new Rain(lx));
-        patterns.add(new Fade(lx));
-        patterns.add(new Strobe(lx));
-        patterns.add(new Twinkle(lx));
-        patterns.add(new VerticalSweep(lx));
-        patterns.add(new RandomColor(lx));
-        patterns.add(new ColorStrobe(lx));
-        patterns.add(new Pixels(lx));
-        // patterns.add(new Wedges(lx));
-        patterns.add(new Parallax(lx));
-
-        // Colin Hunt Patterns
-        patterns.add(new ColorWave(lx));
-        patterns.add(new BeachBall(lx));
-        patterns.add(new Breath(lx));
-
-        // Grant Patterson Patterns
-        patterns.add(new Pond(lx));
-        patterns.add(new Planes(lx));
-    }
-
     void configureMIDI() {
-        apc40Drumpad = new TSDrumpad();
-        apc40Drumpad.triggerables = apc40DrumpadTriggerables;
-
+        apc40Drumpad = new EntwinedDrumpad(apc40DrumpadTriggerables);
         bpmTool = new BPMTool(lx, effectKnobParameters);
-
-        // MIDI control
         midiEngine = new MidiEngine(lx, parameters, apc40Drumpad, bpmTool, null);
     }
 
@@ -320,6 +252,7 @@ public class EntwinedTriggers {
         registerEffectControlParameter(staticEffect.amount, 0, .3, 1);
         registerEffectControlParameter(candyTextureEffect.amount, 0, 1, 5);
 
+        // These are the 8 knobs labled "Track Control" on the APC40
         parameters.effectKnobParameters =
                 new LXListenableNormalizedParameter[] {
                     colorEffect.hueShift,
@@ -349,13 +282,16 @@ public class EntwinedTriggers {
         // pattern.setTransition(t);
 
         Triggerable triggerable = configurePatternAsTriggerable(pattern);
-        if (apc40Drumpad != null) {
+        if (ConfigLoader.enableAPC40) {
             apc40DrumpadTriggerablesLists[apc40DrumpadRow].add(triggerable);
         }
     }
 
     Triggerable configurePatternAsTriggerable(EntwinedTriggerablePattern pattern) {
         LXChannel channel = lx.engine.mixer.addChannel(new EntwinedBasePattern[] {pattern});
+        System.out.printf(
+                "Added Triggerable Pattern '%s' to channel %d\n",
+                pattern.getReadableName(), channel.getIndex());
         setupChannel(channel, false);
 
         pattern.onTriggerableModeEnabled();
@@ -430,7 +366,7 @@ public class EntwinedTriggers {
             LXListenableNormalizedParameter parameter, double offValue, double onValue, int row) {
         ParameterTriggerableAdapter triggerable =
                 new ParameterTriggerableAdapter(lx, parameter, offValue, onValue);
-        if (apc40Drumpad != null) {
+        if (ConfigLoader.enableAPC40) {
             apc40DrumpadTriggerablesLists[row].add(triggerable);
         }
     }

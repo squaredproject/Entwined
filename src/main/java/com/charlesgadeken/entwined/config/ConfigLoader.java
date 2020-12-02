@@ -15,7 +15,7 @@ import java.util.List;
  * - The Entwined shrubs That makeup the geometry for the goldengate park exposition
  */
 public class ConfigLoader {
-    public static final boolean enableIPad = false;
+    public static final boolean enableIPad = true;
     public static final boolean autoplayBMSet = false;
 
     public static final boolean enableAPC40 = true;

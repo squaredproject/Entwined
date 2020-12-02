@@ -19,4 +19,8 @@ public abstract class EntwinedBasePattern extends LXPattern {
     protected void setCallRun(boolean callRun) {
         getChannel().enabled.setValue(callRun);
     }
+
+    public String getReadableName() {
+        return readableName == null ? getClass().getCanonicalName() : readableName;
+    }
 }

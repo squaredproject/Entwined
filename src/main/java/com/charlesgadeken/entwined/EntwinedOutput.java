@@ -38,8 +38,7 @@ public class EntwinedOutput {
             output.enabled.setValue(true);
             lx.addOutput(output);
         } catch (Exception x) {
-            System.out.println("Can not setup Cubes DDP");
-            System.out.println(x);
+            System.out.printf("Can not setup Cubes DDP: %s", x);
         }
 
         try {
@@ -58,8 +57,7 @@ public class EntwinedOutput {
             shrubOutput.enabled.setValue(true);
             lx.addOutput(shrubOutput);
         } catch (Exception x) {
-            System.out.println("Can not setup Shrubs DDP");
-            System.out.println(x);
+            System.out.printf("Can not setup Shrubs DDP: %s\n", x);
         }
     }
 

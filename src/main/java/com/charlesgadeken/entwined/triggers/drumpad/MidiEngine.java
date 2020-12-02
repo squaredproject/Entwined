@@ -20,7 +20,7 @@ public class MidiEngine {
     public MidiEngine(
             final LX lx,
             EntwinedParameters parameters,
-            final TSDrumpad apc40Drumpad,
+            final EntwinedDrumpad apc40Drumpad,
             final BPMTool bpmTool,
             final InterfaceController uiDeck
             // LXAutomationRecorder[] automation,
