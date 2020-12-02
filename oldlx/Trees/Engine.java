@@ -45,15 +45,16 @@ abstract class Engine {
   static final int NUM_AUTOMATION = 4;
 
   final String projectPath;
+  final List<NDBConfig> ndbConfig; // note: just for the trees, they're special
   final List<TreeCubeConfig> cubeConfig;
   final List<TreeConfig> treeConfigs;
-    final List<ShrubCubeConfig> shrubCubeConfig;
-    final List<ShrubConfig> shrubConfigs;
+  final List<ShrubCubeConfig> shrubCubeConfig;
+  final List<ShrubConfig> shrubConfigs;
   final LX lx;
   final Model model;
   EngineController engineController;
-  LXDatagramOutput output;
-  LXDatagram[] datagrams;
+  LXDatagramOutput treeOutput;
+  LXDatagram[] treeDatagrams;
   LXDatagramOutput shrubOutput;
   LXDatagram[] shrubDatagrams;
   BPMTool bpmTool;
@@ -76,11 +77,12 @@ abstract class Engine {
   Engine(String projectPath) {
     this.projectPath = projectPath;
 
+    ndbConfig = loadNDBConfigFile();
     cubeConfig = loadCubeConfigFile();
     treeConfigs = loadTreeConfigFile();
     shrubCubeConfig = loadShrubCubeConfigFile();
     shrubConfigs = loadShrubConfigFile();
-    model = new Model(treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig);
+    model = new Model(ndbConfig, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig);
 
     lx = createLX();
 
@@ -422,6 +424,11 @@ abstract class Engine {
 
   String sketchPath(String filename) {
     return projectPath + "/" + filename;
+  }
+
+  List<NDBConfig> loadNDBConfigFile() {
+    return loadJSONFile(Config.NDB_CONFIG_FILE, new TypeToken<List<NDBConfig>>() {
+    }.getType());
   }
 
   List<TreeCubeConfig> loadCubeConfigFile() {
@@ -783,17 +790,17 @@ abstract class Engine {
   void configureExternalOutput() {
     // Output stage
     try {
-      output = new LXDatagramOutput(lx);
-      datagrams = new LXDatagram[model.ipMap.size()];
+      treeOutput = new LXDatagramOutput(lx);
+      treeDatagrams = new LXDatagram[model.ipMap.size()];
       int ci = 0;
       for (Map.Entry<String, Cube[]> entry : model.ipMap.entrySet()) {
         String ip = entry.getKey();
         Cube[] cubes = entry.getValue();
-        output.addDatagram(datagrams[ci++] = Output.clusterDatagram(cubes).setAddress(ip));
+        treeOutput.addDatagram(treeDatagrams[ci++] = Output.treeClusterDatagram(cubes).setAddress(ip));
       }
-      outputBrightness.parameters.add(output.brightness);
-      output.enabled.setValue(true);
-      lx.addOutput(output);
+      outputBrightness.parameters.add(treeOutput.brightness);
+      treeOutput.enabled.setValue(true);
+      lx.addOutput(treeOutput);
     } catch (Exception x) {
       System.out.println(x);
     }
