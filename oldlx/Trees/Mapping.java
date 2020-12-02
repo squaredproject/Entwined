@@ -15,6 +15,7 @@ class MappingTool extends Effect {
   
   final DiscreteParameter ipIndex;
   final DiscreteParameter outputIndex;
+  final DiscreteParameter stringOffsetIndex;
   final BooleanParameter showBlanks = new BooleanParameter("BLANKS", false);
   final DiscreteParameter shrubIpIndex;
   final DiscreteParameter shrubOutputIndex;
@@ -27,8 +28,11 @@ class MappingTool extends Effect {
     this.shrubCubeConfig = shrubCubeConfig;
     this.ipList = model.ipMap.keySet().toArray();
     this.shrubIpList = model.shrubIpMap.keySet().toArray();
+    if (ipList.length == 0) { System.out.println(" WARNING: no cubes in valid NDB configuration file, incorrect config, ABORTING"); }
     ipIndex = new DiscreteParameter("IP", ipList.length);
+    // it is too hard to calculate the correct maximum for every NDB and change them, so pick large numbers
     outputIndex = new DiscreteParameter("POS", 16);
+    stringOffsetIndex = new DiscreteParameter("OFFSET", 50);
     shrubIpIndex = new DiscreteParameter("SHRUB_IP", shrubIpList.length);
     shrubOutputIndex = new DiscreteParameter("SHRUB_POS", 5*12);
     addModulator(strobe).start();
@@ -39,11 +43,16 @@ class MappingTool extends Effect {
   }
 
   Cube getCube(){
-    return model.ipMap.get(this.ipList[ipIndex.getValuei()])[outputIndex.getValuei()];
+    NDBConfig ndbConfig = model.ndbMap.get(this.ipList[ipIndex.getValuei()]);
+    int cubeIndex = ndbConfig.getCubeIndex(outputIndex.getValuei(), stringOffsetIndex.getValuei());
+    if (cubeIndex == -1) return(null);
+    return model.ipMap.get(this.ipList[ipIndex.getValuei()]) [ cubeIndex ];
   }
 
   TreeCubeConfig getConfig(){
-    return getCube().config;
+    Cube c = getCube();
+    if (c == null) return(null);
+    return c.config;
   }
   
   ShrubCube getShrubCube(){
@@ -62,7 +71,10 @@ class MappingTool extends Effect {
     
     public void run(double deltaMs) {
       if (isEnabled()) {
-        blendColor(getCube().index, lx.hsb(0, 0, strobe.getValuef()), LXColor.Blend.ADD);
+        Cube cube = getCube();
+        if (cube != null) {
+          blendColor(cube.index, lx.hsb(0, 0, strobe.getValuef()), LXColor.Blend.ADD);
+        }
         blendColor(getShrubCube().index, lx.hsb(0, 0, strobe.getValuef()), LXColor.Blend.ADD);
       }
     }
