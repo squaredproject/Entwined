@@ -85,7 +85,6 @@ abstract class Engine {
 
     lx = createLX();
 
-
     engineController = new EngineController(lx);
 
     lx.engine.addParameter(drumpadVelocity);
@@ -103,6 +102,8 @@ abstract class Engine {
       nfcEngine.disableVisualTypeRestrictions = true;
     }
 
+    // the following function will add a large number of channels.
+    // These channels turn out be overlays to the main channels
     configureTriggerables();
     lx.engine.addLoopTask(new ModelTransformTask(model));
 
@@ -506,7 +507,8 @@ abstract class Engine {
         channel.getFader().setValue(1);
       }
       channel.goIndex(i);
-      // the old ipad code was this, for no reason
+      // the old ipad code was this, for no reason that could be seen,
+      // leaving breadcrub in case we need it?
       // channel.getFader().setValue(1);
       //  if (i == 0) {
       //  channel.goIndex(1);
@@ -800,8 +802,7 @@ abstract class Engine {
 class EngineController {
   LX lx;
 
-
-  int numChannels;
+  int numChannels = Engine.NUM_CHANNELS;
 
   int startEffectIndex;
   int endEffectIndex;
@@ -831,13 +832,18 @@ class EngineController {
     this.lx = lx;
   }
 
-  // this is a little scary. 
+  // When they are requsting the channels, they want the 8 which are the "normal channels"
+  // not the triggerable channels - how can we best tell them apart?
   List<LXChannel> getChannels() {
     List<LXChannel> channels = lx.engine.getChannels();
-    System.out.println(" Engine Get Channels: engine says "+channels.size()+ " are there hidden ones?");
-    // old:
-    //return lx.engine.getChannels().subList(baseChannelIndex, baseChannelIndex + numChannels);
-    return(channels);
+    List<LXChannel> main_channels = new ArrayList<LXChannel>(8);
+
+    for (LXChannel c : channels) {
+      if (c.getIndex() < Engine.NUM_CHANNELS) {
+        main_channels.add(c);
+      }
+    }
+    return(main_channels);
   }
 
   void setChannelPattern(int channelIndex, int patternIndex) {
