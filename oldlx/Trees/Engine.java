@@ -40,7 +40,6 @@ import heronarts.lx.transition.LXTransition;
 abstract class Engine {
 
   static final int NUM_CHANNELS = 8;
-  static final int NUM_IPAD_CHANNELS = 3;
   static final int NUM_KNOBS = 8;
   static final int NUM_AUTOMATION = 4;
 
@@ -63,8 +62,8 @@ abstract class Engine {
   TSDrumpad apc40Drumpad;
   NFCEngine nfcEngine;
   LXListenableNormalizedParameter[] effectKnobParameters;
-  final ChannelTreeLevels[] channelTreeLevels = new ChannelTreeLevels[NUM_CHANNELS];
-  final ChannelShrubLevels[] channelShrubLevels = new ChannelShrubLevels[NUM_CHANNELS];
+  final ChannelTreeLevels[] channelTreeLevels = new ChannelTreeLevels[Engine.NUM_CHANNELS];
+  final ChannelShrubLevels[] channelShrubLevels = new ChannelShrubLevels[Engine.NUM_CHANNELS];
   final BasicParameter dissolveTime = new BasicParameter("DSLV", 400, 50, 1000);
   final BasicParameter drumpadVelocity = new BasicParameter("DVEL", 1);
   final TSAutomationRecorder[] automation = new TSAutomationRecorder[Engine.NUM_AUTOMATION];
@@ -86,7 +85,6 @@ abstract class Engine {
 
     lx = createLX();
 
-
     engineController = new EngineController(lx);
 
     lx.engine.addParameter(drumpadVelocity);
@@ -104,6 +102,8 @@ abstract class Engine {
       nfcEngine.disableVisualTypeRestrictions = true;
     }
 
+    // the following function will add a large number of channels.
+    // These channels turn out be overlays to the main channels
     configureTriggerables();
     lx.engine.addLoopTask(new ModelTransformTask(model));
 
@@ -123,10 +123,8 @@ abstract class Engine {
     if (Config.enableAPC40) {
       configureMIDI();
     }
-    if (Config.enableIPad) {
-      engineController.setAutoplay(Config.autoplayBMSet, true);
-      configureServer();
-    }
+
+    configureServer();
 
     // bad code I know
     // (shouldn't mess with engine internals)
@@ -146,46 +144,7 @@ abstract class Engine {
   void postCreateLX() {
   }
 
-  void registerIPadPatterns() {
-    registerPatternController("None", new NoPattern(lx));
-    registerPatternController("Twister", new Twister(lx));
-    registerPatternController("Lottor", new MarkLottor(lx));
-    registerPatternController("Ripple", new Ripple(lx));
-    registerPatternController("Stripes", new Stripes(lx));
-    registerPatternController("Lattice", new Lattice(lx));
-    registerPatternController("Fumes", new Fumes(lx));
-    registerPatternController("Voronoi", new Voronoi(lx));
-    registerPatternController("Candy Cloud", new CandyCloud(lx));
-    // registerPatternController("Galaxy Cloud", new GalaxyCloud(lx));
-
-    registerPatternController("Color Strobe", new ColorStrobe(lx));
-    registerPatternController("Strobe", new Strobe(lx));
-    registerPatternController("Sparkle Takeover", new SparkleTakeOver(lx));
-    registerPatternController("Multi-Sine", new MultiSine(lx));
-    registerPatternController("Seesaw", new SeeSaw(lx));
-    registerPatternController("Cells", new Cells(lx));
-    registerPatternController("Fade", new Fade(lx));
-
-    registerPatternController("Ice Crystals", new IceCrystals(lx));
-    registerPatternController("Fire", new Fire(lx));
-
-    registerPatternController("Acid Trip", new AcidTrip(lx));
-    registerPatternController("Rain", new Rain(lx));
-    registerPatternController("Bass Slam", new BassSlam(lx));
-
-    registerPatternController("Fireflies", new Fireflies(lx));
-    registerPatternController("Bubbles", new Bubbles(lx));
-    registerPatternController("Lightning", new Lightning(lx));
-    registerPatternController("Wisps", new Wisps(lx));
-    registerPatternController("Fireworks", new Explosions(lx));
-
-    registerPatternController("ColorWave", new ColorWave(lx));
-
-    registerPatternController("Pond", new Pond(lx));
-    registerPatternController("Planes", new Twister(lx));
-  }
-
-  void registerIPadEffects() {
+  void registerEffects() {
     ColorEffect colorEffect = new ColorEffect2(lx);
     ColorStrobeTextureEffect colorStrobeTextureEffect = new ColorStrobeTextureEffect(lx);
     FadeTextureEffect fadeTextureEffect = new FadeTextureEffect(lx);
@@ -223,7 +182,7 @@ abstract class Engine {
     registerEffectController("White", colorEffect, colorEffect.desaturation);
   }
 
-  void addPatterns(ArrayList<LXPattern> patterns) {
+  void addPatterns(ArrayList<LXPattern> p) {
     // Add patterns here.
     // The order here is the order it shows up in the patterns list
     // patterns.add(new SolidColor(lx));
@@ -231,63 +190,61 @@ abstract class Engine {
 //    patterns.add(new TestShrubSweep(lx));
 //    patterns.add(new TestShrubLayers(lx));
     // patterns.add(new OrderTest(lx));
-    patterns.add(new Twister(lx));
-    patterns.add(new CandyCloud(lx));
-    patterns.add(new MarkLottor(lx));
-    patterns.add(new SolidColor(lx));
+    registerPatternController(p, "Twister", new Twister(lx));
+    registerPatternController(p, "CandyCloud", new CandyCloud(lx));
+    registerPatternController(p, "MarkLottor", new MarkLottor(lx));
+    registerPatternController(p, "Solid", new SolidColor(lx));
     // patterns.add(new DoubleHelix(lx));
-    patterns.add(new SparkleHelix(lx));
-    patterns.add(new Lightning(lx));
-    patterns.add(new SparkleTakeOver(lx));
-    patterns.add(new MultiSine(lx));
-    patterns.add(new Ripple(lx));
-    patterns.add(new SeeSaw(lx));
-    patterns.add(new SweepPattern(lx));
-    patterns.add(new IceCrystals(lx));
-    patterns.add(new ColoredLeaves(lx));
-    patterns.add(new Stripes(lx));
-    patterns.add(new AcidTrip(lx));
-    patterns.add(new Springs(lx));
-    patterns.add(new Lattice(lx));
-    patterns.add(new Fire(lx));
-    patterns.add(new Fireflies(lx));
-    patterns.add(new Fumes(lx));
-    patterns.add(new Voronoi(lx));
-    patterns.add(new Cells(lx));
-    patterns.add(new Bubbles(lx));
-    patterns.add(new Pulleys(lx));
+    registerPatternController(p, "SparkleHelix", new SparkleHelix(lx));
+    registerPatternController(p, "Lightning", new Lightning(lx));
+    registerPatternController(p, "SparkleTakeOver", new SparkleTakeOver(lx));
+    registerPatternController(p, "MultiSine", new MultiSine(lx));
+    registerPatternController(p, "Ripple", new Ripple(lx));
+    registerPatternController(p, "SeeSaw", new SeeSaw(lx));
+    registerPatternController(p, "SweepPattern", new SweepPattern(lx));
+    registerPatternController(p, "IceCrystals", new IceCrystals(lx));
+    registerPatternController(p, "ColoredLeaves", new ColoredLeaves(lx));
+    registerPatternController(p, "Stripes", new Stripes(lx));
+    registerPatternController(p, "AcidTrip", new AcidTrip(lx));
+    registerPatternController(p, "Springs", new Springs(lx));
+    registerPatternController(p, "Lattice", new Lattice(lx));
+    registerPatternController(p, "Fire", new Fire(lx));
+    registerPatternController(p, "Fireflies", new Fireflies(lx));
+    registerPatternController(p, "Fumes", new Fumes(lx));
+    registerPatternController(p, "Voronoi", new Voronoi(lx));
+    registerPatternController(p, "Cells", new Cells(lx));
+    registerPatternController(p, "Bubbles", new Bubbles(lx));
+    registerPatternController(p, "Pulleys", new Pulleys(lx));
 
-    patterns.add(new Wisps(lx));
-    patterns.add(new Explosions(lx));
-    patterns.add(new BassSlam(lx));
-    patterns.add(new Rain(lx));
-    patterns.add(new Fade(lx));
-    patterns.add(new Strobe(lx));
-    patterns.add(new Twinkle(lx));
-    patterns.add(new VerticalSweep(lx));
-    patterns.add(new RandomColor(lx));
-    patterns.add(new ColorStrobe(lx));
-    patterns.add(new Pixels(lx));
-    patterns.add(new Wedges(lx));
-    patterns.add(new Parallax(lx));
+    registerPatternController(p, "Whisps", new Wisps(lx));
+    registerPatternController(p, "Explosions", new Explosions(lx));
+    registerPatternController(p, "BassSlam", new BassSlam(lx));
+    registerPatternController(p, "Rain", new Rain(lx));
+    registerPatternController(p, "Fade", new Fade(lx));
+    registerPatternController(p, "Strobe", new Strobe(lx));
+    registerPatternController(p, "Twinkle", new Twinkle(lx));
+    registerPatternController(p, "VerticalSweep", new VerticalSweep(lx));
+    registerPatternController(p, "RandomColor", new RandomColor(lx));
+    registerPatternController(p, "ColorStrobe", new ColorStrobe(lx));
+    registerPatternController(p, "Pixels", new Pixels(lx));
+    registerPatternController(p, "Wedges", new Wedges(lx));
+    registerPatternController(p, "Parallax", new Parallax(lx));
 
     // Colin Hunt Patterns
-    patterns.add(new ColorWave(lx));
-    patterns.add(new BeachBall(lx));
-    patterns.add(new Breath(lx));
+    registerPatternController(p, "ColorWave", new ColorWave(lx));
+    registerPatternController(p, "BeachBall", new BeachBall(lx));
+    registerPatternController(p, "Breath", new Breath(lx));
 
     // Grant Patterson Patterns
-    patterns.add(new Pond(lx));
-    patterns.add(new Planes(lx));
+    registerPatternController(p, "Pond", new Pond(lx));
+    registerPatternController(p, "Planes",new Planes(lx));
   }
 
   LXPattern[] getPatternListForChannels() {
+
     ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
     addPatterns(patterns);
-    for (LXPattern pattern : patterns) {
-      LXTransition t = new DissolveTransition(lx).setDuration(dissolveTime);
-      pattern.setTransition(t);
-    }
+
     return patterns.toArray(new LXPattern[patterns.size()]);
   }
 
@@ -542,8 +499,6 @@ abstract class Engine {
     }
   }
 
-  ArrayList<TSPattern> patterns;
-
   void configureChannels() {
     for (int i = 0; i < Engine.NUM_CHANNELS; ++i) {
       LXChannel channel = lx.engine.addChannel(getPatternListForChannels());
@@ -552,25 +507,22 @@ abstract class Engine {
         channel.getFader().setValue(1);
       }
       channel.goIndex(i);
+      // the old ipad code was this, for no reason that could be seen,
+      // leaving breadcrub in case we need it?
+      // channel.getFader().setValue(1);
+      //  if (i == 0) {
+      //  channel.goIndex(1);
+      // }
     }
-    engineController.baseChannelIndex = lx.engine.getChannels().size() - 1;
+    // breadcrumb: the code had a "base channel index", and its use seemed to 
+    // conflate a set of channels for the "main app" (processing / APC40) vs
+    // the 'iPad' or server channels. 11/2020, removing that distinction
+    // and just having the set of channels, which can be accessed either through
+    // the 'server' (tcp connection) or through the Processing UI or through
+    // midi. This removes a set of crashes where indexes were out of bounds
+    // to an entire set of arrays.
+    //engineController.baseChannelIndex = lx.engine.getChannels().size() - 1;
 
-    if (Config.enableIPad) {
-      for (int i = 0; i < Engine.NUM_IPAD_CHANNELS; ++i) {
-        patterns = new ArrayList<TSPattern>();
-        registerIPadPatterns();
-
-        LXChannel channel = lx.engine.addChannel(patterns.toArray(new TSPattern[0]));
-        setupChannel(channel, true);
-        channel.getFader().setValue(1);
-
-        if (i == 0) {
-          channel.goIndex(1);
-        }
-      }
-      patterns = null;
-      engineController.numChannels = NUM_IPAD_CHANNELS;
-    }
 
     lx.engine.removeChannel(lx.engine.getDefaultChannel());
   }
@@ -614,11 +566,11 @@ abstract class Engine {
     return pattern.getTriggerable();
   }
 
-  void registerPatternController(String name, TSPattern pattern) {
+  void registerPatternController(ArrayList<LXPattern> p, String name, TSPattern pattern) {
     LXTransition t = new DissolveTransition(lx).setDuration(dissolveTime);
     pattern.setTransition(t);
     pattern.readableName = name;
-    patterns.add(pattern);
+    p.add(pattern);
   }
 
   /* configureEffects */
@@ -744,11 +696,9 @@ abstract class Engine {
     registerOneShotTriggerables();
     registerEffectTriggerables();
 
-    if (Config.enableIPad) {
-      engineController.startEffectIndex = lx.engine.getEffects().size();
-      registerIPadEffects();
-      engineController.endEffectIndex = lx.engine.getEffects().size();
-    }
+    engineController.startEffectIndex = lx.engine.getEffects().size();
+    registerEffects();
+    engineController.endEffectIndex = lx.engine.getEffects().size();
 
     if (apc40Drumpad != null) {
       apc40DrumpadTriggerables = new Triggerable[apc40DrumpadTriggerablesLists.length][];
@@ -852,8 +802,7 @@ abstract class Engine {
 class EngineController {
   LX lx;
 
-  int baseChannelIndex;
-  int numChannels;
+  int numChannels = Engine.NUM_CHANNELS;
 
   int startEffectIndex;
   int endEffectIndex;
@@ -870,12 +819,31 @@ class EngineController {
   BlurEffect blurEffect;
   ScrambleEffect scrambleEffect;
 
+    // breadcrumb: the code had a "base channel index", and its use seemed to 
+    // conflate a set of channels for the "main app" (processing / APC40) vs
+    // the 'iPad' or server channels. 11/2020, removing that distinction
+    // and just having the set of channels, which can be accessed either through
+    // the 'server' (tcp connection) or through the Processing UI or through
+    // midi. This removes a set of crashes where indexes were out of bounds
+    // to an entire set of arrays.
+  //int baseChannelIndex;    
+
   EngineController(LX lx) {
     this.lx = lx;
   }
 
+  // When they are requsting the channels, they want the 8 which are the "normal channels"
+  // not the triggerable channels - how can we best tell them apart?
   List<LXChannel> getChannels() {
-    return lx.engine.getChannels().subList(baseChannelIndex, baseChannelIndex + numChannels);
+    List<LXChannel> channels = lx.engine.getChannels();
+    List<LXChannel> main_channels = new ArrayList<LXChannel>(8);
+
+    for (LXChannel c : channels) {
+      if (c.getIndex() < Engine.NUM_CHANNELS) {
+        main_channels.add(c);
+      }
+    }
+    return(main_channels);
   }
 
   void setChannelPattern(int channelIndex, int patternIndex) {
@@ -938,17 +906,22 @@ class EngineController {
         }
       }
 
+      // set autoplay appears to:
+      //   set the 'main channels' to the same state
+      //   the extra channels to the opposite state
+      //   and anything greater (why would we have them?) to the same as autoplay
       for (LXChannel channel : lx.engine.getChannels()) {
-        boolean toEnable;
-        if (channel.getIndex() < baseChannelIndex) {
-          toEnable = autoplay;
-        } else if (channel.getIndex() < baseChannelIndex + numChannels) {
-          toEnable = !autoplay;
-        } else {
-          toEnable = autoplay;
-        }
 
-        if (toEnable) {
+        //boolean toEnable;
+        //if (channel.getIndex() < baseChannelIndex) {
+        //  toEnable = autoplay;
+        //} else if (channel.getIndex() < baseChannelIndex + numChannels) {
+        //  toEnable = !autoplay;
+        //} else {
+        //  toEnable = autoplay;
+        //}
+
+        if (autoplay) {
           channel.enabled.setValue(previousChannelIsOn[channel.getIndex()]);
         } else {
           previousChannelIsOn[channel.getIndex()] = channel.enabled.isOn();
