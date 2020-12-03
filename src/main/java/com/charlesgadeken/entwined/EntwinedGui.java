@@ -11,6 +11,7 @@ import heronarts.lx.blend.DissolveBlend;
 import heronarts.lx.blend.LXBlend;
 import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.parameter.LXParameter;
+import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.studio.LXStudio;
 import java.io.File;
 import java.util.List;
@@ -45,7 +46,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     @Override
     public void setup() {
         LXStudio.Flags flags = new LXStudio.Flags(this);
-        flags.resizable = true;
+        flags.resizable = false;
         flags.useGLPointCloud = false;
         flags.startMultiThreaded = true;
 
@@ -74,6 +75,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         if (ConfigLoader.enableAPC40) {
             triggers.configureMIDI();
         }
+
         if (ConfigLoader.enableIPad) {
             // TODO(meawoppl) Call fails
             // engineController.setAutoplay(ConfigLoader.autoplayBMSet, true);
@@ -83,10 +85,17 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         System.out.println("setup() completed");
     }
 
+    private LXChannel addChannelsAudited(List<EntwinedBasePattern> patterns, String descr) {
+        LXChannel channel = lx.engine.mixer.addChannel(patterns.toArray(new LXPattern[0]));
+        System.out.printf(
+                "Registered %d %s patterns to channel %d\n",
+                patterns.size(), descr, channel.getIndex());
+        return channel;
+    }
+
     void configureChannels() {
         for (int i = 0; i < ConfigLoader.NUM_CHANNELS; ++i) {
-            LXChannel channel =
-                    lx.engine.mixer.addChannel(EntwinedPatterns.getPatternListForChannels(lx));
+            LXChannel channel = addChannelsAudited(EntwinedPatterns.getPatterns(lx), "BASE");
             setupChannel(channel, true);
             if (i == 0) {
                 channel.fader.setValue(1);
@@ -97,10 +106,9 @@ public class EntwinedGui extends PApplet implements LXPlugin {
 
         if (ConfigLoader.enableIPad) {
             for (int i = 0; i < ConfigLoader.NUM_IPAD_CHANNELS; ++i) {
-                List<EntwinedBasePattern> patterns = EntwinedPatterns.registerIPadPatterns(lx);
-
                 LXChannel channel =
-                        lx.engine.mixer.addChannel(patterns.toArray(new EntwinedBasePattern[0]));
+                        addChannelsAudited(EntwinedPatterns.registerIPadPatterns(lx), "iPad");
+
                 setupChannel(channel, true);
                 channel.fader.setValue(1);
                 channel.blendMode.setObjects(new LXBlend[] {new DissolveBlend(lx)});

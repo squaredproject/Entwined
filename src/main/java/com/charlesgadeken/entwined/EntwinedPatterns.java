@@ -45,7 +45,6 @@ import com.charlesgadeken.entwined.patterns.original.SeeSaw;
 import com.charlesgadeken.entwined.patterns.original.SweepPattern;
 import com.charlesgadeken.entwined.patterns.original.Twister;
 import heronarts.lx.LX;
-import heronarts.lx.pattern.LXPattern;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,7 +97,7 @@ public class EntwinedPatterns {
         return patterns;
     }
 
-    public static List<EntwinedBasePattern> addPatterns(LX lx) {
+    public static List<EntwinedBasePattern> getPatterns(LX lx) {
         List<EntwinedBasePattern> patterns = new ArrayList<>();
         // Add patterns here.
         // The order here is the order it shows up in the patterns list
@@ -155,9 +154,5 @@ public class EntwinedPatterns {
         patterns.add(new Planes(lx));
 
         return patterns;
-    }
-
-    static LXPattern[] getPatternListForChannels(LX lx) {
-        return addPatterns(lx).toArray(new LXPattern[0]);
     }
 }

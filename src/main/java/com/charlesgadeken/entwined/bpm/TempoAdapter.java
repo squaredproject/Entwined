@@ -4,7 +4,6 @@ import heronarts.lx.Tempo;
 import heronarts.lx.modulator.LXModulator;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.LXParameter;
-import heronarts.lx.parameter.LXParameterListener;
 
 class TempoAdapter extends LXModulator {
 
@@ -18,12 +17,7 @@ class TempoAdapter extends LXModulator {
         this.tempo = tempo;
         ramp = new BoundedParameter("Tempo Ramp", tempo.ramp());
         bpm = new BoundedParameter("Tempo BPM", tempo.bpm(), 30, 300);
-        bpm.addListener(
-                new LXParameterListener() {
-                    public void onParameterChanged(LXParameter parameter) {
-                        tempo.setBpm(parameter.getValue());
-                    }
-                });
+        bpm.addListener((LXParameter parameter) -> tempo.setBpm(parameter.getValue()));
     }
 
     protected double computeValue(double deltaMs) {
