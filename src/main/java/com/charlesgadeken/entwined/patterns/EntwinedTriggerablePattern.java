@@ -1,6 +1,5 @@
-package com.charlesgadeken.entwined.effects;
+package com.charlesgadeken.entwined.patterns;
 
-import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import com.charlesgadeken.entwined.triggers.Triggerable;
 import heronarts.lx.LX;
 import heronarts.lx.parameter.LXParameterListener;
