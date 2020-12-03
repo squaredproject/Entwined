@@ -18,8 +18,7 @@ public class ConfigLoader {
     public static final boolean enableIPad = false;
     public static final boolean autoplayBMSet = false;
 
-    public static final boolean enableNFC = false;
-    public static final boolean enableAPC40 = false;
+    public static final boolean enableAPC40 = true;
     public static final boolean enableSoundSyphon = false;
 
     public static final boolean enableOutputMinitree = false;

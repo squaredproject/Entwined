@@ -60,10 +60,6 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         triggers = new EntwinedTriggers(lx, model, engineController, parameters);
         triggers.configureTriggerables();
 
-        if (ConfigLoader.enableNFC) {
-            triggers.configureNFC();
-        }
-
         EntwinedOutput output = new EntwinedOutput(lx, model);
 
         if (ConfigLoader.enableOutputBigtree) {
