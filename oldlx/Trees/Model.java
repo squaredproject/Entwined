@@ -33,17 +33,25 @@ class Model extends LXModel {
 
     public final List<BaseCube> baseCubes;
 
+    // ipMap is a list of cubes - all the cubes regardless of lenghts of outputs - only for trees
     public final Map<String, Cube[]> ipMap = new HashMap();
+    // ipOutputLengths is the lenghts of the outputs - only for trees --- not sure I really need this up here
+    public final Map<String, NDBConfig> ndbMap = new HashMap();
 
     private final ArrayList<ModelTransform> modelTransforms = new ArrayList<ModelTransform>();
     private final List<TreeConfig> treeConfigs;
 
-    Model(List<TreeConfig> treeConfigs, List<TreeCubeConfig> cubeConfig, List<ShrubConfig> shrubConfigs,
+    Model(List <NDBConfig> ndbConfigs, List<TreeConfig> treeConfigs, List<TreeCubeConfig> cubeConfig, List<ShrubConfig> shrubConfigs,
           List<ShrubCubeConfig> shrubCubeConfig) {
 
-        super(new Fixture(treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig));
+        super(new Fixture(ndbConfigs, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig));
 
         Fixture f = (Fixture) this.fixtures.get(0);
+
+        // build the ndbMap
+        for (NDBConfig n : ndbConfigs) {
+            ndbMap.put(n.ipAddress, n);
+        }
 
         this.treeConfigs = treeConfigs;
         List<Cube> _cubes = new ArrayList<Cube>();
@@ -69,12 +77,10 @@ class Model extends LXModel {
         List<BaseCube> _baseCubes = new ArrayList<BaseCube>();
 
         for (Tree tree : this.trees) {
-            //ipMap.putAll(tree.ipMap);
             _baseCubes.addAll(tree.cubes);
         }
 
         for (Shrub shrub : this.shrubs) {
-            //shrubIpMap.putAll(shrub.ipMap);
             _baseCubes.addAll(shrub.cubes);
         }
         this.baseCubes = Collections.unmodifiableList(_baseCubes);
@@ -87,11 +93,12 @@ class Model extends LXModel {
 
         final List<Shrub> shrubs = new ArrayList<Shrub>();
 
-        private Fixture(List<TreeConfig> treeConfigs, List<TreeCubeConfig> cubeConfigs, List<ShrubConfig> shrubConfigs,
-                        List<ShrubCubeConfig> shrubCubeConfigs) {
+        private Fixture(List<NDBConfig> ndbConfigs, List<TreeConfig> treeConfigs, List<TreeCubeConfig> cubeConfigs, 
+                    List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfigs) {
+
             for (int i = 0; i < treeConfigs.size(); i++) {
                 TreeConfig tc = treeConfigs.get(i);
-                trees.add(new Tree(cubeConfigs, i, tc.x, tc.z, tc.ry, tc.canopyMajorLengths, tc.layerBaseHeights));
+                trees.add(new Tree(ndbConfigs, cubeConfigs, i, tc.x, tc.z, tc.ry, tc.canopyMajorLengths, tc.layerBaseHeights));
             }
             for (Tree tree : trees) {
                 for (LXPoint p : tree.points) {
@@ -216,9 +223,14 @@ class Model extends LXModel {
 class Tree extends LXModel {
 
     /**
-     * NDBs in the tree
+     * Cubes in Tree indexed by NDB
      */
     public final Map<String, Cube[]> ipMap;
+
+    /**
+     * NDB configuration: the lengths of each output
+     */
+    public final Map<String, NDBConfig> ndbMap;
 
     /**
      * Cubes in the tree
@@ -250,17 +262,17 @@ class Tree extends LXModel {
      */
     public final float ry;
 
-    Tree(List<TreeCubeConfig> cubeConfig, int treeIndex, float x, float z, float ry, int[] canopyMajorLengths, int[] layerBaseHeights) {
-        super(new Fixture(cubeConfig, treeIndex, x, z, ry, canopyMajorLengths, layerBaseHeights));
+    Tree(List<NDBConfig> ndbConfigs, List<TreeCubeConfig> cubeConfig, int treeIndex, float x, float z, float ry, int[] canopyMajorLengths, int[] layerBaseHeights) {
+        super(new Fixture(ndbConfigs, cubeConfig, treeIndex, x, z, ry, canopyMajorLengths, layerBaseHeights));
         Fixture f = (Fixture) this.fixtures.get(0);
         this.index = treeIndex;
         this.cubes = Collections.unmodifiableList(f.cubes);
         this.treeLayers = f.treeLayers;
         this.ipMap = f.ipMap;
+        this.ndbMap = f.ndbMap;
         this.x = x;
         this.z = z;
         this.ry = ry;
-
     }
 
     public Vec3D transformPoint(Vec3D point) {
@@ -272,16 +284,24 @@ class Tree extends LXModel {
         final List<Cube> cubes = new ArrayList<Cube>();
         final List<EntwinedLayer> treeLayers = new ArrayList<EntwinedLayer>();
         public final Map<String, Cube[]> ipMap = new HashMap();
+        public final Map<String, NDBConfig> ndbMap = new HashMap();
         public final LXTransform transform;
         public final List<TreeCubeConfig> inactiveCubeConfigs = new ArrayList();
 
-        Fixture(List<TreeCubeConfig> cubeConfig, int treeIndex, float x, float z, float ry, int[] canopyMajorLengths, int[] layerBaseHeights) {
+        Fixture(List<NDBConfig> ndbConfigs, List<TreeCubeConfig> cubeConfig, int treeIndex, float x, float z, float ry, int[] canopyMajorLengths, int[] layerBaseHeights) {
             transform = new LXTransform();
             transform.translate(x, 0, z);
             transform.rotateY(ry * Utils.PI / 180);
+
+            // build the ndbMap
+            for (NDBConfig n : ndbConfigs) {
+                ndbMap.put(n.ipAddress, n);
+            }
+
             for (int i = 0; i < canopyMajorLengths.length; i++) {
                 treeLayers.add(new EntwinedLayer(canopyMajorLengths[i], i, layerBaseHeights[i]));
             }
+
             for (TreeCubeConfig cc : cubeConfig) {
                 if (cc.treeIndex == treeIndex) {
                     Vec3D p;
@@ -293,29 +313,42 @@ class Tree extends LXModel {
                         p = null;
                     }
                     if (p != null) {
+                        NDBConfig ndbConfig = ndbMap.get(cc.ipAddress);
+                        if (ndbConfig == null) {
+                            System.out.println("Cube has IP "+cc.ipAddress+" with no NDBconfig, ignoring");
+                            continue;
+                        }
                         cc.isActive = true;
                         Cube cube = new Cube(this.transformPoint(p), p, cc);
                         cubes.add(cube);
                         if (!ipMap.containsKey(cc.ipAddress)) {
-                            ipMap.put(cc.ipAddress, new Cube[16]);
+                            ipMap.put(cc.ipAddress, new Cube[ndbConfig.getNumberCubes()]);
                         }
                         Cube[] ndbCubes = ipMap.get(cc.ipAddress);
-                        ndbCubes[cc.outputIndex] = cube;
+
+                        ndbCubes[ndbConfig.getOutputBase(cc.outputIndex) + cc.stringOffsetIndex] = cube;
+
+                        //ndbCubes[ndbCubescc.outputIndex] = cube;
                     }
                 }
             }
             for (Map.Entry<String, Cube[]> entry : ipMap.entrySet()) {
                 String ip = entry.getKey();
                 Cube[] ndbCubes = entry.getValue();
-                for (int i = 0; i < 16; i++) {
+                for (int i = 0; i < ndbCubes.length; i++) {
                     if (ndbCubes[i] == null) { // fill all empty outputs with an inactive cube. Maybe this would be nicer to do at
                         // the model level in the future.
+                        // this is kinda suck because it'll be at the same point as another cube, possibly.
+                        NDBConfig ndbConfig = ndbMap.get(ip);
+                        NDBConfig.OutputAndOffset oo = ndbConfig.getOutputAndOffset(i);
+
                         TreeCubeConfig cc = new TreeCubeConfig();
                         cc.treeIndex = treeIndex;
                         cc.branchIndex = 0;
                         cc.cubeSizeIndex = 0;
                         cc.mountPointIndex = 0;
-                        cc.outputIndex = i;
+                        cc.outputIndex = oo.output;
+                        cc.stringOffsetIndex = oo.offset;
                         cc.layerIndex = 0;
                         cc.ipAddress = ip;
                         cc.isActive = false;
@@ -348,6 +381,73 @@ class TreeConfig {
     float ry;
     int[] canopyMajorLengths;
     int[] layerBaseHeights;
+}
+
+// we need to know the lengths of each output's string ( in cubes )
+// this is equal to the number of T's in the NDB configuration
+// list is by outputs]
+
+// outputBase is the offset of a given output. If the output lengths are 4, 5, 6;
+// then outputBase of 0 is always 0, outputBase of 1 is 4, outputBase of 2 is 9.
+
+class NDBConfig {
+    String ipAddress;
+    int[] outputLength;
+
+    // if this needs to go faster, precalculate
+    int getOutputBase(int output) {
+        int base = 0;
+
+        if (output >= outputLength.length) {
+            System.out.println( "attempted to get improper outputBase: ndb "+
+                this.ipAddress+" requesting "+output+" but has only "+outputLength.length);
+            return(-1);
+        }
+
+        for (int i=0;i<output;i++) {
+            base += this.outputLength[i];
+        }
+        return(base);
+    }
+
+    int getNumberCubes() {
+        int sz = 0;
+        for (int ol : outputLength) {
+            sz += ol;
+        }
+        return(sz);
+    }
+
+    public int getCubeIndex(int output, int stringOffset) {
+        int outputBase = getOutputBase(output);
+        if (outputBase < 0) return(-1);
+        if (stringOffset >= this.outputLength[output]) return(-1);
+        return( getOutputBase(output) + stringOffset );
+    }
+
+
+    public class OutputAndOffset {
+        public int output;
+        public int offset;
+        public OutputAndOffset(int output, int offset) {
+            this.output = output;
+            this.offset = offset;
+        }
+    }
+
+
+    // there's a "reverse case" where we need to map from a cube number globally on this
+    // ndb to a Output and StringOffset.
+    public OutputAndOffset getOutputAndOffset(int cubeIndex) {
+        for (int output=0; output < this.outputLength.length; output++) {
+            if (cubeIndex < this.outputLength[output]) {
+                return new OutputAndOffset(output, cubeIndex - 1);
+            }
+            cubeIndex -= this.outputLength[output];
+        }
+        System.out.println(" getOutputAndOffset: cubeindex "+cubeIndex+" too high for ndb "+this.ipAddress);
+        return new OutputAndOffset(0,0);
+    } 
 }
 
 class EntwinedLayer {
@@ -452,12 +552,12 @@ class Cube extends BaseCube {
   public final int pixels;
   public TreeCubeConfig config = null;
 
-    Cube(Vec3D globalPosition, Vec3D treePosition, TreeCubeConfig config) {
+  Cube(Vec3D globalPosition, Vec3D treePosition, TreeCubeConfig config) {
       super(globalPosition, treePosition, config.treeIndex, config.treeOrShrub);
-    this.size = CUBE_SIZES[config.cubeSizeIndex];
-    this.pixels = PIXELS_PER_CUBE[config.cubeSizeIndex];
-        this.config = config;
-    }
+      this.size = CUBE_SIZES[config.cubeSizeIndex];
+      this.pixels = PIXELS_PER_CUBE[config.cubeSizeIndex];
+      this.config = config;
+  }
 }
 
 /**
@@ -466,7 +566,8 @@ class Cube extends BaseCube {
 class TreeCubeConfig {
     int sculptureIndex;
     int cubeSizeIndex;
-    int outputIndex;
+    int outputIndex; // which NDB output it is attached to
+    int stringOffsetIndex; // which offset of string it is
     String ipAddress;
     TreeOrShrub treeOrShrub = TreeOrShrub.TREE;
 

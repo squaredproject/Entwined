@@ -1,6 +1,5 @@
 final class Config {
 
-  static final boolean enableIPad = false;
   static final boolean autoplayBMSet = false;
 
   static final boolean enableNFC = false;
@@ -10,6 +9,7 @@ final class Config {
   static final boolean enableOutputMinitree = false;
   static final boolean enableOutputBigtree = true;
 
+  static final String NDB_CONFIG_FILE = "data/entwinedNDBs.json";
   static final String CUBE_CONFIG_FILE = "data/entwinedCubes.json";
   static final String TREE_CONFIG_FILE = "data/entwinedTrees.json";
   static final String SHRUB_CUBE_CONFIG_FILE = "data/entwinedShrubCubes.json";

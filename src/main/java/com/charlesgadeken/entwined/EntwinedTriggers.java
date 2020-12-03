@@ -35,6 +35,7 @@ import heronarts.lx.pattern.LXPattern;
 
 public class EntwinedTriggers {
     private final LX lx;
+
     BPMTool bpmTool;
     private EntwinedDrumpad apc40Drumpad;
     private EntwinedDrumpad.Builder drumpadBuilder;
@@ -346,7 +347,7 @@ public class EntwinedTriggers {
         engineController.effectControllers.add(effectController);
     }
 
-    void configureServer() {
+    public void configureServer() {
         new AppServer(lx, engineController).start();
     }
 }

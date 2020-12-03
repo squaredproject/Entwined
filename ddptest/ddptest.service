@@ -1,0 +1,14 @@
+[Unit]
+Description=DDPtest for ranges
+After=network.target
+
+[Service]
+ExecStart=/home/ent/ddptest/test_all_rank_order.sh
+WorkingDirectory=/home/ent/ddptest
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target

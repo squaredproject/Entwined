@@ -1,10 +1,14 @@
 How to map the Entwined trees:
 
 Setting up the installation:
+
 The layout of the installation(How many trees, where they are, and what size)
 is stored in the file data/entwinedTrees.json. 
 
 The json file must be edited directly in order to change the installation layout. 
+
+Some json files are a single line and hard to read. If you see one, use ./pretty_json.sh <filename> and
+it'll change it to something readable.
 
 Here is an example entwinedTrees.json file from the original install:
 [
@@ -60,14 +64,46 @@ z is the Z location of the tree in inches
 
 Edit and save the entwinedTrees.json file so that it is set up to reflect the current installation.
 
+Next, configure an individual tree, which is the mapping of the cubes onto a tree.
 
-The mapping of the trees is stored in data/entwinedCubes.json. Most of the mapping work is done in the GUI, but for now there must be at least one cube defiined per IP address in entwinedCubes.json in order to be able to add more from that IP address. So if you add or change an NDB, you must manually add a line to the JSON file or change an IP address that was from the NDB you swapped. Maybe we'll fix this someday, it didn't happen in the half of a week there was to adapt the software to entwined before it shipped :). The line you would add would be:
+In the old Entwined, each cube was mapped to a single output. Now, with the advent of T's, we use
+many fewer NDBs. 2 or 3 per tree.
+
+When the tree is set up, it is very important to know the number of bulbs (and thus T's) for an output.
+
+If the tree is configured with a "final cube", you need to add one. That is, the number of T's in the output is exactly equal to the number of "bulbs / cubes".
+
+After you get these numbers, you must configure the NDB in question to have the correct number of T's (cubes) in each output and correctly for each output. There is no way to "look at the tree" until you
+have the number of T's correct - that is, if you have the number wrong, different LEDs will be wrong.
+
+When you have this mapping in the NDBs, you must reflect the same mapping in the entwinedNDBs.json file.
+This file contains a object for every NDB - listed by IP address - and has an array which is
+the number of cubes on this output. It will be validated against the cube entries and errors will be printed if you have cubes which violate the entwinedNDBs.json file. You can also have errors which
+which don't have errors in the cube files, like too many cubes in the NDB configuration file,
+and that will cause cubes not to light (I think).
+
+The mapping of the trees is stored in data/entwinedCubes.json. Most of the mapping work is done in the GUI, but for now there must be at least one cube defined per IP address in entwinedCubes.json in order to be able to add more from that IP address. So if you add or change an NDB, you must manually add a line to the JSON file or change an IP address that was from the NDB you swapped. Maybe we'll fix this someday, it didn't happen in the half of a week there was to adapt the software to entwined before it shipped :). 
+
+The line you would add would be:
 {"treeIndex":0,"layerIndex":0,"branchIndex":0,"mountPointIndex":0,"ipAddress":"<<new IP address>>","outputIndex":0,"cubeSizeIndex":0,"isActive":true}
+
+The meanings of these are:
+- tree index is which tree (index to the array above)
+- layer index is which layer
+- branch index is the branch going around the tree.
+- Mount point index is the point along the branch. T
+- IP address is the IP address of the NDB controlling the cube
+- Output Index is the NDB output (1 to 16) where the cube is on
+- String Offset Index is which cube it is on a string [ NEW ]  
 
 Mapping in the GUI:
 For the larger trees, mapping is best done from above and some distance away if you have a boomlift on site.
 
-Start the program, and make sure the installation layout is correct. 
+Start the program, and make sure the installation layout (number of layers and branches) is correct. 
+
+Make sure the NDB configuration file as above is correct.
+
+Make sure there is at least one cube for every NDB.
 
 Turn the faders down for all of the patterns, and click "Enabled" on the mapping tool.
 

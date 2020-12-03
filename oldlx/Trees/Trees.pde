@@ -48,10 +48,10 @@ static List<ShrubConfig> shrubConfig;
 Model model;
 P3LX lx;
 ProcessingEngine engine;
-LXDatagramOutput output;
+LXDatagramOutput treeOutput;
 LXDatagramOutput shrubOutput;
 BasicParameter outputBrightness;
-LXDatagram[] datagrams;
+LXDatagram[] treeDatagrams;
 LXDatagram[] shrubDatagrams;
 UIChannelFaders uiFaders;
 UIChannelFaders uiShrubFaders;
@@ -101,10 +101,10 @@ class ProcessingEngine extends Engine {
     Trees.this.shrubCubeConfig = shrubCubeConfig;
     Trees.this.model = model;
     Trees.this.lx = getLX();
-    Trees.this.output = output;
+    Trees.this.treeOutput = treeOutput;
     Trees.this.shrubOutput = shrubOutput;
     Trees.this.outputBrightness = outputBrightness;
-    Trees.this.datagrams = datagrams;
+    Trees.this.treeDatagrams = treeDatagrams;
     Trees.this.shrubDatagrams = shrubDatagrams;
     Trees.this.bpmTool = bpmTool;
     Trees.this.automation = automation;
@@ -179,9 +179,9 @@ TreesTransition getFaderTransition(LXChannel channel) {
 void keyPressed() {
   switch (key) {
     case 'a':
-      if (datagrams.length > 0) {
-        boolean toEnable = !datagrams[0].enabled.isOn();
-        for (LXDatagram datagram : datagrams) {
+      if (treeDatagrams.length > 0) {
+        boolean toEnable = !treeDatagrams[0].enabled.isOn();
+        for (LXDatagram datagram : treeDatagrams) {
           datagram.enabled.setValue(toEnable);
         }
       }

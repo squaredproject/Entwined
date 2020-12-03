@@ -123,7 +123,9 @@ class UITrees extends UI3dComponent {
 
     if (mappingTool.isEnabled()) {
       Cube cube = mappingTool.getCube();
-      drawCube(cube, colors);
+      if (cube != null) {
+        drawCube(cube, colors);
+      }
       ShrubCube shrubCube = mappingTool.getShrubCube();
       drawShrubCube(shrubCube, colors);
     }
@@ -967,41 +969,59 @@ class UIMapping extends UIWindow {
   final UIButton isActive;
 
   UIMapping(UI ui) {
-    super(ui, "CLUSTER TOOL", 4, Trees.this.height - 294, 140, 290);
+    //super(ui, "CLUSTER TOOL", 4, Trees.this.height - 294, 140, 290);
+    super(ui, "CLUSTER TOOL", 4, Trees.this.height - 316, 140, 312);
 
     final UIIntegerBox ipIndex = new UIIntegerBox().setParameter(mappingTool.ipIndex);
     final UIIntegerBox outputIndex = new UIIntegerBox().setParameter(mappingTool.outputIndex);
+    final UIIntegerBox stringOffsetIndex = new UIIntegerBox().setParameter(mappingTool.stringOffsetIndex);
 
     (ipAddress = new UILabel()).setAlignment(CENTER, CENTER).setBorderColor(#666666).setBackgroundColor(#292929);
     treeIndex = new UIIntegerBox() {
       protected void onValueChange(int value) {
-        mappingTool.getConfig().treeIndex = value;
-        layerIndex.setRange(0, model.trees.get(value).treeLayers.size() - 1);
+        TreeCubeConfig tcc = mappingTool.getConfig();
+        if (tcc != null) {
+          mappingTool.getConfig().treeIndex = value;
+          layerIndex.setRange(0, model.trees.get(value).treeLayers.size() - 1);
+        }
       }
     }.setRange(0, model.trees.size() - 1);
     layerIndex = new UIIntegerBox() {
       protected void onValueChange(int value) {
-        mappingTool.getConfig().layerIndex =  value;
-        branchIndex.setRange(0, model.trees.get(treeIndex.getValue()).treeLayers.get(value).branches.size() - 1);
+        TreeCubeConfig tcc = mappingTool.getConfig();
+        if (tcc != null) {
+          tcc.layerIndex =  value;
+          branchIndex.setRange(0, model.trees.get(treeIndex.getValue()).treeLayers.get(value).branches.size() - 1);
+        }
       }
     }.setRange(0, 3);
 
     branchIndex = new UIIntegerBox() {
       protected void onValueChange(int value) {
-        mappingTool.getConfig().branchIndex =  value;
-        mountPointIndex.setRange(0, model.trees.get(treeIndex.getValue()).treeLayers.get(layerIndex.getValue()).branches.get(value).availableMountingPoints.size() - 1);
+        TreeCubeConfig tcc = mappingTool.getConfig();
+        if (tcc != null) {
+          tcc.branchIndex =  value;
+          mountPointIndex.setRange(0, model.trees.get(treeIndex.getValue()).treeLayers.
+            get(layerIndex.getValue()).branches.get(value).availableMountingPoints.size() - 1);
+        }
       }
     }.setRange(0, 7);
 
     mountPointIndex = new UIIntegerBox() {
       protected void onValueChange(int value) {
-        mappingTool.getConfig().mountPointIndex = value;
+        TreeCubeConfig tcc = mappingTool.getConfig();
+        if (tcc != null) {
+          tcc.mountPointIndex = value;
+        }
       }
     }.setRange(0, 3);
 
     cubeSizeIndex = new UIIntegerBox() {
       protected void onValueChange(int value) {
-        mappingTool.getConfig().cubeSizeIndex = value;
+        TreeCubeConfig tcc = mappingTool.getConfig();
+        if (tcc != null) {
+          mappingTool.getConfig().cubeSizeIndex = value;
+        }
       }
     }.setRange(0, 1);
 
@@ -1013,6 +1033,12 @@ class UIMapping extends UIWindow {
     });
 
     mappingTool.outputIndex.addListener(new LXParameterListener() {
+      public void onParameterChanged(LXParameter parameter) {
+        updateParameters(false);
+      }
+    });
+
+    mappingTool.stringOffsetIndex.addListener(new LXParameterListener() {
       public void onParameterChanged(LXParameter parameter) {
         updateParameters(false);
       }
@@ -1034,6 +1060,7 @@ class UIMapping extends UIWindow {
 
     yPos = labelRow(yPos, "NDB", ipIndex);
     yPos = labelRow(yPos, "OUTPUT", outputIndex);
+    yPos = labelRow(yPos, "OFFSET", stringOffsetIndex);
     yPos = labelRow(yPos, "IP", ipAddress);
     yPos = labelRow(yPos, "TREE", treeIndex);
     yPos = labelRow(yPos, "LAYER", layerIndex);
@@ -1086,15 +1113,17 @@ class UIMapping extends UIWindow {
 
   void updateParameters(boolean resetAll){
     TreeCubeConfig c = mappingTool.getConfig();
-    ipAddress.setLabel(c.ipAddress);
-    treeIndex.setValue(c.treeIndex);
-    if (resetAll || c.isActive) {
-      layerIndex.setValue(c.layerIndex);
-      branchIndex.setValue(c.branchIndex);
-      mountPointIndex.setValue(c.mountPointIndex);
+    if (c != null) {
+      ipAddress.setLabel(c.ipAddress);
+      treeIndex.setValue(c.treeIndex);
+      if (resetAll || c.isActive) {
+        layerIndex.setValue(c.layerIndex);
+        branchIndex.setValue(c.branchIndex);
+        mountPointIndex.setValue(c.mountPointIndex);
+      }
+      cubeSizeIndex.setValue(c.cubeSizeIndex);
+      isActive.setActive(c.isActive);
     }
-    cubeSizeIndex.setValue(c.cubeSizeIndex);
-    isActive.setActive(c.isActive);
   }
 }
 
@@ -1108,15 +1137,15 @@ class UIOutput extends UIWindow {
     super(ui, "LIVE OUTPUT", x, y, 140, UIWindow.TITLE_LABEL_HEIGHT - 1 + BUTTON_HEIGHT + SPACER + LIST_HEIGHT);
     float yPos = UIWindow.TITLE_LABEL_HEIGHT - 2;
     new UIButton(4, yPos, width-8, BUTTON_HEIGHT)
-            .setParameter(output.enabled)
+            .setParameter(treeOutput.enabled)
             .setActiveLabel("Enabled")
             .setInactiveLabel("Disabled")
             .addToContainer(this);
     yPos += BUTTON_HEIGHT + SPACER;
 
     List<UIItemList.Item> items = new ArrayList<UIItemList.Item>();
-    for (LXDatagram datagram : datagrams) {
-      items.add(new DatagramItem(datagram));
+    for (LXDatagram treeDatagram : treeDatagrams) {
+      items.add(new DatagramItem(treeDatagram));
     }
     new UIItemList(1, yPos, width-2, LIST_HEIGHT)
             .setItems(items)
@@ -1164,7 +1193,8 @@ class UIShrubMapping extends UIWindow {
   final UIButton isActive;
 
   UIShrubMapping(UI ui) {
-    super(ui, "SHRUB TOOL", 4, Trees.this.height - 294 - 240, 140, 240);
+    //super(ui, "SHRUB TOOL", 4, Trees.this.height - 294 - 240, 140, 240);
+    super(ui, "SHRUB TOOL", 4, Trees.this.height - 294 - 300, 140, 240);
 
     final UIIntegerBox shrubIpIndex = new UIIntegerBox().setParameter(mappingTool.shrubIpIndex);
     final UIIntegerBox shrubOutputIndex = new UIIntegerBox().setParameter(mappingTool.shrubOutputIndex);
