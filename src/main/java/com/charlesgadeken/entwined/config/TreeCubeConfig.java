@@ -5,6 +5,7 @@ public class TreeCubeConfig {
     public int cubeSizeIndex;
     public int outputIndex;
     public String ipAddress;
+    public TreeOrShrub treeOrShrub = TreeOrShrub.TREE;
 
     // For Tree
     public int treeIndex;

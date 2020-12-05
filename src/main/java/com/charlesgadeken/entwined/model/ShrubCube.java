@@ -17,7 +17,7 @@ public class ShrubCube extends BaseCube {
     public ShrubCubeConfig config = null;
 
     ShrubCube(Vec3D globalPosition, Vec3D sculpturePosition, ShrubCubeConfig config) {
-        super(globalPosition, sculpturePosition);
+        super(globalPosition, sculpturePosition, config.shrubIndex, config.treeOrShrub);
 
         this.size = CUBE_SIZES[config.cubeSizeIndex];
         this.pixels = PIXELS_PER_CUBE[config.cubeSizeIndex];
