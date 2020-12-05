@@ -80,12 +80,12 @@ class ParseClientTask implements LXLoopTask {
         Double channelIndex = (Double)params.get("channelIndex");
         Double patternIndex = (Double)params.get("patternIndex");
         if (channelIndex == null || patternIndex == null) return;
-        engineController.setChannelPattern(channelIndex.intValue(), patternIndex.intValue());
+        engineController.setChannelPattern(channelIndex.intValue() + engineController.baseChannelIndex, patternIndex.intValue());
       } else if (method.equals("setChannelVisibility")) {
         Double channelIndex = (Double)params.get("channelIndex");
         Double visibility = (Double)params.get("visibility");
         if (channelIndex == null || visibility == null) return;
-        engineController.setChannelVisibility(channelIndex.intValue(), visibility);
+        engineController.setChannelVisibility(channelIndex.intValue() + engineController.baseChannelIndex, visibility);
       } else if (method.equals("setActiveColorEffect")) {
         Double effectIndex = (Double)params.get("effectIndex");
         if (effectIndex == null) return;
@@ -130,7 +130,7 @@ class ClientModelUpdater {
     List<Map> channelsParams = new ArrayList<Map>(engineController.numChannels);
     for (LXChannel channel : engineController.getChannels()) {
       Map<String, Object> channelParams = new HashMap<String, Object>();
-      channelParams.put("index", channel.getIndex());
+      channelParams.put("index", channel.getIndex() - engineController.baseChannelIndex);
       int currentPatternIndex = channel.getNextPatternIndex();
       if (currentPatternIndex == 0) {
         currentPatternIndex = -1;

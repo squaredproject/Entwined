@@ -40,6 +40,7 @@ import heronarts.lx.transition.LXTransition;
 abstract class Engine {
 
   static final int NUM_CHANNELS = 8;
+  static final int NUM_IPAD_CHANNELS = 3;
   static final int NUM_KNOBS = 8;
   static final int NUM_AUTOMATION = 4;
 
@@ -85,6 +86,7 @@ abstract class Engine {
 
     lx = createLX();
 
+
     engineController = new EngineController(lx);
 
     lx.engine.addParameter(drumpadVelocity);
@@ -102,8 +104,6 @@ abstract class Engine {
       nfcEngine.disableVisualTypeRestrictions = true;
     }
 
-    // the following function will add a large number of channels.
-    // These channels turn out be overlays to the main channels
     configureTriggerables();
     lx.engine.addLoopTask(new ModelTransformTask(model));
 
@@ -124,7 +124,11 @@ abstract class Engine {
       configureMIDI();
     }
 
-    configureServer();
+	// see below for what this confusing function really means
+	if (Config.autoplayBMSet) {
+		engineController.setAutoplay(Config.autoplayBMSet, true/*force*/);
+	}
+	configureServer(); // turns on the TCP listener
 
     // bad code I know
     // (shouldn't mess with engine internals)
@@ -136,7 +140,7 @@ abstract class Engine {
   }
 
   void start() {
-    lx.engine.start();
+    //lx.engine.start();
   }
 
   abstract LX createLX();
@@ -144,7 +148,46 @@ abstract class Engine {
   void postCreateLX() {
   }
 
-  void registerEffects() {
+  void registerIPadPatterns() {
+    registerPatternController("None", new NoPattern(lx));
+    registerPatternController("Twister", new Twister(lx));
+    registerPatternController("Lottor", new MarkLottor(lx));
+    registerPatternController("Ripple", new Ripple(lx));
+    registerPatternController("Stripes", new Stripes(lx));
+    registerPatternController("Lattice", new Lattice(lx));
+    registerPatternController("Fumes", new Fumes(lx));
+    registerPatternController("Voronoi", new Voronoi(lx));
+    registerPatternController("Candy Cloud", new CandyCloud(lx));
+    // registerPatternController("Galaxy Cloud", new GalaxyCloud(lx));
+
+    registerPatternController("Color Strobe", new ColorStrobe(lx));
+    registerPatternController("Strobe", new Strobe(lx));
+    registerPatternController("Sparkle Takeover", new SparkleTakeOver(lx));
+    registerPatternController("Multi-Sine", new MultiSine(lx));
+    registerPatternController("Seesaw", new SeeSaw(lx));
+    registerPatternController("Cells", new Cells(lx));
+    registerPatternController("Fade", new Fade(lx));
+
+    registerPatternController("Ice Crystals", new IceCrystals(lx));
+    registerPatternController("Fire", new Fire(lx));
+
+    registerPatternController("Acid Trip", new AcidTrip(lx));
+    registerPatternController("Rain", new Rain(lx));
+    registerPatternController("Bass Slam", new BassSlam(lx));
+
+    registerPatternController("Fireflies", new Fireflies(lx));
+    registerPatternController("Bubbles", new Bubbles(lx));
+    registerPatternController("Lightning", new Lightning(lx));
+    registerPatternController("Wisps", new Wisps(lx));
+    registerPatternController("Fireworks", new Explosions(lx));
+
+    registerPatternController("ColorWave", new ColorWave(lx));
+
+    registerPatternController("Pond", new Pond(lx));
+    registerPatternController("Planes", new Twister(lx));
+  }
+
+  void registerIPadEffects() {
     ColorEffect colorEffect = new ColorEffect2(lx);
     ColorStrobeTextureEffect colorStrobeTextureEffect = new ColorStrobeTextureEffect(lx);
     FadeTextureEffect fadeTextureEffect = new FadeTextureEffect(lx);
@@ -182,69 +225,75 @@ abstract class Engine {
     registerEffectController("White", colorEffect, colorEffect.desaturation);
   }
 
-  void addPatterns(ArrayList<LXPattern> p) {
+  void addPatterns(ArrayList<LXPattern> patterns) {
     // Add patterns here.
     // The order here is the order it shows up in the patterns list
     // patterns.add(new SolidColor(lx));
-    // patterns.add(new ClusterLineTest(lx));
-//    patterns.add(new TestShrubSweep(lx));
-//    patterns.add(new TestShrubLayers(lx));
-    // patterns.add(new OrderTest(lx));
-    registerPatternController(p, "Twister", new Twister(lx));
-    registerPatternController(p, "CandyCloud", new CandyCloud(lx));
-    registerPatternController(p, "MarkLottor", new MarkLottor(lx));
-    registerPatternController(p, "Solid", new SolidColor(lx));
-    // patterns.add(new DoubleHelix(lx));
-    registerPatternController(p, "SparkleHelix", new SparkleHelix(lx));
-    registerPatternController(p, "Lightning", new Lightning(lx));
-    registerPatternController(p, "SparkleTakeOver", new SparkleTakeOver(lx));
-    registerPatternController(p, "MultiSine", new MultiSine(lx));
-    registerPatternController(p, "Ripple", new Ripple(lx));
-    registerPatternController(p, "SeeSaw", new SeeSaw(lx));
-    registerPatternController(p, "SweepPattern", new SweepPattern(lx));
-    registerPatternController(p, "IceCrystals", new IceCrystals(lx));
-    registerPatternController(p, "ColoredLeaves", new ColoredLeaves(lx));
-    registerPatternController(p, "Stripes", new Stripes(lx));
-    registerPatternController(p, "AcidTrip", new AcidTrip(lx));
-    registerPatternController(p, "Springs", new Springs(lx));
-    registerPatternController(p, "Lattice", new Lattice(lx));
-    registerPatternController(p, "Fire", new Fire(lx));
-    registerPatternController(p, "Fireflies", new Fireflies(lx));
-    registerPatternController(p, "Fumes", new Fumes(lx));
-    registerPatternController(p, "Voronoi", new Voronoi(lx));
-    registerPatternController(p, "Cells", new Cells(lx));
-    registerPatternController(p, "Bubbles", new Bubbles(lx));
-    registerPatternController(p, "Pulleys", new Pulleys(lx));
-
-    registerPatternController(p, "Whisps", new Wisps(lx));
-    registerPatternController(p, "Explosions", new Explosions(lx));
-    registerPatternController(p, "BassSlam", new BassSlam(lx));
-    registerPatternController(p, "Rain", new Rain(lx));
-    registerPatternController(p, "Fade", new Fade(lx));
-    registerPatternController(p, "Strobe", new Strobe(lx));
-    registerPatternController(p, "Twinkle", new Twinkle(lx));
-    registerPatternController(p, "VerticalSweep", new VerticalSweep(lx));
-    registerPatternController(p, "RandomColor", new RandomColor(lx));
-    registerPatternController(p, "ColorStrobe", new ColorStrobe(lx));
-    registerPatternController(p, "Pixels", new Pixels(lx));
-    registerPatternController(p, "Wedges", new Wedges(lx));
-    registerPatternController(p, "Parallax", new Parallax(lx));
+    patterns.add(new Twister(lx));
+    patterns.add(new CandyCloud(lx));
+    patterns.add(new MarkLottor(lx));
+    patterns.add(new SolidColor(lx));
 
     // Colin Hunt Patterns
-    registerPatternController(p, "ColorWave", new ColorWave(lx));
-    registerPatternController(p, "BeachBall", new BeachBall(lx));
-    registerPatternController(p, "Breath", new Breath(lx));
+    patterns.add(new ColorWave(lx));
+    patterns.add(new BeachBall(lx));
+    patterns.add(new Breath(lx));
 
     // Grant Patterson Patterns
-    registerPatternController(p, "Pond", new Pond(lx));
-    registerPatternController(p, "Planes",new Planes(lx));
+    patterns.add(new Pond(lx));
+    patterns.add(new Planes(lx));
+
+    // patterns.add(new DoubleHelix(lx));
+    patterns.add(new SparkleHelix(lx));
+    patterns.add(new Lightning(lx));
+    patterns.add(new SparkleTakeOver(lx));
+    patterns.add(new MultiSine(lx));
+    patterns.add(new Ripple(lx));
+    patterns.add(new SeeSaw(lx));
+    patterns.add(new SweepPattern(lx));
+    patterns.add(new IceCrystals(lx));
+    patterns.add(new ColoredLeaves(lx));
+    patterns.add(new Stripes(lx));
+    patterns.add(new AcidTrip(lx));
+    patterns.add(new Springs(lx));
+    patterns.add(new Lattice(lx));
+    patterns.add(new Fire(lx));
+    patterns.add(new Fireflies(lx));
+    patterns.add(new Fumes(lx));
+    patterns.add(new Voronoi(lx));
+    patterns.add(new Cells(lx));
+    patterns.add(new Bubbles(lx));
+    patterns.add(new Pulleys(lx));
+
+    patterns.add(new Wisps(lx));
+    patterns.add(new Explosions(lx));
+    patterns.add(new BassSlam(lx));
+    patterns.add(new Rain(lx));
+    patterns.add(new Fade(lx));
+    patterns.add(new Strobe(lx));
+    patterns.add(new Twinkle(lx));
+    patterns.add(new VerticalSweep(lx));
+    patterns.add(new RandomColor(lx));
+    patterns.add(new ColorStrobe(lx));
+    patterns.add(new Pixels(lx));
+    patterns.add(new Wedges(lx));
+    patterns.add(new Parallax(lx));
+
+    // Test patterns
+    patterns.add(new ClusterLineTest(lx));
+    patterns.add(new TestShrubSweep(lx));
+    patterns.add(new TestShrubLayers(lx));
+    //patterns.add(new OrderTest(lx));
+
   }
 
   LXPattern[] getPatternListForChannels() {
-
     ArrayList<LXPattern> patterns = new ArrayList<LXPattern>();
     addPatterns(patterns);
-
+    for (LXPattern pattern : patterns) {
+      LXTransition t = new DissolveTransition(lx).setDuration(dissolveTime);
+      pattern.setTransition(t);
+    }
     return patterns.toArray(new LXPattern[patterns.size()]);
   }
 
@@ -499,6 +548,8 @@ abstract class Engine {
     }
   }
 
+  ArrayList<TSPattern> patterns;
+
   void configureChannels() {
     for (int i = 0; i < Engine.NUM_CHANNELS; ++i) {
       LXChannel channel = lx.engine.addChannel(getPatternListForChannels());
@@ -506,23 +557,26 @@ abstract class Engine {
       if (i == 0) {
         channel.getFader().setValue(1);
       }
-      channel.goIndex(i);
-      // the old ipad code was this, for no reason that could be seen,
-      // leaving breadcrub in case we need it?
-      // channel.getFader().setValue(1);
-      //  if (i == 0) {
-      //  channel.goIndex(1);
-      // }
+      channel.goIndex(i); // set to pattern of given index
     }
-    // breadcrumb: the code had a "base channel index", and its use seemed to 
-    // conflate a set of channels for the "main app" (processing / APC40) vs
-    // the 'iPad' or server channels. 11/2020, removing that distinction
-    // and just having the set of channels, which can be accessed either through
-    // the 'server' (tcp connection) or through the Processing UI or through
-    // midi. This removes a set of crashes where indexes were out of bounds
-    // to an entire set of arrays.
-    //engineController.baseChannelIndex = lx.engine.getChannels().size() - 1;
+    engineController.baseChannelIndex = lx.engine.getChannels().size() - 1;
 
+  for (int i = 0; i < Engine.NUM_IPAD_CHANNELS; ++i) {
+    patterns = new ArrayList<TSPattern>();
+    registerIPadPatterns();
+
+    LXChannel channel = lx.engine.addChannel(patterns.toArray(new TSPattern[0]));
+    setupChannel(channel, true);
+    // I don't know quite what this does, but setting to 1.0f means
+    // reguarl patterns don't work --- wtf?
+    channel.getFader().setValue(0.0f);
+
+    if (i == 0) {
+      channel.goIndex(1); // sets the pattern
+    }
+      patterns = null;
+      engineController.numChannels = NUM_IPAD_CHANNELS;
+    }
 
     lx.engine.removeChannel(lx.engine.getDefaultChannel());
   }
@@ -566,11 +620,11 @@ abstract class Engine {
     return pattern.getTriggerable();
   }
 
-  void registerPatternController(ArrayList<LXPattern> p, String name, TSPattern pattern) {
+  void registerPatternController(String name, TSPattern pattern) {
     LXTransition t = new DissolveTransition(lx).setDuration(dissolveTime);
     pattern.setTransition(t);
     pattern.readableName = name;
-    p.add(pattern);
+    patterns.add(pattern);
   }
 
   /* configureEffects */
@@ -696,9 +750,9 @@ abstract class Engine {
     registerOneShotTriggerables();
     registerEffectTriggerables();
 
-    engineController.startEffectIndex = lx.engine.getEffects().size();
-    registerEffects();
-    engineController.endEffectIndex = lx.engine.getEffects().size();
+	engineController.startEffectIndex = lx.engine.getEffects().size();
+	registerIPadEffects();
+	engineController.endEffectIndex = lx.engine.getEffects().size();
 
     if (apc40Drumpad != null) {
       apc40DrumpadTriggerables = new Triggerable[apc40DrumpadTriggerablesLists.length][];
@@ -799,12 +853,16 @@ abstract class Engine {
   }
 }
 
+// this is the controller used by the TCP connection system
+// it effects the 'Server channels'
+
 class EngineController {
   LX lx;
 
-  int numChannels = Engine.NUM_CHANNELS;
+  int baseChannelIndex; // the starting channel that the engine controls - ie, 8
+  int numChannels;      // the number of channels controlled by this controller is 3
 
-  int startEffectIndex;
+  int startEffectIndex; // these are the limits of the IPAD EFFECTS
   int endEffectIndex;
 
   boolean isAutoplaying;
@@ -819,33 +877,16 @@ class EngineController {
   BlurEffect blurEffect;
   ScrambleEffect scrambleEffect;
 
-    // breadcrumb: the code had a "base channel index", and its use seemed to 
-    // conflate a set of channels for the "main app" (processing / APC40) vs
-    // the 'iPad' or server channels. 11/2020, removing that distinction
-    // and just having the set of channels, which can be accessed either through
-    // the 'server' (tcp connection) or through the Processing UI or through
-    // midi. This removes a set of crashes where indexes were out of bounds
-    // to an entire set of arrays.
-  //int baseChannelIndex;    
-
   EngineController(LX lx) {
     this.lx = lx;
   }
 
-  // When they are requsting the channels, they want the 8 which are the "normal channels"
-  // not the triggerable channels - how can we best tell them apart?
+  // this gets the 'iPad channels' only
   List<LXChannel> getChannels() {
-    List<LXChannel> channels = lx.engine.getChannels();
-    List<LXChannel> main_channels = new ArrayList<LXChannel>(8);
-
-    for (LXChannel c : channels) {
-      if (c.getIndex() < Engine.NUM_CHANNELS) {
-        main_channels.add(c);
-      }
-    }
-    return(main_channels);
+    return lx.engine.getChannels().subList(baseChannelIndex, baseChannelIndex + numChannels);
   }
 
+  // Are these indexes 1,2,3, or are they 8,9,10? - BB TODO
   void setChannelPattern(int channelIndex, int patternIndex) {
     if (patternIndex == -1) {
       patternIndex = 0;
@@ -894,6 +935,10 @@ class EngineController {
     setAutoplay(autoplay, false);
   }
 
+  // If true, this enables the base channels and starts the autoplay.
+  // if false, this disables the base channels and enables the IPad channels
+  //    and keeps the prior channel state and resets to that
+
   void setAutoplay(boolean autoplay, boolean forceUpdate) {
     if (autoplay != isAutoplaying || forceUpdate) {
       isAutoplaying = autoplay;
@@ -906,26 +951,24 @@ class EngineController {
         }
       }
 
-      // set autoplay appears to:
-      //   set the 'main channels' to the same state
-      //   the extra channels to the opposite state
-      //   and anything greater (why would we have them?) to the same as autoplay
       for (LXChannel channel : lx.engine.getChannels()) {
+        boolean toEnable;
+        if (channel.getIndex() < baseChannelIndex) {
+          toEnable = autoplay; // main channels
+        } else if (channel.getIndex() < baseChannelIndex + numChannels) {
+          toEnable = !autoplay; // server channels
+        } else {
+          toEnable = autoplay; // others
+        }
 
-        //boolean toEnable;
-        //if (channel.getIndex() < baseChannelIndex) {
-        //  toEnable = autoplay;
-        //} else if (channel.getIndex() < baseChannelIndex + numChannels) {
-        //  toEnable = !autoplay;
-        //} else {
-        //  toEnable = autoplay;
-        //}
-
-        if (autoplay) {
+        if (toEnable) {
           channel.enabled.setValue(previousChannelIsOn[channel.getIndex()]);
+          System.out.println(" setAutoplay: toEnable true: channel "+channel.getIndex()+" setting to "+previousChannelIsOn[channel.getIndex()]);
         } else {
           previousChannelIsOn[channel.getIndex()] = channel.enabled.isOn();
           channel.enabled.setValue(false);
+          System.out.println(" setAutoplay: toEnable false: channel "+channel.getIndex()+" setting to false");
+
         }
       }
 
@@ -939,6 +982,7 @@ class EngineController {
       }
     }
   }
+
 }
 
 class TreesTransition extends LXTransition {
@@ -958,9 +1002,10 @@ class TreesTransition extends LXTransition {
     this.channel = channel;
     this.channelTreeLevels = channelTreeLevels;
     this.channelShrubLevels = channelShrubLevels;
+
     blendMode.addListener(new LXParameterListener() {
       @Override
-            public void onParameterChanged(LXParameter parameter) {
+      public void onParameterChanged(LXParameter parameter) {
         switch (blendMode.getValuei()) {
           case 0:
             blendType = LXColor.Blend.ADD;
@@ -979,8 +1024,15 @@ class TreesTransition extends LXTransition {
     });
   }
 
+  // this often comes in for the 3 iPad channels, what to do?
+  // should we include those in the channel tree levels, or not?
   @Override
-    protected void computeBlend(int[] c1, int[] c2, double progress) {
+  protected void computeBlend(int[] c1, int[] c2, double progress) {
+    //System.out.println("ComputeBlend: "+this.channel.getIndex());
+    if (this.channel.getIndex() >= this.channelTreeLevels.length) {
+      System.out.println(" computeBlend: channel index too high "+this.channel.getIndex() );
+      return;
+    }
     int treeIndex = 0;
     double treeLevel;
     for (Tree tree : model.trees) {
