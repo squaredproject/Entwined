@@ -20,7 +20,6 @@ public class TestShrubSweep extends EntwinedBasePattern {
         addParameter(x = new BoundedParameter("X", 200, model.xMin, model.xMax));
         addParameter(y = new BoundedParameter("Y", 200, model.yMin, model.yMax));
         addParameter(z = new BoundedParameter("Z", 200, model.zMin, model.zMax));
-
     }
 
     public void run(double deltaMs) {
@@ -28,7 +27,9 @@ public class TestShrubSweep extends EntwinedBasePattern {
 
         for (BaseCube cube : model.baseCubes) {
             if (cube.treeOrShrub == TreeOrShrub.SHRUB) {
-                if (Utilities.abs(cube.ax - x.getValuef()) < 1 || Utilities.abs(cube.ay - y.getValuef()) < 1 || Utilities.abs(cube.az - z.getValuef()) < 1) {
+                if (Utilities.abs(cube.ax - x.getValuef()) < 1
+                        || Utilities.abs(cube.ay - y.getValuef()) < 1
+                        || Utilities.abs(cube.az - z.getValuef()) < 1) {
                     colors[cube.index] = LX.hsb(135, 100, 100);
                 } else {
                     colors[cube.index] = LX.hsb(135, 100, 0);

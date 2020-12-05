@@ -18,7 +18,6 @@ public class TestShrubLayers extends EntwinedBasePattern {
         addParameter(rodLayer = new BoundedParameter("layer", 0, 0, 5));
         addParameter(clusterIndex = new BoundedParameter("clusterIndex", -1, -1, 11));
         addParameter(shrubIndex = new BoundedParameter("shrubIndex", -1, -1, 19));
-
     }
 
     public void run(double deltaMs) {
@@ -28,7 +27,9 @@ public class TestShrubLayers extends EntwinedBasePattern {
             if (cube.treeOrShrub == TreeOrShrub.SHRUB) {
                 ShrubCube shrubCube = (ShrubCube) cube;
 
-                if (shrubCube.config.rodIndex == (int)rodLayer.getValue() || shrubCube.config.clusterIndex == (int)clusterIndex.getValue() || shrubCube.config.shrubIndex == (int)shrubIndex.getValue()) {
+                if (shrubCube.config.rodIndex == (int) rodLayer.getValue()
+                        || shrubCube.config.clusterIndex == (int) clusterIndex.getValue()
+                        || shrubCube.config.shrubIndex == (int) shrubIndex.getValue()) {
                     colors[cube.index] = LX.hsb(135, 100, 100);
                 } else {
                     colors[cube.index] = LX.hsb(135, 100, 0);

@@ -6,112 +6,91 @@ import com.google.common.collect.Lists;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import java.awt.geom.Point2D;
-import java.util.Arrays;
-
 import toxi.geom.Vec2D;
 import toxi.geom.Vec3D;
 
 /**
- * The parent Cube class, which is extended by the Tree and Shrub Cubes.
- * This allows us to use a single for loop to run through both sets of cubes.
- * Cube configuration info is left out of the parent Cube and left for child cubes to handle.
+ * The parent Cube class, which is extended by the Tree and Shrub Cubes. This allows us to use a
+ * single for loop to run through both sets of cubes. Cube configuration info is left out of the
+ * parent Cube and left for child cubes to handle.
  */
 public class BaseCube extends LXModel {
 
-    // public static final int[] PIXELS_PER_CUBE = { 6, 6, 6, 12, 12 }; // Tiny cubes actually have less, but for Entwined we want to
-    //                                                                  // tell the NDB that everything is 6
+    // public static final int[] PIXELS_PER_CUBE = { 6, 6, 6, 12, 12 }; // Tiny cubes actually have
+    // less, but for Entwined we want to
+    //                                                                  // tell the NDB that
+    // everything is 6
     // public static final float[] CUBE_SIZES = { 4f, 7.5f, 11.25f, 15f, 16.5f };
 
-    /**
-     * Index of this cube in color buffer, colors[cube.index]
-     */
+    /** Index of this cube in color buffer, colors[cube.index] */
     public final int index;
 
-    /**
-     * Index indicating which sculpture this cube lives inside.
-     */
+    /** Index indicating which sculpture this cube lives inside. */
     public final int sculptureIndex;
 
-    /**
-     * Enum stating whether this cube is part of a TREE or SHRUB
-     */
+    /** Enum stating whether this cube is part of a TREE or SHRUB */
     public final TreeOrShrub treeOrShrub;
 
-    /**
-     * Global x-position of center of cube
-     */
+    /** Global x-position of center of cube */
     public final float x;
 
-    /**
-     * Global y-position of center of cube
-     */
+    /** Global y-position of center of cube */
     public final float y;
 
-    /**
-     * Global z-position of center of cube
-     */
+    /** Global z-position of center of cube */
     public final float z;
 
-    /**
-     * Pitch of cube, in degrees, relative to cluster
-     */
+    /** Pitch of cube, in degrees, relative to cluster */
     public final float rx;
 
-    /**
-     * Yaw of cube, in degrees, relative to cluster, after pitch
-     */
+    /** Yaw of cube, in degrees, relative to cluster, after pitch */
     public final float ry;
 
-    /**
-     * Roll of cube, in degrees, relative to cluster, after pitch+yaw
-     */
+    /** Roll of cube, in degrees, relative to cluster, after pitch+yaw */
     public final float rz;
 
-    /**
-     * x-position of cube, relative to center of tree base
-     */
+    /** x-position of cube, relative to center of tree base */
     public final float sx;
 
-    /**
-     * y-position of cube, relative to center of tree base
-     */
+    /** y-position of cube, relative to center of tree base */
     public final float sy;
 
-    /**
-     * z-position of cube, relative to center of tree base
-     */
+    /** z-position of cube, relative to center of tree base */
     public final float sz;
 
-    /**
-     * Radial distance from sculpture center to field center (0, 0) in x-z plane
-     */
+    /** Radial distance from sculpture center to field center (0, 0) in x-z plane */
     public final float r;
 
-    /**
-     * Angle in degrees from cube center to center of tree in x-z plane
-     */
+    /** Angle in degrees from cube center to center of tree in x-z plane */
     public final float theta;
 
     /**
-     * Global radial distance from cube center to center of the field (0, 0) also the center of main tree. x-z plane
+     * Global radial distance from cube center to center of the field (0, 0) also the center of main
+     * tree. x-z plane
      */
     public final float gr;
 
     /**
-     * Global angle in degrees from cube center to center of the field (0, 0) also the center of main tree. x-z plane
+     * Global angle in degrees from cube center to center of the field (0, 0) also the center of
+     * main tree. x-z plane
      */
     public final float globalTheta;
 
-    /**
-     * Point of the cube in the form (theta, y) relative to center of tree base
-     */
+    /** Point of the cube in the form (theta, y) relative to center of tree base */
     public float transformedY;
+
     public float transformedTheta;
     public Vec2D transformedCylinderPoint;
-    //public TreeCubeConfig config = null;
+    // public TreeCubeConfig config = null;
 
-    BaseCube(Vec3D globalPosition, Vec3D sculpturePosition, int sculptureIdx, TreeOrShrub treeOrShrub) {
-        super(Lists.newArrayList( new LXPoint(globalPosition.x, globalPosition.y, globalPosition.z)));
+    BaseCube(
+            Vec3D globalPosition,
+            Vec3D sculpturePosition,
+            int sculptureIdx,
+            TreeOrShrub treeOrShrub) {
+        super(
+                Lists.newArrayList(
+                        new LXPoint(globalPosition.x, globalPosition.y, globalPosition.z)));
         this.index = this.points[0].index;
         this.sculptureIndex = sculptureIdx;
         this.treeOrShrub = treeOrShrub;
@@ -125,10 +104,15 @@ public class BaseCube extends LXModel {
         this.sy = sculpturePosition.y;
         this.sz = sculpturePosition.z;
         this.r = (float) Point2D.distance(sculpturePosition.x, sculpturePosition.z, 0, 0);
-        this.theta = 180 + 180 / Utilities.PI * Utilities.atan2(sculpturePosition.z, sculpturePosition.x);
+        this.theta =
+                180
+                        + 180
+                                / Utilities.PI
+                                * Utilities.atan2(sculpturePosition.z, sculpturePosition.x);
         this.gr = (float) Point2D.distance(this.x, this.z, 0, 0);
         // System.out.println("gr: " + this.gr);
-        this.globalTheta = (float) Math.toDegrees(Math.atan2((double)(0 - this.z), (double)(0 - this.x)));
+        this.globalTheta =
+                (float) Math.toDegrees(Math.atan2((double) (0 - this.z), (double) (0 - this.x)));
     }
 
     void resetTransform() {

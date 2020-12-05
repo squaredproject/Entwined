@@ -49,7 +49,11 @@ public class ColorWave extends EntwinedBasePattern {
         // Use a for loop here to set the cube colors
         for (BaseCube cube : model.baseCubes) {
             colors[cube.index] =
-                    LX.hsb(((wave.getValuef() + waveSlope.getValuef() * Utilities.map(cube.z, minz, maxz))                                            % 360),
+                    LX.hsb(
+                            ((wave.getValuef()
+                                            + waveSlope.getValuef()
+                                                    * Utilities.map(cube.z, minz, maxz))
+                                    % 360),
                             100,
                             100);
         }
