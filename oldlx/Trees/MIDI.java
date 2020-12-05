@@ -172,15 +172,15 @@ class MidiEngine {
       // this section is all about NFC which we're removing,
       // which means this function doesn't need the apc40Drumpad anymore
       
-      int[] channelIndices = new int[Engine.NUM_CHANNELS];
-      for (int i = 0; i < Engine.NUM_CHANNELS; ++i) {
+      int[] channelIndices = new int[Engine.NUM_BASE_CHANNELS];
+      for (int i = 0; i < Engine.NUM_BASE_CHANNELS; ++i) {
         channelIndices[i] = i;
       }
       
       // Track selection
       apc40.bindNotes(lx.engine.focusedChannel, channelIndices, APC40.TRACK_SELECTION);
       
-      for (int i = 0; i < Engine.NUM_CHANNELS; i++) {
+      for (int i = 0; i < Engine.NUM_BASE_CHANNELS; i++) {
         // Cue activators
         apc40.bindNote(previewChannels[i], i, APC40.SOLO_CUE, LXMidiDevice.TOGGLE);
 

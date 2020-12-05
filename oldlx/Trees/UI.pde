@@ -99,14 +99,15 @@ class UITrees extends UI3dComponent {
 
     int[] colors;
     boolean isPreviewOn = false;
+    int idx = 0;
     for (BooleanParameter previewChannel : previewChannels) {
-      isPreviewOn |= previewChannel.isOn();
+        isPreviewOn |= previewChannel.isOn(); 
     }
     if (!isPreviewOn) {
       colors = lx.getColors();
     } else {
       colors = black;
-      for (int i = 0; i < Engine.NUM_CHANNELS; i++) {
+      for (int i = 0; i < Engine.NUM_BASE_CHANNELS; i++) {
         if (previewChannels[i].isOn()) {
           LXChannel channel = lx.engine.getChannel(i);
           channel.getFaderTransition().blend(colors, channel.getColors(), 1);
@@ -288,18 +289,19 @@ class UIChannelFaders extends UI2dContext {
   final static int PADDING = 4;
   final static int BUTTON_HEIGHT = 14;
   final static int FADER_WIDTH = 40;
-  final static int WIDTH = 2 * SPACER + PADDING + MASTER + (PADDING+FADER_WIDTH)*(Engine.NUM_CHANNELS+2);
+  final static int WIDTH = 2 * SPACER + PADDING + MASTER + 
+                              (PADDING+FADER_WIDTH)*(Engine.NUM_BASE_CHANNELS+2);
   final static int HEIGHT = 140;
   final static int PERF_PADDING = PADDING + 1;
 
-  UIChannelFaders(final UI ui, final UITreeFaders treeFaders, final UIShrubFaders shrubFaders) {
+  UIChannelFaders(final UI ui, final UITreeFaders treeFaders) {
     super(ui, 180, Trees.this.height-HEIGHT-PADDING, WIDTH, HEIGHT);
     setBackgroundColor(#292929);
     setBorderColor(#444444);
-    final UISlider[] sliders = new UISlider[Engine.NUM_CHANNELS];
-    final UIButton[] cues = new UIButton[Engine.NUM_CHANNELS];
-    final UILabel[] labels = new UILabel[Engine.NUM_CHANNELS];
-    for (int i = 0; i < Engine.NUM_CHANNELS; i++) {
+    final UISlider[] sliders = new UISlider[Engine.NUM_BASE_CHANNELS];
+    final UIButton[] cues = new UIButton[Engine.NUM_BASE_CHANNELS];
+    final UILabel[] labels = new UILabel[Engine.NUM_BASE_CHANNELS];
+    for (int i = 0; i < Engine.NUM_BASE_CHANNELS; i++) {
       final LXChannel channel = lx.engine.getChannel(i);
       float xPos = PADDING + channel.getIndex()*(PADDING+FADER_WIDTH) + SPACER;
       previewChannels[channel.getIndex()] = new BooleanParameter("PRV");
@@ -325,7 +327,6 @@ class UIChannelFaders extends UI2dContext {
           lx.engine.focusedChannel.setValue(channel.getIndex());
 
           treeFaders.setChannel(channel.getIndex());
-          shrubFaders.setChannel(channel.getIndex());
           //treeLevelSliders[0].setParameter(channel.getParameter("tree0"));
         }
         protected void onKeyPressed(KeyEvent keyEvent, char keyChar, int keyCode) {
@@ -478,17 +479,17 @@ class UIChannelFaders extends UI2dContext {
 
   class UIPerfMeters extends UI2dComponent {
 
-    DampedParameter dampers[] = new DampedParameter[Engine.NUM_CHANNELS+7];
-    BasicParameter perfs[] = new BasicParameter[Engine.NUM_CHANNELS+7];
+    DampedParameter dampers[] = new DampedParameter[Engine.NUM_BASE_CHANNELS+7];
+    BasicParameter perfs[] = new BasicParameter[Engine.NUM_BASE_CHANNELS+7];
 
     UIPerfMeters() {
-      for (int i = 0; i < Engine.NUM_CHANNELS+7; ++i) {
+      for (int i = 0; i < Engine.NUM_BASE_CHANNELS+7; ++i) {
         lx.addModulator((dampers[i] = new DampedParameter(perfs[i] = new BasicParameter("PERF", 0), 3))).start();
       }
     }
 
     public void onDraw(UI ui, PGraphics pg) {
-      for (int i = 0; i < Engine.NUM_CHANNELS; i++) {
+      for (int i = 0; i < Engine.NUM_BASE_CHANNELS; i++) {
         LXChannel channel = lx.engine.getChannel(i);
         LXPattern pattern = channel.getActivePattern();
         float goMillis = pattern.timer.runNanos / 1000000.;
@@ -497,27 +498,27 @@ class UIChannelFaders extends UI2dContext {
       }
 
       float engMillis = lx.engine.timer.channelNanos / 1000000.;
-      perfs[Engine.NUM_CHANNELS].setValue(Utils.constrain(engMillis / (1000. / 60. / 5), 0, 1));
+      perfs[Engine.NUM_BASE_CHANNELS].setValue(Utils.constrain(engMillis / (1000. / 60. / 5), 0, 1));
 
       engMillis = lx.engine.timer.copyNanos / 1000000.;
-      perfs[Engine.NUM_CHANNELS+1].setValue(Utils.constrain(engMillis / (1000. / 60. / 5), 0, 1));
+      perfs[Engine.NUM_BASE_CHANNELS+1].setValue(Utils.constrain(engMillis / (1000. / 60. / 5), 0, 1));
 
       engMillis = lx.engine.timer.fxNanos / 1000000.;
-      perfs[Engine.NUM_CHANNELS+2].setValue(Utils.constrain(engMillis / (1000. / 60. / 5), 0, 1));
+      perfs[Engine.NUM_BASE_CHANNELS+2].setValue(Utils.constrain(engMillis / (1000. / 60. / 5), 0, 1));
 
       engMillis = lx.engine.timer.inputNanos / 1000000.;
-      perfs[Engine.NUM_CHANNELS+3].setValue(Utils.constrain(engMillis / (1000. / 60. / 5), 0, 1));
+      perfs[Engine.NUM_BASE_CHANNELS+3].setValue(Utils.constrain(engMillis / (1000. / 60. / 5), 0, 1));
 
       engMillis = lx.engine.timer.midiNanos / 1000000.;
-      perfs[Engine.NUM_CHANNELS+4].setValue(Utils.constrain(engMillis / (1000. / 60. / 5), 0, 1));
+      perfs[Engine.NUM_BASE_CHANNELS+4].setValue(Utils.constrain(engMillis / (1000. / 60. / 5), 0, 1));
 
       engMillis = lx.engine.timer.outputNanos / 1000000.;
-      perfs[Engine.NUM_CHANNELS+5].setValue(Utils.constrain(engMillis / (1000. / 60. / 5), 0, 1));
+      perfs[Engine.NUM_BASE_CHANNELS+5].setValue(Utils.constrain(engMillis / (1000. / 60. / 5), 0, 1));
 
       engMillis = lx.engine.timer.runNanos / 1000000.;
-      perfs[Engine.NUM_CHANNELS+6].setValue(Utils.constrain(engMillis / (1000. / 60. / 5), 0, 1));
+      perfs[Engine.NUM_BASE_CHANNELS+6].setValue(Utils.constrain(engMillis / (1000. / 60. / 5), 0, 1));
 
-      for (int i = 0; i < Engine.NUM_CHANNELS; ++i) {
+      for (int i = 0; i < Engine.NUM_BASE_CHANNELS; ++i) {
         float val = dampers[i].getValuef();
         pg.stroke(#666666);
         pg.fill(#292929);
@@ -527,14 +528,16 @@ class UIChannelFaders extends UI2dContext {
         pg.rect(i*(PADDING + FADER_WIDTH)+1, HEIGHT - 2 * PADDING - BUTTON_HEIGHT + 1, val * (FADER_WIDTH-2), BUTTON_HEIGHT-2);
       }
 
-      for (int i = Engine.NUM_CHANNELS; i < Engine.NUM_CHANNELS + 7; ++i) {
+      for (int i = Engine.NUM_BASE_CHANNELS; i < Engine.NUM_BASE_CHANNELS + 7; ++i) {
         float val = dampers[i].getValuef();
         pg.stroke(#666666);
         pg.fill(#292929);
-        pg.rect((Engine.NUM_CHANNELS + 1)*(PADDING + FADER_WIDTH), (i - (Engine.NUM_CHANNELS))*(PERF_PADDING + BUTTON_HEIGHT-1), FADER_WIDTH-1, BUTTON_HEIGHT-1);
+        pg.rect((Engine.NUM_BASE_CHANNELS + 1)*(PADDING + FADER_WIDTH), (i - (Engine.NUM_BASE_CHANNELS))*(PERF_PADDING + BUTTON_HEIGHT-1), FADER_WIDTH-1, BUTTON_HEIGHT-1);
         pg.fill(lx.hsb(120*(1-val), 50, 80));
         pg.noStroke();
-        pg.rect((Engine.NUM_CHANNELS + 1)*(PADDING + FADER_WIDTH) + 1, (i - (Engine.NUM_CHANNELS))*(PERF_PADDING + BUTTON_HEIGHT-1)+1, val * (FADER_WIDTH-2), BUTTON_HEIGHT-2);
+        pg.rect((Engine.NUM_BASE_CHANNELS + 1)*(PADDING + FADER_WIDTH) + 1, 
+                  (i - (Engine.NUM_BASE_CHANNELS))*(PERF_PADDING + BUTTON_HEIGHT-1)+1, 
+                  val * (FADER_WIDTH-2), BUTTON_HEIGHT-2);
       }
 
       redraw();
@@ -674,10 +677,10 @@ class UIMultiDeck extends UIWindow implements InterfaceController {
     super(ui, "CHANNEL " + (focusedChannel()+1), Trees.this.width - 4 - DEFAULT_WIDTH, Trees.this.height - 128 - DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     int yp = TITLE_LABEL_HEIGHT;
 
-    patternLists = new UIItemList[Engine.NUM_CHANNELS];
-    blendModes = new UIToggleSet[Engine.NUM_CHANNELS];
+    patternLists = new UIItemList[Engine.NUM_BASE_CHANNELS];
+    blendModes = new UIToggleSet[Engine.NUM_BASE_CHANNELS];
     lxListeners = new LXChannel.Listener[patternLists.length];
-    for (int i = 0; i < Engine.NUM_CHANNELS; i++) {
+    for (int i = 0; i < Engine.NUM_BASE_CHANNELS; i++) {
       LXChannel channel = lx.engine.getChannel(i);
       List<UIItemList.Item> items = new ArrayList<UIItemList.Item>();
       for (LXPattern p : channel.getPatterns()) {
@@ -697,7 +700,7 @@ class UIMultiDeck extends UIWindow implements InterfaceController {
     }
 
     yp += 100;
-    for (int i = 0; i < Engine.NUM_CHANNELS; i++) {
+    for (int i = 0; i < Engine.NUM_BASE_CHANNELS; i++) {
       LXChannel channel = lx.engine.getChannel(i);
       blendModes[channel.getIndex()] = new UIToggleSet(4, yp, this.width-8, 18)
               .setOptions(new String[] { "ADD", "MLT", "LITE", "SUBT" })
@@ -707,7 +710,7 @@ class UIMultiDeck extends UIWindow implements InterfaceController {
       blendModes[channel.getIndex()].addToContainer(this);
     }
 
-    for (int i = 0; i < Engine.NUM_CHANNELS; i++) {
+    for (int i = 0; i < Engine.NUM_BASE_CHANNELS; i++) {
       LXChannel channel = lx.engine.getChannel(i);
       lxListeners[channel.getIndex()] = new LXChannel.AbstractListener() {
         @Override

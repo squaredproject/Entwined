@@ -39,8 +39,9 @@ import heronarts.lx.transition.LXTransition;
 
 abstract class Engine {
 
-  static final int NUM_CHANNELS = 8;
-  static final int NUM_IPAD_CHANNELS = 3;
+  static final int NUM_BASE_CHANNELS = 8;
+  static final int NUM_SERVER_CHANNELS = 3;
+  static final int NUM_TOTAL_CHANNELS = NUM_BASE_CHANNELS + NUM_SERVER_CHANNELS;
   static final int NUM_KNOBS = 8;
   static final int NUM_AUTOMATION = 4;
 
@@ -63,16 +64,25 @@ abstract class Engine {
   TSDrumpad apc40Drumpad;
   NFCEngine nfcEngine;
   LXListenableNormalizedParameter[] effectKnobParameters;
-  final ChannelTreeLevels[] channelTreeLevels = new ChannelTreeLevels[Engine.NUM_CHANNELS];
-  final ChannelShrubLevels[] channelShrubLevels = new ChannelShrubLevels[Engine.NUM_CHANNELS];
+  final ChannelTreeLevels[] channelTreeLevels = new ChannelTreeLevels[Engine.NUM_TOTAL_CHANNELS];
+  final ChannelShrubLevels[] channelShrubLevels = new ChannelShrubLevels[Engine.NUM_TOTAL_CHANNELS];
   final BasicParameter dissolveTime = new BasicParameter("DSLV", 400, 50, 1000);
   final BasicParameter drumpadVelocity = new BasicParameter("DVEL", 1);
   final TSAutomationRecorder[] automation = new TSAutomationRecorder[Engine.NUM_AUTOMATION];
   final BooleanParameter[] automationStop = new BooleanParameter[Engine.NUM_AUTOMATION];
   final DiscreteParameter automationSlot = new DiscreteParameter("AUTO", Engine.NUM_AUTOMATION);
   final BooleanParameter[][] nfcToggles = new BooleanParameter[6][9];
-  final BooleanParameter[] previewChannels = new BooleanParameter[Engine.NUM_CHANNELS];
+  final BooleanParameter[] previewChannels = new BooleanParameter[Engine.NUM_BASE_CHANNELS];
   final BasicParameterProxy outputBrightness = new BasicParameterProxy(1);
+
+  // breadcrumb regarding channelTreeLevels and channelShrubLevels
+  // these are controllers which should be used on a shrub-by-shrub basis to allow 
+  // setting the overall output. There _were_ UI elements for this, but I'm taking them
+  // out in this checkin because there are too many to be shown. However, at least
+  // for now, I'm leaving the Levels parameters, so we can write code to control
+  // output that way, someday. It would be better to collapse this code into a per-output
+  // slider, but there's a lot about Trees and Shrubs that could be made more common.
+  // maybe another day.
 
   Engine(String projectPath) {
     this.projectPath = projectPath;
@@ -86,12 +96,12 @@ abstract class Engine {
 
     lx = createLX();
 
-
+    // this is the TCP channel
     engineController = new EngineController(lx);
 
     lx.engine.addParameter(drumpadVelocity);
 
-    for (int i=0; i<NUM_CHANNELS; i++){
+    for (int i=0; i<NUM_TOTAL_CHANNELS; i++){
       channelTreeLevels[i] = new ChannelTreeLevels(model.trees.size());
       channelShrubLevels[i] = new ChannelShrubLevels(model.shrubs.size());
     }
@@ -136,7 +146,7 @@ abstract class Engine {
     // essentially this lets us have extra decks for the drumpad
     // patterns without letting them be assigned to channels
     // -kf
-    lx.engine.focusedChannel.setRange(Engine.NUM_CHANNELS);
+    lx.engine.focusedChannel.setRange(Engine.NUM_BASE_CHANNELS);
   }
 
   void start() {
@@ -551,7 +561,7 @@ abstract class Engine {
   ArrayList<TSPattern> patterns;
 
   void configureChannels() {
-    for (int i = 0; i < Engine.NUM_CHANNELS; ++i) {
+    for (int i = 0; i < Engine.NUM_BASE_CHANNELS; ++i) {
       LXChannel channel = lx.engine.addChannel(getPatternListForChannels());
       setupChannel(channel, true);
       if (i == 0) {
@@ -561,7 +571,7 @@ abstract class Engine {
     }
     engineController.baseChannelIndex = lx.engine.getChannels().size() - 1;
 
-  for (int i = 0; i < Engine.NUM_IPAD_CHANNELS; ++i) {
+  for (int i = 0; i < Engine.NUM_SERVER_CHANNELS; ++i) {
     patterns = new ArrayList<TSPattern>();
     registerIPadPatterns();
 
@@ -575,7 +585,7 @@ abstract class Engine {
       channel.goIndex(1); // sets the pattern
     }
       patterns = null;
-      engineController.numChannels = NUM_IPAD_CHANNELS;
+      engineController.numChannels = NUM_SERVER_CHANNELS;
     }
 
     lx.engine.removeChannel(lx.engine.getDefaultChannel());
@@ -854,7 +864,7 @@ abstract class Engine {
 }
 
 // this is the controller used by the TCP connection system
-// it effects the 'Server channels'
+// it effects the 'Server channels' only
 
 class EngineController {
   LX lx;
@@ -893,11 +903,11 @@ class EngineController {
     } else {
       patternIndex++;
     }
-    lx.engine.getChannel(channelIndex).goIndex(patternIndex);
+    lx.engine.getChannel(baseChannelIndex + channelIndex).goIndex(patternIndex);
   }
 
   void setChannelVisibility(int channelIndex, double visibility) {
-    lx.engine.getChannel(channelIndex).getFader().setValue(visibility);
+    lx.engine.getChannel(baseChannelIndex + channelIndex).getFader().setValue(visibility);
   }
 
   void setActiveColorEffect(int effectIndex) {
@@ -944,6 +954,7 @@ class EngineController {
       isAutoplaying = autoplay;
       automation.setPaused(!autoplay);
 
+      // I think this should only effect base channels? bb
       if (previousChannelIsOn == null) {
         previousChannelIsOn = new boolean[lx.engine.getChannels().size()];
         for (LXChannel channel : lx.engine.getChannels()) {
@@ -954,7 +965,7 @@ class EngineController {
       for (LXChannel channel : lx.engine.getChannels()) {
         boolean toEnable;
         if (channel.getIndex() < baseChannelIndex) {
-          toEnable = autoplay; // main channels
+          toEnable = autoplay; // base channels
         } else if (channel.getIndex() < baseChannelIndex + numChannels) {
           toEnable = !autoplay; // server channels
         } else {
