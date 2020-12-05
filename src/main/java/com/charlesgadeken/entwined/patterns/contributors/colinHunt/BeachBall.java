@@ -38,20 +38,14 @@ public class BeachBall extends EntwinedBasePattern {
     public void run(double deltaMs) {
         for (BaseCube baseCube : model.baseCubes) {
             colors[baseCube.index] =
-                    lx.hsb(
-                            // Color is based on degrees from the center point, plus the spinner saw
-                            // wave to rotate
-                            (float)
-                                            Math.toDegrees(
-                                                    Math.atan2(
-                                                            (double) (treez - baseCube.z),
-                                                            (double) (treex - baseCube.x)))
+                    // Color is based on degrees from the center point, plus the spinner saw
+                    // wave to rotate
+                    // plus the further from the center, the more hue is added,
+                    // giving a swirl effect
+                    LX.hsb(
+                            baseCube.globalTheta
                                     + spinner.getValuef()
-                                    // plus the further from the center, the more hue is added,
-                                    // giving a swirl effect
-                                    - (float)
-                                            (Math.hypot(treez - baseCube.z, treex - baseCube.x)
-                                                    * swirlMult.getValuef()),
+                                    - baseCube.r * swirlMult.getValuef(),
                             100.0f,
                             100.0f);
         }
