@@ -5,6 +5,7 @@ import com.charlesgadeken.entwined.effects.EntwinedBaseEffect;
 import com.charlesgadeken.entwined.effects.TurnOffDeadPixelsEffect;
 import com.charlesgadeken.entwined.model.Model;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
+import com.charlesgadeken.entwined.triggers.drumpad.APC40mk1;
 import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
 import heronarts.lx.blend.DissolveBlend;
@@ -72,8 +73,12 @@ public class EntwinedGui extends PApplet implements LXPlugin {
             output.configureFadeCandyOutput();
         }
 
-        if (ConfigLoader.enableAPC40) {
+        if (APC40mk1.hasACP40(lx) && ConfigLoader.enableAPC40) {
+            System.out.println("APC40 Detected");
             triggers.configureMIDI();
+            System.out.println("ACP40 Configured");
+        } else {
+            System.out.println("APC40 Not Detected or not Enabled - Skipping");
         }
 
         if (ConfigLoader.enableIPad) {
