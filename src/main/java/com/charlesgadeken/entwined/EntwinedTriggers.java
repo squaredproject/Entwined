@@ -8,7 +8,6 @@ import com.charlesgadeken.entwined.effects.original.ScrambleEffect;
 import com.charlesgadeken.entwined.effects.original.SpeedEffect;
 import com.charlesgadeken.entwined.effects.original.SpinEffect;
 import com.charlesgadeken.entwined.model.Model;
-import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import com.charlesgadeken.entwined.patterns.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.patterns.contributors.geoffSchmidt.Pixels;
 import com.charlesgadeken.entwined.patterns.contributors.grantPatterson.Planes;
@@ -258,13 +257,14 @@ public class EntwinedTriggers {
     }
 
     Triggerable configurePatternAsTriggerable(EntwinedTriggerablePattern pattern) {
-        LXChannel channel = lx.engine.mixer.addChannel(new EntwinedBasePattern[] {pattern});
-        System.out.printf(
-                "Added Triggerable Pattern '%s' to channel %d\n",
-                pattern.getReadableName(), channel.getIndex());
-        setupChannel(channel, false);
+        //        LXChannel channel = lx.engine.mixer.addChannel(new EntwinedBasePattern[]
+        // {pattern});
+        //        System.out.printf(
+        //                "Added Triggerable Pattern '%s' to channel %d\n",
+        //                pattern.getReadableName(), channel.getIndex());
+        //        setupChannel(channel, false);
 
-        pattern.onTriggerableModeEnabled();
+        // pattern.onTriggerableModeEnabled();
         return pattern.getTriggerable();
     }
 
