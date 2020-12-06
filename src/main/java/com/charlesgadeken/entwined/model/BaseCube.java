@@ -15,13 +15,6 @@ import toxi.geom.Vec3D;
  * parent Cube and left for child cubes to handle.
  */
 public class BaseCube extends LXModel {
-
-    // public static final int[] PIXELS_PER_CUBE = { 6, 6, 6, 12, 12 }; // Tiny cubes actually have
-    // less, but for Entwined we want to
-    //                                                                  // tell the NDB that
-    // everything is 6
-    // public static final float[] CUBE_SIZES = { 4f, 7.5f, 11.25f, 15f, 16.5f };
-
     /** Index of this cube in color buffer, colors[cube.index] */
     public final int index;
 
@@ -81,7 +74,6 @@ public class BaseCube extends LXModel {
 
     public float transformedTheta;
     public Vec2D transformedCylinderPoint;
-    // public TreeCubeConfig config = null;
 
     BaseCube(
             Vec3D globalPosition,
