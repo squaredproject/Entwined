@@ -16,8 +16,6 @@ class Output {
       }
     }
 
-    NDBData
-
     return new DDPDatagram(pointIndices);
   }
 
