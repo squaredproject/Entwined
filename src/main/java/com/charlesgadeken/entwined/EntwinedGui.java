@@ -65,15 +65,11 @@ public class EntwinedGui extends PApplet implements LXPlugin {
 
         lx.engine.addLoopTask(new ModelTransformTask(model));
 
-        EntwinedOutput output = new EntwinedOutput(lx, model);
+        EntwinedOutput output = new EntwinedOutput(lx, model, parameters.outputBrightness);
 
         if (ConfigLoader.enableOutputBigtree) {
             lx.addEffect(new TurnOffDeadPixelsEffect(lx));
             output.configureExternalOutput();
-        }
-
-        if (ConfigLoader.enableOutputMinitree) {
-            output.configureFadeCandyOutput();
         }
 
         if (APC40mk1.hasACP40(lx) && ConfigLoader.enableAPC40) {
