@@ -11,7 +11,7 @@ public class Cube extends BaseCube {
     public final float size;
 
     public final int pixels;
-    public TreeCubeConfig config = null;
+    public TreeCubeConfig config;
 
     Cube(Vec3D globalPosition, Vec3D treePosition, TreeCubeConfig config) {
         super(globalPosition, treePosition, config.treeIndex, config.treeOrShrub);
