@@ -3,7 +3,6 @@ package com.charlesgadeken.entwined.triggers.drumpad;
 import heronarts.lx.LX;
 import heronarts.lx.midi.*;
 import heronarts.lx.mixer.LXChannel;
-
 import javax.annotation.Nullable;
 
 /** @Slee please forgive my explicit theft of these from an earlier version of LX */
@@ -76,7 +75,7 @@ public class APC40mk1 extends LXMidiDeviceBackport {
     public final LXMidiInput input;
     public final LXMidiOutput output;
 
-    public static boolean hasACP40(LX lx){
+    public static boolean hasACP40(LX lx) {
         return (matchInput(lx) != null) && (matchOutput(lx) != null);
     }
 
