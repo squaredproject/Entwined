@@ -5,7 +5,6 @@ import com.charlesgadeken.entwined.model.Model;
 import com.charlesgadeken.entwined.model.ShrubCube;
 import heronarts.lx.LX;
 import heronarts.lx.output.DDPDatagram;
-import heronarts.lx.output.FadecandySocket;
 import heronarts.lx.output.LXDatagram;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -67,24 +66,6 @@ public class EntwinedOutput {
 
         shrubDatagrams.forEach((d) -> outputBrightness.parameters.add(d.brightness));
         shrubDatagrams.forEach(lx::addOutput);
-    }
-
-    public void configureFadeCandyOutput() {
-        int[] clusterOrdering = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-        int numCubesInCluster = clusterOrdering.length;
-        int numClusters = 48;
-        int[] pixelOrder = new int[numClusters * numCubesInCluster];
-        for (int cluster = 0; cluster < numClusters; cluster++) {
-            for (int cube = 0; cube < numCubesInCluster; cube++) {
-                pixelOrder[cluster * numCubesInCluster + cube] =
-                        cluster * numCubesInCluster + clusterOrdering[cube];
-            }
-        }
-
-        FadecandySocket fadecandy = new FadecandySocket(lx, pixelOrder);
-        fadecandy.setAddress(resolves("127.0.0.1"));
-        fadecandy.setPort(7890);
-        lx.addOutput(fadecandy);
     }
 
     public DDPDatagram treeClusterDatagram(Cube[] cubes) {

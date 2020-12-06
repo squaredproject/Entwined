@@ -72,10 +72,6 @@ public class EntwinedGui extends PApplet implements LXPlugin {
             output.configureExternalOutput();
         }
 
-        if (ConfigLoader.enableOutputMinitree) {
-            output.configureFadeCandyOutput();
-        }
-
         if (APC40mk1.hasACP40(lx) && ConfigLoader.enableAPC40) {
             System.out.println("APC40 Detected");
             triggers.configureMIDI();

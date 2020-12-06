@@ -23,13 +23,4 @@ class EntwinedOutputTest {
         EntwinedOutput out = new EntwinedOutput(lx, model, parameters.outputBrightness);
         out.configureExternalOutput();
     }
-
-    @Test
-    public void testOutputsBuildFadecandyDatagrams() {
-        Model model = Model.fromConfigs();
-        LX lx = new LX(model);
-        EntwinedParameters parameters = new EntwinedParameters(lx, model);
-        EntwinedOutput out = new EntwinedOutput(lx, model, parameters.outputBrightness);
-        out.configureFadeCandyOutput();
-    }
 }
