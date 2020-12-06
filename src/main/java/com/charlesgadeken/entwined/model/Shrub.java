@@ -45,6 +45,10 @@ public class Shrub extends LXModelInterceptor {
         this.ry = ry;
     }
 
+    public Vec3D transformPoint(Vec3D point) {
+        return ((Fixture) this.getFixture()).transformPoint(point);
+    }
+
     protected static class Fixture extends PseudoAbstractFixture {
         final List<ShrubCube> shrubCubes = new ArrayList<>();
         final List<EntwinedCluster> shrubClusters = new ArrayList<>();
