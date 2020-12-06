@@ -1,6 +1,8 @@
 package com.charlesgadeken.entwined.model;
 
 import com.charlesgadeken.entwined.config.*;
+
+import com.charlesgadeken.entwined.effects.EntwinedBaseEffect;
 import com.charlesgadeken.entwined.effects.ModelTransform;
 import heronarts.lx.model.LXPoint;
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import toxi.geom.Vec3D;
 
 public class Model extends LXModelInterceptor {
     /** Trees in the model */
@@ -19,8 +22,9 @@ public class Model extends LXModelInterceptor {
     public final List<BaseCube> baseCubes;
 
     public final Map<String, Cube[]> ipMap = new HashMap<>();
-
+    private final ArrayList<ModelTransform> modelTransforms = new ArrayList<>();
     private final List<TreeConfig> treeConfigs;
+    private final ArrayList<ModelTransform> shrubModelTransforms = new ArrayList<>();
 
     /**
      * Build a new Entwined model from the expected configuration files.
@@ -56,7 +60,7 @@ public class Model extends LXModelInterceptor {
         this.cubes = Collections.unmodifiableList(_cubes);
 
         this.shrubConfigs = shrubConfigs;
-        List<ShrubCube> _shrubCubes = new ArrayList<ShrubCube>();
+        List<ShrubCube> _shrubCubes = new ArrayList<>();
         this.shrubs = Collections.unmodifiableList(f.shrubs);
         for (Shrub shrub : this.shrubs) {
             shrubIpMap.putAll(shrub.ipMap);
@@ -65,7 +69,7 @@ public class Model extends LXModelInterceptor {
         this.shrubCubes = Collections.unmodifiableList(_shrubCubes);
 
         // Adding all cubes to baseCubes
-        List<BaseCube> _baseCubes = new ArrayList<BaseCube>();
+        List<BaseCube> _baseCubes = new ArrayList<>();
 
         for (Tree tree : this.trees) {
             // ipMap.putAll(tree.ipMap);
@@ -129,10 +133,69 @@ public class Model extends LXModelInterceptor {
 
     private final List<ShrubConfig> shrubConfigs;
 
+    public void runTransforms() {
+        for (Cube cube : cubes) {
+            cube.resetTransform();
+        }
+        for (ModelTransform modelTransform : modelTransforms) {
+            if (modelTransform.isEnabled()) {
+                modelTransform.transform(this);
+            }
+        }
+        for (Cube cube : cubes) {
+            cube.didTransform();
+        }
+
+        for (ShrubCube cube : shrubCubes) {
+            cube.resetTransform();
+        }
+        for (ModelTransform modelTransform : shrubModelTransforms) {
+            if (modelTransform.isEnabled()) {
+                modelTransform.transform(this);
+            }
+        }
+        for (ShrubCube cube : shrubCubes) {
+            cube.didTransform();
+        }
+    }
+
+    public Vec3D getShrubMountPoint(ShrubCubeConfig c) {
+        Vec3D p = null;
+        Shrub shrub;
+        try {
+            shrub = this.shrubs.get(c.shrubIndex);
+            p = shrub.shrubClusters.get(c.clusterIndex).rods.get(c.rodIndex).mountingPoint;
+            return shrub.transformPoint(p);
+        } catch (Exception e) {
+            System.out.println("Error resolving mount point");
+            System.out.println(e);
+            return null;
+        }
+    }
+
+    //    public void addShrubModelTransform(ShrubModelTransform modelTransform) {
+    //        shrubModelTransforms.add(modelTransform);
+    //    }
+    public void runShrubTransforms() {
+        for (ShrubCube cube : shrubCubes) {
+            cube.resetTransform();
+        }
+        for (ModelTransform modelTransform : shrubModelTransforms) {
+            if (modelTransform.isEnabled()) {
+                modelTransform.transform(this);
+            }
+        }
+        for (ShrubCube cube : shrubCubes) {
+            cube.didTransform();
+        }
+    }
+
+    public void addModelTransform(EntwinedBaseEffect shrubModelTransform) {
+        shrubModelTransforms.add((ModelTransform) shrubModelTransform);
+    }
+
     public void addModelTransform(ModelTransform modelTransform) {
-        // TODO(meawoppl) fixme?
-        //        modelTransforms.add(modelTransform);
-        //        shrubModelTransforms.add(modelTransform);
-        System.err.println("WARNING: Model transforms currently dropped :(");
+        modelTransforms.add(modelTransform);
+        shrubModelTransforms.add(modelTransform);
     }
 }
