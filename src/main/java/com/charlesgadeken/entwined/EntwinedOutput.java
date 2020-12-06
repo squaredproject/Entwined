@@ -6,8 +6,8 @@ import com.charlesgadeken.entwined.model.ShrubCube;
 import heronarts.lx.LX;
 import heronarts.lx.output.DDPDatagram;
 import heronarts.lx.output.FadecandySocket;
-import heronarts.lx.output.LXOutputGroup;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Map;
 
 public class EntwinedOutput {
@@ -20,44 +20,35 @@ public class EntwinedOutput {
         this.model = model;
     }
 
+    private InetAddress requireResolves(String name) {
+        try {
+            return InetAddress.getByName(name);
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void configureExternalOutput() {
         // Output stage
-        try {
-            LXOutputGroup output = new LXOutputGroup(lx);
-            DDPDatagram[] datagrams = new DDPDatagram[model.ipMap.size()];
-            int ci = 0;
-            for (Map.Entry<String, Cube[]> entry : model.ipMap.entrySet()) {
-                String ip = entry.getKey();
-                Cube[] cubes = entry.getValue();
-                DDPDatagram datagram = Output.clusterDatagram(lx, cubes);
-                datagram.setAddress(InetAddress.getByName(ip));
-                datagrams[ci++] = datagram;
-                output.addChild(datagrams[ci]);
-            }
-            brightness.parameters.add(output.brightness);
-            output.enabled.setValue(true);
-            lx.addOutput(output);
-        } catch (Exception x) {
-            System.out.printf("Can not setup Cubes DDP: %s", x);
+
+        for (Map.Entry<String, Cube[]> entry : model.ipMap.entrySet()) {
+            String ip = entry.getKey();
+            Cube[] cubes = entry.getValue();
+            DDPDatagram datagram = Output.clusterDatagram(lx, cubes);
+            datagram.setAddress(requireResolves(ip));
+            datagram.enabled.setValue(true);
+            brightness.parameters.add(datagram.brightness);
+            lx.addOutput(datagram);
         }
 
-        try {
-            LXOutputGroup shrubOutput = new LXOutputGroup(lx);
-            DDPDatagram[] shrubDatagrams = new DDPDatagram[model.shrubIpMap.size()];
-            int ci = 0;
-            for (Map.Entry<String, ShrubCube[]> entry : model.shrubIpMap.entrySet()) {
-                String shrubIp = entry.getKey();
-                ShrubCube[] shrubCubes = entry.getValue();
-                DDPDatagram datagram = Output.shrubClusterDatagram(lx, shrubCubes);
-                datagram.setAddress(InetAddress.getByName(shrubIp));
-                shrubDatagrams[ci++] = datagram;
-                shrubOutput.addChild(shrubDatagrams[ci]);
-            }
-            brightness.parameters.add(shrubOutput.brightness);
-            shrubOutput.enabled.setValue(true);
-            lx.addOutput(shrubOutput);
-        } catch (Exception x) {
-            System.out.printf("Can not setup Shrubs DDP: %s\n", x);
+        for (Map.Entry<String, ShrubCube[]> entry : model.shrubIpMap.entrySet()) {
+            String shrubIp = entry.getKey();
+            ShrubCube[] shrubCubes = entry.getValue();
+            DDPDatagram datagram = Output.shrubClusterDatagram(lx, shrubCubes);
+            datagram.setAddress(requireResolves(shrubIp));
+            datagram.enabled.setValue(true);
+            brightness.parameters.add(datagram.brightness);
+            lx.addOutput(datagram);
         }
     }
 
@@ -74,17 +65,18 @@ public class EntwinedOutput {
                         cluster * numCubesInCluster + clusterOrdering[cube];
             }
         }
-        try {
-            FadecandySocket fadecandyOutput = new FadecandySocket(lx);
-            fadecandyOutput.setAddress(InetAddress.getByName("127.0.0.1"));
-            fadecandyOutput.setPort(7890);
-            fadecandyOutput.updateIndexBuffer(pixelOrder);
 
-            brightness.parameters.add(fadecandyOutput.brightness);
-            lx.addOutput(fadecandyOutput);
-        } catch (Exception e) {
-            System.out.println("Can not setup fadecandy output :(");
-            System.out.println(e);
-        }
+        // NOTE(meawoppl) So, this call `new FadecandySocket(lx)`
+        // Makes the output stage feel responsible for all the points in
+        // lx.getMode(). I suspect this is intended to be a subset of the model
+        // that has numCubesInCluster * numClusters (16 * 48 == 768) points
+        // If that subcomponent is passed to ala `new FadecandySocket(lx, subcomp)` it should work.
+        FadecandySocket fadecandyOutput = new FadecandySocket(lx);
+        fadecandyOutput.setAddress(requireResolves("127.0.0.1"));
+        fadecandyOutput.setPort(7890);
+        fadecandyOutput.updateIndexBuffer(pixelOrder);
+
+        brightness.parameters.add(fadecandyOutput.brightness);
+        lx.addOutput(fadecandyOutput);
     }
 }
