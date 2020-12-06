@@ -39,7 +39,7 @@ public class Twister extends EntwinedTriggerablePattern {
             float width = 10 + 30 * yn;
             float df = Utilities.max(0, 100 - (100 / 45) * Utilities.max(0, wrapdist - width));
             colors[cube.index] =
-                    lx.hsb(
+                    LX.hsb(
                             (lx.engine.palette.getHuef() + .2f * cube.transformedY - 360 - wrapdist)
                                     % 360,
                             Utilities.max(0, 100 - 500 * Utilities.max(0, yn - .8f)),

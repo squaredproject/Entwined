@@ -17,7 +17,6 @@ import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.transform.LXTransform;
 
-
 class Model extends LXModel {
 
     /**
@@ -93,7 +92,7 @@ class Model extends LXModel {
 
         final List<Shrub> shrubs = new ArrayList<Shrub>();
 
-        private Fixture(List<NDBConfig> ndbConfigs, List<TreeConfig> treeConfigs, List<TreeCubeConfig> cubeConfigs, 
+        private Fixture(List<NDBConfig> ndbConfigs, List<TreeConfig> treeConfigs, List<TreeCubeConfig> cubeConfigs,
                     List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfigs) {
 
             for (int i = 0; i < treeConfigs.size(); i++) {
@@ -215,8 +214,6 @@ class Model extends LXModel {
 
     public void addModelTransform(Effect shrubModelTransform) {
         shrubModelTransforms.add((ModelTransform) shrubModelTransform);
-
-
     }
 }
 
@@ -447,7 +444,7 @@ class NDBConfig {
         }
         System.out.println(" getOutputAndOffset: cubeindex "+cubeIndex+" too high for ndb "+this.ipAddress);
         return new OutputAndOffset(0,0);
-    } 
+    }
 }
 
 class EntwinedLayer {

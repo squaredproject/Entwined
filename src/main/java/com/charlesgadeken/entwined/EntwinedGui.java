@@ -4,6 +4,7 @@ import com.charlesgadeken.entwined.config.ConfigLoader;
 import com.charlesgadeken.entwined.effects.EntwinedBaseEffect;
 import com.charlesgadeken.entwined.effects.TurnOffDeadPixelsEffect;
 import com.charlesgadeken.entwined.model.Model;
+import com.charlesgadeken.entwined.model.ModelTransformTask;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
@@ -60,6 +61,8 @@ public class EntwinedGui extends PApplet implements LXPlugin {
 
         triggers = new EntwinedTriggers(lx, model, engineController, parameters);
         triggers.configureTriggerables();
+
+        lx.engine.addLoopTask(new ModelTransformTask(model));
 
         EntwinedOutput output = new EntwinedOutput(lx, model);
 
