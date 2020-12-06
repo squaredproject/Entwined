@@ -14,4 +14,3 @@ public abstract class ShrubModelTransform extends EntwinedBaseEffect {
 
     public abstract void transform(LXModel lxModel);
 }
-

@@ -7,13 +7,12 @@ import com.charlesgadeken.entwined.effects.ModelTransform;
 import com.charlesgadeken.entwined.effects.ShrubModelTransform;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
-import toxi.geom.Vec3D;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import toxi.geom.Vec3D;
 
 public class ShrubModel extends LXModelInterceptor {
 
@@ -45,7 +44,8 @@ public class ShrubModel extends LXModelInterceptor {
     private static class ShrubFixture extends PseudoAbstractFixture {
         final List<Shrub> shrubs = new ArrayList<>();
 
-        private ShrubFixture(List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfigs) {
+        private ShrubFixture(
+                List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfigs) {
             super("Shrub");
 
             for (int i = 0; i < shrubConfigs.size(); i++) {

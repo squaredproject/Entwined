@@ -1,7 +1,6 @@
 package com.charlesgadeken.entwined.model;
 
 import com.charlesgadeken.entwined.config.*;
-
 import com.charlesgadeken.entwined.effects.EntwinedBaseEffect;
 import com.charlesgadeken.entwined.effects.ModelTransform;
 import heronarts.lx.model.LXPoint;
