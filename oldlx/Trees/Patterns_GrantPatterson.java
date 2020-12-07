@@ -65,19 +65,6 @@ class Pond extends TSPattern {
     modelCenter = new LXVector(model.cx, model.cy, model.cz);
   }
   
-  private void runCube(BaseCube cube) {
-    // Clear cube first
-    colors[cube.index] = LXColor.BLACK;
-    for (Ripple ripple : ripples) {
-      // Distance from ripple's origin to this cube
-      double distance = ripple.origin.dist(new LXVector(cube.x, cube.y, cube.z));
-      // Distance from ripple's current radius to this cube
-      distance = Math.abs(distance - ripple.radius);
-      // Use lightest() to add any existing ripple color to the color of this ripple, if any.
-      colors[cube.index] = LXColor.lightest(colors[cube.index], lx.hsb(ripple.hue, ripple.saturation, (float)Math.max(0, 100 - distance / sizeParam.getValuef())));
-    }
-  }
-
   public void run(double deltaMs) {
     ListIterator<Ripple> iter = ripples.listIterator();
     float rippleWidth = 200 * sizeParam.getValuef();
@@ -101,9 +88,17 @@ class Pond extends TSPattern {
         iter.remove();
       }
     }
-    // Run common code to render each Cube and ShrubCube
+    // Black out all cubes and add colors from each ripple
+    clearColors();
     for (BaseCube cube : model.baseCubes) {
-      runCube(cube);
+      for (Ripple ripple : ripples) {
+        // Distance from ripple's origin to this cube
+        double distance = ripple.origin.dist(new LXVector(cube.x, cube.y, cube.z));
+        // Distance from ripple's current radius to this cube
+        distance = Math.abs(distance - ripple.radius);
+        // Use lightest() to add any existing ripple color to the color of this ripple, if any.
+        colors[cube.index] = LXColor.lightest(colors[cube.index], lx.hsb(ripple.hue, ripple.saturation, (float)Math.max(0, 100 - distance / sizeParam.getValuef())));
+      }
     }
 
     // If we aren't at maxRipples, create a new ripple if a random number is inside bounds defined by
@@ -158,11 +153,6 @@ class Planes extends TSPattern {
     seed = Math.random() * 1000;
   }
   
-  private void runCube(BaseCube cube, Plane plane, int hue, int saturation) {
-    double distance = plane.getDistanceToPoint(new Vec3D(cube.x, cube.y, cube.z));
-    colors[cube.index] = LXColor.lightest(colors[cube.index], lx.hsb(hue, saturation, (float)Math.max(0, 100 - distance / sizeParam.getValuef())));  
-  }
-  
   public void run(double deltaMs) {
     // Increase each offset based on time since last run() and speed param values
     positionOffset += deltaMs * positionSpeedParam.getValuef() / 1000;
@@ -189,7 +179,8 @@ class Planes extends TSPattern {
       // But take the square root to curve a little back towards less saturation.
       int saturation = (int)((1.0 - Math.sqrt(Math.abs(SimplexNoise.noise(i * colorVariance, colorOffset, seed, 600)))) * 100);
       for (BaseCube cube : model.baseCubes) {
-        runCube(cube, plane, hue, saturation);
+        double distance = plane.getDistanceToPoint(new Vec3D(cube.x, cube.y, cube.z));
+        colors[cube.index] = LXColor.lightest(colors[cube.index], lx.hsb(hue, saturation, (float)Math.max(0, 100 - distance / sizeParam.getValuef())));  
       }
     }
   }
