@@ -75,7 +75,7 @@ public class SparkleTakeOver extends EntwinedTriggerablePattern {
                                 Utilities.abs(
                                                 Utilities.sin(
                                                                 (Utilities.TWO_PI / 360)
-                                                                        * cube.transformedTheta
+                                                                        * cube.getTransformedTheta()
                                                                         * 4)
                                                         * 50)
                                         + Utilities.abs(

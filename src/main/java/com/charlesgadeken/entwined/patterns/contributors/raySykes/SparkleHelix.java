@@ -50,7 +50,7 @@ public class SparkleHelix extends EntwinedBasePattern {
                                     - (100 * Utilities.TWO_PI / (compensatedWidth))
                                             * LXUtils.wrapdistf(
                                                     (Utilities.TWO_PI / 360)
-                                                            * cube.transformedTheta,
+                                                            * cube.getTransformedTheta(),
                                                     8 * Utilities.TWO_PI
                                                             + spin.getValuef()
                                                             + coil.getValuef()
@@ -65,7 +65,7 @@ public class SparkleHelix extends EntwinedBasePattern {
                                             - (100 * Utilities.TWO_PI / (compensatedWidth))
                                                     * LXUtils.wrapdistf(
                                                             (Utilities.TWO_PI / 360)
-                                                                    * cube.transformedTheta,
+                                                                    * cube.getTransformedTheta(),
                                                             8 * Utilities.TWO_PI
                                                                     - spin.getValuef()
                                                                     - coil.getValuef()

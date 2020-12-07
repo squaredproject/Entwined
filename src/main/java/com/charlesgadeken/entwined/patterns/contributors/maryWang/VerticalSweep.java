@@ -40,7 +40,7 @@ public class VerticalSweep extends EntwinedBasePattern {
 
         for (Cube cube : model.cubes) {
             float progress =
-                    ((cube.transformedTheta / 360.0f) + range.getValuef()) % 1; // value is 0-1
+                    ((cube.getTransformedTheta() / 360.0f) + range.getValuef()) % 1; // value is 0-1
             float scaledProgress = (colorPalette.length) * progress; // value is 0-3
             int color1Index = Utilities.floor(scaledProgress);
             int color1Hue = (int) colorPalette[color1Index];
@@ -55,7 +55,7 @@ public class VerticalSweep extends EntwinedBasePattern {
 
         for (ShrubCube cube : model.shrubCubes) {
             float progress =
-                    ((cube.transformedTheta / 360.0f) + range.getValuef()) % 1; // value is 0-1
+                    ((cube.getTransformedTheta() / 360.0f) + range.getValuef()) % 1; // value is 0-1
             float scaledProgress = (colorPalette.length) * progress; // value is 0-3
             int color1Index = Utilities.floor(scaledProgress);
             int color1Hue = (int) colorPalette[color1Index];

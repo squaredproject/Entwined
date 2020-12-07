@@ -73,7 +73,7 @@ public class Springs extends EntwinedBasePattern {
             float width = (1 - yn) * 25;
             float wrapdist =
                     LXUtils.wrapdistf(
-                            cube.transformedTheta,
+                            cube.getTransformedTheta(),
                             spinf + (cube.transformedY) * 1 / (gravity.getValuef() + 0.2f),
                             360);
             float df = Utilities.max(0, 100 - Utilities.max(0, wrapdist - width));

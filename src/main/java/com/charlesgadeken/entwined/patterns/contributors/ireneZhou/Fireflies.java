@@ -126,11 +126,11 @@ public class Fireflies extends EntwinedTriggerablePattern {
         for (Firefly fly : fireflies) {
             for (BaseCube cube : model.baseCubes) {
                 if (Utilities.abs(fly.yPos - cube.transformedY) <= radius
-                        && Utilities.abs(fly.theta - cube.transformedTheta) <= radius) {
+                        && Utilities.abs(fly.theta - cube.getTransformedTheta()) <= radius) {
                     float distSq =
                             Utilities.pow(
                                             (LXUtils.wrapdistf(
-                                                    fly.theta, cube.transformedTheta, 360)),
+                                                    fly.theta, cube.getTransformedTheta(), 360)),
                                             2)
                                     + Utilities.pow(fly.yPos - cube.transformedY, 2);
                     float brt =

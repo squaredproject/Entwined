@@ -37,12 +37,12 @@ public class Lattice extends EntwinedTriggerablePattern {
         for (BaseCube cube : model.baseCubes) {
             float wrapdistleft =
                     LXUtils.wrapdistf(
-                            cube.transformedTheta,
+                            cube.getTransformedTheta(),
                             spinf + (model.yMax - cube.transformedY) * coilf,
                             180);
             float wrapdistright =
                     LXUtils.wrapdistf(
-                            cube.transformedTheta,
+                            cube.getTransformedTheta(),
                             -spinf - (model.yMax - cube.transformedY) * coilf,
                             180);
             float width =

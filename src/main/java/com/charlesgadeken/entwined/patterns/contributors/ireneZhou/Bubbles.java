@@ -99,12 +99,12 @@ public class Bubbles extends EntwinedTriggerablePattern {
 
         for (Bubble bubble : bubbles) {
             for (BaseCube cube : model.baseCubes) {
-                if (Utilities.abs(bubble.theta - cube.transformedTheta) < bubble.radius
+                if (Utilities.abs(bubble.theta - cube.getTransformedTheta()) < bubble.radius
                         && Utilities.abs(bubble.yPos - (cube.transformedY - model.yMin))
                                 < bubble.radius) {
 
                     float distTheta =
-                            LXUtils.wrapdistf(bubble.theta, cube.transformedTheta, 360) * 0.8f;
+                            LXUtils.wrapdistf(bubble.theta, cube.getTransformedTheta(), 360) * 0.8f;
                     float distY = bubble.yPos - (cube.transformedY - model.yMin);
                     float distSq = distTheta * distTheta + distY * distY;
 

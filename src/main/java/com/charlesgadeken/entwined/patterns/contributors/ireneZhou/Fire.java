@@ -104,7 +104,7 @@ public class Fire extends EntwinedTriggerablePattern {
             float cHue = 0;
             float flameWidth = flameSize.getValuef() / 2;
             for (int i = 0; i < flames.size(); ++i) {
-                if (Utilities.abs(flames.get(i).theta - cube.transformedTheta)
+                if (Utilities.abs(flames.get(i).theta - cube.getTransformedTheta())
                         < (flameWidth * (1 - yn))) {
                     cBrt =
                             Utilities.min(

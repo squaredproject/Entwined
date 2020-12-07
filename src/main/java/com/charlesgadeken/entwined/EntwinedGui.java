@@ -101,9 +101,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         for (int i = 0; i < ConfigLoader.NUM_CHANNELS; ++i) {
             LXChannel channel = addChannelsAudited(EntwinedPatterns.getPatterns(lx), "BASE");
             setupChannel(channel, true);
-            if (i == 0) {
-                channel.fader.setValue(1);
-            }
+            channel.fader.setValue(i==0 ? 1 : 0);
             channel.goPatternIndex(i);
         }
         engineController.baseChannelIndex = lx.engine.mixer.getChannels().size() - 1;

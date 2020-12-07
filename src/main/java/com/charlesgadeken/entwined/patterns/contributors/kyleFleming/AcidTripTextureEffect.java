@@ -29,7 +29,7 @@ public class AcidTripTextureEffect extends EntwinedBaseEffect {
 
                 float newHue =
                         Utilities.abs(model.cy - cube.transformedY)
-                                + Utilities.abs(model.cy - cube.transformedTheta)
+                                + Utilities.abs(model.cy - cube.getTransformedTheta())
                                 + trails.getValuef() % 360;
                 int newColor = lx.hsb(newHue, 100, 100);
                 int blendedColor = LXColor.lerp(oldColor, newColor, amount.getValuef());

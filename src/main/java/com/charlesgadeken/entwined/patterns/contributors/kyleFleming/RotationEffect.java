@@ -18,7 +18,7 @@ public class RotationEffect extends ModelTransform {
         if (rotation.getValue() > 0) {
             float rotationTheta = rotation.getValuef();
             for (BaseCube cube : model.baseCubes) {
-                cube.transformedTheta = (cube.transformedTheta + 360 - rotationTheta) % 360;
+                cube.setTransformedTheta((cube.getTransformedTheta() + 360 - rotationTheta) % 360);
             }
         }
     }

@@ -41,7 +41,7 @@ public class IceCrystals extends EntwinedTriggerablePattern {
         crystal.doUpdate();
 
         for (BaseCube cube : model.baseCubes) {
-            float lineFactor = crystal.getLineFactor(cube.transformedY, cube.transformedTheta);
+            float lineFactor = crystal.getLineFactor(cube.transformedY, cube.getTransformedTheta());
             if (lineFactor > 110) {
                 lineFactor = 200 - lineFactor;
             }

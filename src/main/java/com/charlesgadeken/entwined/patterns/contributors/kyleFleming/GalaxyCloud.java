@@ -30,7 +30,7 @@ public class GalaxyCloud extends EntwinedTriggerablePattern {
 
         time += deltaMs;
         for (Cube cube : model.cubes) {
-            float adjustedTheta = cube.transformedTheta / 360;
+            float adjustedTheta = cube.getTransformedTheta() / 360;
             float adjustedY = (cube.transformedY - model.yMin) / (model.yMax - model.yMin);
             float adjustedTime = (float) time / 5000;
 

@@ -26,7 +26,7 @@ public class AcidTrip extends EntwinedTriggerablePattern {
             colors[cube.index] =
                     lx.hsb(
                             Utilities.abs(model.cy - cube.transformedY)
-                                    + Utilities.abs(model.cy - cube.transformedTheta)
+                                    + Utilities.abs(model.cy - cube.getTransformedTheta())
                                     + trails.getValuef() % 360,
                             100,
                             100);

@@ -138,7 +138,6 @@ class BaseCube extends LXModel {
     }
 
     void resetTransform() {
-
         transformedTheta = theta;
         transformedY = y;
     }

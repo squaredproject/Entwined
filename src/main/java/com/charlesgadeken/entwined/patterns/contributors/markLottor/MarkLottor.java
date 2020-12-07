@@ -136,7 +136,7 @@ public class MarkLottor extends EntwinedTriggerablePattern {
 
             // light up any cubes "near" this ball
             for (BaseCube cube : model.baseCubes) {
-                if ((Utilities.abs(theta - cube.transformedTheta) < (50 * p1v))
+                if ((Utilities.abs(theta - cube.getTransformedTheta()) < (50 * p1v))
                         && (Utilities.abs(y - cube.transformedY) < (50 * p1v)))
                     colors[cube.index] = balls[n].getcolor();
             }

@@ -49,7 +49,7 @@ public class MultiSine extends EntwinedTriggerablePattern {
                         Utilities.sin(
                                         Utilities.TWO_PI * frequencies[i].getValuef()
                                                 + Utilities.TWO_PI
-                                                        * (cube.transformedTheta
+                                                        * (cube.getTransformedTheta()
                                                                 / distLayerDivisors[1][i]))
                                 / numLayers;
             }

@@ -46,7 +46,7 @@ public class Ripple extends EntwinedTriggerablePattern {
                             Utilities.pow(
                                             (LXUtils.wrapdistf(
                                                             thetaCenter,
-                                                            cube.transformedTheta,
+                                                            cube.getTransformedTheta(),
                                                             360))
                                                     * 0.8f,
                                             2)

@@ -34,7 +34,7 @@ public class Zebra extends EntwinedBasePattern {
             float saturation;
             float brightness = 1;
 
-            if (((cube.transformedY + position.getValue() + cube.transformedTheta) % 200)
+            if (((cube.transformedY + position.getValue() + cube.getTransformedTheta()) % 200)
                     > thickness.getValue()) {
                 saturation = 0;
                 brightness = 1;
@@ -50,7 +50,7 @@ public class Zebra extends EntwinedBasePattern {
             float saturation;
             float brightness = 1;
 
-            if (((cube.transformedY + position.getValue() + cube.transformedTheta) % 200)
+            if (((cube.transformedY + position.getValue() + cube.getTransformedTheta()) % 200)
                     > thickness.getValue()) {
                 saturation = 0;
                 brightness = 1;

@@ -40,7 +40,7 @@ public class Wedges extends EntwinedBasePattern {
         for (BaseCube cube : model.baseCubes) {
             colors[cube.index] =
                     LXColor.hsb(
-                            Math.floor((rotation - cube.transformedTheta) / quant) * quant
+                            Math.floor((rotation - cube.getTransformedTheta()) / quant) * quant
                                     + vHue * 360.0f,
                             (1 - vSat) * 100,
                             100);

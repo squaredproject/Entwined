@@ -23,4 +23,7 @@ public abstract class EntwinedBasePattern extends LXPattern {
     public String getReadableName() {
         return readableName == null ? getClass().getCanonicalName() : readableName;
     }
+
+    @Override
+    abstract public void run(double v);
 }

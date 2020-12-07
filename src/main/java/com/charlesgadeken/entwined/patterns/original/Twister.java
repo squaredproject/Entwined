@@ -32,7 +32,7 @@ public class Twister extends EntwinedTriggerablePattern {
         for (BaseCube cube : model.baseCubes) {
             float wrapdist =
                     LXUtils.wrapdistf(
-                            cube.transformedTheta,
+                            cube.getTransformedTheta(),
                             spinf + (model.yMax - cube.transformedY) * coilf,
                             360);
             float yn = (cube.transformedY / model.yMax);

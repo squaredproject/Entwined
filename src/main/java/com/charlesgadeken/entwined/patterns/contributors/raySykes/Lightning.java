@@ -80,7 +80,7 @@ public class Lightning extends EntwinedTriggerablePattern {
                 float hueVal = 300;
                 float lightningFactor =
                         bolts[treeIndex].getLightningFactor(
-                                cube.transformedY, cube.transformedTheta);
+                                cube.transformedY, cube.getTransformedTheta());
                 float brightVal = lightningFactor;
                 float satVal;
                 if (lightningFactor < 20) {
@@ -137,7 +137,7 @@ public class Lightning extends EntwinedTriggerablePattern {
                 float hueVal = 300;
                 float lightningFactor =
                         bolts[shrubIndex].getLightningFactor(
-                                cube.transformedY, cube.transformedTheta);
+                                cube.transformedY, cube.getTransformedTheta());
                 float brightVal = lightningFactor;
                 float satVal;
                 if (lightningFactor < 20) {

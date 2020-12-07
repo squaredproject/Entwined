@@ -34,14 +34,14 @@ public class DoubleHelix extends EntwinedBasePattern {
                     lx.hsb(
                             lx.engine.palette.getHuef()
                                     + .4f * Utilities.abs(cube.transformedY - model.cy)
-                                    + .2f * Utilities.abs(cube.transformedTheta - 180),
+                                    + .2f * Utilities.abs(cube.getTransformedTheta() - 180),
                             100,
                             Utilities.max(
                                     0,
                                     100
                                             - 2
                                                     * LXUtils.wrapdistf(
-                                                            cube.transformedTheta,
+                                                            cube.getTransformedTheta(),
                                                             theta.getValuef() + coilf,
                                                             180)));
         }
