@@ -339,9 +339,9 @@ class TestShrubSweep extends TSPattern {
     
     TestShrubSweep(LX lx) {
         super(lx);
-        addParameter(x = new BasicParameter("X", 200, lx.model.xMin, lx.model.xMax));
-        addParameter(y = new BasicParameter("Y", 200, lx.model.yMin, lx.model.yMax));
-        addParameter(z = new BasicParameter("Z", 200, lx.model.zMin, lx.model.zMax));
+        addParameter(x = new BasicParameter("X", 15.4, lx.model.xMin, lx.model.xMax));
+        addParameter(y = new BasicParameter("Y", 20.8, lx.model.yMin, lx.model.yMax));
+        addParameter(z = new BasicParameter("Z", 24, lx.model.zMin, lx.model.zMax));
         
     }
     
@@ -349,13 +349,13 @@ class TestShrubSweep extends TSPattern {
         if (getChannel().getFader().getNormalized() == 0) return;
         
         for (BaseCube cube : model.baseCubes) {
-            if (cube.treeOrShrub == TreeOrShrub.SHRUB) {
+//            if (cube.treeOrShrub == TreeOrShrub.SHRUB) {
                 if (Utils.abs(cube.ax - x.getValuef()) < 1 || Utils.abs(cube.ay - y.getValuef()) < 1 || Utils.abs(cube.az - z.getValuef()) < 1) {
                     colors[cube.index] = lx.hsb(135, 100, 100);    
                 } else {
                     colors[cube.index] = lx.hsb(135, 100, 0);    
                 }
-            }
+//            }
         }
     }
 }
