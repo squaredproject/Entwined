@@ -304,19 +304,36 @@ def cube_set(cube:int, color: tuple):
 
 def pattern_cube_order(n_cubes: int):
 	global leds, palette
-	leds_color_fill ( palette["blue"] )
-	leds_send(leds)
-	time.sleep(1.0)
-	for c_idx in range(n_cubes):
-		cube_set(c_idx, palette["white"])
+	while True:
+		leds_color_fill ( palette["blue"] )
 		leds_send(leds)
-		time.sleep(0.5)
+		time.sleep(1.0)
+		for c_idx in range(n_cubes):
+			cube_set(c_idx, palette["white"])
+			leds_send(leds)
+			time.sleep(0.5)
+
+palette_order = [
+    (0xff, 0x00, 0x00),
+    (0x00, 0xff, 0x00),
+    (0x00, 0x00, 0xff),
+    (0xff, 0xff, 0xff)
+]
+
+def pattern_cube_color(n_cubes: int):
+	global leds, palette_order
+	while True:
+		for c_idx in range(n_cubes):
+			cube_set(c_idx, palette_order[c_idx % len(palette_order) ])
+
+		leds_send(leds)
+		time.sleep(5)
 
 
 def arg_init():
     parser = argparse.ArgumentParser(prog='ddptest', description='Send DDP packets to an NDB for testing')
     parser.add_argument('--host', type=str, help='IP address for destination')
-    parser.add_argument('--pattern', '-p', type=str, help='one of: palette, hsv, order, shrub_rank, shrub_rank_order, cube_order')
+    parser.add_argument('--pattern', '-p', type=str, help='one of: palette, hsv, order, shrub_rank, shrub_rank_order, cube_order, cube_color')
     parser.add_argument('--leds', '-l', type=int, default=40, help='number of leds')
     parser.add_argument('--cubes', '-c', type=int, help='number of cubes')
 
@@ -360,9 +377,17 @@ def main():
     elif args.pattern == 'shrub_rank_order':
     	pattern_shrub_rank_order()
     elif args.pattern == 'cube_order':
+    	if not args.cubes:
+    		print(" cube order requires, you must have cubes try again")
+    		exit(-1)
     	pattern_cube_order(args.cubes)
+    elif args.pattern == 'cube_color':
+    	if not args.cubes:
+    		print(" cube color, you must have cubes try again")
+    		exit(-1)
+    	pattern_cube_color(args.cubes)
     else:
-        print(' pattern must be one of palette, hsv, order')
+        print(' pattern must be one of palette, hsv, order, shrub_rank, shrub_rank_order, cube_order')
 
 
 
