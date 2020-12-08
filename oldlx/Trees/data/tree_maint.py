@@ -76,7 +76,6 @@ def ip_add(filename:str, ipAddress:str) -> None:
     c['mountPointIndex'] = 0
     c['cubeSizeIndex'] = 1
 
-    c['shrubIpAddress'] = ipAddress
     data.append(c)
 
     with open(filename, 'w') as f:
