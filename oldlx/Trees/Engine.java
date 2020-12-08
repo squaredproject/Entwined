@@ -199,6 +199,7 @@ abstract class Engine {
 
     registerPatternController("Voronoi", new Voronoi(lx));
     registerPatternController("Parallax", new Parallax(lx));
+    registerPatternController("Burst", new Burst(lx));
 
     registerPatternController("Peppermint", new Peppermint(lx));
 
@@ -350,6 +351,9 @@ abstract class Engine {
     patterns.add(new Pixels(lx));
     patterns.add(new Wedges(lx));
     patterns.add(new Parallax(lx));
+
+    // Charlie Stigler Patterns
+    patterns.add(new Burst(lx));
 
     //Miskos - worried, removing, sorry
     //patterns.add(new Stringy(lx));  // takes too much memory
