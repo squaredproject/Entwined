@@ -32,9 +32,10 @@ def tree_cubes_input(filename:str):
     half = input(' half: (a or b)')
     cubes = int( input(' number of cubes:'))
 
+    print(' adding: ip {} output {} tree {} layer {} branch {} half {} cubes {}'.format(ip,output,tree,layer,branch,half,cubes))
+
     # helper for ip, add the 10.0.0. if not there
     if '.' not in ip:
-        print(' ip has no dots, adding')
         ip = '10.0.0.' + ip
 
     # convert tree
@@ -72,7 +73,7 @@ def tree_cubes_input(filename:str):
         else:
             print(" branch {} not legal for layer 0".format(branch))
             exit(-1)
-    if layer == 1 or layer == 2:
+    elif layer == 1 or layer == 2:
         if branch == '0':
             branch = 0
         elif branch == '2r':
@@ -102,6 +103,9 @@ def tree_cubes_input(filename:str):
         print(' half must be a or b, exiting')
         exit(-1)
 
+    # pause waiting for input to validate....
+    input(' ready? ')
+
     for c_idx in range(cubes):
         # there are faster ways but this reads very clean
         c = {}
@@ -127,6 +131,8 @@ def tree_cubes_input(filename:str):
 
     with open(filename, 'w') as f:
         json.dump(data, f)    
+
+    print(' done! ')
 
 
 
