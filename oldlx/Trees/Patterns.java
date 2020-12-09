@@ -369,26 +369,30 @@ class TestShrubSweep extends TSPattern {
     final BasicParameter x;
     final BasicParameter y;
     final BasicParameter z;
-    
+    final BasicParameter beam;
+
     TestShrubSweep(LX lx) {
         super(lx);
-        addParameter(x = new BasicParameter("X", 15.4, lx.model.xMin, lx.model.xMax));
-        addParameter(y = new BasicParameter("Y", 20.8, lx.model.yMin, lx.model.yMax));
-        addParameter(z = new BasicParameter("Z", 24, lx.model.zMin, lx.model.zMax));
-        
+        addParameter(x = new BasicParameter("X", 0, lx.model.xMin, lx.model.xMax));
+        // the following y param should light the two shortest rods of a shrub when the beam is set to 1
+        // may be useful for adjusting the rotation of the shrubs in the JSON config
+//        addParameter(y = new BasicParameter("Y", 20.8, lx.model.yMin, lx.model.yMax)); 
+        addParameter(y = new BasicParameter("Y", 0, lx.model.yMin, lx.model.yMax));
+        addParameter(z = new BasicParameter("Z", 0, lx.model.zMin, lx.model.zMax));
+        addParameter(beam = new BasicParameter("beam", 5, 1, 15));
     }
     
     public void run(double deltaMs) {
         if (getChannel().getFader().getNormalized() == 0) return;
         
         for (BaseCube cube : model.baseCubes) {
-//            if (cube.treeOrShrub == TreeOrShrub.SHRUB) {
-                if (Utils.abs(cube.ax - x.getValuef()) < 1 || Utils.abs(cube.ay - y.getValuef()) < 1 || Utils.abs(cube.az - z.getValuef()) < 1) {
-                    colors[cube.index] = lx.hsb(135, 100, 100);    
-                } else {
-                    colors[cube.index] = lx.hsb(135, 100, 0);    
-                }
-//            }
+            if (Utils.abs(cube.ax - x.getValuef()) < beam.getValuef() || 
+                    Utils.abs(cube.ay - y.getValuef()) < beam.getValuef() || 
+                    Utils.abs(cube.az - z.getValuef()) < beam.getValuef()) {
+                colors[cube.index] = lx.hsb(135, 100, 100);    
+            } else {
+                colors[cube.index] = lx.hsb(135, 100, 0);    
+            }
         }
     }
 }
