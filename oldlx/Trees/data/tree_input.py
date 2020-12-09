@@ -73,6 +73,9 @@ def tree_cubes_input(filename:str):
         else:
             print(" branch {} not legal for layer 0".format(branch))
             exit(-1)
+    # warning. This is a little strange because the code 
+    # calls the branches in layer two differently than the file does.
+    # in the file, and in the cube editor, everything is 0 to 3
     elif layer == 1 or layer == 2:
         if branch == '0':
             branch = 0
@@ -88,7 +91,7 @@ def tree_cubes_input(filename:str):
             branch = 1
         elif branch == '3l':
             branch = 2
-        elif branch == '3r':
+        elif branch == '1l':
             branch = 3
         else:
             print(" branch {} not legal for layer 1,2".format(branch))
