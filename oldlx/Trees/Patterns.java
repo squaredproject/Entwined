@@ -141,6 +141,39 @@ class Twister extends TSPattern {
   }
 }
 
+class TwisterGlobal extends TSPattern {
+
+  final SinLFO spin = new SinLFO(0, 5*360, 16000);
+  
+  float coil(float basis) {
+    return Utils.sin(basis*Utils.TWO_PI - Utils.PI);
+  }
+  
+  TwisterGlobal(LX lx) {
+    super(lx);
+    addModulator(spin).start();
+  }
+  
+  public void run(double deltaMs) {
+    if (getChannel().getFader().getNormalized() == 0) return;
+
+    float spinf = spin.getValuef();
+    float coilf = 2*coil(spin.getBasisf());
+    for (BaseCube cube : model.baseCubes) {
+      float wrapdist = LXUtils.wrapdistf(cube.globalTheta, spinf + (model.yMax - cube.y)*coilf, 360);
+      float yn = (cube.y / model.yMax);
+      float width = 10 + 30 * yn;
+      float df = Utils.max(0, 100 - (100 / 45) * Utils.max(0, wrapdist-width));
+      colors[cube.index] = lx.hsb(
+        (lx.getBaseHuef() + .2f*cube.y - 360 - wrapdist) % 360,
+        Utils.max(0, 100 - 500*Utils.max(0, yn-.8f)),
+        df
+      );
+    }
+  }
+}
+
+
 class SweepPattern extends TSPattern {
   
   final SinLFO speedMod = new SinLFO(3000, 9000, 5400);

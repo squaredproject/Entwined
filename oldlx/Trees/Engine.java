@@ -161,6 +161,7 @@ abstract class Engine {
   void registerIPadPatterns() {
     registerPatternController("None", new NoPattern(lx));
     registerPatternController("Twister", new Twister(lx));
+    registerPatternController("TwisterGlobal", new TwisterGlobal(lx));
     registerPatternController("Lottor", new MarkLottor(lx));
     registerPatternController("Ripple", new Ripple(lx));
     registerPatternController("Stripes", new Stripes(lx));
@@ -194,7 +195,7 @@ abstract class Engine {
     registerPatternController("ColorWave", new ColorWave(lx));
 
     registerPatternController("Pond", new Pond(lx));
-    registerPatternController("Planes", new Twister(lx));
+    registerPatternController("Planes", new Planes(lx));
   }
 
   void registerIPadEffects() {
@@ -240,6 +241,7 @@ abstract class Engine {
     // The order here is the order it shows up in the patterns list
     // patterns.add(new SolidColor(lx));
     patterns.add(new Twister(lx));
+    patterns.add(new TwisterGlobal(lx));
     patterns.add(new CandyCloud(lx));
     patterns.add(new MarkLottor(lx));
     patterns.add(new SolidColor(lx));
@@ -318,6 +320,7 @@ abstract class Engine {
     // the row parameter is zero indexed
 
     registerPattern(new Twister(lx), "3707000050a8fb");
+    registerPattern(new TwisterGlobal(lx), "3707000050a8fb");
     registerPattern(new MarkLottor(lx), "3707000050a8d5");
     registerPattern(new Ripple(lx), "3707000050a908");
     registerPattern(new Stripes(lx), "3707000050a8ad");
