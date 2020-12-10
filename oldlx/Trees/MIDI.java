@@ -69,26 +69,26 @@ class MidiEngine {
           int channel = note.getChannel();
           int pitch = note.getPitch();
           switch (pitch) {
-          case APC40.CLIP_LAUNCH:
-          case APC40.CLIP_LAUNCH+1:
-          case APC40.CLIP_LAUNCH+2:
-          case APC40.CLIP_LAUNCH+3:
-          case APC40.CLIP_LAUNCH+4:
-            apc40Drumpad.padTriggered(pitch - APC40.CLIP_LAUNCH, channel, drumpadVelocity.getValuef());
-            break;
-          case APC40.CLIP_STOP:
-            apc40Drumpad.padTriggered(5, channel, drumpadVelocity.getValuef());
-            break;
-          case APC40.SCENE_LAUNCH:
-          case APC40.SCENE_LAUNCH+1:
-          case APC40.SCENE_LAUNCH+2:
-          case APC40.SCENE_LAUNCH+3:
-          case APC40.SCENE_LAUNCH+4:
-            apc40Drumpad.padTriggered(pitch - APC40.SCENE_LAUNCH, 8, drumpadVelocity.getValuef());
-            break;
-          case APC40.STOP_ALL_CLIPS:
-            apc40Drumpad.padTriggered(5, 8, drumpadVelocity.getValuef());
-            break;
+            case APC40.CLIP_LAUNCH:
+            case APC40.CLIP_LAUNCH+1:
+            case APC40.CLIP_LAUNCH+2:
+            case APC40.CLIP_LAUNCH+3:
+            case APC40.CLIP_LAUNCH+4:
+              apc40Drumpad.padTriggered(pitch - APC40.CLIP_LAUNCH, channel, drumpadVelocity.getValuef());
+              break;
+            case APC40.CLIP_STOP:
+              apc40Drumpad.padTriggered(5, channel, drumpadVelocity.getValuef());
+              break;
+            case APC40.SCENE_LAUNCH:
+            case APC40.SCENE_LAUNCH+1:
+            case APC40.SCENE_LAUNCH+2:
+            case APC40.SCENE_LAUNCH+3:
+            case APC40.SCENE_LAUNCH+4:
+              apc40Drumpad.padTriggered(pitch - APC40.SCENE_LAUNCH, 8, drumpadVelocity.getValuef());
+              break;
+            case APC40.STOP_ALL_CLIPS:
+              apc40Drumpad.padTriggered(5, 8, drumpadVelocity.getValuef());
+              break;
           }
         }
         
@@ -96,26 +96,26 @@ class MidiEngine {
           int channel = note.getChannel();
           int pitch = note.getPitch();
           switch (pitch) {
-          case APC40.CLIP_LAUNCH:
-          case APC40.CLIP_LAUNCH+1:
-          case APC40.CLIP_LAUNCH+2:
-          case APC40.CLIP_LAUNCH+3:
-          case APC40.CLIP_LAUNCH+4:
-            apc40Drumpad.padReleased(pitch - APC40.CLIP_LAUNCH, channel);
-            break;
-          case APC40.CLIP_STOP:
-            apc40Drumpad.padReleased(5, channel);
-            break;
-          case APC40.SCENE_LAUNCH:
-          case APC40.SCENE_LAUNCH+1:
-          case APC40.SCENE_LAUNCH+2:
-          case APC40.SCENE_LAUNCH+3:
-          case APC40.SCENE_LAUNCH+4:
-            apc40Drumpad.padReleased(pitch - APC40.SCENE_LAUNCH, 8);
-            break;
-          case APC40.STOP_ALL_CLIPS:
-            apc40Drumpad.padReleased(5, 8);
-            break;
+            case APC40.CLIP_LAUNCH:
+            case APC40.CLIP_LAUNCH+1:
+            case APC40.CLIP_LAUNCH+2:
+            case APC40.CLIP_LAUNCH+3:
+            case APC40.CLIP_LAUNCH+4:
+              apc40Drumpad.padReleased(pitch - APC40.CLIP_LAUNCH, channel);
+              break;
+            case APC40.CLIP_STOP:
+              apc40Drumpad.padReleased(5, channel);
+              break;
+            case APC40.SCENE_LAUNCH:
+            case APC40.SCENE_LAUNCH+1:
+            case APC40.SCENE_LAUNCH+2:
+            case APC40.SCENE_LAUNCH+3:
+            case APC40.SCENE_LAUNCH+4:
+              apc40Drumpad.padReleased(pitch - APC40.SCENE_LAUNCH, 8);
+              break;
+            case APC40.STOP_ALL_CLIPS:
+              apc40Drumpad.padReleased(5, 8);
+              break;
           }
         }
       });

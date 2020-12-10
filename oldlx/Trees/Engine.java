@@ -127,11 +127,11 @@ abstract class Engine {
       configureMIDI();
     }
 
-	// see below for what this confusing function really means
-	if (Config.autoplayBMSet) {
-		engineController.setAutoplay(Config.autoplayBMSet, true/*force*/);
-	}
-	configureServer(); // turns on the TCP listener
+  	// see below for what this confusing function really means
+  	if (Config.autoplayBMSet) {
+  		engineController.setAutoplay(Config.autoplayBMSet, true/*force*/);
+  	}
+  	configureServer(); // turns on the TCP listener
 
     // bad code I know
     // (shouldn't mess with engine internals)
@@ -612,7 +612,7 @@ abstract class Engine {
 
     Triggerable triggerable = configurePatternAsTriggerable(pattern);
 
-    if (apc40Drumpad != null) {
+    if (Config.enableAPC40) {
       apc40DrumpadTriggerablesLists[apc40DrumpadRow].add(triggerable);
     }
   }
@@ -637,7 +637,7 @@ abstract class Engine {
   void registerEffect(LXEffect effect) {
     if (effect instanceof Triggerable) {
       Triggerable triggerable = (Triggerable) effect;
-      if (apc40Drumpad != null) {
+      if (Config.enableAPC40) {
         apc40DrumpadTriggerablesLists[0].add(triggerable);
       }
     }
@@ -657,7 +657,7 @@ abstract class Engine {
 
   void registerEffectControlParameter(LXListenableNormalizedParameter parameter, double offValue, double onValue, int row) {
     ParameterTriggerableAdapter triggerable = new ParameterTriggerableAdapter(lx, parameter, offValue, onValue);
-    if (apc40Drumpad != null) {
+    if (Config.enableAPC40) {
       apc40DrumpadTriggerablesLists[row].add(triggerable);
     }
   }
@@ -724,12 +724,13 @@ abstract class Engine {
 
   /* configureTriggerables */
 
-  ArrayList<Triggerable>[] apc40DrumpadTriggerablesLists;
-  Triggerable[][] apc40DrumpadTriggerables;
+  ArrayList<Triggerable>[] apc40DrumpadTriggerablesLists; // this is temporary
+  Triggerable[][] apc40DrumpadTriggerables; // this is forever
 
   @SuppressWarnings("unchecked")
   void configureTriggerables() {
-    if (apc40Drumpad != null) {
+
+  if (Config.enableAPC40) {
       apc40DrumpadTriggerablesLists = new ArrayList[]{
           new ArrayList<Triggerable>(),
           new ArrayList<Triggerable>(),
@@ -744,11 +745,13 @@ abstract class Engine {
     registerOneShotTriggerables();
     registerEffectTriggerables();
 
-	engineController.startEffectIndex = lx.engine.getEffects().size();
-	registerIPadEffects();
-	engineController.endEffectIndex = lx.engine.getEffects().size();
+  	engineController.startEffectIndex = lx.engine.getEffects().size();
+  	registerIPadEffects();
+  	engineController.endEffectIndex = lx.engine.getEffects().size();
 
-    if (apc40Drumpad != null) {
+    // 
+    if (Config.enableAPC40) {
+      // create a two-dimensional array, and copy... looks like an attempt to use static arrays instead
       apc40DrumpadTriggerables = new Triggerable[apc40DrumpadTriggerablesLists.length][];
       for (int i = 0; i < apc40DrumpadTriggerablesLists.length; i++) {
         ArrayList<Triggerable> triggerablesList = apc40DrumpadTriggerablesLists[i];
@@ -1006,25 +1009,34 @@ class TreesTransition extends LXTransition {
     });
   }
 
-  // this often comes in for the 3 iPad channels, what to do?
-  // should we include those in the channel tree levels, or not?
+  // I think this modifies the outputs of trees and shrubs specifically, using the tree and shrub
+  // sliders. Currently, we don't have shrub sliders, and there's no way to set a level on a tree
+  // that would effect triggerables
+
+  // it appears the functionlity is to blend c1 and c2 into the colors output, mediated
+  // by the channelTreeLevels.
   @Override
   protected void computeBlend(int[] c1, int[] c2, double progress) {
-    //System.out.println("ComputeBlend: "+this.channel.getIndex());
-    if (this.channel.getIndex() >= this.channelTreeLevels.length) {
-      System.out.println(" computeBlend: channel index too high "+this.channel.getIndex() );
-      return;
-    }
+
+    // these levels only exist on channels that show up in the screen, because they're
+    // tied to the screen. Bypass if it's a channel without this slider
+    //if (this.channel.getIndex() >= this.channelTreeLevels.length) {
+    //  System.out.println(" computeBlend: channel index too high "+this.channel.getIndex() );
+    //  return;
+    //}
     int treeIndex = 0;
     double treeLevel;
     for (Tree tree : model.trees) {
-      treeLevel = this.channelTreeLevels[this.channel.getIndex()].getValue(treeIndex);
-      float amount = (float) (progress * treeLevel);
-      if (amount == 0) {
+      float amount = 1.0f; // default value if there is no extra level
+      if (this.channel.getIndex() < this.channelTreeLevels.length) {
+        treeLevel = this.channelTreeLevels[this.channel.getIndex()].getValue(treeIndex);
+        amount = (float) (progress * treeLevel);
+      }
+      if (amount == 0.0f) {
         for (LXPoint p : tree.points) {
           colors[p.index] = c1[p.index];
         }
-      } else if (amount == 1) {
+      } else if (amount == 1.0f) {
         for (LXPoint p : tree.points) {
           int color2 = (blendType == LXColor.Blend.SUBTRACT) ? LX.hsb(0, 0, LXColor.b(c2[p.index])) : c2[p.index];
           colors[p.index] = LXColor.blend(c1[p.index], color2, this.blendType);
@@ -1041,13 +1053,16 @@ class TreesTransition extends LXTransition {
     int shrubIndex = 0;
     double shrubLevel;
     for (Shrub shrub : model.shrubs) {
-      shrubLevel = this.channelShrubLevels[this.channel.getIndex()].getValue(shrubIndex);
-      float amount = (float) (progress * shrubLevel);
-      if (amount == 0) {
+      float amount = 1.0f; // default value if there is no extra level
+      if (this.channel.getIndex() < this.channelShrubLevels.length) {
+        shrubLevel = this.channelShrubLevels[this.channel.getIndex()].getValue(shrubIndex);
+        amount = (float) (progress * shrubLevel);
+      }
+      if (amount == 0.0f) {
         for (LXPoint p : shrub.points) {
           colors[p.index] = c1[p.index];
         }
-      } else if (amount == 1) {
+      } else if (amount == 1.0f) {
         for (LXPoint p : shrub.points) {
           int color2 = (blendType == LXColor.Blend.SUBTRACT) ? LX.hsb(0, 0, LXColor.b(c2[p.index])) : c2[p.index];
           colors[p.index] = LXColor.blend(c1[p.index], color2, this.blendType);
