@@ -76,7 +76,7 @@ abstract class Engine {
   final BasicParameterProxy outputBrightness = new BasicParameterProxy(1);
 
   // breadcrumb regarding channelTreeLevels and channelShrubLevels
-  // these are controllers which should be used on a shrub-by-shrub basis to allow 
+  // these are controllers which should be used on a shrub-by-shrub basis to allow
   // setting the overall output. There _were_ UI elements for this, but I'm taking them
   // out in this checkin because there are too many to be shown. However, at least
   // for now, I'm leaving the Levels parameters, so we can write code to control
@@ -294,7 +294,7 @@ abstract class Engine {
     patterns.add(new TestShrubSweep(lx));
     patterns.add(new TestShrubLayers(lx));
     //patterns.add(new OrderTest(lx));
-
+      patterns.add(new AADebuggingPattern(lx));
   }
 
   LXPattern[] getPatternListForChannels() {
