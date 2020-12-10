@@ -31,24 +31,24 @@ class Rod {
         switch (rodPosition) {
             // looking at cluster from the center of shrub
             case 0: // longest, right
-                zKeyPoint = 2;
-                xKeyPoint = clusterMinRodLength * 1.25;
+                xKeyPoint = 2;
+                zKeyPoint = clusterMinRodLength * 1.25;
                 break;
             case 1: // left
-                zKeyPoint = -2;
-                xKeyPoint = clusterMinRodLength * 1.2;
+                xKeyPoint = -2;
+                zKeyPoint = clusterMinRodLength * 1.2;
                 break;
             case 2: //right
-                zKeyPoint = 2;
-                xKeyPoint = clusterMinRodLength;
+                xKeyPoint = 2;
+                zKeyPoint = clusterMinRodLength;
                 break;
             case 3: // left
-                zKeyPoint = -2;
-                xKeyPoint = clusterMinRodLength * .9;
+                xKeyPoint = -2;
+                zKeyPoint = clusterMinRodLength * .9;
                 break;
             case 4: // shortest, center
-                zKeyPoint = 0;
-                xKeyPoint = clusterMinRodLength * .7;
+                xKeyPoint = 0;
+                zKeyPoint = clusterMinRodLength * .7;
                 break;
             default:
                 break;
