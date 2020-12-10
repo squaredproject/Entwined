@@ -59,7 +59,9 @@ public class Voronoi extends EntwinedTriggerablePattern {
                     float distSq =
                             Utilities.pow(
                                             (LXUtils.wrapdistf(
-                                                    sites[i].theta, cube.getTransformedTheta(), 360)),
+                                                    sites[i].theta,
+                                                    cube.getTransformedTheta(),
+                                                    360)),
                                             2)
                                     + Utilities.pow(sites[i].yPos - cube.transformedY, 2);
                     if (distSq < nextMinDistSq) {

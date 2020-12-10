@@ -25,5 +25,5 @@ public abstract class EntwinedBasePattern extends LXPattern {
     }
 
     @Override
-    abstract public void run(double v);
+    public abstract void run(double v);
 }

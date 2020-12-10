@@ -27,6 +27,7 @@ public class Twister extends EntwinedTriggerablePattern {
     public void run(double deltaMs) {
         if (getChannel().fader.getNormalized() == 0) return;
 
+        System.out.println(model.yMax);
         float spinf = spin.getValuef();
         float coilf = 2 * coil(spin.getBasisf());
         for (BaseCube cube : model.baseCubes) {

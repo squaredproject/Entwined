@@ -71,6 +71,7 @@ public class BaseCube extends LXModel {
 
     /** Point of the cube in the form (theta, y) relative to center of tree base */
     public float transformedY;
+
     private float transformedTheta;
     public Vec2D transformedCylinderPoint;
 
@@ -111,12 +112,12 @@ public class BaseCube extends LXModel {
         transformedY = y;
     }
 
-    public void setTransformedTheta(float theta){
+    public void setTransformedTheta(float theta) {
         System.out.printf("θ set to %f\n", theta);
         transformedTheta = theta;
     }
 
-    public float getTransformedTheta(){
+    public float getTransformedTheta() {
         return this.transformedTheta;
     }
 

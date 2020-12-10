@@ -14,18 +14,18 @@ import heronarts.lx.parameter.LXParameter;
 
 
 class DoubleHelix extends TSPattern {
-  
+
   final SinLFO rate = new SinLFO(400, 3000, 11000);
   final SawLFO theta = new SawLFO(0, 180, rate);
   final SinLFO coil = new SinLFO(0.2, 2, 13000);
-  
+
   DoubleHelix(LX lx) {
     super(lx);
     addModulator(rate).start();
     addModulator(theta).start();
     addModulator(coil).start();
   }
-  
+
   public void run(double deltaMs) {
     if (getChannel().getFader().getNormalized() == 0) return;
 
@@ -41,10 +41,10 @@ class DoubleHelix extends TSPattern {
 }
 
 class ColoredLeaves extends TSPattern {
-  
+
   private SawLFO[] movement;
   private SinLFO[] bright;
-  
+
   ColoredLeaves(LX lx) {
     super(lx);
     movement = new SawLFO[3];
@@ -58,7 +58,7 @@ class ColoredLeaves extends TSPattern {
       addModulator(bright[i]).start();
     }
   }
-  
+
   public void run(double deltaMs) {
     if (getChannel().getFader().getNormalized() == 0) return;
 
@@ -73,7 +73,7 @@ class ColoredLeaves extends TSPattern {
 }
 
 class SeeSaw extends TSPattern {
-  
+
   final LXProjection projection = new LXProjection(model);
 
   final SinLFO rate = new SinLFO(2000, 11000, 19000);
@@ -82,7 +82,7 @@ class SeeSaw extends TSPattern {
   final SinLFO width = new SinLFO(1*Geometry.FEET, 8*Geometry.FEET, 13000);
 
   final BasicParameter bgLevel = new BasicParameter("BG", 25, 0, 50);
-  
+
   SeeSaw(LX lx) {
     super(lx);
     addModulator(rate).start();
@@ -90,7 +90,7 @@ class SeeSaw extends TSPattern {
     addModulator(rz).start();
     addModulator(width).start();
   }
-  
+
   public void run(double deltaMs) {
     if (getChannel().getFader().getNormalized() == 0) return;
 
@@ -112,19 +112,20 @@ class SeeSaw extends TSPattern {
 class Twister extends TSPattern {
 
   final SinLFO spin = new SinLFO(0, 5*360, 16000);
-  
+
   float coil(float basis) {
     return Utils.sin(basis*Utils.TWO_PI - Utils.PI);
   }
-  
+
   Twister(LX lx) {
     super(lx);
     addModulator(spin).start();
   }
-  
+
   public void run(double deltaMs) {
     if (getChannel().getFader().getNormalized() == 0) return;
 
+    System.out.println(model.yMax);
     float spinf = spin.getValuef();
     float coilf = 2*coil(spin.getBasisf());
     for (BaseCube cube : model.baseCubes) {
@@ -142,18 +143,18 @@ class Twister extends TSPattern {
 }
 
 class SweepPattern extends TSPattern {
-  
+
   final SinLFO speedMod = new SinLFO(3000, 9000, 5400);
   final SinLFO yPos = new SinLFO(model.yMin, model.yMax, speedMod);
   final SinLFO width = new SinLFO("WIDTH", 2*Geometry.FEET, 20*Geometry.FEET, 19000);
-  
+
   final SawLFO offset = new SawLFO(0, Utils.TWO_PI, 9000);
-  
+
   final BasicParameter amplitude = new BasicParameter("AMP", 10*Geometry.FEET, 0, 20*Geometry.FEET);
   final BasicParameter speed = new BasicParameter("SPEED", 1, 0, 3);
   final BasicParameter height = new BasicParameter("HEIGHT", 0, -300, 300);
   final SinLFO amp = new SinLFO(0, amplitude, 5000);
-  
+
   SweepPattern(LX lx) {
     super(lx);
     addModulator(speedMod).start();
@@ -165,7 +166,7 @@ class SweepPattern extends TSPattern {
     addModulator(amp).start();
     addModulator(offset).start();
   }
-  
+
   public void onParameterChanged(LXParameter parameter) {
     super.onParameterChanged(parameter);
     if (parameter == speed) {
@@ -173,8 +174,8 @@ class SweepPattern extends TSPattern {
       speedMod.setRange(9000 * speedVar,5400 * speedVar);
     }
   }
-  
-  
+
+
   public void run(double deltaMs) {
     if (getChannel().getFader().getNormalized() == 0) return;
 
@@ -190,12 +191,12 @@ class SweepPattern extends TSPattern {
 }
 
 class DiffusionTestPattern extends TSPattern {
-  
+
   final BasicParameter hue = new BasicParameter("HUE", 0, 360);
   final BasicParameter sat = new BasicParameter("SAT", 1);
   final BasicParameter brt = new BasicParameter("BRT", 1);
   final BasicParameter spread = new BasicParameter("SPREAD", 0, 360);
-  
+
   DiffusionTestPattern(LX lx) {
     super(lx);
     addParameter(hue);
@@ -203,7 +204,7 @@ class DiffusionTestPattern extends TSPattern {
     addParameter(brt);
     addParameter(spread);
   }
-  
+
   public void run(double deltaMs) {
     if (getChannel().getFader().getNormalized() == 0) return;
 
@@ -219,18 +220,18 @@ class DiffusionTestPattern extends TSPattern {
 }
 
 class TestPattern extends TSPattern {
-  
+
   int CUBE_MOD = 14;
-  
+
   final BasicParameter period = new BasicParameter("RATE", 3000, 2000, 6000);
   final SinLFO cubeIndex = new SinLFO(0, CUBE_MOD, period);
-  
+
   TestPattern(LX lx) {
     super(lx);
     addModulator(cubeIndex).start();
     addParameter(period);
   }
-  
+
   public void run(double deltaMs) {
     if (getChannel().getFader().getNormalized() == 0) return;
 
@@ -248,19 +249,19 @@ class TestPattern extends TSPattern {
 
 
 class ColorEffect extends Effect {
-  
+
   final BasicParameter desaturation = new BasicParameter("WHT", 0);
   final BasicParameter hueShift = new BasicParameter("HUE", 0, 360);
   final BasicParameter sharp = new BasicParameter("SHRP", 0);
   final BasicParameter soft = new BasicParameter("SOFT", 0);
   final BasicParameter mono = new BasicParameter("MON", 0);
   final BasicParameter rainbow = new BasicParameter("ACID", 0);
-  
+
   private final DampedParameter hueShiftd = new DampedParameter(hueShift, 180);
   private final DampedParameter rainbowd = new DampedParameter(rainbow, 1);
-  
+
   private float[] hsb = new float[3];
-  
+
   ColorEffect(LX lx) {
     super(lx);
     addParameter(desaturation);
@@ -269,11 +270,11 @@ class ColorEffect extends Effect {
     addParameter(soft);
     addParameter(mono);
     addParameter(rainbow);
-    
+
     addModulator(hueShiftd).start();
     addModulator(rainbowd).start();
   }
-  
+
   protected void run(double deltaMs) {
     float desatf = desaturation.getValuef();
     float huef = hueShiftd.getValuef();
@@ -300,7 +301,7 @@ class ColorEffect extends Effect {
             b = Utils.lerp(b, 0.5f * Utils.sqrt(2*b), softf);
           }
         }
-        
+
         float h = LXColor.h(colors[i]);
         float bh = lx.getBaseHuef();
         if (rainbowf > 0) {
@@ -314,7 +315,7 @@ class ColorEffect extends Effect {
             h += 360;
           }
         }
-        
+
         colors[i] = lx.hsb(
           (Utils.lerp(h, bh, monof) + huef) % 360,
           LXColor.s(colors[i]) * (1 - desatf),
@@ -332,28 +333,28 @@ class ColorEffect2 extends ColorEffect {
 }
 
 class TestShrubSweep extends TSPattern {
-    
+
     final BasicParameter x;
     final BasicParameter y;
     final BasicParameter z;
-    
+
     TestShrubSweep(LX lx) {
         super(lx);
         addParameter(x = new BasicParameter("X", 200, lx.model.xMin, lx.model.xMax));
         addParameter(y = new BasicParameter("Y", 200, lx.model.yMin, lx.model.yMax));
         addParameter(z = new BasicParameter("Z", 200, lx.model.zMin, lx.model.zMax));
-        
+
     }
-    
+
     public void run(double deltaMs) {
         if (getChannel().getFader().getNormalized() == 0) return;
-        
+
         for (BaseCube cube : model.baseCubes) {
             if (cube.treeOrShrub == TreeOrShrub.SHRUB) {
                 if (Utils.abs(cube.ax - x.getValuef()) < 1 || Utils.abs(cube.ay - y.getValuef()) < 1 || Utils.abs(cube.az - z.getValuef()) < 1) {
-                    colors[cube.index] = lx.hsb(135, 100, 100);    
+                    colors[cube.index] = lx.hsb(135, 100, 100);
                 } else {
-                    colors[cube.index] = lx.hsb(135, 100, 0);    
+                    colors[cube.index] = lx.hsb(135, 100, 0);
                 }
             }
         }
@@ -361,31 +362,31 @@ class TestShrubSweep extends TSPattern {
 }
 
 class TestShrubLayers extends TSPattern {
-    
+
     final BasicParameter rodLayer;
     final BasicParameter clusterIndex;
     final BasicParameter shrubIndex;
-    
+
     TestShrubLayers(LX lx) {
         super(lx);
         // lowest level means turning that param off
         addParameter(rodLayer = new BasicParameter("layer", 0, 0, 5));
         addParameter(clusterIndex = new BasicParameter("clusterIndex", -1, -1, 11));
         addParameter(shrubIndex = new BasicParameter("shrubIndex", -1, -1, 19));
-        
+
     }
-    
+
     public void run(double deltaMs) {
         if (getChannel().getFader().getNormalized() == 0) return;
-        
+
         for (BaseCube cube : model.baseCubes) {
             if (cube.treeOrShrub == TreeOrShrub.SHRUB) {
-                ShrubCube shrubCube = (ShrubCube) cube;              
-                
+                ShrubCube shrubCube = (ShrubCube) cube;
+
                 if (shrubCube.config.rodIndex == (int)rodLayer.getValue() || shrubCube.config.clusterIndex == (int)clusterIndex.getValue() || shrubCube.config.shrubIndex == (int)shrubIndex.getValue()) {
-                    colors[cube.index] = lx.hsb(135, 100, 100);    
+                    colors[cube.index] = lx.hsb(135, 100, 100);
                 } else {
-                    colors[cube.index] = lx.hsb(135, 100, 0);    
+                    colors[cube.index] = lx.hsb(135, 100, 0);
                 }
             }
         }

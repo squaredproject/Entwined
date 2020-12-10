@@ -36,7 +36,8 @@ public class Stripes extends EntwinedTriggerablePattern {
                                                     * (Utilities.sin(
                                                                     (Utilities.TWO_PI / 360)
                                                                             * 4
-                                                                            * cube.getTransformedTheta())
+                                                                            * cube
+                                                                                    .getTransformedTheta())
                                                             + slopeFactor.getValuef()
                                                                     * cube.transformedY));
             colors[cube.index] = LX.hsb(hueVal, 100, brightVal);
