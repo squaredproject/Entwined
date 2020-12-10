@@ -1,0 +1,10 @@
+[Unit]
+Description=Entwined
+
+[Service]
+ExecStart=/home/entwined/Entwined/run.sh
+ExecStop=/bin/pkill java
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
