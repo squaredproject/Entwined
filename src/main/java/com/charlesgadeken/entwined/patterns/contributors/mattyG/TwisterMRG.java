@@ -12,7 +12,8 @@ import heronarts.lx.parameter.BoundedParameter;
 public class TwisterMRG extends EntwinedTriggerablePattern {
 
     final SinLFO spin = new SinLFO(0, 5 * 360, 16000);
-    final BoundedParameter pitch = new BoundedParameter("ZPitch", 0, 0, 360);
+    final BoundedParameter pitch = new BoundedParameter("ZPitch", 0, 0, 20);
+    final BoundedParameter width = new BoundedParameter("fanWidth", 10, 0, 360);
 
     float coil(float basis) {
         return Utilities.sin(basis * Utilities.TWO_PI - Utilities.PI);
@@ -22,6 +23,7 @@ public class TwisterMRG extends EntwinedTriggerablePattern {
         super(lx);
         addModulator(spin).start();
         addParameter(pitch);
+        addParameter(width);
     }
 
     @Override
@@ -33,7 +35,7 @@ public class TwisterMRG extends EntwinedTriggerablePattern {
         for (BaseCube cube : model.baseCubes) {
             float cubeAng =
                     (float) (cube.getTransformedTheta() + (pitch.getValue() * cube.transformedY));
-            if ((Math.abs((angleDeg - cubeAng) % 360)) > 10) {
+            if ((Math.abs((angleDeg - cubeAng) % 360)) > width.getValue()) {
                 colors[cube.index] = LX.hsa(0, 0, 0);
                 continue;
             }

@@ -2,15 +2,12 @@ package com.charlesgadeken.entwined;
 
 import com.charlesgadeken.entwined.config.ConfigLoader;
 import com.charlesgadeken.entwined.effects.EntwinedBaseEffect;
-import com.charlesgadeken.entwined.effects.TurnOffDeadPixelsEffect;
 import com.charlesgadeken.entwined.model.Model;
 import com.charlesgadeken.entwined.model.ModelTransformTask;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import com.charlesgadeken.entwined.triggers.drumpad.APC40mk1;
 import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
-import heronarts.lx.blend.DissolveBlend;
-import heronarts.lx.blend.LXBlend;
 import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.parameter.LXParameter;
 import heronarts.lx.pattern.LXPattern;
@@ -68,7 +65,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         EntwinedOutput output = new EntwinedOutput(lx, model, parameters.outputBrightness);
 
         if (ConfigLoader.enableOutputBigtree) {
-            lx.addEffect(new TurnOffDeadPixelsEffect(lx));
+            // lx.addEffect(new TurnOffDeadPixelsEffect(lx));
             output.configureExternalOutput();
         }
 
@@ -100,7 +97,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     void configureChannels() {
         for (int i = 0; i < ConfigLoader.NUM_CHANNELS; ++i) {
             LXChannel channel = addChannelsAudited(EntwinedPatterns.getPatterns(lx), "BASE");
-            setupChannel(channel, true);
+            setupChannel(channel, false);
             channel.fader.setValue(i == 0 ? 1 : 0);
             channel.goPatternIndex(i);
         }
@@ -113,7 +110,9 @@ public class EntwinedGui extends PApplet implements LXPlugin {
 
                 setupChannel(channel, true);
                 channel.fader.setValue(1);
-                channel.blendMode.setObjects(new LXBlend[] {new DissolveBlend(lx)});
+
+                // TODO(meawoppl) RM1
+                // channel.blendMode.setObjects(new LXBlend[] {new DissolveBlend(lx)});
 
                 if (i == 0) {
                     channel.goPatternIndex(1);
@@ -127,15 +126,15 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     }
 
     void setupChannel(final LXChannel channel, boolean noOpWhenNotRunning) {
-        channel.transitionBlendMode.setObjects(
-                new LXBlend[] {
-                    new TreesTransition(
-                            lx,
-                            channel,
-                            model,
-                            parameters.channelTreeLevels,
-                            parameters.channelShrubLevels)
-                });
+        //        channel.transitionBlendMode.setObjects(
+        //                new LXBlend[] {
+        //                    new TreesTransition(
+        //                            lx,
+        //                            channel,
+        //                            model,
+        //                            parameters.channelTreeLevels,
+        //                            parameters.channelShrubLevels)
+        //                });
 
         if (noOpWhenNotRunning) {
             channel.enabled.setValue(channel.fader.getValue() != 0);
@@ -146,11 +145,15 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     }
 
     private void loadPatterns(LX lx) {
-        reflections.getSubTypesOf(EntwinedBasePattern.class).forEach(lx.registry::addPattern);
+        reflections.getSubTypesOf(EntwinedBasePattern.class).stream()
+                .filter(Utilities::isConcrete)
+                .forEach(lx.registry::addPattern);
     }
 
     private void loadEffects(LX lx) {
-        reflections.getSubTypesOf(EntwinedBaseEffect.class).forEach(lx.registry::addEffect);
+        reflections.getSubTypesOf(EntwinedBaseEffect.class).stream()
+                .filter(Utilities::isConcrete)
+                .forEach(lx.registry::addEffect);
     }
 
     @Override

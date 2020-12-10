@@ -25,12 +25,9 @@ import com.charlesgadeken.entwined.triggers.drumpad.EntwinedDrumpad;
 import com.charlesgadeken.entwined.triggers.drumpad.MidiEngine;
 import com.charlesgadeken.entwined.triggers.http.AppServer;
 import heronarts.lx.LX;
-import heronarts.lx.blend.LXBlend;
 import heronarts.lx.effect.BlurEffect;
 import heronarts.lx.effect.LXEffect;
-import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.parameter.*;
-import heronarts.lx.pattern.LXPattern;
 
 public class EntwinedTriggers {
     private final LX lx;
@@ -266,57 +263,6 @@ public class EntwinedTriggers {
 
         // pattern.onTriggerableModeEnabled();
         return pattern.getTriggerable();
-    }
-
-    void setupChannel(final LXChannel channel, boolean noOpWhenNotRunning) {
-        // TODO(meawoppl)
-        // @Slee, honestly no idea what the intention is here...
-        // It looks like patterns used to have associated traditionss" have have moved to the
-        // `blend` language, but I don't seen any analogue for that remaining....
-        //        channel.setFaderTransition(
-        //                new TreesTransition(lx, channel, model, parameters.channelTreeLevels,
-        // parameters.channelShrubLevels));
-
-        // Trying the following:
-        channel.transitionBlendMode.setObjects(
-                new TreesTransition[] {
-                    new TreesTransition(
-                            lx,
-                            channel,
-                            model,
-                            parameters.channelTreeLevels,
-                            parameters.channelShrubLevels)
-                });
-
-        channel.addListener(
-                new LXChannel.Listener() {
-                    LXBlend transition;
-
-                    @Override
-                    public void patternWillChange(
-                            LXChannel channel, LXPattern pattern, LXPattern nextPattern) {
-                        if (!channel.enabled.isOn()) {
-                            // TODO(meawoppl) - IDK
-                            // transition = nextPattern.getTransition();
-                            //  nextPattern.setTransition(null);
-                        }
-                    }
-
-                    @Override
-                    public void patternDidChange(LXChannel channel, LXPattern pattern) {
-                        if (transition != null) {
-                            // TODO(meawoppl) IDK
-                            // pattern.setTransition(transition);
-                            // transition = null;
-                        }
-                    }
-                });
-
-        if (noOpWhenNotRunning) {
-            channel.enabled.setValue(channel.fader.getValue() != 0);
-            channel.fader.addListener(
-                    (parameter) -> channel.enabled.setValue(channel.fader.getValue() != 0));
-        }
     }
 
     void registerEffectControlParameter(LXListenableNormalizedParameter parameter) {

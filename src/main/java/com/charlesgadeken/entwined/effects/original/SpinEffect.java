@@ -7,7 +7,6 @@ import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.FunctionalParameter;
 import heronarts.lx.parameter.LXParameter;
-import heronarts.lx.parameter.LXParameterListener;
 
 public class SpinEffect extends ModelTransform {
     public final BoundedParameter spin = new BoundedParameter("SPIN");
@@ -24,14 +23,12 @@ public class SpinEffect extends ModelTransform {
         addModulator(rotation);
 
         spin.addListener(
-                new LXParameterListener() {
-                    public void onParameterChanged(LXParameter parameter) {
-                        if (spin.getValue() > 0) {
-                            rotation.start();
-                            rotation.setLooping(true);
-                        } else {
-                            rotation.setLooping(false);
-                        }
+                (LXParameter parameter) -> {
+                    if (spin.getValue() > 0) {
+                        rotation.start();
+                        rotation.setLooping(true);
+                    } else {
+                        rotation.setLooping(false);
                     }
                 });
     }
