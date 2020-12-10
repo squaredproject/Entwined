@@ -42,7 +42,7 @@ class MidiEngine {
   
   public MidiEngine(final LX lx, LXListenableNormalizedParameter[] effectKnobParameters, final TSDrumpad apc40Drumpad, 
         final BasicParameter drumpadVelocity, final BooleanParameter[] previewChannels, final BPMTool bpmTool, 
-        final InterfaceController uiDeck, final BooleanParameter[][] nfcToggles, 
+        final InterfaceController uiDeck, 
         final BasicParameter outputBrightness, DiscreteParameter automationSlot, 
         LXAutomationRecorder[] automation, BooleanParameter[] automationStop) {
     
