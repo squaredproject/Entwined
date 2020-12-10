@@ -376,8 +376,8 @@ class TestShrubSweep extends TSPattern {
         addParameter(x = new BasicParameter("X", 0, lx.model.xMin, lx.model.xMax));
         // the following y param should light the two shortest rods of a shrub when the beam is set to 1
         // may be useful for adjusting the rotation of the shrubs in the JSON config
-//        addParameter(y = new BasicParameter("Y", 20.8, lx.model.yMin, lx.model.yMax)); 
-        addParameter(y = new BasicParameter("Y", 0, lx.model.yMin, lx.model.yMax));
+        addParameter(y = new BasicParameter("Y", 20.8, lx.model.yMin, lx.model.yMax)); 
+//        addParameter(y = new BasicParameter("Y", 0, lx.model.yMin, lx.model.yMax));
         addParameter(z = new BasicParameter("Z", 0, lx.model.zMin, lx.model.zMax));
         addParameter(beam = new BasicParameter("beam", 5, 1, 15));
     }
