@@ -20,15 +20,15 @@ class SyphonPattern extends TSPattern {
     addParameter(getWidth);
     addParameter(mode);
     client = new SyphonClient(applet, "Modul8", "Main View");
-    xpoints = new int[model.cubes.size()];
-    ypoints = new int[model.cubes.size()];
+    xpoints = new int[model.baseCubes.size()];
+    ypoints = new int[model.baseCubes.size()];
   }
 
   void generateMap(int buffWidth, int buffHeight) {
     this.xscale = buffWidth / model.xRange;
     this.yscale = buffHeight / model.yRange;
     int cubeIdx = 0;    
-    for (Cube cube : model.cubes) {
+    for (BaseCube cube : model.baseCubes) {
       xpoints[cubeIdx] = int((cube.cx - model.xMin) * this.xscale);
       ypoints[cubeIdx] = buffHeight - int((cube.cy - model.yMin) * this.yscale);    
       cubeIdx++;
@@ -65,6 +65,8 @@ class SyphonPattern extends TSPattern {
       }
       int cubeIdx = 0;
       int c = 0;
+      // NOTE: This is no longer correct because we need to account
+      // for BaseCube, not bothering to fix because syphon is required
       for (Cube cube : model.cubes) {
         switch (mode.getValuei()) {
           case 1: c = mode1(cube, cubeIdx);

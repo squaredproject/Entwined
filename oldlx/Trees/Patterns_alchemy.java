@@ -21,43 +21,24 @@ class Zebra extends TSPattern {
     if (getChannel().getFader().getNormalized() == 0) return;
     
     timer = timer + deltaMs;
-    for (Cube cube : model.cubes){
-    float hue = .4f;
-    float saturation;
-    float brightness = 1;
-    
-    if (((cube.transformedY + position.getValue() + cube.transformedTheta) % 200) > thickness.getValue()) {
-      saturation=0;
-      brightness=1;
-    } else {
-      saturation=1;
-      brightness=0;
-    }
-    
-    colors[cube.index] = lx.hsb (
-    360 * hue, 
-    100 * saturation,
-    100 * brightness
-   );
-  }
-  for (ShrubCube cube : model.shrubCubes){
-    float hue = .4f;
-    float saturation;
-    float brightness = 1;
-    
-    if (((cube.transformedY + position.getValue() + cube.transformedTheta) % 200) > thickness.getValue()) {
-      saturation=0;
-      brightness=1;
-    } else {
-      saturation=1;
-      brightness=0;
-    }
-    
-    colors[cube.index] = lx.hsb (
-    360 * hue, 
-    100 * saturation,
-    100 * brightness
-   );
+    for (BaseCube cube : model.baseCubes){
+      float hue = .4f;
+      float saturation;
+      float brightness = 1;
+      
+      if (((cube.transformedY + position.getValue() + cube.transformedTheta) % 200) > thickness.getValue()) {
+        saturation=0;
+        brightness=1;
+      } else {
+        saturation=1;
+        brightness=0;
+      }
+      
+      colors[cube.index] = lx.hsb (
+        360 * hue, 
+        100 * saturation,
+        100 * brightness
+      );
   }
  }
 }

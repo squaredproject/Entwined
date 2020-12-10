@@ -1049,12 +1049,6 @@ class SpinEffect extends ModelTransform {
       for (BaseCube cube : model.baseCubes) {
         cube.transformedTheta = (cube.transformedTheta + 360 - rotationTheta) % 360;
       }
-      for (Cube cube : model.cubes) {
-        cube.transformedTheta = (cube.transformedTheta + 360 - rotationTheta) % 360;
-      }
-      for (ShrubCube cube : model.shrubCubes) {
-        cube.transformedTheta = (cube.transformedTheta + 360 - rotationTheta) % 360;
-      }
     }
   }
 }
@@ -1121,7 +1115,7 @@ class AcidTripTextureEffect extends Effect {
     if (amount.getValue() > 0) {
       for (int i = 0; i < colors.length; i++) {
         int oldColor = colors[i];
-        Cube cube = model.cubes.get(i);
+        BaseCube cube = model.baseCubes.get(i);
         // TODO ashley modify the rest of the file for shrubCubes
         // ShrubCube shrubCube = model.shrubCubes.get(i);
 
@@ -1175,7 +1169,7 @@ class CandyCloudTextureEffect extends Effect {
       time += deltaMs;
       for (int i = 0; i < colors.length; i++) {
         int oldColor = colors[i];
-        Cube cube = model.cubes.get(i);
+        BaseCube cube = model.baseCubes.get(i);
 
         double adjustedX = cube.x / scale;
         double adjustedY = cube.y / scale;
@@ -1250,7 +1244,7 @@ class GalaxyCloud extends TSPattern {
     float initialSpreadMin = hueMid - hueMinExtra;
 
     time += deltaMs;
-    for (Cube cube : model.cubes) {
+    for (BaseCube cube : model.baseCubes) {
       float adjustedTheta = cube.transformedTheta / 360;
       float adjustedY = (cube.transformedY - model.yMin) / (model.yMax - model.yMin);
       float adjustedTime = (float)time / 5000;

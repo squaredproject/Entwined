@@ -755,7 +755,7 @@ class Pulley extends TSTriggerablePattern { //ported from SugarCubes
       }
   
       float falloff = 100.f / (3 + sz.getValuef() * 36 + fPos * beatAmount.getValuef()*48);
-      for (Cube cube : model.cubes) {
+      for (BaseCube cube : model.baseCubes) {
         int gi = (int) Utils.constrain((cube.x - model.xMin) * NUM_DIVISIONS / (model.xMax - model.xMin), 0, NUM_DIVISIONS-1);
         float yn =  cube.transformedY/model.yMax;
         colors[cube.index] = lx.hsb(
@@ -1080,7 +1080,7 @@ class Pulleys extends TSTriggerablePattern { //ported from SugarCubes
 //  }
 //
 //  void transform(Model model) {
-//    for (Cube cube: model.cubes) {
+//    for (BaseCube cube: model.baseCubes) {
 //      cube.transformedY = cube.transformedY * ( 1 - ripple.getValuef() * amplitude.getValuef() * Utils.sin((cube.transformedTheta + rotate) / 30 * Utils.PI ));
 //    }
 //  }
@@ -1118,7 +1118,7 @@ class Pulleys extends TSTriggerablePattern { //ported from SugarCubes
 //       resetDone = false;
 //     }
 //     float radius = Utils.pow(rippleAge.getValuef(), 2) / 3;
-//     for (Cube cube : model.cubes) {
+//     for (BaseCube cube : model.baseCubes) {
 //       float distVal = Utils.sqrt(Utils.pow((LXUtils.wrapdistf(thetaCenter, cube.transformedTheta, 360)) * 0.8f, 2) + Utils.pow(yCenter - cube.transformedY, 2));
 //       float heightHueVariance = 0.1f * cube.transformedY;
 //       if (distVal < radius){

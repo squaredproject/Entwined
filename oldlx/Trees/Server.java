@@ -50,7 +50,7 @@ class ParseClientTask implements LXLoopTask {
       String whatClientSaid = client.readStringUntil('\n');
       if (whatClientSaid == null) return;
 
-      System.out.print("Request: " + whatClientSaid);
+      //System.out.print("Request: " + whatClientSaid);
 
       Map<String, Object> message = null;
       try {
@@ -188,7 +188,7 @@ class ClientCommunicator {
     Map<String, Object> json = new HashMap<String, Object>();
     json.put("method", method);
     json.put("params", params);
-    System.out.println("Response: " + gson.toJson(json));
+    //System.out.println("Response: " + gson.toJson(json));
     server.write(gson.toJson(json) + "\r\n");
   }
 

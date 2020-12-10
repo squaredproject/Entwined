@@ -46,7 +46,7 @@ class ColorWave extends TSPattern {
     addParameter(waveSlope);
     addParameter(speedParam);
 
-    for (Cube cube : model.cubes) {
+    for (BaseCube cube : model.baseCubes) {
       if (cube.z < minz) {minz = cube.z;}
       if (cube.z > maxz) {maxz = cube.z;}
     }
@@ -287,6 +287,7 @@ class ChristmasTree extends TSPattern {
         }
       }
 
+      // It's OK this is only cubes, because it's just the tree cubes
       for (Cube cube : model.cubes) {
         if (cube.config.layerIndex == 2) {
             colors[cube.index] = lx.hsb(60, 100, 100);

@@ -732,8 +732,7 @@ abstract class Engine {
       });
     }
 
-    String filename = "data/Burning Man Playlist.json";
-    JsonArray jsonArr = loadSavedSetFile(filename);
+    JsonArray jsonArr = loadSavedSetFile(Config.AUTOPLAY_FILE);
     automation[automationSlot.getValuei()].loadJson(jsonArr);
     // slotLabel.setLabel(labels[automationSlot.getValuei()] = filename);
     automation[automationSlot.getValuei()].looping.setValue(true);
@@ -902,18 +901,21 @@ class EngineController {
     return lx.engine.getChannels().subList(baseChannelIndex, baseChannelIndex + numChannels);
   }
 
-  // Are these indexes 1,2,3, or are they 8,9,10? - BB TODO
+  // The indexes here are real indexes, because when we gave the channel, we gave the actual index
   void setChannelPattern(int channelIndex, int patternIndex) {
     if (patternIndex == -1) {
       patternIndex = 0;
     } else {
       patternIndex++;
     }
-    lx.engine.getChannel(baseChannelIndex + channelIndex).goIndex(patternIndex);
+    lx.engine.getChannel(channelIndex).goIndex(patternIndex);
   }
 
   void setChannelVisibility(int channelIndex, double visibility) {
-    lx.engine.getChannel(baseChannelIndex + channelIndex).getFader().setValue(visibility);
+    // have to be sure
+    LXChannel channel = lx.engine.getChannel(channelIndex);
+    //channel.enabled.setValue(true);
+    channel.getFader().setValue(visibility);
   }
 
   void setActiveColorEffect(int effectIndex) {
@@ -980,12 +982,11 @@ class EngineController {
 
         if (toEnable) {
           channel.enabled.setValue(previousChannelIsOn[channel.getIndex()]);
-          System.out.println(" setAutoplay: toEnable true: channel "+channel.getIndex()+" setting to "+previousChannelIsOn[channel.getIndex()]);
+          //System.out.println(" setAutoplay: toEnable true: channel "+channel.getIndex()+" setting to "+previousChannelIsOn[channel.getIndex()]);
         } else {
           previousChannelIsOn[channel.getIndex()] = channel.enabled.isOn();
           channel.enabled.setValue(false);
-          System.out.println(" setAutoplay: toEnable false: channel "+channel.getIndex()+" setting to false");
-
+          //System.out.println(" setAutoplay: toEnable false: channel "+channel.getIndex()+" setting to false");
         }
       }
 
