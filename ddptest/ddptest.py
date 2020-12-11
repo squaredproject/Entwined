@@ -225,6 +225,12 @@ def pattern_palette():
             leds_send(leds)
             time.sleep(1.0)
 
+# set to black and exit
+def pattern_black():
+    global leds
+    color_fill(leds, palette['black'])
+    leds_send(leds)
+
 # ring around the HSV, high fps
 def pattern_hsv():
     global leds
@@ -333,7 +339,7 @@ def pattern_cube_color(n_cubes: int):
 def arg_init():
     parser = argparse.ArgumentParser(prog='ddptest', description='Send DDP packets to an NDB for testing')
     parser.add_argument('--host', type=str, help='IP address for destination')
-    parser.add_argument('--pattern', '-p', type=str, help='one of: palette, hsv, order, shrub_rank, shrub_rank_order, cube_order, cube_color')
+    parser.add_argument('--pattern', '-p', type=str, help='one of: palette, hsv, order, shrub_rank, shrub_rank_order, cube_order, cube_color, black')
     parser.add_argument('--leds', '-l', type=int, default=40, help='number of leds')
     parser.add_argument('--cubes', '-c', type=int, help='number of cubes')
 
@@ -386,6 +392,8 @@ def main():
     		print(" cube color, you must have cubes try again")
     		exit(-1)
     	pattern_cube_color(args.cubes)
+    elif args.pattern == 'black':
+        pattern_black()
     else:
         print(' pattern must be one of palette, hsv, order, shrub_rank, shrub_rank_order, cube_order')
 
