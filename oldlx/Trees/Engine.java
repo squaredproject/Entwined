@@ -189,6 +189,12 @@ abstract class Engine {
 
     registerPatternController("Pond", new Pond(lx));
     registerPatternController("Planes", new Planes(lx));
+
+    registerPatternController("Circles", new Circles(lx));
+    registerPatternController("LineScan", new LineScan(lx));
+    registerPatternController("WaveScan", new WaveScan(lx));
+    registerPatternController("RainbowWaveScan", new RainbowWaveScan(lx));
+
   }
 
   void registerIPadEffects() {
@@ -286,6 +292,12 @@ abstract class Engine {
     patterns.add(new Pixels(lx));
     patterns.add(new Wedges(lx));
     patterns.add(new Parallax(lx));
+
+    //Miskos
+    patterns.add(new Circles(lx));
+    patterns.add(new LineScan(lx));
+    patterns.add(new WaveScan(lx));
+    patterns.add(new RainbowWaveScan(lx));
 
     // Test patterns
     patterns.add(new ClusterLineTest(lx));
