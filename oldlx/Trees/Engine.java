@@ -189,6 +189,7 @@ abstract class Engine {
 
     registerPatternController("Pond", new Pond(lx));
     registerPatternController("Planes", new Planes(lx));
+    registerPatternController("Growth", new Growth(lx));
   }
 
   void registerIPadEffects() {
@@ -250,6 +251,7 @@ abstract class Engine {
     // Grant Patterson Patterns
     patterns.add(new Pond(lx));
     patterns.add(new Planes(lx));
+    patterns.add(new Growth(lx));
 
     // patterns.add(new DoubleHelix(lx));
     patterns.add(new SparkleHelix(lx));
@@ -348,6 +350,7 @@ abstract class Engine {
 
     registerPattern(new Pond(lx));
     registerPattern(new Planes(lx));
+    registerPattern(new Growth(lx));
   }
 
   void registerOneShotTriggerables() {
