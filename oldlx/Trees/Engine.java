@@ -143,7 +143,7 @@ abstract class Engine {
   }
 
   void start() {
-    //lx.engine.start();
+    lx.engine.start();
   }
 
   abstract LX createLX();
