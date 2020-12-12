@@ -122,6 +122,194 @@ class LineScan extends TSPattern {
   }
 }
 
+class Stringy extends TSPattern {
+  // Variable Declarations go here
+  private float waveWidth = 1;
+  private float speedMult = 1000;
+
+  private double total_ms1 =0.0;
+  private double total_ms2 =0.0;
+  private float p[][];
+  private float d[][];
+  private float shadow[][];
+  private int n=3;
+  private int current_cube_r[];
+  private int current_cube_g[];
+  private int current_cube_b[];
+  final BasicParameter speedParam = new BasicParameter("Speed", 5, 20, .01);
+  final BasicParameter waveSlope = new BasicParameter("waveSlope", 360, 1, 720);
+  final SawLFO wave360 = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
+  final SinLFO wave100 = new SinLFO(0, 100, speedParam.getValuef() * speedMult);
+
+  private float dist(float  x, float y, float z, float a, float b, float c) {
+	//return (float)Math.sqrt(Math.pow(x-a,2)+0.5*Math.pow(y-b,2)+Math.pow(z-c,2));
+	return (float)(Math.pow(x-a,2)+Math.pow(y-b,2)+Math.pow(z-c,2));
+	//return (float)(Math.pow(x-a,2)+Math.pow(z-b,2));
+  }
+  Stringy(LX lx) {
+    super(lx);
+    addModulator(wave360).start();
+    addModulator(wave100).start();
+    addParameter(waveSlope);
+    addParameter(speedParam);
+
+    
+    p = new float[model.baseCubes.size()][model.baseCubes.size()];
+    d = new float[model.baseCubes.size()][model.baseCubes.size()];
+    shadow = new float[model.baseCubes.size()][3];
+    
+    for (int i=0; i<model.baseCubes.size(); i++) {
+        shadow[i][0]=(float)0;
+        shadow[i][1]=(float)0;
+        shadow[i][2]=(float)0;
+        BaseCube cubei = model.baseCubes.get(i);
+        float norm=0;
+    	for (int j=0; j<model.baseCubes.size(); j++) {
+           BaseCube cubej = model.baseCubes.get(j);
+           if (i==j) {
+		p[i][j]=0;
+           } else {
+	   	float dd = dist(cubei.x,cubei.y,cubei.z,cubej.x,cubej.y,cubej.z);
+	   	d[i][j]=(float)1.0/dd;
+		if (Float.isInfinite(d[i][j])) {
+		   d[i][j]=(float)1000000;
+		}
+           	norm+=d[i][j];
+           }
+	}
+    	for (int j=0; j<model.baseCubes.size(); j++) {
+		p[i][j]=(float)d[i][j]/norm;
+	}
+        
+    }
+    current_cube_r = new int[n];
+    current_cube_g = new int[n];
+    current_cube_b = new int[n];
+    for (int i=0; i<n; i++) {
+	current_cube_r[i]=(int)(Math.random() * (model.baseCubes.size() - 0 + 1) + 0);
+	current_cube_g[i]=(int)(Math.random() * (model.baseCubes.size() - 0 + 1) + 0);
+	current_cube_b[i]=(int)(Math.random() * (model.baseCubes.size() - 0 + 1) + 0);
+    }
+  }
+
+
+  private float dmax(int query, int cubes[]) {
+	int x = cubes[0];
+	float dmax=d[query][cubes[0]];
+	for (int i=1; i<n; i++) {
+		if (dmax<d[query][cubes[i]]) {
+			dmax=d[query][cubes[i]];
+		}
+	}
+	return dmax;
+  } 
+  private boolean hits_cube(int query, int cubes[]) {
+	for (int i=0; i<n; i++) {
+		if (query==cubes[i]) {
+			return true; 
+		}
+	}
+	return false;
+  }
+  private float new_shadow(float old_shadow, float current_d) {
+	float d_shadow = (float)(current_d*current_d/(0.0005*0.0005))*0.1f;
+	float m_shadow = (float)(old_shadow);	
+	if (d_shadow>m_shadow) {
+		return (float)(d_shadow);
+	}
+	if (m_shadow>0.9) {
+		return (float)(m_shadow*0.99);
+	} else if (m_shadow>0.3) {
+		return (float)(m_shadow*0.90);
+	} else if (m_shadow>0.1) { 
+		return (float)(m_shadow*0.8);
+	}
+	return (float)m_shadow*0.99f;
+	//return (float)Math.max(old_shadow*0.90,(current_d*current_d/(0.0005*0.0005))*0.3);
+       /* if (old_shadow>0.98) {
+		return (float)(old_shadow*0.99+current_d*3/n);
+	} else if (old_shadow>0.3) {
+		return (float)(old_shadow*0.95+current_d*2/n);
+	}
+	if (current_d>0.0005) {
+		return (float)0.9;
+	}
+	return (float)(old_shadow*0.999+current_d/n);*/
+  }
+  // This is the pattern loop, which will run continuously via LX
+  public void run(double deltaMs) {
+    //wave360.setPeriod(speedParam.getValuef() * speedMult);
+    //wave100.setPeriod(speedParam.getValuef() * speedMult);
+      total_ms1+=deltaMs;
+      total_ms2+=deltaMs;
+      // Use a for loop here to set the ube colors
+      if (total_ms2>50) {
+	      for (int i=0; i<model.baseCubes.size(); i++ ) {
+		      BaseCube cube=model.baseCubes.get(i);
+
+		      if (hits_cube(i,current_cube_r)) {
+			      shadow[i][0]=(float)1;
+			      shadow[i][1]=(float)0;
+			      shadow[i][2]=(float)0;
+		      } else if (hits_cube(i,current_cube_g)) {
+			      shadow[i][0]=(float)0;
+			      shadow[i][1]=(float)1;
+			      shadow[i][2]=(float)0;
+		      } else if (hits_cube(i,current_cube_b)) {
+			      shadow[i][0]=(float)0;
+			      shadow[i][1]=(float)0;
+			      shadow[i][2]=(float)1;
+		      } else {
+			      shadow[i][0]=(float)Math.min(1,new_shadow(shadow[i][0],dmax(i,current_cube_r)));
+			      shadow[i][1]=(float)Math.min(1,new_shadow(shadow[i][1],dmax(i,current_cube_g)));
+			      shadow[i][2]=(float)Math.min(1,new_shadow(shadow[i][2],dmax(i,current_cube_b)));
+		      }
+		      float norm =shadow[i][0]*2+shadow[i][1]+shadow[i][2];
+		      float h = (360*shadow[i][0]*2+120*shadow[i][1]+240*shadow[i][2])/norm;
+		      float v = (shadow[i][0]+shadow[i][1]+shadow[i][2])*100;
+		      colors[cube.index] = lx.hsb( h  , 100, Math.min(100,v));
+	      }
+		total_ms2=0;
+      }
+      if (total_ms1>10*speedParam.getValuef()) {
+
+	      //transistion to new cube
+
+	      float new_p;
+	      for (int j=0; j<n; j++) {
+		      new_p = (float)Math.random();
+		      for (int i=0; i<model.baseCubes.size(); i++) {
+			      if (new_p>0.0) {
+				      new_p-=p[current_cube_r[j]][i];
+			      } else {
+				      current_cube_r[j]=i;
+				      break;
+			      }
+		      }
+		      new_p = (float)Math.random();
+		      for (int i=0; i<model.baseCubes.size(); i++) {
+			      if (new_p>0.0) {
+				      new_p-=p[current_cube_g[j]][i];
+			      } else {
+				      current_cube_g[j]=i;
+				      break;
+			      }
+		      }
+		      new_p = (float)Math.random();
+		      for (int i=0; i<model.baseCubes.size(); i++) {
+			      if (new_p>0.0) {
+				      new_p-=p[current_cube_b[j]][i];
+			      } else {
+				      current_cube_b[j]=i;
+				      break;
+			      }
+		      }
+	      }
+	      total_ms1=0;
+      }
+  }
+}
+
 class WaveScan extends TSPattern {
   // Variable Declarations go here
   private float waveWidth = 1;

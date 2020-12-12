@@ -296,6 +296,7 @@ abstract class Engine {
     patterns.add(new Parallax(lx));
 
     //Miskos
+    patterns.add(new Stringy(lx));
     patterns.add(new Circles(lx));
     patterns.add(new LineScan(lx));
     patterns.add(new WaveScan(lx));
