@@ -20,6 +20,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 import org.reflections.Reflections;
 import processing.core.PApplet;
+import processing.core.PFont;
 
 public class EntwinedGui extends PApplet implements LXPlugin {
     private static final String WINDOW_TITLE = "Entwined";
@@ -172,6 +173,16 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         // Here is where you may modify the initial settings of the UI before it is fully
         // built. Note that this will not be called in headless mode. Anything required
         // for headless mode should go in the raw initialize method above.
+
+        // For faster load times, use Processing's helper to generate a VLW font file
+        // ui.theme.setControlFont(ui.applet.loadFont("ArialUnicodeMS-12.vlw"));
+        // PFont label = ui.applet.loadFont("Arial-Black-11.vlw");
+
+        // These will look nasty, be warned!
+        ui.theme.setControlFont(ui.applet.createFont("Arial", 11));
+        PFont label = ui.applet.createFont("Arial Black", 10);
+        ui.theme.setLabelFont(label);
+        ui.theme.setWindowTitleFont(label);
     }
 
     public void onUIReady(LXStudio lx, LXStudio.UI ui) {
