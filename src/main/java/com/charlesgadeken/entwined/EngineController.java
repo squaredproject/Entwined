@@ -1,6 +1,6 @@
 package com.charlesgadeken.entwined;
 
-import com.charlesgadeken.entwined.effects.TSBlurEffect;
+import com.charlesgadeken.entwined.effects.EntwinedBlurEffect;
 import com.charlesgadeken.entwined.effects.TSEffectController;
 import com.charlesgadeken.entwined.effects.original.ScrambleEffect;
 import com.charlesgadeken.entwined.effects.original.SpeedEffect;
@@ -39,7 +39,7 @@ public class EngineController {
         this.lx = lx;
         speedEffect = new SpeedEffect(lx);
         spinEffect = new SpinEffect(lx);
-        blurEffect = new TSBlurEffect(lx);
+        blurEffect = new EntwinedBlurEffect(lx);
         scrambleEffect = new ScrambleEffect(lx);
     }
 
