@@ -1,11 +1,12 @@
-package com.charlesgadeken.entwined.patterns.contributors.kyleFleming;
+package com.charlesgadeken.entwined.effects;
 
 import heronarts.lx.LX;
 import heronarts.lx.effect.BlurEffect;
 
-public class TSBlurEffect extends BlurEffect {
-    public TSBlurEffect(LX lx) {
+public class EntwinedBlurEffect extends BlurEffect {
+    public EntwinedBlurEffect(LX lx) {
         super(lx);
+        level.setValue(0);
     }
 
     @Override

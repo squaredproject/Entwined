@@ -8,7 +8,6 @@ import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
-import heronarts.lx.utils.LXUtils;
 
 @LXCategory("Irene Zhou")
 public class Lattice extends EntwinedTriggerablePattern {
@@ -36,12 +35,12 @@ public class Lattice extends EntwinedTriggerablePattern {
         float coilf = 2 * coil(spin.getBasisf());
         for (BaseCube cube : model.baseCubes) {
             float wrapdistleft =
-                    LXUtils.wrapdistf(
+                    Utilities.wrappedDistance(
                             cube.transformedTheta,
                             spinf + (model.yMax - cube.transformedY) * coilf,
                             180);
             float wrapdistright =
-                    LXUtils.wrapdistf(
+                    Utilities.wrappedDistance(
                             cube.transformedTheta,
                             -spinf - (model.yMax - cube.transformedY) * coilf,
                             180);
@@ -55,7 +54,7 @@ public class Lattice extends EntwinedTriggerablePattern {
                                     + 3 * Utilities.max(0, wrapdistright - width));
 
             colors[cube.index] =
-                    lx.hsb(
+                    LX.hsb(
                             (hue.getValuef()
                                             + lx.engine.palette.getHuef()
                                             + .2f * cube.transformedY

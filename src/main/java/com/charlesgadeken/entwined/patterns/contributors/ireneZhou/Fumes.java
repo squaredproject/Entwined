@@ -6,7 +6,6 @@ import com.charlesgadeken.entwined.patterns.EntwinedTriggerablePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.parameter.BoundedParameter;
-import heronarts.lx.utils.LXUtils;
 import toxi.geom.Vec2D;
 
 @LXCategory("Irene Zhou")
@@ -62,8 +61,8 @@ public class Fumes extends EntwinedTriggerablePattern {
                         < 150) { // restraint on calculation
                     float distSq =
                             Utilities.pow(
-                                            (LXUtils.wrapdistf(
-                                                    sites[i].theta, cube.transformedTheta, 360)),
+                                            (Utilities.degreeDifference(
+                                                    sites[i].theta, cube.transformedTheta)),
                                             2)
                                     + Utilities.pow(sites[i].yPos - cube.transformedY, 2);
                     if (distSq < nextMinDistSq) {
@@ -78,7 +77,7 @@ public class Fumes extends EntwinedTriggerablePattern {
             }
             float brt = Utilities.max(0, 100 - Utilities.sqrt(nextMinDistSq));
             colors[cube.index] =
-                    lx.hsb(
+                    LX.hsb(
                             (lx.engine.palette.getHuef() + hue.getValuef()) % 360,
                             100 - Utilities.min(minSat, brt),
                             brt);

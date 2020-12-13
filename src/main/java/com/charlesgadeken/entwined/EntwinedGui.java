@@ -20,6 +20,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 import org.reflections.Reflections;
 import processing.core.PApplet;
+import processing.core.PFont;
 
 public class EntwinedGui extends PApplet implements LXPlugin {
     private static final String WINDOW_TITLE = "Entwined";
@@ -91,6 +92,15 @@ public class EntwinedGui extends PApplet implements LXPlugin {
 
     private LXChannel addChannelsAudited(List<EntwinedBasePattern> patterns, String descr) {
         LXChannel channel = lx.engine.mixer.addChannel(patterns.toArray(new LXPattern[0]));
+
+        channel.label.setValue(patterns.get(0).getLabel());
+        channel.addListener(
+                new LXChannel.Listener() {
+                    public void patternDidChange(LXChannel channel, LXPattern pattern) {
+                        channel.label.setValue(pattern.getLabel());
+                    }
+                });
+
         System.out.printf(
                 "Registered %d %s patterns to channel %d\n",
                 patterns.size(), descr, channel.getIndex());
@@ -163,7 +173,6 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         // available.
 
         // Register custom pattern and effect types
-
         loadPatterns(lx);
         loadEffects(lx);
     }
@@ -172,12 +181,16 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         // Here is where you may modify the initial settings of the UI before it is fully
         // built. Note that this will not be called in headless mode. Anything required
         // for headless mode should go in the raw initialize method above.
+        ui.theme.setControlFont(ui.applet.createFont("ArialUnicodeMS", 12));
+        PFont label = ui.applet.createFont("Arial-Black", 11);
+        ui.theme.setLabelFont(label);
+        ui.theme.setWindowTitleFont(label);
     }
 
     public void onUIReady(LXStudio lx, LXStudio.UI ui) {
         // At this point, the LX Studio application UI has been built. You may now add
         // additional views and components to the Ui heirarchy.
-        //        lx.ui.preview.pointCloud.setPointSize(20);
+        ui.preview.pointCloud.setPointSize(4);
     }
 
     @Override

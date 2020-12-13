@@ -7,7 +7,6 @@ import com.charlesgadeken.entwined.patterns.EntwinedTriggerablePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.utils.LXUtils;
 
 @LXCategory(EntwinedCategory.ORIGINAL)
 public class Twister extends EntwinedTriggerablePattern {
@@ -31,10 +30,9 @@ public class Twister extends EntwinedTriggerablePattern {
         float coilf = 2 * coil(spin.getBasisf());
         for (BaseCube cube : model.baseCubes) {
             float wrapdist =
-                    LXUtils.wrapdistf(
+                    Utilities.degreeDifference(
                             cube.transformedTheta,
-                            spinf + (model.yMax - cube.transformedY) * coilf,
-                            360);
+                            spinf + (model.yMax - cube.transformedY) * coilf);
             float yn = (cube.transformedY / model.yMax);
             float width = 10 + 30 * yn;
             float df = Utilities.max(0, 100 - (100 / 45) * Utilities.max(0, wrapdist - width));

@@ -2,6 +2,7 @@ package com.charlesgadeken.entwined;
 
 import com.charlesgadeken.entwined.bpm.BPMTool;
 import com.charlesgadeken.entwined.config.ConfigLoader;
+import com.charlesgadeken.entwined.effects.EntwinedBlurEffect;
 import com.charlesgadeken.entwined.effects.TSEffectController;
 import com.charlesgadeken.entwined.effects.original.ColorEffect;
 import com.charlesgadeken.entwined.effects.original.ScrambleEffect;
@@ -182,7 +183,7 @@ public class EntwinedTriggers {
     }
 
     void registerEffectTriggerables() {
-        BlurEffect blurEffect = new TSBlurEffect(lx);
+        BlurEffect blurEffect = new EntwinedBlurEffect(lx);
         ColorEffect colorEffect = new ColorEffect(lx);
         GhostEffect ghostEffect = new GhostEffect(lx);
         ScrambleEffect scrambleEffect = new ScrambleEffect(lx);

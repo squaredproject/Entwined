@@ -8,7 +8,6 @@ import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.LinearEnvelope;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.DiscreteParameter;
-import heronarts.lx.utils.LXUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,7 +103,7 @@ public class Bubbles extends EntwinedTriggerablePattern {
                                 < bubble.radius) {
 
                     float distTheta =
-                            LXUtils.wrapdistf(bubble.theta, cube.transformedTheta, 360) * 0.8f;
+                            Utilities.degreeDifference(bubble.theta, cube.transformedTheta) * 0.8f;
                     float distY = bubble.yPos - (cube.transformedY - model.yMin);
                     float distSq = distTheta * distTheta + distY * distY;
 
