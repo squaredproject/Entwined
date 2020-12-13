@@ -214,6 +214,9 @@ abstract class Engine {
     ScrambleEffect scrambleEffect = engineController.scrambleEffect = new ScrambleEffect(lx);
     // StaticEffect staticEffect = engineController.staticEffect = new StaticEffect(lx);
 
+    engineController.outputBrightness = outputBrightness;
+
+
     lx.addEffect(blurEffect);
     lx.addEffect(colorEffect);
     // lx.addEffect(staticEffect);
@@ -701,9 +704,9 @@ abstract class Engine {
     //   "millis": 0
     // },
     lx.engine.addMessageListener(new LXEngine.MessageListener() {
-      @Override
-            public void onMessage(LXEngine engine, String message) {
-        if (message.length() > 8 && message.substring(0, 7).equals("master/")) {
+    @Override
+    public void onMessage(LXEngine engine, String message) {
+      if (message.length() > 8 && message.substring(0, 7).equals("master/")) {
           double value = Double.parseDouble(message.substring(7));
           outputBrightness.setValue(value);
         }
@@ -874,6 +877,8 @@ class EngineController {
   SpinEffect spinEffect;
   BlurEffect blurEffect;
   ScrambleEffect scrambleEffect;
+  BasicParameterProxy outputBrightness;
+
 
   EngineController(LX lx) {
     this.lx = lx;
@@ -931,6 +936,29 @@ class EngineController {
   void setScramble(double amount) {
     scrambleEffect.amount.setValue(amount);
   }
+
+  // this controlls the OUTPUT brightness for controlling the amount
+  // of power consumed, it will NOT effect what you see in the model 
+  // on processing
+  void setMasterBrightness(double amount) {
+    outputBrightness.setValue(amount);
+  }
+
+  double getMasterBrightness() {
+    double ret = outputBrightness.getValue();
+    return( ret );
+
+  }
+
+  void setHue(double amount) {
+    System.out.println("Set Master Hue: "+amount+" not implemented yet");
+  }
+
+  double getHue() {
+    System.out.println("Get Master Hue: stub");
+    return(0.0f);
+  }
+
 
   void setAutoplay(boolean autoplay) {
     setAutoplay(autoplay, false);
