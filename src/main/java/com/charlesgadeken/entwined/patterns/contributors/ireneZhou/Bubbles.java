@@ -103,8 +103,7 @@ public class Bubbles extends EntwinedTriggerablePattern {
                         && Utilities.abs(bubble.yPos - (cube.transformedY - model.yMin))
                                 < bubble.radius) {
 
-                    float distTheta =
-                            LXUtils.wrapdistf(bubble.theta, cube.transformedTheta, 360) * 0.8f;
+                    float distTheta = Utilities.wrapDegreesF(bubble.theta, cube.transformedTheta) * 0.8f;
                     float distY = bubble.yPos - (cube.transformedY - model.yMin);
                     float distSq = distTheta * distTheta + distY * distY;
 

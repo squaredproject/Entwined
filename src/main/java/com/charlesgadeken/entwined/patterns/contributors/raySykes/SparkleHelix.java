@@ -48,36 +48,34 @@ public class SparkleHelix extends EntwinedBasePattern {
                             0,
                             100
                                     - (100 * Utilities.TWO_PI / (compensatedWidth))
-                                            * LXUtils.wrapdistf(
+                                            * Utilities.wrapDegreesF(
                                                     (Utilities.TWO_PI / 360)
                                                             * cube.transformedTheta,
                                                     8 * Utilities.TWO_PI
                                                             + spin.getValuef()
                                                             + coil.getValuef()
                                                                     * (cube.transformedY
-                                                                            - model.cy),
-                                                    Utilities.TWO_PI));
+                                                                            - model.cy)));
             float counterSpiralVal =
                     counterSpiralStrength.getValuef()
                             * Utilities.max(
                                     0,
                                     100
                                             - (100 * Utilities.TWO_PI / (compensatedWidth))
-                                                    * LXUtils.wrapdistf(
+                                                    * Utilities.wrapDegreesF(
                                                             (Utilities.TWO_PI / 360)
                                                                     * cube.transformedTheta,
                                                             8 * Utilities.TWO_PI
                                                                     - spin.getValuef()
                                                                     - coil.getValuef()
                                                                             * (cube.transformedY
-                                                                                    - model.cy),
-                                                            Utilities.TWO_PI));
+                                                                                    - model.cy)));
             float hueVal = (lx.engine.palette.getHuef() + .1f * cube.transformedY) % 360;
             if (sparkleTimeOuts[cube.index] > Utilities.millis()) {
-                colors[cube.index] = lx.hsb(hueVal, sparkleSaturation.getValuef(), 100);
+                colors[cube.index] = LX.hsb(hueVal, sparkleSaturation.getValuef(), 100);
             } else {
                 colors[cube.index] =
-                        lx.hsb(hueVal, 100, Utilities.max(spiralVal, counterSpiralVal));
+                        LX.hsb(hueVal, 100, Utilities.max(spiralVal, counterSpiralVal));
                 if (Utilities.random(Utilities.max(spiralVal, counterSpiralVal))
                         > sparkle.getValuef()) {
                     sparkleTimeOuts[cube.index] = Utilities.millis() + 100;

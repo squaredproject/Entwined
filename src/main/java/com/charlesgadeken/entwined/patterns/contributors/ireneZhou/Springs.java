@@ -72,10 +72,9 @@ public class Springs extends EntwinedBasePattern {
             float yn = cube.transformedY / model.yMax;
             float width = (1 - yn) * 25;
             float wrapdist =
-                    LXUtils.wrapdistf(
+                    Utilities.wrapDegreesF(
                             cube.transformedTheta,
-                            spinf + (cube.transformedY) * 1 / (gravity.getValuef() + 0.2f),
-                            360);
+                            spinf + (cube.transformedY) * 1 / (gravity.getValuef() + 0.2f));
             float df = Utilities.max(0, 100 - Utilities.max(0, wrapdist - width));
             colors[cube.index] =
                     LX.hsb(

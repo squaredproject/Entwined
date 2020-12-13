@@ -129,8 +129,7 @@ public class Fireflies extends EntwinedTriggerablePattern {
                         && Utilities.abs(fly.theta - cube.transformedTheta) <= radius) {
                     float distSq =
                             Utilities.pow(
-                                            (LXUtils.wrapdistf(
-                                                    fly.theta, cube.transformedTheta, 360)),
+                                            (Utilities.wrapDegreesF(fly.theta, cube.transformedTheta)),
                                             2)
                                     + Utilities.pow(fly.yPos - cube.transformedY, 2);
                     float brt =
@@ -141,7 +140,7 @@ public class Fireflies extends EntwinedTriggerablePattern {
                                             - blinkers[fly.blinkIndex].getValuef());
                     if (brt > LXColor.b(colors[cube.index])) {
                         colors[cube.index] =
-                                lx.hsb(
+                                LX.hsb(
                                         (lx.engine.palette.getHuef() + hue.getValuef()) % 360,
                                         100 - brt,
                                         brt);

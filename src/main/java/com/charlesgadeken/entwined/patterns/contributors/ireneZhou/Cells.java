@@ -58,8 +58,7 @@ public class Cells extends EntwinedTriggerablePattern {
                         < 150) { // restraint on calculation
                     float distSq =
                             Utilities.pow(
-                                            (LXUtils.wrapdistf(
-                                                    sites[i].theta, cube.transformedTheta, 360)),
+                                            (Utilities.wrapDegreesF(sites[i].theta, cube.transformedTheta)),
                                             2)
                                     + Utilities.pow(sites[i].yPos - cube.transformedY, 2);
                     if (distSq < nextMinDistSq) {

@@ -1,5 +1,7 @@
 package com.charlesgadeken.entwined;
 
+import heronarts.lx.utils.LXUtils;
+
 import java.lang.reflect.Modifier;
 import java.util.Random;
 
@@ -118,6 +120,15 @@ public class Utilities {
 
     public static float map(float value, float currentMin, float currentMax) {
         return (value - currentMin) / (currentMax - currentMin);
+    }
+
+    public static float wrapDegreesF(float v1, float v2){
+        v1 = (v1 % 360);
+        v1 = v1 < 0 ? v1 + 360 : v1;
+
+        v2 = (v2 % 360);
+        v2 = v2 < 0 ? v2 + 360 : v2;
+        return LXUtils.wrapdistf(v1, v2, 360);
     }
 
     public static boolean isConcrete(Class<?> cls) {
