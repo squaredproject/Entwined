@@ -33,17 +33,19 @@ public class Twister extends EntwinedTriggerablePattern {
             float wrapdist =
                     LXUtils.wrapdistf(
                             cube.transformedTheta,
-                            spinf + (model.yMax - cube.transformedY) * coilf,
+                            (360 + spinf + (model.yMax - cube.transformedY) * coilf) % 360,
                             360);
+
+
             float yn = (cube.transformedY / model.yMax);
             float width = 10 + 30 * yn;
             float df = Utilities.max(0, 100 - (100 / 45) * Utilities.max(0, wrapdist - width));
+              
             colors[cube.index] =
-                    LX.hsb(
-                            (lx.engine.palette.getHuef() + .2f * cube.transformedY - 360 - wrapdist)
-                                    % 360,
-                            Utilities.max(0, 100 - 500 * Utilities.max(0, yn - .8f)),
-                            df);
+              LX.hsb((lx.engine.palette.getHuef() + .2f * cube.transformedY - 360 - wrapdist) % 360,
+              Utilities.max(0, 100 - 500 * Utilities.max(0, yn - .8f)),
+              df
+            );
         }
     }
 }
