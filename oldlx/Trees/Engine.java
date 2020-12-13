@@ -162,7 +162,7 @@ abstract class Engine {
     registerPatternController("Fumes", new Fumes(lx));
     registerPatternController("Voronoi", new Voronoi(lx));
     registerPatternController("Candy Cloud", new CandyCloud(lx));
-    // registerPatternController("Galaxy Cloud", new GalaxyCloud(lx));
+    registerPatternController("Galaxy Cloud", new GalaxyCloud(lx));
 
     registerPatternController("Color Strobe", new ColorStrobe(lx));
     registerPatternController("Strobe", new Strobe(lx));
@@ -243,6 +243,7 @@ abstract class Engine {
     patterns.add(new Twister(lx));
     patterns.add(new TwisterGlobal(lx));
     patterns.add(new CandyCloud(lx));
+    patterns.add(new GalaxyCloud(lx));
     patterns.add(new MarkLottor(lx));
     patterns.add(new SolidColor(lx));
 
