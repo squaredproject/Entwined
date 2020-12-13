@@ -92,6 +92,12 @@ public class EntwinedGui extends PApplet implements LXPlugin {
 
     private LXChannel addChannelsAudited(List<EntwinedBasePattern> patterns, String descr) {
         LXChannel channel = lx.engine.mixer.addChannel(patterns.toArray(new LXPattern[0]));
+        channel.label.setValue(patterns.get(0).getLabel());
+        channel.addListener(new LXChannel.Listener() {
+          public void patternDidChange(LXChannel channel, LXPattern pattern) {
+            channel.label.setValue(pattern.getLabel());
+          }
+        });
         System.out.printf(
                 "Registered %d %s patterns to channel %d\n",
                 patterns.size(), descr, channel.getIndex());
