@@ -29,7 +29,10 @@ public class Twister extends EntwinedTriggerablePattern {
         float spinf = spin.getValuef();
         float coilf = 2 * coil(spin.getBasisf());
         for (BaseCube cube : model.baseCubes) {
-            float wrapdist = Utilities.degreeDifference(cube.transformedTheta, spinf + (model.yMax - cube.transformedY) * coilf);
+            float wrapdist =
+                    Utilities.degreeDifference(
+                            cube.transformedTheta,
+                            spinf + (model.yMax - cube.transformedY) * coilf);
             float yn = (cube.transformedY / model.yMax);
             float width = 10 + 30 * yn;
             float df = Utilities.max(0, 100 - (100 / 45) * Utilities.max(0, wrapdist - width));

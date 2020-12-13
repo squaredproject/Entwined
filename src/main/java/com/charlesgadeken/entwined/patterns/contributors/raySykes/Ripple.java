@@ -43,7 +43,8 @@ public class Ripple extends EntwinedTriggerablePattern {
             float distVal =
                     Utilities.sqrt(
                             Utilities.pow(
-                                            (Utilities.degreeDifference(thetaCenter, cube.transformedTheta))
+                                            (Utilities.degreeDifference(
+                                                            thetaCenter, cube.transformedTheta))
                                                     * 0.8f,
                                             2)
                                     + Utilities.pow(yCenter - cube.transformedY, 2));

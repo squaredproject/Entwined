@@ -12,7 +12,8 @@ class VecUtils {
 
     static float wrapDist2d(Vec2D a, Vec2D b) {
         return Utilities.sqrt(
-                Utilities.pow((Utilities.degreeDifference(a.x, b.x)), 2) + Utilities.pow(a.y - b.y, 2));
+                Utilities.pow((Utilities.degreeDifference(a.x, b.x)), 2)
+                        + Utilities.pow(a.y - b.y, 2));
     }
 
     static Vec2D movePointToSamePlane(Vec2D reference, Vec2D point) {

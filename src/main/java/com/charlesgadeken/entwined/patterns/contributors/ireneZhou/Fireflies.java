@@ -10,7 +10,6 @@ import heronarts.lx.modulator.LinearEnvelope;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.DiscreteParameter;
-
 import java.util.ArrayList;
 import java.util.List;
 import toxi.geom.Vec2D;
@@ -129,7 +128,8 @@ public class Fireflies extends EntwinedTriggerablePattern {
                         && Utilities.abs(fly.theta - cube.transformedTheta) <= radius) {
                     float distSq =
                             Utilities.pow(
-                                            (Utilities.degreeDifference(fly.theta, cube.transformedTheta)),
+                                            (Utilities.degreeDifference(
+                                                    fly.theta, cube.transformedTheta)),
                                             2)
                                     + Utilities.pow(fly.yPos - cube.transformedY, 2);
                     float brt =

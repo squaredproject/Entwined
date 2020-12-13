@@ -61,7 +61,8 @@ public class Fumes extends EntwinedTriggerablePattern {
                         < 150) { // restraint on calculation
                     float distSq =
                             Utilities.pow(
-                                            (Utilities.degreeDifference(sites[i].theta, cube.transformedTheta)),
+                                            (Utilities.degreeDifference(
+                                                    sites[i].theta, cube.transformedTheta)),
                                             2)
                                     + Utilities.pow(sites[i].yPos - cube.transformedY, 2);
                     if (distSq < nextMinDistSq) {

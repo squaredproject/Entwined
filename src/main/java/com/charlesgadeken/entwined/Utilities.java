@@ -1,7 +1,6 @@
 package com.charlesgadeken.entwined;
 
 import heronarts.lx.utils.LXUtils;
-
 import java.lang.reflect.Modifier;
 import java.util.Random;
 
@@ -122,7 +121,7 @@ public class Utilities {
         return (value - currentMin) / (currentMax - currentMin);
     }
 
-    public static float wrappedDistance(float v1, float v2, float modulus){
+    public static float wrappedDistance(float v1, float v2, float modulus) {
         v1 = (v1 % modulus);
         v1 = v1 < 0 ? v1 + modulus : v1;
 
@@ -131,7 +130,7 @@ public class Utilities {
         return LXUtils.wrapdistf(v1, v2, modulus);
     }
 
-    public static float degreeDifference(float v1, float v2){
+    public static float degreeDifference(float v1, float v2) {
         return wrappedDistance(v1, v2, 360);
     }
 

@@ -1,7 +1,6 @@
 package com.charlesgadeken.entwined.patterns.contributors.raySykes;
 
 import com.charlesgadeken.entwined.Utilities;
-
 import java.util.ArrayList;
 import org.apache.commons.lang3.ArrayUtils; // Only dep of apache commons is this file!
 
