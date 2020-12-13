@@ -188,7 +188,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     public void onUIReady(LXStudio lx, LXStudio.UI ui) {
         // At this point, the LX Studio application UI has been built. You may now add
         // additional views and components to the Ui heirarchy.
-        //        lx.ui.preview.pointCloud.setPointSize(20);
+        lx.ui.preview.pointCloud.setPointSize(6);
     }
 
     @Override
