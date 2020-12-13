@@ -76,6 +76,14 @@ class ParseClientTask implements LXLoopTask {
         Boolean autoplay = (Boolean)params.get("autoplay");
         if (autoplay == null) return;
         engineController.setAutoplay(autoplay.booleanValue());
+      } else if (method.equals("setBrightness")) {
+        Double brightness = (Double)params.get("brightness");
+        if (brightness == null) return;
+        engineController.setMasterBrightness(brightness);
+      } else if (method.equals("setHue")) {
+        Double hue = (Double)params.get("hue");
+        if (hue == null) return;
+        engineController.setHue(hue);
       } else if (method.equals("setChannelPattern")) {
         Double channelIndex = (Double)params.get("channelIndex");
         Double patternIndex = (Double)params.get("patternIndex");
@@ -126,6 +134,8 @@ class ClientModelUpdater {
     Map<String, Object> returnParams = new HashMap<String, Object>();
 
     returnParams.put("autoplay", engineController.isAutoplaying);
+    returnParams.put("brightness", engineController.getMasterBrightness());
+    //returnParams.put("hue", engineController.hueEffect.amount.getValue());
 
     List<Map> channelsParams = new ArrayList<Map>(engineController.numChannels);
     for (LXChannel channel : engineController.getChannels()) {
