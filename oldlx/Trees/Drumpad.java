@@ -6,6 +6,7 @@ interface Drumpad {
 
 class TSDrumpad implements Drumpad {
   
+  // this is public and just set directly by Engine
   Triggerable[][] triggerables = null;
   
   public void padTriggered(int row, int col, float velocity) {

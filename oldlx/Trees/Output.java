@@ -18,7 +18,7 @@ class Output {
 
     return new DDPDatagram(pointIndices);
   }
-  
+
   // If one wanted to, this could be simpler because shrubCube.pixels is always the same - 4 - so you don't have to loop.
   // but it doesn't matter because we create datagrams very rarely
   static DDPDatagram shrubClusterDatagram(ShrubCube[] shrubCubes) {

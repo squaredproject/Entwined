@@ -4,7 +4,9 @@ import com.charlesgadeken.entwined.config.ConfigLoader;
 import com.charlesgadeken.entwined.effects.EntwinedBaseEffect;
 import com.charlesgadeken.entwined.effects.TurnOffDeadPixelsEffect;
 import com.charlesgadeken.entwined.model.Model;
+import com.charlesgadeken.entwined.model.ModelTransformTask;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
+import com.charlesgadeken.entwined.triggers.drumpad.APC40mk1;
 import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
 import heronarts.lx.blend.DissolveBlend;
@@ -61,19 +63,21 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         triggers = new EntwinedTriggers(lx, model, engineController, parameters);
         triggers.configureTriggerables();
 
-        EntwinedOutput output = new EntwinedOutput(lx, model);
+        lx.engine.addLoopTask(new ModelTransformTask(model));
+
+        EntwinedOutput output = new EntwinedOutput(lx, model, parameters.outputBrightness);
 
         if (ConfigLoader.enableOutputBigtree) {
             lx.addEffect(new TurnOffDeadPixelsEffect(lx));
             output.configureExternalOutput();
         }
 
-        if (ConfigLoader.enableOutputMinitree) {
-            output.configureFadeCandyOutput();
-        }
-
-        if (ConfigLoader.enableAPC40) {
+        if (APC40mk1.hasACP40(lx) && ConfigLoader.enableAPC40) {
+            System.out.println("APC40 Detected");
             triggers.configureMIDI();
+            System.out.println("ACP40 Configured");
+        } else {
+            System.out.println("APC40 Not Detected or not Enabled - Skipping");
         }
 
         if (ConfigLoader.enableIPad) {

@@ -6,6 +6,7 @@ public class ShrubCubeConfig {
     // ShrubConfig
     public int clusterIndex;
     public int rodIndex;
+    public TreeOrShrub treeOrShrub = TreeOrShrub.SHRUB;
     public int shrubOutputIndex;
     public int cubeSizeIndex;
     public String shrubIpAddress;

@@ -2,8 +2,8 @@ package com.charlesgadeken.entwined.patterns.original;
 
 import com.charlesgadeken.entwined.EntwinedCategory;
 import com.charlesgadeken.entwined.Utilities;
-import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.BaseCube;
+import com.charlesgadeken.entwined.patterns.EntwinedTriggerablePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SinLFO;
@@ -34,7 +34,7 @@ public class Twister extends EntwinedTriggerablePattern {
             float width = 10 + 30 * yn;
             float df = Utilities.max(0, 100 - (100 / 45) * Utilities.max(0, wrapdist - width));
             colors[cube.index] =
-                    lx.hsb(
+                    LX.hsb(
                             (lx.engine.palette.getHuef() + .2f * cube.transformedY - 360 - wrapdist)
                                     % 360,
                             Utilities.max(0, 100 - 500 * Utilities.max(0, yn - .8f)),

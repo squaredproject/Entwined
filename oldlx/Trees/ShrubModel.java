@@ -25,44 +25,48 @@ class Rod {
     private double yKeyPoint;
     private double zKeyPoint;
 
-    Rod(int rodPosition, int clusterMaxRodLength, int clusterIndex) {
-        int rodIndex = rodPosition;
-        zKeyPoint = (clusterMaxRodLength - (rodIndex * 6));
+    Rod(int rodPosition, double rodLength, int clusterIndex, double clusterMinRodLength) {
+        yKeyPoint = rodLength;
 
         switch (rodPosition) {
-            case 0:
-                xKeyPoint = .75 * zKeyPoint;
-                yKeyPoint = .75 * zKeyPoint - 1;
+            // looking at cluster from the center of shrub
+            case 0: // longest, right
+                xKeyPoint = 2;
+                zKeyPoint = clusterMinRodLength * 1.25;
                 break;
-            case 1:
-                xKeyPoint = .75 * zKeyPoint;
-                yKeyPoint = .75 * zKeyPoint + 1;
+            case 1: // left
+                xKeyPoint = -2;
+                zKeyPoint = clusterMinRodLength * 1.2;
                 break;
-            case 2:
-                xKeyPoint = .75 * zKeyPoint - 2;
-                yKeyPoint = .75 * zKeyPoint - 2;
+            case 2: //right
+                xKeyPoint = 2;
+                zKeyPoint = clusterMinRodLength;
                 break;
-            case 3:
-                xKeyPoint = .75 * zKeyPoint - 2;
-                yKeyPoint = .75 * zKeyPoint + 2;
+            case 3: // left
+                xKeyPoint = -2;
+                zKeyPoint = clusterMinRodLength * .9;
                 break;
-            case 4:
-                xKeyPoint = .75 * zKeyPoint - 2;
-                yKeyPoint = .75 * zKeyPoint;
+            case 4: // shortest, center
+                xKeyPoint = 0;
+                zKeyPoint = clusterMinRodLength * .7;
                 break;
             default:
                 break;
         }
 
         LXTransform transform = new LXTransform();
-        // clockwise, starting at the longest left-most cluster
 
         // A -> 0, 1
         // B -> 2, 3, 10, 11
         // C -> 4, 5, 8, 9
         // D -> 6, 7
-
-        transform.rotateY(clusterIndex * -0.5236);
+        
+        // 0 -> 2 * -0.5236
+        // 1 -> 1 * -0.5236
+        // 2 -> 0 * -0.5236
+        // 3 -> -1 * -0.5236
+        // 4 -> -2 * -0.5236
+        transform.rotateY((clusterIndex + 1) * -0.5236);
 
         transform.push();
         transform.translate((float) xKeyPoint, (float) yKeyPoint, (float) zKeyPoint);
@@ -80,7 +84,8 @@ class EntwinedCluster {
         List<Rod> _rods = new ArrayList<Rod>();
         int rodPositions[] = new int[]{4, 3, 2, 1, 0};
 
-        int clusterMaxRodLength;
+        double clusterRodLengths[] = null;
+
         switch (clusterIndex) {
             // clockwise, starting at the longest left-most cluster
 
@@ -90,29 +95,31 @@ class EntwinedCluster {
             // D -> 6, 7
             case 0:
             case 1:
-                clusterMaxRodLength = 54;
+                clusterRodLengths = new double[]{31, 36.5, 40, 46, 51};
                 break;
             case 2:
             case 3:
             case 10:
             case 11:
-                clusterMaxRodLength = 50;
+                clusterRodLengths = new double[]{28, 33, 36.5, 41, 46};
+
                 break;
             case 4:
             case 5:
             case 8:
             case 9:
-                clusterMaxRodLength = 46;
+                clusterRodLengths = new double[]{24, 29, 33, 37.5, 43};
+
                 break;
             case 6:
             case 7:
-                clusterMaxRodLength = 42;
+                clusterRodLengths = new double[]{21, 26, 30, 36, 40.5};
+
                 break;
             default:
-                clusterMaxRodLength = 0;
         }
         for (int i = 0; i < rodPositions.length; i++) {
-            Rod p = new Rod(rodPositions[i], clusterMaxRodLength, clusterIndex);
+            Rod p = new Rod(rodPositions[i], clusterRodLengths[i], clusterIndex, clusterRodLengths[0]);
             _rods.add(p);
         }
         this.rods = Collections.unmodifiableList(_rods);

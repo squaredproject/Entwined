@@ -157,9 +157,7 @@ void configureUI() {
   
   UITreeFaders treeFaders = new UITreeFaders(lx.ui, channelTreeLevels, model.trees.size());
   lx.ui.addLayer(treeFaders);
-  UIShrubFaders shrubFaders = new UIShrubFaders(lx.ui, channelShrubLevels, model.shrubs.size());
-  lx.ui.addLayer(shrubFaders);
-  lx.ui.addLayer(uiFaders = new UIChannelFaders(lx.ui, treeFaders, shrubFaders));
+  lx.ui.addLayer(uiFaders = new UIChannelFaders(lx.ui, treeFaders));
   lx.ui.addLayer(new UIEffects(lx.ui, effectKnobParameters));
   lx.ui.addLayer(uiDeck);
   lx.ui.addLayer(new UILoopRecorder(lx.ui));

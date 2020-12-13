@@ -46,7 +46,7 @@ class ColorWave extends TSPattern {
     addParameter(waveSlope);
     addParameter(speedParam);
 
-    for (Cube cube : model.cubes) {
+    for (BaseCube cube : model.baseCubes) {
       if (cube.z < minz) {minz = cube.z;}
       if (cube.z > maxz) {maxz = cube.z;}
     }
@@ -64,6 +64,9 @@ class ColorWave extends TSPattern {
   }
 }
 
+/**
+RGB sprial from center tree
+*/
 class BeachBall extends TSPattern {
 
   // Variable Declarations go here
@@ -106,16 +109,20 @@ class BeachBall extends TSPattern {
   }
 }
 
-
+/**
+Breath in, breath out
+*/
 class Breath extends TSPattern {
 
   // Variable declarations, parameters, and modulators go here
   //final BasicParameter parameterName = new BasicParameter("parameterName", startValue, minValue, maxValue);
   float minValue = 0.f;
   float maxValue = 100.f;
-  float period = 10000;
+  float period = 8000;
   final SinLFO breath = new SinLFO(minValue, maxValue, period);
 
+  float hue = 180;
+  boolean changeHue = false;
 
     int highestSoFar = -1;
     int treeyes = 0;
@@ -132,10 +139,207 @@ class Breath extends TSPattern {
 
   // This is the pattern loop, which will run continuously via LX
   public void run(double deltaMs) {
-      breath.setPeriod(period - (Math.abs(breath.getValuef() - 50.0f) * 50));
+
+    if (changeHue == true && breath.getValuef() < 3) {
+      hue = (float)Math.random() * 360;
+      changeHue = false;
+    }
+
+      //breath.setPeriod(period - (Math.abs(breath.getValuef() - 50.0f) * 50));
       // Use a for loop here to set the cube colors
       for (BaseCube cube : model.baseCubes) {
-        colors[cube.index] = lx.hsb( 180, 25, breath.getValuef());
+        colors[cube.index] = lx.hsb( hue, 55, breath.getValuef());
+      }
+
+    if (breath.getValuef() > 90) {
+      changeHue = true;
+    }
+  }
+}
+
+/**
+Watch the change of seasons
+*/
+class Seasons extends TSPattern {
+    boolean isSpring = true;
+    boolean isFall = false;
+    float changeSpeed = 100;
+    float brightness = 0;
+    float springHue = 120;
+    double seasonLength = 0;
+
+    // float[] leafColors = new float[model.baseCubes.size()];
+    //
+    // for (int i = 0; i > leafColors.size(); i++) {
+    //   leafColors[i] = (float)Math.random(90, 150);
+    // }
+
+    Seasons(LX lx) {
+      super(lx);
+    }
+
+    public void run(double deltaMs) {
+      seasonLength += deltaMs;
+
+      if (isSpring) {
+          brightness = Math.min( (brightness + (float)deltaMs / changeSpeed), 100);
+
+          for (BaseCube cube : model.baseCubes) {
+            colors[cube.index] = lx.hsb(120, 100, brightness);
+          }
+        } else if (isFall) {
+
+        }
+      }
+}
+
+/**
+Star twinkle using Simplex Noise
+*/
+class SimplexSparkle extends TSPattern {
+    SimplexNoise noize = new SimplexNoise();
+    float xOff = 0;
+    float zOff = 0;
+
+    SimplexSparkle(LX lx) {
+      super(lx);
+    }
+
+
+    public void run(double deltaMs) {
+        xOff += (deltaMs / 5000);
+        zOff +=(deltaMs / 5000);
+        // Use a for loop here to set the cube colors
+        for (BaseCube cube : model.baseCubes) {
+          colors[cube.index] = lx.hsb(getHue(cube.x, cube.z, xOff, zOff), 100, getBrightness(cube.x, cube.z, xOff, zOff));
+        }
+    }
+
+    private float getHue(float _x, float _z, float _xOff, float _zOff) {
+        int toReturnHue;
+
+        toReturnHue = (int)Math.abs(noize.noise(_x + _xOff, _z + _zOff) * 360);
+
+        return toReturnHue;
+    }
+
+    private float getBrightness(float _x, float _z, float _xOff, float _zOff) {
+        int toReturn;
+
+        toReturn = (int)Math.abs(noize.noise(_x + _xOff, _z + _zOff) * 50) + 75;
+
+        return toReturn;
+    }
+
+}
+
+
+
+
+// Holiday Patterns
+
+/**
+A simple holiday pattern
+*/
+class Wreathes extends TSPattern {
+  SimplexNoise noize = new SimplexNoise();
+
+  Wreathes(LX lx) {
+    super(lx);
+  }
+
+  public void run(double deltaMs) {
+
+      // Use a for loop here to set the cube colors
+      for (BaseCube cube : model.baseCubes) {
+        if (noize.noise(cube.x, cube.y, cube.z) < .5) {
+          colors[cube.index] = lx.hsb(120, 100, 100);
+        } else {
+          colors[cube.index] = lx.hsb(0, 100, 100);
+        }
+      }
+  }
+}
+
+
+class ChristmasTree extends TSPattern {
+  SimplexNoise noize = new SimplexNoise();
+  double cubeNoise = 0;
+
+  ChristmasTree(LX lx) {
+    super(lx);
+  }
+
+  public void run(double deltaMs) {
+
+      // Use a for loop here to set the cube colors
+      for (BaseCube cube : model.baseCubes) {
+        cubeNoise = noize.noise(cube.x, cube.y, cube.z);
+
+        if (cubeNoise > .80) {
+          colors[cube.index] = lx.hsb(240, 100, 100);
+        } else if (cubeNoise > .65) {
+          colors[cube.index] = lx.hsb(30, 100, 100);
+        } else if (cubeNoise > .45) {
+          colors[cube.index] = lx.hsb(0, 100, 100);
+        } else {
+          colors[cube.index] = lx.hsb((float) (cubeNoise * 20 + 120), 100, 90);
+        }
+      }
+
+      // It's OK this is only cubes, because it's just the tree cubes
+      for (Cube cube : model.cubes) {
+        if (cube.config.layerIndex == 2) {
+            colors[cube.index] = lx.hsb(60, 100, 100);
+        }
+      }
+  }
+}
+
+
+class Peppermint extends TSPattern {
+
+  // Variable Declarations go here
+  private float treex;
+  private float treez;
+
+  private Tree theTree;
+
+  final BasicParameter speed = new BasicParameter("Speed", 5000, 20000, 1000);
+  final BasicParameter swirlMult = new BasicParameter("Swirl", .5, 2, .1);
+  final SawLFO spinner = new SawLFO(0, 360, speed);
+
+  float saturation = 0;
+
+  // Constructor
+  Peppermint(LX lx) {
+    super(lx);
+
+    addModulator(spinner).start();
+    addParameter(speed);
+    addParameter(swirlMult);
+
+    theTree = model.trees.get(0);
+    treex = theTree.x;
+    treez = theTree.z;
+
+  }
+
+
+  // This is the pattern loop, which will run continuously via LX
+  public void run(double deltaMs) {
+      for (BaseCube baseCube : model.baseCubes) {
+
+        if (((baseCube.theta + spinner.getValuef()
+        // plus the further from the center, the more hue is added, giving a swirl effect
+        - baseCube.r / 2// * swirlMult.getValuef()
+        ) % 120) > 60) {
+          saturation = 0;
+        } else {
+          saturation = 100;
+        }
+
+        colors[baseCube.index] = lx.hsb(0.0f, saturation, 100.0f);
       }
   }
 }

@@ -1,11 +1,11 @@
 package com.charlesgadeken.entwined.patterns.contributors.raySykes;
 
 import com.charlesgadeken.entwined.Utilities;
-import com.charlesgadeken.entwined.effects.EntwinedTriggerablePattern;
 import com.charlesgadeken.entwined.model.Cube;
 import com.charlesgadeken.entwined.model.Shrub;
 import com.charlesgadeken.entwined.model.ShrubCube;
 import com.charlesgadeken.entwined.model.Tree;
+import com.charlesgadeken.entwined.patterns.EntwinedTriggerablePattern;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.parameter.BooleanParameter;

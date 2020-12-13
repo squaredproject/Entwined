@@ -50,7 +50,7 @@ class ParseClientTask implements LXLoopTask {
       String whatClientSaid = client.readStringUntil('\n');
       if (whatClientSaid == null) return;
 
-      System.out.print("Request: " + whatClientSaid);
+      //System.out.print("Request: " + whatClientSaid);
 
       Map<String, Object> message = null;
       try {
@@ -76,16 +76,24 @@ class ParseClientTask implements LXLoopTask {
         Boolean autoplay = (Boolean)params.get("autoplay");
         if (autoplay == null) return;
         engineController.setAutoplay(autoplay.booleanValue());
+      } else if (method.equals("setBrightness")) {
+        Double brightness = (Double)params.get("brightness");
+        if (brightness == null) return;
+        engineController.setMasterBrightness(brightness);
+      } else if (method.equals("setHue")) {
+        Double hue = (Double)params.get("hue");
+        if (hue == null) return;
+        engineController.setHue(hue);
       } else if (method.equals("setChannelPattern")) {
         Double channelIndex = (Double)params.get("channelIndex");
         Double patternIndex = (Double)params.get("patternIndex");
         if (channelIndex == null || patternIndex == null) return;
-        engineController.setChannelPattern(channelIndex.intValue(), patternIndex.intValue());
+        engineController.setChannelPattern(channelIndex.intValue() + engineController.baseChannelIndex, patternIndex.intValue());
       } else if (method.equals("setChannelVisibility")) {
         Double channelIndex = (Double)params.get("channelIndex");
         Double visibility = (Double)params.get("visibility");
         if (channelIndex == null || visibility == null) return;
-        engineController.setChannelVisibility(channelIndex.intValue(), visibility);
+        engineController.setChannelVisibility(channelIndex.intValue() + engineController.baseChannelIndex, visibility);
       } else if (method.equals("setActiveColorEffect")) {
         Double effectIndex = (Double)params.get("effectIndex");
         if (effectIndex == null) return;
@@ -126,11 +134,13 @@ class ClientModelUpdater {
     Map<String, Object> returnParams = new HashMap<String, Object>();
 
     returnParams.put("autoplay", engineController.isAutoplaying);
+    returnParams.put("brightness", engineController.getMasterBrightness());
+    //returnParams.put("hue", engineController.hueEffect.amount.getValue());
 
     List<Map> channelsParams = new ArrayList<Map>(engineController.numChannels);
     for (LXChannel channel : engineController.getChannels()) {
       Map<String, Object> channelParams = new HashMap<String, Object>();
-      channelParams.put("index", channel.getIndex());
+      channelParams.put("index", channel.getIndex() - engineController.baseChannelIndex);
       int currentPatternIndex = channel.getNextPatternIndex();
       if (currentPatternIndex == 0) {
         currentPatternIndex = -1;
@@ -188,7 +198,7 @@ class ClientCommunicator {
     Map<String, Object> json = new HashMap<String, Object>();
     json.put("method", method);
     json.put("params", params);
-    System.out.println("Response: " + gson.toJson(json));
+    //System.out.println("Response: " + gson.toJson(json));
     server.write(gson.toJson(json) + "\r\n");
   }
 

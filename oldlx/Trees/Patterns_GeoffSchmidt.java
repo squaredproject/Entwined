@@ -74,7 +74,7 @@ class Pixels extends TSPattern {
     float firesPerSec = minFiresPerSec + vSpeed * (maxFiresPerSec - minFiresPerSec);
     float timeBetween = 1000 / firesPerSec;
     while (lastFireTime + timeBetween < now) {
-      int which = (int)Utils.random(0, model.cubes.size() + model.shrubCubes.size());
+      int which = (int)Utils.random(0, model.baseCubes.size());
       pixelStates[which].fire(now, vLifetime * 1000 + 10, hueLFO.getValuef(), (1 - vSat));
       lastFireTime += timeBetween;
     } 
@@ -213,7 +213,7 @@ class Parallax extends TSPattern {
     // number of cubes: 224
     // number of shrubcubes: 120
     // number of colors: 344
-    // System.out.println("number of cubes: " + model.cubes.size());   
+    // System.out.println("number of tree cubes: " + model.cubes.size());   
     // System.out.println("number of shrubcubes: " + model.shrubCubes.size());      
     // System.out.println("number of colors: " + colors.length);      
 

@@ -13,10 +13,13 @@ public class Breath extends EntwinedBasePattern {
     float period = 10000;
     final SinLFO breath = new SinLFO(minValue, maxValue, period);
 
+    int highestSoFar = -1;
+    int treeyes = 0;
+    int shrubtes = 0;
+
     // Constructor
     public Breath(LX lx) {
         super(lx);
-
         addModulator(breath).start();
     }
 

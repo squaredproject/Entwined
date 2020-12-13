@@ -42,7 +42,7 @@ class MidiEngine {
   
   public MidiEngine(final LX lx, LXListenableNormalizedParameter[] effectKnobParameters, final TSDrumpad apc40Drumpad, 
         final BasicParameter drumpadVelocity, final BooleanParameter[] previewChannels, final BPMTool bpmTool, 
-        final InterfaceController uiDeck, final BooleanParameter[][] nfcToggles, 
+        final InterfaceController uiDeck, 
         final BasicParameter outputBrightness, DiscreteParameter automationSlot, 
         LXAutomationRecorder[] automation, BooleanParameter[] automationStop) {
     
@@ -69,26 +69,26 @@ class MidiEngine {
           int channel = note.getChannel();
           int pitch = note.getPitch();
           switch (pitch) {
-          case APC40.CLIP_LAUNCH:
-          case APC40.CLIP_LAUNCH+1:
-          case APC40.CLIP_LAUNCH+2:
-          case APC40.CLIP_LAUNCH+3:
-          case APC40.CLIP_LAUNCH+4:
-            apc40Drumpad.padTriggered(pitch - APC40.CLIP_LAUNCH, channel, drumpadVelocity.getValuef());
-            break;
-          case APC40.CLIP_STOP:
-            apc40Drumpad.padTriggered(5, channel, drumpadVelocity.getValuef());
-            break;
-          case APC40.SCENE_LAUNCH:
-          case APC40.SCENE_LAUNCH+1:
-          case APC40.SCENE_LAUNCH+2:
-          case APC40.SCENE_LAUNCH+3:
-          case APC40.SCENE_LAUNCH+4:
-            apc40Drumpad.padTriggered(pitch - APC40.SCENE_LAUNCH, 8, drumpadVelocity.getValuef());
-            break;
-          case APC40.STOP_ALL_CLIPS:
-            apc40Drumpad.padTriggered(5, 8, drumpadVelocity.getValuef());
-            break;
+            case APC40.CLIP_LAUNCH:
+            case APC40.CLIP_LAUNCH+1:
+            case APC40.CLIP_LAUNCH+2:
+            case APC40.CLIP_LAUNCH+3:
+            case APC40.CLIP_LAUNCH+4:
+              apc40Drumpad.padTriggered(pitch - APC40.CLIP_LAUNCH, channel, drumpadVelocity.getValuef());
+              break;
+            case APC40.CLIP_STOP:
+              apc40Drumpad.padTriggered(5, channel, drumpadVelocity.getValuef());
+              break;
+            case APC40.SCENE_LAUNCH:
+            case APC40.SCENE_LAUNCH+1:
+            case APC40.SCENE_LAUNCH+2:
+            case APC40.SCENE_LAUNCH+3:
+            case APC40.SCENE_LAUNCH+4:
+              apc40Drumpad.padTriggered(pitch - APC40.SCENE_LAUNCH, 8, drumpadVelocity.getValuef());
+              break;
+            case APC40.STOP_ALL_CLIPS:
+              apc40Drumpad.padTriggered(5, 8, drumpadVelocity.getValuef());
+              break;
           }
         }
         
@@ -96,26 +96,26 @@ class MidiEngine {
           int channel = note.getChannel();
           int pitch = note.getPitch();
           switch (pitch) {
-          case APC40.CLIP_LAUNCH:
-          case APC40.CLIP_LAUNCH+1:
-          case APC40.CLIP_LAUNCH+2:
-          case APC40.CLIP_LAUNCH+3:
-          case APC40.CLIP_LAUNCH+4:
-            apc40Drumpad.padReleased(pitch - APC40.CLIP_LAUNCH, channel);
-            break;
-          case APC40.CLIP_STOP:
-            apc40Drumpad.padReleased(5, channel);
-            break;
-          case APC40.SCENE_LAUNCH:
-          case APC40.SCENE_LAUNCH+1:
-          case APC40.SCENE_LAUNCH+2:
-          case APC40.SCENE_LAUNCH+3:
-          case APC40.SCENE_LAUNCH+4:
-            apc40Drumpad.padReleased(pitch - APC40.SCENE_LAUNCH, 8);
-            break;
-          case APC40.STOP_ALL_CLIPS:
-            apc40Drumpad.padReleased(5, 8);
-            break;
+            case APC40.CLIP_LAUNCH:
+            case APC40.CLIP_LAUNCH+1:
+            case APC40.CLIP_LAUNCH+2:
+            case APC40.CLIP_LAUNCH+3:
+            case APC40.CLIP_LAUNCH+4:
+              apc40Drumpad.padReleased(pitch - APC40.CLIP_LAUNCH, channel);
+              break;
+            case APC40.CLIP_STOP:
+              apc40Drumpad.padReleased(5, channel);
+              break;
+            case APC40.SCENE_LAUNCH:
+            case APC40.SCENE_LAUNCH+1:
+            case APC40.SCENE_LAUNCH+2:
+            case APC40.SCENE_LAUNCH+3:
+            case APC40.SCENE_LAUNCH+4:
+              apc40Drumpad.padReleased(pitch - APC40.SCENE_LAUNCH, 8);
+              break;
+            case APC40.STOP_ALL_CLIPS:
+              apc40Drumpad.padReleased(5, 8);
+              break;
           }
         }
       });
@@ -172,15 +172,15 @@ class MidiEngine {
       // this section is all about NFC which we're removing,
       // which means this function doesn't need the apc40Drumpad anymore
       
-      int[] channelIndices = new int[Engine.NUM_CHANNELS];
-      for (int i = 0; i < Engine.NUM_CHANNELS; ++i) {
+      int[] channelIndices = new int[Engine.NUM_BASE_CHANNELS];
+      for (int i = 0; i < Engine.NUM_BASE_CHANNELS; ++i) {
         channelIndices[i] = i;
       }
       
       // Track selection
       apc40.bindNotes(lx.engine.focusedChannel, channelIndices, APC40.TRACK_SELECTION);
       
-      for (int i = 0; i < Engine.NUM_CHANNELS; i++) {
+      for (int i = 0; i < Engine.NUM_BASE_CHANNELS; i++) {
         // Cue activators
         apc40.bindNote(previewChannels[i], i, APC40.SOLO_CUE, LXMidiDevice.TOGGLE);
 

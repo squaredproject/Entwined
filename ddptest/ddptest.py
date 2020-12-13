@@ -61,8 +61,8 @@ sock: socket = None
 xmit_buf: bytearray = bytearray(0)
 header_buf: bytearray = bytearray(0)
 
-NUM_LEDS = 40
-leds = bytearray(NUM_LEDS * 3)  # this constructor creates with the given length and filled with 0's
+NUM_LEDS = 0
+leds = bytearray(0)  # this constructor creates with the given length and filled with 0's
 
 palette = {
     'red': (0xff, 0x00, 0x00),
@@ -225,6 +225,12 @@ def pattern_palette():
             leds_send(leds)
             time.sleep(1.0)
 
+# set to black and exit
+def pattern_black():
+    global leds
+    color_fill(leds, palette['black'])
+    leds_send(leds)
+
 # ring around the HSV, high fps
 def pattern_hsv():
     global leds
@@ -249,22 +255,22 @@ def pattern_order():
         leds_send(leds)
         time.sleep(0.1)
 
-LEDS_PER_CUBE = 4
-CUBES_PER_RANK = 12
-RANKS_PER_SHRUB = 5
+SHRUB_LEDS_PER_CUBE = 4
+SHRUB_CUBES_PER_RANK = 12
+SHRUB_RANKS = 5
 
 # rank is 0 to 4
 # cube is 0 to 11
-def shrub_cube_set(rank, cube, color):
-	start_cube = (rank * CUBES_PER_RANK) + cube
-	start_led = LEDS_PER_CUBE * start_cube
-	for i in range(LEDS_PER_CUBE):
+def shrub_cube_set(rank:int , cube:int, color: tuple):
+	start_cube = (rank * SHRUB_CUBES_PER_RANK) + cube
+	start_led = SHRUB_LEDS_PER_CUBE * start_cube
+	for i in range(SHRUB_LEDS_PER_CUBE):
 		color_set(leds,color,i+start_led)
 
-def shrub_rank_set(r):
-	global leds, NUM_LEDS, LED_PER_CUBE, CUBES_PER_RANK, RANKS_PER_SHRUB
+def shrub_rank_set(r:int):
+	global leds, NUM_LEDS, SHRUB_LED_PER_CUBE, SHRUB_CUBES_PER_RANK, SHRUB_RANKS
 	leds_color_fill( palette["black"] ) # do the dumb
-	for i in range(CUBES_PER_RANK):
+	for i in range(SHRUB_RANKS):
 		shrub_cube_set(r, i, palette["white"] )
 
 
@@ -272,7 +278,7 @@ def shrub_rank_set(r):
 def pattern_shrub_rank():
     global leds, NUM_LEDS
     while True:
-    	for i in range(RANKS_PER_SHRUB):
+    	for i in range(SHRUB_RANKS):
     		shrub_rank_set(i)
     		leds_send(leds)
     		time.sleep(2.0)
@@ -282,20 +288,60 @@ def pattern_shrub_rank():
 def pattern_shrub_rank_order():
     global leds, NUM_LEDS
     while True:
-    	for rank in range(RANKS_PER_SHRUB):
+    	for rank in range(SHRUB_RANKS):
     		print(" testing rank: {}".format(rank))
     		leds_color_fill ( palette["black"] )
-    		for cube in range(CUBES_PER_RANK):
+    		for cube in range(SHRUB_CUBES_PER_RANK):
     			shrub_cube_set(rank, cube, palette["white"] )
     			leds_send(leds)
     			time.sleep(1.0)
     		time.sleep(3.0)
 
+# this works for any pattern where cubes are used, in order
+#
+
+LEDS_PER_CUBE = 6
+
+def cube_set(cube:int, color: tuple):
+	global LEDS_PER_CUBE
+	start_led = LEDS_PER_CUBE * cube
+	for i in range(LEDS_PER_CUBE):
+		color_set(leds,color,i+start_led)
+
+def pattern_cube_order(n_cubes: int):
+	global leds, palette
+	while True:
+		leds_color_fill ( palette["blue"] )
+		leds_send(leds)
+		time.sleep(1.0)
+		for c_idx in range(n_cubes):
+			cube_set(c_idx, palette["white"])
+			leds_send(leds)
+			time.sleep(0.5)
+
+palette_order = [
+    (0xff, 0x00, 0x00),
+    (0x00, 0xff, 0x00),
+    (0x00, 0x00, 0xff),
+    (0xff, 0xff, 0xff)
+]
+
+def pattern_cube_color(n_cubes: int):
+	global leds, palette_order
+	while True:
+		for c_idx in range(n_cubes):
+			cube_set(c_idx, palette_order[c_idx % len(palette_order) ])
+
+		leds_send(leds)
+		time.sleep(5)
+
+
 def arg_init():
     parser = argparse.ArgumentParser(prog='ddptest', description='Send DDP packets to an NDB for testing')
     parser.add_argument('--host', type=str, help='IP address for destination')
-    parser.add_argument('--pattern', '-p', type=str, help='one of: palette, hsv, order, rank, rank_order')
-    parser.add_argument('--leds', '-l', type=int, help='number of leds')
+    parser.add_argument('--pattern', '-p', type=str, help='one of: palette, hsv, order, shrub_rank, shrub_rank_order, cube_order, cube_color, black')
+    parser.add_argument('--leds', '-l', type=int, default=40, help='number of leds')
+    parser.add_argument('--cubes', '-c', type=int, help='number of cubes')
 
     global DESTINATION_IP, NUM_LEDS, leds
 
@@ -303,10 +349,16 @@ def arg_init():
     args = parser.parse_args()
     if args.host:
         DESTINATION_IP = args.host
+    if args.cubes:
+    	args.leds = args.cubes * LEDS_PER_CUBE
     if args.leds:
         print( "arg leds: {}".format(args.leds))
         NUM_LEDS = args.leds
         leds = bytearray(NUM_LEDS * 3) 
+
+    if (args.leds * 3 > 1490):
+    	print( " MTU will exceed 1500, aborting ")
+    	exit(-1)
 
     return args
 
@@ -326,12 +378,24 @@ def main():
         pattern_hsv()
     elif args.pattern == 'order':
         pattern_order()
-    elif args.pattern == 'rank':
+    elif args.pattern == 'shrub_rank':
     	pattern_shrub_rank()
-    elif args.pattern == 'rank_order':
+    elif args.pattern == 'shrub_rank_order':
     	pattern_shrub_rank_order()
+    elif args.pattern == 'cube_order':
+    	if not args.cubes:
+    		print(" cube order requires, you must have cubes try again")
+    		exit(-1)
+    	pattern_cube_order(args.cubes)
+    elif args.pattern == 'cube_color':
+    	if not args.cubes:
+    		print(" cube color, you must have cubes try again")
+    		exit(-1)
+    	pattern_cube_color(args.cubes)
+    elif args.pattern == 'black':
+        pattern_black()
     else:
-        print(' pattern must be one of palette, hsv, order')
+        print(' pattern must be one of palette, hsv, order, shrub_rank, shrub_rank_order, cube_order')
 
 
 

@@ -13,8 +13,8 @@ import heronarts.lx.parameter.BoundedParameter;
 public class ColorWave extends EntwinedBasePattern {
 
     // Variable Declarations go here
-    private float minx = Float.MAX_VALUE;
-    private float maxx = -Float.MAX_VALUE;
+    private float minz = Float.MAX_VALUE;
+    private float maxz = -Float.MAX_VALUE;
     private float waveWidth = 1;
     private float speedMult = 1000;
 
@@ -33,11 +33,11 @@ public class ColorWave extends EntwinedBasePattern {
         addParameter("colinHunt/colorWave/speedParam", speedParam);
 
         for (Cube cube : model.cubes) {
-            if (cube.x < minx) {
-                minx = cube.x;
+            if (cube.z < minz) {
+                minz = cube.z;
             }
-            if (cube.x > maxx) {
-                maxx = cube.x;
+            if (cube.z > maxz) {
+                maxz = cube.z;
             }
         }
     }
@@ -50,11 +50,10 @@ public class ColorWave extends EntwinedBasePattern {
         for (BaseCube cube : model.baseCubes) {
             colors[cube.index] =
                     LX.hsb(
-                            (float)
-                                    ((wave.getValuef()
-                                                    + waveSlope.getValuef()
-                                                            * Utilities.map(cube.x, minx, maxx))
-                                            % 360),
+                            ((wave.getValuef()
+                                            + waveSlope.getValuef()
+                                                    * Utilities.map(cube.z, minz, maxz))
+                                    % 360),
                             100,
                             100);
         }

@@ -1,0 +1,9 @@
+[Unit]
+Description=fadecandy
+
+[Service]
+ExecStart=/usr/local/bin/fcserver /home/squared/2squared/config.json
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
