@@ -1,7 +1,6 @@
 package com.charlesgadeken.entwined.patterns.contributors.kyleFleming;
 
 import com.charlesgadeken.entwined.Utilities;
-import heronarts.lx.utils.LXUtils;
 import toxi.geom.Vec2D;
 
 class VecUtils {
@@ -13,7 +12,7 @@ class VecUtils {
 
     static float wrapDist2d(Vec2D a, Vec2D b) {
         return Utilities.sqrt(
-                Utilities.pow((LXUtils.wrapdistf(a.x, b.x, 360)), 2) + Utilities.pow(a.y - b.y, 2));
+                Utilities.pow((Utilities.degreeDifference(a.x, b.x)), 2) + Utilities.pow(a.y - b.y, 2));
     }
 
     static Vec2D movePointToSamePlane(Vec2D reference, Vec2D point) {
@@ -33,6 +32,6 @@ class VecUtils {
     }
 
     static float thetaDistance(float thetaA, float thetaB) {
-        return LXUtils.wrapdistf(thetaA, thetaB, 360);
+        return Utilities.degreeDifference(thetaA, thetaB);
     }
 }

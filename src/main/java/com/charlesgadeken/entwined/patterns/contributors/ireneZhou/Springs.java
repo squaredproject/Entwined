@@ -11,7 +11,6 @@ import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.LXParameter;
-import heronarts.lx.utils.LXUtils;
 
 @LXCategory("Irene Zhou")
 public class Springs extends EntwinedBasePattern {
@@ -72,7 +71,7 @@ public class Springs extends EntwinedBasePattern {
             float yn = cube.transformedY / model.yMax;
             float width = (1 - yn) * 25;
             float wrapdist =
-                    Utilities.wrapDegreesF(
+                    Utilities.degreeDifference(
                             cube.transformedTheta,
                             spinf + (cube.transformedY) * 1 / (gravity.getValuef() + 0.2f));
             float df = Utilities.max(0, 100 - Utilities.max(0, wrapdist - width));

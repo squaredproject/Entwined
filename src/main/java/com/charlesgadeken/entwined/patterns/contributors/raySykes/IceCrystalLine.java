@@ -1,7 +1,6 @@
 package com.charlesgadeken.entwined.patterns.contributors.raySykes;
 
 import com.charlesgadeken.entwined.Utilities;
-import heronarts.lx.utils.LXUtils;
 
 public class IceCrystalLine {
     protected int lifeCycleState = -1;
@@ -164,7 +163,7 @@ public class IceCrystalLine {
                     Utilities.sqrt(
                             Utilities.pow(Utilities.abs(endY - yToCheck), 2)
                                     + Utilities.pow(
-                                            LXUtils.wrapdistf(endTheta, thetaToCheck, 360), 2));
+                                            Utilities.degreeDifference(endTheta, thetaToCheck), 2));
             if (distFromNode < nodeMeltRadius) {
                 result =
                         Utilities.min(
@@ -187,10 +186,9 @@ public class IceCrystalLine {
                                                 0,
                                                 (lineThetaWidth
                                                         - Utilities.abs(
-                                                                LXUtils.wrapdistf(
+                                                                Utilities.degreeDifference(
                                                                         targetTheta,
-                                                                        thetaToCheck,
-                                                                        360))))
+                                                                        thetaToCheck))))
                                         / lineThetaWidth);
             }
         } else {

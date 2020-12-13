@@ -8,7 +8,6 @@ import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
-import heronarts.lx.utils.LXUtils;
 
 @LXCategory("Ray Sykes")
 public class SparkleHelix extends EntwinedBasePattern {
@@ -48,7 +47,7 @@ public class SparkleHelix extends EntwinedBasePattern {
                             0,
                             100
                                     - (100 * Utilities.TWO_PI / (compensatedWidth))
-                                            * Utilities.wrapDegreesF(
+                                            * Utilities.degreeDifference(
                                                     (Utilities.TWO_PI / 360)
                                                             * cube.transformedTheta,
                                                     8 * Utilities.TWO_PI
@@ -62,7 +61,7 @@ public class SparkleHelix extends EntwinedBasePattern {
                                     0,
                                     100
                                             - (100 * Utilities.TWO_PI / (compensatedWidth))
-                                                    * Utilities.wrapDegreesF(
+                                                    * Utilities.degreeDifference(
                                                             (Utilities.TWO_PI / 360)
                                                                     * cube.transformedTheta,
                                                             8 * Utilities.TWO_PI

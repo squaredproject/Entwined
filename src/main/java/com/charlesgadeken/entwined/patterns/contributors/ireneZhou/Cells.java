@@ -6,7 +6,6 @@ import com.charlesgadeken.entwined.model.BaseCube;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.parameter.BoundedParameter;
-import heronarts.lx.utils.LXUtils;
 import toxi.geom.Vec2D;
 
 @LXCategory("Irene Zhou")
@@ -58,7 +57,7 @@ public class Cells extends EntwinedTriggerablePattern {
                         < 150) { // restraint on calculation
                     float distSq =
                             Utilities.pow(
-                                            (Utilities.wrapDegreesF(sites[i].theta, cube.transformedTheta)),
+                                            (Utilities.degreeDifference(sites[i].theta, cube.transformedTheta)),
                                             2)
                                     + Utilities.pow(sites[i].yPos - cube.transformedY, 2);
                     if (distSq < nextMinDistSq) {

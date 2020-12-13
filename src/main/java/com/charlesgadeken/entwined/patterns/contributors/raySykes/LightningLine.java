@@ -1,7 +1,7 @@
 package com.charlesgadeken.entwined.patterns.contributors.raySykes;
 
 import com.charlesgadeken.entwined.Utilities;
-import heronarts.lx.utils.LXUtils;
+
 import java.util.ArrayList;
 import org.apache.commons.lang3.ArrayUtils; // Only dep of apache commons is this file!
 
@@ -92,7 +92,7 @@ public class LightningLine {
                             + (thetaKeyPoints[keyPointIndex + 1] - thetaKeyPoints[keyPointIndex])
                                     * (yKeyPoints[keyPointIndex] - yToCheck)
                                     / (yKeyPoints[keyPointIndex] - yKeyPoints[keyPointIndex + 1]);
-            float thetaDelta = LXUtils.wrapdistf(targetTheta, thetaToCheck, 360);
+            float thetaDelta = Utilities.degreeDifference(targetTheta, thetaToCheck);
             float thinnedLineWidth;
             if (lifeCycleState == 0) {
                 thinnedLineWidth = lineWidth / 2;

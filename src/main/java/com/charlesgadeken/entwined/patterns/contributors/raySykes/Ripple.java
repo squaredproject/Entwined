@@ -7,7 +7,6 @@ import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.parameter.BoundedParameter;
-import heronarts.lx.utils.LXUtils;
 
 @LXCategory("Ray Sykes")
 public class Ripple extends EntwinedTriggerablePattern {
@@ -44,10 +43,7 @@ public class Ripple extends EntwinedTriggerablePattern {
             float distVal =
                     Utilities.sqrt(
                             Utilities.pow(
-                                            (LXUtils.wrapdistf(
-                                                            thetaCenter,
-                                                            cube.transformedTheta,
-                                                            360))
+                                            (Utilities.degreeDifference(thetaCenter, cube.transformedTheta))
                                                     * 0.8f,
                                             2)
                                     + Utilities.pow(yCenter - cube.transformedY, 2));
