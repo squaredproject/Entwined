@@ -158,15 +158,13 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     }
 
     private void loadPatterns(LX lx) {
-        reflections.getSubTypesOf(EntwinedBasePattern.class)
-                .stream()
+        reflections.getSubTypesOf(EntwinedBasePattern.class).stream()
                 .filter(Utilities::isConcrete)
                 .forEach(lx.registry::addPattern);
     }
 
     private void loadEffects(LX lx) {
-        reflections.getSubTypesOf(EntwinedBaseEffect.class)
-                .stream()
+        reflections.getSubTypesOf(EntwinedBaseEffect.class).stream()
                 .filter(Utilities::isConcrete)
                 .forEach(lx.registry::addEffect);
     }
