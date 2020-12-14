@@ -13,9 +13,13 @@ import heronarts.lx.blend.DissolveBlend;
 import heronarts.lx.blend.LXBlend;
 import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.color.LXDynamicColor;
+import heronarts.lx.parameter.LXListenableNormalizedParameter;
 import heronarts.lx.parameter.LXParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.studio.LXStudio;
+import heronarts.p3lx.ui.UI2dContainer;
+import heronarts.p3lx.ui.UI2dContext;
+import heronarts.p3lx.ui.component.UIKnob;
 import java.io.File;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -37,6 +41,8 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     private Model model;
     private EntwinedTriggers triggers;
     private EntwinedParameters parameters;
+
+    private UIGlobalKnobs globalKnobs;
 
     @Override
     public void settings() {
@@ -200,6 +206,25 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         // At this point, the LX Studio application UI has been built. You may now add
         // additional views and components to the Ui heirarchy.
         lx.ui.preview.pointCloud.setPointSize(6);
+        
+        ui.addLayer(new UIGlobalKnobs(lx, ui));
+    }
+    
+    private class UIGlobalKnobs extends UI2dContext {
+      private UIGlobalKnobs(LXStudio lx, LXStudio.UI ui) {
+        super(ui, heronarts.lx.studio.ui.UILeftPane.WIDTH, heronarts.lx.studio.ui.toolbar.UIToolbar.HEIGHT, 600, UIKnob.HEIGHT + 4);        
+        setContentTarget(
+          (UI2dContainer) UI2dContainer.newHorizontalContainer(UIKnob.HEIGHT, 2)
+          .setPadding(2)
+          .setBorderColor(ui.theme.getControlBorderColor())
+          .setBackgroundColor(ui.theme.getDeviceBackgroundColor())
+        );
+        addKnob(lx.engine.speed);
+      }
+      
+      public void addKnob(LXListenableNormalizedParameter p) {
+        new UIKnob(0, 2, p).addToContainer(this);
+      }
     }
 
     @Override
