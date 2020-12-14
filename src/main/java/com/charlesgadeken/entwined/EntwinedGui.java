@@ -12,6 +12,7 @@ import heronarts.lx.LXPlugin;
 import heronarts.lx.blend.DissolveBlend;
 import heronarts.lx.blend.LXBlend;
 import heronarts.lx.mixer.LXChannel;
+import heronarts.lx.color.LXDynamicColor;
 import heronarts.lx.parameter.LXParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.studio.LXStudio;
@@ -170,9 +171,13 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         // available.
 
         // Register custom pattern and effect types
-
         loadPatterns(lx);
         loadEffects(lx);
+        
+        // Set default palette to rainbow rotate every minute
+        lx.engine.palette.color.mode.setValue(LXDynamicColor.Mode.CYCLE);
+        lx.engine.palette.color.period.setValue(60);
+        
     }
 
     public void initializeUI(LXStudio lx, LXStudio.UI ui) {
