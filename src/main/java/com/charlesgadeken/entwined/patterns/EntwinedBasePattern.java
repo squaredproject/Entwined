@@ -5,12 +5,11 @@ import com.charlesgadeken.entwined.model.Model;
 import com.charlesgadeken.entwined.triggers.ParameterTriggerableAdapter;
 import heronarts.lx.LX;
 import heronarts.lx.pattern.LXPattern;
-import org.reflections.Reflections;
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import org.reflections.Reflections;
 
 public abstract class EntwinedBasePattern extends LXPattern {
     ParameterTriggerableAdapter parameterTriggerableAdapter;

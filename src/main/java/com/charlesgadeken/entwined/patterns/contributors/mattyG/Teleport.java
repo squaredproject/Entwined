@@ -20,7 +20,6 @@ public class Teleport extends EntwinedTriggerablePattern {
                     (model.yMax - model.yMin) / 100,
                     (model.yMax - model.yMin) / 2);
 
-
     private SawLFO saw = new SawLFO(model.yMin, model.yMax, speed);
 
     public Teleport(LX lx) {
