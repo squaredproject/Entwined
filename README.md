@@ -6,21 +6,43 @@ More information will be added as the project comes into being.
 
 # Gradle LX
 
-Ensure you have java 8 installed and set on your machine
+Ensure you have java 8 installed and set on your machine and gradle.
 
-## Lint
-```shell
-$ ./gradlew spotlessApply
-```
+## Linux and Mac:
 
-## Run the gui
+### Run the gui
 ```shell
 $ ./gradlew run
 ```
 
-## Run headless
+### Lint
+```shell
+$ ./gradlew spotlessApply
+```
+
+### Run headless
 ```shell
 $ ./gradlew run --args="--headless"
+```
+
+## Windows
+
+Make sure gradle is in your path. GUI requires Cmd Prompt
+
+### Run the gui
+```shell
+$ gradle run
+```
+
+### Lint
+```shell
+$ gradle spotlessApply
+```
+
+### Run headless
+This might work under WSL, if so use the Linux instructions above
+```shell
+$ gradle run --args="--headless"
 ```
 
 # OLDLX
@@ -30,4 +52,4 @@ tree mappings. Work can continue here as we integrate the new LX studio.
 
 # LXStudio-IDE
 
-This directory is the new LX Studio. It is a staging place to see if we can get the new LX Studio working.
+Please ignore
