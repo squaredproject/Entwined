@@ -155,47 +155,70 @@ abstract class Engine {
     registerPatternController("None", new NoPattern(lx));
     registerPatternController("Twister", new Twister(lx));
     registerPatternController("TwisterGlobal", new TwisterGlobal(lx));
+    registerPatternController("Candy Cloud", new CandyCloud(lx));
+    registerPatternController("BeachBall", new BeachBall(lx));
+    registerPatternController("Breath", new Breath(lx));
+
     registerPatternController("Lottor", new MarkLottor(lx));
     registerPatternController("Ripple", new Ripple(lx));
     registerPatternController("Stripes", new Stripes(lx));
     registerPatternController("Lattice", new Lattice(lx));
-    registerPatternController("Fumes", new Fumes(lx));
-    registerPatternController("Voronoi", new Voronoi(lx));
-    registerPatternController("Candy Cloud", new CandyCloud(lx));
-    // registerPatternController("Galaxy Cloud", new GalaxyCloud(lx));
 
-    registerPatternController("Color Strobe", new ColorStrobe(lx));
-    registerPatternController("Strobe", new Strobe(lx));
-    registerPatternController("Sparkle Takeover", new SparkleTakeOver(lx));
-    registerPatternController("Multi-Sine", new MultiSine(lx));
-    registerPatternController("Seesaw", new SeeSaw(lx));
-    registerPatternController("Cells", new Cells(lx));
-    registerPatternController("Fade", new Fade(lx));
+    registerPatternController("Voronoi", new Voronoi(lx));
+    registerPatternController("Parallax", new Parallax(lx));
+
+    registerPatternController("Peppermint", new Peppermint(lx));
 
     registerPatternController("Ice Crystals", new IceCrystals(lx));
     registerPatternController("Fire", new Fire(lx));
-
     registerPatternController("Acid Trip", new AcidTrip(lx));
     registerPatternController("Rain", new Rain(lx));
+
+
+    registerPatternController("Pond", new Pond(lx));
+    registerPatternController("Planes", new Planes(lx));
+    registerPatternController("Growth", new Growth(lx));
+
+    registerPatternController("Lightning", new Lightning(lx));
+    registerPatternController("Sparkle Takeover", new SparkleTakeOver(lx));
+    registerPatternController("SparkleHelix", new SparkleHelix(lx));
+
+
+
+    registerPatternController("Multi-Sine", new MultiSine(lx));
+    registerPatternController("Seesaw", new SeeSaw(lx));
+    registerPatternController("Ripple", new MultiSine(lx));
+    registerPatternController("Cells", new Cells(lx));
+    registerPatternController("Fade", new Fade(lx));
+    registerPatternController("Springs", new Springs(lx));
+
+
+
     registerPatternController("Bass Slam", new BassSlam(lx));
 
     registerPatternController("Fireflies", new Fireflies(lx));
     registerPatternController("Bubbles", new Bubbles(lx));
-    registerPatternController("Lightning", new Lightning(lx));
+
     registerPatternController("Wisps", new Wisps(lx));
     registerPatternController("Fireworks", new Explosions(lx));
 
     registerPatternController("ColorWave", new ColorWave(lx));
+    registerPatternController("Wedges", new Wedges(lx));
 
-    registerPatternController("Pond", new Pond(lx));
-    registerPatternController("Planes", new Planes(lx));
 
     registerPatternController("Circles", new Circles(lx));
     registerPatternController("LineScan", new LineScan(lx));
     registerPatternController("WaveScan", new WaveScan(lx));
+    registerPatternController("Stringy", new Stringy(lx));
+
+
+    registerPatternController("Fumes", new Fumes(lx));
+    registerPatternController("Color Strobe", new ColorStrobe(lx));
+    registerPatternController("Strobe", new Strobe(lx));
+
+
     registerPatternController("RainbowWaveScan", new RainbowWaveScan(lx));
 
-    registerPatternController("Growth", new Growth(lx));
   }
 
   void registerIPadEffects() {
