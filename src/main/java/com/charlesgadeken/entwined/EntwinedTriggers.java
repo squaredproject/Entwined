@@ -44,6 +44,8 @@ public class EntwinedTriggers {
 
     private final EntwinedParameters parameters;
     private final Model model;
+    
+    ColorEffect colorEffect;
 
     public EntwinedTriggers(
             LX lx, Model model, EngineController engineController, EntwinedParameters parameters) {
@@ -69,7 +71,7 @@ public class EntwinedTriggers {
     }
 
     void registerIPadEffects() {
-        ColorEffect colorEffect = new ColorEffect(lx);
+        this.colorEffect = new ColorEffect(lx);
         ColorStrobeTextureEffect colorStrobeTextureEffect = new ColorStrobeTextureEffect(lx);
         FadeTextureEffect fadeTextureEffect = new FadeTextureEffect(lx);
         AcidTripTextureEffect acidTripTextureEffect = new AcidTripTextureEffect(lx);

@@ -70,6 +70,9 @@ public class EntwinedGui extends PApplet implements LXPlugin {
 
         triggers = new EntwinedTriggers(lx, model, engineController, parameters);
         triggers.configureTriggerables();
+        if (triggers.colorEffect != null) {
+          globalKnobs.addKnob(triggers.colorEffect.hueShift);
+        }
 
         lx.engine.addLoopTask(new ModelTransformTask(model));
 
@@ -206,8 +209,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         // At this point, the LX Studio application UI has been built. You may now add
         // additional views and components to the Ui heirarchy.
         lx.ui.preview.pointCloud.setPointSize(6);
-        
-        ui.addLayer(new UIGlobalKnobs(lx, ui));
+        ui.addLayer(this.globalKnobs = new UIGlobalKnobs(lx, ui));
     }
     
     private class UIGlobalKnobs extends UI2dContext {
