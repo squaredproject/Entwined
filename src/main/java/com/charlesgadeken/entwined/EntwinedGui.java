@@ -6,7 +6,6 @@ import com.charlesgadeken.entwined.effects.TurnOffDeadPixelsEffect;
 import com.charlesgadeken.entwined.model.Model;
 import com.charlesgadeken.entwined.model.ModelTransformTask;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
-import com.charlesgadeken.entwined.patterns.Patterns;
 import com.charlesgadeken.entwined.triggers.drumpad.APC40mk1;
 import heronarts.lx.LX;
 import heronarts.lx.LXPlugin;
@@ -110,7 +109,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
 
     void configureChannels() {
         for (int i = 0; i < ConfigLoader.NUM_CHANNELS; ++i) {
-            LXChannel channel = addChannelsAudited(Patterns.getAllPatterns(lx), "BASE");
+            LXChannel channel = addChannelsAudited(EntwinedBasePattern.getAllPatterns(lx), "BASE");
             setupChannel(channel, true);
             if (i == 0) {
                 channel.fader.setValue(1);
@@ -164,7 +163,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     }
 
     private void loadPatterns(LX lx) {
-        Patterns.getAllPatternClasses().forEach(lx.registry::addPattern);
+        EntwinedBasePattern.getAllPatternClasses().forEach(lx.registry::addPattern);
     }
 
     private void loadEffects(LX lx) {
