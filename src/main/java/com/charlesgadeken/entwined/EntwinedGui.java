@@ -8,6 +8,7 @@ import com.charlesgadeken.entwined.model.ModelTransformTask;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import com.charlesgadeken.entwined.triggers.drumpad.APC40mk1;
 import heronarts.lx.LX;
+import heronarts.lx.LXLoopTask;
 import heronarts.lx.LXPlugin;
 import heronarts.lx.blend.DissolveBlend;
 import heronarts.lx.blend.LXBlend;
@@ -46,6 +47,8 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     private EntwinedParameters parameters;
 
     private UIGlobalKnobs globalKnobs;
+    
+    private volatile int watchdogFrameCount;
 
     @Override
     public void settings() {
@@ -99,6 +102,8 @@ public class EntwinedGui extends PApplet implements LXPlugin {
             // engineController.setAutoplay(ConfigLoader.autoplayBMSet, true);
             triggers.configureServer();
         }
+        
+        startWatchdog(lx);
 
         System.out.println("setup() completed");
     }
@@ -236,6 +241,37 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     public void draw() {
         // All handled by core LX engine, do not modify, method exists only so that Processing
         // will run a draw-loop.
+    }
+    
+    private void startWatchdog(LX lx) {
+      lx.engine.addLoopTask(new LXLoopTask() {
+        public void loop(double deltaMs) {
+          ++watchdogFrameCount;
+        }
+      });
+      
+      new Thread("Entwined Watchdog") {
+
+        private final int WATCHDOG_SECS = 10;
+        private final int MIN_FRAMES_PER_SEC = 80;
+
+        public void run() {
+          LX.log("Starting Entwined Watchdog Thread");
+          int lastFrameCount = watchdogFrameCount;
+          while (!isInterrupted()) {
+            try {
+             sleep(WATCHDOG_SECS * 1000);
+            } catch (InterruptedException ix) {
+              break;
+            }
+            int numFrames = watchdogFrameCount - lastFrameCount;
+            if (numFrames < WATCHDOG_SECS * MIN_FRAMES_PER_SEC) {
+              LX.log("!!! WATCHDOG ONLY OBSERVED " + numFrames + " FRAMES IN " + WATCHDOG_SECS + " SECONDS");
+            }
+            lastFrameCount = watchdogFrameCount;
+          }
+        }
+      }.start();
     }
     
     // Horrible hack until future version of LX where setLogFile is public.
