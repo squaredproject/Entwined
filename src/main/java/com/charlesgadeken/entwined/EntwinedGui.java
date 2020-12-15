@@ -21,6 +21,9 @@ import heronarts.p3lx.ui.UI2dContainer;
 import heronarts.p3lx.ui.UI2dContext;
 import heronarts.p3lx.ui.component.UIKnob;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import javax.annotation.Nullable;
 import org.reflections.Reflections;
@@ -234,6 +237,17 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         // All handled by core LX engine, do not modify, method exists only so that Processing
         // will run a draw-loop.
     }
+    
+    // Horrible hack until future version of LX where setLogFile is public.
+    public static class LXLogHack extends LX {
+
+      private static final DateFormat LOG_FILENAME_FORMAT = new SimpleDateFormat("'Entwined-'yyyy.MM.dd-HH.mm.ss'.log'");
+      
+      public static void init() {
+        String logFileName = LOG_FILENAME_FORMAT.format(Calendar.getInstance().getTime());
+        setLogFile(new File(System.getProperty("user.home"), logFileName));
+      }
+    }
 
     /**
      * Main interface into the program. Two modes are supported, if the --headless flag is supplied
@@ -243,6 +257,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
      * @param args Command-line arguments
      */
     public static void main(String[] args) {
+        LXLogHack.init();
         LX.log("Initializing LX version " + LXStudio.VERSION);
         boolean headless = false;
         File projectFile = null;
