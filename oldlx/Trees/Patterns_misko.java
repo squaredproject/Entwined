@@ -408,7 +408,274 @@ class RainbowWaveScan extends TSPattern {
   }
 }
 
+class SyncSpinner extends TSPattern {
+   
+    private float speedMult = 1000;
+    final BasicParameter hue = new BasicParameter("hue", 135, 0, 360);
+    final BasicParameter globalTheta = new BasicParameter("globalTheta", 1.0, 0, 1.0);
+    final BasicParameter colorSpeed = new BasicParameter("colorSpeed", 100, 0, 200);
+    final BasicParameter speedParam = new BasicParameter("Speed", 5, 20, .01);
+    final BasicParameter glow = new BasicParameter("glow", 0.1, 0.0, 1.0);
+    final SawLFO wave = new SawLFO(0, 12, 1000);
+    float total_ms=0; 
+    int shrub_offset[];
+    
+    SyncSpinner(LX lx) {
+        super(lx);
+        addModulator(wave).start();
+    	addParameter(hue);
+    	addParameter(globalTheta);
+    	addParameter(speedParam);
+    	addParameter(colorSpeed);
+    	addParameter(glow);
+        
+    }
+    
+    public void run(double deltaMs) {
+    	wave.setPeriod(speedParam.getValuef() * speedMult / 3 );
+        total_ms+=deltaMs*speedParam.getValuef();
+        for (Shrub shrub : model.shrubs) {
+		int shrub_offset = (int)(-shrub.ry/30+24)%12;
+		for (ShrubCube shrubCube : shrub.cubes) {
+			//System.out.format("%f %d %d | %d\n",shrub.ry,shrub_offset,shrubCube.config.clusterIndex,(shrubCube.config.clusterIndex+shrub_offset)%12);
+                        float diff = (12.0f+(wave.getValuef() - (shrubCube.config.clusterIndex+shrub_offset))%12.0f)%12.0f;
+			if (diff<0) {
+				System.out.println(diff);
+			}
+			float h = (360+(hue.getValuef() +
+                                                 globalTheta.getValuef()*shrubCube.globalTheta +
+                                                 total_ms*colorSpeed.getValuef()/10000)%360)%360;
+			float b = Math.min(100,glow.getValuef()*100.0f+(1.0f-glow.getValuef())*diff*(100.0f/12.0f));
+			colors[shrubCube.index] = lx.hsb(h,
+						100, 
+						b);    
+		}
+	}
+    }
+}
 
+
+class LightHouse extends TSPattern {
+   
+    private float speedMult = 1000;
+    final BasicParameter hue = new BasicParameter("hue", 50, 0, 360);
+    final BasicParameter width = new BasicParameter("width", 45, 0, 100);
+    final BasicParameter globalTheta = new BasicParameter("globalTheta", 1.0, 0, 1.0);
+    final BasicParameter colorSpeed = new BasicParameter("colorSpeed", 0, 0, 200);
+    final BasicParameter speedParam = new BasicParameter("Speed", 5, 20, .01);
+    final BasicParameter glow = new BasicParameter("glow", 0.1, 0.0, 1.0);
+    final SawLFO wave = new SawLFO(0, 360, 1000);
+    float total_ms=0; 
+    int shrub_offset[];
+    
+    LightHouse(LX lx) {
+        super(lx);
+        addModulator(wave).start();
+    	addParameter(hue);
+    	addParameter(globalTheta);
+    	addParameter(speedParam);
+    	addParameter(colorSpeed);
+    	addParameter(glow);
+    	addParameter(width);
+        
+    }
+    
+    public void run(double deltaMs) {
+    	wave.setPeriod(speedParam.getValuef() * speedMult  );
+        total_ms+=deltaMs*speedParam.getValuef();
+	float offset = (wave.getValuef()+360.0f)%360.0f;
+	for (BaseCube cube : model.baseCubes) {
+		float diff = (360.0f+(wave.getValuef() - cube.globalTheta)%360.0f)%360.f; // smallest postive representation modulo 360
+		if ((360-diff)<diff) {
+			diff=360-diff;
+		}
+		float b = diff<width.getValuef() ? 100.0f : 0.0f;
+		float h = (360+(hue.getValuef() +
+					 total_ms*colorSpeed.getValuef()/10000)%360)%360;
+		colors[cube.index] = lx.hsb(h,
+					100, 
+					b);    
+	}
+    }
+}
+
+
+class ShrubRiver extends TSPattern {
+   
+    private float speedMult = 1000;
+    final BasicParameter hue = new BasicParameter("hue", 135, 0, 360);
+    final BasicParameter treeHue = new BasicParameter("treeHue", 135, 0, 360);
+    final BasicParameter globalTheta = new BasicParameter("globalTheta", 1.0, 0, 1.0);
+    final BasicParameter colorSpeed = new BasicParameter("colorSpeed", 100, 0, 200);
+    final BasicParameter speedParam = new BasicParameter("Speed", 5, 20, .01);
+    final BasicParameter glow = new BasicParameter("glow", 0.5, 0.1, 1.0);
+    final BasicParameter color_offset = new BasicParameter("color_offset", 50, 0.0 , 360);
+    final BasicParameter width = new BasicParameter("width", 360, 0.1, 1000.0);
+    
+    final SawLFO wave = new SawLFO(0, 12, 1000);
+    float total_ms=0;
+    private float total_length=0.0f; 
+ 
+    private float dist(float x, float z, float a, float b) {
+	return (float)Math.sqrt(Math.pow(x-a,2f)+Math.pow(z-b,2f));
+    }
+
+    private int shrub_order[] = { 15, 0, 2, 1 , 4, 3, 9, 10, 13, 12, 11, 5, 6, 8, 7 , 14, 18, 19 , 17, 16 };;
+    //private int shrub_order[] = { 0, 1, 2, 3, 4, 9, 10, 5, 6, 7, 8, 11, 12, 13, 14 ,15, 16, 17, 18 };;
+    private float shrub_dists[]; // total dist along path to this shrub
+    ShrubRiver(LX lx) {
+        super(lx);
+        addModulator(wave).start();
+    	addParameter(treeHue);
+    	addParameter(hue);
+    	addParameter(globalTheta);
+    	addParameter(speedParam);
+    	addParameter(colorSpeed);
+    	addParameter(glow);
+    	addParameter(width);
+    	addParameter(color_offset);
+	shrub_dists=new float[shrub_order.length];
+	for (int i=0; i<shrub_order.length; i++) {
+		Shrub first = model.shrubs.get(shrub_order[i]);
+		Shrub second = model.shrubs.get(shrub_order[(i+1)%shrub_order.length]);
+		float d = dist(first.x,first.z,second.x,second.z);
+		shrub_dists[shrub_order[(i+1)%shrub_order.length]]=d+total_length;
+		total_length+=d;
+	}
+	total_length+=1;
+	for (int i=0; i<shrub_order.length; i++) {
+		shrub_dists[i]/=total_length;
+	}
+        
+    }
+    
+    public void run(double deltaMs) {
+	    wave.setPeriod(speedParam.getValuef() * speedMult / 3 );
+	    total_ms+=deltaMs*speedParam.getValuef();
+	    float time_p = (total_ms*colorSpeed.getValuef()/(10000*width.getValuef())) % 1.0f;
+	    for (Tree tree : model.trees) {
+		for (BaseCube cube : tree.cubes) {
+			colors[cube.index] = lx.hsb(treeHue.getValuef(),
+						    100, 
+						    30);    
+
+		}
+	    }
+	    
+	    for (int i=0; i<shrub_order.length; i++) {
+			Shrub shrub = model.shrubs.get(i);
+			float shrub_p = shrub_dists[i];
+                        float dist_p = (1.0f+shrub_p-time_p)%1.0f;
+			if ( (1.0f-dist_p) < dist_p ) {
+				dist_p=1.0f-dist_p;
+			} 
+			    for (ShrubCube shrubCube : shrub.cubes) {
+			            float t = shrub_dists[i]/total_length;
+				    float h = (hue.getValuef() +
+							    -shrub_dists[i]*width.getValuef() +
+							    total_ms*colorSpeed.getValuef()/10000.0f+
+								color_offset.getValuef())%360;
+				    //float b = Math.min(100,glow.getValuef()*100.0f+(1.0f-glow.getValuef())*diff*(100.0f/12.0f));
+				    float b = glow.getValuef()*100.0f + (1.0f-glow.getValuef())*dist_p*100.0f;
+				    //int pick = ((int)(total_ms/3000.0f))%20;
+				    //b = i == shrub_order[pick] ? 100 : 0;
+				    colors[shrubCube.index] = lx.hsb(h,
+						    100, 
+						    b);    
+			    }
+	    }
+    }
+}
+
+class ColorBlast extends TSPattern {
+   
+    private float speedMult = 1000;
+    final BasicParameter hue = new BasicParameter("hue", 135, 0, 360);
+    final BasicParameter width = new BasicParameter("width", 0.15, 0, 2);
+    final BasicParameter globalTheta = new BasicParameter("globalTheta", 1.0, 0, 1.0);
+    final BasicParameter colorSpeed = new BasicParameter("colorSpeed", 85, 0, 200);
+    final BasicParameter speedParam = new BasicParameter("Speed", 5, 20, .01);
+    final BasicParameter glow = new BasicParameter("glow", 0.1, 0.0, 1.0);
+    final SawLFO wave = new SawLFO(0, 360, 1000);
+    float total_ms=0; 
+    int shrub_offset[];
+    
+    ColorBlast(LX lx) {
+        super(lx);
+        addModulator(wave).start();
+    	addParameter(hue);
+    	addParameter(globalTheta);
+    	addParameter(speedParam);
+    	addParameter(colorSpeed);
+    	addParameter(glow);
+    	addParameter(width);
+        
+    }
+    private float dist(float x, float y, float z) {
+        return (float)Math.sqrt(Math.pow(x,2)+Math.pow(y,2)+Math.pow(z,2));
+    }
+    public void run(double deltaMs) {
+    	wave.setPeriod(speedParam.getValuef() * speedMult  );
+        total_ms+=deltaMs*speedParam.getValuef();
+	float offset = (wave.getValuef()+360.0f)%360.0f;
+	for (BaseCube cube : model.baseCubes) {
+		float b = 100.0f; //diff<width.getValuef() ? 100.0f : 0.0f;
+		float h = (hue.getValuef() +
+				dist(cube.x,cube.y,cube.z)*width.getValuef()+
+					 -total_ms*colorSpeed.getValuef()/10000)%360;
+		colors[cube.index] = lx.hsb(h,
+					100, 
+					b);    
+	}
+    }
+}
+
+
+class Vertigo extends TSPattern {
+   
+    private float speedMult = 1000;
+    final BasicParameter hue = new BasicParameter("hue", 135, 0, 360);
+    final BasicParameter width = new BasicParameter("width", 45, 0, 100);
+    final BasicParameter globalTheta = new BasicParameter("globalTheta", 1.0, 0, 1.0);
+    final BasicParameter colorSpeed = new BasicParameter("colorSpeed", 0, 0, 200);
+    final BasicParameter speedParam = new BasicParameter("Speed", 1.5, 3, .01);
+    final BasicParameter glow = new BasicParameter("glow", 0.1, 0.0, 1.0);
+    final SawLFO wave = new SawLFO(0, 360, 1000);
+    float total_ms=0; 
+    int shrub_offset[];
+    private float max_height=0.0f;
+    
+    Vertigo(LX lx) {
+        super(lx);
+        addModulator(wave).start();
+    	addParameter(hue);
+    	addParameter(globalTheta);
+    	addParameter(speedParam);
+    	addParameter(colorSpeed);
+    	addParameter(glow);
+    	addParameter(width);
+	max_height=0.0f;
+	for (BaseCube cube : model.baseCubes) {
+		if (max_height<cube.y) {
+			max_height=cube.y;
+		}
+	}
+        
+    }
+    
+    public void run(double deltaMs) {
+    	wave.setPeriod(speedParam.getValuef() * speedMult  );
+        total_ms+=deltaMs*speedParam.getValuef();
+	float offset = (wave.getValuef()+360.0f)%360.0f;
+	for (BaseCube cube : model.baseCubes) {
+                float h = hue.getValuef();
+		float b =  ((10.0f-cube.y/max_height + (total_ms/3000.0f))%1.0f)*100.0f ; //? 100.0f : 0.0f;
+		colors[cube.index] = lx.hsb(h,
+					100.0f, 
+					b);    
+	}
+    }
+}
 
 
 /**
