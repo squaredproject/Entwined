@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import java.time.format.DateTimeFormatter;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
@@ -20,6 +24,7 @@ import heronarts.lx.LX;
 import heronarts.lx.LXAutomationRecorder;
 import heronarts.lx.LXChannel;
 import heronarts.lx.LXEngine;
+import heronarts.lx.LXLoopTask;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.effect.BlurEffect;
 import heronarts.lx.effect.LXEffect;
@@ -63,6 +68,9 @@ abstract class Engine {
   MidiEngine midiEngine;
   TSDrumpad apc40Drumpad;
 
+  long _last_time;
+
+
   LXListenableNormalizedParameter[] effectKnobParameters;
   final ChannelTreeLevels[] channelTreeLevels = new ChannelTreeLevels[Engine.NUM_TOTAL_CHANNELS];
   final ChannelShrubLevels[] channelShrubLevels = new ChannelShrubLevels[Engine.NUM_TOTAL_CHANNELS];
@@ -94,6 +102,39 @@ abstract class Engine {
     model = new Model(ndbConfig, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig);
 
     lx = createLX();
+
+    // log that we are trying to start, even without a log
+    System.out.println( " Starting Entwined: " + 
+      ZonedDateTime.now( ZoneOffset.UTC ).format( DateTimeFormatter.ISO_INSTANT )
+    );
+
+    // start a log process for framerate, helps for watchdogging
+    _last_time = 0;
+    lx.engine.addLoopTask(new LXLoopTask() {
+
+      public void loop(double deltaMs) {
+
+          long now = System.currentTimeMillis();
+          if (_last_time == 0) {
+            _last_time = now;
+          }
+          else {
+            // 120 seconds apart
+            if (_last_time + 120000 < now) {
+
+              //double fr = lx.engine.getActualFrameRate();
+              double fr = lx.engine.frameRate();
+              double frP = lx.engine.framesPerSecond.getValue();
+
+              System.out.println(
+                ZonedDateTime.now( ZoneOffset.UTC ).format( DateTimeFormatter.ISO_INSTANT ) +
+                " frame rate: " + fr + " frameRateParameter: "+frP);
+
+              _last_time = now;
+            }
+        }
+      }
+    });
 
     // this is the TCP channel
     engineController = new EngineController(lx);
