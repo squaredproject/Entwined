@@ -210,6 +210,12 @@ abstract class Engine {
     registerPatternController("LineScan", new LineScan(lx));
     registerPatternController("WaveScan", new WaveScan(lx));
     registerPatternController("Stringy", new Stringy(lx));
+    registerPatternController("RainbowWaveScan", new RainbowWaveScan(lx));
+    registerPatternController("SyncSpinner", new SyncSpinner(lx));
+    registerPatternController("LightHouse", new LightHouse(lx));
+    registerPatternController("ShrubRiver", new ShrubRiver(lx));
+    registerPatternController("ColorBlast", new ColorBlast(lx));
+    registerPatternController("Vertigo", new Vertigo(lx));
 
 
     registerPatternController("Fumes", new Fumes(lx));
@@ -217,7 +223,6 @@ abstract class Engine {
     registerPatternController("Strobe", new Strobe(lx));
 
 
-    registerPatternController("RainbowWaveScan", new RainbowWaveScan(lx));
 
   }
 
@@ -327,6 +332,11 @@ abstract class Engine {
     patterns.add(new LineScan(lx));
     patterns.add(new WaveScan(lx));
     patterns.add(new RainbowWaveScan(lx));
+    patterns.add(new SyncSpinner(lx));
+    patterns.add(new LightHouse(lx));
+    patterns.add(new ShrubRiver(lx));
+    patterns.add(new ColorBlast(lx));
+    patterns.add(new Vertigo(lx));
 
     // Test patterns
     patterns.add(new ClusterLineTest(lx));
