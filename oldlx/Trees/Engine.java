@@ -247,16 +247,17 @@ abstract class Engine {
     registerPatternController("Wedges", new Wedges(lx));
 
 
-    registerPatternController("Circles", new Circles(lx));
-    registerPatternController("LineScan", new LineScan(lx));
-    registerPatternController("WaveScan", new WaveScan(lx));
-    registerPatternController("Stringy", new Stringy(lx));
-    registerPatternController("RainbowWaveScan", new RainbowWaveScan(lx));
-    registerPatternController("SyncSpinner", new SyncSpinner(lx));
-    registerPatternController("LightHouse", new LightHouse(lx));
-    registerPatternController("ShrubRiver", new ShrubRiver(lx));
-    registerPatternController("ColorBlast", new ColorBlast(lx));
-    registerPatternController("Vertigo", new Vertigo(lx));
+    // Misko's patterns
+    //registerPatternController("Circles", new Circles(lx));
+    //registerPatternController("LineScan", new LineScan(lx));
+    //registerPatternController("WaveScan", new WaveScan(lx));
+    //registerPatternController("Stringy", new Stringy(lx));
+    //registerPatternController("RainbowWaveScan", new RainbowWaveScan(lx));
+    //registerPatternController("SyncSpinner", new SyncSpinner(lx));
+    //registerPatternController("LightHouse", new LightHouse(lx));
+    //registerPatternController("ShrubRiver", new ShrubRiver(lx));
+    //registerPatternController("ColorBlast", new ColorBlast(lx));
+    //registerPatternController("Vertigo", new Vertigo(lx));
 
 
     registerPatternController("Fumes", new Fumes(lx));
