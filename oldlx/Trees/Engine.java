@@ -367,17 +367,17 @@ abstract class Engine {
     patterns.add(new Wedges(lx));
     patterns.add(new Parallax(lx));
 
-    //Miskos
-    patterns.add(new Stringy(lx));
-    patterns.add(new Circles(lx));
-    patterns.add(new LineScan(lx));
-    patterns.add(new WaveScan(lx));
-    patterns.add(new RainbowWaveScan(lx));
-    patterns.add(new SyncSpinner(lx));
-    patterns.add(new LightHouse(lx));
-    patterns.add(new ShrubRiver(lx));
-    patterns.add(new ColorBlast(lx));
-    patterns.add(new Vertigo(lx));
+    //Miskos - worried, removing, sorry
+    //patterns.add(new Stringy(lx));
+    //patterns.add(new Circles(lx));
+    //patterns.add(new LineScan(lx));
+    //patterns.add(new WaveScan(lx));
+    //patterns.add(new RainbowWaveScan(lx));
+    //patterns.add(new SyncSpinner(lx));
+    //patterns.add(new LightHouse(lx));
+    //patterns.add(new ShrubRiver(lx));
+    //patterns.add(new ColorBlast(lx));
+    //patterns.add(new Vertigo(lx));
 
     // Test patterns
     patterns.add(new ClusterLineTest(lx));

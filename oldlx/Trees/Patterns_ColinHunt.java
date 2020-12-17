@@ -55,6 +55,8 @@ class ColorWave extends TSPattern {
 
   // This is the pattern loop, which will run continuously via LX
   public void run(double deltaMs) {
+    if (getChannel().getFader().getNormalized() == 0) return;
+
     wave.setPeriod(speedParam.getValuef() * speedMult);
 
       // Use a for loop here to set the cube colors
@@ -96,6 +98,7 @@ class BeachBall extends TSPattern {
 
   // This is the pattern loop, which will run continuously via LX
   public void run(double deltaMs) {
+      if (getChannel().getFader().getNormalized() == 0) return;
 
       for (BaseCube baseCube : model.baseCubes) {
         colors[baseCube.index] = lx.hsb(
@@ -140,6 +143,8 @@ class Breath extends TSPattern {
   // This is the pattern loop, which will run continuously via LX
   public void run(double deltaMs) {
 
+    if (getChannel().getFader().getNormalized() == 0) return;
+
     if (changeHue == true && breath.getValuef() < 3) {
       hue = (float)Math.random() * 360;
       changeHue = false;
@@ -179,6 +184,9 @@ class Seasons extends TSPattern {
     }
 
     public void run(double deltaMs) {
+
+      if (getChannel().getFader().getNormalized() == 0) return;
+
       seasonLength += deltaMs;
 
       if (isSpring) {
@@ -207,6 +215,8 @@ class SimplexSparkle extends TSPattern {
 
 
     public void run(double deltaMs) {
+        if (getChannel().getFader().getNormalized() == 0) return;
+
         xOff += (deltaMs / 5000);
         zOff +=(deltaMs / 5000);
         // Use a for loop here to set the cube colors
@@ -249,6 +259,7 @@ class Wreathes extends TSPattern {
   }
 
   public void run(double deltaMs) {
+        if (getChannel().getFader().getNormalized() == 0) return;
 
       // Use a for loop here to set the cube colors
       for (BaseCube cube : model.baseCubes) {
@@ -328,6 +339,8 @@ class Peppermint extends TSPattern {
 
   // This is the pattern loop, which will run continuously via LX
   public void run(double deltaMs) {
+    if (getChannel().getFader().getNormalized() == 0) return;
+    
       for (BaseCube baseCube : model.baseCubes) {
 
         if (((baseCube.theta + spinner.getValuef()

@@ -54,6 +54,8 @@ class Circles extends TSPattern {
 
   // This is the pattern loop, which will run continuously via LX
   public void run(double deltaMs) {
+    if (getChannel().getFader().getNormalized() == 0) return;
+
     wave360.setPeriod(speedParam.getValuef() * speedMult);
     wave100.setPeriod(speedParam.getValuef() * speedMult);
 
@@ -100,6 +102,8 @@ class LineScan extends TSPattern {
   }
   // This is the pattern loop, which will run continuously via LX
   public void run(double deltaMs) {
+    if (getChannel().getFader().getNormalized() == 0)       return;
+
     float theta_rad = (float)Math.toRadians((int)theta.getValuef());
     nx = (float)Math.sin(theta_rad);
     nz = (float)Math.cos(theta_rad);
@@ -238,6 +242,8 @@ class Stringy extends TSPattern {
   }
   // This is the pattern loop, which will run continuously via LX
   public void run(double deltaMs) {
+    if (getChannel().getFader().getNormalized() == 0) return;
+
     //wave360.setPeriod(speedParam.getValuef() * speedMult);
     //wave100.setPeriod(speedParam.getValuef() * speedMult);
       total_ms1+=deltaMs;
@@ -344,6 +350,8 @@ class WaveScan extends TSPattern {
   }
   // This is the pattern loop, which will run continuously via LX
   public void run(double deltaMs) {
+    if (getChannel().getFader().getNormalized() == 0) return;
+
     float theta_rad = (float)Math.toRadians((int)theta.getValuef());
     nx = (float)Math.sin(theta_rad);
     nz = (float)Math.cos(theta_rad);
@@ -393,6 +401,8 @@ class RainbowWaveScan extends TSPattern {
   }
   // This is the pattern loop, which will run continuously via LX
   public void run(double deltaMs) {
+    if (getChannel().getFader().getNormalized() == 0) return;
+
     float theta_rad = (float)Math.toRadians((int)theta.getValuef());
     nx = (float)Math.sin(theta_rad);
     nz = (float)Math.cos(theta_rad);
@@ -432,6 +442,8 @@ class SyncSpinner extends TSPattern {
     }
     
     public void run(double deltaMs) {
+      if (getChannel().getFader().getNormalized() == 0) return;
+
     	wave.setPeriod(speedParam.getValuef() * speedMult / 3 );
         total_ms+=deltaMs*speedParam.getValuef();
         for (Shrub shrub : model.shrubs) {
@@ -481,6 +493,8 @@ class LightHouse extends TSPattern {
     }
     
     public void run(double deltaMs) {
+      if (getChannel().getFader().getNormalized() == 0) return;
+
     	wave.setPeriod(speedParam.getValuef() * speedMult  );
         total_ms+=deltaMs*speedParam.getValuef();
 	float offset = (wave.getValuef()+360.0f)%360.0f;
@@ -550,6 +564,8 @@ class ShrubRiver extends TSPattern {
     }
     
     public void run(double deltaMs) {
+      if (getChannel().getFader().getNormalized() == 0) return;
+
 	    wave.setPeriod(speedParam.getValuef() * speedMult / 3 );
 	    total_ms+=deltaMs*speedParam.getValuef();
 	    float time_p = (total_ms*colorSpeed.getValuef()/(10000*width.getValuef())) % 1.0f;
@@ -615,18 +631,20 @@ class ColorBlast extends TSPattern {
         return (float)Math.sqrt(Math.pow(x,2)+Math.pow(y,2)+Math.pow(z,2));
     }
     public void run(double deltaMs) {
+      if (getChannel().getFader().getNormalized() == 0) return;
+
     	wave.setPeriod(speedParam.getValuef() * speedMult  );
-        total_ms+=deltaMs*speedParam.getValuef();
-	float offset = (wave.getValuef()+360.0f)%360.0f;
-	for (BaseCube cube : model.baseCubes) {
-		float b = 100.0f; //diff<width.getValuef() ? 100.0f : 0.0f;
-		float h = (hue.getValuef() +
-				dist(cube.x,cube.y,cube.z)*width.getValuef()+
-					 -total_ms*colorSpeed.getValuef()/10000)%360;
-		colors[cube.index] = lx.hsb(h,
-					100, 
-					b);    
-	}
+      total_ms+=deltaMs*speedParam.getValuef();
+      float offset = (wave.getValuef()+360.0f)%360.0f;
+    	for (BaseCube cube : model.baseCubes) {
+    		float b = 100.0f; //diff<width.getValuef() ? 100.0f : 0.0f;
+    		float h = (hue.getValuef() +
+    				dist(cube.x,cube.y,cube.z)*width.getValuef()+
+    					 -total_ms*colorSpeed.getValuef()/10000)%360;
+    		colors[cube.index] = lx.hsb(h,
+    					100, 
+    					b);    
+    	}
     }
 }
 
@@ -664,16 +682,18 @@ class Vertigo extends TSPattern {
     }
     
     public void run(double deltaMs) {
+      if (getChannel().getFader().getNormalized() == 0) return;
+
     	wave.setPeriod(speedParam.getValuef() * speedMult  );
-        total_ms+=deltaMs*speedParam.getValuef();
-	float offset = (wave.getValuef()+360.0f)%360.0f;
-	for (BaseCube cube : model.baseCubes) {
-                float h = hue.getValuef();
-		float b =  ((10.0f-cube.y/max_height + (total_ms/3000.0f))%1.0f)*100.0f ; //? 100.0f : 0.0f;
-		colors[cube.index] = lx.hsb(h,
-					100.0f, 
-					b);    
-	}
+      total_ms+=deltaMs*speedParam.getValuef();
+    	float offset = (wave.getValuef()+360.0f)%360.0f;
+    	for (BaseCube cube : model.baseCubes) {
+                    float h = hue.getValuef();
+    		float b =  ((10.0f-cube.y/max_height + (total_ms/3000.0f))%1.0f)*100.0f ; //? 100.0f : 0.0f;
+    		colors[cube.index] = lx.hsb(h,
+    					100.0f, 
+    					b);    
+    	}
     }
 }
 
@@ -705,6 +725,7 @@ class PatternTemplate extends TSPattern {
 
   // This is the pattern loop, which will run continuously via LX
   public void run(double deltaMs) {
+      if (getChannel().getFader().getNormalized() == 0) return;
 
       // Use a for loop here to set the cube colors
       for (BaseCube cube : model.baseCubes) {
