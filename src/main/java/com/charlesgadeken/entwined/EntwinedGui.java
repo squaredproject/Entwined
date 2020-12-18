@@ -7,21 +7,36 @@ import com.charlesgadeken.entwined.model.Model;
 import com.charlesgadeken.entwined.model.ModelTransformTask;
 import com.charlesgadeken.entwined.patterns.EntwinedBasePattern;
 import com.charlesgadeken.entwined.triggers.drumpad.APC40mk1;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import heronarts.lx.LX;
 import heronarts.lx.LXLoopTask;
 import heronarts.lx.LXPlugin;
+import heronarts.lx.LXSerializable;
 import heronarts.lx.blend.DissolveBlend;
 import heronarts.lx.blend.LXBlend;
+import heronarts.lx.clip.LXClip;
+import heronarts.lx.mixer.LXAbstractChannel;
 import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.color.LXDynamicColor;
+import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.parameter.LXListenableNormalizedParameter;
 import heronarts.lx.parameter.LXParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.studio.LXStudio;
 import heronarts.p3lx.ui.UI2dContainer;
 import heronarts.p3lx.ui.UI2dContext;
+import heronarts.p3lx.ui.component.UIButton;
 import heronarts.p3lx.ui.component.UIKnob;
+import heronarts.p3lx.ui.component.UIIntegerBox;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -47,6 +62,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     private EntwinedParameters parameters;
 
     private UIGlobalKnobs globalKnobs;
+    private UIAutoPlay autoPlay;
     
     private volatile int watchdogFrameCount;
 
@@ -218,6 +234,7 @@ public class EntwinedGui extends PApplet implements LXPlugin {
         // additional views and components to the Ui heirarchy.
         lx.ui.preview.pointCloud.setPointSize(6);
         ui.addLayer(this.globalKnobs = new UIGlobalKnobs(lx, ui));
+        ui.addLayer(this.autoPlay = new UIAutoPlay(lx, ui));
     }
     
     private class UIGlobalKnobs extends UI2dContext {
@@ -234,6 +251,162 @@ public class EntwinedGui extends PApplet implements LXPlugin {
       
       public void addKnob(LXListenableNormalizedParameter p) {
         new UIKnob(0, 2, p).addToContainer(this);
+      }
+    }
+    
+    public class UIAutoPlay extends UI2dContext {
+      
+      public final DiscreteParameter index =
+        new DiscreteParameter("Index", 0, 5)
+        .setDescription("Which autoplay slot");
+      
+      private UIAutoPlay(LXStudio lx, LXStudio.UI ui) {
+        super(ui, heronarts.lx.studio.ui.UILeftPane.WIDTH, 0, 120, 24);
+        
+        new UIButton(0, 4, 18, 18) {
+          public void onClick() {
+            ui.applet.selectInput("Select an autoplay file to load", "loadAutoPlay", null, UIAutoPlay.this);
+          }   
+        }
+        .setIcon(ui.theme.iconOpen)
+        .setMomentary(true)
+        .setDescription("Open an autoplay file")
+        .addToContainer(this);
+        
+        new UIButton(20, 4, 18, 18) {
+          public void onClick() {
+            ui.applet.selectOutput("Select an autoplay file to save", "saveAutoPlay", new File("Set.autoplay"), UIAutoPlay.this);
+          }
+        }
+        .setIcon(ui.theme.iconSave)
+        .setMomentary(true)
+        .setDescription("Save the autoplay")
+        .addToContainer(this);
+        
+        new UIButton(40, 4, 18, 18) {
+          public void onToggle(boolean active) {
+            int idx = index.getValuei();
+            if (active) {
+              for (LXAbstractChannel channel : lx.engine.mixer.channels) {
+                channel.arm.setValue(true);
+                if (channel.getClip(idx) == null) {
+                  channel.addClip(idx);
+                }
+              }
+              lx.engine.mixer.masterBus.arm.setValue(true);
+              if (lx.engine.mixer.masterBus.getClip(idx) == null) {
+                lx.engine.mixer.masterBus.addClip(idx);;
+              }
+              lx.engine.mixer.launchScene(idx);
+            }
+          }
+        }
+        .setIcon(ui.theme.iconArm)
+        .setActiveColor(ui.theme.getRecordingColor())
+        .setMomentary(true)
+        .setDescription("Arm all of the tracks and create empty clips")
+        .addToContainer(this);
+        
+        new UIButton(60, 4, 18, 18) {
+          public void onToggle(boolean active) {
+            if (active) {
+              lx.engine.mixer.stopClips();
+            }
+          }
+        }
+        .setLabel("S")
+        .setMomentary(true)
+        .setDescription("Stop playaback of scene")
+        .addToContainer(this);
+        
+        new UIButton(80, 4, 18, 18) {
+          public void onToggle(boolean active) {
+            if (active) {
+              lx.engine.mixer.launchScene(index.getValuei());
+            }
+          }
+        }
+        .setLabel(">")
+        .setMomentary(true)
+        .setDescription("Start playaback of scene")
+        .addToContainer(this);
+        
+        new UIIntegerBox(100, 4, 18, 18)
+        .setParameter(index)
+        .addToContainer(this);
+        
+      }
+      
+      public void saveAutoPlay(final File file) {
+        lx.engine.addTask(() -> {
+          JsonObject obj = new JsonObject();
+          for (LXAbstractChannel channel : lx.engine.mixer.channels) {
+            JsonArray channelObj = new JsonArray();
+            for (LXClip clip : channel.clips) {
+              if (clip != null) {
+                channelObj.add(LXSerializable.Utils.toObject(lx, clip));
+              }
+            }
+            obj.add("channel-" + channel.getIndex(), channelObj);
+          }
+          JsonArray masterObj = new JsonArray();
+          for (LXClip clip : lx.engine.mixer.masterBus.clips) {
+            if (clip != null) {
+              masterObj.add(LXSerializable.Utils.toObject(lx, clip));
+            }
+          }
+          obj.add("master", masterObj);
+          try (JsonWriter writer = new JsonWriter(new FileWriter(file))) {
+            writer.setIndent("  ");
+            new GsonBuilder().create().toJson(obj, writer);
+            LX.log("Autoplay saved successfully to " + file.toString());
+          } catch (IOException iox) {
+            LX.error(iox, "Could not autoplay to output file: " + file.toString());
+            lx.pushError(iox, "Could not save autoplay file: " + file.toString());
+          }
+        });
+      }
+      
+      public void loadAutoPlay(final File file) {
+        lx.engine.addTask(() -> {
+          try (FileReader fr = new FileReader(file)) {
+            JsonObject obj = new Gson().fromJson(fr, JsonObject.class);
+            // Remove all the clips
+            for (LXAbstractChannel channel : lx.engine.mixer.channels) {
+              if (obj.has("channel-" + channel.getIndex())) {              
+                for (LXClip clip : channel.clips) {
+                  if (clip != null) {
+                    channel.removeClip(clip);
+                  }
+                }
+                JsonArray clipArr = obj.get("channel-" + channel.getIndex()).getAsJsonArray();
+                for (JsonElement clipElem : clipArr) {
+                  JsonObject clipObj = clipElem.getAsJsonObject();
+                  channel.addClip(clipObj.get("index").getAsInt()).load(lx, clipObj);
+                }
+              }
+            }
+            if (obj.has("master")) {
+              for (LXClip clip : lx.engine.mixer.masterBus.clips) {
+                if (clip != null) {
+                  lx.engine.mixer.masterBus.removeClip(clip);
+                }
+              }
+              JsonArray clipArr = obj.get("master").getAsJsonArray();
+              for (JsonElement clipElem : clipArr) {
+                JsonObject clipObj = clipElem.getAsJsonObject();
+                lx.engine.mixer.masterBus.addClip(clipObj.get("index").getAsInt()).load(lx, clipObj);
+              }
+              
+            }
+          } catch (IOException iox) {
+            LX.error("Could not load autoplay file: " + iox.getLocalizedMessage());
+            lx.pushError(iox, "Could not load autoplay file: " + iox.getLocalizedMessage());
+          } catch (Exception x) {
+            LX.error(x, "Exception in loadAutoPlay: " + x.getLocalizedMessage());
+            lx.pushError(x, "Could not load autoplay file: " + x.getLocalizedMessage());
+          }
+        });
       }
     }
 
