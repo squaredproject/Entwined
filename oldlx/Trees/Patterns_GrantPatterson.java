@@ -37,8 +37,8 @@ class Pond extends TSPattern {
   }
 
   private ArrayList<Ripple> ripples = new ArrayList<Ripple>();
-  private LXVector[] corners;
-  LXVector modelCenter;
+  private static LXVector[] corners;
+  static LXVector modelCenter;
 
   final BasicParameter speedParam = new BasicParameter("speed", 14, 4, 40);
   final BasicParameter sizeParam = new BasicParameter("size", .5, .1, 5);
