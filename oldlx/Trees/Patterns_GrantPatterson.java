@@ -433,9 +433,15 @@ class Growth extends TSPattern {
     addParameter(angleParam);
 
     for (Tree tree : model.trees) {
+      if (tree.cubes.size() == 0) {
+        continue;
+      }
       growers.add(new Grower((LXModel)tree));
     }
     for (Shrub shrub : model.shrubs) {
+      if (shrub.cubes.size() == 0) {
+        continue;
+      }
       growers.add(new Grower((LXModel)shrub));
     }
     for (Grower g : growers) {
