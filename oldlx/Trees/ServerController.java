@@ -33,8 +33,6 @@ import java.net.*;
 import java.util.Arrays;
 
 /**
- * ( begin auto-generated from Server.xml )
- * 
  * A server sends and receives data to and from its associated clients 
  * (other programs connected to it). When a server is started, it begins 
  * listening for connections on the port specified by the <b>port</b> 
@@ -42,7 +40,6 @@ import java.util.Arrays;
  * commonly used so be sure to not select one of these. For example, web 
  * servers usually use port 80 and POP mail uses port 110.
  * 
- * ( end auto-generated )
  * @webref net
  * @usage application
  * @brief The server class is used to create server objects which send and receives data to and from its associated clients (other programs connected to it). 
@@ -96,11 +93,7 @@ class Server implements Runnable {
 
 
   /**
-   * ( begin auto-generated from Server_disconnect.xml )
-   * 
    * Disconnect a particular client.
-   * 
-   * ( end auto-generated )
    * @brief Disconnect a particular client.
    * @webref server:server
    * @param client the client to disconnect
@@ -504,7 +497,7 @@ class Client implements Runnable {
         
           // read returns -1 if end-of-stream occurs (for example if the host disappears)
           if (value == -1) {
-            System.err.println("Client got end-of-stream.");
+            System.err.println("Client got end-of-stream. SERVER CONTROLLER");
             stop();
             return;
           }

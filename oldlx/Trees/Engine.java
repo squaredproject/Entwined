@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import java.time.format.DateTimeFormatter;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.ZoneId;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -68,7 +69,9 @@ abstract class Engine {
   MidiEngine midiEngine;
   TSDrumpad apc40Drumpad;
 
-  long _last_time;
+  ZoneId localZone = ZoneId.of("America/Los_Angeles");
+  long _last_print_time;
+  long _last_check_time;
 
 
   LXListenableNormalizedParameter[] effectKnobParameters;
@@ -105,33 +108,42 @@ abstract class Engine {
 
     // log that we are trying to start, even without a log
     System.out.println( " Starting Entwined: " + 
-      ZonedDateTime.now( ZoneOffset.UTC ).format( DateTimeFormatter.ISO_INSTANT )
+      ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME )
     );
 
     // start a log process for framerate, helps for watchdogging
-    _last_time = 0;
+    _last_print_time = System.currentTimeMillis();
+    _last_check_time = System.currentTimeMillis();
+    
     lx.engine.addLoopTask(new LXLoopTask() {
 
       public void loop(double deltaMs) {
 
           long now = System.currentTimeMillis();
-          if (_last_time == 0) {
-            _last_time = now;
-          }
-          else {
-            // 120 seconds apart
-            if (_last_time + 120000 < now) {
 
-              //double fr = lx.engine.getActualFrameRate();
-              double fr = lx.engine.frameRate();
-              double frP = lx.engine.framesPerSecond.getValue();
-
+          // how often do we have frame rates under 2 seconds?
+          if (_last_check_time + 2000 < now) {
+            double fr = lx.engine.frameRate();
+            if (fr < 2.0f) {
               System.out.println(
-                ZonedDateTime.now( ZoneOffset.UTC ).format( DateTimeFormatter.ISO_INSTANT ) +
-                " frame rate: " + fr + " frameRateParameter: "+frP);
-
-              _last_time = now;
+                ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) +
+                " low frame rate: " + fr );
             }
+            _last_check_time = now;
+          }
+
+          // 120 seconds apart - 2 minutes
+          if (_last_print_time + 120000 < now) {
+
+            //double fr = lx.engine.getActualFrameRate();
+            double fr = lx.engine.frameRate();
+
+            System.out.println(
+              ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) +
+              " frame rate: " + fr );
+
+            _last_print_time = now;
+
         }
       }
     });
@@ -248,17 +260,16 @@ abstract class Engine {
 
 
     // Misko's patterns
-    //registerPatternController("Circles", new Circles(lx));
-    //registerPatternController("LineScan", new LineScan(lx));
-    //registerPatternController("WaveScan", new WaveScan(lx));
+    registerPatternController("Circles", new Circles(lx));
+    registerPatternController("LineScan", new LineScan(lx));
+    registerPatternController("WaveScan", new WaveScan(lx));
     //registerPatternController("Stringy", new Stringy(lx));
-    //registerPatternController("RainbowWaveScan", new RainbowWaveScan(lx));
-    //registerPatternController("SyncSpinner", new SyncSpinner(lx));
-    //registerPatternController("LightHouse", new LightHouse(lx));
-    //registerPatternController("ShrubRiver", new ShrubRiver(lx));
-    //registerPatternController("ColorBlast", new ColorBlast(lx));
-    //registerPatternController("Vertigo", new Vertigo(lx));
-
+    registerPatternController("RainbowWaveScan", new RainbowWaveScan(lx));
+    registerPatternController("SyncSpinner", new SyncSpinner(lx));
+    registerPatternController("LightHouse", new LightHouse(lx));
+    registerPatternController("ShrubRiver", new ShrubRiver(lx));
+    registerPatternController("ColorBlast", new ColorBlast(lx));
+    registerPatternController("Vertigo", new Vertigo(lx));
 
     registerPatternController("Fumes", new Fumes(lx));
     registerPatternController("Color Strobe", new ColorStrobe(lx));
@@ -369,16 +380,16 @@ abstract class Engine {
     patterns.add(new Parallax(lx));
 
     //Miskos - worried, removing, sorry
-    //patterns.add(new Stringy(lx));
-    //patterns.add(new Circles(lx));
-    //patterns.add(new LineScan(lx));
-    //patterns.add(new WaveScan(lx));
-    //patterns.add(new RainbowWaveScan(lx));
-    //patterns.add(new SyncSpinner(lx));
-    //patterns.add(new LightHouse(lx));
-    //patterns.add(new ShrubRiver(lx));
-    //patterns.add(new ColorBlast(lx));
-    //patterns.add(new Vertigo(lx));
+    //patterns.add(new Stringy(lx));  // takes too much memory
+    patterns.add(new Circles(lx));
+    patterns.add(new LineScan(lx));
+    patterns.add(new WaveScan(lx));
+    patterns.add(new RainbowWaveScan(lx));
+    patterns.add(new SyncSpinner(lx));
+    patterns.add(new LightHouse(lx));
+    patterns.add(new ShrubRiver(lx));
+    patterns.add(new ColorBlast(lx));
+    patterns.add(new Vertigo(lx));
 
     // Test patterns
     patterns.add(new ClusterLineTest(lx));
@@ -923,7 +934,6 @@ abstract class Engine {
   }
 
   /* configureServer */
-
   void configureServer() {
     new AppServer(lx, engineController).start();
   }
