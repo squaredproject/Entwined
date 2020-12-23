@@ -3,6 +3,12 @@ import json
 import os
 import sys
 
+###
+### script to concat multiple playlists together
+### also inserts a FINISH element at the end so the merged playlist loops
+### Usage: Usage: ./concat_vj_sessions.py input1.json input2.json input2.json output.json
+
+
 if len(sys.argv) == 1:
     print 'Usage:', sys.argv[0], '<input>... <output>'
     sys.exit(1)
