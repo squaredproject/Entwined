@@ -8,6 +8,11 @@ final class Config {
   static final boolean enableOutputMinitree = false;
   static final boolean enableOutputBigtree = true;
 
+  // these configure the mandated "pause" to keep crowds down
+  // set either to 0 to disable
+  static final double pauseRunMinutes = 0.0;
+  static final double pausePauseMinutes = 0.0;
+
   static final String NDB_CONFIG_FILE = "data/entwinedNDBs.json";
   static final String CUBE_CONFIG_FILE = "data/entwinedCubes.json";
   static final String TREE_CONFIG_FILE = "data/entwinedTrees.json";
@@ -15,5 +20,5 @@ final class Config {
   static final String SHRUB_CONFIG_FILE = "data/entwinedShrubs.json";
 
   // if this file doesn't exist you get a crash
-  static final String AUTOPLAY_FILE = "data/Burning Man Playlist.json";
+  static final String AUTOPLAY_FILE = "data/ggp-goodjuju.json";
 }

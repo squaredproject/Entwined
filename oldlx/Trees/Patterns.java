@@ -358,12 +358,6 @@ class ColorEffect extends Effect {
   }
 }
 
-class ColorEffect2 extends ColorEffect {
-  ColorEffect2(LX lx) {
-    super(lx);
-  }
-}
-
 class TestShrubSweep extends TSPattern {
     
     final BasicParameter x;

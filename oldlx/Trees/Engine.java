@@ -70,20 +70,20 @@ abstract class Engine {
   TSDrumpad apc40Drumpad;
 
   ZoneId localZone = ZoneId.of("America/Los_Angeles");
-  long _last_print_time;
-  long _last_check_time;
-
 
   LXListenableNormalizedParameter[] effectKnobParameters;
   final ChannelTreeLevels[] channelTreeLevels = new ChannelTreeLevels[Engine.NUM_TOTAL_CHANNELS];
   final ChannelShrubLevels[] channelShrubLevels = new ChannelShrubLevels[Engine.NUM_TOTAL_CHANNELS];
   final BasicParameter dissolveTime = new BasicParameter("DSLV", 400, 50, 1000);
   final BasicParameter drumpadVelocity = new BasicParameter("DVEL", 1);
+  
   final TSAutomationRecorder[] automation = new TSAutomationRecorder[Engine.NUM_AUTOMATION];
   final BooleanParameter[] automationStop = new BooleanParameter[Engine.NUM_AUTOMATION];
   final DiscreteParameter automationSlot = new DiscreteParameter("AUTO", Engine.NUM_AUTOMATION);
   final BooleanParameter[] previewChannels = new BooleanParameter[Engine.NUM_BASE_CHANNELS];
+
   final BasicParameterProxy outputBrightness = new BasicParameterProxy(1);
+  final BrightnessScaleEffect masterBrightnessEffect;
 
   // breadcrumb regarding channelTreeLevels and channelShrubLevels
   // these are controllers which should be used on a shrub-by-shrub basis to allow
@@ -111,45 +111,13 @@ abstract class Engine {
       ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME )
     );
 
-    // start a log process for framerate, helps for watchdogging
-    _last_print_time = System.currentTimeMillis();
-    _last_check_time = System.currentTimeMillis();
-    
-    lx.engine.addLoopTask(new LXLoopTask() {
+    lx.engine.addLoopTask(new FrameRateLogTask(lx.engine) );
 
-      public void loop(double deltaMs) {
-
-          long now = System.currentTimeMillis();
-
-          // how often do we have frame rates under 2 seconds?
-          if (_last_check_time + 2000 < now) {
-            double fr = lx.engine.frameRate();
-            if (fr < 2.0f) {
-              System.out.println(
-                ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) +
-                " low frame rate: " + fr );
-            }
-            _last_check_time = now;
-          }
-
-          // 120 seconds apart - 2 minutes
-          if (_last_print_time + 120000 < now) {
-
-            //double fr = lx.engine.getActualFrameRate();
-            double fr = lx.engine.frameRate();
-
-            System.out.println(
-              ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) +
-              " frame rate: " + fr );
-
-            _last_print_time = now;
-
-        }
-      }
-    });
+    lx.engine.addLoopTask(new AutoPauseTask() );
 
     // this is the TCP channel
     engineController = new EngineController(lx);
+    masterBrightnessEffect = new BrightnessScaleEffect(lx);
 
     lx.engine.addParameter(drumpadVelocity);
 
@@ -160,11 +128,15 @@ abstract class Engine {
 
     configureChannels();
 
+
     configureTriggerables();
     lx.engine.addLoopTask(new ModelTransformTask(model));
 
     configureBMPTool();
     configureAutomation();
+
+
+    // last
 
     if (Config.enableOutputBigtree) {
       lx.addEffect(new TurnOffDeadPixelsEffect(lx));
@@ -173,6 +145,12 @@ abstract class Engine {
     if (Config.enableOutputMinitree) {
       configureFadeCandyOutput();
     }
+
+    lx.addEffect(masterBrightnessEffect);
+
+    // last
+
+    enableEffects();
 
     postCreateLX();
 
@@ -185,6 +163,8 @@ abstract class Engine {
   		engineController.setAutoplay(Config.autoplayBMSet, true/*force*/);
   	}
   	configureServer(); // turns on the TCP listener
+
+
 
     // bad code I know
     // (shouldn't mess with engine internals)
@@ -227,7 +207,6 @@ abstract class Engine {
     registerPatternController("Acid Trip", new AcidTrip(lx));
     registerPatternController("Rain", new Rain(lx));
 
-
     registerPatternController("Pond", new Pond(lx));
     registerPatternController("Planes", new Planes(lx));
     registerPatternController("Growth", new Growth(lx));
@@ -236,16 +215,12 @@ abstract class Engine {
     registerPatternController("Sparkle Takeover", new SparkleTakeOver(lx));
     registerPatternController("SparkleHelix", new SparkleHelix(lx));
 
-
-
     registerPatternController("Multi-Sine", new MultiSine(lx));
     registerPatternController("Seesaw", new SeeSaw(lx));
     registerPatternController("Ripple", new MultiSine(lx));
     registerPatternController("Cells", new Cells(lx));
     registerPatternController("Fade", new Fade(lx));
     registerPatternController("Springs", new Springs(lx));
-
-
 
     registerPatternController("Bass Slam", new BassSlam(lx));
 
@@ -257,7 +232,6 @@ abstract class Engine {
 
     registerPatternController("ColorWave", new ColorWave(lx));
     registerPatternController("Wedges", new Wedges(lx));
-
 
     // Misko's patterns
     registerPatternController("Circles", new Circles(lx));
@@ -275,12 +249,10 @@ abstract class Engine {
     registerPatternController("Color Strobe", new ColorStrobe(lx));
     registerPatternController("Strobe", new Strobe(lx));
 
-
-
   }
 
   void registerIPadEffects() {
-    ColorEffect colorEffect = new ColorEffect2(lx);
+    ColorEffect colorEffect = new ColorEffect(lx);
     ColorStrobeTextureEffect colorStrobeTextureEffect = new ColorStrobeTextureEffect(lx);
     FadeTextureEffect fadeTextureEffect = new FadeTextureEffect(lx);
     AcidTripTextureEffect acidTripTextureEffect = new AcidTripTextureEffect(lx);
@@ -295,7 +267,7 @@ abstract class Engine {
     ScrambleEffect scrambleEffect = engineController.scrambleEffect = new ScrambleEffect(lx);
     // StaticEffect staticEffect = engineController.staticEffect = new StaticEffect(lx);
 
-    engineController.outputBrightness = outputBrightness;
+    engineController.masterBrightnessEffect = masterBrightnessEffect;
 
 
     lx.addEffect(blurEffect);
@@ -525,6 +497,7 @@ abstract class Engine {
         spinEffect.spin,
         candyCloudTextureEffect.amount
     };
+
   }
 
   VisualType[] readerPatternTypeRestrictions() {
@@ -774,6 +747,12 @@ abstract class Engine {
     engineController.effectControllers.add(effectController);
   }
 
+  void enableEffects() {
+    for (LXEffect effect : lx.getEffects()) {
+      effect.enabled.setValue(true);
+    }
+  }
+
   /* configureBMPTool */
 
   void configureBMPTool() {
@@ -790,11 +769,13 @@ abstract class Engine {
     //   "millis": 0
     // },
     lx.engine.addMessageListener(new LXEngine.MessageListener() {
-    @Override
-    public void onMessage(LXEngine engine, String message) {
-      if (message.length() > 8 && message.substring(0, 7).equals("master/")) {
+      @Override
+      public void onMessage(LXEngine engine, String message) {
+        if (message.length() > 8 && message.substring(0, 7).equals("master/")) {
+          
           double value = Double.parseDouble(message.substring(7));
-          outputBrightness.setValue(value);
+          masterBrightnessEffect.getParameter().setValue(value);
+//          outputBrightness.setValue(value);
         }
       }
     });
@@ -835,14 +816,14 @@ abstract class Engine {
   @SuppressWarnings("unchecked")
   void configureTriggerables() {
 
-  if (Config.enableAPC40) {
+    if (Config.enableAPC40) {
       apc40DrumpadTriggerablesLists = new ArrayList[]{
-          new ArrayList<Triggerable>(),
-          new ArrayList<Triggerable>(),
-          new ArrayList<Triggerable>(),
-          new ArrayList<Triggerable>(),
-          new ArrayList<Triggerable>(),
-          new ArrayList<Triggerable>()
+        new ArrayList<Triggerable>(),
+        new ArrayList<Triggerable>(),
+        new ArrayList<Triggerable>(),
+        new ArrayList<Triggerable>(),
+        new ArrayList<Triggerable>(),
+        new ArrayList<Triggerable>()
       };
     }
 
@@ -850,9 +831,9 @@ abstract class Engine {
     registerOneShotTriggerables();
     registerEffectTriggerables();
 
-  	engineController.startEffectIndex = lx.engine.getEffects().size();
-  	registerIPadEffects();
-  	engineController.endEffectIndex = lx.engine.getEffects().size();
+    engineController.startEffectIndex = lx.engine.getEffects().size();
+    registerIPadEffects();
+    engineController.endEffectIndex = lx.engine.getEffects().size();
 
     // 
     if (Config.enableAPC40) {
@@ -873,7 +854,8 @@ abstract class Engine {
     apc40Drumpad.triggerables = apc40DrumpadTriggerables;
 
     // MIDI control
-    midiEngine = new MidiEngine(lx, effectKnobParameters, apc40Drumpad, drumpadVelocity, previewChannels, bpmTool, uiDeck,  outputBrightness, automationSlot, automation, automationStop);
+//    midiEngine = new MidiEngine(lx, effectKnobParameters, apc40Drumpad, drumpadVelocity, previewChannels, bpmTool, uiDeck,  outputBrightness, automationSlot, automation, automationStop);
+    midiEngine = new MidiEngine(lx, effectKnobParameters, apc40Drumpad, drumpadVelocity, previewChannels, bpmTool, uiDeck,  masterBrightnessEffect.getParameter(), automationSlot, automation, automationStop);
   }
 
   /* configureExternalOutput */
@@ -937,6 +919,100 @@ abstract class Engine {
   void configureServer() {
     new AppServer(lx, engineController).start();
   }
+
+  // Log Helper
+  void log(String s) {
+  	  System.out.println(
+  		ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + s );
+  }
+
+  class FrameRateLogTask implements LXLoopTask {
+
+  	public final LXEngine engine;
+
+  	long lastCheckTime = System.currentTimeMillis();
+  	long lastPrintTime = System.currentTimeMillis();
+
+  	FrameRateLogTask(LXEngine engine) {
+  		this.engine = engine;
+  	};
+
+  	@Override
+  	public void loop(double deltaMs) {
+
+  		long now = System.currentTimeMillis();
+
+        // how often do we have frame rates under 2 seconds?
+  		if (lastCheckTime + 2000 < now) {
+  			double fr = this.engine.frameRate();
+  			if (fr < 2.0f) {
+  				log( " low frame rate: " + fr );
+  			}
+  			lastCheckTime = now;
+  		}
+
+        // 120 seconds apart - 2 minutes
+  		if (lastPrintTime + 120000 < now) {
+  			double fr = this.engine.frameRate();
+  			log( " frame rate: " + fr );
+  			lastPrintTime = now;
+
+  		}
+  	}
+
+  }
+
+  /* force pauses whenever autoplay is playing (only then) */
+  class AutoPauseTask implements LXLoopTask {
+
+  	long startTime = System.currentTimeMillis() / 1000;
+  	boolean lightsOn = true;
+  	boolean pauseStateRunning = true;
+
+
+  	@Override
+  	public void loop(double deltaMs) {
+
+		// if not configured just quit (allows for on-the-fly-config-change)
+  		if (Config.pauseRunMinutes == 0.0 || Config.pausePauseMinutes == 0.0) {
+  			return;
+  		}
+  		// if we are not autoplaying, the ipad has us, and we trust the ipad
+  		if (! engineController.isAutoplaying ) {
+  			if (lightsOn == false) {
+  				log( " PauseTask: not autoplaying, lightson unconditionally " );
+  				outputBrightness.setValue(1.0f);
+  				lightsOn = true;
+  			}
+  			return;
+  		}
+
+  		 // move these to seconds for better scale
+  		long now = ( System.currentTimeMillis() / 1000);
+
+  		// check if I should be on or off
+  		boolean shouldLightsOn = true;
+  		long totalPeriod = (long) ((Config.pauseRunMinutes + Config.pausePauseMinutes) * 60.0);
+  		long secsIntoPeriod = (now - startTime) % totalPeriod;
+  		if ((Config.pauseRunMinutes * 60.0) <= secsIntoPeriod) shouldLightsOn = false;
+
+  		if (shouldLightsOn && lightsOn == false) {
+  			//log( " PauseTask: totalPeriod "+totalPeriod+" timeIntoPeriod "+secsIntoPeriod+" should: "+shouldLightsOn );
+  			//log( " PauseTask: now  "+now+" startTime "+startTime );
+
+  			log( " PauseTask: lightson: for "+Config.pausePauseMinutes+" minutes" );
+  			outputBrightness.setValue(1.0f);
+  			lightsOn = true;
+  		}
+  		else if (shouldLightsOn == false && lightsOn) {
+  			log(" PauseTask: lightsoff: for "+Config.pausePauseMinutes+" minutes" );
+  			outputBrightness.setValue(1.0f);
+  			lightsOn = false;
+  		}
+
+  	}
+  }
+
 }
 
 // this is the controller used by the TCP connection system
@@ -962,7 +1038,8 @@ class EngineController {
   SpinEffect spinEffect;
   BlurEffect blurEffect;
   ScrambleEffect scrambleEffect;
-  BasicParameterProxy outputBrightness;
+  //BasicParameterProxy outputBrightness;
+  BrightnessScaleEffect masterBrightnessEffect;
 
 
   EngineController(LX lx) {
@@ -1026,11 +1103,11 @@ class EngineController {
   // of power consumed, it will NOT effect what you see in the model 
   // on processing
   void setMasterBrightness(double amount) {
-    outputBrightness.setValue(amount);
+    masterBrightnessEffect.amount.setValue(amount);
   }
 
   double getMasterBrightness() {
-    double ret = outputBrightness.getValue();
+    double ret = masterBrightnessEffect.getValue();
     return( ret );
 
   }

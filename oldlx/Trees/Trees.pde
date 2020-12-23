@@ -50,7 +50,7 @@ P3LX lx;
 ProcessingEngine engine;
 LXDatagramOutput treeOutput;
 LXDatagramOutput shrubOutput;
-BasicParameter outputBrightness;
+BasicParameter masterBrightnessParameter;
 LXDatagram[] treeDatagrams;
 LXDatagram[] shrubDatagrams;
 UIChannelFaders uiFaders;
@@ -103,7 +103,7 @@ class ProcessingEngine extends Engine {
     Trees.this.lx = getLX();
     Trees.this.treeOutput = treeOutput;
     Trees.this.shrubOutput = shrubOutput;
-    Trees.this.outputBrightness = outputBrightness;
+    Trees.this.masterBrightnessParameter = masterBrightnessEffect.getParameter();
     Trees.this.treeDatagrams = treeDatagrams;
     Trees.this.shrubDatagrams = shrubDatagrams;
     Trees.this.bpmTool = bpmTool;
