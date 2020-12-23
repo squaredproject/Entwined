@@ -969,7 +969,6 @@ abstract class Engine {
   	boolean lightsOn = true;
   	boolean pauseStateRunning = true;
 
-
   	@Override
   	public void loop(double deltaMs) {
 
@@ -1000,13 +999,13 @@ abstract class Engine {
   			//log( " PauseTask: totalPeriod "+totalPeriod+" timeIntoPeriod "+secsIntoPeriod+" should: "+shouldLightsOn );
   			//log( " PauseTask: now  "+now+" startTime "+startTime );
 
-  			log( " PauseTask: lightson: for "+Config.pausePauseMinutes+" minutes" );
+  			log( " PauseTask: lightson: for "+Config.pauseRunMinutes+" minutes" );
   			outputBrightness.setValue(1.0f);
   			lightsOn = true;
   		}
   		else if (shouldLightsOn == false && lightsOn) {
   			log(" PauseTask: lightsoff: for "+Config.pausePauseMinutes+" minutes" );
-  			outputBrightness.setValue(1.0f);
+  			outputBrightness.setValue(0.0f);
   			lightsOn = false;
   		}
 
