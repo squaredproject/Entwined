@@ -969,25 +969,72 @@ abstract class Engine {
   	boolean lightsOn = true;
   	boolean pauseStateRunning = true;
 
+    boolean fadeing = false;
+    long    fadeStart;
+    Long    fadeEnd;
+    boolean fadeIn = false; // or its is a fade out
+
+    // these nows are in miliseconds
+    void startFadeIn() {
+      fadeStart = System.currentTimeMillis();
+      fadeEnd = fadeStart + (long)( Config.pauseFadeInSeconds * 1000 );
+      fadeIn = true;
+      fadeing = true;
+      //log(" start Fade In ");
+      // no point in trying to set not, hasn't changed enough
+    }
+
+    // these nows are in miliseconds
+    void startFadeOut() {
+      fadeStart = System.currentTimeMillis();
+      fadeEnd = fadeStart + (long)( Config.pauseFadeOutSeconds * 1000 );
+      fadeIn = false;
+      fadeing = true;
+      //log(" start fade out ");
+      // no point in trying to set not, hasn't changed enough
+    }
+
+    void setFadeValue() {
+      long now = System.currentTimeMillis();
+      if (now > fadeEnd) {
+        fadeing = false;
+        outputBrightness.setValue(fadeIn ? 1.0f : 0.0f);
+        lightsOn = fadeIn ? true : false;
+        //log(" fade over ");
+        return;
+      }
+      double value = ((double)(now - fadeStart)) / (double)((fadeEnd - fadeStart));
+      // log(" fade value: fadeStart "+fadeStart+" fadeEnd "+fadeEnd+" now "+now);
+      if (fadeIn == false) { value = 1.0f - value; }
+      outputBrightness.setValue(value);
+      //log(" fadeing: "+(fadeIn?"in ":"out ")+" value: "+value);
+    }
+
   	@Override
   	public void loop(double deltaMs) {
 
-		// if not configured just quit (allows for on-the-fly-config-change)
+		  // if not configured just quit (allows for on-the-fly-config-change)
   		if (Config.pauseRunMinutes == 0.0 || Config.pausePauseMinutes == 0.0) {
   			return;
   		}
+
+      // no matter what, if we start fading, finish it
+      if (fadeing) {
+        setFadeValue();
+        return;
+      }
+
   		// if we are not autoplaying, the ipad has us, and we trust the ipad
   		if (! engineController.isAutoplaying ) {
   			if (lightsOn == false) {
   				log( " PauseTask: not autoplaying, lightson unconditionally " );
-  				outputBrightness.setValue(1.0f);
-  				lightsOn = true;
+  				startFadeIn();
   			}
   			return;
   		}
 
-  		 // move these to seconds for better scale
-  		long now = ( System.currentTimeMillis() / 1000);
+       // move these to seconds for better scale
+      long now = ( System.currentTimeMillis() / 1000);
 
   		// check if I should be on or off
   		boolean shouldLightsOn = true;
@@ -995,20 +1042,17 @@ abstract class Engine {
   		long secsIntoPeriod = (now - startTime) % totalPeriod;
   		if ((Config.pauseRunMinutes * 60.0) <= secsIntoPeriod) shouldLightsOn = false;
 
-  		if (shouldLightsOn && lightsOn == false) {
-  			//log( " PauseTask: totalPeriod "+totalPeriod+" timeIntoPeriod "+secsIntoPeriod+" should: "+shouldLightsOn );
-  			//log( " PauseTask: now  "+now+" startTime "+startTime );
+      //log( " PauseTask: totalPeriod "+totalPeriod+" timeIntoPeriod "+secsIntoPeriod+" should: "+shouldLightsOn );
+      //log( " PauseTask: now  "+now+" startTime "+startTime );
 
+  		if (shouldLightsOn && lightsOn == false) {
   			log( " PauseTask: lightson: for "+Config.pauseRunMinutes+" minutes" );
-  			outputBrightness.setValue(1.0f);
-  			lightsOn = true;
+        startFadeIn();
   		}
   		else if (shouldLightsOn == false && lightsOn) {
   			log(" PauseTask: lightsoff: for "+Config.pausePauseMinutes+" minutes" );
-  			outputBrightness.setValue(0.0f);
-  			lightsOn = false;
+        startFadeOut();
   		}
-
   	}
   }
 

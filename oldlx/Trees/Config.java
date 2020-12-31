@@ -2,7 +2,7 @@ final class Config {
 
   static final boolean autoplayBMSet = false;
 
-  static final boolean enableAPC40 = true;
+  static final boolean enableAPC40 = false;
   static final boolean enableSoundSyphon = false;
 
   static final boolean enableOutputMinitree = false;
@@ -12,6 +12,8 @@ final class Config {
   // set either to 0 to disable
   static final double pauseRunMinutes = 0.0;
   static final double pausePauseMinutes = 0.0;
+  static final double pauseFadeInSeconds = 3.0;
+  static final double pauseFadeOutSeconds = 5.0;
 
   static final String NDB_CONFIG_FILE = "data/entwinedNDBs.json";
   static final String CUBE_CONFIG_FILE = "data/entwinedCubes.json";
