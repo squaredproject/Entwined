@@ -1159,10 +1159,10 @@ class EngineController {
 
   		// paused
   		if ((Config.pauseRunMinutes * 60.0) <= secsIntoPeriod) {
-  			//log("pauseStateRunning: false");
+  			log("pauseStateRunning: false");
   			return(false);
   		}
-  		//log("pauseStateRunning: true");
+  		log("pauseStateRunning: true");
   		return(true);
     }
 
@@ -1189,21 +1189,21 @@ class EngineController {
   			timeRemaining = pauseRunSeconds - secsIntoPeriod;
   		}
 
-    	//log("pauseTimeRemaining: "+timeRemaining);
+    	log("pauseTimeRemaining: "+timeRemaining);
 
   		return(timeRemaining);
     }
 
     // reset to beginning of running - next loop around will do the right thing
     void pauseResetRunning() {
-    	log("ResetRunning: ");
+    	//log("ResetRunning: ");
     	startTime = System.currentTimeMillis() / 1000;
     }
 
-    // reset to beginning of pause
+    // reset to beginning of pause (which is in the past), this is a little counter intuitive but the start of Pause is Run in the past
     void pauseResetPaused() {
-    	log("ResetRunning: ");
-    	startTime = ( System.currentTimeMillis() / 1000 ) + (long)Math.floor(Config.pauseRunMinutes * 60.0);
+      //log("ResetPaused: ");
+    	startTime = ( System.currentTimeMillis() / 1000 ) - (long)Math.floor(Config.pauseRunMinutes * 60.0);
     }
 
     // these nows are in miliseconds
