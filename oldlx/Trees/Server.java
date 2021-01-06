@@ -25,7 +25,8 @@ class AppServer {
 
     ClientCommunicator clientCommunicator = new ClientCommunicator(server);
     ClientModelUpdater clientModelUpdater = new ClientModelUpdater(engineController, clientCommunicator);
-    ParseClientTask parseClientTask = new ParseClientTask(engineController, server, clientModelUpdater);
+    ClientTimerUpdater clientTimerUpdater = new ClientTimerUpdater(engineController, clientCommunicator);
+    ParseClientTask parseClientTask = new ParseClientTask(engineController, server, clientModelUpdater, clientTimerUpdater);
     lx.engine.addLoopTask(parseClientTask);
   }
 }
@@ -36,13 +37,15 @@ class ParseClientTask implements LXLoopTask {
   EngineController engineController;
   TSServer server;
   ClientModelUpdater clientModelUpdater;
+  ClientTimerUpdater clientTimerUpdater;
 
   boolean hasActiveClients = false;
 
-  ParseClientTask(EngineController engineController, TSServer server, ClientModelUpdater clientModelUpdater) {
+  ParseClientTask(EngineController engineController, TSServer server, ClientModelUpdater clientModelUpdater, ClientTimerUpdater clientTimerUpdater) {
     this.engineController = engineController;
     this.server = server;
     this.clientModelUpdater = clientModelUpdater;
+    this.clientTimerUpdater = clientTimerUpdater;
   }
 
   // we want to watch for the last client that disconnects
@@ -146,7 +149,10 @@ class ParseClientTask implements LXLoopTask {
         Double amount = (Double)params.get("amount");
         if (amount == null) return;
         engineController.setScramble(amount);
-      } else if (method.equals("resetTimerRun")) {
+      } else if (method.equals("getTimer")) {
+        clientTimerUpdater.sendTimer();
+      }
+      else if (method.equals("resetTimerRun")) {
         engineController.autoPauseTask.pauseResetRunning();
       } else if (method.equals("resetTimerPause")) {
         engineController.autoPauseTask.pauseResetPaused();
@@ -217,9 +223,6 @@ class ClientModelUpdater {
     returnParams.put("blur", engineController.blurEffect.amount.getValue());
     returnParams.put("scramble", engineController.scrambleEffect.amount.getValue());
 
-    System.out.println("pause: runSeconds "+Config.pauseRunMinutes * 60.0+" pauseSeconds "+Config.pausePauseMinutes * 60.0);
-    System.out.println("pause: state "+engineController.autoPauseTask.pauseStateRunning()+" timeRemaining "+engineController.autoPauseTask.pauseTimeRemaining());
-
     Map<String, Object> pauseParams = new HashMap<String, Object>();
     pauseParams.put("runSeconds", Config.pauseRunMinutes * 60.0 );
     pauseParams.put("pauseSeconds", Config.pausePauseMinutes * 60.0 );
@@ -228,6 +231,33 @@ class ClientModelUpdater {
     returnParams.put("pauseTimer", pauseParams);
 
     communicator.send("model", returnParams);
+  }
+}
+
+class ClientTimerUpdater {
+  EngineController engineController;
+  ClientCommunicator communicator;
+
+  ClientTimerUpdater(EngineController engineController, ClientCommunicator communicator) {
+    this.engineController = engineController;
+    this.communicator = communicator;
+  }
+
+  // client can request the current status of the "timers"
+  // there are 4 parts:
+  // what mode "paused" or "running"
+  // 3 times: period of run, period of pause (these are mostly the same all the time)
+  // time remaining in period (changes rapidly)
+
+  void sendTimer() {
+    Map<String, Object> returnParams = new HashMap<String, Object>();
+
+    returnParams.put("runSeconds", Config.pauseRunMinutes * 60.0 );
+    returnParams.put("pauseSeconds", Config.pausePauseMinutes * 60.0 );
+    returnParams.put("state",  engineController.autoPauseTask.pauseStateRunning() ? "run" : "pause");
+    returnParams.put("timeRemaining", engineController.autoPauseTask.pauseTimeRemaining() );
+
+    communicator.send("pauseTimer", returnParams);
   }
 }
 

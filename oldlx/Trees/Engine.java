@@ -927,7 +927,7 @@ abstract class Engine {
   // Log Helper
   void log(String s) {
   	  System.out.println(
-  		ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + s );
+  		ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + " " + s );
   }
 
   class FrameRateLogTask implements LXLoopTask {
@@ -1140,15 +1140,30 @@ class EngineController {
 
   	long startTime = System.currentTimeMillis() / 1000;
   	boolean lightsOn = true;
-  	boolean pauseStateRunning = true;
 
     boolean fadeing = false;
     long    fadeStart;
     Long    fadeEnd;
     boolean fadeIn = false; // or its is a fade out
 
+    // can't use lightson / lightsoff because that takes into account whether we are autoplay
     boolean pauseStateRunning() {
-    	return(pauseStateRunning);
+
+    	// if not configured, running
+    	if (Config.pauseRunMinutes == 0.0 || Config.pausePauseMinutes == 0.0) return(true);
+
+    	double timeRemaining;
+    	long now = ( System.currentTimeMillis() / 1000);
+    	long totalPeriod = (long) ((Config.pauseRunMinutes + Config.pausePauseMinutes) * 60.0);
+  		long secsIntoPeriod = (now - startTime) % totalPeriod;
+
+  		// paused
+  		if ((Config.pauseRunMinutes * 60.0) <= secsIntoPeriod) {
+  			//log("pauseStateRunning: false");
+  			return(false);
+  		}
+  		//log("pauseStateRunning: true");
+  		return(true);
     }
 
     // number of seconds left in current state
@@ -1157,30 +1172,37 @@ class EngineController {
     double pauseTimeRemaining() {
 
     	if (Config.pauseRunMinutes == 0.0 || Config.pausePauseMinutes == 0.0) return(0.0);
+    	final double pauseRunSeconds = Config.pauseRunMinutes * 60.0;
+    	final double pausePauseSeconds = Config.pausePauseMinutes * 60.0;
 
     	double timeRemaining;
     	long now = ( System.currentTimeMillis() / 1000);
-    	long totalPeriod = (long) ((Config.pauseRunMinutes + Config.pausePauseMinutes) * 60.0);
-
+    	long totalPeriod = (long) (pauseRunSeconds + pausePauseSeconds);
   		long secsIntoPeriod = (now - startTime) % totalPeriod;
 
-  		// we're in lights off
-  		if ((Config.pauseRunMinutes * 60.0) <= secsIntoPeriod) {
-  			timeRemaining = secsIntoPeriod - Config.pauseRunMinutes;
+  		// we're in paused
+  		if (pauseRunSeconds <= secsIntoPeriod) {
+  			timeRemaining = pausePauseSeconds  - (secsIntoPeriod - pauseRunSeconds);
   		}
+  		// we're in running
   		else {
-  			timeRemaining = secsIntoPeriod;
+  			timeRemaining = pauseRunSeconds - secsIntoPeriod;
   		}
+
+    	//log("pauseTimeRemaining: "+timeRemaining);
+
   		return(timeRemaining);
     }
 
     // reset to beginning of running - next loop around will do the right thing
     void pauseResetRunning() {
+    	log("ResetRunning: ");
     	startTime = System.currentTimeMillis() / 1000;
     }
 
     // reset to beginning of pause
     void pauseResetPaused() {
+    	log("ResetRunning: ");
     	startTime = ( System.currentTimeMillis() / 1000 ) + (long)Math.floor(Config.pauseRunMinutes * 60.0);
     }
 
@@ -1257,11 +1279,11 @@ class EngineController {
 
   		if (shouldLightsOn && lightsOn == false) {
   			log( " PauseTask: lightson: for "+Config.pauseRunMinutes+" minutes" );
-        startFadeIn();
+        	startFadeIn();
   		}
   		else if (shouldLightsOn == false && lightsOn) {
   			log(" PauseTask: lightsoff: for "+Config.pausePauseMinutes+" minutes" );
-        startFadeOut();
+        	startFadeOut();
   		}
   	}
   }
@@ -1270,7 +1292,7 @@ class EngineController {
   ZoneId localZone = ZoneId.of("America/Los_Angeles");
   void log(String s) {
   	  System.out.println(
-  		ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + s );
+  		ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + " " + s );
   }
 
 }
