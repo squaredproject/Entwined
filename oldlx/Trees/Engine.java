@@ -104,6 +104,7 @@ abstract class Engine {
     shrubConfigs = loadShrubConfigFile();
     model = new Model(ndbConfig, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig);
 
+
     lx = createLX();
 
     // log that we are trying to start, even without a log
@@ -113,7 +114,7 @@ abstract class Engine {
 
     lx.engine.addLoopTask(new FrameRateLogTask(lx.engine) );
 
-    lx.engine.addLoopTask(new AutoPauseTask() );
+
 
     // this is the TCP channel
     engineController = new EngineController(lx);
@@ -269,6 +270,7 @@ abstract class Engine {
     // StaticEffect staticEffect = engineController.staticEffect = new StaticEffect(lx);
 
     engineController.masterBrightnessEffect = masterBrightnessEffect;
+    engineController.outputBrightness = outputBrightness;
 
 
     lx.addEffect(blurEffect);
@@ -779,7 +781,6 @@ abstract class Engine {
           
           double value = Double.parseDouble(message.substring(7));
           masterBrightnessEffect.getParameter().setValue(value);
-//          outputBrightness.setValue(value);
         }
       }
     });
@@ -858,7 +859,6 @@ abstract class Engine {
     apc40Drumpad.triggerables = apc40DrumpadTriggerables;
 
     // MIDI control
-//    midiEngine = new MidiEngine(lx, effectKnobParameters, apc40Drumpad, drumpadVelocity, previewChannels, bpmTool, uiDeck,  outputBrightness, automationSlot, automation, automationStop);
     midiEngine = new MidiEngine(lx, effectKnobParameters, apc40Drumpad, drumpadVelocity, previewChannels, bpmTool, uiDeck,  masterBrightnessEffect.getParameter(), automationSlot, automation, automationStop);
   }
 
@@ -966,99 +966,6 @@ abstract class Engine {
 
   }
 
-  /* force pauses whenever autoplay is playing (only then) */
-  class AutoPauseTask implements LXLoopTask {
-
-  	long startTime = System.currentTimeMillis() / 1000;
-  	boolean lightsOn = true;
-  	boolean pauseStateRunning = true;
-
-    boolean fadeing = false;
-    long    fadeStart;
-    Long    fadeEnd;
-    boolean fadeIn = false; // or its is a fade out
-
-    // these nows are in miliseconds
-    void startFadeIn() {
-      fadeStart = System.currentTimeMillis();
-      fadeEnd = fadeStart + (long)( Config.pauseFadeInSeconds * 1000 );
-      fadeIn = true;
-      fadeing = true;
-      //log(" start Fade In ");
-      // no point in trying to set not, hasn't changed enough
-    }
-
-    // these nows are in miliseconds
-    void startFadeOut() {
-      fadeStart = System.currentTimeMillis();
-      fadeEnd = fadeStart + (long)( Config.pauseFadeOutSeconds * 1000 );
-      fadeIn = false;
-      fadeing = true;
-      //log(" start fade out ");
-      // no point in trying to set not, hasn't changed enough
-    }
-
-    void setFadeValue() {
-      long now = System.currentTimeMillis();
-      if (now > fadeEnd) {
-        fadeing = false;
-        outputBrightness.setValue(fadeIn ? 1.0f : 0.0f);
-        lightsOn = fadeIn ? true : false;
-        //log(" fade over ");
-        return;
-      }
-      double value = ((double)(now - fadeStart)) / (double)((fadeEnd - fadeStart));
-      // log(" fade value: fadeStart "+fadeStart+" fadeEnd "+fadeEnd+" now "+now);
-      if (fadeIn == false) { value = 1.0f - value; }
-      outputBrightness.setValue(value);
-      //log(" fadeing: "+(fadeIn?"in ":"out ")+" value: "+value);
-    }
-
-  	@Override
-  	public void loop(double deltaMs) {
-
-		  // if not configured just quit (allows for on-the-fly-config-change)
-  		if (Config.pauseRunMinutes == 0.0 || Config.pausePauseMinutes == 0.0) {
-  			return;
-  		}
-
-      // no matter what, if we start fading, finish it
-      if (fadeing) {
-        setFadeValue();
-        return;
-      }
-
-  		// if we are not autoplaying, the ipad has us, and we trust the ipad
-  		if (! engineController.isAutoplaying ) {
-  			if (lightsOn == false) {
-  				log( " PauseTask: not autoplaying, lightson unconditionally " );
-  				startFadeIn();
-  			}
-  			return;
-  		}
-
-       // move these to seconds for better scale
-      long now = ( System.currentTimeMillis() / 1000);
-
-  		// check if I should be on or off
-  		boolean shouldLightsOn = true;
-  		long totalPeriod = (long) ((Config.pauseRunMinutes + Config.pausePauseMinutes) * 60.0);
-  		long secsIntoPeriod = (now - startTime) % totalPeriod;
-  		if ((Config.pauseRunMinutes * 60.0) <= secsIntoPeriod) shouldLightsOn = false;
-
-      //log( " PauseTask: totalPeriod "+totalPeriod+" timeIntoPeriod "+secsIntoPeriod+" should: "+shouldLightsOn );
-      //log( " PauseTask: now  "+now+" startTime "+startTime );
-
-  		if (shouldLightsOn && lightsOn == false) {
-  			log( " PauseTask: lightson: for "+Config.pauseRunMinutes+" minutes" );
-        startFadeIn();
-  		}
-  		else if (shouldLightsOn == false && lightsOn) {
-  			log(" PauseTask: lightsoff: for "+Config.pausePauseMinutes+" minutes" );
-        startFadeOut();
-  		}
-  	}
-  }
 
 }
 
@@ -1085,12 +992,16 @@ class EngineController {
   SpinEffect spinEffect;
   BlurEffect blurEffect;
   ScrambleEffect scrambleEffect;
-  //BasicParameterProxy outputBrightness;
   BrightnessScaleEffect masterBrightnessEffect;
-
+  BasicParameterProxy outputBrightness;
+  AutoPauseTask autoPauseTask;
 
   EngineController(LX lx) {
     this.lx = lx;
+
+    System.out.println("creating auto pause task");
+    this.autoPauseTask = new AutoPauseTask();
+    lx.engine.addLoopTask(this.autoPauseTask);
   }
 
   // this gets the 'iPad channels' only
@@ -1221,7 +1132,145 @@ class EngineController {
     }
   }
 
+    /* force pauses whenever autoplay is playing (only then) */
+    /* moved this into EngineController because it seems more right, it controls things
+       and also we need to bang it from the network, which has an Engine Controller but
+       no easy link to Engine */
+  class AutoPauseTask implements LXLoopTask {
+
+  	long startTime = System.currentTimeMillis() / 1000;
+  	boolean lightsOn = true;
+  	boolean pauseStateRunning = true;
+
+    boolean fadeing = false;
+    long    fadeStart;
+    Long    fadeEnd;
+    boolean fadeIn = false; // or its is a fade out
+
+    boolean pauseStateRunning() {
+    	return(pauseStateRunning);
+    }
+
+    // number of seconds left in current state
+    // does NOT include fade
+    // does NOT account for whether we are in auto-play
+    double pauseTimeRemaining() {
+    	double timeRemaining;
+    	long now = ( System.currentTimeMillis() / 1000);
+    	long totalPeriod = (long) ((Config.pauseRunMinutes + Config.pausePauseMinutes) * 60.0);
+  		long secsIntoPeriod = (now - startTime) % totalPeriod;
+
+  		// we're in lights off
+  		if ((Config.pauseRunMinutes * 60.0) <= secsIntoPeriod) {
+  			timeRemaining = secsIntoPeriod - Config.pauseRunMinutes;
+  		}
+  		else {
+  			timeRemaining = secsIntoPeriod;
+  		}
+  		return(timeRemaining);
+    }
+
+    // reset to beginning of running - next loop around will do the right thing
+    void pauseResetRunning() {
+    	startTime = System.currentTimeMillis() / 1000;
+    }
+
+    // reset to beginning of pause
+    void pauseResetPaused() {
+    	startTime = ( System.currentTimeMillis() / 1000 ) + (long)Math.floor(Config.pauseRunMinutes * 60.0);
+    }
+
+    // these nows are in miliseconds
+    void startFadeIn() {
+      fadeStart = System.currentTimeMillis();
+      fadeEnd = fadeStart + (long)( Config.pauseFadeInSeconds * 1000 );
+      fadeIn = true;
+      fadeing = true;
+      //log(" start Fade In ");
+      // no point in trying to set not, hasn't changed enough
+    }
+
+    // these nows are in miliseconds
+    void startFadeOut() {
+      fadeStart = System.currentTimeMillis();
+      fadeEnd = fadeStart + (long)( Config.pauseFadeOutSeconds * 1000 );
+      fadeIn = false;
+      fadeing = true;
+      //log(" start fade out ");
+      // no point in trying to set not, hasn't changed enough
+    }
+
+    void setFadeValue() {
+      long now = System.currentTimeMillis();
+      if (now > fadeEnd) {
+        fadeing = false;
+        outputBrightness.setValue(fadeIn ? 1.0f : 0.0f);
+        lightsOn = fadeIn ? true : false;
+        //log(" fade over ");
+        return;
+      }
+      double value = ((double)(now - fadeStart)) / (double)((fadeEnd - fadeStart));
+      // log(" fade value: fadeStart "+fadeStart+" fadeEnd "+fadeEnd+" now "+now);
+      if (fadeIn == false) { value = 1.0f - value; }
+      outputBrightness.setValue(value);
+      //log(" fadeing: "+(fadeIn?"in ":"out ")+" value: "+value);
+    }
+
+  	@Override
+  	public void loop(double deltaMs) {
+
+		  // if not configured just quit (allows for on-the-fly-config-change)
+  		if (Config.pauseRunMinutes == 0.0 || Config.pausePauseMinutes == 0.0) {
+  			return;
+  		}
+
+      // no matter what, if we start fading, finish it
+      if (fadeing) {
+        setFadeValue();
+        return;
+      }
+
+  		// if we are not autoplaying, the ipad has us, and we trust the ipad
+  		if (! isAutoplaying ) {
+  			if (lightsOn == false) {
+  				log( " PauseTask: not autoplaying, lightson unconditionally " );
+  				startFadeIn();
+  			}
+  			return;
+  		}
+
+       // move these to seconds for better scale
+      long now = ( System.currentTimeMillis() / 1000);
+
+  		// check if I should be on or off
+  		boolean shouldLightsOn = true;
+  		long totalPeriod = (long) ((Config.pauseRunMinutes + Config.pausePauseMinutes) * 60.0);
+  		long secsIntoPeriod = (now - startTime) % totalPeriod;
+  		if ((Config.pauseRunMinutes * 60.0) <= secsIntoPeriod) shouldLightsOn = false;
+
+      //log( " PauseTask: totalPeriod "+totalPeriod+" timeIntoPeriod "+secsIntoPeriod+" should: "+shouldLightsOn );
+      //log( " PauseTask: now  "+now+" startTime "+startTime );
+
+  		if (shouldLightsOn && lightsOn == false) {
+  			log( " PauseTask: lightson: for "+Config.pauseRunMinutes+" minutes" );
+        startFadeIn();
+  		}
+  		else if (shouldLightsOn == false && lightsOn) {
+  			log(" PauseTask: lightsoff: for "+Config.pausePauseMinutes+" minutes" );
+        startFadeOut();
+  		}
+  	}
+  }
+
+   // Log Helper
+  ZoneId localZone = ZoneId.of("America/Los_Angeles");
+  void log(String s) {
+  	  System.out.println(
+  		ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + s );
+  }
+
 }
+
 
 class TreesTransition extends LXTransition {
 
