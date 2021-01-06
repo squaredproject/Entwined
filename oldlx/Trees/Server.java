@@ -217,10 +217,15 @@ class ClientModelUpdater {
     returnParams.put("blur", engineController.blurEffect.amount.getValue());
     returnParams.put("scramble", engineController.scrambleEffect.amount.getValue());
 
-    returnParams.put("runSeconds", Config.pauseRunMinutes * 60.0 );
-    returnParams.put("pauseSeconds", Config.pausePauseMinutes * 60.0 );
-    returnParams.put("state",  engineController.autoPauseTask.pauseStateRunning() ? "run" : "pause");
-    returnParams.put("timeRemaining", engineController.autoPauseTask.pauseTimeRemaining() );
+    System.out.println("pause: runSeconds "+Config.pauseRunMinutes * 60.0+" pauseSeconds "+Config.pausePauseMinutes * 60.0);
+    System.out.println("pause: state "+engineController.autoPauseTask.pauseStateRunning()+" timeRemaining "+engineController.autoPauseTask.pauseTimeRemaining());
+
+    Map<String, Object> pauseParams = new HashMap<String, Object>();
+    pauseParams.put("runSeconds", Config.pauseRunMinutes * 60.0 );
+    pauseParams.put("pauseSeconds", Config.pausePauseMinutes * 60.0 );
+    pauseParams.put("state",  engineController.autoPauseTask.pauseStateRunning() ? "run" : "pause");
+    pauseParams.put("timeRemaining", engineController.autoPauseTask.pauseTimeRemaining() );
+    returnParams.put("pauseTimer", pauseParams);
 
     communicator.send("model", returnParams);
   }
