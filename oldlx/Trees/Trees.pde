@@ -150,8 +150,8 @@ void configureUI() {
   );
   if (Config.enableOutputBigtree) {
     lx.ui.addLayer(new UIOutput(lx.ui, 4, 4));    
+    lx.ui.addLayer(new UIShrubOutput(lx.ui, 4, 4));
   }
-  lx.ui.addLayer(new UIShrubOutput(lx.ui, 4, 4));
   lx.ui.addLayer(new UIMapping(lx.ui));
   lx.ui.addLayer(new UIShrubMapping(lx.ui));
   
