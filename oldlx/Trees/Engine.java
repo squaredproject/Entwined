@@ -1155,9 +1155,13 @@ class EngineController {
     // does NOT include fade
     // does NOT account for whether we are in auto-play
     double pauseTimeRemaining() {
+
+    	if (Config.pauseRunMinutes == 0.0 || Config.pausePauseMinutes == 0.0) return(0.0);
+
     	double timeRemaining;
     	long now = ( System.currentTimeMillis() / 1000);
     	long totalPeriod = (long) ((Config.pauseRunMinutes + Config.pausePauseMinutes) * 60.0);
+
   		long secsIntoPeriod = (now - startTime) % totalPeriod;
 
   		// we're in lights off
