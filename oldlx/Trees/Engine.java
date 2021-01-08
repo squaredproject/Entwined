@@ -317,6 +317,9 @@ abstract class Engine {
     patterns.add(new Pond(lx));
     patterns.add(new Planes(lx));
     patterns.add(new Growth(lx));
+    
+    // Lorenz Patterns
+    patterns.add(new Fountain(lx));
 
     // patterns.add(new DoubleHelix(lx));
     patterns.add(new SparkleHelix(lx));
