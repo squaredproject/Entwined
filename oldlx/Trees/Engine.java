@@ -76,7 +76,7 @@ abstract class Engine {
   final ChannelShrubLevels[] channelShrubLevels = new ChannelShrubLevels[Engine.NUM_TOTAL_CHANNELS];
   final BasicParameter dissolveTime = new BasicParameter("DSLV", 400, 50, 1000);
   final BasicParameter drumpadVelocity = new BasicParameter("DVEL", 1);
-  
+
   final TSAutomationRecorder[] automation = new TSAutomationRecorder[Engine.NUM_AUTOMATION];
   final BooleanParameter[] automationStop = new BooleanParameter[Engine.NUM_AUTOMATION];
   final DiscreteParameter automationSlot = new DiscreteParameter("AUTO", Engine.NUM_AUTOMATION);
@@ -108,7 +108,7 @@ abstract class Engine {
     lx = createLX();
 
     // log that we are trying to start, even without a log
-    System.out.println( " Starting Entwined: " + 
+    System.out.println( " Starting Entwined: " +
       ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME )
     );
 
@@ -317,7 +317,7 @@ abstract class Engine {
     patterns.add(new Pond(lx));
     patterns.add(new Planes(lx));
     patterns.add(new Growth(lx));
-    
+
     // Lorenz Patterns
     patterns.add(new Fountain(lx));
 
@@ -359,6 +359,9 @@ abstract class Engine {
 
     // Charlie Stigler Patterns
     patterns.add(new Burst(lx));
+
+    // evy's patterns
+    patterns.add(new CircleBreath(lx));
 
     //Miskos - worried, removing, sorry
     //patterns.add(new Stringy(lx));  // takes too much memory
@@ -781,7 +784,7 @@ abstract class Engine {
       @Override
       public void onMessage(LXEngine engine, String message) {
         if (message.length() > 8 && message.substring(0, 7).equals("master/")) {
-          
+
           double value = Double.parseDouble(message.substring(7));
           masterBrightnessEffect.getParameter().setValue(value);
         }
@@ -843,7 +846,7 @@ abstract class Engine {
     registerIPadEffects();
     engineController.endEffectIndex = lx.engine.getEffects().size();
 
-    // 
+    //
     if (Config.enableAPC40) {
       // create a two-dimensional array, and copy... looks like an attempt to use static arrays instead
       apc40DrumpadTriggerables = new Triggerable[apc40DrumpadTriggerablesLists.length][];
@@ -1061,7 +1064,7 @@ class EngineController {
   }
 
   // this controlls the OUTPUT brightness for controlling the amount
-  // of power consumed, it will NOT effect what you see in the model 
+  // of power consumed, it will NOT effect what you see in the model
   // on processing
   void setMasterBrightness(double amount) {
     masterBrightnessEffect.amount.setValue(amount);
