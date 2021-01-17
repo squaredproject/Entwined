@@ -25,20 +25,6 @@ sudo apt-get update
 #######################
 sudo apt -y install openjdk-8-jdk
 
-#######################
-## Install Fadecandy ##
-#######################
-#cd $HOME 
-#echo -e "\n\n*********** Installing fadecandy **************\n\n"
-
-#git clone git://github.com/scanlime/fadecandy
-#cd fadecandy/server
-#make submodules
-#make
-#sudo mv fcserver /usr/local/bin
-
-#echo -e "\n\n*********** Done installing fadecandy **************\n\n"
-
 ######################
 ## Compile Entwined ##
 ######################
@@ -55,12 +41,17 @@ cd $HOME
 
 echo -e "\n\n*********** Setting up entwined services **************\n\n"
 
-sudo cp Entwined/pi/entwined.service /etc/systemd/system/
-#sudo cp /home/squared/2squared/pi/fadecandy.service /etc/systemd/system/
-sudo systemctl enable entwined.service
-#sudo systemctl enable fadecandy.service
-sudo systemctl start entwined
-#sudo systemctl start fadecandy
+cd $HOME
+
+sudo cp Entwined/oldlx/lx-headless.service /etc/systemd/system/
+sudo cp Entwined/oldlx/brightness-toggle.service /etc/systemd/system/
+
+sudo systemctl enable  lx-headless
+sudo systemctl start  lx-headless
+
+sudo systemctl enable  brightness-toggle
+sudo systemctl start  brightness-toggle
+
 
 ######################
 ####### Network ######
