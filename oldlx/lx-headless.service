@@ -3,8 +3,8 @@ Description=LXStudio Headless
 After=network.target
 
 [Service]
-ExecStart=/home/ent/Entwined/oldlx/run-headless.sh
-WorkingDirectory=/home/ent/Entwined/oldlx
+ExecStart=/home/entwined/Entwined/oldlx/run-headless.sh
+WorkingDirectory=/home/entwined/Entwined/oldlx
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
