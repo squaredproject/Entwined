@@ -121,7 +121,7 @@ class ProcessingEngine extends Engine {
   void addPatterns(ArrayList<LXPattern> patterns) {
     super.addPatterns(patterns);
     if (Config.enableSoundSyphon) {
-      try { patterns.add(new SyphonPattern(lx, Trees.this)); } catch (Throwable e) {}
+      try { patterns.add(new SyphonPattern(lx, Trees.this)); } catch (Throwable e) { throw e;}
     }
   }
 }

@@ -19,7 +19,7 @@ class SyphonPattern extends TSPattern {
     super(lx);
     addParameter(getWidth);
     addParameter(mode);
-    client = new SyphonClient(applet, "Modul8", "Main View");
+    client = new SyphonClient(applet);
     xpoints = new int[model.baseCubes.size()];
     ypoints = new int[model.baseCubes.size()];
   }
@@ -35,11 +35,11 @@ class SyphonPattern extends TSPattern {
     }
   }
 
-  private int mode1(Cube cube, int cubeIdx) {    
+  private int mode1(BaseCube cube, int cubeIdx) {
     return weighted_get(imgbuffer, int(this.buffWidth * (cube.transformedTheta / 360.0)), this.buffHeight - int(this.buffHeight * (cube.transformedY/model.yMax)), getWidth.getValuei());
   }
-  
-  private int mode2(Cube cube, int cubeIdx) {
+
+  private int mode2(BaseCube cube, int cubeIdx) {
     boolean reverse = false;
     if (cube.transformedTheta > (360.0 / 2))
       reverse = true;
@@ -48,13 +48,14 @@ class SyphonPattern extends TSPattern {
     }
     return weighted_get(imgbuffer, int(this.buffWidth * ((cube.transformedTheta * 2.0) / 360.0)), this.buffHeight - int(this.buffHeight * (cube.transformedY/model.yMax)), getWidth.getValuei());
   }
-  
-  private int mode3(Cube cube, int cubeIdx) {
+
+  private int mode3(BaseCube cube, int cubeIdx) {
     return weighted_get(imgbuffer, xpoints[cubeIdx], ypoints[cubeIdx], getWidth.getValuei());
   }
         
   public void run(double deltaMs) {
     if (client.available()) {
+      System.out.println("syphon client available!\r");
 
       buffer = client.getGraphics(buffer);
       imgbuffer = buffer.get();
@@ -67,7 +68,7 @@ class SyphonPattern extends TSPattern {
       int c = 0;
       // NOTE: This is no longer correct because we need to account
       // for BaseCube, not bothering to fix because syphon is required
-      for (Cube cube : model.cubes) {
+      for (BaseCube cube : model.baseCubes) {
         switch (mode.getValuei()) {
           case 1: c = mode1(cube, cubeIdx);
                   break;
@@ -80,6 +81,8 @@ class SyphonPattern extends TSPattern {
         setColor(cube, c);
         cubeIdx++;
       }
+    } else {
+      System.out.println("No syphon client available during run().\r");
     }
   }
   
