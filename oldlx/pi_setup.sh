@@ -52,6 +52,13 @@ sudo systemctl start  lx-headless
 sudo systemctl enable  brightness-toggle
 sudo systemctl start  brightness-toggle
 
+#####################
+####### Slow frame ###
+####### Rate Fix   ###
+######################
+net.ipv4.neigh.eth0.unres_qlen=1
+net.ipv4.neigh.eth0.unres_qlen_bytes=4096
+
 
 ######################
 ####### Network ######
