@@ -27,10 +27,10 @@ class SyphonPattern extends TSPattern {
   void generateMap(int buffWidth, int buffHeight) {
     this.xscale = buffWidth / model.xRange;
     this.yscale = buffHeight / model.yRange;
-    int cubeIdx = 0;    
+    int cubeIdx = 0;
     for (BaseCube cube : model.baseCubes) {
       xpoints[cubeIdx] = int((cube.cx - model.xMin) * this.xscale);
-      ypoints[cubeIdx] = buffHeight - int((cube.cy - model.yMin) * this.yscale);    
+      ypoints[cubeIdx] = buffHeight - int((cube.cy - model.yMin) * this.yscale);
       cubeIdx++;
     }
   }
@@ -44,7 +44,7 @@ class SyphonPattern extends TSPattern {
     if (cube.transformedTheta > (360.0 / 2))
       reverse = true;
     if (reverse) {
-      return weighted_get(imgbuffer, int(this.buffWidth * ((((360.0 - cube.transformedTheta) * 2)) / 360.0)), this.buffHeight - int(this.buffHeight * (cube.transformedY/model.yMax)), getWidth.getValuei());      
+      return weighted_get(imgbuffer, int(this.buffWidth * ((((360.0 - cube.transformedTheta) * 2)) / 360.0)), this.buffHeight - int(this.buffHeight * (cube.transformedY/model.yMax)), getWidth.getValuei());
     }
     return weighted_get(imgbuffer, int(this.buffWidth * ((cube.transformedTheta * 2.0) / 360.0)), this.buffHeight - int(this.buffHeight * (cube.transformedY/model.yMax)), getWidth.getValuei());
   }
@@ -52,7 +52,7 @@ class SyphonPattern extends TSPattern {
   private int mode3(BaseCube cube, int cubeIdx) {
     return weighted_get(imgbuffer, xpoints[cubeIdx], ypoints[cubeIdx], getWidth.getValuei());
   }
-        
+
   public void run(double deltaMs) {
     if (client.available()) {
       System.out.println("syphon client available!\r");
@@ -73,11 +73,11 @@ class SyphonPattern extends TSPattern {
           case 1: c = mode1(cube, cubeIdx);
                   break;
           case 2: c = mode2(cube, cubeIdx);
-                  break;    
+                  break;
           case 3: c = mode3(cube, cubeIdx);
-                  break;      
+                  break;
         }
-        
+
         setColor(cube, c);
         cubeIdx++;
       }
@@ -85,10 +85,10 @@ class SyphonPattern extends TSPattern {
       System.out.println("No syphon client available during run().\r");
     }
   }
-  
+
   private boolean restoreThreaded = false;
   private int syphonCount = 0;
-  
+
   public void onActive() {
     if (syphonCount == 0) {
       if (restoreThreaded = lx.engine.isThreaded()) {
@@ -96,9 +96,9 @@ class SyphonPattern extends TSPattern {
         lx.engine.setThreaded(false);
       }
     }
-    ++syphonCount; 
+    ++syphonCount;
   }
-  
+
   public void onInactive() {
     --syphonCount;
     if ((syphonCount == 0) && restoreThreaded) {
