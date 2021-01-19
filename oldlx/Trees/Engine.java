@@ -307,8 +307,11 @@ abstract class Engine {
 
     // Colin Hunt Patterns
     patterns.add(new ColorWave(lx));
+    patterns.add(new CottonCandy(lx));
     patterns.add(new BeachBall(lx));
+    patterns.add(new Bloop(lx));
     patterns.add(new Breath(lx));
+    patterns.add(new SimplexSparkle(lx));
     patterns.add(new Peppermint(lx));
     patterns.add(new ChristmasTree(lx));
     patterns.add(new Wreathes(lx));
