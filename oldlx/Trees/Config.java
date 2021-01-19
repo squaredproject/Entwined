@@ -22,5 +22,5 @@ final class Config {
   static final String SHRUB_CONFIG_FILE = "data/entwinedShrubs.json";
 
   // if this file doesn't exist you get a crash
-  static final String AUTOPLAY_FILE = "data/BurningManPlaylist.json";
+  static final String AUTOPLAY_FILE = "data/ShrubPlusBurningManPlaylist.json";
 }
