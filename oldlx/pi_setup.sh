@@ -56,8 +56,8 @@ sudo systemctl start  brightness-toggle
 ####### Slow frame ###
 ####### Rate Fix   ###
 ######################
-net.ipv4.neigh.eth0.unres_qlen=1
-net.ipv4.neigh.eth0.unres_qlen_bytes=4096
+sudo sh -c 'sudo echo "net.ipv4.neigh.eth0.unres_qlen=1" >  /etc/sysctl.conf '
+sudo sh -c 'echo "net.ipv4.neigh.eth0.unres_qlen_bytes=4096" >>  /etc/sysctl.conf '
 
 
 ######################
