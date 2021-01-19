@@ -76,6 +76,31 @@ sudo apt --assume-yes install dnsmasq hostapd bridge-utils -qq
 
 echo -e "********** hostapd setup *****************"
 sudo cp hostapd.conf  /etc/hostapd/hostapd.conf
+
+
+sudo systemctl unmask hostapd
+sudo systemctl enable hostapd
+sudo systemctl restart hostapd
+sudo systemctl restart dhcpcd
+sudo systemctl reload  dnsmasq
+
+### enable ssh
+echo -e "*********** enabling ssh access  **************"
+sudo apt-get install openssh-server
+sudo systemctl enable ssh
+
+### enable Avahi mDNS so you can access the pi as rasberry.local on mac machines
+### this is required for the ipad application to connect to the pi
+echo -e "*********** enabling Avahi mDNS  **************"
+sudo apt-get install avahi-daemon
+sudo systemctl enable avahi-daemon
+sudo systemctl restart avahi-daemon
+
+echo -e "*********** Done with hostapd **************"
+
+
+exit 0;
+
 sudo cp hostapd  /etc/default/hostapd
 
 echo -e "********** editing etc/dnsmasq.conf *****************"
@@ -90,11 +115,7 @@ echo "\t nohook wpa_supplicant" >> /etc/dhcpcd.conf
 echo "\n\ninterface eth0" >> /etc/dhcpcd.conf
 echo "\tstatic ip_address=10.0.0.10/24" >> /etc/dhcpcd.conf
 
-sudo systemctl unmask hostapd
-sudo systemctl enable hostapd
-sudo systemctl restart hostapd
-sudo systemctl restart dhcpcd
-sudo systemctl reload  dnsmasq
+
 
 ### Uncomment line re IP forwarding
 echo -e "********** ip forwarding *****************"
@@ -112,22 +133,7 @@ sudo cp /etc/rc.local /tmp/rc.local.orig
 sudo sed -i 's/exit 0/iptables-restore < \/etc\/iptables.ipv4.nat/' /etc/rc.local
 
 
-### enable ssh
-echo -e "*********** enabling ssh access  **************"
-sudo apt-get install openssh-server
-sudo systemctl enable ssh
 
-### enable Avahi mDNS so you can access the pi as rasberry.local on mac machines
-### this is required for the ipad application to connect to the pi
-### ipad app is hardcoded to connect to hostname odroid.local
-### SO SET THE HOSTNAME TO odroid.local (even though this is a rasberry pi)
-echo -e "*********** enabling Avahi mDNS  **************"
-sudo apt-get install avahi-daemon
-sudo sed -i 's/^#host-name.*$/host-name=odroid/' /etc/avahi/avahi-daemon.conf
-sudo systemctl enable avahi-daemon
-sudo systemctl restart avahi-daemon
-
-echo -e "*********** Done with hostapd **************"
  
 ### for some reason, networking doesn't work until you reboot
 echo -e "*********** Rebooting to clean network configution issues *************"
