@@ -362,6 +362,7 @@ abstract class Engine {
 
     // evy's patterns
     patterns.add(new CircleBreath(lx));
+    patterns.add(new FirefliesNcase(lx));
 
     //Miskos - worried, removing, sorry
     //patterns.add(new Stringy(lx));  // takes too much memory
