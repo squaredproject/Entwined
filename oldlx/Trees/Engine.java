@@ -239,7 +239,7 @@ abstract class Engine {
     registerPatternController("Circles", new Circles(lx));
     registerPatternController("LineScan", new LineScan(lx));
     registerPatternController("WaveScan", new WaveScan(lx));
-    //registerPatternController("Stringy", new Stringy(lx));
+    registerPatternController("Stringy", new Stringy(lx));
     registerPatternController("RainbowWaveScan", new RainbowWaveScan(lx));
     registerPatternController("SyncSpinner", new SyncSpinner(lx));
     registerPatternController("LightHouse", new LightHouse(lx));
@@ -367,7 +367,7 @@ abstract class Engine {
     patterns.add(new CircleBreath(lx));
 
     //Miskos - worried, removing, sorry
-    //patterns.add(new Stringy(lx));  // takes too much memory
+    patterns.add(new Stringy(lx));  // takes too much memory ~ should be fixed now
     patterns.add(new Circles(lx));
     patterns.add(new LineScan(lx));
     patterns.add(new WaveScan(lx));
