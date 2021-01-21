@@ -197,6 +197,7 @@ abstract class Engine {
     registerPatternController("Ripple", new Ripple(lx));
     registerPatternController("Stripes", new Stripes(lx));
     registerPatternController("Lattice", new Lattice(lx));
+    registerPatternController("Leaves", new ColoredLeaves(lx));
 
     registerPatternController("Voronoi", new Voronoi(lx));
     registerPatternController("Parallax", new Parallax(lx));
