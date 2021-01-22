@@ -93,8 +93,7 @@ class FirefliesNcase extends TSPattern {
   // Once `resetTimer > 0` we flip `reset` back to false, to be ready for the next cycle.
   // (If anyone has any ideas for cleaner ways to do this I'd love to hear them, since this feels convoluted.)
   final BasicParameter resetInterval = new BasicParameter("RESET_INTERVAL", 10000, 0, 30000);
-  // TODO: open question of if resetInterval can actually dynamically affect this (requires more investigation)
-  final SawLFO resetTimer = new SawLFO(-1, 1, resetInterval.getValuef());
+  final SawLFO resetTimer = new SawLFO(-1, 1, resetInterval);
   static Boolean reset = true; // start with true since we run `reset` in the constructor
 
   void reset() {
