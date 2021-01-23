@@ -182,7 +182,7 @@ class BleepBloop extends TSPattern {
     for (Shrub shrub : model.shrubs) {
       blips.add(new Blip(false, shrub.index));
     }
-    System.out.println("hue 1 " +  hue1 + "hue 2 " + hue2);
+    //System.out.println("hue 1 " +  hue1 + "hue 2 " + hue2);
   }
 
 
