@@ -247,6 +247,10 @@ abstract class Engine {
     registerPatternController("ColorBlast", new ColorBlast(lx));
     registerPatternController("Vertigo", new Vertigo(lx));
 
+    // Evy's patterns
+    registerPatternController("CircleBreath", new CircleBreath(lx));
+    registerPatternController("FirefliesNcase", new FirefliesNcase(lx));
+
     registerPatternController("Fumes", new Fumes(lx));
     registerPatternController("Color Strobe", new ColorStrobe(lx));
     registerPatternController("Strobe", new Strobe(lx));

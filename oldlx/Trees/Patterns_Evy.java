@@ -97,7 +97,6 @@ class FirefliesNcase extends TSPattern {
   static Boolean reset = true; // start with true since we run `reset` in the constructor
 
   void reset() {
-    System.out.println("reset!");
     for (Shrub shrub : model.shrubs) {
       lightUpOffset.put(shrub.index, Utils.random(0, 100));
       isLitUp.put(shrub.index, false);
