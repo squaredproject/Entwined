@@ -465,6 +465,7 @@ abstract class Engine {
   void registerEffectTriggerables() {
     BlurEffect blurEffect = new TSBlurEffect(lx);
     ColorEffect colorEffect = new ColorEffect(lx);
+    HueFilterEffect hueFilterEffect = new HueFilterEffect(lx);
     GhostEffect ghostEffect = new GhostEffect(lx);
     ScrambleEffect scrambleEffect = new ScrambleEffect(lx);
     StaticEffect staticEffect = new StaticEffect(lx);
@@ -479,6 +480,7 @@ abstract class Engine {
 
     lx.addEffect(blurEffect);
     lx.addEffect(colorEffect);
+    lx.addEffect(hueFilterEffect);
     lx.addEffect(ghostEffect);
     lx.addEffect(scrambleEffect);
     lx.addEffect(staticEffect);
@@ -497,6 +499,8 @@ abstract class Engine {
     registerEffectControlParameter(colorEffect.mono);
     registerEffectControlParameter(colorEffect.desaturation);
     registerEffectControlParameter(colorEffect.sharp);
+    registerEffectControlParameter(hueFilterEffect.hueFilter);
+    registerEffectControlParameter(hueFilterEffect.amount);
     registerEffectControlParameter(blurEffect.amount, 0.65);
     registerEffectControlParameter(spinEffect.spin, 0.65);
     registerEffectControlParameter(ghostEffect.amount, 0, 0.16, 1);
@@ -512,11 +516,11 @@ abstract class Engine {
         colorEffect.hueShift,
         colorEffect.mono,
         colorEffect.desaturation,
-        colorEffect.sharp,
+        hueFilterEffect.hueFilter /*colorEffect.sharp*/,
         blurEffect.amount,
         speedEffect.speed,
         spinEffect.spin,
-        candyCloudTextureEffect.amount
+        hueFilterEffect.amount /*candyCloudTextureEffect.amount*/
     };
 
   }

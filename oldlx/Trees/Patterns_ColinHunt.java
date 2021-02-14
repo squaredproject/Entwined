@@ -182,7 +182,7 @@ class BleepBloop extends TSPattern {
     for (Shrub shrub : model.shrubs) {
       blips.add(new Blip(false, shrub.index));
     }
-    //System.out.println("hue 1 " +  hue1 + "hue 2 " + hue2);
+    //System.out.println("BleepBLoop: hue 1 " +  hue1 + " hue 2 " + hue2);
   }
 
 
@@ -322,7 +322,7 @@ class Bloop extends TSPattern {
     for (Shrub shrub : model.shrubs) {
       blips.add(new Blip(false, shrub.index));
     }
-    System.out.println("hue 1 " +  hue1 + "hue 2 " + hue2);
+    // System.out.println("Bloop: hue 1 " +  hue1 + " hue 2 " + hue2);
   }
 
 
@@ -459,7 +459,7 @@ class UpNDown extends TSPattern {
     for (Shrub shrub : model.shrubs) {
       blips.add(new Blip(false, shrub.index));
     }
-    System.out.println("hue 1 " +  hue1 + "hue 2 " + hue2);
+    // System.out.println("UpNDown: hue 1 " +  hue1 + " hue 2 " + hue2);
   }
 
 
