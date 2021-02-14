@@ -512,15 +512,17 @@ abstract class Engine {
     registerEffectControlParameter(staticEffect.amount, 0, .3, 1);
     registerEffectControlParameter(candyTextureEffect.amount, 0, 1, 5);
 
+    // colorEffect.mono is pretty good, but has been kicked off the island compared to hueFilterEffect
+
     effectKnobParameters = new LXListenableNormalizedParameter[]{
         colorEffect.hueShift,
-        colorEffect.mono,
         colorEffect.desaturation,
-        hueFilterEffect.hueFilter /*colorEffect.sharp*/,
+        hueFilterEffect.hueFilter,
+        hueFilterEffect.amount,
         blurEffect.amount,
         speedEffect.speed,
         spinEffect.spin,
-        hueFilterEffect.amount /*candyCloudTextureEffect.amount*/
+        candyCloudTextureEffect.amount
     };
 
   }

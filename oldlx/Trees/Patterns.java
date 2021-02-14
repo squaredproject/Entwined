@@ -375,11 +375,13 @@ class ColorEffect extends Effect {
 // First: let's just set the hue to a color, period. That should leave white and black where they are, because
 // they aren't touched by Hue.
 // Second: let's try having an "angle" (like 15 degrees) and everything outside that gets nailed to the hue in that range
+// artist seems OK with the concept of "hue" and "angle", which gives us two real controls.
+// We want DEG to be "transparent" at 0, and most at 180 (which is kinda backward)
 
 class HueFilterEffect extends Effect {
   
   final BasicParameter hueFilter = new BasicParameter("HUEF", 0, 360); // 0 to 360 starting at 0
-  final BasicParameter amount = new BasicParameter("HDEG", 180, 0, 180);
+  final BasicParameter amount = new BasicParameter("HDEG", 0, 180);
   
   //private float[] hsb = new float[3];
   
@@ -456,6 +458,7 @@ class HueFilterEffect extends Effect {
   protected void run(double deltaMs) {
     float huef = hueFilter.getValuef();
     float amountf = amount.getValuef();
+    amountf = Math.abs(amountf - 180f);
 
     // todo: if enabled
 
