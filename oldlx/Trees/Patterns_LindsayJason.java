@@ -22,12 +22,7 @@ class SparkleWave extends TSPattern {
   final BasicParameter speedParam = new BasicParameter("Speed", 50, 0, 100);
   final BasicParameter sizeParam = new BasicParameter("Size", 35, 0, 50);
   final BasicParameter sparkleWidth = new BasicParameter("Sparkle width", 5, 1, 50);
-  final BasicParameter saturationThreshold = new BasicParameter(
-    "Saturation threshold",
-    0.99,
-    0.1,
-    0.99999
-  );
+  final BasicParameter saturationThreshold = new BasicParameter("Saturation threshold", 0.99, 0.1, 0.99999);
   final BooleanParameter waveDirection = new BooleanParameter("Direction", true);
 
   SparkleWave(LX lx) {
@@ -55,7 +50,7 @@ class SparkleWave extends TSPattern {
       int index = cube.index;
 
       float saturation = baseSaturation;
-      float brightness =  calcBrightness(time, cube);
+      float brightness = calcBrightness(time, cube);
 
       if (shouldStartSparkle(brightness)) {
         double random = Math.random();
@@ -87,8 +82,8 @@ class SparkleWave extends TSPattern {
   public float saturationModifier() {
     float max = 0.6f;
     float range = 0.4f;
-    double modifier = max + Math.random() * range;
-    return (float) modifier;
+    float modifier = max + (float) Math.random() * range;
+    return modifier;
   }
 
   public float calcBrightness(float time, BaseCube cube) {
