@@ -1,25 +1,6 @@
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-
 import heronarts.lx.LX;
-import heronarts.lx.LXChannel;
-import heronarts.lx.LXUtils;
-import heronarts.lx.color.LXColor;
-import heronarts.lx.modulator.Accelerator;
-import heronarts.lx.modulator.Click;
-import heronarts.lx.modulator.LinearEnvelope;
-import heronarts.lx.modulator.SawLFO;
-import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BasicParameter;
 import heronarts.lx.parameter.BooleanParameter;
-import heronarts.lx.parameter.DiscreteParameter;
-import heronarts.lx.parameter.LXParameter;
-
-import toxi.geom.Vec2D;
-import org.apache.commons.lang3.ArrayUtils;
-import toxi.math.noise.PerlinNoise;
-import toxi.math.noise.SimplexNoise;
 
 import java.util.Random;
 
