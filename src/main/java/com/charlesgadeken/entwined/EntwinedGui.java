@@ -109,13 +109,16 @@ public class EntwinedGui extends PApplet implements LXPlugin {
 
     void configureChannels() {
         for (int i = 0; i < ConfigLoader.NUM_CHANNELS; ++i) {
-            LXChannel channel = addChannelsAudited(EntwinedPatterns.getPatterns(lx), "BASE");
+            LXChannel channel = addChannelsAudited(EntwinedBasePattern.getAllPatterns(lx), "BASE");
             setupChannel(channel, true);
             if (i == 0) {
                 channel.fader.setValue(1);
+            } else {
+                channel.fader.setValue(0);
             }
             channel.goPatternIndex(i);
         }
+
         engineController.baseChannelIndex = lx.engine.mixer.getChannels().size() - 1;
 
         if (ConfigLoader.enableIPad) {
@@ -133,6 +136,8 @@ public class EntwinedGui extends PApplet implements LXPlugin {
             }
             engineController.numChannels = ConfigLoader.NUM_IPAD_CHANNELS;
         }
+
+        lx.engine.mixer.setFocusedChannel(lx.engine.mixer.getChannel(0));
 
         // TODO(meawoppl) Right now this tosses an exception :(
         // lx.engine.mixer.removeChannel(lx.engine.mixer.getDefaultChannel());
@@ -158,11 +163,13 @@ public class EntwinedGui extends PApplet implements LXPlugin {
     }
 
     private void loadPatterns(LX lx) {
-        reflections.getSubTypesOf(EntwinedBasePattern.class).forEach(lx.registry::addPattern);
+        EntwinedBasePattern.getAllPatternClasses().forEach(lx.registry::addPattern);
     }
 
     private void loadEffects(LX lx) {
-        reflections.getSubTypesOf(EntwinedBaseEffect.class).forEach(lx.registry::addEffect);
+        reflections.getSubTypesOf(EntwinedBaseEffect.class).stream()
+                .filter(Utilities::isConcrete)
+                .forEach(lx.registry::addEffect);
     }
 
     @Override
