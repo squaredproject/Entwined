@@ -311,6 +311,7 @@ abstract class Engine {
     // Add patterns here.
     // The order here is the order it shows up in the patterns list
     // patterns.add(new SolidColor(lx));
+    patterns.add(new ButterflyEffect(lx));
     patterns.add(new Twister(lx));
     patterns.add(new TwisterGlobal(lx));
     patterns.add(new CandyCloud(lx));
