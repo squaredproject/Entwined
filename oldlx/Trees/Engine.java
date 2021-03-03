@@ -238,6 +238,10 @@ abstract class Engine {
     
     // Lindsay
     registerPatternController("SparkleWave", new SparkleWave(lx));
+    
+    // Mattaniah
+    registerPatternController("OscillatingDarkRing", new OscillatingDarkRing(lx));
+    registerPatternController("RadialGradiant", new RadialGradiant(lx));
 
     // Misko's patterns
     registerPatternController("Circles", new Circles(lx));
@@ -334,6 +338,10 @@ abstract class Engine {
 
     // Lorenz Patterns
     patterns.add(new Fountain(lx));
+    
+    // Mattaniah
+    patters.add(new OscillatingDarkRing(lx));
+    patters.add(new RadialGradiant(lx));
 
     // patterns.add(new DoubleHelix(lx));
     patterns.add(new SparkleHelix(lx));
