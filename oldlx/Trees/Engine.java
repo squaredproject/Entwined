@@ -262,6 +262,10 @@ abstract class Engine {
     registerPatternController("CircleBreath", new CircleBreath(lx));
     registerPatternController("FirefliesNcase", new FirefliesNcase(lx));
 
+    // Sydney
+    registerPatternController("RoseGarden", new RoseGarden(lx));
+    
+
     registerPatternController("Fumes", new Fumes(lx));
     registerPatternController("Color Strobe", new ColorStrobe(lx));
     registerPatternController("Strobe", new Strobe(lx));
@@ -348,6 +352,9 @@ abstract class Engine {
     
     // Quinn Keck Patterns
     patterns.add(new ButterflyEffect(lx));
+    
+    // Sydney Patterns
+    patterns.add(new RoseGarden(lx));
 
     // patterns.add(new DoubleHelix(lx));
     patterns.add(new SparkleHelix(lx));
