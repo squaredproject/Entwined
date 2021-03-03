@@ -242,6 +242,9 @@ abstract class Engine {
     // Mattaniah
     registerPatternController("OscillatingDarkRing", new OscillatingDarkRing(lx));
     registerPatternController("RadialGradiant", new RadialGradiant(lx));
+    
+    // Quinn Keck
+    registerPatternController("ButterflyEffect", new ButterflyEffect(lx));
 
     // Misko's patterns
     registerPatternController("Circles", new Circles(lx));
@@ -311,7 +314,6 @@ abstract class Engine {
     // Add patterns here.
     // The order here is the order it shows up in the patterns list
     // patterns.add(new SolidColor(lx));
-    patterns.add(new ButterflyEffect(lx));
     patterns.add(new Twister(lx));
     patterns.add(new TwisterGlobal(lx));
     patterns.add(new CandyCloud(lx));
@@ -341,8 +343,11 @@ abstract class Engine {
     patterns.add(new Fountain(lx));
     
     // Mattaniah
-    patters.add(new OscillatingDarkRing(lx));
-    patters.add(new RadialGradiant(lx));
+    patterns.add(new OscillatingDarkRing(lx));
+    patterns.add(new RadialGradiant(lx));
+    
+    // Quinn Keck Patterns
+    patterns.add(new ButterflyEffect(lx));
 
     // patterns.add(new DoubleHelix(lx));
     patterns.add(new SparkleHelix(lx));
