@@ -265,6 +265,9 @@ abstract class Engine {
     // Sydney
     registerPatternController("RoseGarden", new RoseGarden(lx));
     
+    //Lorenz
+    registerPatternController("Fountain", new Fountain(lx));
+    
 
     registerPatternController("Fumes", new Fumes(lx));
     registerPatternController("Color Strobe", new ColorStrobe(lx));
