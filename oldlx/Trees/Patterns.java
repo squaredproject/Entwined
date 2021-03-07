@@ -377,6 +377,7 @@ class ColorEffect extends Effect {
 // Second: let's try having an "angle" (like 15 degrees) and everything outside that gets nailed to the hue in that range
 // artist seems OK with the concept of "hue" and "angle", which gives us two real controls.
 // We want DEG to be "transparent" at 0, and most at 180 (which is kinda backward)
+// Author: Brian Bulkowski 2021 brian@bulkowsk.org
 
 class HueFilterEffect extends Effect {
   
@@ -389,23 +390,6 @@ class HueFilterEffect extends Effect {
     super(lx);
     addParameter(hueFilter);
     addParameter(amount);
-  }
-
-  // quick bit of math: interpolate on the hue circle
-  // there should be a Util for this but I don't see it, easy enough to code up
-  // note: this didn't look great, because there were still too many pixels outside
-  // what seemsed reasonable. Linear is not ok....
-  static float lerp360(float src, float dst, float amt) {
-    float r;
-      if (dst - src < 180.0) {
-        r = (( dst - src ) * amt) + src;
-      }
-      else {
-        src += 360.0;
-        r = (( dst - src ) * amt) + src;
-        if (r > 360.0) r -= 360.0;
-      }
-      return(r);
   }
 
   static float norm360(float i) {
@@ -471,6 +455,146 @@ class HueFilterEffect extends Effect {
     }
   }
 }
+
+
+// Per shrub interactivity
+// Goal is to have some nice basic obvious effects which overlay all other effects on a per-shrub basis
+// Thus, we want to expose parameters that are per-shrub --- which means a LOT of them!
+// The name of the Parameter will be "InterEEESSS", where EEE is the effect name ( like Hue ),
+// and SSS is the shrub name (we make these strings even though they're more like integers elsewhere).
+//
+// Parameters: 'Hue' --> 0 to 360 of the hue for a shrub
+//           'HueVal' --> the number of "degrees" the hue is squashed to (see above), which means 0 for off,
+//                  160 is a good amount for "on"
+//
+// Note: if you want to change this to different types, that's easy, although type casting will be tougher.
+// You want the names of the paramters to not just have the "sculptureIndex" but the "type" and that
+// will have to map through to the cube type (which is currently "tree or shrub", slightly unfortunate)
+//
+// Note: performance is rather important. For each cube, we need to access the current parameter for that cube,
+// so the lookup into the set of paramters will happen a lot. Use classic arrays because the number of shrubs
+// won't change.
+//
+// Sorry about reusing too much of the math code above. Just getting something working. Feel free to clean
+// up later.
+//
+// There is another module which keeps track of whether we're connected and can reset the parameters.
+// Count on that unit to do that.
+// Author: Brian Bulkowski 2021 brian@bulkowsk.org
+
+class InteractiveFilterEffect extends Effect {
+  
+  final BasicParameter hueFilters[];
+  final BasicParameter hueAmountFilters[]; // need to expose this because 0 means none
+  
+  InteractiveFilterEffect(LX lx) {
+    super(lx);
+
+    System.out.println("InteractiveFilterEffect constructor");
+
+    // how many shrubs do we have? Hardcode and figure out later
+    int nShrubs = 20;
+    hueFilters = new BasicParameter[nShrubs];
+    hueAmountFilters = new BasicParameter[nShrubs];
+    for (int i=0;i<nShrubs;i++) {
+      hueFilters[i] = new BasicParameter("Inter"+"Hue"+String.valueOf(i), 0, 360);
+      hueAmountFilters[i] = new BasicParameter("Inter"+"HueVal"+String.valueOf(i),0, 180);
+      // init to 180 because that's "no filter", there's a constructor that does this but I'm confused
+      hueAmountFilters[i].setValue(180.0f);
+    }
+  }
+
+  static float norm360(float i) {
+    while (i < 0.0f) {
+      i += 360.0f;
+    }
+    while (i > 360.0f) {
+      i -= 360.0f;
+    }
+    return(i);
+  }
+
+  // distance between a and b in degrees, absolute
+  static float absdist360(float a, float b) {
+    float r = Math.abs( a - b );
+    if (r < 180.0f) return(r);
+    return( 360.0f - r );
+  }
+
+  // distance between a and b in degrees, negative means a is counterclockwise
+  // so for example a = 0, b = 190, the distance is 170, but postive, because the short path is clockwise
+  static float dist360(float a, float b) {
+    float r = a - b;
+    if (Math.abs(r) <= 180.0f) return(r);
+    if (r < 0.0f) return( r + 360.0f );
+    return( r - 360.0f );
+  }
+
+
+  // quick bit of math: interpolate on the hue circle
+  // but do so with a limit. Make sure the color is never outside of 
+  // a certain number of degress. There's some sublty in when/how to clip the
+  // edges, so will try a few things.
+  // Interesting, having a limitdeg of 180 means no effect, that's the blend (basically)
+  static float hueBlend(float src, float dst, float limitDeg) {
+    float r;
+    float dist = dist360(src,dst);
+    r = dst + ( (dist / 180.0f) * limitDeg );
+    r = norm360(r);
+
+    // test: output should be within the limit distance of dst
+    if ( absdist360(r, dst) > limitDeg ) {
+      System.out.println("hueBlendFail: src "+src+" dst "+dst+" res "+r+" limit "+limitDeg);
+    }
+
+    return(r);
+  }
+
+  // set all parameters to values that say nothing 
+  public void disableAll() {
+    for (int i=0;i<hueFilters.length;i++) {
+      hueFilters[i].setValue(0f);
+      hueAmountFilters[i].setValue(180.0f);
+    }
+  }
+
+  public void disableShrub(int shrubId) {
+      hueFilters[shrubId].setValue(0f);
+      hueAmountFilters[shrubId].setValue(180.0f);
+  }
+
+  // for now, this is 0-100 even though it should be 0-360 in a sane universe
+  public void setShrubHue(int shrubId, float hue) {
+    if (shrubId > hueFilters.length) {
+      System.out.println(" can't set shrub: too high "+shrubId);
+      return;
+    }
+    double hueValue = (hue * 360.0) / 100.0;
+    hueFilters[shrubId].setValue(hueValue);
+    hueAmountFilters[shrubId].setValue(30f); // a good angle to sqaush to 
+  }
+  
+  protected void run(double deltaMs) {
+
+    // iterate over Cubes not Colors because Cubes have index into colors, not the other way around
+    for (BaseCube cube : model.baseCubes) {
+      // only the shrubs
+      if (cube.treeOrShrub == TreeOrShrub.SHRUB) {
+        int shrubId = cube.sculptureIndex;
+        float huef = hueFilters[shrubId].getValuef();
+        float amountf = hueAmountFilters[shrubId].getValuef();
+
+        if (amountf < 180.0f) {
+          int i = cube.index;
+          float h = hueBlend(LXColor.h(colors[i]), huef, amountf);   
+          colors[i] = lx.hsb( h, LXColor.s(colors[i]), LXColor.b(colors[i]) );
+        }
+
+      }
+    }
+  }
+}
+
 
 class TestShrubSweep extends TSPattern {
     

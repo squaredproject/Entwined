@@ -85,6 +85,9 @@ abstract class Engine {
   final BasicParameterProxy outputBrightness = new BasicParameterProxy(1);
   final BrightnessScaleEffect masterBrightnessEffect;
 
+  final CanopyController canopyController;
+  final InteractiveFilterEffect interactiveFilterEffect;
+
   // breadcrumb regarding channelTreeLevels and channelShrubLevels
   // these are controllers which should be used on a shrub-by-shrub basis to allow
   // setting the overall output. There _were_ UI elements for this, but I'm taking them
@@ -104,7 +107,6 @@ abstract class Engine {
     shrubConfigs = loadShrubConfigFile();
     model = new Model(ndbConfig, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig);
 
-
     lx = createLX();
 
     // log that we are trying to start, even without a log
@@ -113,7 +115,6 @@ abstract class Engine {
     );
 
     lx.engine.addLoopTask(new FrameRateLogTask(lx.engine) );
-
 
 
     // this is the TCP channel
@@ -128,7 +129,6 @@ abstract class Engine {
     }
 
     configureChannels();
-
 
     configureTriggerables();
     lx.engine.addLoopTask(new ModelTransformTask(model));
@@ -165,6 +165,20 @@ abstract class Engine {
   	}
   	configureServer(); // turns on the TCP listener
 
+    canopyController = new CanopyController(this);
+    // this special filter is used by Canopy
+    interactiveFilterEffect = new InteractiveFilterEffect(lx);
+    lx.addEffect(interactiveFilterEffect); /* want this one "on top" of everything else... is it? */
+    interactiveFilterEffect.enable();
+
+
+    // tell the canopyController what it should be up to.
+    // this perhaps needs to move elsewhere, possibly to the constructor of canopy
+    // controller or the main init, unclear it should really be intermixed with EngineController
+    ZonedDateTime firstPause = ZonedDateTime.now();
+    firstPause.plusSeconds( (int) (Config.pauseRunMinutes * 60.0) );
+    canopyController.modelUpdate(true /*interactive*/, (int) (Config.pauseRunMinutes * 60.0f) /*runSeconds*/,
+      (int) (Config.pausePauseMinutes * 60.0f) /*pauseSeconds*/,"run" /*state*/,firstPause);
 
 
     // bad code I know
@@ -541,6 +555,7 @@ abstract class Engine {
     registerEffectControlParameter(candyCloudTextureEffect.amount, 0, 1, 1);
     registerEffectControlParameter(staticEffect.amount, 0, .3, 1);
     registerEffectControlParameter(candyTextureEffect.amount, 0, 1, 5);
+
 
     // colorEffect.mono is pretty good, but has been kicked off the island compared to hueFilterEffect
 
@@ -1053,6 +1068,8 @@ class EngineController {
     System.out.println("creating auto pause task");
     this.autoPauseTask = new AutoPauseTask();
     lx.engine.addLoopTask(this.autoPauseTask);
+
+
   }
 
   // this gets the 'iPad channels' only
@@ -1343,7 +1360,7 @@ class EngineController {
   ZoneId localZone = ZoneId.of("America/Los_Angeles");
   void log(String s) {
   	  System.out.println(
-  		ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + " " + s );
+  		  ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + " " + s );
   }
 
 }
