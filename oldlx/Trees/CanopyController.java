@@ -150,7 +150,10 @@ class CanopyController {
 		    	@Override
 		   		public void call(Object... args) {
 		   			System.out.println(" socket disconnect event ");
-					interactiveFilterEffect.disableAll();
+		   			// This kind of disconnect is the underlying socket that shouldn't lose
+		   			// messages, so we're not going to disable until we see a connect
+		   			// error (below)
+					//interactiveFilterEffect.disableAll();
 		   			//for (Object o : args) {
 		   			//	System.out.println(o);
 		   			//}
@@ -160,7 +163,9 @@ class CanopyController {
 		    socket.on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
 		    	@Override
 		   		public void call(Object... args) {
-		   			System.out.println(" socket connect error of unknown type ");
+		   			System.out.println(" socket connect error of unknown type, will disable current effects and immediately try reconnect ");
+		   			interactiveFilterEffect.disableAll();
+		   			socket.connect();
 		   			for (Object o : args) {
 		   				System.out.println(o);
 		   			}
