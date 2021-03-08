@@ -165,11 +165,14 @@ abstract class Engine {
   	}
   	configureServer(); // turns on the TCP listener
 
-    canopyController = new CanopyController(this);
+
     // this special filter is used by Canopy
     interactiveFilterEffect = new InteractiveFilterEffect(lx);
     lx.addEffect(interactiveFilterEffect); /* want this one "on top" of everything else... is it? */
     interactiveFilterEffect.enable();
+
+    // must be after creation of the filter effect(s) used
+    canopyController = new CanopyController(this);
 
 
     // tell the canopyController what it should be up to.

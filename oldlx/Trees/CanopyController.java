@@ -101,24 +101,31 @@ class CanopyController {
 		    	}
 		    });
 
+		    // these receive the ID of the shrub, type string, with the integer in it
 		    socket.on("interactionStopped", new Emitter.Listener() {
 		    	@Override
 		    	public void call(Object... args) {
-		    		System.out.println(" interactionStarted from Canopy ");
-		    		for (Object o : args) {
-		   				System.out.println(o);
-		   			}
+		    		System.out.println(" interactionStopped from Canopy ");
+		    		if (args[0] instanceof String) {
+		    			stopShrubInteraction((String)args[0]);
+		    		}
+		    		else if (args[0] instanceof JSONObject) {
+			    		stopShrubInteraction((JSONObject) args[0]);
+			    	}
+//		    		for (Object o : args) {
+//		   				System.out.println(o+" Type: "+o.getClass());
+//		   			}
 		    	}
 		    });
 
 		    socket.on("updateShrubSetting", new Emitter.Listener() {
 		    	@Override
 		    	public void call(Object... args) {
-		    		System.out.println(" updateShrubSetting from Canopy ");
-		    		updateShrubSetting((JSONObject) args[0]);
-//		    		for (Object o : args) {
-//		   				System.out.println(o);
-//		   			}
+		    		System.out.println(" updateShrubSetting from Canopy: argslen "+args.length);
+		    		//updateShrubSetting((JSONObject) args[0]);
+		    		for (Object o : args) {
+		   				System.out.println(o+" Type: "+o.getClass());
+		   			}
 		    	}
 		    });
 
@@ -163,11 +170,11 @@ class CanopyController {
 
 		    while (true) {
 		    	try {
-		    	    Thread.sleep(2000);
+		    	    Thread.sleep(60000);
 		        } catch (Exception e) {
 		        	System.out.println(" CanopyThreadSleepException: "+e);
 		        }
-		    	System.out.println("CanopyController connected: "+ socket.connected() );
+		    	System.out.println("CanopyController connect state: "+ socket.connected() );
 		    }
 
 		} /* run */
@@ -194,6 +201,35 @@ class CanopyController {
 	}
 
   }
+
+  void stopShrubInteraction(JSONObject o) {
+  	//System.out.println("stopShrubInteraction: object "+o);
+
+  	try {
+	  	int shrubId = o.getInt("shrubId");
+
+	  	interactiveFilterEffect.disableShrub(shrubId);
+
+	} catch (Exception e) {
+		System.out.println(" stopShrubInteraction(JSON): Exception "+e);
+	}
+
+  }
+
+  void stopShrubInteraction(String s) {
+  	//System.out.println("stopShrubInteraction: object "+o);
+
+  	try {
+	  	int shrubId = Integer.parseInt(s);
+
+	  	interactiveFilterEffect.disableShrub(shrubId);
+
+	} catch (Exception e) {
+		System.out.println(" stopShrubInteraction(String): Exception "+e);
+	}
+
+  }
+
 
   // call this at startup to get the run/pause/whatever
   // and if there's a change to the "state"

@@ -559,6 +559,10 @@ class InteractiveFilterEffect extends Effect {
   }
 
   public void disableShrub(int shrubId) {
+      if (shrubId > hueFilters.length) {
+        System.out.println(" disable shrub: can't too large shrubId "+shrubId);
+        return;
+      }
       hueFilters[shrubId].setValue(0f);
       hueAmountFilters[shrubId].setValue(180.0f);
   }
@@ -566,11 +570,10 @@ class InteractiveFilterEffect extends Effect {
   // for now, this is 0-100 even though it should be 0-360 in a sane universe
   public void setShrubHue(int shrubId, float hue) {
     if (shrubId > hueFilters.length) {
-      System.out.println(" can't set shrub: too high "+shrubId);
+      System.out.println(" can't set shrub: too large shrubId "+shrubId);
       return;
     }
-    double hueValue = (hue * 360.0) / 100.0;
-    hueFilters[shrubId].setValue(hueValue);
+    hueFilters[shrubId].setValue(hue);
     hueAmountFilters[shrubId].setValue(30f); // a good angle to sqaush to 
   }
   
