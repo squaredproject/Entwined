@@ -112,20 +112,14 @@ class CanopyController {
 		    		else if (args[0] instanceof JSONObject) {
 			    		stopShrubInteraction((JSONObject) args[0]);
 			    	}
-//		    		for (Object o : args) {
-//		   				System.out.println(o+" Type: "+o.getClass());
-//		   			}
 		    	}
 		    });
 
 		    socket.on("updateShrubSetting", new Emitter.Listener() {
 		    	@Override
 		    	public void call(Object... args) {
-		    		System.out.println(" updateShrubSetting from Canopy: argslen "+args.length);
-		    		//updateShrubSetting((JSONObject) args[0]);
-		    		for (Object o : args) {
-		   				System.out.println(o+" Type: "+o.getClass());
-		   			}
+		    		//System.out.println(" updateShrubSetting from Canopy: argslen "+args.length);
+		    		updateShrubSetting((JSONObject) args[0]);
 		    	}
 		    });
 

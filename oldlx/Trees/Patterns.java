@@ -552,6 +552,7 @@ class InteractiveFilterEffect extends Effect {
 
   // set all parameters to values that say nothing 
   public void disableAll() {
+    System.out.println(" disable all shrub ");
     for (int i=0;i<hueFilters.length;i++) {
       hueFilters[i].setValue(0f);
       hueAmountFilters[i].setValue(180.0f);
@@ -559,6 +560,7 @@ class InteractiveFilterEffect extends Effect {
   }
 
   public void disableShrub(int shrubId) {
+      System.out.println(" disable shrub: "+shrubId);
       if (shrubId > hueFilters.length) {
         System.out.println(" disable shrub: can't too large shrubId "+shrubId);
         return;
@@ -569,6 +571,7 @@ class InteractiveFilterEffect extends Effect {
 
   // for now, this is 0-100 even though it should be 0-360 in a sane universe
   public void setShrubHue(int shrubId, float hue) {
+    //System.out.println("SetShrubHue: "+shrubId+" hue "+hue);
     if (shrubId > hueFilters.length) {
       System.out.println(" can't set shrub: too large shrubId "+shrubId);
       return;
