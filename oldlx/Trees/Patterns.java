@@ -484,23 +484,41 @@ class HueFilterEffect extends Effect {
 
 class InteractiveFilterEffect extends Effect {
   
-  final BasicParameter hueFilters[];
-  final BasicParameter hueAmountFilters[]; // need to expose this because 0 means none
+  final BasicParameter hueSet[];
+  final BasicParameter hueSetAmount[]; // need to expose this because 0 means none
+
+  final BasicParameter hueShift[];
+
+  final BasicParameter saturation[];
+
+  final BasicParameter brightness[];
+
+  // how many shrubs do we have? Hardcode and figure out later
+  final int nShrubs = 20;
   
   InteractiveFilterEffect(LX lx) {
     super(lx);
 
     System.out.println("InteractiveFilterEffect constructor");
 
-    // how many shrubs do we have? Hardcode and figure out later
-    int nShrubs = 20;
-    hueFilters = new BasicParameter[nShrubs];
-    hueAmountFilters = new BasicParameter[nShrubs];
+    hueSet = new BasicParameter[nShrubs];
+    hueSetAmount = new BasicParameter[nShrubs];
+    hueShift = new BasicParameter[nShrubs];
+    saturation = new BasicParameter[nShrubs];
+    brightness = new BasicParameter[nShrubs];
     for (int i=0;i<nShrubs;i++) {
-      hueFilters[i] = new BasicParameter("Inter"+"Hue"+String.valueOf(i), 0, 360);
-      hueAmountFilters[i] = new BasicParameter("Inter"+"HueVal"+String.valueOf(i),0, 180);
-      // init to 180 because that's "no filter", there's a constructor that does this but I'm confused
-      hueAmountFilters[i].setValue(180.0f);
+      String shrubIdStr = String.valueOf(i);
+      hueSet[i] = new BasicParameter("Inter"+"HueSet"+shrubIdStr, 0, 360);
+      hueSetAmount[i] = new BasicParameter("Inter"+"HueSetVal"+shrubIdStr,0, 180);
+
+      // hue shift
+      hueShift[i] = new BasicParameter("Inter"+"HueShift"+shrubIdStr,0,360);
+      // 
+      saturation[i] = new BasicParameter("Inter"+"Sat"+shrubIdStr,0,100);
+      // 
+      brightness[i] = new BasicParameter("Inter"+"Bri"+shrubIdStr,0,100);
+      // set initial values
+      resetShrub(i);
     }
   }
 
@@ -550,36 +568,6 @@ class InteractiveFilterEffect extends Effect {
     return(r);
   }
 
-  // set all parameters to values that say nothing 
-  public void disableAll() {
-    System.out.println(" disable all shrub ");
-    for (int i=0;i<hueFilters.length;i++) {
-      hueFilters[i].setValue(0f);
-      hueAmountFilters[i].setValue(180.0f);
-    }
-  }
-
-  public void disableShrub(int shrubId) {
-      System.out.println(" disable shrub: "+shrubId);
-      if (shrubId > hueFilters.length) {
-        System.out.println(" disable shrub: can't too large shrubId "+shrubId);
-        return;
-      }
-      hueFilters[shrubId].setValue(0f);
-      hueAmountFilters[shrubId].setValue(180.0f);
-  }
-
-  // for now, this is 0-100 even though it should be 0-360 in a sane universe
-  public void setShrubHue(int shrubId, float hue) {
-    //System.out.println("SetShrubHue: "+shrubId+" hue "+hue);
-    if (shrubId > hueFilters.length) {
-      System.out.println(" can't set shrub: too large shrubId "+shrubId);
-      return;
-    }
-    hueFilters[shrubId].setValue(hue);
-    hueAmountFilters[shrubId].setValue(30f); // a good angle to sqaush to 
-  }
-  
   protected void run(double deltaMs) {
 
     // iterate over Cubes not Colors because Cubes have index into colors, not the other way around
@@ -587,18 +575,116 @@ class InteractiveFilterEffect extends Effect {
       // only the shrubs
       if (cube.treeOrShrub == TreeOrShrub.SHRUB) {
         int shrubId = cube.sculptureIndex;
-        float huef = hueFilters[shrubId].getValuef();
-        float amountf = hueAmountFilters[shrubId].getValuef();
+        float hueSetf = hueSet[shrubId].getValuef();
+        float hueSetAmountf = hueSetAmount[shrubId].getValuef();
+        float hueShiftf = hueShift[shrubId].getValuef();
+        float brightnessf = brightness[shrubId].getValuef();
+        float saturationf = saturation[shrubId].getValuef();
 
-        if (amountf < 180.0f) {
+        if ( hueShiftf > 0.0f || hueSetAmountf < 180.0f ||
+             brightnessf != 50.0f || saturationf != 50.0f ) {
+
           int i = cube.index;
-          float h = hueBlend(LXColor.h(colors[i]), huef, amountf);   
-          colors[i] = lx.hsb( h, LXColor.s(colors[i]), LXColor.b(colors[i]) );
-        }
+          float h = LXColor.h(colors[i]); // 0-360
+          float s = LXColor.s(colors[i]); // 0-100
+          float b = LXColor.b(colors[i]); // 0-100
 
+          // first squash if set 
+          if (hueSetAmountf < 180.0f) {
+            h = hueBlend(h, hueSetf, hueSetAmountf);             
+          }
+
+          // shift if shifting
+          if (hueShiftf > 0.0f) {
+            h += hueShiftf;
+            if (h > 360.0f) h -= 360.0f;
+          }
+
+          // brightness of 50 is same, > 50 is brighter, < 50 is dimmer
+          if (brightnessf != 50.0f) {
+            b = (brightnessf / 50.0f) * b;
+            if (b > 100.0f) b = 100.0f;
+          }
+
+          // saturation of 50 is same, > 50 is brighter, < 50 is dimmer
+          if (saturationf != 50.0f) {
+            s = (saturationf / 50.0f) * s;
+            if (s > 100.0f) s = 100.0f;
+          }
+ 
+          colors[i] = lx.hsb( h, s, b );
+        }
       }
     }
   }
+
+
+  // set all parameters to values that say nothing 
+  public void resetAll() {
+    System.out.println(" disable all shrub ");
+    for (int i=0;i<hueSet.length;i++) {
+      resetShrub(i);
+    }
+  }
+
+  public void resetShrub(int shrubId) {
+      System.out.println(" disable shrub: "+shrubId);
+      if (shrubId >= nShrubs) {
+        System.out.println(" disable shrub: can't too large shrubId "+shrubId);
+        return;
+      }
+      hueSet[shrubId].setValue(0f);
+      hueSetAmount[shrubId].setValue(180.0f);
+      hueShift[shrubId].setValue(0f);
+      brightness[shrubId].setValue(50.0f);
+      saturation[shrubId].setValue(50.0f);
+  }
+
+
+  // Value is from 0 to 360.0, where 0 means no shift
+  public void setShrubHueShift(int shrubId, float value) {
+    //System.out.println("SetShrubHue: "+shrubId+" hue "+hue);
+    if (shrubId >= nShrubs) {
+      System.out.println(" can't set shrub: too large shrubId "+shrubId);
+      return;
+    }
+    hueShift[shrubId].setValue(value);
+  }
+
+
+  // Note: this needs a parallel to disable the hueSet alone,
+  // but we don't have it wired in yet from Canopy. If we like "hueSet" we'll
+  // wire it in
+  public void setShrubHueSet(int shrubId, float hue) {
+    //System.out.println("SetShrubHue: "+shrubId+" hue "+hue);
+    if (shrubId >= nShrubs) {
+      System.out.println(" can't set shrub: too large shrubId "+shrubId);
+      return;
+    }
+    hueSet[shrubId].setValue(hue);
+    hueSetAmount[shrubId].setValue(30f); // a good angle to sqaush to 
+  }
+  
+  // Value is from 0 to 100, where 50 means no change
+  public void setShrubBrightness(int shrubId, float value) {
+    //System.out.println("SetShrubHue: "+shrubId+" hue "+hue);
+    if (shrubId >= nShrubs) {
+      System.out.println(" can't set shrub: too large shrubId "+shrubId);
+      return;
+    }
+    brightness[shrubId].setValue(value);
+  }
+
+  // Value is from 0 to 100, where 50 means no change
+  public void setShrubSaturation(int shrubId, float value) {
+    //System.out.println("SetShrubHue: "+shrubId+" hue "+hue);
+    if (shrubId >= nShrubs) {
+      System.out.println(" can't set shrub: too large shrubId "+shrubId);
+      return;
+    }
+    saturation[shrubId].setValue(value);
+  }
+
 }
 
 

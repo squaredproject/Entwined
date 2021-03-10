@@ -147,7 +147,7 @@ class CanopyController {
 		   			// This kind of disconnect is the underlying socket that shouldn't lose
 		   			// messages, so we're not going to disable until we see a connect
 		   			// error (below)
-					//interactiveFilterEffect.disableAll();
+					//interactiveFilterEffect.resetAll();
 		   			//for (Object o : args) {
 		   			//	System.out.println(o);
 		   			//}
@@ -158,7 +158,7 @@ class CanopyController {
 		    	@Override
 		   		public void call(Object... args) {
 		   			System.out.println(" socket connect error of unknown type, will disable current effects and immediately try reconnect ");
-		   			interactiveFilterEffect.disableAll();
+		   			interactiveFilterEffect.resetAll();
 		   			socket.connect();
 		   			for (Object o : args) {
 		   				System.out.println(o);
@@ -185,15 +185,32 @@ class CanopyController {
   }
 
   void updateShrubSetting(JSONObject o) {
-  	//System.out.println("UpdateShrubSetting: object "+o);
+  	System.out.println("UpdateShrubSetting: object "+o);
 
   	try {
 	  	int shrubId = o.getInt("shrubId");
 
-	  	if (o.has("hue")) {
-	  		int hue = o.getInt("hue");
+	  	if (o.has("hueSet")) {
+	  		int hue = o.getInt("hueSet");
 	  		//System.out.println(" going to set hue to "+hue+" for shrub "+shrubId);
-	  		interactiveFilterEffect.setShrubHue(shrubId,(float)hue);
+	  		interactiveFilterEffect.setShrubHueSet(shrubId,(float)hue);
+	  	}
+
+	  	if (o.has("hueShift")) {
+	  		int hue = o.getInt("hueShift");
+	  		//System.out.println(" going to set hue to "+hue+" for shrub "+shrubId);
+	  		interactiveFilterEffect.setShrubHueShift(shrubId,(float)hue);
+	  	}
+
+	  	if (o.has("brightness")) {
+	  		int b = o.getInt("brightness");
+	  		//System.out.println(" going to set hue to "+hue+" for shrub "+shrubId);
+	  		interactiveFilterEffect.setShrubBrightness(shrubId,(float)b);
+	  	}
+	  	if (o.has("saturation")) {
+	  		int s = o.getInt("saturation");
+	  		//System.out.println(" going to set hue to "+hue+" for shrub "+shrubId);
+	  		interactiveFilterEffect.setShrubSaturation(shrubId,(float)s);
 	  	}
 	} catch (Exception e) {
 		System.out.println(" updateShrubSettingException "+e);
@@ -207,7 +224,7 @@ class CanopyController {
   	try {
 	  	int shrubId = o.getInt("shrubId");
 
-	  	interactiveFilterEffect.disableShrub(shrubId);
+	  	interactiveFilterEffect.resetShrub(shrubId);
 
 	} catch (Exception e) {
 		System.out.println(" stopShrubInteraction(JSON): Exception "+e);
@@ -221,7 +238,7 @@ class CanopyController {
   	try {
 	  	int shrubId = Integer.parseInt(s);
 
-	  	interactiveFilterEffect.disableShrub(shrubId);
+	  	interactiveFilterEffect.resetShrub(shrubId);
 
 	} catch (Exception e) {
 		System.out.println(" stopShrubInteraction(String): Exception "+e);
