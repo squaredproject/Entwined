@@ -101,10 +101,14 @@ class CanopyController {
 		    socket.on("interactionStarted", new Emitter.Listener() {
 		    	@Override
 		    	public void call(Object... args) {
-		    		log(" interactionStarted from Canopy ");
-		    		for (Object o : args) {
-		   				log(o.toString());
-		   			}
+		    		try {
+			    		log(" interactionStarted from Canopy " + args[0].toString());
+	//		    		for (Object o : args) {
+	//		   				log(o.toString());
+	//		   			}
+		    		} catch (Exception e) {
+		    			log(" interaction Started threw error "+e);
+		    		}
 		    	}
 		    });
 
@@ -114,9 +118,11 @@ class CanopyController {
 		    	public void call(Object... args) {
 		    		log(" interactionStopped from Canopy ");
 		    		if (args[0] instanceof String) {
+		    			log(" interactionStopped from Canopy shrub "+(String)args[0]);
 		    			stopShrubInteraction((String)args[0]);
 		    		}
 		    		else if (args[0] instanceof JSONObject) {
+		    			log(" interactionStopped from Canopy shrub "+(JSONObject)args[0]);
 			    		stopShrubInteraction((JSONObject) args[0]);
 			    	}
 		    	}
