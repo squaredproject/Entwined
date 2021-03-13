@@ -628,7 +628,7 @@ class InteractiveFilterEffect extends Effect {
   }
 
   public void resetShrub(int shrubId) {
-      System.out.println(" disable shrub: "+shrubId);
+      //System.out.println(" disable shrub: "+shrubId);
       if (shrubId >= nShrubs) {
         System.out.println(" disable shrub: can't too large shrubId "+shrubId);
         return;

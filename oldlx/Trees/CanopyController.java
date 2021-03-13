@@ -62,8 +62,8 @@ class CanopyController {
   Thread  canopyThread;
   Socket socket;
 
-  Engine engine; // gives us access to the InteractiveFilter
-  InteractiveFilterEffect interactiveFilterEffect;
+  final Engine engine; // gives us access to the InteractiveFilter
+  final InteractiveFilterEffect interactiveFilterEffect;
 
   CanopyController(Engine engine) {
 
@@ -77,9 +77,16 @@ class CanopyController {
 
   	canopyRunnable = new Runnable() {
 
+		  // Log Helper
+	  	final ZoneId localZone = ZoneId.of("America/Los_Angeles");
+		 void log(String s) {
+		  	 System.out.println(
+		  		ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + " " + s );
+		}
+
 	  	@Override
 	  	public void run() {
-	  		System.out.println(" CanopyController thread ");
+	  		log(" CanopyController thread start ");
 
 	  		URI uri = URI.create(Config.canopyServer);
 
@@ -94,9 +101,9 @@ class CanopyController {
 		    socket.on("interactionStarted", new Emitter.Listener() {
 		    	@Override
 		    	public void call(Object... args) {
-		    		System.out.println(" interactionStarted from Canopy ");
+		    		log(" interactionStarted from Canopy ");
 		    		for (Object o : args) {
-		   				System.out.println(o);
+		   				log(o.toString());
 		   			}
 		    	}
 		    });
@@ -105,7 +112,7 @@ class CanopyController {
 		    socket.on("interactionStopped", new Emitter.Listener() {
 		    	@Override
 		    	public void call(Object... args) {
-		    		System.out.println(" interactionStopped from Canopy ");
+		    		log(" interactionStopped from Canopy ");
 		    		if (args[0] instanceof String) {
 		    			stopShrubInteraction((String)args[0]);
 		    		}
@@ -118,7 +125,7 @@ class CanopyController {
 		    socket.on("updateShrubSetting", new Emitter.Listener() {
 		    	@Override
 		    	public void call(Object... args) {
-		    		//System.out.println(" updateShrubSetting from Canopy: argslen "+args.length);
+		    		//log(" updateShrubSetting from Canopy: argslen "+args.length);
 		    		updateShrubSetting((JSONObject) args[0]);
 		    	}
 		    });
@@ -126,9 +133,9 @@ class CanopyController {
 		    socket.on("runOneShotTriggerable", new Emitter.Listener() {
 		    	@Override
 		    	public void call(Object... args) {
-		    		System.out.println(" runOneShotTriggerable from Canopy ");
+		    		log(" runOneShotTriggerable from Canopy ");
 		    		for (Object o : args) {
-		   				System.out.println(o);
+		   				log(o.toString());
 		   			}
 		    	}
 		    });
@@ -136,14 +143,14 @@ class CanopyController {
 		    socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 		    	@Override
 		    	public void call(Object... args) {
-		    		System.out.println(" socket connect event id "+socket.id() );
+		    		log(" socket connect event id "+socket.id() );
 		    	}
 		    });
 
 		    socket.on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
 		    	@Override
 		   		public void call(Object... args) {
-		   			System.out.println(" socket disconnect event ");
+		   			log(" socket disconnect event ");
 		   			// This kind of disconnect is the underlying socket that shouldn't lose
 		   			// messages, so we're not going to disable until we see a connect
 		   			// error (below)
@@ -157,11 +164,11 @@ class CanopyController {
 		    socket.on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
 		    	@Override
 		   		public void call(Object... args) {
-		   			System.out.println(" socket connect error of unknown type, will disable current effects and immediately try reconnect ");
+		   			log(" socket connect error of unknown type, will disable current effects and immediately try reconnect ");
 		   			interactiveFilterEffect.resetAll();
 		   			socket.connect();
 		   			for (Object o : args) {
-		   				System.out.println(o);
+		   				log(o.toString());
 		   			}
 		   		}
 		    });
@@ -171,9 +178,9 @@ class CanopyController {
 		    	try {
 		    	    Thread.sleep(60000);
 		        } catch (Exception e) {
-		        	System.out.println(" CanopyThreadSleepException: "+e);
+		        	log(" CanopyThreadSleepException: "+e);
 		        }
-		    	System.out.println("CanopyController connect state: "+ socket.connected() );
+		    	log("CanopyController connect state: "+ socket.connected() );
 		    }
 
 		} /* run */
@@ -185,41 +192,42 @@ class CanopyController {
   }
 
   void updateShrubSetting(JSONObject o) {
-  	System.out.println("UpdateShrubSetting: object "+o);
+
+  	engine.log("UpdateShrubSetting: object "+o);
 
   	try {
 	  	int shrubId = o.getInt("shrubId");
 
 	  	if (o.has("hueSet")) {
 	  		int hue = o.getInt("hueSet");
-	  		//System.out.println(" going to set hue to "+hue+" for shrub "+shrubId);
+	  		//engine.log(" going to set hue to "+hue+" for shrub "+shrubId);
 	  		interactiveFilterEffect.setShrubHueSet(shrubId,(float)hue);
 	  	}
 
 	  	if (o.has("hueShift")) {
 	  		int hue = o.getInt("hueShift");
-	  		//System.out.println(" going to set hue to "+hue+" for shrub "+shrubId);
+	  		//engine.log(" going to set hue to "+hue+" for shrub "+shrubId);
 	  		interactiveFilterEffect.setShrubHueShift(shrubId,(float)hue);
 	  	}
 
 	  	if (o.has("brightness")) {
 	  		int b = o.getInt("brightness");
-	  		//System.out.println(" going to set hue to "+hue+" for shrub "+shrubId);
+	  		//engine.log(" going to set hue to "+hue+" for shrub "+shrubId);
 	  		interactiveFilterEffect.setShrubBrightness(shrubId,(float)b);
 	  	}
 	  	if (o.has("saturation")) {
 	  		int s = o.getInt("saturation");
-	  		//System.out.println(" going to set hue to "+hue+" for shrub "+shrubId);
+	  		//engine.log(" going to set hue to "+hue+" for shrub "+shrubId);
 	  		interactiveFilterEffect.setShrubSaturation(shrubId,(float)s);
 	  	}
 	} catch (Exception e) {
-		System.out.println(" updateShrubSettingException "+e);
+		engine.log(" updateShrubSettingException "+e);
 	}
 
   }
 
   void stopShrubInteraction(JSONObject o) {
-  	//System.out.println("stopShrubInteraction: object "+o);
+  	//log("stopShrubInteraction: object "+o);
 
   	try {
 	  	int shrubId = o.getInt("shrubId");
@@ -227,13 +235,13 @@ class CanopyController {
 	  	interactiveFilterEffect.resetShrub(shrubId);
 
 	} catch (Exception e) {
-		System.out.println(" stopShrubInteraction(JSON): Exception "+e);
+		engine.log(" stopShrubInteraction(JSON): Exception "+e);
 	}
 
   }
 
   void stopShrubInteraction(String s) {
-  	//System.out.println("stopShrubInteraction: object "+o);
+  	//log("stopShrubInteraction: object "+o);
 
   	try {
 	  	int shrubId = Integer.parseInt(s);
@@ -241,7 +249,7 @@ class CanopyController {
 	  	interactiveFilterEffect.resetShrub(shrubId);
 
 	} catch (Exception e) {
-		System.out.println(" stopShrubInteraction(String): Exception "+e);
+		engine.log(" stopShrubInteraction(String): Exception "+e);
 	}
 
   }
@@ -271,11 +279,11 @@ class CanopyController {
 	  	modelUpdateObj.put("breakTimer",breakTimer);
 
 	} catch (Exception e) {
-		System.out.println(" could not create json object for model Update "+e);
+		engine.log(" could not create json object for model Update "+e);
 		return;
 	}
-		  	String modelUpdate_str = modelUpdateObj.toString();
-  	System.out.println(" Model Update String: " + modelUpdate_str);
+	String modelUpdate_str = modelUpdateObj.toString();
+  	engine.log(" Model Update String: " + modelUpdate_str);
 
   	// send to other end
   	while (socket == null) {
