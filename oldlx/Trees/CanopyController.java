@@ -105,7 +105,7 @@ class CanopyController {
 	//		   				log(o.toString());
 	//		   			}
 		    		} catch (Exception e) {
-		    			log(" interaction Started threw error "+e);
+		    			log(" socket: interaction Started threw error "+e);
 		    		}
 		    	}
 		    });
@@ -115,14 +115,18 @@ class CanopyController {
 		    	@Override
 		    	public void call(Object... args) {
 		    		log(" interactionStopped from Canopy ");
-		    		if (args[0] instanceof String) {
-		    			log(" interactionStopped from Canopy shrub "+(String)args[0]);
-		    			stopShrubInteraction((String)args[0]);
-		    		}
-		    		else if (args[0] instanceof JSONObject) {
-		    			log(" interactionStopped from Canopy shrub "+(JSONObject)args[0]);
-			    		stopShrubInteraction((JSONObject) args[0]);
-			    	}
+		    		try {
+			    		if (args[0] instanceof String) {
+			    			log(" interactionStopped from Canopy shrub "+(String)args[0]);
+			    			stopShrubInteraction((String)args[0]);
+			    		}
+			    		else if (args[0] instanceof JSONObject) {
+			    			log(" interactionStopped from Canopy shrub "+(JSONObject)args[0]);
+				    		stopShrubInteraction((JSONObject) args[0]);
+				    	}
+					} catch (Exception e) {
+						log(" socket: Interaction Stopped threw error "+e);
+					}
 		    	}
 		    });
 
@@ -133,7 +137,7 @@ class CanopyController {
 			    		//log(" updateShrubSetting from Canopy: argslen "+args.length);
 			    		updateShrubSetting((JSONObject) args[0]);
 			    	} catch (Exception e) {
-			    		log(" updateShrubSetting threw error "+e);
+			    		log(" socket: updateShrubSetting threw error "+e);
 			    	}
 		    	}
 		    });
@@ -145,7 +149,7 @@ class CanopyController {
 		    		try {
 		    			runOneShotTriggerable((JSONObject)args[0]);
 		    		} catch (Exception e) {
-		    			log(" run one shot triggerable threw "+e);
+		    			log(" socket: run one shot triggerable threw "+e);
 		    		}
 		    	}
 		    });
@@ -228,10 +232,8 @@ class CanopyController {
   				engine.log("unknown trigger name "+triggerName);
   				break;
   		}
-  		engine.apc40DrumpadTriggerables[4][0].onTriggered(1.0f);
-
 	} catch (Exception e) {
-		engine.log(" updateShrubSettingException "+e);
+		engine.log(" runOneShotTriggerable Exception "+e);
 	}
 
   }
