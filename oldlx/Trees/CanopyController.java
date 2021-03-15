@@ -221,6 +221,7 @@ class CanopyController {
   			case "rain":
   			case "color-burst":	
   			case "fire":
+  				engine.interactiveHSVEffect.resetShrub(shrubId);
   				engine.interactiveFireEffect.onTriggeredShrub(shrubId);
   				break;
   			default:
