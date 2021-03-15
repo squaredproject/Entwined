@@ -86,7 +86,8 @@ abstract class Engine {
   final BrightnessScaleEffect masterBrightnessEffect;
 
   final CanopyController canopyController;
-  final InteractiveFilterEffect interactiveFilterEffect;
+  final InteractiveHSVEffect interactiveHSVEffect;
+  final InteractiveFireEffect interactiveFireEffect;
 
   // breadcrumb regarding channelTreeLevels and channelShrubLevels
   // these are controllers which should be used on a shrub-by-shrub basis to allow
@@ -167,9 +168,16 @@ abstract class Engine {
 
 
     // this special filter is used by Canopy
-    interactiveFilterEffect = new InteractiveFilterEffect(lx);
-    lx.addEffect(interactiveFilterEffect); /* want this one "on top" of everything else... is it? */
-    interactiveFilterEffect.enable();
+    interactiveHSVEffect = new InteractiveHSVEffect(lx);
+    lx.addEffect(interactiveHSVEffect); /* want this one "on top" of everything else... is it? */
+    interactiveHSVEffect.enable();
+    // this fire effect, going to make it more generic, but make it work at all now
+    interactiveFireEffect = new InteractiveFireEffect(lx);
+    Effect[] fireEffects = interactiveFireEffect.getEffects();
+    for (Effect effect : fireEffects) {
+      lx.addEffect(effect);
+      effect.enable();
+    }
 
     // must be after creation of the filter effect(s) used
     canopyController = new CanopyController(this);

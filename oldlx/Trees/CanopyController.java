@@ -62,8 +62,7 @@ class CanopyController {
   Thread  canopyThread;
   Socket socket;
 
-  final Engine engine; // gives us access to the InteractiveFilter
-  final InteractiveFilterEffect interactiveFilterEffect;
+  final Engine engine; // gives us access to the InteractiveEffects
 
   CanopyController(Engine engine) {
 
@@ -73,7 +72,6 @@ class CanopyController {
   	}
 
   	this.engine = engine;
-  	this.interactiveFilterEffect = engine.interactiveFilterEffect;
 
   	canopyRunnable = new Runnable() {
 
@@ -131,8 +129,12 @@ class CanopyController {
 		    socket.on("updateShrubSetting", new Emitter.Listener() {
 		    	@Override
 		    	public void call(Object... args) {
-		    		//log(" updateShrubSetting from Canopy: argslen "+args.length);
-		    		updateShrubSetting((JSONObject) args[0]);
+		    		try {
+			    		//log(" updateShrubSetting from Canopy: argslen "+args.length);
+			    		updateShrubSetting((JSONObject) args[0]);
+			    	} catch (Exception e) {
+			    		log(" updateShrubSetting threw error "+e);
+			    	}
 		    	}
 		    });
 
@@ -140,9 +142,11 @@ class CanopyController {
 		    	@Override
 		    	public void call(Object... args) {
 		    		log(" runOneShotTriggerable from Canopy ");
-		    		for (Object o : args) {
-		   				log(o.toString());
-		   			}
+		    		try {
+		    			runOneShotTriggerable((JSONObject)args[0]);
+		    		} catch (Exception e) {
+		    			log(" run one shot triggerable threw "+e);
+		    		}
 		    	}
 		    });
 
@@ -171,11 +175,7 @@ class CanopyController {
 		    	@Override
 		   		public void call(Object... args) {
 		   			log(" socket connect error of unknown type, will disable current effects and immediately try reconnect ");
-		   			interactiveFilterEffect.resetAll();
 		   			socket.connect();
-		   			for (Object o : args) {
-		   				log(o.toString());
-		   			}
 		   		}
 		    });
 
@@ -197,6 +197,44 @@ class CanopyController {
 
   }
 
+  void onSocketConnectError() {
+  		engine.interactiveHSVEffect.resetAll();
+  }
+
+  void runOneShotTriggerable(JSONObject o) {
+
+  	engine.log("RunOneShot: object "+o);
+
+  	try {
+	  	int shrubId = o.getInt("shrubId");
+
+	  	if (! o.has("triggerableName")) {
+	  		engine.log("triggerable has no name");
+	  		return;
+	  	}
+
+  		String triggerName = o.getString("triggerableName");
+
+  		switch (triggerName) {
+  			case "lightning":  		
+  			case "bass-slam":
+  			case "rain":
+  			case "color-burst":	
+  				engine.interactiveFireEffect.onTriggeredShrub(shrubId);
+  				break;
+  			default:
+  				engine.log("unknown trigger name "+triggerName);
+  				break;
+  		}
+  		engine.apc40DrumpadTriggerables[4][0].onTriggered(1.0f);
+
+	} catch (Exception e) {
+		engine.log(" updateShrubSettingException "+e);
+	}
+
+  }
+
+
   void updateShrubSetting(JSONObject o) {
 
   	engine.log("UpdateShrubSetting: object "+o);
@@ -207,24 +245,24 @@ class CanopyController {
 	  	if (o.has("hueSet")) {
 	  		int hue = o.getInt("hueSet");
 	  		//engine.log(" going to set hue to "+hue+" for shrub "+shrubId);
-	  		interactiveFilterEffect.setShrubHueSet(shrubId,(float)hue);
+	  		engine.interactiveHSVEffect.setShrubHueSet(shrubId,(float)hue);
 	  	}
 
 	  	if (o.has("hueShift")) {
 	  		int hue = o.getInt("hueShift");
 	  		//engine.log(" going to set hue to "+hue+" for shrub "+shrubId);
-	  		interactiveFilterEffect.setShrubHueShift(shrubId,(float)hue);
+	  		engine.interactiveHSVEffect.setShrubHueShift(shrubId,(float)hue);
 	  	}
 
 	  	if (o.has("brightness")) {
 	  		int b = o.getInt("brightness");
 	  		//engine.log(" going to set hue to "+hue+" for shrub "+shrubId);
-	  		interactiveFilterEffect.setShrubBrightness(shrubId,(float)b);
+	  		engine.interactiveHSVEffect.setShrubBrightness(shrubId,(float)b);
 	  	}
 	  	if (o.has("saturation")) {
 	  		int s = o.getInt("saturation");
 	  		//engine.log(" going to set hue to "+hue+" for shrub "+shrubId);
-	  		interactiveFilterEffect.setShrubSaturation(shrubId,(float)s);
+	  		engine.interactiveHSVEffect.setShrubSaturation(shrubId,(float)s);
 	  	}
 	} catch (Exception e) {
 		engine.log(" updateShrubSettingException "+e);
@@ -238,7 +276,7 @@ class CanopyController {
   	try {
 	  	int shrubId = o.getInt("shrubId");
 
-	  	interactiveFilterEffect.resetShrub(shrubId);
+	  	engine.interactiveHSVEffect.resetShrub(shrubId);
 
 	} catch (Exception e) {
 		engine.log(" stopShrubInteraction(JSON): Exception "+e);
@@ -252,7 +290,7 @@ class CanopyController {
   	try {
 	  	int shrubId = Integer.parseInt(s);
 
-	  	interactiveFilterEffect.resetShrub(shrubId);
+	  	engine.interactiveHSVEffect.resetShrub(shrubId);
 
 	} catch (Exception e) {
 		engine.log(" stopShrubInteraction(String): Exception "+e);
