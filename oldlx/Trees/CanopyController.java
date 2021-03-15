@@ -220,6 +220,7 @@ class CanopyController {
   			case "bass-slam":
   			case "rain":
   			case "color-burst":	
+  			case "fire":
   				engine.interactiveFireEffect.onTriggeredShrub(shrubId);
   				break;
   			default:
