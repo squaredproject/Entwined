@@ -168,18 +168,29 @@ class CanopyController {
 		   			// This kind of disconnect is the underlying socket that shouldn't lose
 		   			// messages, so we're not going to disable until we see a connect
 		   			// error (below)
-					//interactiveFilterEffect.resetAll();
-		   			//for (Object o : args) {
-		   			//	System.out.println(o);
-		   			//}
+		   			try {
+			   			for (Object o : args) {
+			   				log("SocketEventDisconnectArgs: "+o.toString() );
+			   			}
+			   		} catch (Exception e) {
+			   			log("EventDisconnect: Exception: "+e);
+			   		}
 		   		}
 		    });
 
 		    socket.on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
 		    	@Override
 		   		public void call(Object... args) {
-		   			log(" socket connect error of unknown type, will disable current effects and immediately try reconnect ");
-		   			socket.connect();
+		   			try {
+			   			log(" socket connect error of unknown type, will disable current effects and immediately try reconnect ");
+			   			for (Object o : args) {
+			   				log("ConnectErrorArgs: "+o.toString() );
+			   			}
+			   			onSocketConnectError();
+			   			socket.connect();
+			   		} catch (Exception e) {
+			   			log("EventConnectError: Exception: "+e);
+			   		}
 		   		}
 		    });
 
