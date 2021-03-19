@@ -257,6 +257,18 @@ abstract class Engine {
     registerPatternController("ShrubRiver", new ShrubRiver(lx));
     registerPatternController("ColorBlast", new ColorBlast(lx));
     registerPatternController("Vertigo", new Vertigo(lx));
+    
+    // Adam Croston and Katie Ballinger's patterns.
+    registerPatternController("ExpandingCircles", new ExpandingCircles(lx));
+    registerPatternController("SpiralArms", new SpiralArms(lx));
+    registerPatternController("Sparks", new Sparks(lx));
+    registerPatternController("Blooms", new Blooms(lx));
+    registerPatternController("MovingPoint", new MovingPoint(lx));
+    registerPatternController("WavesToMainTree", new WavesToMainTree(lx));
+    registerPatternController("Undulation", new Undulation(lx));
+    registerPatternController("HueRibbons", new HueRibbons(lx));
+    registerPatternController("VerticalColorWaves", new VerticalColorWaves(lx));
+    registerPatternController("FlockingPoints", new FlockingPoints(lx));
 
     // Evy's patterns
     registerPatternController("CircleBreath", new CircleBreath(lx));
@@ -413,6 +425,19 @@ abstract class Engine {
     patterns.add(new ShrubRiver(lx));
     patterns.add(new ColorBlast(lx));
     patterns.add(new Vertigo(lx));
+    
+    // Adam Croston and Katie Ballinger's patterns.
+    //patterns.add(new BasicMagic(lx));
+    patterns.add(new ExpandingCircles(lx));
+    patterns.add(new SpiralArms(lx));
+    patterns.add(new Sparks(lx));
+    patterns.add(new Blooms(lx));
+    patterns.add(new MovingPoint(lx));
+    patterns.add(new WavesToMainTree(lx));
+    patterns.add(new Undulation(lx));
+    patterns.add(new HueRibbons(lx));
+    patterns.add(new VerticalColorWaves(lx));
+    patterns.add(new FlockingPoints(lx));
 
     // Test patterns
     patterns.add(new ClusterLineTest(lx));
