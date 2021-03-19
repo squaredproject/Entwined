@@ -53,11 +53,11 @@ import org.json.JSONObject;
 // or you receve events with socket.on("eventType", new Emitter.Listener() ...
 // that's it. According to the "contract", if an event is emitted while disconnected,
 // they will be buffered. Problably, from Canopy to Lx, we should probably have a timestamp
-// that we can discard if too old
+// that we can discard if too old or out of order, but socket.io is supposed to help us
 
 class CanopyController {
 
-  boolean enabled = false;
+  boolean enabled = false; // not that we're really using this, but I feel better
   Runnable canopyRunnable;
   Thread  canopyThread;
   Socket socket;
@@ -72,6 +72,7 @@ class CanopyController {
   		enabled = false;
   		return;
   	}
+  	enabled = true;
 
   	canopyRunnable = new Runnable() {
 
@@ -320,6 +321,8 @@ class CanopyController {
 
   public void 
   modelUpdate(boolean interactive, int runSeconds, int pauseSeconds, String state, ZonedDateTime nextTransition) {
+
+  	if (!enabled) return;
 
   	// convert date to something pleasant
   	// THIS IS PROBABLY WRONG because it won't have timezone (Z).
