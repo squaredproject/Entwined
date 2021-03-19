@@ -16,9 +16,9 @@ final class Config {
   static final double pauseFadeOutSeconds = 5.0;
 
   // the interaction server. Set to null to disable.
-  //static final String canopyServer = "";
+  static final String canopyServer = "";
   //static final String canopyServer = "http://localhost:3000/lx";
-  static final String canopyServer = "https://entwined-api.charliestigler.com/lx";
+  //static final String canopyServer = "https://entwined-api.charliestigler.com/lx";
 
   static final String NDB_CONFIG_FILE = "data/entwinedNDBs.json";
   static final String CUBE_CONFIG_FILE = "data/entwinedCubes.json";
