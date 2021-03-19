@@ -63,8 +63,6 @@ class InteractiveHSVEffect extends Effect {
   InteractiveHSVEffect(LX lx) {
     super(lx);
 
-    System.out.println("InteractiveHSVEffect constructor");
-
     hueSet = new BasicParameter[nShrubs];
     hueSetAmount = new BasicParameter[nShrubs];
     hueShift = new BasicParameter[nShrubs];
@@ -126,7 +124,7 @@ class InteractiveHSVEffect extends Effect {
 
     // test: output should be within the limit distance of dst
     if ( absdist360(r, dst) > limitDeg ) {
-      System.out.println("hueBlendFail: src "+src+" dst "+dst+" res "+r+" limit "+limitDeg);
+      System.out.println("InteractiveHSVBlendFail: src "+src+" dst "+dst+" res "+r+" limit "+limitDeg);
     }
 
     return(r);
@@ -185,7 +183,7 @@ class InteractiveHSVEffect extends Effect {
 
   // set all parameters to values that say nothing 
   public void resetAll() {
-    System.out.println(" disable all shrub ");
+    //System.out.println(" disable all shrub ");
     for (int i=0;i<hueSet.length;i++) {
       resetShrub(i);
     }
@@ -281,7 +279,7 @@ class InteractiveFireEffect {
   
   InteractiveFireEffect(LX lx) {
 
-    System.out.println("InteractiveFireEffect constructor");
+    //System.out.println("InteractiveFireEffect constructor");
     shrubFires = new InteractiveFire[nShrubs];
     for (int i=0;i<nShrubs;i++) {
       shrubFires[i] = new InteractiveFire(lx, TreeOrShrub.SHRUB, i); 

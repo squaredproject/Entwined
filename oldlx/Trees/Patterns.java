@@ -433,7 +433,7 @@ class HueFilterEffect extends Effect {
 
     // test: output should be within the limit distance of dst
     if ( absdist360(r, dst) > limitDeg ) {
-      System.out.println("hueBlendFail: src "+src+" dst "+dst+" res "+r+" limit "+limitDeg);
+      System.out.println("HueFilterEffect: hueBlendFail: src "+src+" dst "+dst+" res "+r+" limit "+limitDeg);
     }
 
     return(r);
