@@ -377,6 +377,7 @@ class ColorEffect extends Effect {
 // Second: let's try having an "angle" (like 15 degrees) and everything outside that gets nailed to the hue in that range
 // artist seems OK with the concept of "hue" and "angle", which gives us two real controls.
 // We want DEG to be "transparent" at 0, and most at 180 (which is kinda backward)
+// Author: Brian Bulkowski 2021 brian@bulkowsk.org
 
 class HueFilterEffect extends Effect {
   
@@ -389,23 +390,6 @@ class HueFilterEffect extends Effect {
     super(lx);
     addParameter(hueFilter);
     addParameter(amount);
-  }
-
-  // quick bit of math: interpolate on the hue circle
-  // there should be a Util for this but I don't see it, easy enough to code up
-  // note: this didn't look great, because there were still too many pixels outside
-  // what seemsed reasonable. Linear is not ok....
-  static float lerp360(float src, float dst, float amt) {
-    float r;
-      if (dst - src < 180.0) {
-        r = (( dst - src ) * amt) + src;
-      }
-      else {
-        src += 360.0;
-        r = (( dst - src ) * amt) + src;
-        if (r > 360.0) r -= 360.0;
-      }
-      return(r);
   }
 
   static float norm360(float i) {
@@ -471,6 +455,8 @@ class HueFilterEffect extends Effect {
     }
   }
 }
+
+
 
 class TestShrubSweep extends TSPattern {
     
