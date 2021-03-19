@@ -66,12 +66,12 @@ class CanopyController {
 
   CanopyController(Engine engine) {
 
+  	this.engine = engine;
+
   	if (Config.canopyServer == "") {
   		enabled = false;
   		return;
   	}
-
-  	this.engine = engine;
 
   	canopyRunnable = new Runnable() {
 
