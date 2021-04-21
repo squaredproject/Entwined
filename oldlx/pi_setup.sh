@@ -77,7 +77,7 @@ sudo cp dnsmasq.conf /etc/dnsmasq.conf
 echo -e "********** editing /etc/dhcpcd.conf *****************"
 sudo cp  /etc/dhcpcd.conf /etc/dhcpcd.conf.bak
 echo "interface wlan1" >> /etc/dhcpcd.conf
-echo "\t static ip_address=192.168.4.1/24" >> /etc/dhcpcd.conf
+echo "\t static ip_address=192.168.4.10/24" >> /etc/dhcpcd.conf
 echo "\t nohook wpa_supplicant" >> /etc/dhcpcd.conf
 
 echo "\n\ninterface eth0" >> /etc/dhcpcd.conf
@@ -107,7 +107,7 @@ sudo sed -i 's/exit 0/iptables-restore < \/etc\/iptables.ipv4.nat/' /etc/rc.loca
 
 ### enable ssh
 echo -e "*********** enabling ssh access  **************"
-sudo apt-get install openssh-server
+sudo apt-get --assume-yes install openssh-server
 sudo systemctl enable ssh
 
 ### enable Avahi mDNS so you can access the pi as rasberry.local on mac machines
@@ -120,14 +120,38 @@ sudo sed -i 's/^#host-name.*$/host-name=pi/' /etc/avahi/avahi-daemon.conf
 sudo systemctl enable avahi-daemon
 sudo systemctl restart avahi-daemon
 
-./wifi.sh
+echo -e "*********** Latest hostapd setup **************"
+
+# https://www.raspberrypi.org/documentation/configuration/wireless/access-point-routed.md
+
+
+## install hostapd & others
+sudo apt install hostapd
+sudo apt install dnsmasq
+
+sudo DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
+
+## enable hostapd
+sudo systemctl unmask hostapd
+sudo systemctl enable hostapd
+
+## define wlan1 wireless interface
+cat wlan1.conf >> /etc/dhcpcd.conf
+
+## enable routing
+sudo cp routed-ap.conf /etc/sysctl.d/
+sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+sudo netfilter-persistent save
+
+sudo cp dnsmasq.conf /etc/
+
+## ensure wireless operation
+sudo rfkill unblock wlan
+sudo cp ./hostapd.conf /etc/hostapd/
 
 echo -e "*********** Done with hostapd **************"
 
-
-
-
- 
+## reboot all services
 ### for some reason, networking doesn't work until you reboot
 echo -e "*********** Rebooting to clean network configution issues *************"
 sleep 2
@@ -136,3 +160,4 @@ sleep 2
 echo -e "*********** Rebooting to clean network configution issues *************"
 sleep 4
 sudo reboot
+
