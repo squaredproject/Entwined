@@ -116,7 +116,7 @@ sudo systemctl enable ssh
 ### SO SET THE HOSTNAME TO odroid.local (even though this is a rasberry pi)
 echo -e "*********** enabling Avahi mDNS  **************"
 sudo apt-get install avahi-daemon
-sudo sed -i 's/^#host-name.*$/host-name=odroid/' /etc/avahi/avahi-daemon.conf
+sudo sed -i 's/^#host-name.*$/host-name=pi/' /etc/avahi/avahi-daemon.conf
 sudo systemctl enable avahi-daemon
 sudo systemctl restart avahi-daemon
 
