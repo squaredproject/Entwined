@@ -120,7 +120,13 @@ sudo sed -i 's/^#host-name.*$/host-name=pi/' /etc/avahi/avahi-daemon.conf
 sudo systemctl enable avahi-daemon
 sudo systemctl restart avahi-daemon
 
+./wifi.sh
+
 echo -e "*********** Done with hostapd **************"
+
+
+
+
  
 ### for some reason, networking doesn't work until you reboot
 echo -e "*********** Rebooting to clean network configution issues *************"
