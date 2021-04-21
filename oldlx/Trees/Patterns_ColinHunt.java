@@ -163,87 +163,563 @@ class Breath extends TSPattern {
 }
 
 /**
-Watch the change of seasons
+Blips go up
 */
-class Seasons extends TSPattern {
-    boolean isSpring = true;
-    boolean isFall = false;
-    float changeSpeed = 100;
-    float brightness = 0;
-    float springHue = 120;
-    double seasonLength = 0;
+class BleepBloop extends TSPattern {
+  private List<Blip> blips = new ArrayList<Blip>();
 
-    // float[] leafColors = new float[model.baseCubes.size()];
-    //
-    // for (int i = 0; i > leafColors.size(); i++) {
-    //   leafColors[i] = (float)Math.random(90, 150);
-    // }
+  SimplexNoise noize = new SimplexNoise();
+  float xOff = 0;
+  float zOff = 0;
+  float a = 0;
+  float hue1 = (float)Math.random() * 360.0f;
+  float hue2 = (hue1 + 100.0f) % 360.0f;
 
-    Seasons(LX lx) {
-      super(lx);
+  BleepBloop(LX lx) {
+    super(lx);
+
+    // for every shrub, add a Blip
+    for (Shrub shrub : model.shrubs) {
+      blips.add(new Blip(false, shrub.index));
+    }
+    //System.out.println("BleepBLoop: hue 1 " +  hue1 + " hue 2 " + hue2);
+  }
+
+
+
+  public void run(double deltaMs) {
+
+    a += .01;
+    hue1 = (hue1 + .05f) % 360.0f;
+    hue2 = (hue2 + .05f) % 360.0f;
+
+    xOff = (float)Math.cos(a);
+    zOff = (float)Math.sin(a);
+      for (ShrubCube cube : model.shrubCubes) {
+        colors[cube.index] = lx.hsb(blips.get(cube.sculptureIndex).getHue(), blips.get(cube.sculptureIndex).getSat(cube.x, cube.y, cube.z, a), blips.get(cube.sculptureIndex).getBrightness(cube.x, cube.y, cube.z, a));
+      }
+
+      for (Blip blip : blips) {
+        blip.update(deltaMs);
+      }
+
+      if (a > Utils.TWO_PI) {
+        a = 0;
+      }
+  }
+
+
+  private class Blip {
+    float height;
+    float hue;
+    //static final float baseHue;
+    float speed;
+    float tailLen;
+    boolean isOn;
+    boolean isTree;
+    int sculptureIdx;
+
+    Blip(boolean TorS, int _idx) {
+      height = 0;
+      if (Math.random() < .70) {
+        hue = hue1;
+      } else {
+        hue = hue2;
+      }
+      speed = 1 + (9 * (float)Math.random());
+      tailLen = 100;
+      isOn = false;
+      isTree = TorS;
+      sculptureIdx = _idx;
+
+      if (Math.random() < .01) {
+        isOn = true;
+      }
     }
 
-    public void run(double deltaMs) {
+    private float getHue() {
+      if (!isOn) {return 0;}
 
-      if (getChannel().getFader().getNormalized() == 0) return;
+      return hue;
+    }
 
-      seasonLength += deltaMs;
+    private float getSat(float x, float y, float z, float _a) {
+      if (!isOn) {return 0;}
 
-      if (isSpring) {
-          brightness = Math.min( (brightness + (float)deltaMs / changeSpeed), 100);
+      if (height - y < 0 || height - y > tailLen) {return 100;}
 
-          for (BaseCube cube : model.baseCubes) {
-            colors[cube.index] = lx.hsb(120, 100, brightness);
+      // set saturation
+      float toReturn = (100/tailLen) * (height-y) + 15;
+
+      // add simplex sparkle
+      toReturn = toReturn + ((float)noize.noise(x + xOff, z + zOff) * 50.0f);
+
+      // constrin and return
+      toReturn = Math.max(Math.min(toReturn, 100), 0);
+      return toReturn;
+    }
+
+    private float getBrightness(float x, float y, float z, float _a) {
+      if (!isOn) {return 0;}
+
+      // get rid of edge cases first, Dist > tail or < 0, THEN do the math
+      if (height - y < 0 || height - y > tailLen) {return 0;}
+
+      // get brightness
+      float toReturn = -(100/tailLen) * (height-y) + 100;
+
+      // add simplex sparkle
+      toReturn = toReturn + Math.abs(((float)noize.noise(x + xOff, z + zOff) * 30.0f));
+
+      // constrin and return
+      toReturn = Math.max(Math.min(toReturn, 100), 0);
+      return toReturn;
+
+
+    }
+
+    private void update(double _deltaMs) {
+      if (isOn) { // on
+        height += (((float)_deltaMs)/50) * speed;
+
+        if (height >= tailLen * 2) {
+          isOn = false;
+          height = 0;
+          speed = 1 + (9 * (float)Math.random());
+          if (Math.random() < .70) {
+            hue = hue1;
+          } else {
+            hue = hue2;
           }
-        } else if (isFall) {
-
+        }
+      } else { // off
+        // stagger the turn Ons here
+        if (Math.random() < .01) {
+          isOn = true;
         }
       }
+    }
+  }
 }
+
+/**
+Blips go up
+*/
+class Bloop extends TSPattern {
+  private List<Blip> blips = new ArrayList<Blip>();
+
+  SimplexNoise noize = new SimplexNoise();
+  float xOff = 0;
+  float zOff = 0;
+  float a = 0;
+  float hue1 = (float)Math.random() * 360.0f;
+  float hue2 = (hue1 + 100.0f) % 360.0f;
+
+  Bloop(LX lx) {
+    super(lx);
+
+    // for every shrub, add a Blip
+    for (Shrub shrub : model.shrubs) {
+      blips.add(new Blip(false, shrub.index));
+    }
+    // System.out.println("Bloop: hue 1 " +  hue1 + " hue 2 " + hue2);
+  }
+
+
+
+  public void run(double deltaMs) {
+
+    a += .01;
+    hue1 = (hue1 + .05f) % 360.0f;
+    hue2 = (hue2 + .05f) % 360.0f;
+
+    xOff = (float)Math.cos(a);
+    zOff = (float)Math.sin(a);
+      for (ShrubCube cube : model.shrubCubes) {
+        colors[cube.index] = lx.hsb(blips.get(cube.sculptureIndex).getHue(), blips.get(cube.sculptureIndex).getSat(cube.x, cube.y, cube.z, a), blips.get(cube.sculptureIndex).getBrightness(cube.x, cube.y, cube.z, a));
+      }
+
+      for (Blip blip : blips) {
+        blip.update(deltaMs);
+      }
+
+      if (a > Utils.TWO_PI) {
+        a = 0;
+      }
+  }
+
+
+  private class Blip {
+    float height;
+    float hue;
+    //static final float baseHue;
+    float speed;
+    float tailLen;
+    boolean isOn;
+    boolean isTree;
+    int sculptureIdx;
+
+    Blip(boolean TorS, int _idx) {
+      height = 0;
+      if (Math.random() < .70) {
+        hue = hue1;
+      } else {
+        hue = hue2;
+      }
+      speed = 1 + (9 * (float)Math.random());
+      tailLen = 100;
+      isOn = false;
+      isTree = TorS;
+      sculptureIdx = _idx;
+
+      if (Math.random() < .01) {
+        isOn = true;
+      }
+    }
+
+    private float getHue() {
+      if (!isOn) {return 0;}
+
+      return hue;
+    }
+
+    private float getSat(float x, float y, float z, float _a) {
+      if (!isOn) {return 0;}
+
+      if (height - y < 0 || height - y > tailLen) {return 100;}
+
+      // set saturation
+      float toReturn = (100/tailLen) * (height-y) + 15;
+
+      // add simplex sparkle
+      toReturn = toReturn + ((float)noize.noise(x + xOff, z + zOff) * 50.0f);
+
+      // constrin and return
+      toReturn = Math.max(Math.min(toReturn, 100), 0);
+      return toReturn;
+    }
+
+    private float getBrightness(float x, float y, float z, float _a) {
+      if (!isOn) {return 0;}
+
+      // get rid of edge cases first, Dist > tail or < 0, THEN do the math
+      if (height - y < 0 || height - y > tailLen) {return 0;}
+
+      // get brightness
+      float toReturn = -(100/tailLen) * (height-y) + 100;
+
+      // add simplex sparkle
+      toReturn = toReturn + Math.abs(((float)noize.noise(x + xOff, z + zOff) * 30.0f));
+
+      // constrin and return
+      toReturn = Math.max(Math.min(toReturn, 100), 0);
+      return toReturn;
+
+
+    }
+
+    private void update(double _deltaMs) {
+      if (isOn) { // on
+        height += (((float)_deltaMs)/50) * speed;
+
+        if (height >= tailLen * 2) {
+          isOn = false;
+          height = 0;
+          speed = 1 + (9 * (float)Math.random());
+          if (Math.random() < .850) {
+            hue = hue1;
+          } else {
+            hue = hue2;
+          }
+        }
+      } else {
+          isOn = true;
+      }
+    }
+  }
+}
+
+/**
+Blips go up
+*/
+class UpNDown extends TSPattern {
+  private List<Blip> blips = new ArrayList<Blip>();
+
+  SimplexNoise noize = new SimplexNoise();
+  float xOff = 0;
+  float zOff = 0;
+  float a = 0;
+  float hue1 = (float)Math.random() * 360.0f;
+  float hue2 = (hue1 + 100.0f) % 360.0f;
+
+  UpNDown(LX lx) {
+    super(lx);
+
+    // for every shrub, add a Blip
+    for (Shrub shrub : model.shrubs) {
+      blips.add(new Blip(false, shrub.index));
+    }
+    // System.out.println("UpNDown: hue 1 " +  hue1 + " hue 2 " + hue2);
+  }
+
+
+
+  public void run(double deltaMs) {
+
+    a += .01;
+    hue1 = (hue1 + .05f) % 360.0f;
+    hue2 = (hue2 + .05f) % 360.0f;
+
+    xOff = (float)Math.cos(a);
+    zOff = (float)Math.sin(a);
+      for (ShrubCube cube : model.shrubCubes) {
+        colors[cube.index] = lx.hsb(blips.get(cube.sculptureIndex).getHue(), blips.get(cube.sculptureIndex).getSat(cube.x, cube.y, cube.z, a), blips.get(cube.sculptureIndex).getBrightness(cube.x, cube.y, cube.z, a));
+      }
+
+      for (Blip blip : blips) {
+        blip.update(deltaMs);
+      }
+
+      if (a > Utils.TWO_PI) {
+        a = 0;
+      }
+  }
+
+
+  private class Blip {
+    float height;
+    float hue;
+    //static final float baseHue;
+    float speed;
+    float tailLen;
+    boolean isOn;
+    boolean isTree;
+    int sculptureIdx;
+
+    Blip(boolean TorS, int _idx) {
+      height = 0;
+      if (Math.random() < .70) {
+        hue = hue1;
+      } else {
+        hue = hue2;
+      }
+      speed = 1 + (9 * (float)Math.random());
+      tailLen = 100;
+      isOn = false;
+      isTree = TorS;
+      sculptureIdx = _idx;
+
+      if (Math.random() < .01) {
+        isOn = true;
+      }
+    }
+
+    private float getHue() {
+      if (!isOn) {return 0;}
+
+      return hue;
+    }
+
+    private float getSat(float x, float y, float z, float _a) {
+      if (!isOn) {return 0;}
+
+      if (height - y < 0 || height - y > tailLen) {return 100;}
+
+      // set saturation
+      float toReturn = (100/tailLen) * (height-y) + 15;
+
+      // add simplex sparkle
+      toReturn = toReturn + ((float)noize.noise(x + xOff, z + zOff) * 50.0f);
+
+      // constrin and return
+      toReturn = Math.max(Math.min(toReturn, 100), 0);
+      return toReturn;
+    }
+
+    private float getBrightness(float x, float y, float z, float _a) {
+      if (!isOn) {return 0;}
+
+      // get rid of edge cases first, Dist > tail or < 0, THEN do the math
+      if (height - y < 0 || height - y > tailLen) {return 0;}
+
+      // get brightness
+      float toReturn = -(100/tailLen) * (height-y) + 100;
+
+      // add simplex sparkle
+      toReturn = toReturn + Math.abs(((float)noize.noise(x + xOff, z + zOff) * 30.0f));
+
+      // constrin and return
+      toReturn = Math.max(Math.min(toReturn, 100), 0);
+      return toReturn;
+
+
+    }
+
+    private void update(double _deltaMs) {
+      if (isOn) { // on
+        height += (((float)_deltaMs)/50) * speed;
+
+        if (height >= tailLen * 2) {
+          isOn = false;
+          height = 0;
+          speed = 1 + (9 * (float)Math.random());
+          if (Math.random() < .850) {
+            hue = hue1;
+          } else {
+            hue = hue2;
+          }
+        }
+      } else {
+          isOn = true;
+      }
+    }
+  }
+}
+
+
 
 /**
 Star twinkle using Simplex Noise
 */
 class SimplexSparkle extends TSPattern {
-    SimplexNoise noize = new SimplexNoise();
-    float xOff = 0;
-    float zOff = 0;
+  SimplexNoise noize = new SimplexNoise();
+  float xHueOff = 0;
+  float zHueOff = 0;
+  float xSatOff = 0;
+  float zSatOff = 0;
+  float xBrightOff = 0;
+  float zBrightOff = 0;
+  float aH = 0;
+  float aS = 0;
+  float aB = 0;
 
-    SimplexSparkle(LX lx) {
-      super(lx);
-    }
+  float hue = 230;
+
+  SimplexSparkle(LX lx) {
+    super(lx);
+
+  }
+
+  public void run(double deltaMs) {
+      aH += .01;
+      aB += .003;
+      aS += .0065;
+      hue += .1;
+      // xOff = (float)Math.cos(a);
+      // zOff = (float)Math.sin(a);
+      xHueOff = (float)Math.cos(aH);
+      zHueOff = (float)Math.sin(aH);
+      xSatOff = (float)Math.cos(aS);
+      zSatOff = (float)Math.sin(aS);
+      xBrightOff = (float)Math.cos(aB);
+      zBrightOff = (float)Math.sin(aB);
 
 
-    public void run(double deltaMs) {
-        if (getChannel().getFader().getNormalized() == 0) return;
+      // Use a for loop here to set the cube colors
+      for (BaseCube cube : model.baseCubes) {
+        colors[cube.index] = lx.hsb(getHue(cube.x, cube.z), getSat(cube.x, cube.z), getBright(cube.x, cube.z));
+      }
 
-        xOff += (deltaMs / 5000);
-        zOff +=(deltaMs / 5000);
-        // Use a for loop here to set the cube colors
-        for (BaseCube cube : model.baseCubes) {
-          colors[cube.index] = lx.hsb(getHue(cube.x, cube.z, xOff, zOff), 100, getBrightness(cube.x, cube.z, xOff, zOff));
-        }
-    }
+      if (hue >= 360) {
+        hue = 0;
+      }
+      if (aS > Utils.TWO_PI) {
+        aS = 0;
+      }
+      if (aB > Utils.TWO_PI) {
+        aB = 0;
+      }
+  }
 
-    private float getHue(float _x, float _z, float _xOff, float _zOff) {
-        int toReturnHue;
+  public float getHue(float cx, float cz) {
+    // Calculate
+    float toReturn = hue + (float)noize.noise(cx + xHueOff, cz + zHueOff) * 45;
 
-        toReturnHue = (int)Math.abs(noize.noise(_x + _xOff, _z + _zOff) * 360);
+    // Constrain
+    toReturn = hue % 360;
 
-        return toReturnHue;
-    }
+    // return
+    return toReturn;
 
-    private float getBrightness(float _x, float _z, float _xOff, float _zOff) {
-        int toReturn;
+  }
 
-        toReturn = (int)Math.abs(noize.noise(_x + _xOff, _z + _zOff) * 50) + 75;
+  public float getSat(float cx, float cz) {
 
-        return toReturn;
-    }
+    // Calculate
+    float toReturn = 50 +  (float)noize.noise(cx + xSatOff, cz + zSatOff) * 100;
+
+    // Constrain
+    toReturn = Math.min(Math.max(toReturn, 0), 100);
+
+    // return
+    return toReturn;
+  }
+
+  public float getBright(float cx, float cz) {
+
+    // Calculate
+    float toReturn = 50 +  (float)noize.noise(cx + xBrightOff, cz + zBrightOff) * 100;
+
+    // Constrain
+    toReturn = Math.min(Math.max(toReturn, 0), 100);
+
+    // return
+    return toReturn;
+  }
 
 }
 
 
+
+class PartyRings extends TSPattern {
+
+  private List<RingStack> ringStacks = new ArrayList<RingStack>();
+
+  PartyRings(LX lx) {
+    super(lx);
+    for (Shrub shrub : model.shrubs) {
+      ringStacks.add(new RingStack());
+    }
+
+  }
+
+
+  public void run(double deltaMs) {
+
+    for (ShrubCube cube : model.shrubCubes) {
+      colors[cube.index] = lx.hsb(ringStacks.get(cube.sculptureIndex).getHue(cube.config.rodIndex), 100, ringStacks.get(cube.sculptureIndex).getBright(cube.theta, cube.config.rodIndex));
+    }
+
+
+  }
+
+  private class RingStack {
+
+    float origin[] = new float[5];
+    float head[] = new float[5];
+    float hues[] = new float[5];
+
+    RingStack () {
+      for (int i = 0; i < 5; i++) {
+        origin[i] = (float)Math.random() * 360;
+        head[i] = origin[i];
+        hues[i] = (float)Math.random() * 30 + 120;
+      }
+    }
+
+    private float getHue(int rodPosition) {
+      return hues[rodPosition - 1];
+    }
+
+    private float getSat(int rodPosition) {
+      return 100;
+    }
+
+    private float getBright(float theta, int rodPosition) {
+      return ((float)Math.abs((theta - head[rodPosition - 1]) / 180.0f)) * 100.0f;
+    }
+  }
+}
 
 
 // Holiday Patterns
@@ -340,7 +816,7 @@ class Peppermint extends TSPattern {
   // This is the pattern loop, which will run continuously via LX
   public void run(double deltaMs) {
     if (getChannel().getFader().getNormalized() == 0) return;
-    
+
       for (BaseCube baseCube : model.baseCubes) {
 
         if (((baseCube.theta + spinner.getValuef()
@@ -356,6 +832,90 @@ class Peppermint extends TSPattern {
       }
   }
 }
+
+
+class CottonCandy extends TSPattern {
+
+  // Variable Declarations go here
+  private float treex;
+  private float treez;
+
+  private Tree theTree;
+
+  final BasicParameter speed = new BasicParameter("Speed", 2500, 20000, 1000);
+  final BasicParameter swirlMult = new BasicParameter("Swirl", .5, 2, .1);
+  final SawLFO spinner = new SawLFO(0, 360, speed);
+
+  float hue = 0;
+
+  // Constructor
+  CottonCandy(LX lx) {
+    super(lx);
+
+    addModulator(spinner).start();
+    addParameter(speed);
+    addParameter(swirlMult);
+
+    theTree = model.trees.get(0);
+    treex = theTree.x;
+    treez = theTree.z;
+
+  }
+
+
+  // This is the pattern loop, which will run continuously via LX
+  public void run(double deltaMs) {
+    if (getChannel().getFader().getNormalized() == 0) return;
+
+      for (BaseCube baseCube : model.baseCubes) {
+
+        if (((baseCube.theta + spinner.getValuef()
+        // plus the further from the center, the more hue is added, giving a swirl effect
+        - baseCube.r / 2// * swirlMult.getValuef()
+        ) % 120) > 60) {
+          hue = 330;
+        } else {
+          hue = 180;
+        }
+
+        colors[baseCube.index] = lx.hsb(hue, 100.0f, 100.0f);
+      }
+  }
+}
+
+
+
+class PatternTemplate extends TSPattern {
+
+    // Variable declarations, parameters, and modulators go here
+    float minValue;
+    float maxValue;
+    float startValue;
+    float period;
+    final BasicParameter parameterName = new BasicParameter("parameterName", startValue, minValue, maxValue);
+    final SawLFO modulatorName = new SawLFO(minValue, maxValue, period);
+
+    // Constructor
+    PatternTemplate(LX lx) {
+      super(lx);
+
+      // Add any needed modulators or parameters here
+      addModulator(modulatorName).start();
+      addParameter(parameterName);
+
+    }
+
+
+    // This is the pattern loop, which will run continuously via LX
+    public void run(double deltaMs) {
+
+        // Use a for loop here to set the cube colors
+        for (BaseCube cube : model.baseCubes) {
+          colors[cube.index] = lx.hsb(cube.theta, 100, 100);
+        }
+    }
+  }
+
 
 /**
 * A template pattern to get ya started.
@@ -390,5 +950,36 @@ class PatternTemplate extends TSPattern {
         colors[cube.index] = lx.hsb( , , );
       }
   }
+}
+*/
+
+
+/* Working example of simplex noise for me because I am dumb
+class Simplex extends TSPattern {
+  SimplexNoise noize = new SimplexNoise();
+  float xOff = 0;
+  float zOff = 0;
+  float a = 0;
+
+  Simplex(LX lx) {
+    super(lx);
+
+  }
+
+  public void run(double deltaMs) {
+      a += .001;
+      xOff = (float)Math.cos(a);
+      zOff = (float)Math.sin(a);
+
+      // Use a for loop here to set the cube colors
+      for (BaseCube cube : model.baseCubes) {
+        colors[cube.index] = lx.hsb( Utils.map((float)noize.noise(cube.x + xOff, cube.z + zOff), -1, 1, 0, 360), 100, 100);
+      }
+
+      if (a > Utils.TWO_PI) {
+        a = 0;
+      }
+  }
+
 }
 */

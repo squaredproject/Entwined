@@ -85,6 +85,10 @@ abstract class Engine {
   final BasicParameterProxy outputBrightness = new BasicParameterProxy(1);
   final BrightnessScaleEffect masterBrightnessEffect;
 
+  final CanopyController canopyController;
+  final InteractiveHSVEffect interactiveHSVEffect;
+  final InteractiveFireEffect interactiveFireEffect;
+
   // breadcrumb regarding channelTreeLevels and channelShrubLevels
   // these are controllers which should be used on a shrub-by-shrub basis to allow
   // setting the overall output. There _were_ UI elements for this, but I'm taking them
@@ -104,7 +108,6 @@ abstract class Engine {
     shrubConfigs = loadShrubConfigFile();
     model = new Model(ndbConfig, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig);
 
-
     lx = createLX();
 
     // log that we are trying to start, even without a log
@@ -113,7 +116,6 @@ abstract class Engine {
     );
 
     lx.engine.addLoopTask(new FrameRateLogTask(lx.engine) );
-
 
 
     // this is the TCP channel
@@ -128,7 +130,6 @@ abstract class Engine {
     }
 
     configureChannels();
-
 
     configureTriggerables();
     lx.engine.addLoopTask(new ModelTransformTask(model));
@@ -166,6 +167,30 @@ abstract class Engine {
   	configureServer(); // turns on the TCP listener
 
 
+    // this special filter is used by Canopy
+    interactiveHSVEffect = new InteractiveHSVEffect(lx);
+    lx.addEffect(interactiveHSVEffect); /* want this one "on top" of everything else... is it? */
+    interactiveHSVEffect.enable();
+    // this fire effect, going to make it more generic, but make it work at all now
+    interactiveFireEffect = new InteractiveFireEffect(lx);
+    Effect[] fireEffects = interactiveFireEffect.getEffects();
+    for (Effect effect : fireEffects) {
+      lx.addEffect(effect);
+      effect.enable();
+    }
+
+    // must be after creation of the filter effect(s) used
+    canopyController = new CanopyController(this);
+
+
+    // tell the canopyController what it should be up to.
+    // this perhaps needs to move elsewhere, possibly to the constructor of canopy
+    // controller or the main init, unclear it should really be intermixed with EngineController
+    ZonedDateTime firstPause = ZonedDateTime.now();
+    firstPause.plusSeconds( (int) (Config.pauseRunMinutes * 60.0) );
+    canopyController.modelUpdate(true /*interactive*/, (int) (Config.pauseRunMinutes * 60.0f) /*runSeconds*/,
+      (int) (Config.pausePauseMinutes * 60.0f) /*pauseSeconds*/,"run" /*state*/,firstPause);
+
 
     // bad code I know
     // (shouldn't mess with engine internals)
@@ -197,6 +222,7 @@ abstract class Engine {
     registerPatternController("Ripple", new Ripple(lx));
     registerPatternController("Stripes", new Stripes(lx));
     registerPatternController("Lattice", new Lattice(lx));
+    registerPatternController("Leaves", new ColoredLeaves(lx));
 
     registerPatternController("Voronoi", new Voronoi(lx));
     registerPatternController("Parallax", new Parallax(lx));
@@ -234,18 +260,51 @@ abstract class Engine {
 
     registerPatternController("ColorWave", new ColorWave(lx));
     registerPatternController("Wedges", new Wedges(lx));
+    
+    // Lindsay
+    registerPatternController("SparkleWave", new SparkleWave(lx));
+    
+    // Mattaniah
+    registerPatternController("OscillatingDarkRing", new OscillatingDarkRing(lx));
+    registerPatternController("RadialGradiant", new RadialGradiant(lx));
+    
+    // Quinn Keck
+    registerPatternController("ButterflyEffect", new ButterflyEffect(lx));
 
     // Misko's patterns
     registerPatternController("Circles", new Circles(lx));
     registerPatternController("LineScan", new LineScan(lx));
     registerPatternController("WaveScan", new WaveScan(lx));
-    //registerPatternController("Stringy", new Stringy(lx));
+    registerPatternController("Stringy", new Stringy(lx));
     registerPatternController("RainbowWaveScan", new RainbowWaveScan(lx));
     registerPatternController("SyncSpinner", new SyncSpinner(lx));
     registerPatternController("LightHouse", new LightHouse(lx));
     registerPatternController("ShrubRiver", new ShrubRiver(lx));
     registerPatternController("ColorBlast", new ColorBlast(lx));
     registerPatternController("Vertigo", new Vertigo(lx));
+    
+    // Adam Croston and Katie Ballinger's patterns.
+    registerPatternController("ExpandingCircles", new ExpandingCircles(lx));
+    registerPatternController("SpiralArms", new SpiralArms(lx));
+    registerPatternController("Sparks", new Sparks(lx));
+    registerPatternController("Blooms", new Blooms(lx));
+    registerPatternController("MovingPoint", new MovingPoint(lx));
+    registerPatternController("WavesToMainTree", new WavesToMainTree(lx));
+    registerPatternController("Undulation", new Undulation(lx));
+    registerPatternController("HueRibbons", new HueRibbons(lx));
+    registerPatternController("VerticalColorWaves", new VerticalColorWaves(lx));
+    registerPatternController("FlockingPoints", new FlockingPoints(lx));
+
+    // Evy's patterns
+    registerPatternController("CircleBreath", new CircleBreath(lx));
+    registerPatternController("FirefliesNcase", new FirefliesNcase(lx));
+
+    // Sydney
+    registerPatternController("RoseGarden", new RoseGarden(lx));
+    
+    //Lorenz
+    registerPatternController("Fountain", new Fountain(lx));
+    
 
     registerPatternController("Fumes", new Fumes(lx));
     registerPatternController("Color Strobe", new ColorStrobe(lx));
@@ -307,8 +366,11 @@ abstract class Engine {
 
     // Colin Hunt Patterns
     patterns.add(new ColorWave(lx));
+    patterns.add(new CottonCandy(lx));
     patterns.add(new BeachBall(lx));
+    patterns.add(new Bloop(lx));
     patterns.add(new Breath(lx));
+    patterns.add(new SimplexSparkle(lx));
     patterns.add(new Peppermint(lx));
     patterns.add(new ChristmasTree(lx));
     patterns.add(new Wreathes(lx));
@@ -317,9 +379,22 @@ abstract class Engine {
     patterns.add(new Pond(lx));
     patterns.add(new Planes(lx));
     patterns.add(new Growth(lx));
+    
+    // Lindsay Jason
+    patterns.add(new SparkleWave(lx));
 
     // Lorenz Patterns
     patterns.add(new Fountain(lx));
+    
+    // Mattaniah
+    patterns.add(new OscillatingDarkRing(lx));
+    patterns.add(new RadialGradiant(lx));
+    
+    // Quinn Keck Patterns
+    patterns.add(new ButterflyEffect(lx));
+    
+    // Sydney Patterns
+    patterns.add(new RoseGarden(lx));
 
     // patterns.add(new DoubleHelix(lx));
     patterns.add(new SparkleHelix(lx));
@@ -362,9 +437,10 @@ abstract class Engine {
 
     // evy's patterns
     patterns.add(new CircleBreath(lx));
+    patterns.add(new FirefliesNcase(lx));
 
     //Miskos - worried, removing, sorry
-    //patterns.add(new Stringy(lx));  // takes too much memory
+    patterns.add(new Stringy(lx));  // takes too much memory ~ should be fixed now
     patterns.add(new Circles(lx));
     patterns.add(new LineScan(lx));
     patterns.add(new WaveScan(lx));
@@ -374,6 +450,19 @@ abstract class Engine {
     patterns.add(new ShrubRiver(lx));
     patterns.add(new ColorBlast(lx));
     patterns.add(new Vertigo(lx));
+    
+    // Adam Croston and Katie Ballinger's patterns.
+    //patterns.add(new BasicMagic(lx));
+    patterns.add(new ExpandingCircles(lx));
+    patterns.add(new SpiralArms(lx));
+    patterns.add(new Sparks(lx));
+    patterns.add(new Blooms(lx));
+    patterns.add(new MovingPoint(lx));
+    patterns.add(new WavesToMainTree(lx));
+    patterns.add(new Undulation(lx));
+    patterns.add(new HueRibbons(lx));
+    patterns.add(new VerticalColorWaves(lx));
+    patterns.add(new FlockingPoints(lx));
 
     // Test patterns
     patterns.add(new ClusterLineTest(lx));
@@ -456,6 +545,7 @@ abstract class Engine {
   void registerEffectTriggerables() {
     BlurEffect blurEffect = new TSBlurEffect(lx);
     ColorEffect colorEffect = new ColorEffect(lx);
+    HueFilterEffect hueFilterEffect = new HueFilterEffect(lx);
     GhostEffect ghostEffect = new GhostEffect(lx);
     ScrambleEffect scrambleEffect = new ScrambleEffect(lx);
     StaticEffect staticEffect = new StaticEffect(lx);
@@ -470,6 +560,7 @@ abstract class Engine {
 
     lx.addEffect(blurEffect);
     lx.addEffect(colorEffect);
+    lx.addEffect(hueFilterEffect);
     lx.addEffect(ghostEffect);
     lx.addEffect(scrambleEffect);
     lx.addEffect(staticEffect);
@@ -488,6 +579,8 @@ abstract class Engine {
     registerEffectControlParameter(colorEffect.mono);
     registerEffectControlParameter(colorEffect.desaturation);
     registerEffectControlParameter(colorEffect.sharp);
+    registerEffectControlParameter(hueFilterEffect.hueFilter);
+    registerEffectControlParameter(hueFilterEffect.amount);
     registerEffectControlParameter(blurEffect.amount, 0.65);
     registerEffectControlParameter(spinEffect.spin, 0.65);
     registerEffectControlParameter(ghostEffect.amount, 0, 0.16, 1);
@@ -499,11 +592,14 @@ abstract class Engine {
     registerEffectControlParameter(staticEffect.amount, 0, .3, 1);
     registerEffectControlParameter(candyTextureEffect.amount, 0, 1, 5);
 
+
+    // colorEffect.mono is pretty good, but has been kicked off the island compared to hueFilterEffect
+
     effectKnobParameters = new LXListenableNormalizedParameter[]{
         colorEffect.hueShift,
-        colorEffect.mono,
         colorEffect.desaturation,
-        colorEffect.sharp,
+        hueFilterEffect.hueFilter,
+        hueFilterEffect.amount,
         blurEffect.amount,
         speedEffect.speed,
         spinEffect.spin,
@@ -1008,6 +1104,8 @@ class EngineController {
     System.out.println("creating auto pause task");
     this.autoPauseTask = new AutoPauseTask();
     lx.engine.addLoopTask(this.autoPauseTask);
+
+
   }
 
   // this gets the 'iPad channels' only
@@ -1298,7 +1396,7 @@ class EngineController {
   ZoneId localZone = ZoneId.of("America/Los_Angeles");
   void log(String s) {
   	  System.out.println(
-  		ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + " " + s );
+  		  ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + " " + s );
   }
 
 }

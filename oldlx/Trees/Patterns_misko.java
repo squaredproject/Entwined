@@ -133,9 +133,9 @@ class Stringy extends TSPattern {
 
   private double total_ms1 =0.0;
   private double total_ms2 =0.0;
-  private float p[][];
-  private float d[][];
-  private float shadow[][];
+  static float[][] d = new float[1900][1900]; //1900*1900*4bytes/(1024*1024)=13.8MB
+  static float[] norms = new float[1900]; //0.007MB
+  static float[][] shadow = new float[1900][3]; //0.021 MB
   private int n=3;
   private int current_cube_r[];
   private int current_cube_g[];
@@ -150,28 +150,28 @@ class Stringy extends TSPattern {
 	return (float)(Math.pow(x-a,2)+Math.pow(y-b,2)+Math.pow(z-c,2));
 	//return (float)(Math.pow(x-a,2)+Math.pow(z-b,2));
   }
+
+  private float get_p(int i, int j) {
+    return d[i][j]/norms[i];
+  } 
+
   Stringy(LX lx) {
     super(lx);
     addModulator(wave360).start();
     addModulator(wave100).start();
     addParameter(waveSlope);
     addParameter(speedParam);
-
-    
-    p = new float[model.baseCubes.size()][model.baseCubes.size()];
-    d = new float[model.baseCubes.size()][model.baseCubes.size()];
-    shadow = new float[model.baseCubes.size()][3];
     
     for (int i=0; i<model.baseCubes.size(); i++) {
         shadow[i][0]=(float)0;
         shadow[i][1]=(float)0;
         shadow[i][2]=(float)0;
         BaseCube cubei = model.baseCubes.get(i);
-        float norm=0;
+        float norm=0.0f;
     	for (int j=0; j<model.baseCubes.size(); j++) {
            BaseCube cubej = model.baseCubes.get(j);
            if (i==j) {
-		p[i][j]=0;
+		d[i][j]=0.0f;
            } else {
 	   	float dd = dist(cubei.x,cubei.y,cubei.z,cubej.x,cubej.y,cubej.z);
 	   	d[i][j]=(float)1.0/dd;
@@ -181,9 +181,7 @@ class Stringy extends TSPattern {
            	norm+=d[i][j];
            }
 	}
-    	for (int j=0; j<model.baseCubes.size(); j++) {
-		p[i][j]=(float)d[i][j]/norm;
-	}
+        norms[i]=norm;
         
     }
     current_cube_r = new int[n];
@@ -286,7 +284,7 @@ class Stringy extends TSPattern {
 		      new_p = (float)Math.random();
 		      for (int i=0; i<model.baseCubes.size(); i++) {
 			      if (new_p>0.0) {
-				      new_p-=p[current_cube_r[j]][i];
+				      new_p-=get_p(current_cube_r[j],i);
 			      } else {
 				      current_cube_r[j]=i;
 				      break;
@@ -295,7 +293,7 @@ class Stringy extends TSPattern {
 		      new_p = (float)Math.random();
 		      for (int i=0; i<model.baseCubes.size(); i++) {
 			      if (new_p>0.0) {
-				      new_p-=p[current_cube_g[j]][i];
+				      new_p-=get_p(current_cube_g[j],i);
 			      } else {
 				      current_cube_g[j]=i;
 				      break;
@@ -304,7 +302,7 @@ class Stringy extends TSPattern {
 		      new_p = (float)Math.random();
 		      for (int i=0; i<model.baseCubes.size(); i++) {
 			      if (new_p>0.0) {
-				      new_p-=p[current_cube_b[j]][i];
+				      new_p-=get_p(current_cube_b[j],i);
 			      } else {
 				      current_cube_b[j]=i;
 				      break;

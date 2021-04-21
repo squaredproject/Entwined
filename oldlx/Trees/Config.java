@@ -3,17 +3,23 @@ final class Config {
   static final boolean autoplayBMSet = true;
 
   static final boolean enableAPC40 = false;
-  static final boolean enableSoundSyphon = false;
+  static final boolean enableSoundSyphon = true;
 
   static final boolean enableOutputMinitree = false;
-  static final boolean enableOutputBigtree = true;
+  static final boolean enableOutputBigtree = false;
 
   // these configure the mandated "pause" to keep crowds down
   // set either to 0 to disable
+
   static final double pauseRunMinutes = 0.0;
   static final double pausePauseMinutes = 0.0;
   static final double pauseFadeInSeconds = 0.0;
   static final double pauseFadeOutSeconds = 0.0;
+
+  // the interaction server. Set to null to disable.
+  static final String canopyServer = "";
+  //static final String canopyServer = "http://localhost:3000/lx";
+  //static final String canopyServer = "https://entwined-api.charliestigler.com/lx";
 
   static final String NDB_CONFIG_FILE = "data/entwinedNDBs.json";
   static final String CUBE_CONFIG_FILE = "data/entwinedCubes.json";
