@@ -1,0 +1,52 @@
+
+
+# https://www.raspberrypi.org/documentation/configuration/wireless/access-point-routed.md
+
+HOME=/home/pi/
+
+
+## install hostapd & others
+sudo apt install hostapd dnsmasq -qq
+
+sudo DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
+
+## enable hostapd
+sudo cp ./hostapd.conf /etc/hostapd/
+sudo systemctl unmask hostapd
+sudo systemctl enable hostapd
+
+## define wlan1 wireless interface
+cat dhcpcd.conf >> /etc/dhcpcd.conf
+
+## enable routing
+sudo cp routed-ap.conf /etc/sysctl.d/
+sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+sudo netfilter-persistent save
+
+sudo cp dnsmasq.conf /etc/
+
+###
+
+
+## ensure wireless operation
+sudo rfkill unblock wlan
+
+### enable ssh
+echo -e "*********** enabling ssh access  **************"
+sudo apt-get --assume-yes install openssh-server
+sudo systemctl enable ssh
+
+### enable Avahi mDNS so you can access the pi as rasberry.local on mac machines
+### this is required for the ipad application to connect to the pi
+### ipad app is hardcoded to connect to hostname odroid.local
+### SO SET THE HOSTNAME TO odroid.local (even though this is a rasberry pi)
+echo -e "*********** enabling Avahi mDNS  **************"
+sudo apt-get install avahi-daemon
+sudo sed -i 's/^#host-name.*$/host-name=pi/' /etc/avahi/avahi-daemon.conf
+sudo systemctl enable avahi-daemon
+sudo systemctl restart avahi-daemon
+
+
+
+## reboot all services
+sudo systemctl reboot
