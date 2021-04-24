@@ -43,8 +43,8 @@ echo -e "\n\n*********** Setting up entwined services **************\n\n"
 
 cd $HOME
 
-sudo cp Entwined/oldlx/lx-headless.service /etc/systemd/system/
-sudo cp Entwined/oldlx/brightness-toggle.service /etc/systemd/system/
+sudo cp Entwined/oldlx/pi_setup/lx-headless.service /etc/systemd/system/
+sudo cp Entwined/oldlx/pi_setup/brightness-toggle.service /etc/systemd/system/
 
 sudo systemctl enable  lx-headless
 sudo systemctl start  lx-headless
@@ -77,45 +77,35 @@ sudo apt --assume-yes install dnsmasq hostapd bridge-utils -qq
 echo -e "********** hostapd setup *****************"
 sudo cp hostapd.conf  /etc/hostapd/hostapd.conf
 
-
 sudo systemctl unmask hostapd
 sudo systemctl enable hostapd
 sudo systemctl restart hostapd
 sudo systemctl restart dhcpcd
 sudo systemctl reload  dnsmasq
 
+## ensure wireless operation
+sudo rfkill unblock wlan
+
 ### enable ssh
 echo -e "*********** enabling ssh access  **************"
-sudo apt-get install openssh-server
+sudo apt-get  --assume-yes install openssh-server
 sudo systemctl enable ssh
 
-### enable Avahi mDNS so you can access the pi as rasberry.local on mac machines
+### enable Avahi mDNS so you can access the pi as pi.local
 ### this is required for the ipad application to connect to the pi
 echo -e "*********** enabling Avahi mDNS  **************"
 sudo apt-get install avahi-daemon
+sudo sed -i 's/^#host-name.*$/host-name=pi/' /etc/avahi/avahi-daemon.conf
 sudo systemctl enable avahi-daemon
 sudo systemctl restart avahi-daemon
 
-echo -e "*********** Done with hostapd **************"
-
-
-exit 0;
-
-sudo cp hostapd  /etc/default/hostapd
+#sudo cp hostapd  /etc/default/hostapd
 
 echo -e "********** editing etc/dnsmasq.conf *****************"
 sudo cp dnsmasq.conf /etc/dnsmasq.conf
 
-echo -e "********** editing /etc/dhcpcd.conf *****************"
-sudo cp  /etc/dhcpcd.conf /etc/dhcpcd.conf.bak
-echo "interface wlan1" >> /etc/dhcpcd.conf
-echo "\t static ip_address=192.168.4.10/24" >> /etc/dhcpcd.conf
-echo "\t nohook wpa_supplicant" >> /etc/dhcpcd.conf
-
-echo "\n\ninterface eth0" >> /etc/dhcpcd.conf
-echo "\tstatic ip_address=10.0.0.10/24" >> /etc/dhcpcd.conf
-
-
+## define wlan1 wireless interface
+sudo mv dhcpcd.conf /etc/dhcpcd.conf
 
 ### Uncomment line re IP forwarding
 echo -e "********** ip forwarding *****************"
@@ -132,49 +122,17 @@ sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
 sudo cp /etc/rc.local /tmp/rc.local.orig
 sudo sed -i 's/exit 0/iptables-restore < \/etc\/iptables.ipv4.nat/' /etc/rc.local
 
-### enable ssh
-echo -e "*********** enabling ssh access  **************"
-sudo apt-get --assume-yes install openssh-server
-sudo systemctl enable ssh
-
-### enable Avahi mDNS so you can access the pi as rasberry.local on mac machines
-### this is required for the ipad application to connect to the pi
-### ipad app is hardcoded to connect to hostname odroid.local
-### SO SET THE HOSTNAME TO odroid.local (even though this is a rasberry pi)
-echo -e "*********** enabling Avahi mDNS  **************"
-sudo apt-get install avahi-daemon
-sudo sed -i 's/^#host-name.*$/host-name=pi/' /etc/avahi/avahi-daemon.conf
-sudo systemctl enable avahi-daemon
-sudo systemctl restart avahi-daemon
-
 echo -e "*********** Latest hostapd setup **************"
 
 # https://www.raspberrypi.org/documentation/configuration/wireless/access-point-routed.md
 
-
-## install hostapd & others
-sudo apt install hostapd
-sudo apt install dnsmasq
-
 sudo DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
 
-## enable hostapd
-sudo systemctl unmask hostapd
-sudo systemctl enable hostapd
-
-## define wlan1 wireless interface
-cat wlan1.conf >> /etc/dhcpcd.conf
 
 ## enable routing
 sudo cp routed-ap.conf /etc/sysctl.d/
 sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 sudo netfilter-persistent save
-
-sudo cp dnsmasq.conf /etc/
-
-## ensure wireless operation
-sudo rfkill unblock wlan
-sudo cp ./hostapd.conf /etc/hostapd/
 
 echo -e "*********** Done with hostapd **************"
 
