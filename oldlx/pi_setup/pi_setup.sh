@@ -72,7 +72,7 @@ sudo systemctl start  brightness-toggle
 cd $HOME/Entwined/oldlx/pi_setup/
 
 ## install hostapd & others
-sudo apt install hostapd dnsmasq -qq
+sudo apt install -y hostapd dnsmasq 
 
 sudo DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
 
@@ -124,6 +124,7 @@ sudo systemctl enable ssh
 echo -e "*********** enabling Avahi mDNS  **************"
 sudo apt-get install avahi-daemon
 sudo sed -i 's/^#host-name.*$/host-name=pi/' /etc/avahi/avahi-daemon.conf
+sudo sed -i 's/^#domain-name.*$/domain-name=local/' /etc/avahi/avahi-daemon.conf
 sudo systemctl enable avahi-daemon
 sudo systemctl restart avahi-daemon
 
