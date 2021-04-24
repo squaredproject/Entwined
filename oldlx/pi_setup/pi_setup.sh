@@ -53,8 +53,8 @@ echo -e "\n\n*********** Setting up entwined services **************\n\n"
 
 cd $HOME
 
-sudo cp Entwined/oldlx/lx-headless.service /etc/systemd/system/
-sudo cp Entwined/oldlx/brightness-toggle.service /etc/systemd/system/
+sudo cp Entwined/oldlx/pi_setup/lx-headless.service /etc/systemd/system/
+sudo cp Entwined/oldlx/pi_setup/brightness-toggle.service /etc/systemd/system/
 
 sudo systemctl enable  lx-headless
 sudo systemctl start  lx-headless
@@ -88,6 +88,26 @@ cat dhcpcd.conf >> /etc/dhcpcd.conf
 sudo cp routed-ap.conf /etc/sysctl.d/
 sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 sudo netfilter-persistent save
+
+### Uncomment line re IP forwarding
+echo -e "********** ip forwarding *****************"
+sudo cp /etc/sysctl.conf  /etc/sysctl.conf.orig
+sudo sed -i 's/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
+
+### Add masquerade for outbound traffic
+sudo iptables -t nat -A  POSTROUTING -o wlan0 -j MASQUERADE
+
+### Save IP tables
+sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
+
+### load IP tables on reboot
+sudo cp /etc/rc.local /tmp/rc.local.orig
+sudo sed -i 's/exit 0/iptables-restore < \/etc\/iptables.ipv4.nat/' /etc/rc.local
+
+
+
+
+
 
 sudo cp dnsmasq.conf /etc/
 
