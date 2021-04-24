@@ -69,7 +69,7 @@ sudo systemctl start  brightness-toggle
 ### See https://www.raspberrypi.org/documentation/configuration/wireless/access-:
 ######################
 
-HOME=/home/pi/
+cd $HOME/Entwined/oldlx/pi_setup/
 
 ## install hostapd & others
 sudo apt install hostapd dnsmasq -qq
