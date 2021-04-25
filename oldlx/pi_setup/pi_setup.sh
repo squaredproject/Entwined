@@ -62,6 +62,13 @@ sudo systemctl start  lx-headless
 sudo systemctl enable  brightness-toggle
 sudo systemctl start  brightness-toggle
 
+#####################
+####### Slow frame ###
+####### Rate Fix   ###
+######################
+sudo sh -c 'sudo echo "net.ipv4.neigh.eth0.unres_qlen=1" >  /etc/sysctl.conf '
+sudo sh -c 'echo "net.ipv4.neigh.eth0.unres_qlen_bytes=4096" >>  /etc/sysctl.conf '
+
 
 ######################
 ####### Network ######
@@ -89,6 +96,15 @@ sudo cp routed-ap.conf /etc/sysctl.d/
 sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 sudo netfilter-persistent save
 
+
+### redo low frame rate, as copying over routed-ap.conf blows it away
+#####################
+####### Slow frame ###
+####### Rate Fix   ###
+######################
+sudo sh -c 'sudo echo "net.ipv4.neigh.eth0.unres_qlen=1" >  /etc/sysctl.conf '
+sudo sh -c 'echo "net.ipv4.neigh.eth0.unres_qlen_bytes=4096" >>  /etc/sysctl.conf '
+
 ### Uncomment line re IP forwarding
 echo -e "********** ip forwarding *****************"
 sudo cp /etc/sysctl.conf  /etc/sysctl.conf.orig
@@ -103,11 +119,6 @@ sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
 ### load IP tables on reboot
 sudo cp /etc/rc.local /tmp/rc.local.orig
 sudo sed -i 's/exit 0/iptables-restore < \/etc\/iptables.ipv4.nat/' /etc/rc.local
-
-
-
-
-
 
 sudo cp dnsmasq.conf /etc/
 
