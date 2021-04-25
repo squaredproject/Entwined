@@ -6,14 +6,14 @@ final class Config {
   static final boolean enableSoundSyphon = true;
 
   static final boolean enableOutputMinitree = false;
-  static final boolean enableOutputBigtree = false;
+  static final boolean enableOutputBigtree = true;
 
   // these configure the mandated "pause" to keep crowds down
   // set either to 0 to disable
-  static final double pauseRunMinutes = 1.0;
-  static final double pausePauseMinutes = 0.25;
-  static final double pauseFadeInSeconds = 3.0;
-  static final double pauseFadeOutSeconds = 5.0;
+  static final double pauseRunMinutes = 0.0;
+  static final double pausePauseMinutes = 0.0;
+  static final double pauseFadeInSeconds = 0.0;
+  static final double pauseFadeOutSeconds = 0.0;
 
   // the interaction server. Set to null to disable.
   static final String canopyServer = "";
@@ -27,5 +27,5 @@ final class Config {
   static final String SHRUB_CONFIG_FILE = "data/entwinedShrubs.json";
 
   // if this file doesn't exist you get a crash
-  static final String AUTOPLAY_FILE = "data/charlienew.json";
+  static final String AUTOPLAY_FILE = "data/Burning Man Playlist.json";
 }
