@@ -6,7 +6,7 @@ final class Config {
   static final boolean enableSoundSyphon = true;
 
   static final boolean enableOutputMinitree = false;
-  static final boolean enableOutputBigtree = false;
+  static final boolean enableOutputBigtree = true;
 
   // these configure the mandated "pause" to keep crowds down
   // set either to 0 to disable
@@ -27,6 +27,5 @@ final class Config {
   static final String SHRUB_CUBE_CONFIG_FILE = "data/entwinedShrubCubes.json";
   static final String SHRUB_CONFIG_FILE = "data/entwinedShrubs.json";
 
-  // if this file doesn't exist you get a crash
   static final String AUTOPLAY_FILE = "data/ShrubPlusBurningManPlaylist.json";
 }

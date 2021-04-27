@@ -11,14 +11,15 @@ echo -e "\n\n\n*********** Creating new user entwined **************\n\n\n\n\n"
 sudo useradd -m -d $HOME -s /bin/bash -p "thetrees!" entwined
 sudo chmod -R a+w /home/entwined
 
+git config --global user.email "mizpoon@burningart.com"
+git config --global user.name "Entwined Pi"
 
 #######################
 ## Update debian ######
 #######################
 #echo -e "*********** Updating OS packages **************"
 sudo apt-get update
-#sudo apt-get dist-upgrade
-
+sudo apt-get dist-upgrade
 
 #######################
 ## Install Java 8 Open JDK  ######
@@ -35,6 +36,15 @@ cd Entwined/oldlx/  && sh compile.sh && cd $HOME
 echo -e "\n\n*********** Done compiling entwined **************\n\n"
 
 #####################################
+## Entwined Service ##
+#####################################
+cd $HOME
+
+echo -e "\n\n*********** Setting up entwined services **************\n\n"
+
+cd $HOME
+
+ #####################################
 ## Entwined Service ##
 #####################################
 cd $HOME
@@ -63,49 +73,28 @@ sudo sh -c 'echo "net.ipv4.neigh.eth0.unres_qlen_bytes=4096" >>  /etc/sysctl.con
 ######################
 ####### Network ######
 ######################
-### See https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md
+### See https://www.raspberrypi.org/documentation/configuration/wireless/access-:
+######################
 
-cd  $HOME/Entwined/pi/
+cd $HOME/Entwined/oldlx/pi_setup/
 
-echo -e "\n\n*********** configuring hostapd **************"
-echo -e "\n\n\n*********** configuring wifi access point **************\n\n\n"
-echo -e "*********** warning: running this script more than once  **************"
-echo -e "*********** warning: appends lines to /etc/rc.local /etc/dhcpcd.conf /etc/sysctl.conf   **************"
+## install hostapd & others
+sudo apt install -y hostapd dnsmasq 
 
-sudo apt --assume-yes install dnsmasq hostapd bridge-utils -qq
+sudo DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
 
-echo -e "********** hostapd setup *****************"
-sudo cp hostapd.conf  /etc/hostapd/hostapd.conf
-
+## enable hostapd
 sudo systemctl unmask hostapd
 sudo systemctl enable hostapd
-sudo systemctl restart hostapd
-sudo systemctl restart dhcpcd
-sudo systemctl reload  dnsmasq
-
-## ensure wireless operation
-sudo rfkill unblock wlan
-
-### enable ssh
-echo -e "*********** enabling ssh access  **************"
-sudo apt-get  --assume-yes install openssh-server
-sudo systemctl enable ssh
-
-### enable Avahi mDNS so you can access the pi as pi.local
-### this is required for the ipad application to connect to the pi
-echo -e "*********** enabling Avahi mDNS  **************"
-sudo apt-get install avahi-daemon
-sudo sed -i 's/^#host-name.*$/host-name=pi/' /etc/avahi/avahi-daemon.conf
-sudo systemctl enable avahi-daemon
-sudo systemctl restart avahi-daemon
-
-#sudo cp hostapd  /etc/default/hostapd
-
-echo -e "********** editing etc/dnsmasq.conf *****************"
-sudo cp dnsmasq.conf /etc/dnsmasq.conf
+sudo cp ./hostapd.conf /etc/hostapd/
 
 ## define wlan1 wireless interface
-sudo mv dhcpcd.conf /etc/dhcpcd.conf
+cat dhcpcd.conf >> /etc/dhcpcd.conf
+
+## enable routing
+sudo cp routed-ap.conf /etc/sysctl.d/
+sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+sudo netfilter-persistent save
 
 ### Uncomment line re IP forwarding
 echo -e "********** ip forwarding *****************"
@@ -122,27 +111,29 @@ sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
 sudo cp /etc/rc.local /tmp/rc.local.orig
 sudo sed -i 's/exit 0/iptables-restore < \/etc\/iptables.ipv4.nat/' /etc/rc.local
 
-echo -e "*********** Latest hostapd setup **************"
-
-# https://www.raspberrypi.org/documentation/configuration/wireless/access-point-routed.md
-
-sudo DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
 
 
-## enable routing
-sudo cp routed-ap.conf /etc/sysctl.d/
-sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-sudo netfilter-persistent save
 
-echo -e "*********** Done with hostapd **************"
+
+
+sudo cp dnsmasq.conf /etc/
+
+## ensure wireless operation
+sudo rfkill unblock wlan
+
+### enable ssh
+echo -e "*********** enabling ssh access  **************"
+sudo apt-get --assume-yes install openssh-server
+sudo systemctl enable ssh
+
+### enable Avahi mDNS so you can access the pi as pi.local
+### this is required for the ipad application to connect to the pi
+echo -e "*********** enabling Avahi mDNS  **************"
+sudo apt-get install avahi-daemon
+sudo sed -i 's/^#host-name.*$/host-name=pi/' /etc/avahi/avahi-daemon.conf
+sudo sed -i 's/^#domain-name.*$/domain-name=local/' /etc/avahi/avahi-daemon.conf
+sudo systemctl enable avahi-daemon
+sudo systemctl restart avahi-daemon
 
 ## reboot all services
-### for some reason, networking doesn't work until you reboot
-echo -e "*********** Rebooting to clean network configution issues *************"
-sleep 2
-echo -e "*********** Rebooting to clean network configution issues *************"
-sleep 2
-echo -e "*********** Rebooting to clean network configution issues *************"
-sleep 4
-sudo reboot
-
+sudo systemctl reboot
