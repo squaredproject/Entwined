@@ -19,7 +19,7 @@ git config --global user.name "Entwined Pi"
 #######################
 #echo -e "*********** Updating OS packages **************"
 sudo apt-get update
-#sudo apt-get dist-upgrade
+sudo apt-get dist-upgrade
 
 #######################
 ## Install Java 8 Open JDK  ######
