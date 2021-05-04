@@ -27,5 +27,5 @@ final class Config {
   static final String SHRUB_CUBE_CONFIG_FILE = "data/entwinedShrubCubes.json";
   static final String SHRUB_CONFIG_FILE = "data/entwinedShrubs.json";
 
-  static final String AUTOPLAY_FILE = "data/ShrubPlusBurningManPlaylist.json";
+  static final String AUTOPLAY_FILE = "data/hillaryshrub.json";
 }
