@@ -62,13 +62,7 @@ sudo systemctl start  lx-headless
 sudo systemctl enable  brightness-toggle
 sudo systemctl start  brightness-toggle
 
-#####################
-####### Slow frame ###
-####### Rate Fix   ###
-######################
-sudo sh -c 'sudo echo "net.ipv4.neigh.eth0.unres_qlen=1" >  /etc/sysctl.conf '
-sudo sh -c 'echo "net.ipv4.neigh.eth0.unres_qlen_bytes=4096" >>  /etc/sysctl.conf '
-
+sudo apt-get install dos2unix
 
 ######################
 ####### Network ######
