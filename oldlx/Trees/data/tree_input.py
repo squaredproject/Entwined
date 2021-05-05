@@ -6,17 +6,27 @@ import sys
 import argparse
 
 # file format:
-# the shrubsCube file is a very large list of dicts,
+# the entwinedCube file is a very large list of dicts,
 # and each dict has
-# {'shrubIndex': 0,
-#   'clusterIndex': 0,
-#   'rodIndex': 1,
-#   'shrubOutputIndex': 0,
-#   'cubeSizeIndex': 0,
-#   'shrubIpAddress': '10.1.0.146'}
+#    {
+#        "ipAddress": "10.0.0.110",
+#        "outputIndex": 0,
+#        "stringOffsetIndex": 0,
+#        "isActive": "true",
+#        "treeIndex": 1,
+#        "layerIndex": 1,
+#        "branchIndex": 1,
+#        "mountPointIndex": 1,
+#        "cubeSizeIndex": 1
+#    }
+#
+# This uses the "jdv system" to name branches.
+# That system works by calling the longest branch 0, then 1R (clockwise)
+# 2R, 3R, 4 (the opposite of 1), then 3L, 2L, 1L. 
+# Everyone found this confusing.
 
 
-#this function allows you to input a series of branch points
+# this function allows you to input a series of branch points
 
 def tree_cubes_input(filename:str):
 

@@ -2,7 +2,12 @@
 
 Entwined software repository picks up where '2squared's Entwined branch leaves off, and its first use is supporting the Entwined 2020 (Entwined Meadows) installation in Golden Gate Park in San Francisco.
 
-More information will be added as the project comes into being.
+# Running Entwined and the Simulator
+
+Entwined is intended to be run with processing. The "renderer" runs in Java,
+and exists within the `oldlx` directory. A not-quite-finished port to the modern
+LX Studio is in the `newlx` directory but it doesn't completly work.
+
 
 # Testing shrubs in the shop
 
@@ -35,7 +40,8 @@ tree mappings. Work can continue here as we integrate the new LX studio.
 
 # NEW LX
 
-Regrettably, the "new" LX system is not yet functional.
+Regrettably, the "new" LX system is not yet functional. These were instructions
+that the team doing the port put together.
 
 ## Gradle LX
 
