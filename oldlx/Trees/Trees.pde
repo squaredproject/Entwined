@@ -104,6 +104,7 @@ class ProcessingEngine extends Engine {
     Trees.this.treeOutput = treeOutput;
     Trees.this.shrubOutput = shrubOutput;
     Trees.this.masterBrightnessParameter = masterBrightnessEffect.getParameter();
+    // note to self: autoplayBrightness is not exposed in Processing, intentionally
     Trees.this.treeDatagrams = treeDatagrams;
     Trees.this.shrubDatagrams = shrubDatagrams;
     Trees.this.bpmTool = bpmTool;
