@@ -6,15 +6,23 @@ import sys
 import argparse
 
 # file format:
-# the shrubsCube file is a very large list of dicts,
+# the entwinedCube file is a very large list of dicts,
 # and each dict has
-# {'shrubIndex': 0,
-#   'clusterIndex': 0,
-#   'rodIndex': 1,
-#   'shrubOutputIndex': 0,
-#   'cubeSizeIndex': 0,
-#   'shrubIpAddress': '10.1.0.146'}
-
+#    {
+#        "ipAddress": "10.0.0.110",
+#        "outputIndex": 0,
+#        "stringOffsetIndex": 0,
+#        "isActive": "true",
+#        "treeIndex": 1,
+#        "layerIndex": 1,
+#        "branchIndex": 1,
+#        "mountPointIndex": 1,
+#        "cubeSizeIndex": 1
+#    }
+#
+# This program allows you to quickly change one IP address for another
+# Delete an entire tree
+# Dump the IP addresses in use
 
 def ip_change(filename:str, oldIp: str, newIp:str) -> None:
     with open(filename) as f:
