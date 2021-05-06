@@ -279,7 +279,7 @@ abstract class Engine {
     registerPatternController("RainbowWaveScan", new RainbowWaveScan(lx));
     registerPatternController("SyncSpinner", new SyncSpinner(lx));
     registerPatternController("LightHouse", new LightHouse(lx));
-    registerPatternController("ShrubRiver", new ShrubRiver(lx));
+    //registerPatternController("ShrubRiver", new ShrubRiver(lx));
     registerPatternController("ColorBlast", new ColorBlast(lx));
     registerPatternController("Vertigo", new Vertigo(lx));
     
@@ -447,7 +447,7 @@ abstract class Engine {
     patterns.add(new RainbowWaveScan(lx));
     patterns.add(new SyncSpinner(lx));
     patterns.add(new LightHouse(lx));
-    patterns.add(new ShrubRiver(lx));
+    //  patterns.add(new ShrubRiver(lx));
     patterns.add(new ColorBlast(lx));
     patterns.add(new Vertigo(lx));
     
