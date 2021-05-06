@@ -15,6 +15,11 @@ final class Config {
   static final double pauseFadeInSeconds = 0.0;
   static final double pauseFadeOutSeconds = 0.0;
 
+  // Initial Value of the Autoplay Brightness setting, to allow
+  // the sculpture to start with a different value
+  static final double autoplayBrightness = 1.0;
+
+
   // the interaction server. Set to null to disable.
   static final String canopyServer = "";
   //static final String canopyServer = "http://localhost:3000/lx";

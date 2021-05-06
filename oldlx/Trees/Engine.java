@@ -84,6 +84,7 @@ abstract class Engine {
 
   final BasicParameterProxy outputBrightness = new BasicParameterProxy(1);
   final BrightnessScaleEffect masterBrightnessEffect;
+  final BrightnessScaleEffect autoplayBrightnessEffect;
 
   final CanopyController canopyController;
   final InteractiveHSVEffect interactiveHSVEffect;
@@ -121,6 +122,8 @@ abstract class Engine {
     // this is the TCP channel
     engineController = new EngineController(lx);
     masterBrightnessEffect = new BrightnessScaleEffect(lx);
+    autoplayBrightnessEffect = new BrightnessScaleEffect(lx);
+    autoplayBrightnessEffect.amount.setValue(Config.autoplayBrightness);
 
     lx.engine.addParameter(drumpadVelocity);
 
@@ -149,6 +152,7 @@ abstract class Engine {
     }
 
     lx.addEffect(masterBrightnessEffect);
+    lx.addEffect(autoplayBrightnessEffect);
 
     // last
 
@@ -329,6 +333,7 @@ abstract class Engine {
     // StaticEffect staticEffect = engineController.staticEffect = new StaticEffect(lx);
 
     engineController.masterBrightnessEffect = masterBrightnessEffect;
+    engineController.autoplayBrightnessEffect = autoplayBrightnessEffect;
     engineController.outputBrightness = outputBrightness;
 
 
@@ -1095,6 +1100,7 @@ class EngineController {
   BlurEffect blurEffect;
   ScrambleEffect scrambleEffect;
   BrightnessScaleEffect masterBrightnessEffect;
+  BrightnessScaleEffect autoplayBrightnessEffect;
   BasicParameterProxy outputBrightness;
   AutoPauseTask autoPauseTask;
 
@@ -1171,7 +1177,18 @@ class EngineController {
   double getMasterBrightness() {
     double ret = masterBrightnessEffect.getValue();
     return( ret );
+  }
 
+  // This brightness effect only takes effect when autoplay
+  // is running. It allows separate control in times and spaces
+  // when we want to have a persistant way of controlling brightness
+  void setAutoplayBrightness(double amount) {
+    autoplayBrightnessEffect.amount.setValue(amount);
+  }
+
+  double getAutoplayBrightness() {
+    double ret = masterBrightnessEffect.getValue();
+    return( ret );
   }
 
   void setHue(double amount) {
@@ -1233,6 +1250,10 @@ class EngineController {
           effect.enabled.setValue(!autoplay);
         }
       }
+
+      // this effect is enabled or disabled if autoplay
+      autoplayBrightnessEffect.enabled.setValue(autoplay);
+
     }
   }
 

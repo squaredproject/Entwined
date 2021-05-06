@@ -115,6 +115,10 @@ class ParseClientTask implements LXLoopTask {
         Double brightness = (Double)params.get("brightness");
         if (brightness == null) return;
         engineController.setMasterBrightness(brightness);
+      } else if (method.equals("setAutoplayBrightness")) {
+        Double autoplayBrightness = (Double)params.get("autoplayBrightness");
+        if (autoplayBrightness == null) return;
+        engineController.setAutoplayBrightness(autoplayBrightness);
       } else if (method.equals("setHue")) {
         Double hue = (Double)params.get("hue");
         if (hue == null) return;
