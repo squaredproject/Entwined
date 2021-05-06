@@ -44,7 +44,14 @@ echo -e "\n\n*********** Setting up entwined services **************\n\n"
 
 cd $HOME
 
- #####################################
+#####################
+####### Slow frame ###
+####### Rate Fix   ###
+######################
+sudo sh -c 'sudo echo "net.ipv4.neigh.eth0.unres_qlen=1" >  /etc/sysctl.conf '
+sudo sh -c 'echo "net.ipv4.neigh.eth0.unres_qlen_bytes=4096" >>  /etc/sysctl.conf '
+
+#####################################
 ## Entwined Service ##
 #####################################
 cd $HOME
