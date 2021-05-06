@@ -8,8 +8,43 @@
 # ndb (just last),tree(s,m.l),output,length,branch
 # This information can be used to create both the NDB configs file, and also
 # the cubes file
+#
+# Example file:
+# https://docs.google.com/spreadsheets/d/1aHrftWILBURYRl3tOR9bsREWg8UhZZuntv1VR9yDDWE/edit?usp=sharing
+#
+# column `ndb`
+# the last octet of the IPv4 address, will have 10.0.0. prepended.
+# Column 'tree'
+# this will be s, m, or l, which corresponds to one of the trees in the field
+# by index.
+# Column `output`
+# Corresponds to the output from the NDB in question (1 index)
+# Column `length`
+# corresponds to the length, in cubes, attached to that output
+# Column `branch`
+# Using the following notation, a branch is specified.
+# X.Y[L|R].[A|B]
+# The first X is the layer. 0 is the lowest, 1 is the next higher, 2 if exists is above
+# Y is the branch, specified as
+# 0 - the longest branch
+# 1R - the next clockwise branch
+# 2R, 3R - and so on
+# 4 the antipode of 0
+# 3L, 2L, 1L continuing clockwise back to 0
+#
+# THIS IS CONFUSING and I recommend changing the scheme for the next instatllation.
+# At that point, please make different version of this tool
+
 
 # note that output is ONE indexed in these files and ZERO in the JSON files
+
+# The NDBs are also ONE indexed (1 to 16) so input into google docs
+# what is on the NDB.
+# 
+# Spreadsheet to track, by IP address, the length and location of each input
+# https://docs.google.com/spreadsheets/d/10tKJYqjxg17QCM_UkV8Fsvh25ctIzKlinF9jcdDPwts/edit?usp=sharing
+#
+
 
 import json
 import re
