@@ -32,6 +32,5 @@ final class Config {
   static final String SHRUB_CONFIG_FILE = "data/entwinedShrubs.json";
 
   // if this file doesn't exist you get a crash
-  static final String AUTOPLAY_FILE = "data/Feb22-2021.json";
   static final String AUTOPLAY_FILE = "data/entwined2021.json";
 }
