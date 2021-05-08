@@ -33,4 +33,5 @@ final class Config {
 
   // if this file doesn't exist you get a crash
   static final String AUTOPLAY_FILE = "data/Feb22-2021.json";
+  static final String AUTOPLAY_FILE = "data/entwined2021.json";
 }
