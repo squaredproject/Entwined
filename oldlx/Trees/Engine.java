@@ -1109,6 +1109,8 @@ class EngineController {
   BasicParameterProxy outputBrightness;
   AutoPauseTask autoPauseTask;
 
+  double masterBrightnessStash = 1.0;
+
   EngineController(LX lx) {
     this.lx = lx;
 
@@ -1219,6 +1221,14 @@ class EngineController {
       isAutoplaying = autoplay;
       automation.setPaused(!autoplay);
 
+      // if we are disabling autoplay, stash the last brightness
+      if (autoplay) {
+        setMasterBrightness(masterBrightnessStash);
+      } else {
+        masterBrightnessStash = getMasterBrightness();
+      }
+
+
       // I think this should only effect base channels? bb
       if (previousChannelIsOn == null) {
         previousChannelIsOn = new boolean[lx.engine.getChannels().size()];
@@ -1258,6 +1268,8 @@ class EngineController {
 
       // this effect is enabled or disabled if autoplay
       autoplayBrightnessEffect.enabled.setValue(autoplay);
+      // this is a bit of a hack. If we're coming out of "controller" and
+      // 
 
     }
   }
