@@ -554,6 +554,12 @@ class ExpandingCircles extends AutographedPattern{
 /**
 Radiating arms that can be spiralled.
 */
+
+// NOTE! This pattern depends on there being a tree at position 0
+// which is not true with entwined.
+// It has thus been removed from the main pattern list until repaired.
+
+
 class SpiralArms extends AutographedPattern{
   // Constants
   static final float maxNumArms = 20;
@@ -1134,6 +1140,11 @@ class MovingPoint extends AutographedPattern{
 /**
 Circular hue cycle waves starting far from the main tree and moving toward it.
 */
+
+// NOTE! This pattern depends on there being a tree at position 0
+// which is not true with entwined.
+// It has thus been removed from the main pattern list until repaired.
+
 class WavesToMainTree extends AutographedPattern{
   // Constants
   static final float speedMult = 1000;

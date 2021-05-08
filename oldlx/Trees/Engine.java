@@ -214,6 +214,11 @@ abstract class Engine {
   void postCreateLX() {
   }
 
+  // NOTE! Entwined can be installed without any trees, or with
+  // trees not at 0.0. Several patterns make assumptions about the 
+  // location of the "main tree", those have been removed until 
+  // fixed - ShrubRiver, SpiralArms
+
   void registerIPadPatterns() {
     registerPatternController("None", new NoPattern(lx));
     registerPatternController("Twister", new Twister(lx));
@@ -283,17 +288,17 @@ abstract class Engine {
     registerPatternController("RainbowWaveScan", new RainbowWaveScan(lx));
     registerPatternController("SyncSpinner", new SyncSpinner(lx));
     registerPatternController("LightHouse", new LightHouse(lx));
-    registerPatternController("ShrubRiver", new ShrubRiver(lx));
+    //registerPatternController("ShrubRiver", new ShrubRiver(lx));
     registerPatternController("ColorBlast", new ColorBlast(lx));
     registerPatternController("Vertigo", new Vertigo(lx));
     
     // Adam Croston and Katie Ballinger's patterns.
     registerPatternController("ExpandingCircles", new ExpandingCircles(lx));
-    registerPatternController("SpiralArms", new SpiralArms(lx));
+    //registerPatternController("SpiralArms", new SpiralArms(lx));
     registerPatternController("Sparks", new Sparks(lx));
     registerPatternController("Blooms", new Blooms(lx));
     registerPatternController("MovingPoint", new MovingPoint(lx));
-    registerPatternController("WavesToMainTree", new WavesToMainTree(lx));
+    //registerPatternController("WavesToMainTree", new WavesToMainTree(lx));
     registerPatternController("Undulation", new Undulation(lx));
     registerPatternController("HueRibbons", new HueRibbons(lx));
     registerPatternController("VerticalColorWaves", new VerticalColorWaves(lx));
@@ -452,18 +457,18 @@ abstract class Engine {
     patterns.add(new RainbowWaveScan(lx));
     patterns.add(new SyncSpinner(lx));
     patterns.add(new LightHouse(lx));
-    patterns.add(new ShrubRiver(lx));
+    //patterns.add(new ShrubRiver(lx));
     patterns.add(new ColorBlast(lx));
     patterns.add(new Vertigo(lx));
     
     // Adam Croston and Katie Ballinger's patterns.
     //patterns.add(new BasicMagic(lx));
     patterns.add(new ExpandingCircles(lx));
-    patterns.add(new SpiralArms(lx));
+    //patterns.add(new SpiralArms(lx));
     patterns.add(new Sparks(lx));
     patterns.add(new Blooms(lx));
     patterns.add(new MovingPoint(lx));
-    patterns.add(new WavesToMainTree(lx));
+    //patterns.add(new WavesToMainTree(lx));
     patterns.add(new Undulation(lx));
     patterns.add(new HueRibbons(lx));
     patterns.add(new VerticalColorWaves(lx));

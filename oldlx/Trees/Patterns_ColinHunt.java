@@ -72,10 +72,6 @@ RGB sprial from center tree
 class BeachBall extends TSPattern {
 
   // Variable Declarations go here
-  private float treex;
-  private float treez;
-
-  private Tree theTree;
 
   final BasicParameter speed = new BasicParameter("Speed", 5000, 20000, 1000);
   final BasicParameter swirlMult = new BasicParameter("Swirl", .5, 2, .1);
@@ -88,10 +84,6 @@ class BeachBall extends TSPattern {
     addModulator(spinner).start();
     addParameter(speed);
     addParameter(swirlMult);
-
-    theTree = model.trees.get(0);
-    treex = theTree.x;
-    treez = theTree.z;
 
   }
 
@@ -787,10 +779,6 @@ class ChristmasTree extends TSPattern {
 class Peppermint extends TSPattern {
 
   // Variable Declarations go here
-  private float treex;
-  private float treez;
-
-  private Tree theTree;
 
   final BasicParameter speed = new BasicParameter("Speed", 5000, 20000, 1000);
   final BasicParameter swirlMult = new BasicParameter("Swirl", .5, 2, .1);
@@ -805,10 +793,6 @@ class Peppermint extends TSPattern {
     addModulator(spinner).start();
     addParameter(speed);
     addParameter(swirlMult);
-
-    theTree = model.trees.get(0);
-    treex = theTree.x;
-    treez = theTree.z;
 
   }
 
@@ -837,10 +821,6 @@ class Peppermint extends TSPattern {
 class CottonCandy extends TSPattern {
 
   // Variable Declarations go here
-  private float treex;
-  private float treez;
-
-  private Tree theTree;
 
   final BasicParameter speed = new BasicParameter("Speed", 2500, 20000, 1000);
   final BasicParameter swirlMult = new BasicParameter("Swirl", .5, 2, .1);
@@ -855,10 +835,6 @@ class CottonCandy extends TSPattern {
     addModulator(spinner).start();
     addParameter(speed);
     addParameter(swirlMult);
-
-    theTree = model.trees.get(0);
-    treex = theTree.x;
-    treez = theTree.z;
 
   }
 

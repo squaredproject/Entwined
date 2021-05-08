@@ -57,7 +57,6 @@ UIChannelFaders uiFaders;
 UIChannelFaders uiShrubFaders;
 UIMultiDeck uiDeck;
 BPMTool bpmTool;
-MappingTool mappingTool;
 LXAutomationRecorder[] automation;
 BooleanParameter[] automationStop;
 DiscreteParameter automationSlot;
@@ -94,8 +93,6 @@ class ProcessingEngine extends Engine {
 
   void postCreateLX() {
     super.postCreateLX();
-
-    lx.addEffect(mappingTool = new MappingTool(lx, cubeConfig, shrubCubeConfig));
 
     Trees.this.cubeConfig = cubeConfig;
     Trees.this.shrubCubeConfig = shrubCubeConfig;
@@ -153,8 +150,6 @@ void configureUI() {
     lx.ui.addLayer(new UIOutput(lx.ui, 4, 4));    
     lx.ui.addLayer(new UIShrubOutput(lx.ui, 4, 4));
   }
-  lx.ui.addLayer(new UIMapping(lx.ui));
-  lx.ui.addLayer(new UIShrubMapping(lx.ui));
   
   UITreeFaders treeFaders = new UITreeFaders(lx.ui, channelTreeLevels, model.trees.size());
   lx.ui.addLayer(treeFaders);
