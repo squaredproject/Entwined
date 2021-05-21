@@ -42,6 +42,35 @@ The format of that file is like this, with a list with one entry for each NDB
 ]
 ```
 
+### what is JDV format?
+
+JDV format has three components, separated by '.'
+
+layer.branch.side
+
+Layer is sensible - 0 is the lowest, 1 is above, 2 is above.
+
+Branch is harder to understand.
+
+- 0 is the northern most branch
+- 4 is the opposite branch
+- 1R, 2R, 3R are between 0 and 4, in order clockwise
+- 1L, 2L, 3L are between 0 and 4, in order COUNTER clockwise
+
+Note: it's not the northern most, I think it's the longest branch
+
+Side is A or B, with the right side being A and the left side being B
+
+### note about ndbs config export (tree id)
+
+The second column is "tree". This is most correctly a tree ID, but in the field is was
+easier to talk about "large" "medium" and "small" respectively. These, thus, became 0, 1 and 2 but
+if you have a different installation you should certainly put the tree ID there.
+
+### Minitree!
+
+Minitree is using 4 LED cubes exclusively, not 6. Have to find a way to put that in the configuration....
+
 ## maintaining the cubes for shrubs
 
 There is a script `shrub_maint.py` which allows adding, removing, and changing the IP address of shrubs.

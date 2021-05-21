@@ -53,7 +53,7 @@ import sys
 import argparse
 
 
-def tree_cubes_csv(csvFilename:str, cubeFilename:str):
+def tree_cubes_csv(csvFilename:str, cubeFilename:str, cubeSize:int):
 
     cubes = []
 
@@ -75,7 +75,7 @@ def tree_cubes_csv(csvFilename:str, cubeFilename:str):
                     branch = bValues[1].lower()
                     half = bValues[2].lower()
 
-                    newCubes = tree_cube_make_object(ndb,output,tree,layer,branch,half,cubesNum,lineNum)
+                    newCubes = tree_cube_make_object(ndb,output,tree,layer,branch,half,cubesNum,cubeSize,lineNum)
                     cubes.extend(newCubes)
 
                 # todo: it is possible to construct the ndbFile but probably not a good idea
@@ -102,7 +102,7 @@ def tree_cubes_csv(csvFilename:str, cubeFilename:str):
 #this function allows you to input a series of branch points
 # returns an object
 
-def tree_cube_make_object(ip:str, output:int, tree, layer:int, branch:str, half:str, cubesNum:int, lineNum:int):
+def tree_cube_make_object(ip:str, output:int, tree, layer:int, branch:str, half:str, cubesNum:int, cubeSize:int, lineNum:int):
 
 
     print(' adding: ip {} output {} tree {} layer {} branch {} half {} cubes {} linenum {}'.format(ip,output,tree,layer,branch,half,cubesNum,lineNum))
@@ -200,7 +200,7 @@ def tree_cube_make_object(ip:str, output:int, tree, layer:int, branch:str, half:
         else:
             c['mountPointIndex'] = (c_idx * 2) + 1
 
-        c['cubeSizeIndex'] = 1
+        c['cubeSizeIndex'] = cubeSize
         cubes.append(c)
 
     return(cubes)
@@ -211,6 +211,8 @@ def arg_init():
     parser = argparse.ArgumentParser(prog='tree-csv', description='convert the CSV file to the entwinedCubes file')
 
     parser.add_argument('files', type=str, nargs=2, help='input.csv output.json')
+
+    parser.add_argument('cubeSize', type=int, default=1, help='cube index used in output (1 normal, 0 small cubes' )
 
     args = parser.parse_args()
 
@@ -223,8 +225,9 @@ def main():
 
     print(" input {}".format(args.files[0]))
     print(" cubes output {}".format(args.files[1]))
+    print(" cube size {}".format(args.cubeSize)
 
-    tree_cubes_csv(args.files[0], args.files[1])
+    tree_cubes_csv(args.files[0], args.files[1], args.cubeSize)
 
 
 # this only really impacts when this is being used as a module
