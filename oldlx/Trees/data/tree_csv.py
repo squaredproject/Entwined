@@ -212,7 +212,7 @@ def arg_init():
 
     parser.add_argument('files', type=str, nargs=2, help='input.csv output.json')
 
-    parser.add_argument('cubeSize', type=int, default=1, help='cube index used in output (1 normal, 0 small cubes' )
+    parser.add_argument('--cubeSize', type=int, default=1, help='cube index used in output (1 normal, 0 small cubes' )
 
     args = parser.parse_args()
 
@@ -225,7 +225,7 @@ def main():
 
     print(" input {}".format(args.files[0]))
     print(" cubes output {}".format(args.files[1]))
-    print(" cube size {}".format(args.cubeSize)
+    print(" cube size {}".format(args.cubeSize))
 
     tree_cubes_csv(args.files[0], args.files[1], args.cubeSize)
 
