@@ -521,7 +521,7 @@ class EntwinedBranch {
             while (xKeyPoints[keyPointIndex] < newX && keyPointIndex < NUM_KEYPOINTS) {
                 keyPointIndex++;
             }
-            if (keyPointIndex < NUM_KEYPOINTS) {
+            if (keyPointIndex < NUM_KEYPOINTS && keyPointIndex > 0) {
                 double ratio = (newX - xKeyPoints[keyPointIndex - 1]) / (xKeyPoints[keyPointIndex] - xKeyPoints[keyPointIndex - 1]);
                 double newY = yKeyPoints[keyPointIndex - 1] + ratio * (yKeyPoints[keyPointIndex] - yKeyPoints[keyPointIndex - 1])
                         + layerBaseHeight;

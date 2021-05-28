@@ -1005,6 +1005,9 @@ class UIShrubOutput extends UIWindow {
   static final int SPACER = 8;
   UIShrubOutput(UI ui, float x, float y) {
     super(ui, "LIVE SHRUB OUTPUT", x, y + 100, 140, UIWindow.TITLE_LABEL_HEIGHT - 1 + BUTTON_HEIGHT + SPACER + LIST_HEIGHT);
+    // may not have any shrubs!
+    if (shrubDatagrams.length <= 0) return;
+
     float yPos = UIWindow.TITLE_LABEL_HEIGHT - 2;
     new UIButton(4, yPos, width-8, BUTTON_HEIGHT)
             .setParameter(shrubOutput.enabled)
