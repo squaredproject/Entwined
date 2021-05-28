@@ -487,7 +487,6 @@ class EntwinedBranch {
     private static final double holeSpacing = 8;
 
     EntwinedBranch(int canopyMajorLength, int rotationalPosition, int layerBaseHeight) {
-        System.out.println(" making branch: canopyMajor "+canopyMajorLength+" rotational "+rotationalPosition+" layerBaseHeight" + layerBaseHeight);
         // 5 different branch positions to index: the high, the low, and the 3 in between
         int rotationIndex = rotationalPosition > 4 ? ( 4 - rotationalPosition % 4 ) : rotationalPosition;
         // MajorLength is probably inches? why is scaling?
@@ -515,10 +514,8 @@ class EntwinedBranch {
         List<Vec3D> _availableMountingPoints = new ArrayList<Vec3D>();
         LXTransform transform = new LXTransform();
         transform.rotateY(rotationalPosition * 45 * (Utils.PI / 180));
-        // change to outside-in
-        // double newX = xKeyPoints[0] + 2;
+        // change to outside-in - 0 offset is at the end
         double newX = xKeyPoints[NUM_KEYPOINTS - 1];
-//        while (newX < xKeyPoints[NUM_KEYPOINTS - 1]) {
           while (newX > 0) {
             int keyPointIndex = 0;
             while (xKeyPoints[keyPointIndex] < newX && keyPointIndex < NUM_KEYPOINTS) {
@@ -541,18 +538,6 @@ class EntwinedBranch {
             newX -= holeSpacing;
         }
         this.availableMountingPoints = Collections.unmodifiableList(_availableMountingPoints);
-        System.out.println(" num availableMountingPoints "+this.availableMountingPoints.size() );
-        for (Vec3D p : this.availableMountingPoints) {
-            System.out.println("x: "+ p.x + " y: "+ p.y + " z: "+ p.z );
-        }
-        System.out.println(" xkp0: "+xKeyPoints[0]+ " xkp1: "+xKeyPoints[1]+ 
-                            " xkp2: "+xKeyPoints[2]+ " xkp3: "+xKeyPoints[3]+ " xkp4: "+xKeyPoints[4]);
-//        try {
-//            Thread.sleep(10000);
-//        }
-//        catch (Exception ex) {
-//            ;
-//        }
     }
 
 
