@@ -487,10 +487,15 @@ class EntwinedBranch {
     private static final double holeSpacing = 8;
 
     EntwinedBranch(int canopyMajorLength, int rotationalPosition, int layerBaseHeight) {
-        int rotationIndex = rotationalPosition > 4 ? 4 - rotationalPosition % 4 : rotationalPosition;
+        System.out.println(" making branch: canopyMajor "+canopyMajorLength+" rotational "+rotationalPosition+" layerBaseHeight" + layerBaseHeight);
+        // 5 different branch positions to index: the high, the low, and the 3 in between
+        int rotationIndex = rotationalPosition > 4 ? ( 4 - rotationalPosition % 4 ) : rotationalPosition;
+        // MajorLength is probably inches? why is scaling?
         float canopyScaling = canopyMajorLength / 180;
-        double branchLengthRatios[] = {0.37, 0.41, 0.50, 0.56, 0.63};
+        // this is REALLY STRANGE that the ratios are so small.
+        double branchLengthRatios[] = {0.37, 0.41, 0.50, 0.56, 0.63}; // ratios for rotational indexes
         double heightAdjustmentFactors[] = {1.0, 0.96, 0.92, 0.88, 0.85};
+        // branch length is the majorLen but so much less... lengthRatios are very short
         double branchLength = canopyMajorLength * branchLengthRatios[rotationIndex];
         xKeyPoints[4] = branchLength;
         xKeyPoints[3] = branchLength * 0.917;
@@ -510,8 +515,11 @@ class EntwinedBranch {
         List<Vec3D> _availableMountingPoints = new ArrayList<Vec3D>();
         LXTransform transform = new LXTransform();
         transform.rotateY(rotationalPosition * 45 * (Utils.PI / 180));
-        double newX = xKeyPoints[0] + 2;
-        while (newX < xKeyPoints[NUM_KEYPOINTS - 1]) {
+        // change to outside-in
+        // double newX = xKeyPoints[0] + 2;
+        double newX = xKeyPoints[NUM_KEYPOINTS - 1];
+//        while (newX < xKeyPoints[NUM_KEYPOINTS - 1]) {
+          while (newX > 0) {
             int keyPointIndex = 0;
             while (xKeyPoints[keyPointIndex] < newX && keyPointIndex < NUM_KEYPOINTS) {
                 keyPointIndex++;
@@ -530,10 +538,49 @@ class EntwinedBranch {
                 _availableMountingPoints.add(new Vec3D(transform.x(), transform.y(), transform.z()));
                 transform.pop();
             }
-            newX += holeSpacing;
+            newX -= holeSpacing;
         }
         this.availableMountingPoints = Collections.unmodifiableList(_availableMountingPoints);
+        System.out.println(" num availableMountingPoints "+this.availableMountingPoints.size() );
+        for (Vec3D p : this.availableMountingPoints) {
+            System.out.println("x: "+ p.x + " y: "+ p.y + " z: "+ p.z );
+        }
+        System.out.println(" xkp0: "+xKeyPoints[0]+ " xkp1: "+xKeyPoints[1]+ 
+                            " xkp2: "+xKeyPoints[2]+ " xkp3: "+xKeyPoints[3]+ " xkp4: "+xKeyPoints[4]);
+//        try {
+//            Thread.sleep(10000);
+//        }
+//        catch (Exception ex) {
+//            ;
+//        }
     }
+
+
+// making branch: canopyMajor 72 rotational 0 layerBaseHeight24
+// num availableMountingPoints 8
+// xkp0: 0.0 xkp1: 8.3916 xkp2: 16.59672 xkp3: 24.428880000000003 xkp4: 26.64
+// making branch: canopyMajor 72 rotational 1 layerBaseHeight24
+// num availableMountingPoints 8
+// xkp0: 0.0 xkp1: 9.2988 xkp2: 18.39096 xkp3: 27.06984 xkp4: 29.52
+// making branch: canopyMajor 72 rotational 2 layerBaseHeight24
+// num availableMountingPoints 10
+// xkp0: 0.0 xkp1: 11.34 xkp2: 22.428 xkp3: 33.012 xkp4: 36.0
+// making branch: canopyMajor 72 rotational 3 layerBaseHeight24
+// num availableMountingPoints 10
+// xkp0: 0.0 xkp1: 12.700800000000003 xkp2: 25.119360000000004 xkp3: 36.97344000000001 xkp4: 40.32000000000001
+// making branch: canopyMajor 72 rotational 4 layerBaseHeight24
+// num availableMountingPoints 12
+// xkp0: 0.0 xkp1: 14.2884 xkp2: 28.25928 xkp3: 41.59512 xkp4: 45.36
+// making branch: canopyMajor 72 rotational 5 layerBaseHeight24
+// num availableMountingPoints 10
+// xkp0: 0.0 xkp1: 12.700800000000003 xkp2: 25.119360000000004 xkp3: 36.97344000000001 xkp4: 40.32000000000001
+// making branch: canopyMajor 72 rotational 6 layerBaseHeight24
+// num availableMountingPoints 10
+// xkp0: 0.0 xkp1: 11.34 xkp2: 22.428 xkp3: 33.012 xkp4: 36.0
+// making branch: canopyMajor 72 rotational 7 layerBaseHeight24
+// num availableMountingPoints 8
+// xkp0: 0.0 xkp1: 9.2988 xkp2: 18.39096 xkp3: 27.06984 xkp4: 29.52
+
 
 }
 
