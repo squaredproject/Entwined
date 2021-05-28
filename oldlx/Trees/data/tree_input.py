@@ -25,6 +25,8 @@ import argparse
 # 2R, 3R, 4 (the opposite of 1), then 3L, 2L, 1L. 
 # Everyone found this confusing.
 
+# note: this has been updated to the model's use of 0 as the outer most point in a branch
+
 
 # this function allows you to input a series of branch points
 
@@ -134,9 +136,9 @@ def tree_cubes_input(filename:str):
         c['branchIndex'] = branch
 
         if half == 'a':
-            c['mountPointIndex'] = c_idx * 2
+            c['mountPointIndex'] = (cubes - c_idx - 1) * 2
         else:
-            c['mountPointIndex'] = (c_idx * 2) + 1
+            c['mountPointIndex'] = ((cubes - c_idx - 1) * 2) + 1
 
         c['cubeSizeIndex'] = 1
 

@@ -89,14 +89,15 @@ def tree_cubes_csv(csvFilename:str, cubeFilename:str, cubeSize:int):
 
 
 # file format:
-# the shrubsCube file is a very large list of dicts,
+# the entwinedCube file is a very large list of dicts,
 # and each dict has
-# {'shrubIndex': 0,
-#   'clusterIndex': 0,
-#   'rodIndex': 1,
-#   'shrubOutputIndex': 0,
-#   'cubeSizeIndex': 0,
-#   'shrubIpAddress': '10.1.0.146'}
+# {'treeIndex': 0,
+#   'layerIndex' -> 0 is lowest
+#   'branchIndex' -> 0 is shortest(?) and 0 points X-ward
+#   'mountPointIndex': -> 0 is outer most and 8 inches each inward
+#   'outputIndex': 0, -> the point in NDB's array
+#   'cubeSizeIndex': 0 -> tells Engine how many LEDs
+#   'ipAddress': '10.1.0.146'}
 
 
 #this function allows you to input a series of branch points
@@ -179,6 +180,11 @@ def tree_cube_make_object(ip:str, output:int, tree, layer:int, branch:str, half:
         print(' half must be a or b, is \"{}\" exiting line: {}'.format(half,lineNum))
         exit(-1)
 
+    # it used to be that the mountPointIndex was 0 in the center, but we've moved it to
+    # 0 at the outside, because it's hard to predict how close to the center a person starts,
+    # but they always start at the outer edge. This means the _last_ cube in an output string has
+    # to be zero
+
 
     # there are faster ways but this reads very clean
     cubes = []
@@ -196,9 +202,9 @@ def tree_cube_make_object(ip:str, output:int, tree, layer:int, branch:str, half:
         c['branchIndex'] = branch
 
         if half == 'a':
-            c['mountPointIndex'] = c_idx * 2
+            c['mountPointIndex'] = (cubesNum - c_idx - 1) * 2
         else:
-            c['mountPointIndex'] = (c_idx * 2) + 1
+            c['mountPointIndex'] = ((cubesNum - c_idx - 1) * 2) + 1
 
         c['cubeSizeIndex'] = cubeSize
         cubes.append(c)
