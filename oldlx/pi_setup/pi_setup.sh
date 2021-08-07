@@ -138,5 +138,9 @@ sudo sed -i 's/^#domain-name.*$/domain-name=local/' /etc/avahi/avahi-daemon.conf
 sudo systemctl enable avahi-daemon
 sudo systemctl restart avahi-daemon
 
+
+## delete old install
+cd /home/pi; rm -rif  Entwined
+
 ## reboot all services
 sudo systemctl reboot
