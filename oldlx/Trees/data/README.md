@@ -69,7 +69,12 @@ if you have a different installation you should certainly put the tree ID there.
 
 ### Minitree!
 
-Minitree is using 4 LED cubes exclusively, not 6. Have to find a way to put that in the configuration....
+Minitree is using 4 LED cubes exclusively, not 6. 
+
+Charlie likes to configure the NDB so that the LOWEST branch is channel one and 16, then
+the NDB outputs go around. This means 1 is 4B, and 16 is 4A, and it all goes between.
+
+Look for a google sheet with a map called 201, because we mapped a tree for reno this way.
 
 ## maintaining the cubes for shrubs
 

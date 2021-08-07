@@ -216,9 +216,9 @@ def tree_cube_make_object(ip:str, output:int, tree, layer:int, branch:str, half:
 def arg_init():
     parser = argparse.ArgumentParser(prog='tree-csv', description='convert the CSV file to the entwinedCubes file')
 
-    parser.add_argument('files', type=str, nargs=2, help='input.csv output.json')
+    parser.add_argument('files', type=str, nargs=2, help='input.csv entwinedCubes.json')
 
-    parser.add_argument('--cubeSize', type=int, default=1, help='cube index used in output (1 normal, 0 small cubes' )
+    parser.add_argument('--cubeSize', type=int, default=1, help='cube index used in output (1 normal, 0 small cubes)' )
 
     args = parser.parse_args()
 
