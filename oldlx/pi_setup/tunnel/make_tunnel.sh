@@ -19,7 +19,7 @@ fi
 echo "Creating tunnel config for  ${1}...."
 echo "Getting port for config ${1} from tunnels.json"
 
-sudo apt-get jq
+sudo apt-get install jq
 
 PORT=`jq 'select(.message.name == "'${1}'") | .message.port' ports.json`
 
