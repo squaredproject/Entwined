@@ -77,7 +77,8 @@ palette = {
     'gold': (0xff, 0xd7, 0x00),
     'brown': (0xa5, 0x2a, 0x2a),
     'chartreuse': (0x7f, 0xff, 0x00),
-    'dark green': (0x00, 0x64, 0x00)
+    'dark green': (0x00, 0x64, 0x00),
+    'orange': (0xff, 0x40, 0x40)
 }
 
 
@@ -299,7 +300,7 @@ def pattern_shrub_rank_order():
             time.sleep(3.0)
 
 ## AARRRGGG! Need to parameterize... minitree has 4....
-LEDS_PER_CUBE = 4
+LEDS_PER_CUBE = 6
 
 def cube_set(cube:int, color: tuple):
     global LEDS_PER_CUBE
@@ -311,13 +312,25 @@ def cube_set(cube:int, color: tuple):
 def pattern_cube_order(n_cubes: int):
     global leds, palette
     while True:
-        leds_color_fill ( palette["blue"] )
+        #leds_color_fill ( palette["blue"] )
+        leds_color_fill ( palette["red"] )
         leds_send(leds)
         time.sleep(1.0)
         for c_idx in range(n_cubes):
-            cube_set(c_idx, palette["white"])
+            cube_set(c_idx, palette["green"])
             leds_send(leds)
             time.sleep(0.5)
+
+def pattern_strobe():
+    global leds, palette
+    while True:
+        leds_color_fill ( palette["black"] )
+        leds_send(leds)
+        time.sleep(0.3)
+        leds_color_fill ( palette["green"] )
+        leds_send(leds)
+        time.sleep(0.3)
+
 
 palette_order = [
     (0xff, 0x00, 0x00),
@@ -396,6 +409,8 @@ def main():
             print(" cube color, you must have cubes try again")
             exit(-1)
         pattern_cube_color(args.cubes)
+    elif args.pattern == 'strobe':
+        pattern_strobe()
     elif args.pattern == 'black':
         pattern_black()
     else:
