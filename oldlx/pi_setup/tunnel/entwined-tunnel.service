@@ -6,7 +6,7 @@ After=network-online.target
 ExecStart=/usr/bin/autossh -M 0 -q -N -o "ServerAliveInterval 60" -o "ServerAliveCountMax 3" -R *:9073:localhost:22 ent@950arnold.ddns.net -p 9091 -i /home/pi/.ssh/id_rsa
 User=pi
 Restart=always
-RestartSec=10s
+RestartSec=30s
 
 [Install]
 WantedBy=multi-user.target
