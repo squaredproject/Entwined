@@ -103,27 +103,27 @@ def main():
 
     print(" file to munge is {}".format(args.file))
     if args.delete:
-        if not args.shrub:
+        if not args.shrub is None:
             print(" error: must supply --shrub or -i to delete that shrub")
             exit(-1)
         print(" deleting this shrub {}".format(args.shrub))
         shrub_delete(args.file[0], args.shrub)
 
     elif args.add:
-        if not args.ip:
+        if args.ip is None:
             print(" error: adding a shrub requires both an ID and an IP")
             exit(-1)
-        if not args.shrub:
+        if args.shrub is None:
             print(" error: must supply --shrub or -i to add that shrub")
             exit(-1)
         print(" adding a new shrub with this ID {} and IP {}".format(args.shrub,args.ip))
         shrub_add(args.file[0], args.shrub, args.ip)
 
     elif args.change:
-        if not args.shrub:
+        if args.shrub is None:
             print(" error: must supply --shrub or -i to change that shrub")
             exit(-1)
-        if not args.ip:
+        if args.ip is None:
             print(" error: adding a shrub requires both an ID and an IP")
             exit(-1)
         print(" changing shrub {} IP address to {}".format(args.shrub,args.ip))
