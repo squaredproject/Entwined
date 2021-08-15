@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [[ ! -d $1 ]]
+then
+	echo "no directory with name $1, recapture requires a directory"
+	exit
+fi
+
 echo "recapturing necessary install files into directory $1"
 echo "overwriting old files"
 
