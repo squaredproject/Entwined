@@ -42,6 +42,17 @@
 	}
 }
 
+{
+        "message": {
+                "name": "cotner",
+                "port": 9074,
+		"comment": "Scott Cotner Shrub",
+		"tunnel": " ssh -p 9091 -R  *:90734:localhost:22 ent@950arnold.ddns.net",
+		"ssh": " ssh -p 9074 pi@950arnold.ddns.net"
+
+	}
+}
+
 
 {
 }
