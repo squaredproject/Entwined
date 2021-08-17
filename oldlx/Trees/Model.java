@@ -323,6 +323,25 @@ class Tree extends LXModel {
                         }
                         Cube[] ndbCubes = ipMap.get(cc.ipAddress);
 
+// Note to the unwary! You can have an NPE here. It means that the NDB configuration says that
+// we only have so many cubes, and your cube file says you have more than that. 
+// Go back and look at your NDB file and the file which generated your entwinedCubes.json
+// to see which mistake you've made. The below prints only happen if there
+// would have been an NPE and will help you figure out which NDB
+// you likely made the mistake on.
+//   A much cooler program would check for the index out of bounds---- but we don't
+// really want to continue if there was a mistake in the model config
+// The "outputIndex" is the output (probably 0 index instead of 1?)
+// I think the mistake could be in an earlier output tho?
+// the IP address will be correct tho
+
+
+                        if (ndbConfig.getOutputBase(cc.outputIndex) + cc.stringOffsetIndex >= ndbConfig.getNumberCubes()) {
+                          System.out.println("outputIndex: "+cc.outputIndex+" cc.stringOffsetIndex "+cc.stringOffsetIndex);
+                          System.out.println("ndbConfig OutputBase: " + ndbConfig.getOutputBase(cc.outputIndex));
+                          System.out.println("ipaddress: "+cc.ipAddress+" ndbConfig numberCubes "+ndbConfig.getNumberCubes());
+                        }
+
                         ndbCubes[ndbConfig.getOutputBase(cc.outputIndex) + cc.stringOffsetIndex] = cube;
 
                         //ndbCubes[ndbCubescc.outputIndex] = cube;
