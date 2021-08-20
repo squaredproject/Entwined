@@ -124,7 +124,7 @@ def main():
             print(" error: must supply --shrub or -i to change that shrub")
             exit(-1)
         if args.ip is None:
-            print(" error: adding a shrub requires both an ID and an IP")
+            print(" error: changing a shrub requires both an ID and an IP")
             exit(-1)
         print(" changing shrub {} IP address to {}".format(args.shrub,args.ip))
         shrub_changeIP(args.file[0], args.shrub, args.ip)
