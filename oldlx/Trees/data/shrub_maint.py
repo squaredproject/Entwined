@@ -133,7 +133,7 @@ def main():
         shrub_list(args.file[0])
 
     else:
-        print(' Must have exactly one of ip, add, or delete')
+        print(' Must have exactly one of add, delete, change, or list')
         exit(-1)
 
 
