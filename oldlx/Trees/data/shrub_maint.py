@@ -80,7 +80,7 @@ def shrub_list(filename:str) -> None:
 
 
 def arg_init():
-    parser = argparse.ArgumentParser(prog='cube-maint', description='Munge the ShrubCube File')
+    parser = argparse.ArgumentParser(prog='shrub_maint', description='Munge the ShrubCube File')
 
     parser.add_argument('file', type=str, nargs=1, help='file to munge')
     parser.add_argument('--shrub', '-i', type=int, help='shrub id to modify')
