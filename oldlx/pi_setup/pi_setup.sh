@@ -90,6 +90,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables
 sudo systemctl unmask hostapd
 sudo systemctl enable hostapd
 sudo cp ./hostapd.conf /etc/hostapd/
+sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
 
 ## define wlan1 wireless interface
 cat dhcpcd.conf >> /etc/dhcpcd.conf
