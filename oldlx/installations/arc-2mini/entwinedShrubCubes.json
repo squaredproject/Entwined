@@ -485,7 +485,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 0,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 1,
@@ -493,7 +493,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 1,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 2,
@@ -501,7 +501,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 2,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 3,
@@ -509,7 +509,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 3,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 4,
@@ -517,7 +517,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 4,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 5,
@@ -525,7 +525,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 5,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 6,
@@ -533,7 +533,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 6,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 7,
@@ -541,7 +541,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 7,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 8,
@@ -549,7 +549,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 8,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 9,
@@ -557,7 +557,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 9,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 10,
@@ -565,7 +565,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 10,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 11,
@@ -573,7 +573,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 11,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 0,
@@ -581,7 +581,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 12,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 1,
@@ -589,7 +589,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 13,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 2,
@@ -597,7 +597,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 14,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 3,
@@ -605,7 +605,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 15,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 4,
@@ -613,7 +613,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 16,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 5,
@@ -621,7 +621,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 17,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 6,
@@ -629,7 +629,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 18,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 7,
@@ -637,7 +637,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 19,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 8,
@@ -645,7 +645,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 20,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 9,
@@ -653,7 +653,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 21,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 10,
@@ -661,7 +661,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 22,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 11,
@@ -669,7 +669,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 23,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 0,
@@ -677,7 +677,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 24,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 1,
@@ -685,7 +685,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 25,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 2,
@@ -693,7 +693,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 26,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 3,
@@ -701,7 +701,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 27,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 4,
@@ -709,7 +709,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 28,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 5,
@@ -717,7 +717,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 29,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 6,
@@ -725,7 +725,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 30,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 7,
@@ -733,7 +733,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 31,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 8,
@@ -741,7 +741,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 32,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 9,
@@ -749,7 +749,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 33,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 10,
@@ -757,7 +757,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 34,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 11,
@@ -765,7 +765,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 35,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 0,
@@ -773,7 +773,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 36,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 1,
@@ -781,7 +781,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 37,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 2,
@@ -789,7 +789,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 38,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 3,
@@ -797,7 +797,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 39,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 4,
@@ -805,7 +805,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 40,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 5,
@@ -813,7 +813,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 41,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 6,
@@ -821,7 +821,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 42,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 7,
@@ -829,7 +829,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 43,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 8,
@@ -837,7 +837,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 44,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 9,
@@ -845,7 +845,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 45,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 10,
@@ -853,7 +853,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 46,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 11,
@@ -861,7 +861,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 47,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 0,
@@ -869,7 +869,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 48,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 1,
@@ -877,7 +877,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 49,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 2,
@@ -885,7 +885,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 50,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 3,
@@ -893,7 +893,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 51,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 4,
@@ -901,7 +901,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 52,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 5,
@@ -909,7 +909,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 53,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 6,
@@ -917,7 +917,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 54,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 7,
@@ -925,7 +925,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 55,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 8,
@@ -933,7 +933,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 56,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 9,
@@ -941,7 +941,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 57,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 10,
@@ -949,7 +949,7 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 58,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
+  "shrubIpAddress": "10.0.0.211"
 }, {
   "shrubIndex": 1,
   "clusterIndex": 11,
@@ -957,3365 +957,5 @@
   "treeOrShrub": "SHRUB",
   "shrubOutputIndex": 59,
   "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.204"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 0,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 0,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 1,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 1,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 2,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 2,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 3,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 3,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 4,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 4,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 5,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 5,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 6,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 6,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 7,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 7,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 8,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 8,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 9,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 9,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 10,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 10,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 11,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 11,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 0,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 12,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 1,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 13,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 2,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 14,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 3,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 15,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 4,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 16,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 5,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 17,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 6,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 18,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 7,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 19,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 8,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 20,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 9,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 21,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 10,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 22,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 11,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 23,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 0,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 24,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 1,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 25,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 2,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 26,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 3,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 27,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 4,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 28,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 5,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 29,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 6,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 30,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 7,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 31,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 8,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 32,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 9,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 33,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 10,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 34,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 11,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 35,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 0,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 36,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 1,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 37,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 2,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 38,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 3,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 39,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 4,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 40,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 5,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 41,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 6,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 42,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 7,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 43,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 8,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 44,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 9,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 45,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 10,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 46,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 11,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 47,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 0,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 48,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 1,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 49,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 2,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 50,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 3,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 51,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 4,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 52,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 5,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 53,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 6,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 54,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 7,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 55,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 8,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 56,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 9,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 57,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 10,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 58,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 2,
-  "clusterIndex": 11,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 59,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.209"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 0,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 0,
-  "cubeSizeIndex": 0,
   "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 1,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 1,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 2,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 2,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 3,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 3,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 4,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 4,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 5,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 5,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 6,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 6,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 7,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 7,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 8,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 8,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 9,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 9,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 10,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 10,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 11,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 11,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 0,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 12,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 1,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 13,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 2,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 14,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 3,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 15,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 4,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 16,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 5,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 17,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 6,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 18,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 7,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 19,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 8,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 20,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 9,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 21,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 10,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 22,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 11,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 23,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 0,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 24,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 1,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 25,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 2,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 26,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 3,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 27,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 4,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 28,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 5,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 29,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 6,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 30,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 7,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 31,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 8,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 32,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 9,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 33,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 10,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 34,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 11,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 35,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 0,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 36,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 1,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 37,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 2,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 38,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 3,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 39,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 4,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 40,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 5,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 41,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 6,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 42,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 7,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 43,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 8,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 44,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 9,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 45,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 10,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 46,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 11,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 47,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 0,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 48,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 1,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 49,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 2,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 50,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 3,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 51,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 4,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 52,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 5,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 53,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 6,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 54,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 7,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 55,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 8,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 56,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 9,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 57,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 10,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 58,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 3,
-  "clusterIndex": 11,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 59,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.211"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 0,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 0,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 1,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 1,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 2,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 2,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 3,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 3,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 4,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 4,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 5,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 5,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 6,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 6,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 7,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 7,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 8,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 8,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 9,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 9,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 10,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 10,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 11,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 11,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 0,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 12,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 1,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 13,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 2,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 14,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 3,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 15,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 4,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 16,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 5,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 17,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 6,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 18,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 7,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 19,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 8,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 20,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 9,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 21,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 10,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 22,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 11,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 23,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 0,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 24,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 1,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 25,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 2,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 26,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 3,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 27,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 4,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 28,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 5,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 29,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 6,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 30,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 7,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 31,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 8,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 32,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 9,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 33,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 10,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 34,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 11,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 35,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 0,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 36,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 1,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 37,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 2,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 38,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 3,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 39,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 4,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 40,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 5,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 41,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 6,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 42,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 7,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 43,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 8,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 44,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 9,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 45,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 10,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 46,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 11,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 47,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 0,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 48,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 1,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 49,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 2,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 50,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 3,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 51,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 4,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 52,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 5,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 53,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 6,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 54,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 7,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 55,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 8,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 56,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 9,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 57,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 10,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 58,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 4,
-  "clusterIndex": 11,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 59,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.212"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 0,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 0,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 1,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 1,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 2,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 2,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 3,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 3,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 4,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 4,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 5,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 5,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 6,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 6,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 7,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 7,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 8,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 8,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 9,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 9,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 10,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 10,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 11,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 11,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 0,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 12,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 1,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 13,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 2,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 14,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 3,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 15,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 4,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 16,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 5,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 17,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 6,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 18,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 7,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 19,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 8,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 20,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 9,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 21,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 10,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 22,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 11,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 23,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 0,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 24,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 1,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 25,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 2,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 26,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 3,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 27,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 4,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 28,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 5,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 29,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 6,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 30,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 7,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 31,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 8,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 32,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 9,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 33,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 10,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 34,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 11,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 35,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 0,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 36,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 1,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 37,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 2,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 38,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 3,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 39,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 4,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 40,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 5,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 41,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 6,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 42,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 7,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 43,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 8,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 44,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 9,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 45,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 10,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 46,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 11,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 47,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 0,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 48,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 1,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 49,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 2,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 50,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 3,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 51,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 4,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 52,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 5,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 53,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 6,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 54,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 7,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 55,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 8,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 56,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 9,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 57,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 10,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 58,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 5,
-  "clusterIndex": 11,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 59,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.214"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 0,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 0,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 1,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 1,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 2,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 2,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 3,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 3,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 4,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 4,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 5,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 5,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 6,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 6,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 7,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 7,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 8,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 8,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 9,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 9,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 10,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 10,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 11,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 11,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 0,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 12,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 1,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 13,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 2,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 14,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 3,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 15,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 4,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 16,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 5,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 17,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 6,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 18,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 7,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 19,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 8,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 20,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 9,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 21,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 10,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 22,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 11,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 23,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 0,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 24,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 1,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 25,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 2,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 26,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 3,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 27,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 4,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 28,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 5,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 29,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 6,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 30,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 7,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 31,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 8,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 32,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 9,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 33,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 10,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 34,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 11,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 35,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 0,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 36,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 1,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 37,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 2,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 38,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 3,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 39,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 4,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 40,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 5,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 41,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 6,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 42,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 7,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 43,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 8,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 44,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 9,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 45,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 10,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 46,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 11,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 47,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 0,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 48,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 1,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 49,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 2,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 50,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 3,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 51,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 4,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 52,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 5,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 53,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 6,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 54,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 7,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 55,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 8,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 56,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 9,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 57,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 10,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 58,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 6,
-  "clusterIndex": 11,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 59,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.221"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 0,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 0,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 1,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 1,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 2,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 2,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 3,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 3,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 4,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 4,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 5,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 5,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 6,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 6,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 7,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 7,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 8,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 8,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 9,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 9,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 10,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 10,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 11,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 11,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 0,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 12,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 1,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 13,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 2,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 14,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 3,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 15,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 4,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 16,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 5,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 17,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 6,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 18,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 7,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 19,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 8,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 20,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 9,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 21,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 10,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 22,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 11,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 23,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 0,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 24,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 1,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 25,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 2,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 26,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 3,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 27,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 4,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 28,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 5,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 29,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 6,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 30,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 7,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 31,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 8,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 32,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 9,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 33,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 10,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 34,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 11,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 35,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 0,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 36,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 1,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 37,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 2,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 38,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 3,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 39,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 4,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 40,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 5,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 41,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 6,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 42,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 7,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 43,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 8,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 44,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 9,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 45,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 10,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 46,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 11,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 47,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 0,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 48,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 1,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 49,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 2,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 50,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 3,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 51,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 4,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 52,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 5,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 53,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 6,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 54,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 7,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 55,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 8,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 56,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 9,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 57,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 10,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 58,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 7,
-  "clusterIndex": 11,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 59,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.222"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 0,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 0,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 1,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 1,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 2,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 2,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 3,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 3,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 4,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 4,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 5,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 5,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 6,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 6,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 7,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 7,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 8,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 8,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 9,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 9,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 10,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 10,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 11,
-  "rodIndex": 1,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 11,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 0,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 12,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 1,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 13,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 2,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 14,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 3,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 15,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 4,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 16,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 5,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 17,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 6,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 18,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 7,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 19,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 8,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 20,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 9,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 21,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 10,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 22,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 11,
-  "rodIndex": 2,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 23,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 0,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 24,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 1,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 25,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 2,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 26,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 3,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 27,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 4,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 28,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 5,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 29,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 6,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 30,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 7,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 31,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 8,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 32,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 9,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 33,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 10,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 34,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 11,
-  "rodIndex": 3,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 35,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 0,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 36,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 1,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 37,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 2,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 38,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 3,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 39,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 4,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 40,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 5,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 41,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 6,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 42,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 7,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 43,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 8,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 44,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 9,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 45,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 10,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 46,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 11,
-  "rodIndex": 4,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 47,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 0,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 48,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 1,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 49,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 2,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 50,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 3,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 51,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 4,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 52,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 5,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 53,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 6,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 54,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 7,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 55,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 8,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 56,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 9,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 57,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 10,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 58,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
-}, {
-  "shrubIndex": 8,
-  "clusterIndex": 11,
-  "rodIndex": 5,
-  "treeOrShrub": "SHRUB",
-  "shrubOutputIndex": 59,
-  "cubeSizeIndex": 0,
-  "shrubIpAddress": "10.0.0.218"
 }]
