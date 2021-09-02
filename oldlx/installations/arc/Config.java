@@ -6,7 +6,7 @@ final class Config {
   static final boolean enableSoundSyphon = true;
 
   static final boolean enableOutputMinitree = false;
-  static final boolean enableOutputBigtree = false;
+  static final boolean enableOutputBigtree = true;
 
   // these configure the mandated "pause" to keep crowds down
   // set either to 0 to disable
