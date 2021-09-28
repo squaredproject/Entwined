@@ -103,7 +103,7 @@ def main():
 
     print(" file to munge is {}".format(args.file))
     if args.delete:
-        if not args.shrub is None:
+        if args.shrub is None:
             print(" error: must supply --shrub or -i to delete that shrub")
             exit(-1)
         print(" deleting this shrub {}".format(args.shrub))
