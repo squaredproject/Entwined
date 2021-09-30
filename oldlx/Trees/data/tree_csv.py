@@ -53,7 +53,7 @@ import sys
 import argparse
 
 
-def tree_cubes_csv(csvFilename:str, cubeFilename:str, cubeSize:int):
+def tree_cubes_csv(csvFilename:str, cubeFilename:str):
 
     cubes = []
 
@@ -66,10 +66,12 @@ def tree_cubes_csv(csvFilename:str, cubeFilename:str, cubeSize:int):
                 values = csv_line.split(',') #only the one delimiter
                 ndb = values[0]                # str
                 tree = values[1].lower()       # str
-                output = int(values[2])        # int
-                cubesNum = int(values[3])            # int, length of string, some are 0 if not used
+                cubeSize = int(values[2])      # int
+                output = int(values[3])        # int
+                cubesNum = int(values[4])            # int, length of string, some are 0 if not used
+
                 if cubesNum > 0:
-                    branchStr = values[4]           # layer.branch.half
+                    branchStr = values[5]           # layer.branch.half
                     bValues = branchStr.strip().split('.')
                     layer = int(bValues[0])
                     branch = bValues[1].lower()
@@ -106,7 +108,7 @@ def tree_cubes_csv(csvFilename:str, cubeFilename:str, cubeSize:int):
 def tree_cube_make_object(ip:str, output:int, tree, layer:int, branch:str, half:str, cubesNum:int, cubeSize:int, lineNum:int):
 
 
-    print(' adding: ip {} output {} tree {} layer {} branch {} half {} cubes {} linenum {}'.format(ip,output,tree,layer,branch,half,cubesNum,lineNum))
+    print(' adding: ip {} output {} tree {} cubesize {} layer {} branch {} half {} cubes {} linenum {}'.format(ip,output,tree,cubeSize,layer,branch,half,cubesNum,lineNum))
 
     # helper for ip, add the 10.0.0. if not there
     if '.' not in ip:
@@ -218,8 +220,6 @@ def arg_init():
 
     parser.add_argument('files', type=str, nargs=2, help='input.csv entwinedCubes.json')
 
-    parser.add_argument('--cubeSize', type=int, default=1, help='cube index used in output (1 normal, 0 small cubes)' )
-
     args = parser.parse_args()
 
     return args
@@ -231,9 +231,8 @@ def main():
 
     print(" input {}".format(args.files[0]))
     print(" cubes output {}".format(args.files[1]))
-    print(" cube size {}".format(args.cubeSize))
 
-    tree_cubes_csv(args.files[0], args.files[1], args.cubeSize)
+    tree_cubes_csv(args.files[0], args.files[1])
 
 
 # this only really impacts when this is being used as a module
