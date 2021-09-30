@@ -9,9 +9,9 @@
 	{
 		"canopyMajorLengths" : [180, 120],
 		"layerBaseHeights" : [43, 95],
-		"ry" : 180,
+		"ry" : 275,
 		"x" : 572,
-		"z" : 0
+		"z" : 192
 	},
 	{
 		"canopyMajorLengths" : [100],
@@ -23,8 +23,8 @@
 	{
 		"canopyMajorLengths" : [100],
 		"layerBaseHeights" : [24],
-		"ry" : 20,
-		"x" : 0,
-		"z" : 0
+		"ry" : 270,
+		"x" : 744,
+		"z" : -216
 	}
 ]
