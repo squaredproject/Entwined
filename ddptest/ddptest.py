@@ -257,7 +257,7 @@ def pattern_order():
         leds_send(leds)
         time.sleep(0.4)
 
-SHRUB_LEDS_PER_CUBE = 6
+SHRUB_LEDS_PER_CUBE = 0
 SHRUB_CUBES_PER_RANK = 12
 SHRUB_RANKS = 5
 
@@ -355,9 +355,9 @@ def arg_init():
     parser.add_argument('--pattern', '-p', type=str, help='one of: palette, hsv, order, shrub_rank, shrub_rank_order, cube_order, cube_color, black')
     parser.add_argument('--leds', '-l', type=int, default=40, help='number of leds')
     parser.add_argument('--cubes', '-c', type=int, help='number of cubes')
-    parser.add_argument('--lpc', type=int, help='leds per cube 4 or 6 usually')
+    parser.add_argument('--lpc', type=int, default=6, help='leds per cube (default 6, 4 could be)')
 
-    global DESTINATION_IP, NUM_LEDS, leds
+    global DESTINATION_IP, NUM_LEDS, leds, LEDS_PER_CUBE
 
     args = parser.parse_args()
     if args.host:
