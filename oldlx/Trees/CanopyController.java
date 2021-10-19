@@ -85,7 +85,7 @@ class CanopyController {
 
 	  	@Override
 	  	public void run() {
-	  		log(" CanopyController thread start ");
+	  		log(" CanopyController thread start " + Config.canopyServer);
 
 	  		URI uri = URI.create(Config.canopyServer);
 
