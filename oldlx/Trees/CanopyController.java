@@ -69,6 +69,7 @@ class CanopyController {
   	this.engine = engine;
 
   	if (Config.canopyServer == "") {
+  		log( "CanopyController: not enabled, empty config");
   		enabled = false;
   		return;
   	}
