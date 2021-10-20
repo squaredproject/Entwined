@@ -84,6 +84,9 @@ cd $HOME/Entwined/oldlx/pi_setup/
 ## install hostapd & others
 sudo apt install -y hostapd dnsmasq 
 
+## unblock wlan access
+sudo rfkill unblock wlan
+
 sudo DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
 
 ## enable hostapd
