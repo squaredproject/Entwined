@@ -75,6 +75,16 @@
 	}
 }
 
+{
+        "message": {
+                "name": "scottsdale",
+                "port": 9077,
+		"comment": "Brian and Carolyn Shrub",
+		"tunnel": " ssh -p 9091 -R  *:9077:localhost:22 ent@950arnold.ddns.net",
+		"ssh": " ssh -p 9077 pi@950arnold.ddns.net"
+
+	}
+}
 
 {
 }
