@@ -54,3 +54,5 @@ sudo systemctl daemon-reload
 sudo systemctl restart $SERVICE
 sudo systemctl enable  $SERVICE
 
+echo "adding cron job to restart tunnel every 15 mins"
+(crontab -l 2>/dev/null; echo "*/15 * * * * sudo systemctl restart entwined-tunnel") | crontab -
