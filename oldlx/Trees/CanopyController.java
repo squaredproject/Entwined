@@ -74,6 +74,8 @@ class CanopyController {
   	}
   	enabled = true;
 
+	final CanopyController self = this;
+
   	canopyRunnable = new Runnable() {
 
 		  // Log Helper
@@ -159,6 +161,15 @@ class CanopyController {
 		    	@Override
 		    	public void call(Object... args) {
 		    		log(" socket connect event id "+socket.id() );
+
+					try {
+						ZonedDateTime firstPause = ZonedDateTime.now();
+						firstPause.plusSeconds( (int) (Config.pauseRunMinutes * 60.0) );
+						self.modelUpdate(true /*interactive*/, (int) (Config.pauseRunMinutes * 60.0f) /*runSeconds*/,
+							(int) (Config.pausePauseMinutes * 60.0f) /*pauseSeconds*/,"run" /*state*/,firstPause);
+					} catch (Exception e) {
+						log(" socket: attempting to modelUpdate threw " + e);
+					}
 		    	}
 		    });
 
@@ -332,6 +343,7 @@ class CanopyController {
   	// make json object
   	JSONObject modelUpdateObj = new JSONObject();
   	try {
+		modelUpdateObj.put("installationId", Config.installationId);
 	  	modelUpdateObj.put("interactivityEnabled", interactive);
 	  	JSONObject breakTimer = new JSONObject();
 	  	breakTimer.put("runSeconds",runSeconds);
@@ -339,13 +351,10 @@ class CanopyController {
 	  	breakTimer.put("state",state);
 	  	breakTimer.put("nextStateChangeDate",nextTransition_str);
 	  	modelUpdateObj.put("breakTimer",breakTimer);
-
 	} catch (Exception e) {
 		engine.log(" could not create json object for model Update "+e);
 		return;
 	}
-	String modelUpdate_str = modelUpdateObj.toString();
-  	engine.log(" Model Update String: " + modelUpdate_str);
 
   	// send to other end
   	while (socket == null) {
@@ -355,7 +364,7 @@ class CanopyController {
   			;
   		}
   	}
-  	socket.emit("modelUpdated", modelUpdate_str);
+  	socket.emit("modelUpdated", modelUpdateObj);
 
   }
 
