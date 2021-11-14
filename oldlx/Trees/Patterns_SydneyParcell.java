@@ -80,7 +80,7 @@ class RoseGarden extends TSPattern {
       
       for (BaseCube cube : model.baseCubes) {
         idToHueMapping[cube.index] = -1;
-        if (cube.treeOrShrub == TreeOrShrub.TREE && cube.sculptureIndex == treeId) {
+        if (cube.pieceType == PieceType.TREE && cube.sculptureIndex == treeId) {
           // save the id to the map 
           idToHueMapping[cube.index] = Utils.random(randomMinus, randomPlus);
         }
@@ -110,7 +110,7 @@ class RoseGarden extends TSPattern {
       //    }
           
           
-      //     if (cube.treeOrShrub == TreeOrShrub.TREE) {
+      //     if (cube.pieceType == PieceType.TREE) {
       //       colors[cube.index] = lx.hsb(c, 100, 80);
       //     }
            
@@ -147,7 +147,7 @@ class RoseGarden extends TSPattern {
     float current = h;
     boolean currentIterator = iterateForward;
     for (BaseCube cube : model.baseCubes) {
-      //if (cube.treeOrShrub == TreeOrShrub.SHRUB) {
+      //if (cube.pieceType == PieceType.SHRUB) {
         colors[cube.index] = lx.hsb(current, 100, 90);
         
         if (currentIterator) {
@@ -172,7 +172,7 @@ class RoseGarden extends TSPattern {
     }
     
     //for (BaseCube cube : model.baseCubes) {
-    //  if (cube.treeOrShrub == TreeOrShrub.TREE) {
+    //  if (cube.pieceType == PieceType.TREE) {
     //    float theta = (idToHueMapping[cube.index] + time ) % 360;    
     //    colors[cube.index] = lx.hsb(theta, 100, 90);
     //  }
@@ -185,7 +185,7 @@ class RoseGarden extends TSPattern {
     float startBright = 60;
     for (BaseCube cube : model.baseCubes) {
       int newIndex = cube.sculptureIndex;
-      if (cube.treeOrShrub == TreeOrShrub.SHRUB) {
+      if (cube.pieceType == PieceType.SHRUB) {
         if (shrubIndex != newIndex) {
           // new shrub
           shrubIndex = newIndex;

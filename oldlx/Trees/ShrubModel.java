@@ -162,7 +162,7 @@ class ShrubModel extends LXModel {
         private ShrubFixture(List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfigs) {
             for (int i = 0; i < shrubConfigs.size(); i++) {
                 ShrubConfig sc = shrubConfigs.get(i);
-                shrubs.add(new Shrub(shrubCubeConfigs, i, sc.x, sc.z, sc.ry));
+                shrubs.add(new Shrub(shrubCubeConfigs, i, sc.pieceId, sc.x, sc.z, sc.ry));
             }
             for (Shrub shrub : shrubs) {
                 for (LXPoint p : shrub.points) {
@@ -217,6 +217,7 @@ class ShrubConfig  {
   //    int[] canopyMajorLengths;
   //    int[] clusterBaseHeights;
   //    String ipAddress;
+  String pieceId;
 }
 
 class Shrub extends LXModel {
@@ -242,6 +243,11 @@ class Shrub extends LXModel {
     public final int index;
 
     /**
+     * pieceId is used by the QR codes to fire up individual things
+     */
+    public final String pieceId;
+
+    /**
      * x-position of center of base of shrub
      */
     public final float x;
@@ -256,8 +262,9 @@ class Shrub extends LXModel {
      */
     public final float ry;
 
-    Shrub(List<ShrubCubeConfig> shrubCubeConfig, int shrubIndex, float x, float z, float ry) {
-        super(new Fixture(shrubCubeConfig, shrubIndex, x, z, ry));
+
+    Shrub(List<ShrubCubeConfig> shrubCubeConfig, int shrubIndex, String pieceId, float x, float z, float ry) {
+        super(new Fixture(shrubCubeConfig, shrubIndex, pieceId, x, z, ry));
         Fixture f = (Fixture) this.fixtures.get(0);
         this.index = shrubIndex;
         this.cubes = Collections.unmodifiableList(f.shrubCubes);
@@ -266,6 +273,7 @@ class Shrub extends LXModel {
         this.x = x;
         this.z = z;
         this.ry = ry;
+        this.pieceId = pieceId;
         // Very useful print to see if I'm going the right directions
         //if (shrubIndex == 0) {
         //      for (ShrubCube cube : this.cubes) {
@@ -288,7 +296,7 @@ class Shrub extends LXModel {
         public final LXTransform shrubTransform;
         int NUM_CLUSTERS_IN_SHRUB = 12;
 
-        Fixture(List<ShrubCubeConfig> shrubCubeConfig, int shrubIndex, float x, float z, float ry) {
+        Fixture(List<ShrubCubeConfig> shrubCubeConfig, int shrubIndex, String pieceId, float x, float z, float ry) {
             shrubTransform = new LXTransform();
             shrubTransform.translate(x, 0, z);
             shrubTransform.rotateY(ry * Utils.PI / 180);
@@ -308,7 +316,7 @@ class Shrub extends LXModel {
                         p = null;
                     }
                     if (p != null) {
-                        ShrubCube cube = new ShrubCube(this.transformPoint(p), p, cc);
+                        ShrubCube cube = new ShrubCube(this.transformPoint(p), p, cc, pieceId);
                         shrubCubes.add(cube);
                         if (!shrubIpMap.containsKey(cc.shrubIpAddress)) {
                             shrubIpMap.put(cc.shrubIpAddress, new ShrubCube[60]);
@@ -332,7 +340,7 @@ class Shrub extends LXModel {
                         cc.shrubOutputIndex = i;
                         cc.clusterIndex = 0;
                         cc.shrubIpAddress = ip;
-                        ShrubCube cube = new ShrubCube(new Vec3D(0, 0, 0), new Vec3D(0, 0, 0), cc);
+                        ShrubCube cube = new ShrubCube(new Vec3D(0, 0, 0), new Vec3D(0, 0, 0), cc, pieceId);
                         shrubCubes.add(cube);
                         ndbCubes[i] = cube;
                     }
@@ -368,8 +376,8 @@ class ShrubCube extends BaseCube {
 
     public ShrubCubeConfig config = null;
 
-    ShrubCube(Vec3D globalPosition, Vec3D sculpturePosition, ShrubCubeConfig config) {
-        super( globalPosition,  sculpturePosition, config.shrubIndex, config.treeOrShrub);
+    ShrubCube(Vec3D globalPosition, Vec3D sculpturePosition, ShrubCubeConfig config, String pieceId) {
+        super( globalPosition,  sculpturePosition, config.shrubIndex, config.pieceType, pieceId);
 
         this.size = 4f; // cubes are about 4 inches across
         this.pixels = 4; // LEDs per cube - doesn't change in this model
@@ -381,7 +389,7 @@ class ShrubCubeConfig {
     int shrubIndex; // each shrubIndex maps to an ipAddress, consider pushing ipAddress up to ShrubConfig
     int clusterIndex;
     int rodIndex;
-    TreeOrShrub treeOrShrub = TreeOrShrub.SHRUB;
+    PieceType pieceType = PieceType.SHRUB;
 
     //    int mountPointIndex;
     int shrubOutputIndex;

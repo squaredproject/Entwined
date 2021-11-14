@@ -105,14 +105,14 @@ class Fountain extends TSPattern {
     addParameter(rippleParam);
 
     for (BaseCube cube : model.baseCubes) {
-      if (cube.treeOrShrub == TreeOrShrub.SHRUB) {
+      if (cube.pieceType == PieceType.SHRUB) {
         shrubXmin = Math.min(shrubXmin, cube.x);
         shrubXmax = Math.max(shrubXmax, cube.x);
         shrubYmin = Math.min(shrubYmin, cube.y);
         shrubYmax = Math.max(shrubYmax, cube.y);
         shrubZmin = Math.min(shrubZmin, cube.z);
         shrubZmax = Math.max(shrubZmax, cube.z);
-      } else {
+      } else if (cube.pieceType == PieceType.TREE) {
         treeYmin = Math.min(treeYmin, cube.y);
         treeYmax = Math.max(treeYmax, cube.y);
 
@@ -201,7 +201,7 @@ class Fountain extends TSPattern {
 
     // Use a for loop here to set the cube colors
     for (BaseCube cube : model.baseCubes) {
-      if (cube.treeOrShrub == TreeOrShrub.TREE) {
+      if (cube.pieceType == PieceType.TREE) {
         if (cube.sculptureIndex == treeIndexNewColor) {
           // This is the tree that changes to the new color.
           float s = Math.max(0, 100 - Math.abs(cube.r - rPulsingRing - ringOffset.getValuef()));

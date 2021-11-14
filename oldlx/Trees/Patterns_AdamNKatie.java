@@ -274,7 +274,7 @@ class AutographedPattern extends TSPattern {
       float radiusLocalRaw = cube.r;
         
       // Check if this cube is a shrub cube.
-      if (cube.treeOrShrub == TreeOrShrub.TREE){
+      if (cube.pieceType == PieceType.TREE){
         // Update the tree min and max.
         if(radiusLocalRaw < treeRadiusMinRaw){
           treeRadiusMinRaw = radiusLocalRaw;
@@ -359,7 +359,7 @@ class AutographedPattern extends TSPattern {
     int desiredCubeColorArrIdx = 0;
     for (BaseCube cube : model.baseCubes){
       // Check if this cube is a shrub cube.
-      if (cube.treeOrShrub == TreeOrShrub.SHRUB){
+      if (cube.pieceType == PieceType.SHRUB){
         // Get the shrub cube, and access shrub specific properties.
         ShrubCube shrubCube = (ShrubCube) cube;
         int shrubIdx = shrubCube.config.shrubIndex;
@@ -792,7 +792,7 @@ class Blooms extends AutographedPattern{
     new BasicParameter("SFD", 50, 1, 100);
   
   // Variables
-  private TreeOrShrub desriedSculptureType = TreeOrShrub.TREE;
+  private PieceType desiredSculptureType = PieceType.TREE;
   private int desiredCurrTreeIdx = treeIdxMin;
   private int desiredCurrShrubIdx = shrubIdxMin;
   private int numShrubBlooms = 0;
@@ -845,7 +845,7 @@ class Blooms extends AutographedPattern{
      
     // Update the desired radius range to light up.
     bloomPrevRadiusPortion = bloomCurrRadiusPortion;
-    if(desriedSculptureType == TreeOrShrub.TREE){
+    if(desiredSculptureType == PieceType.TREE){
       bloomCurrRadiusPortion +=
         (desiredCurrTreeBloomRadiusProportionPerS * deltaTimeS);
     }else{
@@ -857,14 +857,14 @@ class Blooms extends AutographedPattern{
     for (BaseCube cube : model.baseCubes){
       // Set the fade rate based on type.
       float thisCubeFadeAmountThisFrame0To1 =
-        (cube.treeOrShrub == TreeOrShrub.TREE)?
+        (cube.pieceType == PieceType.TREE)?
           treeFadeAmountThisFrame0To1 :
           shrubFadeAmountThisFrame0To1;
 
       // Get the sculpture local position of this cube.
       float cubeAngRads0To2Pi = (Utils.TWO_PI / 360.f) * cube.theta;
       float cubeRadiusPortion = 0.0f;
-      if (cube.treeOrShrub == TreeOrShrub.TREE){
+      if (cube.pieceType == PieceType.TREE){
         cubeRadiusPortion = TreeRadiusRawToRadiusPortion(cube.r);
       }else{
         cubeRadiusPortion = ShrubRadiusRawToRadiusPortion(cube.r);
@@ -874,14 +874,14 @@ class Blooms extends AutographedPattern{
       // on the active part of the active scuplture to bloom).
       // First, check if this cube is a shrub cube.
       boolean cubeIsOnDesiredSculpture = false;
-      if (cube.treeOrShrub == TreeOrShrub.TREE){
+      if (cube.pieceType == PieceType.TREE){
         // Get the shrub cube, and access shrub specific properties.
         Cube treeCube = (Cube) cube;
         int treeIdx = treeCube.config.treeIndex;
         
         // Is this cube on the current scuplture?
         cubeIsOnDesiredSculpture =
-          (desriedSculptureType == TreeOrShrub.TREE) && 
+          (desiredSculptureType == PieceType.TREE) && 
           (treeIdx == desiredCurrTreeIdx);
       }else{
         // Get the shrub cube, and access shrub specific properties.
@@ -890,7 +890,7 @@ class Blooms extends AutographedPattern{
         
         // Is this cube on the current scuplture?
         cubeIsOnDesiredSculpture =
-          (desriedSculptureType == TreeOrShrub.SHRUB) && 
+          (desiredSculptureType == PieceType.SHRUB) && 
           (shrubIdx == desiredCurrShrubIdx);
       }
       
@@ -941,17 +941,17 @@ class Blooms extends AutographedPattern{
       (bloomPrevRadiusPortion > 1.0f) && 
       (bloomCurrRadiusPortion > 1.0f);
     if(shouldGoToDifferentSculpture){
-      if(desriedSculptureType == TreeOrShrub.TREE){
+      if(desiredSculptureType == PieceType.TREE){
         // Jump immediately to doing shrubs!
-        desriedSculptureType = TreeOrShrub.SHRUB;
+        desiredSculptureType = PieceType.SHRUB;
         numShrubBlooms = 0;
       }
       
-      if(desriedSculptureType == TreeOrShrub.SHRUB){
+      if(desiredSculptureType == PieceType.SHRUB){
         if(numShrubBlooms >= shrubBloomsPerTreeBloom){
           // Jump immediately to doing a tree!
           // And Pick a different random tree!
-          desriedSculptureType = TreeOrShrub.TREE;
+          desiredSculptureType = PieceType.TREE;
           int oldTreeIdx = desiredCurrTreeIdx;
           do{
               desiredCurrTreeIdx =

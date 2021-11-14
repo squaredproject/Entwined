@@ -29,7 +29,6 @@ class Model extends LXModel {
      */
     public final List<Cube> cubes;
 
-
     public final List<BaseCube> baseCubes;
 
     // ipMap is a list of cubes - all the cubes regardless of lenghts of outputs - only for trees
@@ -39,6 +38,9 @@ class Model extends LXModel {
 
     private final ArrayList<ModelTransform> modelTransforms = new ArrayList<ModelTransform>();
     private final List<TreeConfig> treeConfigs;
+
+    public final String[] pieceIds;
+    public final Map<String, Integer> pieceIdMap;
 
     Model(List <NDBConfig> ndbConfigs, List<TreeConfig> treeConfigs, List<TreeCubeConfig> cubeConfig, List<ShrubConfig> shrubConfigs,
           List<ShrubCubeConfig> shrubCubeConfig) {
@@ -71,6 +73,31 @@ class Model extends LXModel {
         }
         this.shrubCubes = Collections.unmodifiableList(_shrubCubes);
 
+        // get a list of the names all the pieces, and a map 
+        // so you can get from a string to the id array fastest
+
+        List<String> _pieceIds = new ArrayList<String>();
+        Map<String, Integer> _pieceIdMap = new HashMap<String, Integer>();
+        Integer pieceIndex = new Integer(0);
+        for (Tree tree : this.trees) {
+            if (tree.pieceId != null) {
+                _pieceIds.add(tree.pieceId);
+                _pieceIdMap.put(tree.pieceId, pieceIndex);
+                pieceIndex = pieceIndex + 1;
+            }
+        }
+
+        for (Shrub shrub : this.shrubs) {
+            if (shrub.pieceId != null) {
+                _pieceIds.add(shrub.pieceId);
+                _pieceIdMap.put(shrub.pieceId, pieceIndex);
+                pieceIndex = pieceIndex + 1;
+            }
+        }
+        this.pieceIds = _pieceIds.toArray(new String[_pieceIds.size()]);
+        this.pieceIdMap = Collections.unmodifiableMap(_pieceIdMap);
+        System.out.println(" pieces are: "+this.pieceIds);
+
 
         // Adding all cubes to baseCubes
         List<BaseCube> _baseCubes = new ArrayList<BaseCube>();
@@ -97,7 +124,7 @@ class Model extends LXModel {
 
             for (int i = 0; i < treeConfigs.size(); i++) {
                 TreeConfig tc = treeConfigs.get(i);
-                trees.add(new Tree(ndbConfigs, cubeConfigs, i, tc.x, tc.z, tc.ry, tc.canopyMajorLengths, tc.layerBaseHeights));
+                trees.add(new Tree(ndbConfigs, cubeConfigs, i, tc.pieceId, tc.x, tc.z, tc.ry, tc.canopyMajorLengths, tc.layerBaseHeights));
             }
             for (Tree tree : trees) {
                 for (LXPoint p : tree.points) {
@@ -107,13 +134,14 @@ class Model extends LXModel {
 
             for (int i = 0; i < shrubConfigs.size(); i++) {
                 ShrubConfig sc = shrubConfigs.get(i);
-                shrubs.add(new Shrub(shrubCubeConfigs, i, sc.x, sc.z, sc.ry));
+                shrubs.add(new Shrub(shrubCubeConfigs, i, sc.pieceId, sc.x, sc.z, sc.ry));
             }
             for (Shrub shrub : shrubs) {
                 for (LXPoint p : shrub.points) {
                     points.add(p);
                 }
             }
+
         }
     }
 
@@ -245,6 +273,11 @@ class Tree extends LXModel {
     public final int index;
 
     /**
+     * pieceId which is the string denoting the piece
+     */
+    public final String pieceId;
+
+    /**
      * x-position of center of base of tree
      */
     public final float x;
@@ -259,10 +292,12 @@ class Tree extends LXModel {
      */
     public final float ry;
 
-    Tree(List<NDBConfig> ndbConfigs, List<TreeCubeConfig> cubeConfig, int treeIndex, float x, float z, float ry, int[] canopyMajorLengths, int[] layerBaseHeights) {
-        super(new Fixture(ndbConfigs, cubeConfig, treeIndex, x, z, ry, canopyMajorLengths, layerBaseHeights));
+    Tree(List<NDBConfig> ndbConfigs, List<TreeCubeConfig> cubeConfig, int treeIndex, String pieceId, float x, float z, float ry, 
+            int[] canopyMajorLengths, int[] layerBaseHeights) {
+        super(new Fixture(ndbConfigs, cubeConfig, treeIndex, pieceId, x, z, ry, canopyMajorLengths, layerBaseHeights));
         Fixture f = (Fixture) this.fixtures.get(0);
         this.index = treeIndex;
+        this.pieceId = pieceId;
         this.cubes = Collections.unmodifiableList(f.cubes);
         this.treeLayers = f.treeLayers;
         this.ipMap = f.ipMap;
@@ -285,7 +320,7 @@ class Tree extends LXModel {
         public final LXTransform transform;
         public final List<TreeCubeConfig> inactiveCubeConfigs = new ArrayList();
 
-        Fixture(List<NDBConfig> ndbConfigs, List<TreeCubeConfig> cubeConfig, int treeIndex, float x, float z, float ry, int[] canopyMajorLengths, int[] layerBaseHeights) {
+        Fixture(List<NDBConfig> ndbConfigs, List<TreeCubeConfig> cubeConfig, int treeIndex, String pieceId, float x, float z, float ry, int[] canopyMajorLengths, int[] layerBaseHeights) {
             transform = new LXTransform();
             transform.translate(x, 0, z);
             transform.rotateY(ry * Utils.PI / 180);
@@ -316,7 +351,7 @@ class Tree extends LXModel {
                             continue;
                         }
                         cc.isActive = true;
-                        Cube cube = new Cube(this.transformPoint(p), p, cc);
+                        Cube cube = new Cube(this.transformPoint(p), p, cc, pieceId);
                         cubes.add(cube);
                         if (!ipMap.containsKey(cc.ipAddress)) {
                             ipMap.put(cc.ipAddress, new Cube[ndbConfig.getNumberCubes()]);
@@ -344,7 +379,6 @@ class Tree extends LXModel {
 
                         ndbCubes[ndbConfig.getOutputBase(cc.outputIndex) + cc.stringOffsetIndex] = cube;
 
-                        //ndbCubes[ndbCubescc.outputIndex] = cube;
                     }
                 }
             }
@@ -368,7 +402,7 @@ class Tree extends LXModel {
                         cc.layerIndex = 0;
                         cc.ipAddress = ip;
                         cc.isActive = false;
-                        Cube cube = new Cube(new Vec3D(0, 0, 0), new Vec3D(0, 0, 0), cc);
+                        Cube cube = new Cube(new Vec3D(0, 0, 0), new Vec3D(0, 0, 0), cc, pieceId);
                         cubes.add(cube);
                         ndbCubes[i] = cube;
                     }
@@ -397,6 +431,7 @@ class TreeConfig {
     float ry;
     int[] canopyMajorLengths;
     int[] layerBaseHeights;
+    String pieceId;
 }
 
 // we need to know the lengths of each output's string ( in cubes )
@@ -599,8 +634,8 @@ class Cube extends BaseCube {
   public final int pixels;
   public TreeCubeConfig config = null;
 
-  Cube(Vec3D globalPosition, Vec3D treePosition, TreeCubeConfig config) {
-      super(globalPosition, treePosition, config.treeIndex, config.treeOrShrub);
+  Cube(Vec3D globalPosition, Vec3D treePosition, TreeCubeConfig config, String pieceId) {
+      super(globalPosition, treePosition, config.treeIndex, config.pieceType, pieceId);
       this.size = CUBE_SIZES[config.cubeSizeIndex];
       this.pixels = PIXELS_PER_CUBE[config.cubeSizeIndex];
       this.config = config;
@@ -616,7 +651,7 @@ class TreeCubeConfig {
     int outputIndex; // which NDB output it is attached to
     int stringOffsetIndex; // which offset of string it is
     String ipAddress;
-    TreeOrShrub treeOrShrub = TreeOrShrub.TREE;
+    PieceType pieceType = PieceType.TREE;
 
     // For Tree
     int treeIndex;

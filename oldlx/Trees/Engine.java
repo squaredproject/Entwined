@@ -171,12 +171,12 @@ abstract class Engine {
   	configureServer(); // turns on the TCP listener
 
 
-    // this special filter is used by Canopy
+    // this special filter is used by Canopy -- the interactive effects
     interactiveHSVEffect = new InteractiveHSVEffect(lx);
     lx.addEffect(interactiveHSVEffect); /* want this one "on top" of everything else... is it? */
     interactiveHSVEffect.enable();
     // this fire effect, going to make it more generic, but make it work at all now
-    interactiveFireEffect = new InteractiveFireEffect(lx);
+    interactiveFireEffect = new InteractiveFireEffect(lx, model);
     Effect[] fireEffects = interactiveFireEffect.getEffects();
     for (Effect effect : fireEffects) {
       lx.addEffect(effect);
@@ -641,7 +641,6 @@ abstract class Engine {
     return loadJSONFile(Config.NDB_CONFIG_FILE, new TypeToken<List<NDBConfig>>() {
     }.getType());
   }
-
   List<TreeCubeConfig> loadCubeConfigFile() {
     return loadJSONFile(Config.CUBE_CONFIG_FILE, new TypeToken<List<TreeCubeConfig>>() {
     }.getType());
@@ -650,13 +649,11 @@ abstract class Engine {
     return loadJSONFile(Config.TREE_CONFIG_FILE, new TypeToken<List<TreeConfig>>() {
     }.getType());
   }
-
-    List<ShrubCubeConfig> loadShrubCubeConfigFile() {
+  List<ShrubCubeConfig> loadShrubCubeConfigFile() {
         return loadJSONFile(Config.SHRUB_CUBE_CONFIG_FILE, new TypeToken<List<ShrubCubeConfig>>() {
       }.getType());
   }
-
-    List<ShrubConfig> loadShrubConfigFile() {
+  List<ShrubConfig> loadShrubConfigFile() {
         return loadJSONFile(Config.SHRUB_CONFIG_FILE, new TypeToken<List<ShrubConfig>>() {
       }.getType());
   }

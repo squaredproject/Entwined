@@ -57,30 +57,38 @@ class InteractiveHSVEffect extends Effect {
 
   final BasicParameter brightness[];
 
-  // how many shrubs do we have? Hardcode and figure out later
-  final int nShrubs = 20;
+  final int nPieces;
+  final Map<String, Integer> pieceIdMap;
   
   InteractiveHSVEffect(LX lx) {
     super(lx);
 
-    hueSet = new BasicParameter[nShrubs];
-    hueSetAmount = new BasicParameter[nShrubs];
-    hueShift = new BasicParameter[nShrubs];
-    saturation = new BasicParameter[nShrubs];
-    brightness = new BasicParameter[nShrubs];
-    for (int i=0;i<nShrubs;i++) {
-      String shrubIdStr = String.valueOf(i);
-      hueSet[i] = new BasicParameter("Inter"+"HueSet"+shrubIdStr, 0, 360);
-      hueSetAmount[i] = new BasicParameter("Inter"+"HueSetVal"+shrubIdStr,0, 180);
+    // Need to know the different pieces that exist, and be able to look them up by name
+    //
+    int nPieces = model.pieceIds.length;
+    this.nPieces = nPieces;
+    this.pieceIdMap = model.pieceIdMap;
+
+    //
+
+    hueSet = new BasicParameter[nPieces];
+    hueSetAmount = new BasicParameter[nPieces];
+    hueShift = new BasicParameter[nPieces];
+    saturation = new BasicParameter[nPieces];
+    brightness = new BasicParameter[nPieces];
+    for (int i=0;i<nPieces;i++) {
+      String pieceId = model.pieceIds[i];
+      hueSet[i] = new BasicParameter("Inter"+"HueSet"+pieceId, 0, 360);
+      hueSetAmount[i] = new BasicParameter("Inter"+"HueSetVal"+pieceId,0, 180);
 
       // hue shift
-      hueShift[i] = new BasicParameter("Inter"+"HueShift"+shrubIdStr,0,360);
+      hueShift[i] = new BasicParameter("Inter"+"HueShift"+pieceId,0,360);
       // 
-      saturation[i] = new BasicParameter("Inter"+"Sat"+shrubIdStr,0,100);
+      saturation[i] = new BasicParameter("Inter"+"Sat"+pieceId,0,100);
       // 
-      brightness[i] = new BasicParameter("Inter"+"Bri"+shrubIdStr,0,100);
+      brightness[i] = new BasicParameter("Inter"+"Bri"+pieceId,0,100);
       // set initial values
-      resetShrub(i);
+      resetPiece(i);
     }
   }
 
@@ -134,48 +142,53 @@ class InteractiveHSVEffect extends Effect {
 
     // iterate over Cubes not Colors because Cubes have index into colors, not the other way around
     for (BaseCube cube : model.baseCubes) {
-      // only the shrubs
-      if (cube.treeOrShrub == TreeOrShrub.SHRUB) {
-        int shrubId = cube.sculptureIndex;
-        float hueSetf = hueSet[shrubId].getValuef();
-        float hueSetAmountf = hueSetAmount[shrubId].getValuef();
-        float hueShiftf = hueShift[shrubId].getValuef();
-        float brightnessf = brightness[shrubId].getValuef();
-        float saturationf = saturation[shrubId].getValuef();
 
-        if ( hueShiftf > 0.0f || hueSetAmountf < 180.0f ||
-             brightnessf != 50.0f || saturationf != 50.0f ) {
+      // find the index in the hashmap. This can be avoided by repurposing
+      // the 'sculptureIndex' (which would become pieceIndex)
+      Integer pieceIndex_o = pieceIdMap.get(cube.pieceId);
+      if (pieceIndex_o == null) {
+        System.out.println(" pieceId not found in map: "+cube.pieceId);
+        continue;
+      }
+      int pieceIndex = (int) pieceIndex_o;
+      float hueSetf = hueSet[pieceIndex].getValuef();
+      float hueSetAmountf = hueSetAmount[pieceIndex].getValuef();
+      float hueShiftf = hueShift[pieceIndex].getValuef();
+      float brightnessf = brightness[pieceIndex].getValuef();
+      float saturationf = saturation[pieceIndex].getValuef();
 
-          int i = cube.index;
-          float h = LXColor.h(colors[i]); // 0-360
-          float s = LXColor.s(colors[i]); // 0-100
-          float b = LXColor.b(colors[i]); // 0-100
+      if ( hueShiftf > 0.0f || hueSetAmountf < 180.0f ||
+           brightnessf != 50.0f || saturationf != 50.0f ) {
 
-          // first squash if set 
-          if (hueSetAmountf < 180.0f) {
-            h = hueBlend(h, hueSetf, hueSetAmountf);             
-          }
+        int i = cube.index;
+        float h = LXColor.h(colors[i]); // 0-360
+        float s = LXColor.s(colors[i]); // 0-100
+        float b = LXColor.b(colors[i]); // 0-100
 
-          // shift if shifting
-          if (hueShiftf > 0.0f) {
-            h += hueShiftf;
-            if (h > 360.0f) h -= 360.0f;
-          }
-
-          // brightness of 50 is same, > 50 is brighter, < 50 is dimmer
-          if (brightnessf != 50.0f) {
-            b = (brightnessf / 50.0f) * b;
-            if (b > 100.0f) b = 100.0f;
-          }
-
-          // saturation of 50 is same, > 50 is brighter, < 50 is dimmer
-          if (saturationf != 50.0f) {
-            s = (saturationf / 50.0f) * s;
-            if (s > 100.0f) s = 100.0f;
-          }
- 
-          colors[i] = lx.hsb( h, s, b );
+        // first squash if set 
+        if (hueSetAmountf < 180.0f) {
+          h = hueBlend(h, hueSetf, hueSetAmountf);             
         }
+
+        // shift if shifting
+        if (hueShiftf > 0.0f) {
+          h += hueShiftf;
+          if (h > 360.0f) h -= 360.0f;
+        }
+
+        // brightness of 50 is same, > 50 is brighter, < 50 is dimmer
+        if (brightnessf != 50.0f) {
+          b = (brightnessf / 50.0f) * b;
+          if (b > 100.0f) b = 100.0f;
+        }
+
+        // saturation of 50 is same, > 50 is brighter, < 50 is dimmer
+        if (saturationf != 50.0f) {
+          s = (saturationf / 50.0f) * s;
+          if (s > 100.0f) s = 100.0f;
+        }
+
+        colors[i] = lx.hsb( h, s, b );
       }
     }
   }
@@ -183,68 +196,77 @@ class InteractiveHSVEffect extends Effect {
 
   // set all parameters to values that say nothing 
   public void resetAll() {
-    //System.out.println(" disable all shrub ");
+    System.out.println(" disable all pieces ");
     for (int i=0;i<hueSet.length;i++) {
-      resetShrub(i);
+      resetPiece(i);
     }
   }
 
-  public void resetShrub(int shrubId) {
-      //System.out.println(" disable shrub: "+shrubId);
-      if (shrubId >= nShrubs) {
-        System.out.println(" disable shrub: can't too large shrubId "+shrubId);
-        return;
-      }
-      hueSet[shrubId].setValue(0f);
-      hueSetAmount[shrubId].setValue(180.0f);
-      hueShift[shrubId].setValue(0f);
-      brightness[shrubId].setValue(50.0f);
-      saturation[shrubId].setValue(50.0f);
+  private int getPieceIndex(String pieceId) {
+    Integer pieceIndex_o = pieceIdMap.get(pieceId);
+    if (pieceIndex_o == null) {
+      System.out.println(" pieceId not found in map2: "+pieceId);
+      return(-1);
+    }
+    return( (int) pieceIndex_o );
+  }
+
+  public void resetPiece(int pieceIndex) {
+      hueSet[pieceIndex].setValue(0f);
+      hueSetAmount[pieceIndex].setValue(180.0f);
+      hueShift[pieceIndex].setValue(0f);
+      brightness[pieceIndex].setValue(50.0f);
+      saturation[pieceIndex].setValue(50.0f);
+  }
+
+  public void resetPiece(String pieceId) {
+
+      int pieceIndex = getPieceIndex(pieceId);
+      if (pieceIndex == -1) return;
+      resetPiece(pieceIndex);
   }
 
 
   // Value is from 0 to 360.0, where 0 means no shift
-  public void setShrubHueShift(int shrubId, float value) {
-    //System.out.println("SetShrubHue: "+shrubId+" hue "+hue);
-    if (shrubId >= nShrubs) {
-      System.out.println(" can't set shrub: too large shrubId "+shrubId);
-      return;
-    }
-    hueShift[shrubId].setValue(value);
+  public void setPieceHueShift(String pieceId, float value) {
+
+    //System.out.println("SetShrubHue: "+pieceId+" hue "+hue);
+
+    int pieceIndex = getPieceIndex(pieceId);
+    if (pieceIndex == -1) return;
+
+    hueShift[pieceIndex].setValue(value);
   }
 
 
   // Note: this needs a parallel to disable the hueSet alone,
   // but we don't have it wired in yet from Canopy. If we like "hueSet" we'll
   // wire it in
-  public void setShrubHueSet(int shrubId, float hue) {
-    //System.out.println("SetShrubHue: "+shrubId+" hue "+hue);
-    if (shrubId >= nShrubs) {
-      System.out.println(" can't set shrub: too large shrubId "+shrubId);
-      return;
-    }
-    hueSet[shrubId].setValue(hue);
-    hueSetAmount[shrubId].setValue(30f); // a good angle to sqaush to 
+  public void setPieceHueSet(String pieceId, float hue) {
+    //System.out.println("SetPieceIdHue: "+pieceId+" hue "+hue);
+    int pieceIndex = getPieceIndex(pieceId);
+    if (pieceIndex == -1) return;
+
+    hueSet[pieceIndex].setValue(hue);
+    hueSetAmount[pieceIndex].setValue(30f); // a good angle to sqaush to 
   }
   
   // Value is from 0 to 100, where 50 means no change
-  public void setShrubBrightness(int shrubId, float value) {
-    //System.out.println("SetShrubHue: "+shrubId+" hue "+hue);
-    if (shrubId >= nShrubs) {
-      System.out.println(" can't set shrub: too large shrubId "+shrubId);
-      return;
-    }
-    brightness[shrubId].setValue(value);
+  public void setPieceBrightness(String pieceId, float value) {
+    //System.out.println("SetPieceBrightness: "+pieceId+" hue "+hue);
+    int pieceIndex = getPieceIndex(pieceId);
+    if (pieceIndex == -1) return;
+
+    brightness[pieceIndex].setValue(value);
   }
 
   // Value is from 0 to 100, where 50 means no change
-  public void setShrubSaturation(int shrubId, float value) {
-    //System.out.println("SetShrubHue: "+shrubId+" hue "+hue);
-    if (shrubId >= nShrubs) {
-      System.out.println(" can't set shrub: too large shrubId "+shrubId);
-      return;
-    }
-    saturation[shrubId].setValue(value);
+  public void setPieceSaturation(String pieceId, float value) {
+    //System.out.println("SetPieceSaturation: "+pieceId+" hue "+hue);
+    int pieceIndex = getPieceIndex(pieceId);
+    if (pieceIndex == -1) return;
+
+    saturation[pieceIndex].setValue(value);
   }
 
 }
@@ -272,26 +294,37 @@ class InteractiveFireEffect {
   // needs to be public because needs to be added by the engine.
   // would be nice to have an interface that allows generic iteration of all patterns
   // by the owner... or something....
-  final public InteractiveFire shrubFires[];
+  final public InteractiveFire pieceFires[];
 
-  // how many shrubs do we have? Hardcode and figure out later
-  final int nShrubs = 20;
+  final int nPieces;
+  final Map<String, Integer> pieceIdMap;
   
-  InteractiveFireEffect(LX lx) {
+  // constructor
+  InteractiveFireEffect(LX lx, Model model) {
 
     //System.out.println("InteractiveFireEffect constructor");
-    shrubFires = new InteractiveFire[nShrubs];
-    for (int i=0;i<nShrubs;i++) {
-      shrubFires[i] = new InteractiveFire(lx, TreeOrShrub.SHRUB, i); 
+
+    // Need to know the different pieces that exist, and be able to look them up by name
+    //
+    int nPieces = model.pieceIds.length;
+    this.nPieces = nPieces;
+    this.pieceIdMap = model.pieceIdMap;
+
+    pieceFires = new InteractiveFire[nPieces];
+    for (int i=0;i<nPieces;i++) {
+      // TODO: no piecetype shrub.... why do we need the pieceType
+      pieceFires[i] = new InteractiveFire(lx, model.pieceIds[i]); 
     }
   }
 
   Effect[] getEffects() {
-    return ( shrubFires );
+    return ( pieceFires );
   }
 
-  void onTriggeredShrub(int shrubId) {
-    shrubFires[shrubId].onTriggered();
+  void onTriggeredPiece(String pieceId) {
+    Integer pieceIndex_o = pieceIdMap.get(pieceId);
+    if (pieceIndex_o == null) return;
+    pieceFires[(int) pieceIndex_o ].onTriggered();
   }
 
 
@@ -306,9 +339,7 @@ class InteractiveFireEffect {
     private int numFlames = 12;
     private List<Flame> flames;
 
-    // todo: change to tree or shrub
-    private final TreeOrShrub objectType;
-    private final int objectId;
+    private final String pieceId;
     private boolean triggerableModeEnabled;
     private long triggerEndMillis; // when to un-enable if enabled
     
@@ -332,11 +363,10 @@ class InteractiveFireEffect {
       }
     }
 
-    InteractiveFire(LX lx, TreeOrShrub objectType, int objectId) {
+    InteractiveFire(LX lx, String pieceId) {
       super(lx);
 
-      this.objectType = objectType;
-      this.objectId = objectId;
+      this.pieceId = pieceId;
       this.triggerableModeEnabled = false;
 
       addParameter(maxHeight);
@@ -388,7 +418,8 @@ class InteractiveFireEffect {
       }
 
       for (BaseCube cube : model.baseCubes) {
-        if (cube.treeOrShrub == TreeOrShrub.SHRUB && cube.sculptureIndex == objectId) {
+        // warning: this is a string compare
+        if (cube.pieceId.equals(pieceId)) {
           float yn = (cube.transformedY - model.yMin) / model.yMax;
           float cBrt = 0;
           float cHue = 0;

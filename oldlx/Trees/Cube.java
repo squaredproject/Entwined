@@ -39,9 +39,15 @@ class BaseCube extends LXModel {
     public final int sculptureIndex;
 
     /**
-     * Enum stating whether this cube is part of a TREE or SHRUB
+     * Enum stating what kind of Piece this is a part of: TREE, SHRUB, FAIRY_CIRCLE
      */
-    public final TreeOrShrub treeOrShrub;
+    public final PieceType pieceType;
+
+    /**
+     * String for the ID of the piece, such as "medium tree" or whatever
+     * Used by canopy primarily - human readable
+     */
+    public final String pieceId;
 
     /**
      * Global x-position of center of cube
@@ -114,13 +120,13 @@ class BaseCube extends LXModel {
     public float transformedY;
     public float transformedTheta;
     public Vec2D transformedCylinderPoint;
-    //public TreeCubeConfig config = null;
 
-    BaseCube(Vec3D globalPosition, Vec3D sculpturePosition, int sculptureIdx, TreeOrShrub treeOrShrub) {
+    BaseCube(Vec3D globalPosition, Vec3D sculpturePosition, int sculptureIdx, PieceType pieceType, String pieceId ) {
         super(Arrays.asList(new LXPoint[] { new LXPoint(globalPosition.x, globalPosition.y, globalPosition.z) }));
         this.index = this.points.get(0).index;
         this.sculptureIndex = sculptureIdx;
-        this.treeOrShrub = treeOrShrub;
+        this.pieceType = pieceType;
+        this.pieceId = pieceId;
         this.rx = 0;
         this.ry = 0;
         this.rz = 0;
@@ -148,7 +154,8 @@ class BaseCube extends LXModel {
     }
 }
 
-enum TreeOrShrub {
+enum PieceType {
   TREE,
-  SHRUB
+  SHRUB,
+  FAIRY_CIRCLE
 }

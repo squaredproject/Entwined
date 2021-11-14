@@ -33,7 +33,7 @@ import org.json.JSONObject;
 // will then send commands, which it gathers from web pages.
 // The canopy server is delagated with security ( like checking location )
 // Since Socket.io is realtime (we'll see!), and bicirectional, the Canopy
-// server will be able to send commands like "turn shrub 5 red for 10 seconds"
+// server will be able to send commands like "turn piece 5 red for 10 seconds"
 // and similar.
 //
 // Threading: since LX likes to run on its own thread, we'll need to use a queue between them,
@@ -54,6 +54,10 @@ import org.json.JSONObject;
 // that's it. According to the "contract", if an event is emitted while disconnected,
 // they will be buffered. Problably, from Canopy to Lx, we should probably have a timestamp
 // that we can discard if too old or out of order, but socket.io is supposed to help us
+//
+// Note about Shrubs and Pieces. When this was first coded, we only really wanted to do shrubs, but over
+// time, we wanted to build something a bit more abstract, so there's the concept of both an installation,
+// and a piece --- which is a part of the installation. A 'pieceId' is an arbitrary string.
 
 class CanopyController {
 
@@ -74,15 +78,15 @@ class CanopyController {
   	}
   	enabled = true;
 
-	final CanopyController self = this;
+	  final CanopyController self = this;
 
   	canopyRunnable = new Runnable() {
 
-		  // Log Helper
-	  	final ZoneId localZone = ZoneId.of("America/Los_Angeles");
-		 void log(String s) {
-		  	 System.out.println(
-		  		ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + " " + s );
+		// Log Helper
+	  final ZoneId localZone = ZoneId.of("America/Los_Angeles");
+		void log(String s) {
+			System.out.println(
+		  ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + " " + s );
 		}
 
 	  	@Override
@@ -113,19 +117,19 @@ class CanopyController {
 		    	}
 		    });
 
-		    // these receive the ID of the shrub, type string, with the integer in it
+		    // these receive the ID of the piece, type string, with the integer in it
 		    socket.on("interactionStopped", new Emitter.Listener() {
 		    	@Override
 		    	public void call(Object... args) {
 		    		log(" interactionStopped from Canopy ");
 		    		try {
 			    		if (args[0] instanceof String) {
-			    			log(" interactionStopped from Canopy shrub "+(String)args[0]);
-			    			stopShrubInteraction((String)args[0]);
+			    			log(" interactionStopped from Canopy piece "+(String)args[0]);
+			    			stopPieceInteraction((String)args[0]);
 			    		}
 			    		else if (args[0] instanceof JSONObject) {
-			    			log(" interactionStopped from Canopy shrub "+(JSONObject)args[0]);
-				    		stopShrubInteraction((JSONObject) args[0]);
+			    			log(" interactionStopped from Canopy piece "+(JSONObject)args[0]);
+				    		stopPieceInteraction((JSONObject) args[0]);
 				    	}
 					} catch (Exception e) {
 						log(" socket: Interaction Stopped threw error "+e);
@@ -133,14 +137,14 @@ class CanopyController {
 		    	}
 		    });
 
-		    socket.on("updateShrubSetting", new Emitter.Listener() {
+		    socket.on("updatePieceSetting", new Emitter.Listener() {
 		    	@Override
 		    	public void call(Object... args) {
 		    		try {
 			    		//log(" updateShrubSetting from Canopy: argslen "+args.length);
-			    		updateShrubSetting((JSONObject) args[0]);
+			    		updatePieceSetting((JSONObject) args[0]);
 			    	} catch (Exception e) {
-			    		log(" socket: updateShrubSetting threw error "+e);
+			    		log(" socket: updatePieceSetting threw error "+e);
 			    	}
 		    	}
 		    });
@@ -233,7 +237,14 @@ class CanopyController {
   	engine.log("RunOneShot: object "+o);
 
   	try {
-	  	int shrubId = o.getInt("shrubId");
+  		if (!o.has("pieceId")) {
+  			engine.log(" OLD STYLE CANOPY CONNECTING? Won't work, use new style with pieceId ");
+  			return;
+  		}
+
+  		String installationId = o.getString("installationId");
+  		String pieceId = o.getString("pieceId");
+
 
 	  	if (! o.has("triggerableName")) {
 	  		engine.log("triggerable has no name");
@@ -248,8 +259,8 @@ class CanopyController {
   			case "rain":
   			case "color-burst":	
   			case "fire":
-  				engine.interactiveHSVEffect.resetShrub(shrubId);
-  				engine.interactiveFireEffect.onTriggeredShrub(shrubId);
+  				engine.interactiveHSVEffect.resetPiece(pieceId);
+  				engine.interactiveFireEffect.onTriggeredPiece(pieceId);
   				break;
   			default:
   				engine.log("unknown trigger name "+triggerName);
@@ -262,65 +273,69 @@ class CanopyController {
   }
 
 
-  void updateShrubSetting(JSONObject o) {
+  void updatePieceSetting(JSONObject o) {
 
-  	engine.log("UpdateShrubSetting: object "+o);
+  	engine.log("UpdatePieceSetting: object "+o);
 
   	try {
-	  	int shrubId = o.getInt("shrubId");
+  		if (!o.has("pieceId")) {
+  			engine.log(" OLD STYLE CANOPY DETECTED. update to new style. ");
+  			return;
+  		}
+  		String pieceId= o.getString("pieceId");
 
 	  	if (o.has("hueSet")) {
 	  		int hue = o.getInt("hueSet");
-	  		//engine.log(" going to set hue to "+hue+" for shrub "+shrubId);
-	  		engine.interactiveHSVEffect.setShrubHueSet(shrubId,(float)hue);
+	  		//engine.log(" going to set hue to "+hue+" for piece "+pieceId);
+	  		engine.interactiveHSVEffect.setPieceHueSet(pieceId,(float)hue);
 	  	}
 
 	  	if (o.has("hueShift")) {
 	  		int hue = o.getInt("hueShift");
-	  		//engine.log(" going to set hue to "+hue+" for shrub "+shrubId);
-	  		engine.interactiveHSVEffect.setShrubHueShift(shrubId,(float)hue);
+	  		//engine.log(" going to set hue to "+hue+" for piece "+pieceId);
+	  		engine.interactiveHSVEffect.setPieceHueShift(pieceId,(float)hue);
 	  	}
 
 	  	if (o.has("brightness")) {
 	  		int b = o.getInt("brightness");
-	  		//engine.log(" going to set hue to "+hue+" for shrub "+shrubId);
-	  		engine.interactiveHSVEffect.setShrubBrightness(shrubId,(float)b);
+	  		//engine.log(" going to set hue to "+hue+" for piece "+pieceId);
+	  		engine.interactiveHSVEffect.setPieceBrightness(pieceId,(float)b);
 	  	}
 	  	if (o.has("saturation")) {
 	  		int s = o.getInt("saturation");
-	  		//engine.log(" going to set hue to "+hue+" for shrub "+shrubId);
-	  		engine.interactiveHSVEffect.setShrubSaturation(shrubId,(float)s);
+	  		//engine.log(" going to set hue to "+hue+" for piece "+pieceId);
+	  		engine.interactiveHSVEffect.setPieceSaturation(pieceId,(float)s);
 	  	}
 	} catch (Exception e) {
-		engine.log(" updateShrubSettingException "+e);
+		engine.log(" updatePieceSettingException "+e);
 	}
 
   }
 
-  void stopShrubInteraction(JSONObject o) {
-  	//log("stopShrubInteraction: object "+o);
+  void stopPieceInteraction(JSONObject o) {
+  	//log("stopPieceInteraction: object "+o);
 
   	try {
-	  	int shrubId = o.getInt("shrubId");
+	  	String pieceId = o.getString("pieceId");
 
-	  	engine.interactiveHSVEffect.resetShrub(shrubId);
+	  	engine.interactiveHSVEffect.resetPiece(pieceId);
 
 	} catch (Exception e) {
-		engine.log(" stopShrubInteraction(JSON): Exception "+e);
+		engine.log(" stopPieceInteraction(JSON): Exception "+e);
 	}
 
   }
 
-  void stopShrubInteraction(String s) {
-  	//log("stopShrubInteraction: object "+o);
+  void stopPieceInteraction(String s) {
+  	//log("stopPieceInteraction: object "+o);
 
   	try {
-	  	int shrubId = Integer.parseInt(s);
+	  	int pieceId = Integer.parseInt(s);
 
-	  	engine.interactiveHSVEffect.resetShrub(shrubId);
+	  	engine.interactiveHSVEffect.resetPiece(pieceId);
 
 	} catch (Exception e) {
-		engine.log(" stopShrubInteraction(String): Exception "+e);
+		engine.log(" stopPieceInteraction(String): Exception "+e);
 	}
 
   }

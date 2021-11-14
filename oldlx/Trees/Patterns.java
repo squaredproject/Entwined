@@ -510,7 +510,7 @@ class TestShrubLayers extends TSPattern {
         if (getChannel().getFader().getNormalized() == 0) return;
         
         for (BaseCube cube : model.baseCubes) {
-            if (cube.treeOrShrub == TreeOrShrub.SHRUB) {
+            if (cube.pieceType == PieceType.SHRUB) {
                 ShrubCube shrubCube = (ShrubCube) cube;              
                 
                 if (shrubCube.config.rodIndex == (int)rodLayer.getValue() || shrubCube.config.clusterIndex == (int)clusterIndex.getValue() || shrubCube.config.shrubIndex == (int)shrubIndex.getValue()) {
