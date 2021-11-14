@@ -93,8 +93,8 @@ Layer is sensible - 0 is the lowest, 1 is above, 2 is above.
 
 Branch is harder to understand.
 
-- 0 is the TALLEST most branch (which is usually the shortest)
-- 4 is the LOWEST branch (which is opposite the tallest)
+- 0 is the TALLEST most branch (which is usually the shortest in length)
+- 4 is the LOWEST branch (which is opposite the tallest and the longest)
 - 1R, 2R, 3R are between 0 and 4, in order clockwise
 - 1L, 2L, 3L are between 0 and 4, in order COUNTER clockwise
 
@@ -268,5 +268,33 @@ There is a physical map of the site which has the locations of all the shrubs. I
 of goes counter-clockwise around the big tree starting from the back.
 
 Remember to test the wiring is correct with DDPtest.py in the root directory!
+
+## QR codes and installations
+
+We've added the ability to have multiple installations, and the ability to 'name' parts of the installation.
+
+In the `entwinedTrees.json` and `entwinedShrubs.json`, there is now a `pieceId`, which is a human readable string,
+and allows us to label the installation by `piece`. This allows Canopy - the QR system - but also any writing patterns
+to have portions of the installation respond differently to different things - by name.
+
+This is excellent because it replaces the idea of a `shrub` which is found via an ID, which is the (hard to maintain)
+index in the json file. Instead you have a handy string.
+
+Add the `pieceId` to whatever piece you want to refer to. It should be legal to not have a pieceId on a given
+component. It might also be legal to have a `pieceId` not be unique (like all the trees or all the shrubs),
+but we don't yet support having multiple `pieceId` which would be like a tag system allowing components to 
+exist in multiple parts. That would be an exercise to the new programmer!
+
+### installation
+
+`Config.java` also now has a string called `installation`. In order to have the Canopy system work, you'll have
+to use the same installation name that Canopy thinks you are. When LX connects to Canopy it sends the installation
+id, and then Canopy will send only the events to that one installation.
+
+### Configuring Canopy
+
+This should be part of Canopy's documentation, but in the Canopy repo, under `config`, there is a file called `entwinedInstallations.json`. 
+This file has a large array with information about each installation, including its start and stop times, and which
+piece's exist. These are (currently) called `id` not `pieceId` so you'll have to go in and do everything manually.
 
 
