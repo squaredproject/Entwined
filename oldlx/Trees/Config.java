@@ -25,7 +25,7 @@ final class Config {
 
   // the interaction server. Set to null to disable.
   static final String canopyServer = "";
-  // static final String canopyServer = "http://localhost:3000/lx";
+  //static final String canopyServer = "http://localhost:3000/lx";
   //static final String canopyServer = "https://entwined-api.charliestigler.com/lx";
 
   static final String NDB_CONFIG_FILE = "data/entwinedNDBs.json";
@@ -35,5 +35,5 @@ final class Config {
   static final String SHRUB_CONFIG_FILE = "data/entwinedShrubs.json";
 
   // if this file doesn't exist you get a crash
-  static final String AUTOPLAY_FILE = "data/entwined2021.json";
+  static final String AUTOPLAY_FILE = "data/Burning Man Playlist.json";
 }

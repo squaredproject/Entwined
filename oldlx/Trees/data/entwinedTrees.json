@@ -5,7 +5,7 @@
 		"ry" : 180,
 		"x" : 0,
 		"z" : 0,
-		"pieceId" : "tree-l"
+		"pieceId" : "tree-large"
 	},
 	{
 		"canopyMajorLengths" : [240, 160, 96],
@@ -13,7 +13,7 @@
 		"ry" : 180,
 		"x" : 826.5,
 		"z" : 272.5,
-		"pieceId" : "tree-m"
+		"pieceId" : "tree-medium"
 	},
 	{
 		"canopyMajorLengths" : [180, 120],
@@ -21,6 +21,7 @@
 		"ry" : 180,
 		"x" : -186.2,
 		"z" : -753.8,
-		"pieceId" : "tree-sm"
+		"pieceId" : "tree-small"
+
 	}
 ]
