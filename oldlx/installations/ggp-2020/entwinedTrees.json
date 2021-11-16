@@ -4,20 +4,24 @@
 		"layerBaseHeights" : [40, 113, 169],
 		"ry" : 180,
 		"x" : 0,
-		"z" : 0
+		"z" : 0,
+		"pieceId" : "tree-large"
 	},
 	{
 		"canopyMajorLengths" : [240, 160, 96],
 		"layerBaseHeights" : [20, 71, 112],
 		"ry" : 180,
 		"x" : 826.5,
-		"z" : 272.5
+		"z" : 272.5,
+		"pieceId" : "tree-medium"
 	},
 	{
 		"canopyMajorLengths" : [180, 120],
 		"layerBaseHeights" : [43, 95],
 		"ry" : 180,
 		"x" : -186.2,
-		"z" : -753.8
+		"z" : -753.8,
+		"pieceId" : "tree-small"
+
 	}
 ]
