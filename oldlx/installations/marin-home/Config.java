@@ -1,4 +1,7 @@
 final class Config {
+  // Change this when setting up a new installation!
+  // it's used for Canopy and must be unique for each installation
+  static final String installationId = "marin-home";
 
   static final boolean autoplayBMSet = true;
 
