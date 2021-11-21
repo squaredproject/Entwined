@@ -147,7 +147,8 @@ class InteractiveHSVEffect extends Effect {
       // the 'sculptureIndex' (which would become pieceIndex)
       Integer pieceIndex_o = pieceIdMap.get(cube.pieceId);
       if (pieceIndex_o == null) {
-        System.out.println(" pieceId not found in map: "+cube.pieceId);
+        // this is hit if the piece has no string
+        //System.out.println(" pieceId not found in map: "+cube.pieceId);
         continue;
       }
       int pieceIndex = (int) pieceIndex_o;
@@ -205,7 +206,8 @@ class InteractiveHSVEffect extends Effect {
   private int getPieceIndex(String pieceId) {
     Integer pieceIndex_o = pieceIdMap.get(pieceId);
     if (pieceIndex_o == null) {
-      System.out.println(" pieceId not found in map2: "+pieceId);
+      // this is hit if the piece has no string
+      //System.out.println(" pieceId not found in map2: "+pieceId);
       return(-1);
     }
     return( (int) pieceIndex_o );
