@@ -624,20 +624,12 @@ class EntwinedBranch {
 }
 
 class Cube extends BaseCube {
-  public static final int[] PIXELS_PER_CUBE = { 4, 6, 6, 12, 12 }; // Using small cubes on trees
-  public static final float[] CUBE_SIZES = { 4f, 7.5f, 11.25f, 15f, 16.5f };
-  /**
-   * Size of this cube, one of SMALL/MEDIUM/LARGE/GIANT
-   */
-  public final float size;
 
-  public final int pixels;
   public TreeCubeConfig config = null;
 
   Cube(Vec3D globalPosition, Vec3D treePosition, TreeCubeConfig config, String pieceId) {
-      super(globalPosition, treePosition, config.treeIndex, config.pieceType, pieceId);
-      this.size = CUBE_SIZES[config.cubeSizeIndex];
-      this.pixels = PIXELS_PER_CUBE[config.cubeSizeIndex];
+      super(globalPosition, treePosition, config.treeIndex, config.pieceType, pieceId, config.cubeSizeIndex);
+
       this.config = config;
   }
 }

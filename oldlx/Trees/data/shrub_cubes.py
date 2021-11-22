@@ -14,7 +14,7 @@ import argparse
 #            "x" : 0,
 #            "z" : 0,
 #            "type" : "classic",
-#            "leds-per-cube": 4,
+#            "leds-per-cube": 4,  --> or use cubeSizeIndex and it'll pass through
 #            "pieceId" : "classic-01",
 #            "shrubIpAddress" : "10.0.0.199"
 #    },
@@ -49,7 +49,7 @@ def shrub_cubes_create(infile_name:str, outfile_name: str) -> None:
     for shrub in shrubs:
 
         print(' shrub object is: ',shrub)
-        print(' shrub ip address is: ',shrub['shrubIpAddress'])
+
         if 'cubeSizeIndex' in shrub:
             cubeSizeIndex = shrub['cubeSizeIndex']
         elif (shrub['leds-per-cube'] == 1):
@@ -63,7 +63,7 @@ def shrub_cubes_create(infile_name:str, outfile_name: str) -> None:
             return
 
 
-        shrubOutputIndex = 0
+        outputIndex = 0
         for clusterIndex in range(0,12):
             for rodIndex in range(1,6):
                 # there are faster ways but this reads very clean
@@ -71,8 +71,8 @@ def shrub_cubes_create(infile_name:str, outfile_name: str) -> None:
                 s['shrubIndex'] = shrubIndex
                 s['clusterIndex'] = clusterIndex
                 s['rodIndex'] = rodIndex
-                s['shrubOutputIndex'] = shrubOutputIndex
-                shrubOutputIndex += 1
+                s['outputIndex'] = outputIndex
+                outputIndex += 1
                 s['cubeSizeIndex'] = cubeSizeIndex
                 s['shrubIpAddress'] = shrub['shrubIpAddress']
                 cubes.append(s)

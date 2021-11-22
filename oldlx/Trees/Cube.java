@@ -24,9 +24,9 @@ import heronarts.lx.transform.LXTransform;
 */
 class BaseCube extends LXModel {
 
-    // public static final int[] PIXELS_PER_CUBE = { 6, 6, 6, 12, 12 }; // Tiny cubes actually have less, but for Entwined we want to
-    //                                                                  // tell the NDB that everything is 6
-    // public static final float[] CUBE_SIZES = { 4f, 7.5f, 11.25f, 15f, 16.5f };
+    // CubeSizeIndex goes here
+    public static final int[] PIXELS_PER_CUBE = { 1, 4, 6 }; // Tiny cubes actually have less
+    public static final float[] CUBE_SIZES = { 5f, 5f, 9f };
 
     /**
      * Index of this cube in color buffer, colors[cube.index]
@@ -35,6 +35,7 @@ class BaseCube extends LXModel {
 
     /**
      * Index indicating which sculpture this cube lives inside.
+     * These are only unique per pieceType.
      */
     public final int sculptureIndex;
 
@@ -48,6 +49,25 @@ class BaseCube extends LXModel {
      * Used by canopy primarily - human readable
      */
     public final String pieceId;
+
+    /**
+     * As string comparisons are too expensive to be done in the hot loop,
+     * this index is available. You can find string indexes by looking in
+     * the map and array which has lists of piece IDs.
+     * Used by canopy 
+     */
+    public final int pieceIndex;
+
+    /*
+    ** number of inches across the cube is for the renderer
+    */
+
+    public final float size;
+
+    /*
+    ** number of output pixels for the cube
+    */
+    public final int pixels;
 
     /**
      * Global x-position of center of cube
@@ -121,12 +141,15 @@ class BaseCube extends LXModel {
     public float transformedTheta;
     public Vec2D transformedCylinderPoint;
 
-    BaseCube(Vec3D globalPosition, Vec3D sculpturePosition, int sculptureIdx, PieceType pieceType, String pieceId ) {
+    BaseCube(Vec3D globalPosition, Vec3D sculpturePosition, int sculptureIdx, PieceType pieceType, String pieceId, int cubeSizeIndex ) {
         super(Arrays.asList(new LXPoint[] { new LXPoint(globalPosition.x, globalPosition.y, globalPosition.z) }));
         this.index = this.points.get(0).index;
         this.sculptureIndex = sculptureIdx;
         this.pieceType = pieceType;
         this.pieceId = pieceId;
+        this.pieceIndex = -1;
+        this.size = CUBE_SIZES[cubeSizeIndex];
+        this.pixels = PIXELS_PER_CUBE[cubeSizeIndex];
         this.rx = 0;
         this.ry = 0;
         this.rz = 0;
@@ -139,7 +162,6 @@ class BaseCube extends LXModel {
         this.r = (float) Point2D.distance(sculpturePosition.x, sculpturePosition.z, 0, 0);
         this.theta = 180 + 180 / Utils.PI * Utils.atan2(sculpturePosition.z, sculpturePosition.x);
         this.gr = (float) Point2D.distance(this.x, this.z, 0, 0);
-        // System.out.println("gr: " + this.gr);
         this.globalTheta = (float) Math.toDegrees(Math.atan2((double)(0 - this.z), (double)(0 - this.x)));
     }
 
