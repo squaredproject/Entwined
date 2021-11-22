@@ -14,21 +14,6 @@
 		"x" : 572,
 		"z" : 192,
 		"pieceId": "tree-small"
-	},
-	{
-		"canopyMajorLengths" : [100],
-		"layerBaseHeights" : [24],
-		"ry" : 180,
-		"x" : -679,
-		"z" : -186,
-		"pieceId": "sapling-01"		
-	},
-	{
-		"canopyMajorLengths" : [100],
-		"layerBaseHeights" : [24],
-		"ry" : 270,
-		"x" : 744,
-		"z" : -216,
-		"pieceId": "sapling-02"
 	}
+
 ]
