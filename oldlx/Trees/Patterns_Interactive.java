@@ -143,15 +143,10 @@ class InteractiveHSVEffect extends Effect {
     // iterate over Cubes not Colors because Cubes have index into colors, not the other way around
     for (BaseCube cube : model.baseCubes) {
 
-      // find the index in the hashmap. This can be avoided by repurposing
-      // the 'sculptureIndex' (which would become pieceIndex)
-      Integer pieceIndex_o = pieceIdMap.get(cube.pieceId);
-      if (pieceIndex_o == null) {
-        // this is hit if the piece has no string
-        //System.out.println(" pieceId not found in map: "+cube.pieceId);
-        continue;
-      }
-      int pieceIndex = (int) pieceIndex_o;
+      // break, not a piece
+      if (cube.pieceIndex < 0) continue;
+
+      int pieceIndex = cube.pieceIndex;
       float hueSetf = hueSet[pieceIndex].getValuef();
       float hueSetAmountf = hueSetAmount[pieceIndex].getValuef();
       float hueShiftf = hueShift[pieceIndex].getValuef();
@@ -313,9 +308,8 @@ class InteractiveFireEffect {
     this.pieceIdMap = model.pieceIdMap;
 
     pieceFires = new InteractiveFire[nPieces];
-    for (int i=0;i<nPieces;i++) {
-      // TODO: no piecetype shrub.... why do we need the pieceType
-      pieceFires[i] = new InteractiveFire(lx, model.pieceIds[i]); 
+    for (int pieceIndex=0 ; pieceIndex<nPieces ; pieceIndex++) {
+      pieceFires[pieceIndex] = new InteractiveFire(lx, pieceIndex); 
     }
   }
 
@@ -341,7 +335,7 @@ class InteractiveFireEffect {
     private int numFlames = 12;
     private List<Flame> flames;
 
-    private final String pieceId;
+    private final int pieceIndex;
     private boolean triggerableModeEnabled;
     private long triggerEndMillis; // when to un-enable if enabled
     
@@ -365,10 +359,10 @@ class InteractiveFireEffect {
       }
     }
 
-    InteractiveFire(LX lx, String pieceId) {
+    InteractiveFire(LX lx, int pieceIndex) {
       super(lx);
 
-      this.pieceId = pieceId;
+      this.pieceIndex = pieceIndex;
       this.triggerableModeEnabled = false;
 
       addParameter(maxHeight);
@@ -421,7 +415,7 @@ class InteractiveFireEffect {
 
       for (BaseCube cube : model.baseCubes) {
         // warning: this is a string compare
-        if (cube.pieceId.equals(pieceId)) {
+        if (cube.pieceIndex == pieceIndex) {
           float yn = (cube.transformedY - model.yMin) / model.yMax;
           float cBrt = 0;
           float cHue = 0;

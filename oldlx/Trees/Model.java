@@ -83,6 +83,9 @@ class Model extends LXModel {
             if (tree.pieceId != null) {
                 _pieceIds.add(tree.pieceId);
                 _pieceIdMap.put(tree.pieceId, pieceIndex);
+                for (Cube cube : tree.cubes) { // necessary to use integer compare
+                    cube.pieceIndex = pieceIndex;
+                }
                 pieceIndex = pieceIndex + 1;
             }
         }
@@ -91,13 +94,15 @@ class Model extends LXModel {
             if (shrub.pieceId != null) {
                 _pieceIds.add(shrub.pieceId);
                 _pieceIdMap.put(shrub.pieceId, pieceIndex);
+                for (ShrubCube cube : shrub.cubes) {
+                    cube.pieceIndex = pieceIndex;
+                }
                 pieceIndex = pieceIndex + 1;
             }
         }
         this.pieceIds = _pieceIds.toArray(new String[_pieceIds.size()]);
         this.pieceIdMap = Collections.unmodifiableMap(_pieceIdMap);
         System.out.println(" pieces are: "+this.pieceIds);
-
 
         // Adding all cubes to baseCubes
         List<BaseCube> _baseCubes = new ArrayList<BaseCube>();

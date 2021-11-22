@@ -54,9 +54,10 @@ class BaseCube extends LXModel {
      * As string comparisons are too expensive to be done in the hot loop,
      * this index is available. You can find string indexes by looking in
      * the map and array which has lists of piece IDs.
-     * Used by canopy 
+     * Used by canopy.
+     * This is harder to know at constructor time, regrettably.
      */
-    public final int pieceIndex;
+    public int pieceIndex;
 
     /*
     ** number of inches across the cube is for the renderer
