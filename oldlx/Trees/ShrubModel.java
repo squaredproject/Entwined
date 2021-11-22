@@ -323,7 +323,7 @@ class Shrub extends LXModel {
                         }
                         ShrubCube[] ndbCubes = shrubIpMap.get(cc.shrubIpAddress);
                         //                        System.out.println(cc.shrubIpAddress);
-                        ndbCubes[cc.shrubOutputIndex] = cube;
+                        ndbCubes[cc.outputIndex] = cube;
                     }
                 }
             }
@@ -337,7 +337,7 @@ class Shrub extends LXModel {
                         cc.shrubIndex = shrubIndex;
                         cc.rodIndex = 0;
                         cc.cubeSizeIndex = 0;
-                        cc.shrubOutputIndex = i;
+                        cc.outputIndex = i;
                         cc.clusterIndex = 0;
                         cc.shrubIpAddress = ip;
                         ShrubCube cube = new ShrubCube(new Vec3D(0, 0, 0), new Vec3D(0, 0, 0), cc, pieceId);
@@ -364,35 +364,24 @@ class Shrub extends LXModel {
 }
 
 class ShrubCube extends BaseCube {
-  //public static final int[] PIXELS_PER_CUBE = { 6, 6, 6, 12, 12 }; // Tiny cubes actually have less, but for Entwined we want to
-                                                                   // tell the NDB that everything is 6
-  // public static final float[] CUBE_SIZES = { 4f, 7.5f, 11.25f, 15f, 16.5f };
-    /**
-     * Size of this cube, one of SMALL/MEDIUM/LARGE/GIANT
-     */
-    public final float size;
-
-    public final int pixels;
 
     public ShrubCubeConfig config = null;
 
     ShrubCube(Vec3D globalPosition, Vec3D sculpturePosition, ShrubCubeConfig config, String pieceId) {
-        super( globalPosition,  sculpturePosition, config.shrubIndex, config.pieceType, pieceId);
+        super( globalPosition,  sculpturePosition, config.shrubIndex, config.pieceType, pieceId, config.cubeSizeIndex);
 
-        this.size = 4f; // cubes are about 4 inches across
-        this.pixels = 4; // LEDs per cube - doesn't change in this model
         this.config = config;
     }
 }
 
+// 
 class ShrubCubeConfig {
-    int shrubIndex; // each shrubIndex maps to an ipAddress, consider pushing ipAddress up to ShrubConfig
+    int shrubIndex; // Shrubindex no longer maps to an IP address. We use python to figure out the IP address and attach to every cube.
     int clusterIndex;
     int rodIndex;
     PieceType pieceType = PieceType.SHRUB;
 
-    //    int mountPointIndex;
-    int shrubOutputIndex;
+    int outputIndex;
     int cubeSizeIndex;
     String shrubIpAddress;
 }

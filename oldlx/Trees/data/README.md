@@ -37,6 +37,24 @@ per smart T is equal to the number 6 or 4, because we (pretend) each cube is 6 L
 In the case of Minitrees, we use all small cubes, so the LEDs per cube, and the "cube size", is 0, where
 for standard trees the LEDs per cube is 6 (even though some are 4) and the cube size is 1.
 
+### Cube sizes
+
+We've got a few generations of cubes.
+
+Importantly, there are currently three generations of cubes which have different numbers of addressible
+LEDs in them, and LX has to output the correct number of LEDs.
+
+Size 0 - has 1 led (logically)
+
+Size 1 - has 4 leds
+
+Size 2 - has 6 leds
+
+This is `cubeSizeIndex`, which is available in the `entwinedShrubs` and `entwinedTrees` configuration files.
+
+In 2021, some shrubs are with old controllers and need size 1. The big trees are size 2. The saplings are size 1, unless
+we run out of hardware, and make some with size 0.
+
 ### Basic steps
 
 In order to map, you should use your laptop. That will allow you to do all the steps below,
@@ -108,6 +126,14 @@ Note!!! Level 2 of the big tree is 45 degrees rotated. That means it has 1R, 3R,
 no 0, 4, etc. The 1's are the taller branches.
 
 Side is A or B, with the right side being A and the left side being B
+
+### Aside: what is the Colin format?
+
+The new format, far easier to remember, has the layers starting at 1, and has the branches
+numbered clockwise starting at the left side of the lowest branch.
+
+`tree_csv.py` has not yet adapted to this format, so you'll have to do the export in JDV format
+(or fix tree_csv.py)
 
 ### second step: configure the NDBs
 
@@ -244,30 +270,8 @@ position in that array
 
 ## making the entwinedShrubCubes file
 
-There is a script `shrub_maint.py` which allows adding, removing, and changing the IP address of shrubs.
-
-It changes the file `entwinedShrubCubes.json`, which has a list of all the cubes.
-
-It is written for Python3, probably does not load correctly with python 2
-
-Arguments are --shrub SHRUB, which is the ID of the shrub (0 to 20)
-
---ip which allows you to change and IP address
-
---add which adds a shrub (with coded defaults)
-
---delete which simply deletes one
-
---change which will set the IP address of a shrub to a particular number
-
---list which will list all the current shrubs and their IPs
-
-This allows mapping the IDs to IP addresses quickly, or replacing an NDB in a shrub.
-
-There is a physical map of the site which has the locations of all the shrubs. In general, it kind
-of goes counter-clockwise around the big tree starting from the back.
-
-Remember to test the wiring is correct with DDPtest.py in the root directory!
+This file can now be made by `shrub_cubes.py`. Simply run this with the default input and
+output, and it'll make the `entwinedShrubCubes.py` file.
 
 ## QR codes and installations
 
