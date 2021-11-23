@@ -52,6 +52,9 @@ def shrub_cubes_create(infile_name:str, outfile_name: str) -> None:
 
         if 'cubeSizeIndex' in shrub:
             cubeSizeIndex = shrub['cubeSizeIndex']
+        elif 'leds-per-cube' not in shrub:
+            cubeSizeIndex = 1
+            print(' no leds per cube or cube size index specified, assuming 4 LED cubes ')
         elif (shrub['leds-per-cube'] == 1):
             cubeSizeIndex = 0
         elif (shrub['leds-per-cube'] == 4):
@@ -60,6 +63,10 @@ def shrub_cubes_create(infile_name:str, outfile_name: str) -> None:
             cubeSizeIndex = 2
         else:
             print(' leds-per-cube value of ',shrub['leds-per-cube'],' is not supported ')
+            return
+
+        if 'shrubIpAddress'not in shrub:
+            print(' shrubIpAddress missing from a shrub, try again ')
             return
 
 
