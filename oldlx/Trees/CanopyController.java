@@ -164,7 +164,7 @@ class CanopyController {
 		    socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 		    	@Override
 		    	public void call(Object... args) {
-		    		log(" socket connect event id "+socket.id() );
+		    		log(" socket EVENT CONNECT event id "+socket.id() );
 
 					try {
 						ZonedDateTime firstPause = ZonedDateTime.now();
@@ -198,7 +198,7 @@ class CanopyController {
 		    	@Override
 		   		public void call(Object... args) {
 		   			try {
-			   			log(" socket connect error of unknown type, will disable current effects and immediately try reconnect ");
+			   			log(" socket connect error:: of unknown type, will disable current effects and immediately try reconnect ");
 			   			for (Object o : args) {
 			   				log("ConnectErrorArgs: "+o.toString() );
 			   			}
@@ -211,13 +211,24 @@ class CanopyController {
 		    });
 
 
+		    // Originally put this just as a status message, but it seems if the system starts up with no
+		    // network capabilities it doesn't retry very much. So retrying every 10 seconds until it finally
+		    // gets through helps enough. Best to both disconnect and reconnect for some reason. Doesn't
+		    // seem to hurt if the network is really down.
 		    while (true) {
 		    	try {
-		    	    Thread.sleep(60000);
+		    			// 20 seconds seems like a nice number
+		    	    Thread.sleep(20000);
 		        } catch (Exception e) {
 		        	log(" CanopyThreadSleepException: "+e);
 		        }
-		    	log("CanopyController connect state: "+ socket.connected() );
+ 		    	log("CanopyController connect state: "+ socket.connected() );
+		        // seems like we have to kick it to retry?
+		       if (socket.connected() == false) {
+		       	 log("CanopyController not connected, TIMER RETRY another connect ");
+		       	 socket.disconnect();
+		       	 socket.connect();
+		       }
 		    }
 
 		} /* run */
