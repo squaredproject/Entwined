@@ -6,7 +6,7 @@ final class Config {
   static final boolean autoplayBMSet = true;
 
   static final boolean enableAPC40 = false;
-  static final boolean enableSoundSyphon = true;
+  static final boolean enableSoundSyphon = false;
 
   static final boolean enableOutputMinitree = false;
   static final boolean enableOutputBigtree = true;
