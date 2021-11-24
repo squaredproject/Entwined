@@ -50,8 +50,8 @@ def shrub_add(filename:str, shrubIndex: int, ipAddress:str) -> None:
             print(" can't add index {} already exists in file delete first".format(shrubIndex))
             return
     shrubOutputIndex = 0
-    for clusterIndex in range(0,12):
-        for rodIndex in range(1,6):
+    for rodIndex in range(1,6):
+        for clusterIndex in range(0,12):
             # there are faster ways but this reads very clean
             s = {}
             s['shrubIndex'] = shrubIndex
