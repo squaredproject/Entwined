@@ -69,10 +69,9 @@ def shrub_cubes_create(infile_name:str, outfile_name: str) -> None:
             print(' shrubIpAddress missing from a shrub, try again ')
             return
 
-
         outputIndex = 0
-        for clusterIndex in range(0,12):
-            for rodIndex in range(1,6):
+        for rodIndex in range(1,6):
+            for clusterIndex in range(0,12):
                 # there are faster ways but this reads very clean
                 s = {}
                 s['shrubIndex'] = shrubIndex
