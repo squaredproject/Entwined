@@ -257,6 +257,80 @@ def pattern_order():
         leds_send(leds)
         time.sleep(0.4)
 
+# light up cubes A, B, C, D, and E for each circular position in king shrub, one at a time.
+# new style cubes (one led / 3 bytes per cube)
+def pattern_order_new():
+    global leds, NUM_LEDS
+    for i in range(48*3*5): leds[i] = 0x00
+    i = 0
+    while True:
+
+        for led in range(12):
+
+            leds[led * 3 + 0] = 255
+            leds[led * 3 + 1] = 255
+            leds[led * 3 + 2] = 255
+
+            leds[(led * 3 + 0) + 144] = 255
+            leds[(led * 3 + 1) + 144] = 255
+            leds[(led * 3 + 2) + 144] = 255
+
+            leds[(led * 3 + 0) + 288] = 255
+            leds[(led * 3 + 1) + 288] = 255
+            leds[(led * 3 + 2) + 288] = 255
+
+            leds[(led * 3 + 0) + 432] = 255
+            leds[(led * 3 + 1) + 432] = 255
+            leds[(led * 3 + 2) + 432] = 255
+
+            leds[(led * 3 + 0) + 576] = 255
+            leds[(led * 3 + 1) + 576] = 255
+            leds[(led * 3 + 2) + 576] = 255
+
+            leds_send(leds)
+            time.sleep(0.4)
+
+            for i in range(48*3*5): leds[i] = 0x00
+            leds_send(leds)
+        time.sleep(0.5)
+
+# light up cubes A, B, C, D, and E for each circular position in king shrub, one at a time.
+# old style cubes (four leds / 12 bytes per cube)
+def pattern_order_old():
+    global leds, NUM_LEDS
+    for i in range(48*3*5): leds[i] = 0x00
+    i = 0
+    while True:
+
+        for cube in range(12):
+            for led in range(4):
+                leds[(cube * 3 * 4) + (led * 3) + 0] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 1] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 2] = 255
+
+                leds[(cube * 3 * 4) + (led * 3) + 0 + 144] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 1 + 144] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 2 + 144] = 255
+
+                leds[(cube * 3 * 4) + (led * 3) + 0 + 288] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 1 + 288] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 2 + 288] = 255
+
+                leds[(cube * 3 * 4) + (led * 3) + 0 + 432] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 1 + 432] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 2 + 432] = 255
+
+                leds[(cube * 3 * 4) + (led * 3) + 0 + 576] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 1 + 576] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 2 + 576] = 255
+
+            leds_send(leds)
+            time.sleep(0.4)
+
+            for i in range(48*3*5): leds[i] = 0x00
+            leds_send(leds)
+        time.sleep(0.5)
+
 SHRUB_LEDS_PER_CUBE = 0
 SHRUB_CUBES_PER_RANK = 12
 SHRUB_RANKS = 5
@@ -395,6 +469,10 @@ def main():
         pattern_hsv()
     elif args.pattern == 'order':
         pattern_order()
+    elif args.pattern == 'order_old':
+        pattern_order_old()
+    elif args.pattern == 'order_new':
+        pattern_order_new()
     elif args.pattern == 'shrub_rank':
         pattern_shrub_rank()
     elif args.pattern == 'shrub_rank_order':
