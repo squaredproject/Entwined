@@ -3,13 +3,13 @@ final class Config {
   // it's used for Canopy and must be unique for each installation
   static final String installationId = "ggp";
 
-  static final boolean autoplayBMSet = false;
+  static final boolean autoplayBMSet = true;
 
   static final boolean enableAPC40 = false;
   static final boolean enableSoundSyphon = true;
 
   static final boolean enableOutputMinitree = false;
-  static final boolean enableOutputBigtree = true;
+  static final boolean enableOutputBigtree = false;
 
   // these configure the mandated "pause" to keep crowds down
   // set either to 0 to disable
