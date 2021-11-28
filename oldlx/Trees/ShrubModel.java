@@ -80,7 +80,7 @@ class Rod {
 class ShrubCluster {
     List<Rod> rods;
 
-    ShrubCluster(int clusterIndex) {
+    ShrubCluster(String type /* type of shrub */, int clusterIndex) {
         List<Rod> _rods = new ArrayList<Rod>();
         int rodPositions[] = new int[]{4, 3, 2, 1, 0};
 
@@ -95,26 +95,43 @@ class ShrubCluster {
             // D -> 6, 7
             case 0:
             case 1:
-                clusterRodLengths = new double[]{31, 36.5, 40, 46, 51};
+                if (type.equals("king")) {
+                    clusterRodLengths = new double[]{31*2, 36.5*2, 40*2, 46*2, 51*2};
+                }
+                else {
+                    clusterRodLengths = new double[]{31, 36.5, 40, 46, 51};                    
+                }
                 break;
             case 2:
             case 3:
             case 10:
             case 11:
-                clusterRodLengths = new double[]{28, 33, 36.5, 41, 46};
-
+                if (type.equals("king")) {
+                    clusterRodLengths = new double[]{28*2, 33*2, 36.5*2, 41*2, 46*2};
+                }
+                else {
+                    clusterRodLengths = new double[]{28, 33, 36.5, 41, 46};
+                }
                 break;
             case 4:
             case 5:
             case 8:
             case 9:
-                clusterRodLengths = new double[]{24, 29, 33, 37.5, 43};
-
+                if (type.equals("king")) {
+                    clusterRodLengths = new double[]{24*2, 29*2, 33*2, 37.5*2, 43*2};
+                }
+                else {
+                    clusterRodLengths = new double[]{24, 29, 33, 37.5, 43};
+                }
                 break;
             case 6:
             case 7:
-                clusterRodLengths = new double[]{21, 26, 30, 36, 40.5};
-
+                if (type.equals("king")) {
+                    clusterRodLengths = new double[]{21*2, 26*2, 30*2, 36*2, 40.5*2};
+                }
+                else {
+                    clusterRodLengths = new double[]{24, 29, 33, 37.5, 43};
+                }
                 break;
             default:
         }
@@ -162,7 +179,7 @@ class ShrubModel extends LXModel {
         private ShrubFixture(List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfigs) {
             for (int i = 0; i < shrubConfigs.size(); i++) {
                 ShrubConfig sc = shrubConfigs.get(i);
-                shrubs.add(new Shrub(shrubCubeConfigs, i, sc.pieceId, sc.x, sc.z, sc.ry));
+                shrubs.add(new Shrub(sc, shrubCubeConfigs, i));
             }
             for (Shrub shrub : shrubs) {
                 for (LXPoint p : shrub.points) {
@@ -214,10 +231,10 @@ class ShrubConfig  {
   float x;
   float z;
   float ry;
-  //    int[] canopyMajorLengths;
-  //    int[] clusterBaseHeights;
-  //    String ipAddress;
+  String type;
+  int cubeSizeIndex;
   String pieceId;
+  String shrubIpAddress;
 }
 
 class Shrub extends LXModel {
@@ -263,25 +280,17 @@ class Shrub extends LXModel {
     public final float ry;
 
 
-    Shrub(List<ShrubCubeConfig> shrubCubeConfig, int shrubIndex, String pieceId, float x, float z, float ry) {
-        super(new Fixture(shrubCubeConfig, shrubIndex, pieceId, x, z, ry));
+    Shrub(ShrubConfig shrubConfig, List<ShrubCubeConfig> shrubCubeConfig, int shrubIndex) {
+        super(new Fixture(shrubConfig, shrubCubeConfig, shrubIndex));
         Fixture f = (Fixture) this.fixtures.get(0);
         this.index = shrubIndex;
         this.cubes = Collections.unmodifiableList(f.shrubCubes);
         this.shrubClusters = f.shrubClusters;
         this.ipMap = f.shrubIpMap;
-        this.x = x;
-        this.z = z;
-        this.ry = ry;
-        this.pieceId = pieceId;
-        // Very useful print to see if I'm going the right directions
-        //if (shrubIndex == 0) {
-        //      for (ShrubCube cube : this.cubes) {
-        //          System.out.println("si: "+cube.sculptureIndex+" idx: "+cube.index+" sx: "+cube.sx+" sy: "+cube.sy+" sz: "+cube.sz);
-        //          System.out.println("    theta: "+cube.theta+" y: "+cube.y);
-        //    }
-        //}
-
+        this.x = shrubConfig.x;
+        this.z = shrubConfig.z;
+        this.ry = shrubConfig.ry;
+        this.pieceId = shrubConfig.pieceId;
     }
 
     public Vec3D transformPoint(Vec3D point) {
@@ -296,12 +305,13 @@ class Shrub extends LXModel {
         public final LXTransform shrubTransform;
         int NUM_CLUSTERS_IN_SHRUB = 12;
 
-        Fixture(List<ShrubCubeConfig> shrubCubeConfig, int shrubIndex, String pieceId, float x, float z, float ry) {
+        Fixture(ShrubConfig shrubConfig, List<ShrubCubeConfig> shrubCubeConfig, int shrubIndex) {
             shrubTransform = new LXTransform();
-            shrubTransform.translate(x, 0, z);
-            shrubTransform.rotateY(ry * Utils.PI / 180);
+            shrubTransform.translate(shrubConfig.x, 0, shrubConfig.z);
+            shrubTransform.rotateY(shrubConfig.ry * Utils.PI / 180);
+
             for (int i = 0; i < NUM_CLUSTERS_IN_SHRUB; i++) {
-                shrubClusters.add(new ShrubCluster(i));
+                shrubClusters.add(new ShrubCluster(shrubConfig.type, i));
             }
             for (ShrubCubeConfig cc : shrubCubeConfig) {
                 if (cc.shrubIndex == shrubIndex) {
@@ -316,7 +326,7 @@ class Shrub extends LXModel {
                         p = null;
                     }
                     if (p != null) {
-                        ShrubCube cube = new ShrubCube(this.transformPoint(p), p, cc, pieceId);
+                        ShrubCube cube = new ShrubCube(this.transformPoint(p), p, cc, shrubConfig.pieceId);
                         shrubCubes.add(cube);
                         if (!shrubIpMap.containsKey(cc.shrubIpAddress)) {
                             shrubIpMap.put(cc.shrubIpAddress, new ShrubCube[60]);
@@ -340,7 +350,7 @@ class Shrub extends LXModel {
                         cc.outputIndex = i;
                         cc.clusterIndex = 0;
                         cc.shrubIpAddress = ip;
-                        ShrubCube cube = new ShrubCube(new Vec3D(0, 0, 0), new Vec3D(0, 0, 0), cc, pieceId);
+                        ShrubCube cube = new ShrubCube(new Vec3D(0, 0, 0), new Vec3D(0, 0, 0), cc, shrubConfig.pieceId);
                         shrubCubes.add(cube);
                         ndbCubes[i] = cube;
                     }

@@ -162,7 +162,7 @@ class Model extends LXModel {
 
             for (int i = 0; i < shrubConfigs.size(); i++) {
                 ShrubConfig sc = shrubConfigs.get(i);
-                Shrub s = new Shrub(shrubCubeConfigs, i, sc.pieceId, sc.x, sc.z, sc.ry);
+                Shrub s = new Shrub(sc, shrubCubeConfigs, i);
                 shrubs.add(s);
                 points.addAll(s.points);
             }
