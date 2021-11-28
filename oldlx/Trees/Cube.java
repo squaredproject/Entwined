@@ -136,7 +136,7 @@ class BaseCube extends LXModel {
     public final float globalTheta;
 
     /**
-     * Point of the cube in the form (theta, y) relative to center of tree base
+     * Point of the cube in the form (theta, y) relative to (center of tree base) - global or local???
      */
     public float transformedY;
     public float transformedTheta;

@@ -3,7 +3,7 @@ final class Config {
   // it's used for Canopy and must be unique for each installation
   static final String installationId = "ggp";
 
-  static final boolean autoplayBMSet = true;
+  static final boolean autoplayBMSet = false;
 
   static final boolean enableAPC40 = false;
   static final boolean enableSoundSyphon = true;
@@ -33,6 +33,7 @@ final class Config {
   static final String TREE_CONFIG_FILE = "data/entwinedTrees.json";
   static final String SHRUB_CUBE_CONFIG_FILE = "data/entwinedShrubCubes.json";
   static final String SHRUB_CONFIG_FILE = "data/entwinedShrubs.json";
+  static final String FAIRY_CIRCLE_CONFIG_FILE = "data/entwinedFairyCircles.json";
 
   // if this file doesn't exist you get a crash
   static final String AUTOPLAY_FILE = "data/entwined2021.json";

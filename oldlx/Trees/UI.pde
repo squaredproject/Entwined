@@ -36,6 +36,7 @@ class UITrees extends UI3dComponent {
 
     drawTrees(ui);
     drawShrubs(ui);
+    //drawFairyCircles(ui); // TODO: there would be a bit of steel in each fairy circle
     drawLights(ui);
   }
 
@@ -81,7 +82,7 @@ class UITrees extends UI3dComponent {
 
   private void drawShrub(UI ui, Shrub shrub) {
     int squareHalfSize = 2;
-    for (EntwinedCluster shrubCluster: shrub.shrubClusters){ // drew diamonds at every mount point. Crude, but does the job for now!
+    for (ShrubCluster shrubCluster: shrub.shrubClusters){ // drew diamonds at every mount point. Crude, but does the job for now!
       for (Rod rod: shrubCluster.rods){
         Vec3D p = rod.mountingPoint;
           beginShape();
@@ -130,6 +131,9 @@ class UITrees extends UI3dComponent {
     for (ShrubCube shrubCube : model.shrubCubes) {
         drawShrubCube(shrubCube, colors);
     }
+    for (BaseCube cube : model.fairyCircleCubes) {
+        drawBaseCube(cube, colors);
+    }
 
     noLights();
   }
@@ -153,6 +157,17 @@ class UITrees extends UI3dComponent {
     rotateX(-shrubCube.rx * Utils.PI / 180);
     rotateZ(-shrubCube.rz * Utils.PI / 180);
     box(shrubCube.size, shrubCube.size, shrubCube.size);
+    popMatrix();
+  }
+
+  void drawBaseCube(BaseCube cube, int[] colors) {
+    pushMatrix();
+    fill(colors[cube.index]);
+    translate(cube.x, cube.y, cube.z);
+    rotateY(-cube.ry * Utils.PI / 180);
+    rotateX(-cube.rx * Utils.PI / 180);
+    rotateZ(-cube.rz * Utils.PI / 180);
+    box(cube.size, cube.size, cube.size);
     popMatrix();
   }
 }
@@ -633,6 +648,63 @@ class UIShrubFaders extends UI2dContext {
   }
 }
 
+class UIFairyCircleFaders extends UI2dContext {
+  final static int SPACER = 30;
+  final static int PADDING = 4;
+  final static int BUTTON_HEIGHT = 14;
+  final static int FADER_WIDTH = 40;
+  final static int HEIGHT = 140;
+  final public UISlider[] sliders;
+  final private ChannelFairyCircleLevels[] channelFairyCircleLevels;
+  final int numFairyCircles;
+  UIFairyCircleFaders(final UI ui, final ChannelFairyCircleLevels[] channelFairyCircleLevels, final int numFairyCircles) {
+    super(ui, 800, Trees.this.height-HEIGHT-PADDING, 2 * SPACER + PADDING + (PADDING+FADER_WIDTH)*(numFairyCircles), HEIGHT);
+    sliders = new UISlider[numFairyCircles];
+    this.channelFairyCircleLevels = channelFairyCircleLevels;
+    this.numFairyCircles = numFairyCircles;
+    setBackgroundColor(#292929);
+    setBorderColor(#444444);
+    final UILabel[] labels = new UILabel[numFairyCircles];
+
+    for (int i = 0; i < numFairyCircles; i++) {
+      float xPos = PADDING + i*(PADDING+FADER_WIDTH) + SPACER;
+      sliders[i] = new UISlider(UISlider.Direction.VERTICAL, xPos, 1*BUTTON_HEIGHT + 2*PADDING, FADER_WIDTH, this.height - 3*BUTTON_HEIGHT - 5*PADDING) {
+        @Override
+        protected void onDraw(UI ui, PGraphics pg) {
+          int primaryColor = ui.theme.getPrimaryColor();
+          ui.theme.setPrimaryColor(0xff222222);
+          super.onDraw(ui, pg);
+          ui.theme.setPrimaryColor(primaryColor);
+        }
+      };
+      sliders[i]
+              .setShowLabel(false)
+              .addToContainer(this);
+      labels[i] = new UILabel(xPos, this.height - 2*PADDING - 2*BUTTON_HEIGHT, FADER_WIDTH, BUTTON_HEIGHT);
+      labels[i]
+              .setLabel("FC" + (i+1))
+              .setAlignment(CENTER, CENTER)
+              .setFontColor(#999999)
+              .setBackgroundColor(#292929)
+              .setBorderColor(#666666)
+              .addToContainer(this);
+    }
+    setChannel(0);
+    float labelX = PADDING;
+    new UILabel(labelX, 2*PADDING+1*BUTTON_HEIGHT+2, 0, 0)
+            .setLabel("LEVEL")
+            .setFontColor(#666666)
+            .addToContainer(this);
+
+  }
+  public void setChannel(int channelIndex){
+    for (int i = 0; i < numFairyCircles; i++) {
+      sliders[i].setParameter(channelFairyCircleLevels[channelIndex].getParameter(i));
+    }
+  }
+}
+
+
 class UIMultiDeck extends UIWindow implements InterfaceController {
 
   private final static int KNOBS_PER_ROW = 4;
@@ -961,6 +1033,9 @@ class UIOutput extends UIWindow {
     for (LXDatagram shrubDatagram : shrubDatagrams) {
       items.add(new DatagramItem(shrubDatagram));
     }
+    for (LXDatagram fairyCircleDatagram : fairyCircleDatagrams) {
+      items.add(new DatagramItem(fairyCircleDatagram));
+    }
     if (items.size() > 0) {
       new UIItemList(1, yPos, width-2, LIST_HEIGHT)
               .setItems(items)
@@ -1050,6 +1125,63 @@ class UIShrubOutput extends UIWindow {
 
     void onMousePressed() {
       shrubDatagram.enabled.toggle();
+    }
+  }
+}
+
+class UIFairyCircleOutput extends UIWindow {
+  static final int LIST_NUM_ROWS = 3;
+  static final int LIST_ROW_HEIGHT = 20;
+  static final int LIST_HEIGHT = LIST_NUM_ROWS * LIST_ROW_HEIGHT;
+  static final int BUTTON_HEIGHT = 20;
+  static final int SPACER = 8;
+  UIFairyCircleOutput(UI ui, float x, float y) {
+    super(ui, "LIVE FAIRY CIRCLE OUTPUT", x, y + 100, 140, UIWindow.TITLE_LABEL_HEIGHT - 1 + BUTTON_HEIGHT + SPACER + LIST_HEIGHT);
+    // may not have any fairy circles!
+    if (fairyCircleDatagrams.length <= 0) return;
+
+    float yPos = UIWindow.TITLE_LABEL_HEIGHT - 2;
+    new UIButton(4, yPos, width-8, BUTTON_HEIGHT)
+            .setParameter(fairyCircleOutput.enabled)
+            .setActiveLabel("Enabled")
+            .setInactiveLabel("Disabled")
+            .addToContainer(this);
+    yPos += BUTTON_HEIGHT + SPACER;
+
+    List<UIItemList.Item> items = new ArrayList<UIItemList.Item>();
+    for (LXDatagram fairyCircleDatagram : fairyCircleDatagrams) {
+      //System.out.println(fairyCircleDatagram);
+      items.add(new FairyCircleDatagramItem(fairyCircleDatagram));
+    }
+    new UIItemList(1, yPos, width-2, LIST_HEIGHT)
+            .setItems(items)
+            .setBackgroundColor(0xff0000)
+            .addToContainer(this);
+  }
+
+  class FairyCircleDatagramItem extends UIItemList.AbstractItem {
+
+    final LXDatagram fairyCircleDatagram;
+
+    FairyCircleDatagramItem(LXDatagram fairyCircleDatagram) {
+      this.fairyCircleDatagram = fairyCircleDatagram;
+      fairyCircleDatagram.enabled.addListener(new LXParameterListener() {
+        public void onParameterChanged(LXParameter parameter) {
+          redraw();
+        }
+      });
+    }
+
+    String getLabel() {
+      return fairyCircleDatagram.getAddress().toString();
+    }
+
+    boolean isSelected() {
+      return fairyCircleDatagram.enabled.isOn();
+    }
+
+    void onMousePressed() {
+      fairyCircleDatagram.enabled.toggle();
     }
   }
 }

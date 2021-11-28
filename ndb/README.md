@@ -123,6 +123,60 @@ Verify the starting slots as below for old 4-LED cubes:
 2161
 ```
 
+# Fairy Circles (aka minis)
+
+A mini shrub is a very small shrub with only 12 cubes. It stands about 18 inches tall.
+
+The mini shrubs are arranged in "fairy circles", which is a group which is also
+circular.
+
+Fairy Circles are all built with "1 LED cubes" although they use the same platform
+as everything else, so they can run with 4 or 6 LED cubes.
+
+## Fairy Circle Wiring
+
+The NDBs are connected for a fairy circle in groups of 5 minis per NDB. The NDBs are arranged
+clockwise, with a group of 5 minis being wired as follows.
+
+Label each NDB as having 5 Minis, with the 1st mini being the most counter clockwise (leftmost),
+then proceeding clockwise. The 3rd mini is in the center, and has the NDB. The 5th mini
+is the most clockwise (rightmost).
+
+Output 1 will be connected to the "rightmost" (from the inside of the circle) two minis.
+
+Output 1 will go first to "mini 2", then its output will go to "mini 1".
+
+Output 2 will be connected to the mini where the NDB is (the center mini)
+
+Output 3 will be connected to the "leftmost" (from the inside of the circle) two minis.
+
+Output 3 will go first to "mini 4", then to "mini 5".
+
+## Fairy Circle NDB configuration
+
+The NDB will be configured as follows.
+
+Channel 1 - 0 T's - 24 LEDs - starting at offset 1
+Channel 2 - 0 T's - 12 LEDs - starting at offset 73
+Channel 3 - 0 T's - 24 LEDs - starting at offset 109
+
+## Testing Fairy Circles
+
+The Wiring of a Mini is COUNTER CLOCKWISE.
+
+Cube 1 is closest to the center.
+
+A `ddptest` of `cube-order` with `--lpc 1` should show the innermost cube of mini 1, marching around COUNTER CLOCKWISE, then mini 2, then mini 3, etc.
+
+## A note about this configuration
+
+Given the small number of cubes, it would be concievable to run everything off one NDB - but it would be off one or two
+channels. 
+
+However, that would mean power is running a long, long way, EG, halfway around the circle.
+
+We've never done power runs that long, and at some point you get visible artifacts. Thus, let's stick to this.
+
 # Using NDBs
 
 ## NOTE: some very old "legacy" NDBs are running old firmware. Some of the common instructions

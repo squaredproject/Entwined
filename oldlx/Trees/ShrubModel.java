@@ -77,10 +77,10 @@ class Rod {
 
 }
 
-class EntwinedCluster {
+class ShrubCluster {
     List<Rod> rods;
 
-    EntwinedCluster(int clusterIndex) {
+    ShrubCluster(int clusterIndex) {
         List<Rod> _rods = new ArrayList<Rod>();
         int rodPositions[] = new int[]{4, 3, 2, 1, 0};
 
@@ -235,7 +235,7 @@ class Shrub extends LXModel {
     /**
      * Clusters in the shrub
      */
-    public final List<EntwinedCluster> shrubClusters;
+    public final List<ShrubCluster> shrubClusters;
 
     /**
      * index of the shrub
@@ -291,7 +291,7 @@ class Shrub extends LXModel {
     private static class Fixture extends LXAbstractFixture {
 
         final List<ShrubCube> shrubCubes = new ArrayList<ShrubCube>();
-        final List<EntwinedCluster> shrubClusters = new ArrayList<EntwinedCluster>();
+        final List<ShrubCluster> shrubClusters = new ArrayList<ShrubCluster>();
         public final Map<String, ShrubCube[]> shrubIpMap = new HashMap<String, ShrubCube[]>();
         public final LXTransform shrubTransform;
         int NUM_CLUSTERS_IN_SHRUB = 12;
@@ -301,7 +301,7 @@ class Shrub extends LXModel {
             shrubTransform.translate(x, 0, z);
             shrubTransform.rotateY(ry * Utils.PI / 180);
             for (int i = 0; i < NUM_CLUSTERS_IN_SHRUB; i++) {
-                shrubClusters.add(new EntwinedCluster(i));
+                shrubClusters.add(new ShrubCluster(i));
             }
             for (ShrubCubeConfig cc : shrubCubeConfig) {
                 if (cc.shrubIndex == shrubIndex) {
@@ -400,7 +400,7 @@ abstract class ShrubModelTransform extends Effect {
     ShrubModelTransform(LX lx) {
         super(lx);
 
-        shrubModel.addModelTransform(this);
+        model.addShrubModelTransform(this);
     }
 
     @Override

@@ -50,11 +50,14 @@ P3LX lx;
 ProcessingEngine engine;
 LXDatagramOutput treeOutput;
 LXDatagramOutput shrubOutput;
+LXDatagramOutput fairyCircleOutput;
 BasicParameter masterBrightnessParameter;
 LXDatagram[] treeDatagrams;
 LXDatagram[] shrubDatagrams;
+LXDatagram[] fairyCircleDatagrams;
 UIChannelFaders uiFaders;
 UIChannelFaders uiShrubFaders;
+UIChannelFaders uiFairyCircleFaders;
 UIMultiDeck uiDeck;
 BPMTool bpmTool;
 LXAutomationRecorder[] automation;
@@ -64,6 +67,7 @@ LXListenableNormalizedParameter[] effectKnobParameters;
 BooleanParameter[] previewChannels;
 ChannelTreeLevels[] channelTreeLevels;
 ChannelShrubLevels[] channelShrubLevels;
+ChannelFairyCircleLevels[] channelFairyCircleLevels;
 
 void setup() {
   size(1722, 1080, OPENGL);
@@ -96,14 +100,17 @@ class ProcessingEngine extends Engine {
 
     Trees.this.cubeConfig = cubeConfig;
     Trees.this.shrubCubeConfig = shrubCubeConfig;
+    // FairyCircles don't have a CubeConfig, they generate cubes, no config needed
     Trees.this.model = model;
     Trees.this.lx = getLX();
     Trees.this.treeOutput = treeOutput;
     Trees.this.shrubOutput = shrubOutput;
+    Trees.this.fairyCircleOutput = fairyCircleOutput;
     Trees.this.masterBrightnessParameter = masterBrightnessEffect.getParameter();
     // note to self: autoplayBrightness is not exposed in Processing, intentionally
     Trees.this.treeDatagrams = treeDatagrams;
     Trees.this.shrubDatagrams = shrubDatagrams;
+    Trees.this.fairyCircleDatagrams = fairyCircleDatagrams;
     Trees.this.bpmTool = bpmTool;
     Trees.this.automation = automation;
     Trees.this.automationStop = automationStop; 
@@ -112,6 +119,7 @@ class ProcessingEngine extends Engine {
     Trees.this.previewChannels = previewChannels;
     Trees.this.channelTreeLevels = channelTreeLevels;
     Trees.this.channelShrubLevels = channelShrubLevels;
+    Trees.this.channelFairyCircleLevels = channelFairyCircleLevels;
     uiDeck = Trees.this.uiDeck = new UIMultiDeck(Trees.this.lx.ui);
     configureUI();
   }
@@ -149,6 +157,7 @@ void configureUI() {
   if (Config.enableOutputBigtree) {
     lx.ui.addLayer(new UIOutput(lx.ui, 4, 4));    
     lx.ui.addLayer(new UIShrubOutput(lx.ui, 4, 4));
+    lx.ui.addLayer(new UIFairyCircleOutput(lx.ui, 4, 4));
   }
   
   UITreeFaders treeFaders = new UITreeFaders(lx.ui, channelTreeLevels, model.trees.size());
@@ -183,6 +192,12 @@ void keyPressed() {
         boolean toEnable = !shrubDatagrams[0].enabled.isOn();
         for (LXDatagram shrubDatagram : shrubDatagrams) {
           shrubDatagram.enabled.setValue(toEnable);
+        }
+      }
+      if (fairyCircleDatagrams.length > 0) {
+        boolean toEnable = !fairyCircleDatagrams[0].enabled.isOn();
+        for (LXDatagram fairyCircleDatagram : fairyCircleDatagrams) {
+          fairyCircleDatagram.enabled.setValue(toEnable);
         }
       }
       break;

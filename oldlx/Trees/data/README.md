@@ -268,10 +268,44 @@ This is the file that has a simple array. Each shrub has a single IP address, an
 is the shrubId. So if you have 3 shrubs they will be 0, 1, 2 and will be noted by their
 position in that array
 
-## making the entwinedShrubCubes file
+### making the entwinedShrubCubes file
 
 This file can now be made by `shrub_cubes.py`. Simply run this with the default input and
 output, and it'll make the `entwinedShrubCubes.py` file.
+
+## Fairy Circles
+
+A fairy circle is a circle of "mini" or "baby" shrubs. Each mini / baby has 12 cubes.
+
+A fairy circle is specified by its radius, and a list of NDBs. Each NDB will connect
+5 minis. 
+
+Think of the minis has having index: starting at 1, then marching around the circle clockwise.
+
+Thus Minis 1 through 5 will connect to the first NDB. 6 through 10 the next. And so on.
+
+In the file `entwinedFairyCircles.json`, there will be the X,Z location of the center, the rotation
+as usual, and then the radius.
+
+Radius! Not diameter. Not circumference. Measured in inches (because everything else is)
+
+The radius will be used to calculate the distance between the minis. They will be assumed to be
+evenly spaced, although I understand there are walkways. We'll have something to touch up
+the distances later if we want.
+
+There will be the list of NDBs, **in order**. The minis will be connected as follows. Mini 1 and 2 will be 
+connected to output 1, in series. Thus mini 2 will be 1 through 12, mini 1 will be 13 through 24.
+
+Mini 3 will be on channel 2- 1 through 12
+
+Mini 4 and 5 will be on channel 3 - 1 through 12, then 13 through 24.
+
+Please see the root `ndb` directory for precise configuration and test information.
+
+0 rotation will probably be "mini 1".
+
+It wouldn't surprise me if we have to recode this a bit because someday there will be a different
+number of minis per NDB. Then we would want some kind of list of NDB and the channels or something.
 
 ## QR codes and installations
 

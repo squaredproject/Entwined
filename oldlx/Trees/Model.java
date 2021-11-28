@@ -42,10 +42,10 @@ class Model extends LXModel {
     public final String[] pieceIds;
     public final Map<String, Integer> pieceIdMap;
 
-    Model(List <NDBConfig> ndbConfigs, List<TreeConfig> treeConfigs, List<TreeCubeConfig> cubeConfig, List<ShrubConfig> shrubConfigs,
-          List<ShrubCubeConfig> shrubCubeConfig) {
+    Model(List <NDBConfig> ndbConfigs, List<TreeConfig> treeConfigs, List<TreeCubeConfig> cubeConfigs, List<ShrubConfig> shrubConfigs,
+          List<ShrubCubeConfig> shrubCubeConfigs, List<FairyCircleConfig> fairyCircleConfigs) {
 
-        super(new Fixture(ndbConfigs, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig));
+        super(new Fixture(ndbConfigs, treeConfigs, cubeConfigs, shrubConfigs, shrubCubeConfigs, fairyCircleConfigs));
 
         Fixture f = (Fixture) this.fixtures.get(0);
 
@@ -54,6 +54,7 @@ class Model extends LXModel {
             ndbMap.put(n.ipAddress, n);
         }
 
+        // Trees
         this.treeConfigs = treeConfigs;
         List<Cube> _cubes = new ArrayList<Cube>();
         List<TreeCubeConfig> _inactiveCubeConfigs = new ArrayList();
@@ -64,6 +65,7 @@ class Model extends LXModel {
         }
         this.cubes = Collections.unmodifiableList(_cubes);
 
+        // Shrubs
         this.shrubConfigs = shrubConfigs;
         List<ShrubCube> _shrubCubes = new ArrayList<ShrubCube>();
         this.shrubs = Collections.unmodifiableList(f.shrubs);
@@ -73,11 +75,22 @@ class Model extends LXModel {
         }
         this.shrubCubes = Collections.unmodifiableList(_shrubCubes);
 
+        // fairy circles
+        this.fairyCircleConfigs = fairyCircleConfigs;
+        List<BaseCube> _fairyCircleCubes = new ArrayList<BaseCube>();
+        this.fairyCircles = Collections.unmodifiableList(f.fairyCircles);
+        for (FairyCircle fairyCircle : this.fairyCircles) {
+            fairyCircleIpMap.putAll(fairyCircle.ipMap);
+            _fairyCircleCubes.addAll(fairyCircle.cubes);
+        }
+        this.fairyCircleCubes = Collections.unmodifiableList(_fairyCircleCubes);
+
         // get a list of the names all the pieces, and a map 
         // so you can get from a string to the id array fastest
 
         List<String> _pieceIds = new ArrayList<String>();
         Map<String, Integer> _pieceIdMap = new HashMap<String, Integer>();
+
         Integer pieceIndex = new Integer(0);
         for (Tree tree : this.trees) {
             if (tree.pieceId != null) {
@@ -89,12 +102,21 @@ class Model extends LXModel {
                 pieceIndex = pieceIndex + 1;
             }
         }
-
         for (Shrub shrub : this.shrubs) {
             if (shrub.pieceId != null) {
                 _pieceIds.add(shrub.pieceId);
                 _pieceIdMap.put(shrub.pieceId, pieceIndex);
                 for (ShrubCube cube : shrub.cubes) {
+                    cube.pieceIndex = pieceIndex;
+                }
+                pieceIndex = pieceIndex + 1;
+            }
+        }
+        for (FairyCircle fairyCircle : this.fairyCircles) {
+            if (fairyCircle.pieceId != null) {
+                _pieceIds.add(fairyCircle.pieceId);
+                _pieceIdMap.put(fairyCircle.pieceId, pieceIndex);
+                for (BaseCube cube : fairyCircle.cubes) {
                     cube.pieceIndex = pieceIndex;
                 }
                 pieceIndex = pieceIndex + 1;
@@ -110,9 +132,11 @@ class Model extends LXModel {
         for (Tree tree : this.trees) {
             _baseCubes.addAll(tree.cubes);
         }
-
         for (Shrub shrub : this.shrubs) {
             _baseCubes.addAll(shrub.cubes);
+        }
+        for (FairyCircle fairyCircle : this.fairyCircles) {
+            _baseCubes.addAll(fairyCircle.cubes);
         }
         this.baseCubes = Collections.unmodifiableList(_baseCubes);
 
@@ -124,29 +148,31 @@ class Model extends LXModel {
 
         final List<Shrub> shrubs = new ArrayList<Shrub>();
 
+        final List<FairyCircle> fairyCircles = new ArrayList<FairyCircle>();
+
         private Fixture(List<NDBConfig> ndbConfigs, List<TreeConfig> treeConfigs, List<TreeCubeConfig> cubeConfigs,
-                    List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfigs) {
+                    List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfigs, List<FairyCircleConfig> fairyCircleConfigs) {
 
             for (int i = 0; i < treeConfigs.size(); i++) {
                 TreeConfig tc = treeConfigs.get(i);
-                trees.add(new Tree(ndbConfigs, cubeConfigs, i, tc.pieceId, tc.x, tc.z, tc.ry, tc.canopyMajorLengths, tc.layerBaseHeights));
-            }
-            for (Tree tree : trees) {
-                for (LXPoint p : tree.points) {
-                    points.add(p);
-                }
+                Tree t = new Tree(ndbConfigs, cubeConfigs, i, tc.pieceId, tc.x, tc.z, tc.ry, tc.canopyMajorLengths, tc.layerBaseHeights);
+                trees.add(t);
+                points.addAll(t.points);
             }
 
             for (int i = 0; i < shrubConfigs.size(); i++) {
                 ShrubConfig sc = shrubConfigs.get(i);
-                shrubs.add(new Shrub(shrubCubeConfigs, i, sc.pieceId, sc.x, sc.z, sc.ry));
-            }
-            for (Shrub shrub : shrubs) {
-                for (LXPoint p : shrub.points) {
-                    points.add(p);
-                }
+                Shrub s = new Shrub(shrubCubeConfigs, i, sc.pieceId, sc.x, sc.z, sc.ry);
+                shrubs.add(s);
+                points.addAll(s.points);
             }
 
+            for (int i = 0; i < fairyCircleConfigs.size(); i++) {
+                FairyCircleConfig fcc = fairyCircleConfigs.get(i);
+                FairyCircle fc = new FairyCircle(fcc, i);
+                fairyCircles.add(fc);
+                points.addAll(fc.points);
+            }
         }
     }
 
@@ -165,13 +191,17 @@ class Model extends LXModel {
         }
     }
 
+    // BB: todo, not sure what this is all about.
+    // why would you add all the model transforms to all the things?
+
     public void addModelTransform(ModelTransform modelTransform) {
         modelTransforms.add(modelTransform);
         shrubModelTransforms.add(modelTransform);
-
+        //fairyCircleModelTransforms.add(modelTransforms);
     }
 
     public void runTransforms() {
+        // For the trees
         for (Cube cube : cubes) {
             cube.resetTransform();
         }
@@ -184,6 +214,7 @@ class Model extends LXModel {
             cube.didTransform();
         }
 
+        // for the shrubs
         for (ShrubCube cube : shrubCubes) {
             cube.resetTransform();
         }
@@ -196,6 +227,21 @@ class Model extends LXModel {
         for (ShrubCube cube : shrubCubes) {
             cube.didTransform();
         }
+
+        // for the fairy circles
+        for (BaseCube cube : fairyCircleCubes) {
+            cube.resetTransform();
+        }
+        for (Effect modelTransform : fairyCircleModelTransforms) {
+            ModelTransform fairyCircleModelTransform = (ModelTransform) modelTransform;
+            if (fairyCircleModelTransform.isEnabled()) {
+                fairyCircleModelTransform.transform(this);
+            }
+        }
+        for (BaseCube cube : shrubCubes) {
+            cube.didTransform();
+        }
+
     }
 
     /**
@@ -245,9 +291,45 @@ class Model extends LXModel {
         }
     }
 
-    public void addModelTransform(Effect shrubModelTransform) {
+    public void addShrubModelTransform(Effect shrubModelTransform) {
         shrubModelTransforms.add((ModelTransform) shrubModelTransform);
     }
+
+
+    /**
+     * FairyCircles in the model
+     */
+    public final List<FairyCircle> fairyCircles;
+
+    /**
+     * FairyCircles have BaseCubes - the cubes in the model
+     */
+    public final List<BaseCube> fairyCircleCubes;
+    public final Map<String, BaseCube[]> fairyCircleIpMap = new HashMap<String, BaseCube[]>();
+
+    private final ArrayList<ModelTransform> fairyCircleModelTransforms = new ArrayList<>();
+    private final List<FairyCircleConfig> fairyCircleConfigs;
+
+    public void runFairyCircleTransforms() {
+        for (BaseCube cube : fairyCircleCubes) {
+            cube.resetTransform();
+        }
+        for (Effect modelTransform : fairyCircleModelTransforms) {
+            FairyCircleModelTransform fairyCircleModelTransform = (FairyCircleModelTransform) modelTransform;
+            if (fairyCircleModelTransform.isEnabled()) {
+                fairyCircleModelTransform.transform(this);
+            }
+        }
+        for (BaseCube cube : fairyCircleCubes) {
+            cube.didTransform();
+        }
+    }
+
+    public void addFairyCircleModelTransform(Effect fairyCircleModelTransform) {
+        fairyCircleModelTransforms.add((ModelTransform) fairyCircleModelTransform);
+    }
+
+
 }
 
 class Tree extends LXModel {
@@ -672,7 +754,8 @@ abstract class ModelTransform extends Effect {
     ModelTransform(LX lx) {
         super(lx);
         model.addModelTransform(this);
-    //           ((ShrubModel) shrubModel).addShrubModelTransform(this);
+        model.addShrubModelTransform(this);
+        model.addFairyCircleModelTransform(this);
     }
 
     @Override
@@ -693,7 +776,6 @@ class ModelTransformTask implements LXLoopTask {
     @Override
     public void loop(double deltaMs) {
         model.runTransforms();
-    //        model.runShrubTransforms();
     }
 }
 

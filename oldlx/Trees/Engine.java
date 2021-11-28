@@ -57,6 +57,7 @@ abstract class Engine {
   final List<TreeConfig> treeConfigs;
   final List<ShrubCubeConfig> shrubCubeConfig;
   final List<ShrubConfig> shrubConfigs;
+  final List<FairyCircleConfig> fairyCircleConfigs;
   final LX lx;
   final Model model;
   EngineController engineController;
@@ -64,6 +65,8 @@ abstract class Engine {
   LXDatagram[] treeDatagrams;
   LXDatagramOutput shrubOutput;
   LXDatagram[] shrubDatagrams;
+  LXDatagramOutput fairyCircleOutput;
+  LXDatagram[] fairyCircleDatagrams;
   BPMTool bpmTool;
   InterfaceController uiDeck;
   MidiEngine midiEngine;
@@ -74,6 +77,7 @@ abstract class Engine {
   LXListenableNormalizedParameter[] effectKnobParameters;
   final ChannelTreeLevels[] channelTreeLevels = new ChannelTreeLevels[Engine.NUM_TOTAL_CHANNELS];
   final ChannelShrubLevels[] channelShrubLevels = new ChannelShrubLevels[Engine.NUM_TOTAL_CHANNELS];
+  final ChannelFairyCircleLevels[] channelFairyCircleLevels = new ChannelFairyCircleLevels[Engine.NUM_TOTAL_CHANNELS];
   final BasicParameter dissolveTime = new BasicParameter("DSLV", 400, 50, 1000);
   final BasicParameter drumpadVelocity = new BasicParameter("DVEL", 1);
 
@@ -107,7 +111,8 @@ abstract class Engine {
     treeConfigs = loadTreeConfigFile();
     shrubCubeConfig = loadShrubCubeConfigFile();
     shrubConfigs = loadShrubConfigFile();
-    model = new Model(ndbConfig, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig);
+    fairyCircleConfigs = loadFairyCircleConfigFile();
+    model = new Model(ndbConfig, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig, fairyCircleConfigs);
 
     lx = createLX();
 
@@ -130,6 +135,7 @@ abstract class Engine {
     for (int i=0; i<NUM_TOTAL_CHANNELS; i++){
       channelTreeLevels[i] = new ChannelTreeLevels(model.trees.size());
       channelShrubLevels[i] = new ChannelShrubLevels(model.shrubs.size());
+      channelFairyCircleLevels[i] = new ChannelFairyCircleLevels(model.fairyCircles.size());
     }
 
     configureChannels();
@@ -657,6 +663,10 @@ abstract class Engine {
         return loadJSONFile(Config.SHRUB_CONFIG_FILE, new TypeToken<List<ShrubConfig>>() {
       }.getType());
   }
+  List<FairyCircleConfig> loadFairyCircleConfigFile() {
+        return loadJSONFile(Config.FAIRY_CIRCLE_CONFIG_FILE, new TypeToken<List<FairyCircleConfig>>() {
+      }.getType());
+  }
 
   JsonArray loadSavedSetFile(String filename) {
     return loadJSONFile(filename, JsonArray.class);
@@ -718,7 +728,7 @@ abstract class Engine {
   /* configureChannels */
 
   void setupChannel(final LXChannel channel, boolean noOpWhenNotRunning) {
-    channel.setFaderTransition(new TreesTransition(lx, channel, model, channelTreeLevels, channelShrubLevels));
+    channel.setFaderTransition(new TreesTransition(lx, channel, model, channelTreeLevels, channelShrubLevels, channelFairyCircleLevels));
     channel.addListener(new LXChannel.AbstractListener() {
       LXTransition transition;
 
@@ -974,7 +984,7 @@ abstract class Engine {
   /* configureExternalOutput */
 
   void configureExternalOutput() {
-    // Output stage
+    // Output trees
     try {
       treeOutput = new LXDatagramOutput(lx);
       treeDatagrams = new LXDatagram[model.ipMap.size()];
@@ -982,7 +992,7 @@ abstract class Engine {
       for (Map.Entry<String, Cube[]> entry : model.ipMap.entrySet()) {
         String ip = entry.getKey();
         Cube[] cubes = entry.getValue();
-        treeOutput.addDatagram(treeDatagrams[ci++] = Output.treeClusterDatagram(cubes).setAddress(ip));
+        treeOutput.addDatagram(treeDatagrams[ci++] = Output.treeDatagram(cubes).setAddress(ip));
       }
       outputBrightness.parameters.add(treeOutput.brightness);
       treeOutput.enabled.setValue(true);
@@ -990,6 +1000,7 @@ abstract class Engine {
     } catch (Exception x) {
       System.out.println(x);
     }
+    // output shrubs
     try {
         shrubOutput = new LXDatagramOutput(lx);
         shrubDatagrams = new LXDatagram[model.shrubIpMap.size()];
@@ -997,11 +1008,27 @@ abstract class Engine {
         for (Entry<String, ShrubCube[]> entry : model.shrubIpMap.entrySet()) {
           String shrubIp = entry.getKey();
           ShrubCube[] shrubCubes = entry.getValue();
-          shrubOutput.addDatagram(shrubDatagrams[ci++] = Output.shrubClusterDatagram(shrubCubes).setAddress(shrubIp));
+          shrubOutput.addDatagram(shrubDatagrams[ci++] = Output.shrubDatagram(shrubCubes).setAddress(shrubIp));
         }
         outputBrightness.parameters.add(shrubOutput.brightness);
         shrubOutput.enabled.setValue(true);
         lx.addOutput(shrubOutput);
+      } catch (Exception x) {
+        System.out.println(x);
+      }
+      // output fairycircles
+      try {
+        fairyCircleOutput = new LXDatagramOutput(lx);
+        fairyCircleDatagrams = new LXDatagram[model.fairyCircleIpMap.size()];
+        int ci = 0;
+        for (Entry<String, BaseCube[]> entry : model.fairyCircleIpMap.entrySet()) {
+          String fairyCircleIp = entry.getKey();
+          BaseCube[] fairyCircleCubes = entry.getValue();
+          fairyCircleOutput.addDatagram(fairyCircleDatagrams[ci++] = Output.baseCubeDatagram(fairyCircleCubes).setAddress(fairyCircleIp));
+        }
+        outputBrightness.parameters.add(fairyCircleOutput.brightness);
+        fairyCircleOutput.enabled.setValue(true);
+        lx.addOutput(fairyCircleOutput);
       } catch (Exception x) {
         System.out.println(x);
       }
@@ -1445,15 +1472,17 @@ class TreesTransition extends LXTransition {
   private LXColor.Blend blendType = LXColor.Blend.ADD;
   final ChannelTreeLevels[] channelTreeLevels;
   final ChannelShrubLevels[] channelShrubLevels;
+  final ChannelFairyCircleLevels[] channelFairyCircleLevels;
   final BasicParameter fade = new BasicParameter("FADE", 1);
 
-  TreesTransition(LX lx, LXChannel channel, Model model, ChannelTreeLevels[] channelTreeLevels, ChannelShrubLevels[] channelShrubLevels) {
+  TreesTransition(LX lx, LXChannel channel, Model model, ChannelTreeLevels[] channelTreeLevels, ChannelShrubLevels[] channelShrubLevels, ChannelFairyCircleLevels[] channelFairyCircleLevels) {
     super(lx);
     this.model = model;
     addParameter(blendMode);
     this.channel = channel;
     this.channelTreeLevels = channelTreeLevels;
     this.channelShrubLevels = channelShrubLevels;
+    this.channelFairyCircleLevels = channelFairyCircleLevels;
 
     blendMode.addListener(new LXParameterListener() {
       @Override
@@ -1542,39 +1571,83 @@ class TreesTransition extends LXTransition {
       }
       shrubIndex++;
     }
+
+    int fcIndex = 0;
+    double fcLevel;
+    for (FairyCircle fairyCircle : model.fairyCircles) {
+      float amount = 1.0f; // default value if there is no extra level
+      if (this.channel.getIndex() < this.channelFairyCircleLevels.length) {
+        fcLevel = this.channelFairyCircleLevels[this.channel.getIndex()].getValue(fcIndex);
+        amount = (float) (progress * fcLevel);
+      }
+      if (amount == 0.0f) {
+        for (LXPoint p : fairyCircle.points) {
+          colors[p.index] = c1[p.index];
+        }
+      } else if (amount == 1.0f) {
+        for (LXPoint p : fairyCircle.points) {
+          int color2 = (blendType == LXColor.Blend.SUBTRACT) ? LX.hsb(0, 0, LXColor.b(c2[p.index])) : c2[p.index];
+          colors[p.index] = LXColor.blend(c1[p.index], color2, this.blendType);
+        }
+      } else {
+        for (LXPoint p : fairyCircle.points) {
+          int color2 = (blendType == LXColor.Blend.SUBTRACT) ? LX.hsb(0, 0, LXColor.b(c2[p.index])) : c2[p.index];
+          colors[p.index] = LXColor.lerp(c1[p.index], LXColor.blend(c1[p.index], color2, this.blendType), amount);
+        }
+      }
+      fcIndex++;
+    }
+
+
   }
 }
 
 
 
-class ChannelTreeLevels{
+class ChannelTreeLevels {
   private BasicParameter[] levels;
-  ChannelTreeLevels(int numTrees){
+  ChannelTreeLevels(int numTrees) {
     levels = new BasicParameter[numTrees];
-    for (int i=0; i<numTrees; i++){
+    for (int i=0; i<numTrees; i++) {
       this.levels[i] = new BasicParameter("tree" + i, 1);
     }
   }
-  public BasicParameter getParameter(int i){
+  public BasicParameter getParameter(int i) {
     return this.levels[i];
   }
-  public double getValue(int i){
+  public double getValue(int i) {
     return this.levels[i].getValue();
   }
 }
 
-class ChannelShrubLevels{
+class ChannelShrubLevels {
     private BasicParameter[] levels;
-    ChannelShrubLevels(int numShrubs){
+    ChannelShrubLevels(int numShrubs) {
       levels = new BasicParameter[numShrubs];
-      for (int i=0; i<numShrubs; i++){
+      for (int i=0; i<numShrubs; i++){ 
         this.levels[i] = new BasicParameter("shrub" + i, 1);
+      }
+    }
+    public BasicParameter getParameter(int i) {
+      return this.levels[i];
+    }
+    public double getValue(int i) {
+      return this.levels[i].getValue();
+    }
+  }
+
+class ChannelFairyCircleLevels {
+    private BasicParameter[] levels;
+    ChannelFairyCircleLevels(int numFairyCircles) {
+      levels = new BasicParameter[numFairyCircles];
+      for (int i=0; i<numFairyCircles; i++){
+        this.levels[i] = new BasicParameter("fc" + i, 1);
       }
     }
     public BasicParameter getParameter(int i){
       return this.levels[i];
     }
-    public double getValue(int i){
+    public double getValue(int i) {
       return this.levels[i].getValue();
     }
   }
