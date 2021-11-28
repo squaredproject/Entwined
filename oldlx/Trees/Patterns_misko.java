@@ -131,11 +131,15 @@ class Stringy extends TSPattern {
   private float waveWidth = 1;
   private float speedMult = 1000;
 
+  // this is a bomb. The number has to be bigger than something
+  // but it's not clear what. Add a bunch of cubes and it might explode.
+  final static int MAX_THING = 2300;
+
   private double total_ms1 =0.0;
   private double total_ms2 =0.0;
-  static float[][] d = new float[1900][1900]; //1900*1900*4bytes/(1024*1024)=13.8MB
-  static float[] norms = new float[1900]; //0.007MB
-  static float[][] shadow = new float[1900][3]; //0.021 MB
+  static float[][] d = new float[MAX_THING][MAX_THING]; //1900*1900*4bytes/(1024*1024)=13.8MB
+  static float[] norms = new float[MAX_THING]; //0.007MB
+  static float[][] shadow = new float[MAX_THING][3]; //0.021 MB
   private int n=3;
   private int current_cube_r[];
   private int current_cube_g[];
