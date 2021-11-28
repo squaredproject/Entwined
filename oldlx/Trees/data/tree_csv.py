@@ -53,9 +53,10 @@ import sys
 import argparse
 
 
-def tree_cubes_csv(csvFilename:str, cubeFilename:str):
+def tree_cubes_csv(csvFilename:str, cubeFilename:str, ndbFilename:str):
 
     cubes = []
+    ndbs = {} # dict with string is IP address, value is array of 16 ints for output length
 
     with open(csvFilename, "r") as csv_f:
         lineNum = 1
@@ -80,14 +81,33 @@ def tree_cubes_csv(csvFilename:str, cubeFilename:str):
                     newCubes = tree_cube_make_object(ndb,output,tree,layer,branch,half,cubesNum,cubeSize,lineNum)
                     cubes.extend(newCubes)
 
+                    update_ndbs(ndbs, ndb, output, cubesNum)
+
                 # todo: it is possible to construct the ndbFile but probably not a good idea
                 # it's actually pretty easy to do it manually and a good double check???
 
             lineNum += 1
 
+    #print(' ndb output array is: ',ndbs)
+
     # write the output files
     with open(cubeFilename, 'w') as f:
-        json.dump(cubes, f)    
+        json.dump(cubes, f)
+
+    with open(ndbFilename, 'w') as f:
+        json.dump(ndbs, f)
+
+def update_ndbs(ndbs, ndb:str, output: int, cubesNum: int):
+    if '.' not in ndb:
+        ndb = '10.0.0.' + ndb
+    # if the ndb entry exists, update the array
+    lengths = ndbs.get(ndb)
+    if lengths:
+        lengths[output-1] = cubesNum
+    else:
+        lengths = [0] * 16
+        lengths[output-1] = cubesNum
+        ndbs[ndb] = lengths
 
 
 # file format:
@@ -218,7 +238,10 @@ def tree_cube_make_object(ip:str, output:int, tree, layer:int, branch:str, half:
 def arg_init():
     parser = argparse.ArgumentParser(prog='tree-csv', description='convert the CSV file to the entwinedCubes file')
 
-    parser.add_argument('files', type=str, nargs=2, help='input.csv entwinedCubes.json')
+    parser.add_argument('files', type=str, nargs=1, help='input.csv')
+    parser.add_argument('--cubes', '-c', type=str, default="entwinedCubes.json", help='file to output, cubes')
+    parser.add_argument('--ndbs', '-n', type=str, default="entwinedNDBs.json", help='file to output, ndbs')
+
 
     args = parser.parse_args()
 
@@ -230,9 +253,10 @@ def main():
     args = arg_init()
 
     print(" input {}".format(args.files[0]))
-    print(" cubes output {}".format(args.files[1]))
+    print(" cubes output {}".format(args.cubes))
+    print(" ndbs output {}".format(args.ndbs))
 
-    tree_cubes_csv(args.files[0], args.files[1])
+    tree_cubes_csv(args.files[0], args.cubes, args.ndbs)
 
 
 # this only really impacts when this is being used as a module

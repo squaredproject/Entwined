@@ -199,32 +199,18 @@ laptop.
 Download the CSV file to where you run the python scripts. It'll be annoying because there
 are spaces in the downloaded file name.
 
-#### fifth step Make the `entwinedCubes.json`
+#### fifth step Make the `entwinedCubes.json` and `entwinedNDBs.json`
 
-Run the `tree_csv.py`, which will convert the CSV file to an `entwinedCubes.json` file. That's what
-you'll use in the actual sculpture.
+Run the `tree_csv.py`, which will convert the CSV file to an `entwinedCubes.json` file, and generate
+the `entwinedNDBs.json` files. Those are what you'll actually use in the sculpture.
+
+The command line is just the csv file you downloaded, it'll do the rest and default to the right
+filenames.
 
 There are a set of other tools that will allow you to add and remove branches, but it's a LOT better
 to have the "master sheet" and continually re-run the tree_csv.py over it.
 
-#### sixth step: Edit the entwinedNDBs.json
-
-You also need to create the `entwinedNDBs.json`. This easily allows the software to know which NDBs
-are even in the system. It would be really nice if that CSV program generates the entwinedNDBs.json file
-as well, and if you do that, my thanks will be to you, please update the readme. A note to the user.
-
-The format of that file is like this, with a list with one entry for each NDB
-```
-[
-    {
-        "ipAddress": "10.0.0.110",
-        "outputLength": [ 7,10,6,5,6,10,6,5,8]
-    }
-]
-```
-
-
-#### seventh step: make the `entwinedTrees.json` file
+#### sixth step: make the `entwinedTrees.json` file
 
 Hopefully you stole a Trees file from one of the other installations. The trees descriptions
 have 4 kinds, which is Large, Medium, Small, and Mini patterns. There are Magic Descriptions 
