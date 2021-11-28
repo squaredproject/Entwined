@@ -89,7 +89,7 @@ def tree_cubes_csv(csvFilename:str, cubeFilename:str, ndbFilename:str):
             lineNum += 1
 
     #print(' ndb output array is: ',ndbs)
-    print(' ndb output in json form is: ',convert_ndbs(ndbs))
+    #print(' ndb output in json form is: ',convert_ndbs(ndbs))
 
     # write the output files
     with open(cubeFilename, 'w') as f:
