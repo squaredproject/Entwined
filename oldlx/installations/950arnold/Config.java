@@ -1,4 +1,4 @@
-sublfinal class Config {
+final class Config {
   // Change this when setting up a new installation!
   // it's used for Canopy and must be unique for each installation
   static final String installationId = "950arnold";
