@@ -89,13 +89,14 @@ def tree_cubes_csv(csvFilename:str, cubeFilename:str, ndbFilename:str):
             lineNum += 1
 
     #print(' ndb output array is: ',ndbs)
+    print(' ndb output in json form is: ',convert_ndbs(ndbs))
 
     # write the output files
     with open(cubeFilename, 'w') as f:
         json.dump(cubes, f)
 
     with open(ndbFilename, 'w') as f:
-        json.dump(ndbs, f)
+        json.dump(convert_ndbs(ndbs), f)
 
 def update_ndbs(ndbs, ndb:str, output: int, cubesNum: int):
     if '.' not in ndb:
@@ -108,6 +109,25 @@ def update_ndbs(ndbs, ndb:str, output: int, cubesNum: int):
         lengths = [0] * 16
         lengths[output-1] = cubesNum
         ndbs[ndb] = lengths
+
+# input format is key: string, value: array of ints
+# output format for json is:
+# array of:
+#    {
+#        "ipAddress": "10.0.0.131",
+#        "outputLength": [ 7,7,6,5, 4,4,4,4, 4,4,4,5, 5,0,0,0]
+#    },
+
+
+def convert_ndbs(ndbs):
+    ret = []
+    for ip, lengths in ndbs.items():
+        ndb = {}
+        ndb['ipAddress'] = ip
+        ndb['outputLength'] = lengths
+        ret.append(ndb)
+    return ret
+
 
 
 # file format:
