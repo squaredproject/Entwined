@@ -12,4 +12,6 @@ fi
 
 echo "Adding statuscake"
 if [[ "$CRONSTRING" != *"statuscake"* ]];  then
-        (crontab -l 2>/dev/null; echo "*/5 * * * * /home/entwined/Entwined/oldlx/installations/ggp-2021/statuscake.sh") | c$fi
+        (crontab -l 2>/dev/null; echo "*/5 * * * * /home/entwined/Entwined/oldlx/installations/ggp-2021/statuscake.sh") | crontab -
+echo "Adding statuscake ping script"
+fi
