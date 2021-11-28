@@ -57,5 +57,5 @@ sudo systemctl enable  $SERVICE
 echo "adding cron job to restart tunnel every 15 mins"
 CRONSTRING=$(crontab -l)
 if [[ "$CRONSTRING" != *"entwined-tunnel"* ]];  then
-	(crontab -l 2>/dev/null; echo "*/15 * * * * sudo systemctl restart entwined-tunnel") | crontab -
+	(crontab -l 2>/dev/null; echo "*/15 * * * * sudo systemctl restart entwined-tunnel") | sudo crontab -
 fi
