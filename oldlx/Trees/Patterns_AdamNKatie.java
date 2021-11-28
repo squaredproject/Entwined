@@ -870,12 +870,12 @@ class Blooms extends AutographedPattern{
         cubeRadiusPortion = ShrubRadiusRawToRadiusPortion(cube.r);
       }
       
-      // See if we should ligth up this cube (i.e. is it
+      // See if we should light up this cube (i.e. is it
       // on the active part of the active scuplture to bloom).
       // First, check if this cube is a shrub cube.
       boolean cubeIsOnDesiredSculpture = false;
       if (cube.pieceType == PieceType.TREE){
-        // Get the shrub cube, and access shrub specific properties.
+        // Get the tree cube, and access tree specific properties.
         Cube treeCube = (Cube) cube;
         int treeIdx = treeCube.config.treeIndex;
         
@@ -883,7 +883,8 @@ class Blooms extends AutographedPattern{
         cubeIsOnDesiredSculpture =
           (desiredSculptureType == PieceType.TREE) && 
           (treeIdx == desiredCurrTreeIdx);
-      }else{
+      } 
+      else if (cube.pieceType == PieceType.SHRUB) {
         // Get the shrub cube, and access shrub specific properties.
         ShrubCube shrubCube = (ShrubCube) cube;
         int shrubIdx = shrubCube.config.shrubIndex;
@@ -893,6 +894,7 @@ class Blooms extends AutographedPattern{
           (desiredSculptureType == PieceType.SHRUB) && 
           (shrubIdx == desiredCurrShrubIdx);
       }
+      // TODO: we have a new type, fairyCircle....
       
       // Get the index of the color for this cube.
       int colorArrIdx = cube.index;
@@ -941,6 +943,7 @@ class Blooms extends AutographedPattern{
       (bloomPrevRadiusPortion > 1.0f) && 
       (bloomCurrRadiusPortion > 1.0f);
     if(shouldGoToDifferentSculpture){
+
       if(desiredSculptureType == PieceType.TREE){
         // Jump immediately to doing shrubs!
         desiredSculptureType = PieceType.SHRUB;

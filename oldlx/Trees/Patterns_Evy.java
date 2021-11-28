@@ -131,6 +131,9 @@ class FirefliesNcase extends TSPattern {
       }
 
       for (BaseCube cube : model.baseCubes) {
+        // just the shrubs mam
+        if (cube.pieceType != PieceType.SHRUB)
+          continue;
         float sculptureCycleValue = (cycle.getValuef() + lightUpOffset.get(cube.sculptureIndex)) % 100;
 
         // shrubs are lit when the cycle value is between 0 and 40
