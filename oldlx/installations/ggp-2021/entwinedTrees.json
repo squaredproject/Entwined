@@ -14,6 +14,77 @@
 		"x" : 552,
 		"z" : -26,
 		"pieceId": "tree-small"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : 0,
+		"z" : 220,
+		"pieceId" : "sapling-01"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : -140,
+		"z" : 228,
+		"pieceId" : "sapling-02"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : -263,
+		"z" : 385,
+		"pieceId" : "sapling-03"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : -298,
+		"z" : 228,
+		"pieceId" : "sapling-04"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : -368,
+		"z" : 438,
+		"pieceId" : "sapling-05"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : -438,
+		"z" : 298,
+		"pieceId" : "sapling-06"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : -491,
+		"z" : 157,
+		"pieceId" : "sapling-07"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : -403,
+		"z" : 18,
+		"pieceId" : "sapling-08"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : -280,
+		"z" : 35,
+		"pieceId" : "sapling-9"
 	}
-
 ]
