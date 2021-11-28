@@ -95,7 +95,7 @@ class ShrubCluster {
             // D -> 6, 7
             case 0:
             case 1:
-                if (type.equals("king")) {
+                if (type != null && type.equals("king")) {
                     clusterRodLengths = new double[]{31*2, 36.5*2, 40*2, 46*2, 51*2};
                 }
                 else {
@@ -106,7 +106,7 @@ class ShrubCluster {
             case 3:
             case 10:
             case 11:
-                if (type.equals("king")) {
+                if (type != null && type.equals("king")) {
                     clusterRodLengths = new double[]{28*2, 33*2, 36.5*2, 41*2, 46*2};
                 }
                 else {
@@ -117,7 +117,7 @@ class ShrubCluster {
             case 5:
             case 8:
             case 9:
-                if (type.equals("king")) {
+                if (type != null && type.equals("king")) {
                     clusterRodLengths = new double[]{24*2, 29*2, 33*2, 37.5*2, 43*2};
                 }
                 else {
@@ -126,7 +126,7 @@ class ShrubCluster {
                 break;
             case 6:
             case 7:
-                if (type.equals("king")) {
+                if (type != null && type.equals("king")) {
                     clusterRodLengths = new double[]{21*2, 26*2, 30*2, 36*2, 40.5*2};
                 }
                 else {
