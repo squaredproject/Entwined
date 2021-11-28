@@ -1136,7 +1136,7 @@ class UIFairyCircleOutput extends UIWindow {
   static final int BUTTON_HEIGHT = 20;
   static final int SPACER = 8;
   UIFairyCircleOutput(UI ui, float x, float y) {
-    super(ui, "LIVE FAIRY CIRCLE OUTPUT", x, y + 100, 140, UIWindow.TITLE_LABEL_HEIGHT - 1 + BUTTON_HEIGHT + SPACER + LIST_HEIGHT);
+    super(ui, "LIVE FAIRY CIRCLE OUTPUT", x, y + 200, 140, UIWindow.TITLE_LABEL_HEIGHT - 1 + BUTTON_HEIGHT + SPACER + LIST_HEIGHT);
     // may not have any fairy circles!
     if (fairyCircleDatagrams.length <= 0) return;
 
