@@ -4,107 +4,107 @@
 			"x" : -315,
 			"z" : -1491,
 			"type" : "king",
-			"leds-per-cube": 4,
+			"cubeSizeIndex": 0,
 			"pieceId" : "king-1",
-			"shrubIpAddress" : "10.0.0.199"
+			"shrubIpAddress" : "10.0.0.120"
 	},
 	{
 			"ry" : 0,
 			"x" : -35,
 			"z" : -1622,
 			"type" : "classic",
-			"leds-per-cube": 4,
+			"cubeSizeIndex": 1,
 			"pieceId" : "shrub-11",
-			"shrubIpAddress" : "10.0.0.198"
+			"shrubIpAddress" : "10.0.0.109"
 	},
 	{
 			"ry" : 0,
 			"x" : -491,
 			"z" : -1631,
 			"type" : "classic",
-			"leds-per-cube": 4,
+			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-12",
-			"shrubIpAddress" : "10.0.0.197"
+			"shrubIpAddress" : "10.0.0.114"
 	},
 	{
 			"ry" : 0,
 			"x" : -473,
 			"z" : -1193,
 			"type" : "classic",
-			"leds-per-cube": 4,
+			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-13",
-			"shrubIpAddress" : "10.0.0.196"
+			"shrubIpAddress" : "10.0.0.113"
 	},
 	{
 			"ry" : 0,
 			"x" : 719,
 			"z" : -350,
 			"type" : "king",
-			"leds-per-cube": 1,
+			"cubeSizeIndex": 0,
 			"pieceId" : "king-2",
-			"shrubIpAddress" : "10.0.0.195"
+			"shrubIpAddress" : "10.0.0.118"
 	},
 	{
 			"ry" : 0,
 			"x" : 1017,
 			"z" : -395,
 			"type" : "classic",
-			"leds-per-cube": 1,
+			"cubeSizeIndex": 1,
 			"pieceId" : "shrub-21",
-			"shrubIpAddress" : "10.0.0.194"
+			"shrubIpAddress" : "10.0.0.214"
 	},
 	{
 			"ry" : 0,
 			"x" : 587,
 			"z" : -658,
 			"type" : "classic",
-			"leds-per-cube": 1,
+			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-22",
-			"shrubIpAddress" : "10.0.0.193"
+			"shrubIpAddress" : "10.0.0.112"
 	},
 	{
 			"ry" : 0,
 			"x" : 315,
 			"z" : -517,
 			"type" : "classic",
-			"leds-per-cube": 1,
+			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-23",
-			"shrubIpAddress" : "10.0.0.192"
+			"shrubIpAddress" : "10.0.0.115"
 	},
 	{
 			"ry" : 0,
 			"x" : 1000,
 			"z" : 280,
 			"type" : "king",
-			"leds-per-cube": 1,
+			"cubeSizeIndex": 0,
 			"pieceId" : "king-3",
-			"shrubIpAddress" : "10.0.0.191"
+			"shrubIpAddress" : "10.0.0.116"
 	},
 	{
 			"ry" : 0,
-			"x" : 1263,
-			"z" : 0,
+			"x" : 1052,
+			"z" : 526,
 			"type" : "classic",
-			"leds-per-cube": 1,
+			"cubeSizeIndex": 1,
 			"pieceId" : "shrub-31",
-			"shrubIpAddress" : "10.0.0.189"
+			"shrubIpAddress" : "10.0.0.111"
 	},
 	{
 			"ry" : 0,
 			"x" : 965,
 			"z" : -70,
 			"type" : "classic",
-			"leds-per-cube": 1,
+			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-32",
-			"shrubIpAddress" : "10.0.0.188"
+			"shrubIpAddress" : "10.0.0.119"
 	},
 	{
 			"ry" : 0,
 			"x" : 772,
 			"z" : 368,
 			"type" : "classic",
-			"leds-per-cube": 1,
+			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-33",
-			"shrubIpAddress" : "10.0.0.187"
+			"shrubIpAddress" : "10.0.0.117"
 	}
 ]
