@@ -57,17 +57,18 @@ class MiniCluster {
 
     static final int N_CUBES = 12;
 
-    static List<BaseCube> cubes;
+    final List<BaseCube> cubes;
+
+    final int index; // for debuggng
 
     // positions: fcc has the fairy circle's center (fairyCirclePostion)
     //            the miniClusterPosition is relative to the fairyClusterPostion
     //            the cube position is relative to the miniCluster Position
 
-    MiniCluster(Vec3D miniClusterPosition, float miniClusterRotation /*radians*/, FairyCircleConfig fcc, int clusterIndex) {
+    MiniCluster(Vec3D miniClusterPosition, float miniClusterRotation /*radians*/, FairyCircleConfig fcc, int sculptureIndex, int index) {
 
+        this.index = index;
         List<BaseCube> _cubes = new ArrayList<BaseCube>();
-
-        System.out.format(" Constructing MiniCluster index %d%n",clusterIndex);
 
         float rad_step = (float) Math.toRadians( 360.0f / N_CUBES );
         float rads = (float) miniClusterRotation; // start with the global rotation + local rotation, rotate about
@@ -79,14 +80,12 @@ class MiniCluster {
             cubePosition.z = RADIUS * (float) Math.sin(rads);
             rads += rad_step;
 
-            System.out.format(" Constructing cube %d x %f z %f %n",i,cubePosition.x,cubePosition.z);
-
             // add self reduces one garbage vec - reuses newly construced
             // Y coordinate (up) not specified in installation
             Vec3D globalPosition = (new Vec3D(fcc.x,0,fcc.z)).addSelf(miniClusterPosition).addSelf(cubePosition);
             Vec3D localPosition = miniClusterPosition.add(cubePosition);
 
-            BaseCube cube = new BaseCube( globalPosition, localPosition, clusterIndex, PieceType.FAIRY_CIRCLE, fcc.pieceId, fcc.cubeSizeIndex);
+            BaseCube cube = new BaseCube( globalPosition, localPosition, sculptureIndex, PieceType.FAIRY_CIRCLE, fcc.pieceId, fcc.cubeSizeIndex);
 
             _cubes.add(cube);
 
@@ -250,12 +249,12 @@ class FairyCircle extends LXModel {
     // Private Fairy Circle Fixture
     private static class Fixture extends LXAbstractFixture {
 
-        final List<BaseCube> cubes = new ArrayList<BaseCube>();
-        final List<MiniCluster> miniClusters = new ArrayList<MiniCluster>();
+        List<BaseCube> cubes = new ArrayList<BaseCube>();
+        List<MiniCluster> miniClusters = new ArrayList<MiniCluster>();
         public final Map<String, BaseCube[]> ipMap = new HashMap<String, BaseCube[]>();
         public final LXTransform fairyCircleTransform;
         int N_MINICLUSTERS;
-        final int MINICLUSTERS_PER_NDB = 5;
+        final static int MINICLUSTERS_PER_NDB = 5;
 
         // Fairy Circle Fixture constructor
         Fixture(FairyCircleConfig fcc, int fairyCircleIndex) {
@@ -274,14 +273,14 @@ class FairyCircle extends LXModel {
             float miniClusterRotation = (float) Math.PI; // number 1 is inside
             for (int i = 0; i < N_MINICLUSTERS; i++ ) {
 
-                Vec3D miniCirclePosition = new Vec3D(); // relative to sculpture
+                Vec3D miniClusterPosition = new Vec3D(); // relative to sculpture
 
                 // position of the minicluster relative to fairyCircle center
-                miniCirclePosition.x = fcc.radius * (float) Math.cos(rads);
-                miniCirclePosition.y = 0;
-                miniCirclePosition.z = fcc.radius * (float) Math.sin(rads);
+                miniClusterPosition.x = fcc.radius * (float) Math.cos(rads);
+                miniClusterPosition.y = 0;
+                miniClusterPosition.z = fcc.radius * (float) Math.sin(rads);
 
-                MiniCluster miniCluster = new MiniCluster(miniCirclePosition, miniClusterRotation, fcc, i);
+                MiniCluster miniCluster = new MiniCluster(miniClusterPosition, miniClusterRotation, fcc, fairyCircleIndex, i);
 
                 rads += rad_step;
                 miniClusterRotation += rad_step;
