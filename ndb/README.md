@@ -84,8 +84,9 @@ The starting slots are:
 
 ## Shrubs
 
-Please upload the configuration using the 'shrub.json' in this directory. And change the IP address to something
-unique.
+Please upload the configuration using the 'shrub.json' in this directory. And change the IP address to something unique.
+
+NOTE: This didn't work great for me.
 
 If you need to set it up manually---
 
@@ -96,13 +97,15 @@ to move an output since you have some extra.
 
 Each output is mapped to a "layer" in the shrub. The first output is the lowest layer, up through the top (5 layers).
 
+### 4 Cube shrubs
+
 Smart T's: 0
 
 Lights/String: 12 (new 1-LED cubes) or 48 (old 4-LED cubes)
 
 Since these are regular, you can hit the "auto-fill from output 1 down" button after filling the starting slot
 
-Verify the starting slots as below for old 4-LED cubes:
+Verify the starting slots:
 
 ```
 1
@@ -110,17 +113,20 @@ Verify the starting slots as below for old 4-LED cubes:
 289
 433
 577
-721
-865
-1009
-1153
-1297
-1441
-1585
-1729
-1873
-2017
-2161
+```
+
+### 1 cube shrubs
+
+1 through 5 are 12 lights/string, 0 smart-T's
+
+Starting slot
+
+```
+1
+37
+73
+109
+145
 ```
 
 # Fairy Circles (aka minis)
