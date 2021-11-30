@@ -308,9 +308,11 @@ class FairyCircle extends LXModel {
             final int CUBES_PER_NDB = 12 * MINICLUSTERS_PER_NDB;
             int miniClusterIndex = 0;
 
-            for (int i=0; i < fcc.ipAddresses.length; i++) {
+            int n_ipAddresses = fcc.ipAddresses.length;
+            for (int i=0; i < n_ipAddresses; i++) {
 
-                String ipAddress = fcc.ipAddresses[i];
+                // these go backward I think???
+                String ipAddress = fcc.ipAddresses[ n_ipAddresses - i - 1 ];
 
                 BaseCube[] ndbCubes = new BaseCube[CUBES_PER_NDB];
 
