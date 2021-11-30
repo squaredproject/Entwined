@@ -1,8 +1,8 @@
 [
 	{
 			"ry" : 40,
-			"x" : 333,
-			"z" : -1447,
+			"x" : -219,
+			"z" : -1420,
 			"radius" : 180,
 			"pieceId" : "circle-1",
 			"cubeSizeIndex" : 0,
@@ -10,8 +10,8 @@
 	},
 	{
 			"ry" : 340,
-			"x" : -368,
-			"z" : -491,
+			"x" : -920,
+			"z" : -464,
 			"radius" : 240,
 			"pieceId" : "circle-2",
 			"cubeSizeIndex" : 0,
@@ -19,8 +19,8 @@
 	},
 		{
 			"ry" : 270,
-			"x" : 1561,
-			"z" : 649,
+			"x" : 1008,
+			"z" : 675,
 			"radius" : 300,
 			"cubeSizeIndex" : 0,
 			"pieceId" : "circle-3",
