@@ -45,7 +45,7 @@
 			"shrubIpAddress" : "10.0.0.118"
 	},
 	{
-			"ry" : 130,
+			"ry" : 175,
 			"x" : 1017,
 			"z" : -395,
 			"type" : "classic",
@@ -63,7 +63,7 @@
 			"shrubIpAddress" : "10.0.0.112"
 	},
 	{
-			"ry" : 180,
+			"ry" : 135,
 			"x" : 315,
 			"z" : -517,
 			"type" : "classic",
@@ -90,7 +90,7 @@
 			"shrubIpAddress" : "10.0.0.111"
 	},
 	{
-			"ry" : 330,
+			"ry" : 60,
 			"x" : 965,
 			"z" : -70,
 			"type" : "classic",
@@ -99,7 +99,7 @@
 			"shrubIpAddress" : "10.0.0.119"
 	},
 	{
-			"ry" : 0,
+			"ry" : 130,
 			"x" : 772,
 			"z" : 368,
 			"type" : "classic",
