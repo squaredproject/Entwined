@@ -1,6 +1,6 @@
 [
 	{
-			"ry" : 0,
+			"ry" : 130,
 			"x" : -315,
 			"z" : -1491,
 			"type" : "king",
@@ -9,7 +9,7 @@
 			"shrubIpAddress" : "10.0.0.120"
 	},
 	{
-			"ry" : 0,
+			"ry" : 170,
 			"x" : -35,
 			"z" : -1622,
 			"type" : "classic",
@@ -18,7 +18,7 @@
 			"shrubIpAddress" : "10.0.0.109"
 	},
 	{
-			"ry" : 0,
+			"ry" : 130,
 			"x" : -491,
 			"z" : -1631,
 			"type" : "classic",
@@ -27,7 +27,7 @@
 			"shrubIpAddress" : "10.0.0.114"
 	},
 	{
-			"ry" : 0,
+			"ry" : 130,
 			"x" : -473,
 			"z" : -1193,
 			"type" : "classic",
@@ -36,7 +36,7 @@
 			"shrubIpAddress" : "10.0.0.113"
 	},
 	{
-			"ry" : 0,
+			"ry" : 130,
 			"x" : 719,
 			"z" : -350,
 			"type" : "king",
@@ -45,7 +45,7 @@
 			"shrubIpAddress" : "10.0.0.118"
 	},
 	{
-			"ry" : 0,
+			"ry" : 130,
 			"x" : 1017,
 			"z" : -395,
 			"type" : "classic",
@@ -54,7 +54,7 @@
 			"shrubIpAddress" : "10.0.0.214"
 	},
 	{
-			"ry" : 0,
+			"ry" : 180,
 			"x" : 587,
 			"z" : -658,
 			"type" : "classic",
@@ -63,7 +63,7 @@
 			"shrubIpAddress" : "10.0.0.112"
 	},
 	{
-			"ry" : 0,
+			"ry" : 180,
 			"x" : 315,
 			"z" : -517,
 			"type" : "classic",
@@ -72,7 +72,7 @@
 			"shrubIpAddress" : "10.0.0.115"
 	},
 	{
-			"ry" : 0,
+			"ry" : 300,
 			"x" : 1000,
 			"z" : 280,
 			"type" : "king",
@@ -81,7 +81,7 @@
 			"shrubIpAddress" : "10.0.0.116"
 	},
 	{
-			"ry" : 0,
+			"ry" : 270,
 			"x" : 1052,
 			"z" : 526,
 			"type" : "classic",
@@ -90,7 +90,7 @@
 			"shrubIpAddress" : "10.0.0.111"
 	},
 	{
-			"ry" : 0,
+			"ry" : 330,
 			"x" : 965,
 			"z" : -70,
 			"type" : "classic",
