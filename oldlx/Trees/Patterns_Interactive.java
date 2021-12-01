@@ -499,32 +499,23 @@ class InteractiveFireTestEffect {
     InteractiveFireTest(LX lx, int pieceIndex) {
       super(lx);
 
-      // this.fire = new Fire(lx, true);
-
-      this.pieceIndex = pieceIndex;
-      this.triggerableModeEnabled = false;
-    }
-
-    InteractiveFireTest(LX lx) {
-      super(lx);
-
-      // this.fire = new Fire(lx, true);
+      this.fire = new Fire(lx, true);
 
       this.pieceIndex = pieceIndex;
       this.triggerableModeEnabled = false;
     }
 
     public void updateNumFlames(int numFlames) {
-      // fire.updateNumFlames(numFlames);
+      fire.updateNumFlames(numFlames);
     }
 
     public void run(double deltaMs) {
       
-      //if (getChannel().getFader().getNormalized() == 0) return;
+      // if (getChannel().getFader().getNormalized() == 0) return;
 
-      //if (!triggered && flames.size() == 0) {
+      // if (!triggered && flames.size() == 0) {
       //  setCallRun(false);
-      //}
+      // }
   
       if (triggerableModeEnabled == false) return;
       if (System.currentTimeMillis() > triggerEndMillis) {
@@ -533,27 +524,14 @@ class InteractiveFireTestEffect {
       }
 
       // pass it a pieceIndex and have it filter to only that piece
-      // this.fire.run(deltaMs);
+      this.fire.run(deltaMs, colors);
 
       // for (BaseCube cube : model.baseCubes) {
-      //   // warning: this is a string compare
-      //   if (cube.pieceIndex == pieceIndex) {
-      //     float yn = (cube.transformedY - model.yMin) / model.yMax;
-      //     float cBrt = 0;
-      //     float cHue = 0;
-      //     float flameWidth = flameSize.getValuef() / 2;
-      //     for (int i = 0; i < flames.size(); ++i) {
-      //       if (Utils.abs(flames.get(i).theta - cube.transformedTheta) < (flameWidth * (1- yn))) {
-      //         cBrt = Utils.min(100, Utils.max(0, Utils.max(cBrt, (100 - 2 * Utils.abs(cube.transformedY - flames.get(i).decay.getValuef()) - flames.get(i).decay.getBasisf() * 25) * Utils.min(1, 2 * (1 - flames.get(i).decay.getBasisf())) )));
-      //         cHue = Utils.max(0,  (cHue + cBrt * 0.7f) * 0.5f);
-      //       }
-      //     }
       //     colors[cube.index] = lx.hsb(
-      //       (cHue + hue) % 360,
+      //       (433) % 360,
       //       100,
-      //       Utils.min(100, cBrt + Utils.pow(Utils.max(0, (height - 0.3f) / 0.7f), 0.5f) * Utils.pow(Utils.max(0, 0.8f - yn), 2) * 75)
+      //       Utils.min(100, 100 + Utils.pow(Utils.max(0, (100 - 0.3f) / 0.7f), 0.5f) * Utils.pow(Utils.max(0, 0.8f - 100), 2) * 75)
       //     );
-      //   }
       // }
 
     }
@@ -562,14 +540,14 @@ class InteractiveFireTestEffect {
       System.out.println("InteractiveFireTestEffect onTriggered");
       triggerableModeEnabled = true;
       triggerEndMillis = System.currentTimeMillis() + 3000;
-
-      // this.fire.onTriggered(1);
+      System.out.println("InteractiveFireTestEffect about to onTrigger this.fire = " + this.fire);
+      this.fire.onTriggered(1);
     };
 
     public void onRelease() {
       triggerableModeEnabled = false;
 
-      // this.fire.onRelease();
+      this.fire.onRelease();
     }
 
   }

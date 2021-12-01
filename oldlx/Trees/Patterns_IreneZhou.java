@@ -257,7 +257,22 @@ class Fire extends TSTriggerablePattern {
     }
   }
   Fire(LX lx) {
-    this(lx, false);
+    super(lx);
+
+    patternMode = PATTERN_MODE_FIRED;
+
+    this.isInteractivePattern = false;
+
+    addParameter(maxHeight);
+    addParameter(flameSize);
+    addParameter(flameCount);
+    addParameter(hue);
+    addModulator(fireHeight);
+
+    flames = new ArrayList<Flame>(numFlames);
+    for (int i = 0; i < numFlames; ++i) {
+      flames.add(new Flame(height, false));
+    }
   }
 
 
@@ -268,22 +283,30 @@ class Fire extends TSTriggerablePattern {
   }
 
   public void run(double deltaMs) {
+    this.run(deltaMs, colors);
+  }
+
+  public void run(double deltaMs, int[] targetColors) {
     if (!this.isInteractivePattern && getChannel().getFader().getNormalized() == 0) return;
 
     if (!triggered && flames.size() == 0) {
+      System.out.println("FIRE: flames size was zero");
       setCallRun(false);
     }
 
     if (!triggerableModeEnabled) {
       height = maxHeight.getValuef();
+      System.out.println("triggerable mode not enabled, fire height is: " + height);
       numFlames = (int) (flameCount.getValue() / 75 * 30); // Convert for backwards compatibility
     } else {
       height = fireHeight.getValuef();
+      System.out.println("fire height is now: " + height);
     }
 
     if (flames.size() != numFlames) {
       updateNumFlames(numFlames);
     }
+
     for (int i = 0; i < flames.size(); ++i) {
       if (flames.get(i).decay.finished()) {
         removeModulator(flames.get(i).decay);
@@ -307,7 +330,7 @@ class Fire extends TSTriggerablePattern {
           cHue = Utils.max(0,  (cHue + cBrt * 0.7f) * 0.5f);
         }
       }
-      colors[cube.index] = lx.hsb(
+      targetColors[cube.index] = lx.hsb(
         (cHue + hue.getValuef()) % 360,
         100,
         Utils.min(100, cBrt + Utils.pow(Utils.max(0, (height - 0.3f) / 0.7f), 0.5f) * Utils.pow(Utils.max(0, 0.8f - yn), 2) * 75)
@@ -317,17 +340,22 @@ class Fire extends TSTriggerablePattern {
   }
 
   public void onTriggered(float strength) {
-    super.onTriggered(strength);
+    if (!this.isInteractivePattern) {
+      super.onTriggered(strength);
+    }
+    
+    this.triggerableModeEnabled = true;
 
-    fireHeight.setRange(1,0.6f);
+    fireHeight.setRange(3,0.8f);
     fireHeight.reset().start();
   };
 
   public void onRelease() {
     super.onRelease();
+    triggerableModeEnabled = false;
 
-    fireHeight.setRange(height, 0);
-    fireHeight.reset().start();
+    // fireHeight.setRange(height, 0);
+    // fireHeight.reset().start();
   }
 }
 
