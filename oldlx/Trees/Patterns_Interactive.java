@@ -451,9 +451,128 @@ class InteractiveFireEffect {
     }
 
   }
-
-
-
 }
 
+/* FIRE TEST */
 
+class InteractiveFireTestEffect {
+  
+  // needs to be public because needs to be added by the engine.
+  // would be nice to have an interface that allows generic iteration of all patterns
+  // by the owner... or something....
+  final public InteractiveFireTest pieceFires[];
+
+  final int nPieces;
+  final Map<String, Integer> pieceIdMap;
+  
+  // constructor
+  InteractiveFireTestEffect(LX lx, Model model) {
+    // Need to know the different pieces that exist, and be able to look them up by name
+    //
+    int nPieces = model.pieceIds.length;
+    this.nPieces = nPieces;
+    this.pieceIdMap = model.pieceIdMap;
+
+    pieceFires = new InteractiveFireTest[nPieces];
+    for (int pieceIndex=0 ; pieceIndex<nPieces ; pieceIndex++) {
+      pieceFires[pieceIndex] = new InteractiveFireTest(lx, pieceIndex); 
+    }
+  }
+
+  Effect[] getEffects() {
+    return ( pieceFires );
+  }
+
+  void onTriggeredPiece(String pieceId) {
+    Integer pieceIndex_o = pieceIdMap.get(pieceId);
+    if (pieceIndex_o == null) return;
+    pieceFires[(int) pieceIndex_o ].onTriggered();
+  }
+
+  class InteractiveFireTest extends Effect {
+    private Fire fire;
+
+    private final int pieceIndex;
+    private boolean triggerableModeEnabled;
+    private long triggerEndMillis; // when to un-enable if enabled
+    
+    InteractiveFireTest(LX lx, int pieceIndex) {
+      super(lx);
+
+      // this.fire = new Fire(lx, true);
+
+      this.pieceIndex = pieceIndex;
+      this.triggerableModeEnabled = false;
+    }
+
+    InteractiveFireTest(LX lx) {
+      super(lx);
+
+      // this.fire = new Fire(lx, true);
+
+      this.pieceIndex = pieceIndex;
+      this.triggerableModeEnabled = false;
+    }
+
+    public void updateNumFlames(int numFlames) {
+      // fire.updateNumFlames(numFlames);
+    }
+
+    public void run(double deltaMs) {
+      
+      //if (getChannel().getFader().getNormalized() == 0) return;
+
+      //if (!triggered && flames.size() == 0) {
+      //  setCallRun(false);
+      //}
+  
+      if (triggerableModeEnabled == false) return;
+      if (System.currentTimeMillis() > triggerEndMillis) {
+        onRelease();
+        return;
+      }
+
+      // pass it a pieceIndex and have it filter to only that piece
+      // this.fire.run(deltaMs);
+
+      // for (BaseCube cube : model.baseCubes) {
+      //   // warning: this is a string compare
+      //   if (cube.pieceIndex == pieceIndex) {
+      //     float yn = (cube.transformedY - model.yMin) / model.yMax;
+      //     float cBrt = 0;
+      //     float cHue = 0;
+      //     float flameWidth = flameSize.getValuef() / 2;
+      //     for (int i = 0; i < flames.size(); ++i) {
+      //       if (Utils.abs(flames.get(i).theta - cube.transformedTheta) < (flameWidth * (1- yn))) {
+      //         cBrt = Utils.min(100, Utils.max(0, Utils.max(cBrt, (100 - 2 * Utils.abs(cube.transformedY - flames.get(i).decay.getValuef()) - flames.get(i).decay.getBasisf() * 25) * Utils.min(1, 2 * (1 - flames.get(i).decay.getBasisf())) )));
+      //         cHue = Utils.max(0,  (cHue + cBrt * 0.7f) * 0.5f);
+      //       }
+      //     }
+      //     colors[cube.index] = lx.hsb(
+      //       (cHue + hue) % 360,
+      //       100,
+      //       Utils.min(100, cBrt + Utils.pow(Utils.max(0, (height - 0.3f) / 0.7f), 0.5f) * Utils.pow(Utils.max(0, 0.8f - yn), 2) * 75)
+      //     );
+      //   }
+      // }
+
+    }
+
+    public void onTriggered() {
+      System.out.println("InteractiveFireTestEffect onTriggered");
+      triggerableModeEnabled = true;
+      triggerEndMillis = System.currentTimeMillis() + 3000;
+
+      // this.fire.onTriggered(1);
+    };
+
+    public void onRelease() {
+      triggerableModeEnabled = false;
+
+      // this.fire.onRelease();
+    }
+
+  }
+}
+
+/* RAIN */

@@ -1,7 +1,7 @@
 final class Config {
   // Change this when setting up a new installation!
   // it's used for Canopy and must be unique for each installation
-  static final String installationId = "ggp";
+  static final String installationId = "ggp2021";
 
   static final boolean autoplayBMSet = true;
 
@@ -25,8 +25,8 @@ final class Config {
 
   // the interaction server. Set to null to disable.
   //static final String canopyServer = "";
-  //static final String canopyServer = "http://localhost:3000/lx";
-  static final String canopyServer = "https://entwined-api.charliestigler.com/lx";
+  static final String canopyServer = "http://localhost:3000/lx";
+  // static final String canopyServer = "https://entwined-api.charliestigler.com/lx";
 
   static final String NDB_CONFIG_FILE = "data/entwinedNDBs.json";
   static final String CUBE_CONFIG_FILE = "data/entwinedCubes.json";
@@ -36,5 +36,5 @@ final class Config {
   static final String FAIRY_CIRCLE_CONFIG_FILE = "data/entwinedFairyCircles.json";
 
   // if this file doesn't exist you get a crash
-  static final String AUTOPLAY_FILE = "data/entwined2021.json";
+  static final String AUTOPLAY_FILE = "data/charlienew.json";
 }

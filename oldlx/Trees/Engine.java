@@ -92,7 +92,7 @@ abstract class Engine {
 
   final CanopyController canopyController;
   final InteractiveHSVEffect interactiveHSVEffect;
-  final InteractiveFireEffect interactiveFireEffect;
+  final InteractiveFireTestEffect interactiveFireTestEffect;
 
   // breadcrumb regarding channelTreeLevels and channelShrubLevels
   // these are controllers which should be used on a shrub-by-shrub basis to allow
@@ -182,8 +182,8 @@ abstract class Engine {
     lx.addEffect(interactiveHSVEffect); /* want this one "on top" of everything else... is it? */
     interactiveHSVEffect.enable();
     // this fire effect, going to make it more generic, but make it work at all now
-    interactiveFireEffect = new InteractiveFireEffect(lx, model);
-    Effect[] fireEffects = interactiveFireEffect.getEffects();
+    interactiveFireTestEffect = new InteractiveFireTestEffect(lx, model);
+    Effect[] fireEffects = interactiveFireTestEffect.getEffects();
     for (Effect effect : fireEffects) {
       lx.addEffect(effect);
       effect.enable();

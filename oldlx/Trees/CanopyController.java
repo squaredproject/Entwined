@@ -271,7 +271,9 @@ class CanopyController {
   			case "color-burst":	
   			case "fire":
   				engine.interactiveHSVEffect.resetPiece(pieceId);
-  				engine.interactiveFireEffect.onTriggeredPiece(pieceId);
+				engine.log("triggering piece " + pieceId);
+  				engine.interactiveFireTestEffect.onTriggeredPiece(pieceId);
+				engine.log("  --> triggered");
   				break;
   			default:
   				engine.log("unknown trigger name "+triggerName);

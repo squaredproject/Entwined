@@ -212,6 +212,8 @@ class Fire extends TSTriggerablePattern {
   final BasicParameter hue = new BasicParameter("HUE", 0, 0, 360);
   private LinearEnvelope fireHeight = new LinearEnvelope(0,0,500);
 
+  private boolean isInteractivePattern = false;
+
   private float height = 0;
   private int numFlames = 12;
   private List<Flame> flames;
@@ -236,10 +238,12 @@ class Fire extends TSTriggerablePattern {
     }
   }
 
-  Fire(LX lx) {
+  Fire(LX lx, boolean isInteractivePattern) {
     super(lx);
 
     patternMode = PATTERN_MODE_FIRED;
+
+    this.isInteractivePattern = isInteractivePattern;
 
     addParameter(maxHeight);
     addParameter(flameSize);
@@ -252,6 +256,10 @@ class Fire extends TSTriggerablePattern {
       flames.add(new Flame(height, false));
     }
   }
+  Fire(LX lx) {
+    this(lx, false);
+  }
+
 
   public void updateNumFlames(int numFlames) {
     for (int i = flames.size(); i < numFlames; ++i) {
@@ -260,7 +268,7 @@ class Fire extends TSTriggerablePattern {
   }
 
   public void run(double deltaMs) {
-    if (getChannel().getFader().getNormalized() == 0) return;
+    if (!this.isInteractivePattern && getChannel().getFader().getNormalized() == 0) return;
 
     if (!triggered && flames.size() == 0) {
       setCallRun(false);
