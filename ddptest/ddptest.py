@@ -64,6 +64,7 @@ header_buf: bytearray = bytearray(0)
 
 NUM_LEDS = 0
 leds = bytearray(0)  # this constructor creates with the given length and filled with 0's
+COLOR = "blue"
 
 palette = {
     'red': (0xff, 0x00, 0x00),
@@ -380,7 +381,7 @@ def cube_set(cube:int, color: tuple):
     global LEDS_PER_CUBE
     start_led = LEDS_PER_CUBE * cube
     for i in range(LEDS_PER_CUBE):
-        print("setting led {}".format(i+start_led))
+        # print("setting led {}".format(i+start_led))
         color_set(leds,color,i+start_led)
 
 def pattern_cube_order(n_cubes: int):
@@ -422,6 +423,25 @@ def pattern_cube_color(n_cubes: int):
         leds_send(leds)
         time.sleep(5)
 
+# one shot and exit
+def pattern_cube_color(n_cubes: int):
+    global leds, COLOR
+    if COLOR in palette:
+        rgb = palette[COLOR]
+    elif len(COLOR) == 6:
+        # might be an rgb string?
+        rgb = ( int(COLOR[0:2],16), int(COLOR[2:4],16), int(COLOR[4:6],16) )
+        print(' setting to RGB ',rgb)
+    else:
+        print('color not in palette, must be one of ',list(palette.keys()))
+        print('or a hex string with 6 characters')
+        return
+
+    for c_idx in range(n_cubes):
+        cube_set(c_idx, rgb)
+
+    leds_send(leds)
+
 
 def arg_init():
     parser = argparse.ArgumentParser(prog='ddptest', description='Send DDP packets to an NDB for testing')
@@ -430,8 +450,9 @@ def arg_init():
     parser.add_argument('--leds', '-l', type=int, default=40, help='number of leds')
     parser.add_argument('--cubes', '-c', type=int, help='number of cubes')
     parser.add_argument('--lpc', type=int, default=6, help='leds per cube (default 6, 4 could be)')
+    parser.add_argument('--color', type=str, default='blue', help='color to set all cubes to')
 
-    global DESTINATION_IP, NUM_LEDS, leds, LEDS_PER_CUBE
+    global DESTINATION_IP, NUM_LEDS, leds, LEDS_PER_CUBE, COLOR
 
     args = parser.parse_args()
     if args.host:
@@ -446,7 +467,8 @@ def arg_init():
         print( "arg leds: {}".format(args.leds))
         NUM_LEDS = args.leds
         leds = bytearray(NUM_LEDS * 3) 
-
+    if args.color:
+        COLOR = args.color
     if (args.leds * 3 > 1490):
         print( " MTU will exceed 1500, aborting ")
         exit(-1)
@@ -491,8 +513,10 @@ def main():
         pattern_strobe()
     elif args.pattern == 'black':
         pattern_black()
+    elif args.pattern == 'cube_color':
+        pattern_cube_color()
     else:
-        print(' pattern must be one of palette, hsv, order, shrub_rank, shrub_rank_order, cube_order')
+        print(' pattern must be one of palette, hsv, order, shrub_rank, shrub_rank_order, cube_order, cube_color')
 
 
 

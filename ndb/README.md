@@ -191,4 +191,4 @@ This causes a "color shift" because RGB becomes GBR and that's not right.
 
 Make sure you're on the current version of the firmware!
 
-The new ndbs (RGB+) use firmware 2.4
+The new ndbs (RGB+) use firmware 2.4 --- THERE IS A FIRMWARE 2.7.3! should probably upgrade.
