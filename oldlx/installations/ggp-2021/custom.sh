@@ -20,6 +20,14 @@ if [[ "$CRONSTRING" != *"statuscake"* ]];  then
 echo "Adding statuscake ping script"
 fi
 
+echo "Adding ddptest script for footlight color"
+if [[ "$CRONSTRING" != *"ddptest"* ]];  then
+        (crontab -l 2>/dev/null; echo "*/30 * * * * /home/entwined/Entwined/ddptest/ddptest.py  --cubes 24 --lpc 1 --pattern cube_color --color orange --host 10.0.0.123") | crontab -
+        (crontab -l 2>/dev/null; echo "*/30 * * * * /home/entwined/Entwined/ddptest/ddptest.py  --cubes 24 --lpc 1 --pattern cube_color --color orange --host 10.0.0.125") | crontab -
+	(crontab -l 2>/dev/null; echo "*/30 * * * * /home/entwined/Entwined/ddptest/ddptest.py  --cubes 24 --lpc 1 --pattern cube_color --color orange --host 10.0.0.126") | crontab -
+	echo "Adding ddptest script for footlight color"
+fi
+
 echo "Setting ndbs for ddptest: $1"
 cp $1/ndb_ips.txt ../../ddptest/
 
