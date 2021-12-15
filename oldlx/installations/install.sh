@@ -15,5 +15,5 @@ cp $1/entwined* ../Trees/data
 ../compile.sh
 
 if test -f "${1}/custom.sh"; then
-    $1/custom.sh
+    $1/custom.sh $1
 fi
