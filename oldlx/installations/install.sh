@@ -1,7 +1,7 @@
 
 #!/bin/bash
 
-echo "installing from directory $1"
+echo "installing from directory: installing crontab: statuscake and ddptest etc $1"
 
 if [[ ! -d $1 ]]
 then

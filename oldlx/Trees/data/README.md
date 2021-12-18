@@ -293,6 +293,32 @@ Please see the root `ndb` directory for precise configuration and test informati
 It wouldn't surprise me if we have to recode this a bit because someday there will be a different
 number of minis per NDB. Then we would want some kind of list of NDB and the channels or something.
 
+## Rotation
+
+All pieces have a `ry` which is the rotation. Here's how (I think) it works.
+
+Each piece, in reality, has a "0 direction". 
+
+For trees, I think it is the lowest
+branch (eg, the "1 branch" in the new charlie world).
+
+For Shrubs, it is the clockwise-most of the two tallest clusters.
+
+For the fairy circle, it is the "first mini", which is the most counter-clockwise
+of the first NDB in the list.
+
+After installation, these will not change.
+
+The `ry` value rotates the location *IN THE MODEL*, where greater values
+are clockwise. Your goal is to have the model match reality (because realty has
+already been installed). The site has "zero direction", and you have to move
+the `ry` values so the model matches up with reality.
+
+This means that, if you are running the simulator, adding 90 to `ry` will result in the
+model moving clockwise, so you can think of moving what shows up in the field counter
+clockwise.
+
+
 ## QR codes and installations
 
 We've added the ability to have multiple installations, and the ability to 'name' parts of the installation.
