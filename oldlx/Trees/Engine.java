@@ -480,6 +480,9 @@ abstract class Engine {
     patterns.add(new VerticalColorWaves(lx));
     patterns.add(new FlockingPoints(lx));
 
+    // Omar Shehata pattern
+    patterns.add(new FairySnakes(lx));
+
     // Test patterns
     patterns.add(new ClusterLineTest(lx));
     patterns.add(new TestShrubSweep(lx));
