@@ -37,8 +37,8 @@ class Pond extends TSPattern {
   }
 
   private ArrayList<Ripple> ripples = new ArrayList<Ripple>();
-  private LXVector[] corners;
-  LXVector modelCenter;
+  private static LXVector[] corners;
+  static LXVector modelCenter;
 
   final BasicParameter speedParam = new BasicParameter("speed", 14, 4, 40);
   final BasicParameter sizeParam = new BasicParameter("size", .5, .1, 5);
@@ -193,7 +193,7 @@ class Planes extends TSPattern {
 class Growth extends TSPattern {
 
   final BasicParameter growthSpeedParam = new BasicParameter("spd", 2, .1, 10);
-  final BasicParameter lifeSpeedParam = new BasicParameter("life", 0, 0, 10);
+  final BasicParameter lifeSpeedParam = new BasicParameter("life", 5, 0, 10);
   final BasicParameter fertilityParam = new BasicParameter("fert", 1.15, 1, 3);
   final BasicParameter angleParam = new BasicParameter("angl", 60, 30, 180);
 
@@ -220,7 +220,7 @@ class Growth extends TSPattern {
       this.dest = dest;
       src.roots.add(this);
       // Add a random amount of delay before we grow.
-      age = -1 * Math.random() * (1 + lifeSpeedParam.getValue());
+      //age = -1 * Math.random() * (1 + lifeSpeedParam.getValue());
       if (parent != null) {
         srcHue = parent.srcHue + parent.hueDelta;
         srcSat = parent.srcSat + parent.satDelta;
@@ -232,26 +232,22 @@ class Growth extends TSPattern {
       hueDelta = Math.random() * 60;
       // Vary saturation by 25 (out of 100) on each root
       satDelta = Math.max(0, Math.min(100, srcSat + (Math.random() - 0.5) * 50)) - srcSat;
-      
+
       for (BaseCube c : src.cubes()) {
-        if (shouldRenderCube(src, c)) {
-          if (c.r < srcMinR) {
-            srcMinR = c.r;
-          }
-          if (c.r > srcMaxR) {
-            srcMaxR = c.r;
-          }
+        if (c.r < srcMinR) {
+          srcMinR = c.r;
+        }
+        if (c.r > srcMaxR) {
+          srcMaxR = c.r;
         }
       }
       if (dest != null) {
         for (BaseCube c : dest.cubes()) {
-          if (shouldRenderCube(dest, c)) {
-            if (c.r < destMinR) {
-              destMinR = c.r;
-            }
-            if (c.r > destMaxR) {
-              destMaxR = c.r;
-            }
+          if (c.r < destMinR) {
+            destMinR = c.r;
+          }
+          if (c.r > destMaxR) {
+            destMaxR = c.r;
           }
         }
         dest.roots.add(this);
@@ -264,7 +260,7 @@ class Growth extends TSPattern {
     }
     
     boolean shouldRenderCube(Grower g, BaseCube c) {
-      return angleDiff(c.theta * Math.PI / 180, (angle + (g == src ? 0 : Math.PI)) % (2*Math.PI)) < angleParam.getValue() / 2 * Math.PI / 180;
+      return angleDiff(Math.atan2(c.z-g.z, c.x-g.x), (angle + (g == src ? 0 : Math.PI)) % (2*Math.PI)) < angleParam.getValue() / 2 * Math.PI / 180;
     }
     
     void runGrower(Grower g) {
@@ -373,9 +369,10 @@ class Growth extends TSPattern {
       if (Math.random() < fertility - numNew) {
         numNew++;
       }
+      numNew = 1;
       for (int i = 0; numNew > 0 && i < neighbors.size(); i++) {
         // Sometimes skip a nearest neighbor, so we don't always grow to the same place
-        if (Math.random() > .5) {
+        /*if (Math.random() > .5) {
           continue;
         }
         if (Math.random() < 0.1) {
@@ -383,15 +380,20 @@ class Growth extends TSPattern {
           allRoots.add(new Root(this, null, parent));
           numNew--;
           continue;
-        }
+        }*/
         Grower g = neighbors.get(i);
         boolean alreadyLinked = false;
+        // Trying this simpler metric: only draw roots to neighbors with no roots.
+        alreadyLinked = g.roots.size() > 0;
+        /*
+        // Search for a root that already links this grower and its neighbor.
         for (Root r : g.roots) {
           if (r.src == this || r.dest == this) {
+            // These growers are already linked; don't grow another root between them.
             alreadyLinked = true;
             break;
           }
-        }
+        }*/
         if (!alreadyLinked) {
           allRoots.add(new Root(this, g, parent));
           numNew--;
@@ -427,9 +429,15 @@ class Growth extends TSPattern {
     addParameter(angleParam);
 
     for (Tree tree : model.trees) {
+      if (tree.cubes.size() == 0) {
+        continue;
+      }
       growers.add(new Grower((LXModel)tree));
     }
     for (Shrub shrub : model.shrubs) {
+      if (shrub.cubes.size() == 0) {
+        continue;
+      }
       growers.add(new Grower((LXModel)shrub));
     }
     for (Grower g : growers) {
@@ -467,5 +475,120 @@ class Growth extends TSPattern {
         growers.get((int)Math.floor(Math.random() * growers.size())).growRoots(null);
       }
     }
+  }
+}
+
+/**
+ Testing position, theta, distance from center
+ */
+class GrantTest extends TSPattern {
+  final DiscreteParameter whichParam = new DiscreteParameter("which", 0, 0, 23);
+  final BasicParameter angleParam = new BasicParameter("angle", 0, 0, 2*Math.PI);
+  final BasicParameter sizeParam = new BasicParameter("size", .5, .1, 5);
+  final BasicParameter distParam = new BasicParameter("dist", .5, 0, 1);
+
+  private class Grower {
+    LXModel sculpture;
+    float x;
+    float z;
+    int index;
+    boolean isTree;
+    float minR = Float.MAX_VALUE;
+    float maxR = 0;
+
+    public Grower(LXModel sculpture) {
+      this.sculpture = sculpture;
+      isTree = sculpture instanceof Tree;
+      if (sculpture instanceof Tree) {
+        x = ((Tree)sculpture).x;
+        z = ((Tree)sculpture).z;
+        index = ((Tree)sculpture).index;
+      } else if (sculpture instanceof Shrub) {
+        x = ((Shrub)sculpture).x;
+        z = ((Shrub)sculpture).z;
+        index = ((Shrub)sculpture).index;
+      }
+
+      for (BaseCube c : this.cubes()) {
+        if (minR > c.r) {
+          minR = c.r;
+        }
+        if (maxR < c.r) {
+          maxR = c.r;
+        }
+      }
+    }
+
+    List<Cube> cubes() {
+      if (sculpture instanceof Tree) {
+        return ((Tree)sculpture).cubes;
+      } else if (sculpture instanceof Shrub) {
+        return (List<Cube>)(List<?>)((Shrub)sculpture).cubes;
+      }
+      return null;
+    }
+  }
+
+  ArrayList<Grower> growers = new ArrayList<Grower>();
+  int printedGrower = -1;
+
+  public GrantTest(LX lx) {
+    super(lx);
+    addParameter(whichParam);
+    addParameter(angleParam);
+    addParameter(sizeParam);
+    addParameter(distParam);
+
+    for (Tree tree : model.trees) {
+      growers.add(new Grower((LXModel)tree));
+    }
+    for (Shrub shrub : model.shrubs) {
+      growers.add(new Grower((LXModel)shrub));
+    }
+  }
+
+  double angleDiff(double a1, double a2) {
+    double diff = Math.abs(a1 - a2);
+    if (diff > Math.PI) {
+      diff = 2*Math.PI - diff;
+    }
+    return diff;
+  }
+
+  public void run(double deltaMs) {
+    clearColors();
+
+    int which = (int)whichParam.getValue();
+    Grower g = growers.get(which);
+    
+    if (printedGrower != which) {
+      System.out.println("" + g.isTree + "" + g.index + " (" + g.x + "," + g.z + ") [" + g.minR + "," + g.maxR + "]");
+    }
+
+    for (BaseCube c : model.baseCubes) {
+      if (Math.abs(c.x - g.x) < sizeParam.getValue() * 100) {
+        colors[c.index] = LXColor.lightest(colors[c.index], lx.hsb(0, 100, 50));
+      }
+      if (Math.abs(c.z - g.z) < sizeParam.getValue() * 100) {
+        colors[c.index] = LXColor.lightest(colors[c.index], lx.hsb(240, 100, 50));
+      }
+    }
+
+    for (BaseCube c : g.cubes()) {
+      double theta = Math.atan2(c.z-g.z, c.x-g.x) / Math.PI * 180;
+      if (angleDiff(theta * Math.PI / 180, angleParam.getValue()) < Math.PI / 8
+        && Math.abs(c.r - (g.minR + (g.maxR-g.minR)*distParam.getValuef())) < (g.maxR-g.minR) / 5) {
+        colors[c.index] = LXColor.lightest(colors[c.index], lx.hsb(120, 100, 100));
+      }
+      if (printedGrower != which) {
+        System.out.println(" " + c.index + " (" + c.x + "," + c.z + ")r" + c.r);
+      }
+    }
+    
+    if (printedGrower != which) {
+      System.out.println("" + g.isTree + "" + g.index + " (" + g.x + "," + g.z + ") [" + g.minR + "," + g.maxR + "]");
+    }
+
+   printedGrower = which;
   }
 }

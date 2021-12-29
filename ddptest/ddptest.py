@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # 3waylabs creates LED controllers using a protocol called DDP
 # DDP is a pretty sensible protocol, more straightforward and "internet style"
 
@@ -63,6 +64,7 @@ header_buf: bytearray = bytearray(0)
 
 NUM_LEDS = 0
 leds = bytearray(0)  # this constructor creates with the given length and filled with 0's
+COLOR = "blue"
 
 palette = {
     'red': (0xff, 0x00, 0x00),
@@ -76,7 +78,8 @@ palette = {
     'gold': (0xff, 0xd7, 0x00),
     'brown': (0xa5, 0x2a, 0x2a),
     'chartreuse': (0x7f, 0xff, 0x00),
-    'dark green': (0x00, 0x64, 0x00)
+    'dark green': (0x00, 0x64, 0x00),
+    'orange': (0xff, 0x67, 0x03)
 }
 
 
@@ -253,71 +256,156 @@ def pattern_order():
         color_set(leds,(0,0,0),i-1)
         i += 1
         leds_send(leds)
-        time.sleep(0.1)
+        time.sleep(0.4)
 
-SHRUB_LEDS_PER_CUBE = 4
+# light up cubes A, B, C, D, and E for each circular position in king shrub, one at a time.
+# new style cubes (one led / 3 bytes per cube)
+def pattern_order_new():
+    global leds, NUM_LEDS
+    for i in range(48*3*5): leds[i] = 0x00
+    i = 0
+    while True:
+
+        for led in range(12):
+
+            leds[led * 3 + 0] = 255
+            leds[led * 3 + 1] = 255
+            leds[led * 3 + 2] = 255
+
+            leds[(led * 3 + 0) + 144] = 255
+            leds[(led * 3 + 1) + 144] = 255
+            leds[(led * 3 + 2) + 144] = 255
+
+            leds[(led * 3 + 0) + 288] = 255
+            leds[(led * 3 + 1) + 288] = 255
+            leds[(led * 3 + 2) + 288] = 255
+
+            leds[(led * 3 + 0) + 432] = 255
+            leds[(led * 3 + 1) + 432] = 255
+            leds[(led * 3 + 2) + 432] = 255
+
+            leds[(led * 3 + 0) + 576] = 255
+            leds[(led * 3 + 1) + 576] = 255
+            leds[(led * 3 + 2) + 576] = 255
+
+            leds_send(leds)
+            time.sleep(0.4)
+
+            for i in range(48*3*5): leds[i] = 0x00
+            leds_send(leds)
+        time.sleep(0.5)
+
+# light up cubes A, B, C, D, and E for each circular position in king shrub, one at a time.
+# old style cubes (four leds / 12 bytes per cube)
+def pattern_order_old():
+    global leds, NUM_LEDS
+    for i in range(48*3*5): leds[i] = 0x00
+    i = 0
+    while True:
+
+        for cube in range(12):
+            for led in range(4):
+                leds[(cube * 3 * 4) + (led * 3) + 0] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 1] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 2] = 255
+
+                leds[(cube * 3 * 4) + (led * 3) + 0 + 144] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 1 + 144] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 2 + 144] = 255
+
+                leds[(cube * 3 * 4) + (led * 3) + 0 + 288] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 1 + 288] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 2 + 288] = 255
+
+                leds[(cube * 3 * 4) + (led * 3) + 0 + 432] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 1 + 432] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 2 + 432] = 255
+
+                leds[(cube * 3 * 4) + (led * 3) + 0 + 576] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 1 + 576] = 255
+                leds[(cube * 3 * 4) + (led * 3) + 2 + 576] = 255
+
+            leds_send(leds)
+            time.sleep(0.4)
+
+            for i in range(48*3*5): leds[i] = 0x00
+            leds_send(leds)
+        time.sleep(0.5)
+
+SHRUB_LEDS_PER_CUBE = 0
 SHRUB_CUBES_PER_RANK = 12
 SHRUB_RANKS = 5
 
 # rank is 0 to 4
 # cube is 0 to 11
 def shrub_cube_set(rank:int , cube:int, color: tuple):
-	start_cube = (rank * SHRUB_CUBES_PER_RANK) + cube
-	start_led = SHRUB_LEDS_PER_CUBE * start_cube
-	for i in range(SHRUB_LEDS_PER_CUBE):
-		color_set(leds,color,i+start_led)
+    start_cube = (rank * SHRUB_CUBES_PER_RANK) + cube
+    start_led = SHRUB_LEDS_PER_CUBE * start_cube
+    for i in range(SHRUB_LEDS_PER_CUBE):
+        color_set(leds,color,i+start_led)
 
 def shrub_rank_set(r:int):
-	global leds, NUM_LEDS, SHRUB_LED_PER_CUBE, SHRUB_CUBES_PER_RANK, SHRUB_RANKS
-	leds_color_fill( palette["black"] ) # do the dumb
-	for i in range(SHRUB_RANKS):
-		shrub_cube_set(r, i, palette["white"] )
+    global leds, NUM_LEDS, SHRUB_LED_PER_CUBE, SHRUB_CUBES_PER_RANK, SHRUB_RANKS
+    leds_color_fill( palette["black"] ) # do the dumb
+    for i in range(SHRUB_RANKS):
+        shrub_cube_set(r, i, palette["white"] )
 
 
 # each rank in order
 def pattern_shrub_rank():
     global leds, NUM_LEDS
     while True:
-    	for i in range(SHRUB_RANKS):
-    		shrub_rank_set(i)
-    		leds_send(leds)
-    		time.sleep(2.0)
+        for i in range(SHRUB_RANKS):
+            shrub_rank_set(i)
+            leds_send(leds)
+            time.sleep(2.0)
 
 # they say this will be good for testing
 # for each rank, add each cube at 1 second, then hold the rank for 3 seconds
 def pattern_shrub_rank_order():
     global leds, NUM_LEDS
     while True:
-    	for rank in range(SHRUB_RANKS):
-    		print(" testing rank: {}".format(rank))
-    		leds_color_fill ( palette["black"] )
-    		for cube in range(SHRUB_CUBES_PER_RANK):
-    			shrub_cube_set(rank, cube, palette["white"] )
-    			leds_send(leds)
-    			time.sleep(1.0)
-    		time.sleep(3.0)
+        for rank in range(SHRUB_RANKS):
+            print(" testing rank: {}".format(rank))
+            leds_color_fill ( palette["black"] )
+            for cube in range(SHRUB_CUBES_PER_RANK):
+                shrub_cube_set(rank, cube, palette["white"] )
+                leds_send(leds)
+                time.sleep(1.0)
+            time.sleep(3.0)
 
-# this works for any pattern where cubes are used, in order
-#
-
+## AARRRGGG! Need to parameterize... minitree has 4....
 LEDS_PER_CUBE = 6
 
 def cube_set(cube:int, color: tuple):
-	global LEDS_PER_CUBE
-	start_led = LEDS_PER_CUBE * cube
-	for i in range(LEDS_PER_CUBE):
-		color_set(leds,color,i+start_led)
+    global LEDS_PER_CUBE
+    start_led = LEDS_PER_CUBE * cube
+    for i in range(LEDS_PER_CUBE):
+        # print("setting led {}".format(i+start_led))
+        color_set(leds,color,i+start_led)
 
 def pattern_cube_order(n_cubes: int):
-	global leds, palette
-	while True:
-		leds_color_fill ( palette["blue"] )
-		leds_send(leds)
-		time.sleep(1.0)
-		for c_idx in range(n_cubes):
-			cube_set(c_idx, palette["white"])
-			leds_send(leds)
-			time.sleep(0.5)
+    global leds, palette
+    while True:
+        #leds_color_fill ( palette["blue"] )
+        leds_color_fill ( palette["red"] )
+        leds_send(leds)
+        time.sleep(1.0)
+        for c_idx in range(n_cubes):
+            cube_set(c_idx, palette["green"])
+            leds_send(leds)
+            time.sleep(0.5)
+
+def pattern_strobe():
+    global leds, palette
+    while True:
+        leds_color_fill ( palette["black"] )
+        leds_send(leds)
+        time.sleep(0.3)
+        leds_color_fill ( palette["green"] )
+        leds_send(leds)
+        time.sleep(0.3)
+
 
 palette_order = [
     (0xff, 0x00, 0x00),
@@ -327,13 +415,32 @@ palette_order = [
 ]
 
 def pattern_cube_color(n_cubes: int):
-	global leds, palette_order
-	while True:
-		for c_idx in range(n_cubes):
-			cube_set(c_idx, palette_order[c_idx % len(palette_order) ])
+    global leds, palette_order
+    while True:
+        for c_idx in range(n_cubes):
+            cube_set(c_idx, palette_order[c_idx % len(palette_order) ])
 
-		leds_send(leds)
-		time.sleep(5)
+        leds_send(leds)
+        time.sleep(5)
+
+# one shot and exit
+def pattern_cube_color(n_cubes: int):
+    global leds, COLOR
+    if COLOR in palette:
+        rgb = palette[COLOR]
+    elif len(COLOR) == 6:
+        # might be an rgb string?
+        rgb = ( int(COLOR[0:2],16), int(COLOR[2:4],16), int(COLOR[4:6],16) )
+        print(' setting to RGB ',rgb)
+    else:
+        print('color not in palette, must be one of ',list(palette.keys()))
+        print('or a hex string with 6 characters')
+        return
+
+    for c_idx in range(n_cubes):
+        cube_set(c_idx, rgb)
+
+    leds_send(leds)
 
 
 def arg_init():
@@ -342,23 +449,29 @@ def arg_init():
     parser.add_argument('--pattern', '-p', type=str, help='one of: palette, hsv, order, shrub_rank, shrub_rank_order, cube_order, cube_color, black')
     parser.add_argument('--leds', '-l', type=int, default=40, help='number of leds')
     parser.add_argument('--cubes', '-c', type=int, help='number of cubes')
+    parser.add_argument('--lpc', type=int, default=6, help='leds per cube (default 6, 4 could be)')
+    parser.add_argument('--color', type=str, default='blue', help='color to set all cubes to')
 
-    global DESTINATION_IP, NUM_LEDS, leds
-
+    global DESTINATION_IP, NUM_LEDS, leds, LEDS_PER_CUBE, COLOR
 
     args = parser.parse_args()
     if args.host:
         DESTINATION_IP = args.host
+    # fugly! this is ordering dependant
+    if args.lpc:
+        LEDS_PER_CUBE = args.lpc
     if args.cubes:
-    	args.leds = args.cubes * LEDS_PER_CUBE
+        args.leds = args.cubes * LEDS_PER_CUBE
+    # and so is this! must be last
     if args.leds:
         print( "arg leds: {}".format(args.leds))
         NUM_LEDS = args.leds
         leds = bytearray(NUM_LEDS * 3) 
-
+    if args.color:
+        COLOR = args.color
     if (args.leds * 3 > 1490):
-    	print( " MTU will exceed 1500, aborting ")
-    	exit(-1)
+        print( " MTU will exceed 1500, aborting ")
+        exit(-1)
 
     return args
 
@@ -378,24 +491,32 @@ def main():
         pattern_hsv()
     elif args.pattern == 'order':
         pattern_order()
+    elif args.pattern == 'order_old':
+        pattern_order_old()
+    elif args.pattern == 'order_new':
+        pattern_order_new()
     elif args.pattern == 'shrub_rank':
-    	pattern_shrub_rank()
+        pattern_shrub_rank()
     elif args.pattern == 'shrub_rank_order':
-    	pattern_shrub_rank_order()
+        pattern_shrub_rank_order()
     elif args.pattern == 'cube_order':
-    	if not args.cubes:
-    		print(" cube order requires, you must have cubes try again")
-    		exit(-1)
-    	pattern_cube_order(args.cubes)
+        if not args.cubes:
+            print(" cube order requires, you must have cubes try again")
+            exit(-1)
+        pattern_cube_order(args.cubes)
     elif args.pattern == 'cube_color':
-    	if not args.cubes:
-    		print(" cube color, you must have cubes try again")
-    		exit(-1)
-    	pattern_cube_color(args.cubes)
+        if not args.cubes:
+            print(" cube color, you must have cubes try again")
+            exit(-1)
+        pattern_cube_color(args.cubes)
+    elif args.pattern == 'strobe':
+        pattern_strobe()
     elif args.pattern == 'black':
         pattern_black()
+    elif args.pattern == 'cube_color':
+        pattern_cube_color()
     else:
-        print(' pattern must be one of palette, hsv, order, shrub_rank, shrub_rank_order, cube_order')
+        print(' pattern must be one of palette, hsv, order, shrub_rank, shrub_rank_order, cube_order, cube_color')
 
 
 

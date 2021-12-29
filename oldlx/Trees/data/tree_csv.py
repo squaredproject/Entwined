@@ -8,8 +8,43 @@
 # ndb (just last),tree(s,m.l),output,length,branch
 # This information can be used to create both the NDB configs file, and also
 # the cubes file
+#
+# Example file:
+# https://docs.google.com/spreadsheets/d/1aHrftWILBURYRl3tOR9bsREWg8UhZZuntv1VR9yDDWE/edit?usp=sharing
+#
+# column `ndb`
+# the last octet of the IPv4 address, will have 10.0.0. prepended.
+# Column 'tree'
+# this will be s, m, or l, which corresponds to one of the trees in the field
+# by index.
+# Column `output`
+# Corresponds to the output from the NDB in question (1 index)
+# Column `length`
+# corresponds to the length, in cubes, attached to that output
+# Column `branch`
+# Using the following notation, a branch is specified.
+# X.Y[L|R].[A|B]
+# The first X is the layer. 0 is the lowest, 1 is the next higher, 2 if exists is above
+# Y is the branch, specified as
+# 0 - the longest branch
+# 1R - the next clockwise branch
+# 2R, 3R - and so on
+# 4 the antipode of 0
+# 3L, 2L, 1L continuing clockwise back to 0
+#
+# THIS IS CONFUSING and I recommend changing the scheme for the next instatllation.
+# At that point, please make different version of this tool
+
 
 # note that output is ONE indexed in these files and ZERO in the JSON files
+
+# The NDBs are also ONE indexed (1 to 16) so input into google docs
+# what is on the NDB.
+# 
+# Spreadsheet to track, by IP address, the length and location of each input
+# https://docs.google.com/spreadsheets/d/10tKJYqjxg17QCM_UkV8Fsvh25ctIzKlinF9jcdDPwts/edit?usp=sharing
+#
+
 
 import json
 import re
@@ -18,9 +53,10 @@ import sys
 import argparse
 
 
-def tree_cubes_csv(csvFilename:str, cubeFilename:str):
+def tree_cubes_csv(csvFilename:str, cubeFilename:str, ndbFilename:str):
 
     cubes = []
+    ndbs = {} # dict with string is IP address, value is array of 16 ints for output length
 
     with open(csvFilename, "r") as csv_f:
         lineNum = 1
@@ -31,46 +67,88 @@ def tree_cubes_csv(csvFilename:str, cubeFilename:str):
                 values = csv_line.split(',') #only the one delimiter
                 ndb = values[0]                # str
                 tree = values[1].lower()       # str
-                output = int(values[2])        # int
-                cubesNum = int(values[3])            # int, length of string, some are 0 if not used
+                cubeSize = int(values[2])      # int
+                output = int(values[3])        # int
+                cubesNum = int(values[4])            # int, length of string, some are 0 if not used
+
                 if cubesNum > 0:
-                    branchStr = values[4]           # layer.branch.half
+                    branchStr = values[5]           # layer.branch.half
                     bValues = branchStr.strip().split('.')
                     layer = int(bValues[0])
                     branch = bValues[1].lower()
                     half = bValues[2].lower()
 
-                    newCubes = tree_cube_make_object(ndb,output,tree,layer,branch,half,cubesNum,lineNum)
+                    newCubes = tree_cube_make_object(ndb,output,tree,layer,branch,half,cubesNum,cubeSize,lineNum)
                     cubes.extend(newCubes)
+
+                    update_ndbs(ndbs, ndb, output, cubesNum)
 
                 # todo: it is possible to construct the ndbFile but probably not a good idea
                 # it's actually pretty easy to do it manually and a good double check???
 
             lineNum += 1
 
+    #print(' ndb output array is: ',ndbs)
+    #print(' ndb output in json form is: ',convert_ndbs(ndbs))
+
     # write the output files
     with open(cubeFilename, 'w') as f:
-        json.dump(cubes, f)    
+        json.dump(cubes, f)
+
+    with open(ndbFilename, 'w') as f:
+        json.dump(convert_ndbs(ndbs), f)
+
+def update_ndbs(ndbs, ndb:str, output: int, cubesNum: int):
+    if '.' not in ndb:
+        ndb = '10.0.0.' + ndb
+    # if the ndb entry exists, update the array
+    lengths = ndbs.get(ndb)
+    if lengths:
+        lengths[output-1] = cubesNum
+    else:
+        lengths = [0] * 16
+        lengths[output-1] = cubesNum
+        ndbs[ndb] = lengths
+
+# input format is key: string, value: array of ints
+# output format for json is:
+# array of:
+#    {
+#        "ipAddress": "10.0.0.131",
+#        "outputLength": [ 7,7,6,5, 4,4,4,4, 4,4,4,5, 5,0,0,0]
+#    },
+
+
+def convert_ndbs(ndbs):
+    ret = []
+    for ip, lengths in ndbs.items():
+        ndb = {}
+        ndb['ipAddress'] = ip
+        ndb['outputLength'] = lengths
+        ret.append(ndb)
+    return ret
+
 
 
 # file format:
-# the shrubsCube file is a very large list of dicts,
+# the entwinedCube file is a very large list of dicts,
 # and each dict has
-# {'shrubIndex': 0,
-#   'clusterIndex': 0,
-#   'rodIndex': 1,
-#   'shrubOutputIndex': 0,
-#   'cubeSizeIndex': 0,
-#   'shrubIpAddress': '10.1.0.146'}
+# {'treeIndex': 0,
+#   'layerIndex' -> 0 is lowest
+#   'branchIndex' -> 0 is shortest(?) and 0 points X-ward
+#   'mountPointIndex': -> 0 is outer most and 8 inches each inward
+#   'outputIndex': 0, -> the point in NDB's array
+#   'cubeSizeIndex': 0 -> tells Engine how many LEDs
+#   'ipAddress': '10.1.0.146'}
 
 
 #this function allows you to input a series of branch points
 # returns an object
 
-def tree_cube_make_object(ip:str, output:int, tree, layer:int, branch:str, half:str, cubesNum:int, lineNum:int):
+def tree_cube_make_object(ip:str, output:int, tree, layer:int, branch:str, half:str, cubesNum:int, cubeSize:int, lineNum:int):
 
 
-    print(' adding: ip {} output {} tree {} layer {} branch {} half {} cubes {} linenum {}'.format(ip,output,tree,layer,branch,half,cubesNum,lineNum))
+    print(' adding: ip {} output {} tree {} cubesize {} layer {} branch {} half {} cubes {} linenum {}'.format(ip,output,tree,cubeSize,layer,branch,half,cubesNum,lineNum))
 
     # helper for ip, add the 10.0.0. if not there
     if '.' not in ip:
@@ -144,6 +222,11 @@ def tree_cube_make_object(ip:str, output:int, tree, layer:int, branch:str, half:
         print(' half must be a or b, is \"{}\" exiting line: {}'.format(half,lineNum))
         exit(-1)
 
+    # it used to be that the mountPointIndex was 0 in the center, but we've moved it to
+    # 0 at the outside, because it's hard to predict how close to the center a person starts,
+    # but they always start at the outer edge. This means the _last_ cube in an output string has
+    # to be zero
+
 
     # there are faster ways but this reads very clean
     cubes = []
@@ -161,11 +244,11 @@ def tree_cube_make_object(ip:str, output:int, tree, layer:int, branch:str, half:
         c['branchIndex'] = branch
 
         if half == 'a':
-            c['mountPointIndex'] = c_idx * 2
+            c['mountPointIndex'] = (cubesNum - c_idx - 1) * 2
         else:
-            c['mountPointIndex'] = (c_idx * 2) + 1
+            c['mountPointIndex'] = ((cubesNum - c_idx - 1) * 2) + 1
 
-        c['cubeSizeIndex'] = 1
+        c['cubeSizeIndex'] = cubeSize
         cubes.append(c)
 
     return(cubes)
@@ -175,7 +258,10 @@ def tree_cube_make_object(ip:str, output:int, tree, layer:int, branch:str, half:
 def arg_init():
     parser = argparse.ArgumentParser(prog='tree-csv', description='convert the CSV file to the entwinedCubes file')
 
-    parser.add_argument('files', type=str, nargs=2, help='input.csv output.json')
+    parser.add_argument('files', type=str, nargs=1, help='input.csv')
+    parser.add_argument('--cubes', '-c', type=str, default="entwinedCubes.json", help='file to output, cubes')
+    parser.add_argument('--ndbs', '-n', type=str, default="entwinedNDBs.json", help='file to output, ndbs')
+
 
     args = parser.parse_args()
 
@@ -187,9 +273,10 @@ def main():
     args = arg_init()
 
     print(" input {}".format(args.files[0]))
-    print(" cubes output {}".format(args.files[1]))
+    print(" cubes output {}".format(args.cubes))
+    print(" ndbs output {}".format(args.ndbs))
 
-    tree_cubes_csv(args.files[0], args.files[1])
+    tree_cubes_csv(args.files[0], args.cubes, args.ndbs)
 
 
 # this only really impacts when this is being used as a module

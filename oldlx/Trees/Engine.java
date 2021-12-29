@@ -12,6 +12,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import java.time.format.DateTimeFormatter;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.ZoneId;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
@@ -20,6 +25,7 @@ import heronarts.lx.LX;
 import heronarts.lx.LXAutomationRecorder;
 import heronarts.lx.LXChannel;
 import heronarts.lx.LXEngine;
+import heronarts.lx.LXLoopTask;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.effect.BlurEffect;
 import heronarts.lx.effect.LXEffect;
@@ -51,6 +57,7 @@ abstract class Engine {
   final List<TreeConfig> treeConfigs;
   final List<ShrubCubeConfig> shrubCubeConfig;
   final List<ShrubConfig> shrubConfigs;
+  final List<FairyCircleConfig> fairyCircleConfigs;
   final LX lx;
   final Model model;
   EngineController engineController;
@@ -58,21 +65,34 @@ abstract class Engine {
   LXDatagram[] treeDatagrams;
   LXDatagramOutput shrubOutput;
   LXDatagram[] shrubDatagrams;
+  LXDatagramOutput fairyCircleOutput;
+  LXDatagram[] fairyCircleDatagrams;
   BPMTool bpmTool;
   InterfaceController uiDeck;
   MidiEngine midiEngine;
   TSDrumpad apc40Drumpad;
 
+  ZoneId localZone = ZoneId.of("America/Los_Angeles");
+
   LXListenableNormalizedParameter[] effectKnobParameters;
   final ChannelTreeLevels[] channelTreeLevels = new ChannelTreeLevels[Engine.NUM_TOTAL_CHANNELS];
   final ChannelShrubLevels[] channelShrubLevels = new ChannelShrubLevels[Engine.NUM_TOTAL_CHANNELS];
+  final ChannelFairyCircleLevels[] channelFairyCircleLevels = new ChannelFairyCircleLevels[Engine.NUM_TOTAL_CHANNELS];
   final BasicParameter dissolveTime = new BasicParameter("DSLV", 400, 50, 1000);
   final BasicParameter drumpadVelocity = new BasicParameter("DVEL", 1);
+
   final TSAutomationRecorder[] automation = new TSAutomationRecorder[Engine.NUM_AUTOMATION];
   final BooleanParameter[] automationStop = new BooleanParameter[Engine.NUM_AUTOMATION];
   final DiscreteParameter automationSlot = new DiscreteParameter("AUTO", Engine.NUM_AUTOMATION);
   final BooleanParameter[] previewChannels = new BooleanParameter[Engine.NUM_BASE_CHANNELS];
+
   final BasicParameterProxy outputBrightness = new BasicParameterProxy(1);
+  final BrightnessScaleEffect masterBrightnessEffect;
+  final BrightnessScaleEffect autoplayBrightnessEffect;
+
+  final CanopyController canopyController;
+  final InteractiveHSVEffect interactiveHSVEffect;
+  final InteractiveFireEffect interactiveFireEffect;
 
   // breadcrumb regarding channelTreeLevels and channelShrubLevels
   // these are controllers which should be used on a shrub-by-shrub basis to allow
@@ -91,18 +111,31 @@ abstract class Engine {
     treeConfigs = loadTreeConfigFile();
     shrubCubeConfig = loadShrubCubeConfigFile();
     shrubConfigs = loadShrubConfigFile();
-    model = new Model(ndbConfig, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig);
+    fairyCircleConfigs = loadFairyCircleConfigFile();
+    model = new Model(ndbConfig, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig, fairyCircleConfigs);
 
     lx = createLX();
 
+    // log that we are trying to start, even without a log
+    System.out.println( " Starting Entwined: " +
+      ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME )
+    );
+
+    lx.engine.addLoopTask(new FrameRateLogTask(lx.engine) );
+
+
     // this is the TCP channel
     engineController = new EngineController(lx);
+    masterBrightnessEffect = new BrightnessScaleEffect(lx);
+    autoplayBrightnessEffect = new BrightnessScaleEffect(lx);
+    autoplayBrightnessEffect.amount.setValue(Config.autoplayBrightness);
 
     lx.engine.addParameter(drumpadVelocity);
 
     for (int i=0; i<NUM_TOTAL_CHANNELS; i++){
       channelTreeLevels[i] = new ChannelTreeLevels(model.trees.size());
       channelShrubLevels[i] = new ChannelShrubLevels(model.shrubs.size());
+      channelFairyCircleLevels[i] = new ChannelFairyCircleLevels(model.fairyCircles.size());
     }
 
     configureChannels();
@@ -113,6 +146,9 @@ abstract class Engine {
     configureBMPTool();
     configureAutomation();
 
+
+    // last
+
     if (Config.enableOutputBigtree) {
       lx.addEffect(new TurnOffDeadPixelsEffect(lx));
       configureExternalOutput();
@@ -120,6 +156,13 @@ abstract class Engine {
     if (Config.enableOutputMinitree) {
       configureFadeCandyOutput();
     }
+
+    lx.addEffect(masterBrightnessEffect);
+    lx.addEffect(autoplayBrightnessEffect);
+
+    // last
+
+    enableEffects();
 
     postCreateLX();
 
@@ -132,6 +175,32 @@ abstract class Engine {
   		engineController.setAutoplay(Config.autoplayBMSet, true/*force*/);
   	}
   	configureServer(); // turns on the TCP listener
+
+
+    // this special filter is used by Canopy -- the interactive effects
+    interactiveHSVEffect = new InteractiveHSVEffect(lx);
+    lx.addEffect(interactiveHSVEffect); /* want this one "on top" of everything else... is it? */
+    interactiveHSVEffect.enable();
+    // this fire effect, going to make it more generic, but make it work at all now
+    interactiveFireEffect = new InteractiveFireEffect(lx, model);
+    Effect[] fireEffects = interactiveFireEffect.getEffects();
+    for (Effect effect : fireEffects) {
+      lx.addEffect(effect);
+      effect.enable();
+    }
+
+    // must be after creation of the filter effect(s) used
+    canopyController = new CanopyController(this);
+
+
+    // tell the canopyController what it should be up to.
+    // this perhaps needs to move elsewhere, possibly to the constructor of canopy
+    // controller or the main init, unclear it should really be intermixed with EngineController
+    ZonedDateTime firstPause = ZonedDateTime.now();
+    firstPause.plusSeconds( (int) (Config.pauseRunMinutes * 60.0) );
+    canopyController.modelUpdate(true /*interactive*/, (int) (Config.pauseRunMinutes * 60.0f) /*runSeconds*/,
+      (int) (Config.pausePauseMinutes * 60.0f) /*pauseSeconds*/,"run" /*state*/,firstPause);
+
 
     // bad code I know
     // (shouldn't mess with engine internals)
@@ -151,55 +220,116 @@ abstract class Engine {
   void postCreateLX() {
   }
 
+  // NOTE! Entwined can be installed without any trees, or with
+  // trees not at 0.0. Several patterns make assumptions about the 
+  // location of the "main tree", those have been removed until 
+  // fixed - ShrubRiver, SpiralArms
+
   void registerIPadPatterns() {
     registerPatternController("None", new NoPattern(lx));
     registerPatternController("Twister", new Twister(lx));
     registerPatternController("TwisterGlobal", new TwisterGlobal(lx));
+    registerPatternController("Candy Cloud", new CandyCloud(lx));
+    registerPatternController("BeachBall", new BeachBall(lx));
+    registerPatternController("Breath", new Breath(lx));
+
     registerPatternController("Lottor", new MarkLottor(lx));
     registerPatternController("Ripple", new Ripple(lx));
     registerPatternController("Stripes", new Stripes(lx));
     registerPatternController("Lattice", new Lattice(lx));
-    registerPatternController("Fumes", new Fumes(lx));
-    registerPatternController("Voronoi", new Voronoi(lx));
-    registerPatternController("Candy Cloud", new CandyCloud(lx));
-    registerPatternController("Galaxy Cloud", new GalaxyCloud(lx));
+    registerPatternController("Leaves", new ColoredLeaves(lx));
 
-    registerPatternController("Color Strobe", new ColorStrobe(lx));
-    registerPatternController("Strobe", new Strobe(lx));
-    registerPatternController("Sparkle Takeover", new SparkleTakeOver(lx));
-    registerPatternController("Multi-Sine", new MultiSine(lx));
-    registerPatternController("Seesaw", new SeeSaw(lx));
-    registerPatternController("Cells", new Cells(lx));
-    registerPatternController("Fade", new Fade(lx));
+    registerPatternController("Voronoi", new Voronoi(lx));
+    registerPatternController("Galaxy Cloud", new GalaxyCloud(lx));
+    registerPatternController("Parallax", new Parallax(lx));
+    registerPatternController("Burst", new Burst(lx));
+
+    registerPatternController("Peppermint", new Peppermint(lx));
 
     registerPatternController("Ice Crystals", new IceCrystals(lx));
     registerPatternController("Fire", new Fire(lx));
-
     registerPatternController("Acid Trip", new AcidTrip(lx));
     registerPatternController("Rain", new Rain(lx));
+
+    registerPatternController("Pond", new Pond(lx));
+    registerPatternController("Planes", new Planes(lx));
+    registerPatternController("Growth", new Growth(lx));
+
+    registerPatternController("Lightning", new Lightning(lx));
+    registerPatternController("Sparkle Takeover", new SparkleTakeOver(lx));
+    registerPatternController("SparkleHelix", new SparkleHelix(lx));
+
+    registerPatternController("Multi-Sine", new MultiSine(lx));
+    registerPatternController("Seesaw", new SeeSaw(lx));
+    registerPatternController("Ripple", new MultiSine(lx));
+    registerPatternController("Cells", new Cells(lx));
+    registerPatternController("Fade", new Fade(lx));
+    registerPatternController("Springs", new Springs(lx));
+
     registerPatternController("Bass Slam", new BassSlam(lx));
 
     registerPatternController("Fireflies", new Fireflies(lx));
     registerPatternController("Bubbles", new Bubbles(lx));
-    registerPatternController("Lightning", new Lightning(lx));
+
     registerPatternController("Wisps", new Wisps(lx));
     registerPatternController("Fireworks", new Explosions(lx));
 
     registerPatternController("ColorWave", new ColorWave(lx));
+    registerPatternController("Wedges", new Wedges(lx));
+    
+    // Lindsay
+    registerPatternController("SparkleWave", new SparkleWave(lx));
+    
+    // Mattaniah
+    registerPatternController("OscillatingDarkRing", new OscillatingDarkRing(lx));
+    registerPatternController("RadialGradiant", new RadialGradiant(lx));
+    
+    // Quinn Keck
+    registerPatternController("ButterflyEffect", new ButterflyEffect(lx));
 
-    registerPatternController("Pond", new Pond(lx));
-    registerPatternController("Planes", new Planes(lx));
-
+    // Misko's patterns
     registerPatternController("Circles", new Circles(lx));
     registerPatternController("LineScan", new LineScan(lx));
     registerPatternController("WaveScan", new WaveScan(lx));
+    registerPatternController("Stringy", new Stringy(lx));
     registerPatternController("RainbowWaveScan", new RainbowWaveScan(lx));
+    registerPatternController("SyncSpinner", new SyncSpinner(lx));
+    registerPatternController("LightHouse", new LightHouse(lx));
+    //registerPatternController("ShrubRiver", new ShrubRiver(lx));
+    registerPatternController("ColorBlast", new ColorBlast(lx));
+    registerPatternController("Vertigo", new Vertigo(lx));
+    
+    // Adam Croston and Katie Ballinger's patterns.
+    registerPatternController("ExpandingCircles", new ExpandingCircles(lx));
+    //registerPatternController("SpiralArms", new SpiralArms(lx));
+    registerPatternController("Sparks", new Sparks(lx));
+    registerPatternController("Blooms", new Blooms(lx));
+    registerPatternController("MovingPoint", new MovingPoint(lx));
+    //registerPatternController("WavesToMainTree", new WavesToMainTree(lx));
+    registerPatternController("Undulation", new Undulation(lx));
+    registerPatternController("HueRibbons", new HueRibbons(lx));
+    registerPatternController("VerticalColorWaves", new VerticalColorWaves(lx));
+    registerPatternController("FlockingPoints", new FlockingPoints(lx));
 
-    registerPatternController("Growth", new Growth(lx));
+    // Evy's patterns
+    registerPatternController("CircleBreath", new CircleBreath(lx));
+    registerPatternController("FirefliesNcase", new FirefliesNcase(lx));
+
+    // Sydney
+    registerPatternController("RoseGarden", new RoseGarden(lx));
+    
+    //Lorenz
+    registerPatternController("Fountain", new Fountain(lx));
+    
+
+    registerPatternController("Fumes", new Fumes(lx));
+    registerPatternController("Color Strobe", new ColorStrobe(lx));
+    registerPatternController("Strobe", new Strobe(lx));
+
   }
 
   void registerIPadEffects() {
-    ColorEffect colorEffect = new ColorEffect2(lx);
+    ColorEffect colorEffect = new ColorEffect(lx);
     ColorStrobeTextureEffect colorStrobeTextureEffect = new ColorStrobeTextureEffect(lx);
     FadeTextureEffect fadeTextureEffect = new FadeTextureEffect(lx);
     AcidTripTextureEffect acidTripTextureEffect = new AcidTripTextureEffect(lx);
@@ -213,6 +343,11 @@ abstract class Engine {
     BlurEffect blurEffect = engineController.blurEffect = new TSBlurEffect2(lx);
     ScrambleEffect scrambleEffect = engineController.scrambleEffect = new ScrambleEffect(lx);
     // StaticEffect staticEffect = engineController.staticEffect = new StaticEffect(lx);
+
+    engineController.masterBrightnessEffect = masterBrightnessEffect;
+    engineController.autoplayBrightnessEffect = autoplayBrightnessEffect;
+    engineController.outputBrightness = outputBrightness;
+
 
     lx.addEffect(blurEffect);
     lx.addEffect(colorEffect);
@@ -249,8 +384,11 @@ abstract class Engine {
 
     // Colin Hunt Patterns
     patterns.add(new ColorWave(lx));
+    patterns.add(new CottonCandy(lx));
     patterns.add(new BeachBall(lx));
+    patterns.add(new Bloop(lx));
     patterns.add(new Breath(lx));
+    patterns.add(new SimplexSparkle(lx));
     patterns.add(new Peppermint(lx));
     patterns.add(new ChristmasTree(lx));
     patterns.add(new Wreathes(lx));
@@ -259,6 +397,22 @@ abstract class Engine {
     patterns.add(new Pond(lx));
     patterns.add(new Planes(lx));
     patterns.add(new Growth(lx));
+    
+    // Lindsay Jason
+    patterns.add(new SparkleWave(lx));
+
+    // Lorenz Patterns
+    patterns.add(new Fountain(lx));
+    
+    // Mattaniah
+    patterns.add(new OscillatingDarkRing(lx));
+    patterns.add(new RadialGradiant(lx));
+    
+    // Quinn Keck Patterns
+    patterns.add(new ButterflyEffect(lx));
+    
+    // Sydney Patterns
+    patterns.add(new RoseGarden(lx));
 
     // patterns.add(new DoubleHelix(lx));
     patterns.add(new SparkleHelix(lx));
@@ -296,12 +450,40 @@ abstract class Engine {
     patterns.add(new Wedges(lx));
     patterns.add(new Parallax(lx));
 
-    //Miskos
-    patterns.add(new Stringy(lx));
+    // Charlie Stigler Patterns
+    patterns.add(new Burst(lx));
+
+    // evy's patterns
+    patterns.add(new CircleBreath(lx));
+    patterns.add(new FirefliesNcase(lx));
+
+    //Miskos - worried, removing, sorry
+    patterns.add(new Stringy(lx));  // takes too much memory ~ should be fixed now
     patterns.add(new Circles(lx));
     patterns.add(new LineScan(lx));
     patterns.add(new WaveScan(lx));
     patterns.add(new RainbowWaveScan(lx));
+    patterns.add(new SyncSpinner(lx));
+    patterns.add(new LightHouse(lx));
+    //patterns.add(new ShrubRiver(lx));
+    patterns.add(new ColorBlast(lx));
+    patterns.add(new Vertigo(lx));
+    
+    // Adam Croston and Katie Ballinger's patterns.
+    //patterns.add(new BasicMagic(lx));
+    patterns.add(new ExpandingCircles(lx));
+    //patterns.add(new SpiralArms(lx));
+    patterns.add(new Sparks(lx));
+    patterns.add(new Blooms(lx));
+    patterns.add(new MovingPoint(lx));
+    //patterns.add(new WavesToMainTree(lx));
+    patterns.add(new Undulation(lx));
+    patterns.add(new HueRibbons(lx));
+    patterns.add(new VerticalColorWaves(lx));
+    patterns.add(new FlockingPoints(lx));
+
+    // Omar Shehata pattern
+    patterns.add(new FairySnakes(lx));
 
     // Test patterns
     patterns.add(new ClusterLineTest(lx));
@@ -384,6 +566,7 @@ abstract class Engine {
   void registerEffectTriggerables() {
     BlurEffect blurEffect = new TSBlurEffect(lx);
     ColorEffect colorEffect = new ColorEffect(lx);
+    HueFilterEffect hueFilterEffect = new HueFilterEffect(lx);
     GhostEffect ghostEffect = new GhostEffect(lx);
     ScrambleEffect scrambleEffect = new ScrambleEffect(lx);
     StaticEffect staticEffect = new StaticEffect(lx);
@@ -398,6 +581,7 @@ abstract class Engine {
 
     lx.addEffect(blurEffect);
     lx.addEffect(colorEffect);
+    lx.addEffect(hueFilterEffect);
     lx.addEffect(ghostEffect);
     lx.addEffect(scrambleEffect);
     lx.addEffect(staticEffect);
@@ -416,6 +600,8 @@ abstract class Engine {
     registerEffectControlParameter(colorEffect.mono);
     registerEffectControlParameter(colorEffect.desaturation);
     registerEffectControlParameter(colorEffect.sharp);
+    registerEffectControlParameter(hueFilterEffect.hueFilter);
+    registerEffectControlParameter(hueFilterEffect.amount);
     registerEffectControlParameter(blurEffect.amount, 0.65);
     registerEffectControlParameter(spinEffect.spin, 0.65);
     registerEffectControlParameter(ghostEffect.amount, 0, 0.16, 1);
@@ -427,16 +613,20 @@ abstract class Engine {
     registerEffectControlParameter(staticEffect.amount, 0, .3, 1);
     registerEffectControlParameter(candyTextureEffect.amount, 0, 1, 5);
 
+
+    // colorEffect.mono is pretty good, but has been kicked off the island compared to hueFilterEffect
+
     effectKnobParameters = new LXListenableNormalizedParameter[]{
         colorEffect.hueShift,
-        colorEffect.mono,
         colorEffect.desaturation,
-        colorEffect.sharp,
+        hueFilterEffect.hueFilter,
+        hueFilterEffect.amount,
         blurEffect.amount,
         speedEffect.speed,
         spinEffect.spin,
         candyCloudTextureEffect.amount
     };
+
   }
 
   VisualType[] readerPatternTypeRestrictions() {
@@ -462,7 +652,6 @@ abstract class Engine {
     return loadJSONFile(Config.NDB_CONFIG_FILE, new TypeToken<List<NDBConfig>>() {
     }.getType());
   }
-
   List<TreeCubeConfig> loadCubeConfigFile() {
     return loadJSONFile(Config.CUBE_CONFIG_FILE, new TypeToken<List<TreeCubeConfig>>() {
     }.getType());
@@ -471,14 +660,16 @@ abstract class Engine {
     return loadJSONFile(Config.TREE_CONFIG_FILE, new TypeToken<List<TreeConfig>>() {
     }.getType());
   }
-
-    List<ShrubCubeConfig> loadShrubCubeConfigFile() {
+  List<ShrubCubeConfig> loadShrubCubeConfigFile() {
         return loadJSONFile(Config.SHRUB_CUBE_CONFIG_FILE, new TypeToken<List<ShrubCubeConfig>>() {
       }.getType());
   }
-
-    List<ShrubConfig> loadShrubConfigFile() {
+  List<ShrubConfig> loadShrubConfigFile() {
         return loadJSONFile(Config.SHRUB_CONFIG_FILE, new TypeToken<List<ShrubConfig>>() {
+      }.getType());
+  }
+  List<FairyCircleConfig> loadFairyCircleConfigFile() {
+        return loadJSONFile(Config.FAIRY_CIRCLE_CONFIG_FILE, new TypeToken<List<FairyCircleConfig>>() {
       }.getType());
   }
 
@@ -542,7 +733,7 @@ abstract class Engine {
   /* configureChannels */
 
   void setupChannel(final LXChannel channel, boolean noOpWhenNotRunning) {
-    channel.setFaderTransition(new TreesTransition(lx, channel, model, channelTreeLevels, channelShrubLevels));
+    channel.setFaderTransition(new TreesTransition(lx, channel, model, channelTreeLevels, channelShrubLevels, channelFairyCircleLevels));
     channel.addListener(new LXChannel.AbstractListener() {
       LXTransition transition;
 
@@ -686,6 +877,12 @@ abstract class Engine {
     engineController.effectControllers.add(effectController);
   }
 
+  void enableEffects() {
+    for (LXEffect effect : lx.getEffects()) {
+      effect.enabled.setValue(true);
+    }
+  }
+
   /* configureBMPTool */
 
   void configureBMPTool() {
@@ -703,10 +900,11 @@ abstract class Engine {
     // },
     lx.engine.addMessageListener(new LXEngine.MessageListener() {
       @Override
-            public void onMessage(LXEngine engine, String message) {
+      public void onMessage(LXEngine engine, String message) {
         if (message.length() > 8 && message.substring(0, 7).equals("master/")) {
+
           double value = Double.parseDouble(message.substring(7));
-          outputBrightness.setValue(value);
+          masterBrightnessEffect.getParameter().setValue(value);
         }
       }
     });
@@ -747,14 +945,14 @@ abstract class Engine {
   @SuppressWarnings("unchecked")
   void configureTriggerables() {
 
-  if (Config.enableAPC40) {
+    if (Config.enableAPC40) {
       apc40DrumpadTriggerablesLists = new ArrayList[]{
-          new ArrayList<Triggerable>(),
-          new ArrayList<Triggerable>(),
-          new ArrayList<Triggerable>(),
-          new ArrayList<Triggerable>(),
-          new ArrayList<Triggerable>(),
-          new ArrayList<Triggerable>()
+        new ArrayList<Triggerable>(),
+        new ArrayList<Triggerable>(),
+        new ArrayList<Triggerable>(),
+        new ArrayList<Triggerable>(),
+        new ArrayList<Triggerable>(),
+        new ArrayList<Triggerable>()
       };
     }
 
@@ -762,11 +960,11 @@ abstract class Engine {
     registerOneShotTriggerables();
     registerEffectTriggerables();
 
-  	engineController.startEffectIndex = lx.engine.getEffects().size();
-  	registerIPadEffects();
-  	engineController.endEffectIndex = lx.engine.getEffects().size();
+    engineController.startEffectIndex = lx.engine.getEffects().size();
+    registerIPadEffects();
+    engineController.endEffectIndex = lx.engine.getEffects().size();
 
-    // 
+    //
     if (Config.enableAPC40) {
       // create a two-dimensional array, and copy... looks like an attempt to use static arrays instead
       apc40DrumpadTriggerables = new Triggerable[apc40DrumpadTriggerablesLists.length][];
@@ -785,13 +983,13 @@ abstract class Engine {
     apc40Drumpad.triggerables = apc40DrumpadTriggerables;
 
     // MIDI control
-    midiEngine = new MidiEngine(lx, effectKnobParameters, apc40Drumpad, drumpadVelocity, previewChannels, bpmTool, uiDeck,  outputBrightness, automationSlot, automation, automationStop);
+    midiEngine = new MidiEngine(lx, effectKnobParameters, apc40Drumpad, drumpadVelocity, previewChannels, bpmTool, uiDeck,  masterBrightnessEffect.getParameter(), automationSlot, automation, automationStop);
   }
 
   /* configureExternalOutput */
 
   void configureExternalOutput() {
-    // Output stage
+    // Output trees
     try {
       treeOutput = new LXDatagramOutput(lx);
       treeDatagrams = new LXDatagram[model.ipMap.size()];
@@ -799,7 +997,7 @@ abstract class Engine {
       for (Map.Entry<String, Cube[]> entry : model.ipMap.entrySet()) {
         String ip = entry.getKey();
         Cube[] cubes = entry.getValue();
-        treeOutput.addDatagram(treeDatagrams[ci++] = Output.treeClusterDatagram(cubes).setAddress(ip));
+        treeOutput.addDatagram(treeDatagrams[ci++] = Output.treeDatagram(cubes).setAddress(ip));
       }
       outputBrightness.parameters.add(treeOutput.brightness);
       treeOutput.enabled.setValue(true);
@@ -807,6 +1005,7 @@ abstract class Engine {
     } catch (Exception x) {
       System.out.println(x);
     }
+    // output shrubs
     try {
         shrubOutput = new LXDatagramOutput(lx);
         shrubDatagrams = new LXDatagram[model.shrubIpMap.size()];
@@ -814,11 +1013,27 @@ abstract class Engine {
         for (Entry<String, ShrubCube[]> entry : model.shrubIpMap.entrySet()) {
           String shrubIp = entry.getKey();
           ShrubCube[] shrubCubes = entry.getValue();
-          shrubOutput.addDatagram(shrubDatagrams[ci++] = Output.shrubClusterDatagram(shrubCubes).setAddress(shrubIp));
+          shrubOutput.addDatagram(shrubDatagrams[ci++] = Output.shrubDatagram(shrubCubes).setAddress(shrubIp));
         }
         outputBrightness.parameters.add(shrubOutput.brightness);
         shrubOutput.enabled.setValue(true);
         lx.addOutput(shrubOutput);
+      } catch (Exception x) {
+        System.out.println(x);
+      }
+      // output fairycircles
+      try {
+        fairyCircleOutput = new LXDatagramOutput(lx);
+        fairyCircleDatagrams = new LXDatagram[model.fairyCircleIpMap.size()];
+        int ci = 0;
+        for (Entry<String, BaseCube[]> entry : model.fairyCircleIpMap.entrySet()) {
+          String fairyCircleIp = entry.getKey();
+          BaseCube[] fairyCircleCubes = entry.getValue();
+          fairyCircleOutput.addDatagram(fairyCircleDatagrams[ci++] = Output.baseCubeDatagram(fairyCircleCubes).setAddress(fairyCircleIp));
+        }
+        outputBrightness.parameters.add(fairyCircleOutput.brightness);
+        fairyCircleOutput.enabled.setValue(true);
+        lx.addOutput(fairyCircleOutput);
       } catch (Exception x) {
         System.out.println(x);
       }
@@ -846,10 +1061,53 @@ abstract class Engine {
   }
 
   /* configureServer */
-
   void configureServer() {
     new AppServer(lx, engineController).start();
   }
+
+  // Log Helper
+  void log(String s) {
+  	  System.out.println(
+  		ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + " " + s );
+  }
+
+  class FrameRateLogTask implements LXLoopTask {
+
+  	public final LXEngine engine;
+
+  	long lastCheckTime = System.currentTimeMillis();
+  	long lastPrintTime = System.currentTimeMillis();
+
+  	FrameRateLogTask(LXEngine engine) {
+  		this.engine = engine;
+  	};
+
+  	@Override
+  	public void loop(double deltaMs) {
+
+  		long now = System.currentTimeMillis();
+
+        // how often do we have frame rates under 2 seconds?
+  		if (lastCheckTime + 2000 < now) {
+  			double fr = this.engine.frameRate();
+  			if (fr < 2.0f) {
+  				log( " low frame rate: " + fr );
+  			}
+  			lastCheckTime = now;
+  		}
+
+        // 120 seconds apart - 2 minutes
+  		if (lastPrintTime + 120000 < now) {
+  			double fr = this.engine.frameRate();
+  			log( " frame rate: " + fr );
+  			lastPrintTime = now;
+
+  		}
+  	}
+
+  }
+
+
 }
 
 // this is the controller used by the TCP connection system
@@ -875,9 +1133,21 @@ class EngineController {
   SpinEffect spinEffect;
   BlurEffect blurEffect;
   ScrambleEffect scrambleEffect;
+  BrightnessScaleEffect masterBrightnessEffect;
+  BrightnessScaleEffect autoplayBrightnessEffect;
+  BasicParameterProxy outputBrightness;
+  AutoPauseTask autoPauseTask;
+
+  double masterBrightnessStash = 1.0;
 
   EngineController(LX lx) {
     this.lx = lx;
+
+    System.out.println("creating auto pause task");
+    this.autoPauseTask = new AutoPauseTask();
+    lx.engine.addLoopTask(this.autoPauseTask);
+
+
   }
 
   // this gets the 'iPad channels' only
@@ -933,6 +1203,40 @@ class EngineController {
     scrambleEffect.amount.setValue(amount);
   }
 
+  // this controlls the OUTPUT brightness for controlling the amount
+  // of power consumed, it will NOT effect what you see in the model
+  // on processing
+  void setMasterBrightness(double amount) {
+    masterBrightnessEffect.amount.setValue(amount);
+  }
+
+  double getMasterBrightness() {
+    double ret = masterBrightnessEffect.getValue();
+    return( ret );
+  }
+
+  // This brightness effect only takes effect when autoplay
+  // is running. It allows separate control in times and spaces
+  // when we want to have a persistant way of controlling brightness
+  void setAutoplayBrightness(double amount) {
+    autoplayBrightnessEffect.amount.setValue(amount);
+  }
+
+  double getAutoplayBrightness() {
+    double ret = masterBrightnessEffect.getValue();
+    return( ret );
+  }
+
+  void setHue(double amount) {
+    System.out.println("Set Master Hue: "+amount+" not implemented yet");
+  }
+
+  double getHue() {
+    System.out.println("Get Master Hue: stub");
+    return(0.0f);
+  }
+
+
   void setAutoplay(boolean autoplay) {
     setAutoplay(autoplay, false);
   }
@@ -945,6 +1249,14 @@ class EngineController {
     if (autoplay != isAutoplaying || forceUpdate) {
       isAutoplaying = autoplay;
       automation.setPaused(!autoplay);
+
+      // if we are disabling autoplay, stash the last brightness
+      if (autoplay) {
+        setMasterBrightness(masterBrightnessStash);
+      } else {
+        masterBrightnessStash = getMasterBrightness();
+      }
+
 
       // I think this should only effect base channels? bb
       if (previousChannelIsOn == null) {
@@ -982,10 +1294,180 @@ class EngineController {
           effect.enabled.setValue(!autoplay);
         }
       }
+
+      // this effect is enabled or disabled if autoplay
+      autoplayBrightnessEffect.enabled.setValue(autoplay);
+      // this is a bit of a hack. If we're coming out of "controller" and
+      // 
+
     }
   }
 
+    /* force pauses whenever autoplay is playing (only then) */
+    /* moved this into EngineController because it seems more right, it controls things
+       and also we need to bang it from the network, which has an Engine Controller but
+       no easy link to Engine */
+  class AutoPauseTask implements LXLoopTask {
+
+  	long startTime = System.currentTimeMillis() / 1000;
+  	boolean lightsOn = true;
+
+    boolean fadeing = false;
+    long    fadeStart;
+    Long    fadeEnd;
+    boolean fadeIn = false; // or its is a fade out
+
+    // can't use lightson / lightsoff because that takes into account whether we are autoplay
+    boolean pauseStateRunning() {
+
+    	// if not configured, running
+    	if (Config.pauseRunMinutes == 0.0 || Config.pausePauseMinutes == 0.0) return(true);
+
+    	double timeRemaining;
+    	long now = ( System.currentTimeMillis() / 1000);
+    	long totalPeriod = (long) ((Config.pauseRunMinutes + Config.pausePauseMinutes) * 60.0);
+  		long secsIntoPeriod = (now - startTime) % totalPeriod;
+
+  		// paused
+  		if ((Config.pauseRunMinutes * 60.0) <= secsIntoPeriod) {
+  			//log("pauseStateRunning: false");
+  			return(false);
+  		}
+  		//log("pauseStateRunning: true");
+  		return(true);
+    }
+
+    // number of seconds left in current state
+    // does NOT include fade
+    // does NOT account for whether we are in auto-play
+    double pauseTimeRemaining() {
+
+    	if (Config.pauseRunMinutes == 0.0 || Config.pausePauseMinutes == 0.0) return(0.0);
+    	final double pauseRunSeconds = Config.pauseRunMinutes * 60.0;
+    	final double pausePauseSeconds = Config.pausePauseMinutes * 60.0;
+
+    	double timeRemaining;
+    	long now = ( System.currentTimeMillis() / 1000);
+    	long totalPeriod = (long) (pauseRunSeconds + pausePauseSeconds);
+  		long secsIntoPeriod = (now - startTime) % totalPeriod;
+
+  		// we're in paused
+  		if (pauseRunSeconds <= secsIntoPeriod) {
+  			timeRemaining = pausePauseSeconds  - (secsIntoPeriod - pauseRunSeconds);
+  		}
+  		// we're in running
+  		else {
+  			timeRemaining = pauseRunSeconds - secsIntoPeriod;
+  		}
+
+    	//log("pauseTimeRemaining: "+timeRemaining);
+
+  		return(timeRemaining);
+    }
+
+    // reset to beginning of running - next loop around will do the right thing
+    void pauseResetRunning() {
+    	log("pause: Reset to Running: ");
+    	startTime = System.currentTimeMillis() / 1000;
+    }
+
+    // reset to beginning of pause (which is in the past), this is a little counter intuitive but the start of Pause is Run in the past
+    void pauseResetPaused() {
+      log("pause: reset to Paused: ");
+    	startTime = ( System.currentTimeMillis() / 1000 ) - (long)Math.floor(Config.pauseRunMinutes * 60.0);
+    }
+
+    // these nows are in miliseconds
+    void startFadeIn() {
+      fadeStart = System.currentTimeMillis();
+      fadeEnd = fadeStart + (long)( Config.pauseFadeInSeconds * 1000 );
+      fadeIn = true;
+      fadeing = true;
+      //log(" start Fade In ");
+      // no point in trying to set not, hasn't changed enough
+    }
+
+    // these nows are in miliseconds
+    void startFadeOut() {
+      fadeStart = System.currentTimeMillis();
+      fadeEnd = fadeStart + (long)( Config.pauseFadeOutSeconds * 1000 );
+      fadeIn = false;
+      fadeing = true;
+      //log(" start fade out ");
+      // no point in trying to set not, hasn't changed enough
+    }
+
+    void setFadeValue() {
+      long now = System.currentTimeMillis();
+      if (now > fadeEnd) {
+        fadeing = false;
+        outputBrightness.setValue(fadeIn ? 1.0f : 0.0f);
+        lightsOn = fadeIn ? true : false;
+        //log(" fade over ");
+        return;
+      }
+      double value = ((double)(now - fadeStart)) / (double)((fadeEnd - fadeStart));
+      // log(" fade value: fadeStart "+fadeStart+" fadeEnd "+fadeEnd+" now "+now);
+      if (fadeIn == false) { value = 1.0f - value; }
+      outputBrightness.setValue(value);
+      //log(" fadeing: "+(fadeIn?"in ":"out ")+" value: "+value);
+    }
+
+  	@Override
+  	public void loop(double deltaMs) {
+
+		  // if not configured just quit (allows for on-the-fly-config-change)
+  		if (Config.pauseRunMinutes == 0.0 || Config.pausePauseMinutes == 0.0) {
+  			return;
+  		}
+
+      // no matter what, if we start fading, finish it
+      if (fadeing) {
+        setFadeValue();
+        return;
+      }
+
+  		// if we are not autoplaying, the ipad has us, and we trust the ipad
+  		if (! isAutoplaying ) {
+  			if (lightsOn == false) {
+  				log( " PauseTask: not autoplaying, lightson unconditionally " );
+  				startFadeIn();
+  			}
+  			return;
+  		}
+
+       // move these to seconds for better scale
+      long now = ( System.currentTimeMillis() / 1000);
+
+  		// check if I should be on or off
+  		boolean shouldLightsOn = true;
+  		long totalPeriod = (long) ((Config.pauseRunMinutes + Config.pausePauseMinutes) * 60.0);
+  		long secsIntoPeriod = (now - startTime) % totalPeriod;
+  		if ((Config.pauseRunMinutes * 60.0) <= secsIntoPeriod) shouldLightsOn = false;
+
+      //log( " PauseTask: totalPeriod "+totalPeriod+" timeIntoPeriod "+secsIntoPeriod+" should: "+shouldLightsOn );
+      //log( " PauseTask: now  "+now+" startTime "+startTime );
+
+  		if (shouldLightsOn && lightsOn == false) {
+  			log( " PauseTask: lightson: for "+Config.pauseRunMinutes+" minutes" );
+        	startFadeIn();
+  		}
+  		else if (shouldLightsOn == false && lightsOn) {
+  			log(" PauseTask: lightsoff: for "+Config.pausePauseMinutes+" minutes" );
+        	startFadeOut();
+  		}
+  	}
+  }
+
+   // Log Helper
+  ZoneId localZone = ZoneId.of("America/Los_Angeles");
+  void log(String s) {
+  	  System.out.println(
+  		  ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + " " + s );
+  }
+
 }
+
 
 class TreesTransition extends LXTransition {
 
@@ -995,15 +1477,17 @@ class TreesTransition extends LXTransition {
   private LXColor.Blend blendType = LXColor.Blend.ADD;
   final ChannelTreeLevels[] channelTreeLevels;
   final ChannelShrubLevels[] channelShrubLevels;
+  final ChannelFairyCircleLevels[] channelFairyCircleLevels;
   final BasicParameter fade = new BasicParameter("FADE", 1);
 
-  TreesTransition(LX lx, LXChannel channel, Model model, ChannelTreeLevels[] channelTreeLevels, ChannelShrubLevels[] channelShrubLevels) {
+  TreesTransition(LX lx, LXChannel channel, Model model, ChannelTreeLevels[] channelTreeLevels, ChannelShrubLevels[] channelShrubLevels, ChannelFairyCircleLevels[] channelFairyCircleLevels) {
     super(lx);
     this.model = model;
     addParameter(blendMode);
     this.channel = channel;
     this.channelTreeLevels = channelTreeLevels;
     this.channelShrubLevels = channelShrubLevels;
+    this.channelFairyCircleLevels = channelFairyCircleLevels;
 
     blendMode.addListener(new LXParameterListener() {
       @Override
@@ -1092,39 +1576,83 @@ class TreesTransition extends LXTransition {
       }
       shrubIndex++;
     }
+
+    int fcIndex = 0;
+    double fcLevel;
+    for (FairyCircle fairyCircle : model.fairyCircles) {
+      float amount = 1.0f; // default value if there is no extra level
+      if (this.channel.getIndex() < this.channelFairyCircleLevels.length) {
+        fcLevel = this.channelFairyCircleLevels[this.channel.getIndex()].getValue(fcIndex);
+        amount = (float) (progress * fcLevel);
+      }
+      if (amount == 0.0f) {
+        for (LXPoint p : fairyCircle.points) {
+          colors[p.index] = c1[p.index];
+        }
+      } else if (amount == 1.0f) {
+        for (LXPoint p : fairyCircle.points) {
+          int color2 = (blendType == LXColor.Blend.SUBTRACT) ? LX.hsb(0, 0, LXColor.b(c2[p.index])) : c2[p.index];
+          colors[p.index] = LXColor.blend(c1[p.index], color2, this.blendType);
+        }
+      } else {
+        for (LXPoint p : fairyCircle.points) {
+          int color2 = (blendType == LXColor.Blend.SUBTRACT) ? LX.hsb(0, 0, LXColor.b(c2[p.index])) : c2[p.index];
+          colors[p.index] = LXColor.lerp(c1[p.index], LXColor.blend(c1[p.index], color2, this.blendType), amount);
+        }
+      }
+      fcIndex++;
+    }
+
+
   }
 }
 
 
 
-class ChannelTreeLevels{
+class ChannelTreeLevels {
   private BasicParameter[] levels;
-  ChannelTreeLevels(int numTrees){
+  ChannelTreeLevels(int numTrees) {
     levels = new BasicParameter[numTrees];
-    for (int i=0; i<numTrees; i++){
+    for (int i=0; i<numTrees; i++) {
       this.levels[i] = new BasicParameter("tree" + i, 1);
     }
   }
-  public BasicParameter getParameter(int i){
+  public BasicParameter getParameter(int i) {
     return this.levels[i];
   }
-  public double getValue(int i){
+  public double getValue(int i) {
     return this.levels[i].getValue();
   }
 }
 
-class ChannelShrubLevels{
+class ChannelShrubLevels {
     private BasicParameter[] levels;
-    ChannelShrubLevels(int numShrubs){
+    ChannelShrubLevels(int numShrubs) {
       levels = new BasicParameter[numShrubs];
-      for (int i=0; i<numShrubs; i++){
+      for (int i=0; i<numShrubs; i++){ 
         this.levels[i] = new BasicParameter("shrub" + i, 1);
+      }
+    }
+    public BasicParameter getParameter(int i) {
+      return this.levels[i];
+    }
+    public double getValue(int i) {
+      return this.levels[i].getValue();
+    }
+  }
+
+class ChannelFairyCircleLevels {
+    private BasicParameter[] levels;
+    ChannelFairyCircleLevels(int numFairyCircles) {
+      levels = new BasicParameter[numFairyCircles];
+      for (int i=0; i<numFairyCircles; i++){
+        this.levels[i] = new BasicParameter("fc" + i, 1);
       }
     }
     public BasicParameter getParameter(int i){
       return this.levels[i];
     }
-    public double getValue(int i){
+    public double getValue(int i) {
       return this.levels[i].getValue();
     }
   }

@@ -1,0 +1,27 @@
+[
+	{
+			"ry" : 170,
+			"x" : 0,
+			"z" : -300,
+			"type" : "classic",
+			"cubeSizeIndex": 1,
+			"pieceId" : "front",
+			"shrubIpAddress" : "10.0.0.201"
+	},{
+			"ry" : 80,
+			"x" : -300,
+			"z" : 0,
+			"type" : "classic",
+			"cubeSizeIndex": 1,
+			"pieceId" : "middle",
+			"shrubIpAddress" : "10.0.0.220"
+	},{
+			"ry" : -10,
+			"x" : 40,
+			"z" : 240,
+			"type" : "classic",
+			"cubeSizeIndex": 1,
+			"pieceId" : "rear",
+			"shrubIpAddress" : "10.0.0.210"
+	}
+]

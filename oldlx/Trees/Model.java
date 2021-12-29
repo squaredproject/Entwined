@@ -29,7 +29,6 @@ class Model extends LXModel {
      */
     public final List<Cube> cubes;
 
-
     public final List<BaseCube> baseCubes;
 
     // ipMap is a list of cubes - all the cubes regardless of lenghts of outputs - only for trees
@@ -40,10 +39,13 @@ class Model extends LXModel {
     private final ArrayList<ModelTransform> modelTransforms = new ArrayList<ModelTransform>();
     private final List<TreeConfig> treeConfigs;
 
-    Model(List <NDBConfig> ndbConfigs, List<TreeConfig> treeConfigs, List<TreeCubeConfig> cubeConfig, List<ShrubConfig> shrubConfigs,
-          List<ShrubCubeConfig> shrubCubeConfig) {
+    public final String[] pieceIds;
+    public final Map<String, Integer> pieceIdMap;
 
-        super(new Fixture(ndbConfigs, treeConfigs, cubeConfig, shrubConfigs, shrubCubeConfig));
+    Model(List <NDBConfig> ndbConfigs, List<TreeConfig> treeConfigs, List<TreeCubeConfig> cubeConfigs, List<ShrubConfig> shrubConfigs,
+          List<ShrubCubeConfig> shrubCubeConfigs, List<FairyCircleConfig> fairyCircleConfigs) {
+
+        super(new Fixture(ndbConfigs, treeConfigs, cubeConfigs, shrubConfigs, shrubCubeConfigs, fairyCircleConfigs));
 
         Fixture f = (Fixture) this.fixtures.get(0);
 
@@ -52,6 +54,7 @@ class Model extends LXModel {
             ndbMap.put(n.ipAddress, n);
         }
 
+        // Trees
         this.treeConfigs = treeConfigs;
         List<Cube> _cubes = new ArrayList<Cube>();
         List<TreeCubeConfig> _inactiveCubeConfigs = new ArrayList();
@@ -62,6 +65,7 @@ class Model extends LXModel {
         }
         this.cubes = Collections.unmodifiableList(_cubes);
 
+        // Shrubs
         this.shrubConfigs = shrubConfigs;
         List<ShrubCube> _shrubCubes = new ArrayList<ShrubCube>();
         this.shrubs = Collections.unmodifiableList(f.shrubs);
@@ -71,6 +75,56 @@ class Model extends LXModel {
         }
         this.shrubCubes = Collections.unmodifiableList(_shrubCubes);
 
+        // fairy circles
+        this.fairyCircleConfigs = fairyCircleConfigs;
+        List<BaseCube> _fairyCircleCubes = new ArrayList<BaseCube>();
+        this.fairyCircles = Collections.unmodifiableList(f.fairyCircles);
+        for (FairyCircle fairyCircle : this.fairyCircles) {
+            fairyCircleIpMap.putAll(fairyCircle.ipMap);
+            _fairyCircleCubes.addAll(fairyCircle.cubes);
+        }
+        this.fairyCircleCubes = Collections.unmodifiableList(_fairyCircleCubes);
+
+        // get a list of the names all the pieces, and a map 
+        // so you can get from a string to the id array fastest
+
+        List<String> _pieceIds = new ArrayList<String>();
+        Map<String, Integer> _pieceIdMap = new HashMap<String, Integer>();
+
+        Integer pieceIndex = new Integer(0);
+        for (Tree tree : this.trees) {
+            if (tree.pieceId != null) {
+                _pieceIds.add(tree.pieceId);
+                _pieceIdMap.put(tree.pieceId, pieceIndex);
+                for (Cube cube : tree.cubes) { // necessary to use integer compare
+                    cube.pieceIndex = pieceIndex;
+                }
+                pieceIndex = pieceIndex + 1;
+            }
+        }
+        for (Shrub shrub : this.shrubs) {
+            if (shrub.pieceId != null) {
+                _pieceIds.add(shrub.pieceId);
+                _pieceIdMap.put(shrub.pieceId, pieceIndex);
+                for (ShrubCube cube : shrub.cubes) {
+                    cube.pieceIndex = pieceIndex;
+                }
+                pieceIndex = pieceIndex + 1;
+            }
+        }
+        for (FairyCircle fairyCircle : this.fairyCircles) {
+            if (fairyCircle.pieceId != null) {
+                _pieceIds.add(fairyCircle.pieceId);
+                _pieceIdMap.put(fairyCircle.pieceId, pieceIndex);
+                for (BaseCube cube : fairyCircle.cubes) {
+                    cube.pieceIndex = pieceIndex;
+                }
+                pieceIndex = pieceIndex + 1;
+            }
+        }
+        this.pieceIds = _pieceIds.toArray(new String[_pieceIds.size()]);
+        this.pieceIdMap = Collections.unmodifiableMap(_pieceIdMap);
+        System.out.println(" pieces are: "+this.pieceIds);
 
         // Adding all cubes to baseCubes
         List<BaseCube> _baseCubes = new ArrayList<BaseCube>();
@@ -78,9 +132,11 @@ class Model extends LXModel {
         for (Tree tree : this.trees) {
             _baseCubes.addAll(tree.cubes);
         }
-
         for (Shrub shrub : this.shrubs) {
             _baseCubes.addAll(shrub.cubes);
+        }
+        for (FairyCircle fairyCircle : this.fairyCircles) {
+            _baseCubes.addAll(fairyCircle.cubes);
         }
         this.baseCubes = Collections.unmodifiableList(_baseCubes);
 
@@ -92,27 +148,30 @@ class Model extends LXModel {
 
         final List<Shrub> shrubs = new ArrayList<Shrub>();
 
+        final List<FairyCircle> fairyCircles = new ArrayList<FairyCircle>();
+
         private Fixture(List<NDBConfig> ndbConfigs, List<TreeConfig> treeConfigs, List<TreeCubeConfig> cubeConfigs,
-                    List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfigs) {
+                    List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfigs, List<FairyCircleConfig> fairyCircleConfigs) {
 
             for (int i = 0; i < treeConfigs.size(); i++) {
                 TreeConfig tc = treeConfigs.get(i);
-                trees.add(new Tree(ndbConfigs, cubeConfigs, i, tc.x, tc.z, tc.ry, tc.canopyMajorLengths, tc.layerBaseHeights));
-            }
-            for (Tree tree : trees) {
-                for (LXPoint p : tree.points) {
-                    points.add(p);
-                }
+                Tree t = new Tree(ndbConfigs, cubeConfigs, i, tc.pieceId, tc.x, tc.z, tc.ry, tc.canopyMajorLengths, tc.layerBaseHeights);
+                trees.add(t);
+                points.addAll(t.points);
             }
 
             for (int i = 0; i < shrubConfigs.size(); i++) {
                 ShrubConfig sc = shrubConfigs.get(i);
-                shrubs.add(new Shrub(shrubCubeConfigs, i, sc.x, sc.z, sc.ry));
+                Shrub s = new Shrub(sc, shrubCubeConfigs, i);
+                shrubs.add(s);
+                points.addAll(s.points);
             }
-            for (Shrub shrub : shrubs) {
-                for (LXPoint p : shrub.points) {
-                    points.add(p);
-                }
+
+            for (int i = 0; i < fairyCircleConfigs.size(); i++) {
+                FairyCircleConfig fcc = fairyCircleConfigs.get(i);
+                FairyCircle fc = new FairyCircle(fcc, i);
+                fairyCircles.add(fc);
+                points.addAll(fc.points);
             }
         }
     }
@@ -132,13 +191,17 @@ class Model extends LXModel {
         }
     }
 
+    // BB: todo, not sure what this is all about.
+    // why would you add all the model transforms to all the things?
+
     public void addModelTransform(ModelTransform modelTransform) {
         modelTransforms.add(modelTransform);
         shrubModelTransforms.add(modelTransform);
-
+        //fairyCircleModelTransforms.add(modelTransforms);
     }
 
     public void runTransforms() {
+        // For the trees
         for (Cube cube : cubes) {
             cube.resetTransform();
         }
@@ -151,6 +214,7 @@ class Model extends LXModel {
             cube.didTransform();
         }
 
+        // for the shrubs
         for (ShrubCube cube : shrubCubes) {
             cube.resetTransform();
         }
@@ -163,6 +227,21 @@ class Model extends LXModel {
         for (ShrubCube cube : shrubCubes) {
             cube.didTransform();
         }
+
+        // for the fairy circles
+        for (BaseCube cube : fairyCircleCubes) {
+            cube.resetTransform();
+        }
+        for (Effect modelTransform : fairyCircleModelTransforms) {
+            ModelTransform fairyCircleModelTransform = (ModelTransform) modelTransform;
+            if (fairyCircleModelTransform.isEnabled()) {
+                fairyCircleModelTransform.transform(this);
+            }
+        }
+        for (BaseCube cube : shrubCubes) {
+            cube.didTransform();
+        }
+
     }
 
     /**
@@ -212,9 +291,45 @@ class Model extends LXModel {
         }
     }
 
-    public void addModelTransform(Effect shrubModelTransform) {
+    public void addShrubModelTransform(Effect shrubModelTransform) {
         shrubModelTransforms.add((ModelTransform) shrubModelTransform);
     }
+
+
+    /**
+     * FairyCircles in the model
+     */
+    public final List<FairyCircle> fairyCircles;
+
+    /**
+     * FairyCircles have BaseCubes - the cubes in the model
+     */
+    public final List<BaseCube> fairyCircleCubes;
+    public final Map<String, BaseCube[]> fairyCircleIpMap = new HashMap<String, BaseCube[]>();
+
+    private final ArrayList<ModelTransform> fairyCircleModelTransforms = new ArrayList<>();
+    private final List<FairyCircleConfig> fairyCircleConfigs;
+
+    public void runFairyCircleTransforms() {
+        for (BaseCube cube : fairyCircleCubes) {
+            cube.resetTransform();
+        }
+        for (Effect modelTransform : fairyCircleModelTransforms) {
+            FairyCircleModelTransform fairyCircleModelTransform = (FairyCircleModelTransform) modelTransform;
+            if (fairyCircleModelTransform.isEnabled()) {
+                fairyCircleModelTransform.transform(this);
+            }
+        }
+        for (BaseCube cube : fairyCircleCubes) {
+            cube.didTransform();
+        }
+    }
+
+    public void addFairyCircleModelTransform(Effect fairyCircleModelTransform) {
+        fairyCircleModelTransforms.add((ModelTransform) fairyCircleModelTransform);
+    }
+
+
 }
 
 class Tree extends LXModel {
@@ -245,6 +360,11 @@ class Tree extends LXModel {
     public final int index;
 
     /**
+     * pieceId which is the string denoting the piece
+     */
+    public final String pieceId;
+
+    /**
      * x-position of center of base of tree
      */
     public final float x;
@@ -259,10 +379,12 @@ class Tree extends LXModel {
      */
     public final float ry;
 
-    Tree(List<NDBConfig> ndbConfigs, List<TreeCubeConfig> cubeConfig, int treeIndex, float x, float z, float ry, int[] canopyMajorLengths, int[] layerBaseHeights) {
-        super(new Fixture(ndbConfigs, cubeConfig, treeIndex, x, z, ry, canopyMajorLengths, layerBaseHeights));
+    Tree(List<NDBConfig> ndbConfigs, List<TreeCubeConfig> cubeConfig, int treeIndex, String pieceId, float x, float z, float ry, 
+            int[] canopyMajorLengths, int[] layerBaseHeights) {
+        super(new Fixture(ndbConfigs, cubeConfig, treeIndex, pieceId, x, z, ry, canopyMajorLengths, layerBaseHeights));
         Fixture f = (Fixture) this.fixtures.get(0);
         this.index = treeIndex;
+        this.pieceId = pieceId;
         this.cubes = Collections.unmodifiableList(f.cubes);
         this.treeLayers = f.treeLayers;
         this.ipMap = f.ipMap;
@@ -285,7 +407,7 @@ class Tree extends LXModel {
         public final LXTransform transform;
         public final List<TreeCubeConfig> inactiveCubeConfigs = new ArrayList();
 
-        Fixture(List<NDBConfig> ndbConfigs, List<TreeCubeConfig> cubeConfig, int treeIndex, float x, float z, float ry, int[] canopyMajorLengths, int[] layerBaseHeights) {
+        Fixture(List<NDBConfig> ndbConfigs, List<TreeCubeConfig> cubeConfig, int treeIndex, String pieceId, float x, float z, float ry, int[] canopyMajorLengths, int[] layerBaseHeights) {
             transform = new LXTransform();
             transform.translate(x, 0, z);
             transform.rotateY(ry * Utils.PI / 180);
@@ -316,16 +438,34 @@ class Tree extends LXModel {
                             continue;
                         }
                         cc.isActive = true;
-                        Cube cube = new Cube(this.transformPoint(p), p, cc);
+                        Cube cube = new Cube(this.transformPoint(p), p, cc, pieceId);
                         cubes.add(cube);
                         if (!ipMap.containsKey(cc.ipAddress)) {
                             ipMap.put(cc.ipAddress, new Cube[ndbConfig.getNumberCubes()]);
                         }
                         Cube[] ndbCubes = ipMap.get(cc.ipAddress);
 
+// Note to the unwary! You can have an NPE here. It means that the NDB configuration says that
+// we only have so many cubes, and your cube file says you have more than that. 
+// Go back and look at your NDB file and the file which generated your entwinedCubes.json
+// to see which mistake you've made. The below prints only happen if there
+// would have been an NPE and will help you figure out which NDB
+// you likely made the mistake on.
+//   A much cooler program would check for the index out of bounds---- but we don't
+// really want to continue if there was a mistake in the model config
+// The "outputIndex" is the output (probably 0 index instead of 1?)
+// I think the mistake could be in an earlier output tho?
+// the IP address will be correct tho
+
+
+                        if (ndbConfig.getOutputBase(cc.outputIndex) + cc.stringOffsetIndex >= ndbConfig.getNumberCubes()) {
+                          System.out.println("outputIndex: "+cc.outputIndex+" cc.stringOffsetIndex "+cc.stringOffsetIndex);
+                          System.out.println("ndbConfig OutputBase: " + ndbConfig.getOutputBase(cc.outputIndex));
+                          System.out.println("ipaddress: "+cc.ipAddress+" ndbConfig numberCubes "+ndbConfig.getNumberCubes());
+                        }
+
                         ndbCubes[ndbConfig.getOutputBase(cc.outputIndex) + cc.stringOffsetIndex] = cube;
 
-                        //ndbCubes[ndbCubescc.outputIndex] = cube;
                     }
                 }
             }
@@ -349,7 +489,7 @@ class Tree extends LXModel {
                         cc.layerIndex = 0;
                         cc.ipAddress = ip;
                         cc.isActive = false;
-                        Cube cube = new Cube(new Vec3D(0, 0, 0), new Vec3D(0, 0, 0), cc);
+                        Cube cube = new Cube(new Vec3D(0, 0, 0), new Vec3D(0, 0, 0), cc, pieceId);
                         cubes.add(cube);
                         ndbCubes[i] = cube;
                     }
@@ -378,6 +518,7 @@ class TreeConfig {
     float ry;
     int[] canopyMajorLengths;
     int[] layerBaseHeights;
+    String pieceId;
 }
 
 // we need to know the lengths of each output's string ( in cubes )
@@ -487,10 +628,14 @@ class EntwinedBranch {
     private static final double holeSpacing = 8;
 
     EntwinedBranch(int canopyMajorLength, int rotationalPosition, int layerBaseHeight) {
-        int rotationIndex = rotationalPosition > 4 ? 4 - rotationalPosition % 4 : rotationalPosition;
+        // 5 different branch positions to index: the high, the low, and the 3 in between
+        int rotationIndex = rotationalPosition > 4 ? ( 4 - rotationalPosition % 4 ) : rotationalPosition;
+        // MajorLength is probably inches? why is scaling?
         float canopyScaling = canopyMajorLength / 180;
-        double branchLengthRatios[] = {0.37, 0.41, 0.50, 0.56, 0.63};
+        // this is REALLY STRANGE that the ratios are so small.
+        double branchLengthRatios[] = {0.37, 0.41, 0.50, 0.56, 0.63}; // ratios for rotational indexes
         double heightAdjustmentFactors[] = {1.0, 0.96, 0.92, 0.88, 0.85};
+        // branch length is the majorLen but so much less... lengthRatios are very short
         double branchLength = canopyMajorLength * branchLengthRatios[rotationIndex];
         xKeyPoints[4] = branchLength;
         xKeyPoints[3] = branchLength * 0.917;
@@ -510,13 +655,14 @@ class EntwinedBranch {
         List<Vec3D> _availableMountingPoints = new ArrayList<Vec3D>();
         LXTransform transform = new LXTransform();
         transform.rotateY(rotationalPosition * 45 * (Utils.PI / 180));
-        double newX = xKeyPoints[0] + 2;
-        while (newX < xKeyPoints[NUM_KEYPOINTS - 1]) {
+        // change to outside-in - 0 offset is at the end
+        double newX = xKeyPoints[NUM_KEYPOINTS - 1];
+          while (newX > 0) {
             int keyPointIndex = 0;
             while (xKeyPoints[keyPointIndex] < newX && keyPointIndex < NUM_KEYPOINTS) {
                 keyPointIndex++;
             }
-            if (keyPointIndex < NUM_KEYPOINTS) {
+            if (keyPointIndex < NUM_KEYPOINTS && keyPointIndex > 0) {
                 double ratio = (newX - xKeyPoints[keyPointIndex - 1]) / (xKeyPoints[keyPointIndex] - xKeyPoints[keyPointIndex - 1]);
                 double newY = yKeyPoints[keyPointIndex - 1] + ratio * (yKeyPoints[keyPointIndex] - yKeyPoints[keyPointIndex - 1])
                         + layerBaseHeight;
@@ -530,29 +676,47 @@ class EntwinedBranch {
                 _availableMountingPoints.add(new Vec3D(transform.x(), transform.y(), transform.z()));
                 transform.pop();
             }
-            newX += holeSpacing;
+            newX -= holeSpacing;
         }
         this.availableMountingPoints = Collections.unmodifiableList(_availableMountingPoints);
     }
 
+
+// making branch: canopyMajor 72 rotational 0 layerBaseHeight24
+// num availableMountingPoints 8
+// xkp0: 0.0 xkp1: 8.3916 xkp2: 16.59672 xkp3: 24.428880000000003 xkp4: 26.64
+// making branch: canopyMajor 72 rotational 1 layerBaseHeight24
+// num availableMountingPoints 8
+// xkp0: 0.0 xkp1: 9.2988 xkp2: 18.39096 xkp3: 27.06984 xkp4: 29.52
+// making branch: canopyMajor 72 rotational 2 layerBaseHeight24
+// num availableMountingPoints 10
+// xkp0: 0.0 xkp1: 11.34 xkp2: 22.428 xkp3: 33.012 xkp4: 36.0
+// making branch: canopyMajor 72 rotational 3 layerBaseHeight24
+// num availableMountingPoints 10
+// xkp0: 0.0 xkp1: 12.700800000000003 xkp2: 25.119360000000004 xkp3: 36.97344000000001 xkp4: 40.32000000000001
+// making branch: canopyMajor 72 rotational 4 layerBaseHeight24
+// num availableMountingPoints 12
+// xkp0: 0.0 xkp1: 14.2884 xkp2: 28.25928 xkp3: 41.59512 xkp4: 45.36
+// making branch: canopyMajor 72 rotational 5 layerBaseHeight24
+// num availableMountingPoints 10
+// xkp0: 0.0 xkp1: 12.700800000000003 xkp2: 25.119360000000004 xkp3: 36.97344000000001 xkp4: 40.32000000000001
+// making branch: canopyMajor 72 rotational 6 layerBaseHeight24
+// num availableMountingPoints 10
+// xkp0: 0.0 xkp1: 11.34 xkp2: 22.428 xkp3: 33.012 xkp4: 36.0
+// making branch: canopyMajor 72 rotational 7 layerBaseHeight24
+// num availableMountingPoints 8
+// xkp0: 0.0 xkp1: 9.2988 xkp2: 18.39096 xkp3: 27.06984 xkp4: 29.52
+
+
 }
 
 class Cube extends BaseCube {
-  public static final int[] PIXELS_PER_CUBE = { 6, 6, 6, 12, 12 }; // Tiny cubes actually have less, but for Entwined we want to
-                                                                   // tell the NDB that everything is 6
-  public static final float[] CUBE_SIZES = { 4f, 7.5f, 11.25f, 15f, 16.5f };
-  /**
-   * Size of this cube, one of SMALL/MEDIUM/LARGE/GIANT
-   */
-  public final float size;
 
-  public final int pixels;
   public TreeCubeConfig config = null;
 
-  Cube(Vec3D globalPosition, Vec3D treePosition, TreeCubeConfig config) {
-      super(globalPosition, treePosition, config.treeIndex, config.treeOrShrub);
-      this.size = CUBE_SIZES[config.cubeSizeIndex];
-      this.pixels = PIXELS_PER_CUBE[config.cubeSizeIndex];
+  Cube(Vec3D globalPosition, Vec3D treePosition, TreeCubeConfig config, String pieceId) {
+      super(globalPosition, treePosition, config.treeIndex, config.pieceType, pieceId, config.cubeSizeIndex);
+
       this.config = config;
   }
 }
@@ -566,7 +730,7 @@ class TreeCubeConfig {
     int outputIndex; // which NDB output it is attached to
     int stringOffsetIndex; // which offset of string it is
     String ipAddress;
-    TreeOrShrub treeOrShrub = TreeOrShrub.TREE;
+    PieceType pieceType = PieceType.TREE;
 
     // For Tree
     int treeIndex;
@@ -590,7 +754,8 @@ abstract class ModelTransform extends Effect {
     ModelTransform(LX lx) {
         super(lx);
         model.addModelTransform(this);
-    //           ((ShrubModel) shrubModel).addShrubModelTransform(this);
+        model.addShrubModelTransform(this);
+        model.addFairyCircleModelTransform(this);
     }
 
     @Override
@@ -611,7 +776,6 @@ class ModelTransformTask implements LXLoopTask {
     @Override
     public void loop(double deltaMs) {
         model.runTransforms();
-    //        model.runShrubTransforms();
     }
 }
 

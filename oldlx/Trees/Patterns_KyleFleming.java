@@ -20,6 +20,31 @@ import toxi.geom.Vec2D;
 import toxi.math.noise.PerlinNoise;
 import toxi.math.noise.SimplexNoise;
 
+class BrightnessScaleEffect extends Effect {
+
+  final BasicParameter amount = new BasicParameter("Brightness", 1);
+
+  BrightnessScaleEffect(LX lx) {
+    super(lx);
+    enable();
+  }
+
+  public float getValue() {
+    return( amount.getValuef() );
+  }
+
+  public BasicParameter getParameter() {
+    return(amount);
+  }
+
+  public void run(double deltaMs) {
+    if (amount.getValue() < 1) {
+      LXColor.scaleBrightness(colors, amount.getValuef(), null);
+    }
+  }
+}
+
+
 class MappingPattern extends TSPattern {
 
   int numBits;

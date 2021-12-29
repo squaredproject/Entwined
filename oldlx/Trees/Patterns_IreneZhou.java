@@ -206,7 +206,7 @@ class Lattice extends TSPattern {
 }
 
 class Fire extends TSTriggerablePattern {
-  final BasicParameter maxHeight = new BasicParameter("HEIGHT", 0.8, 0.3, 1);
+  final BasicParameter maxHeight = new BasicParameter("HEIGHT", 5.0, 0.3, 12);
   final BasicParameter flameSize = new BasicParameter("SIZE", 30, 10, 75);  
   final BasicParameter flameCount = new BasicParameter ("FLAMES", 75, 0, 75);
   final BasicParameter hue = new BasicParameter("HUE", 0, 0, 360);

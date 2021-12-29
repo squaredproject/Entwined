@@ -358,11 +358,105 @@ class ColorEffect extends Effect {
   }
 }
 
-class ColorEffect2 extends ColorEffect {
-  ColorEffect2(LX lx) {
+
+// Three settings (?):
+// which hue to use as the center
+// how "wide" to make it
+// consider: "squish" vs "push"
+
+// Problem: it would be nice, especially on certain holidays, to have a filter that gives the entire sculpture
+// a certain color. Valentine's day, St Patrics Day, Halloween, Christmas.... all have colors
+// One option today is to put a Solid Color and Multiply - but this means the entire sculpture becomes
+// that one color. We'd rather have white come through as white - which is why doing the filter in HSV would give
+// a better result. Next question is how sophisticated to get - you could convolve with a sin curve (which)
+//
+// Need a way to enable and disable the effect. Not sure how to do that yet.
+//
+// First: let's just set the hue to a color, period. That should leave white and black where they are, because
+// they aren't touched by Hue.
+// Second: let's try having an "angle" (like 15 degrees) and everything outside that gets nailed to the hue in that range
+// artist seems OK with the concept of "hue" and "angle", which gives us two real controls.
+// We want DEG to be "transparent" at 0, and most at 180 (which is kinda backward)
+// Author: Brian Bulkowski 2021 brian@bulkowsk.org
+
+class HueFilterEffect extends Effect {
+  
+  final BasicParameter hueFilter = new BasicParameter("HUEF", 0, 360); // 0 to 360 starting at 0
+  final BasicParameter amount = new BasicParameter("HDEG", 0, 180);
+  
+  //private float[] hsb = new float[3];
+  
+  HueFilterEffect(LX lx) {
     super(lx);
+    addParameter(hueFilter);
+    addParameter(amount);
+  }
+
+  static float norm360(float i) {
+    while (i < 0.0f) {
+      i += 360.0f;
+    }
+    while (i > 360.0f) {
+      i -= 360.0f;
+    }
+    return(i);
+  }
+
+
+  // distance between a and b in degrees, absolute
+  static float absdist360(float a, float b) {
+    float r = Math.abs( a - b );
+    if (r < 180.0f) return(r);
+    return( 360.0f - r );
+  }
+
+  // distance between a and b in degrees, negative means a is counterclockwise
+  // so for example a = 0, b = 190, the distance is 170, but postive, because the short path is clockwise
+  static float dist360(float a, float b) {
+    float r = a - b;
+    if (Math.abs(r) <= 180.0f) return(r);
+    if (r < 0.0f) return( r + 360.0f );
+    return( r - 360.0f );
+  }
+
+
+  // quick bit of math: interpolate on the hue circle
+  // but do so with a limit. Make sure the color is never outside of 
+  // a certain number of degress. There's some sublty in when/how to clip the
+  // edges, so will try a few things.
+  // Interesting, having a limitdeg of 180 means no effect, that's the blend (basically)
+  static float hueBlend(float src, float dst, float limitDeg) {
+    float r;
+    float dist = dist360(src,dst);
+    r = dst + ( (dist / 180.0f) * limitDeg );
+    r = norm360(r);
+
+    // test: output should be within the limit distance of dst
+    if ( absdist360(r, dst) > limitDeg ) {
+      System.out.println("HueFilterEffect: hueBlendFail: src "+src+" dst "+dst+" res "+r+" limit "+limitDeg);
+    }
+
+    return(r);
+  }
+  
+  protected void run(double deltaMs) {
+    float huef = hueFilter.getValuef();
+    float amountf = amount.getValuef();
+    amountf = Math.abs(amountf - 180f);
+
+    // todo: if enabled
+
+    for (int i = 0; i < colors.length; ++i) {
+        // float h = lerp360(LXColor.h(colors[i]), huef, amountf);
+
+        float h = hueBlend(LXColor.h(colors[i]), huef, amountf);   
+
+        colors[i] = lx.hsb( h, LXColor.s(colors[i]), LXColor.b(colors[i]) );
+    }
   }
 }
+
+
 
 class TestShrubSweep extends TSPattern {
     
@@ -416,7 +510,7 @@ class TestShrubLayers extends TSPattern {
         if (getChannel().getFader().getNormalized() == 0) return;
         
         for (BaseCube cube : model.baseCubes) {
-            if (cube.treeOrShrub == TreeOrShrub.SHRUB) {
+            if (cube.pieceType == PieceType.SHRUB) {
                 ShrubCube shrubCube = (ShrubCube) cube;              
                 
                 if (shrubCube.config.rodIndex == (int)rodLayer.getValue() || shrubCube.config.clusterIndex == (int)clusterIndex.getValue() || shrubCube.config.shrubIndex == (int)shrubIndex.getValue()) {

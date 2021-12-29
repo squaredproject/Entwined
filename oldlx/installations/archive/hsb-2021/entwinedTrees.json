@@ -1,0 +1,30 @@
+[
+	{
+		"canopyMajorLengths" : [240, 160, 96],
+		"layerBaseHeights" : [20, 71, 112],
+		"ry" : 225,
+		"x" : -572,
+		"z" : 0
+	},
+	{
+		"canopyMajorLengths" : [180, 120],
+		"layerBaseHeights" : [43, 95],
+		"ry" : 275,
+		"x" : 572,
+		"z" : 192
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 180,
+		"x" : -679,
+		"z" : -186
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 270,
+		"x" : 744,
+		"z" : -216
+	}
+]

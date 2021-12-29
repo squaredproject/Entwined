@@ -6,17 +6,29 @@ import sys
 import argparse
 
 # file format:
-# the shrubsCube file is a very large list of dicts,
+# the entwinedCube file is a very large list of dicts,
 # and each dict has
-# {'shrubIndex': 0,
-#   'clusterIndex': 0,
-#   'rodIndex': 1,
-#   'shrubOutputIndex': 0,
-#   'cubeSizeIndex': 0,
-#   'shrubIpAddress': '10.1.0.146'}
+#    {
+#        "ipAddress": "10.0.0.110",
+#        "outputIndex": 0,
+#        "stringOffsetIndex": 0,
+#        "isActive": "true",
+#        "treeIndex": 1,
+#        "layerIndex": 1,
+#        "branchIndex": 1,
+#        "mountPointIndex": 1,
+#        "cubeSizeIndex": 1
+#    }
+#
+# This uses the "jdv system" to name branches.
+# That system works by calling the longest branch 0, then 1R (clockwise)
+# 2R, 3R, 4 (the opposite of 1), then 3L, 2L, 1L. 
+# Everyone found this confusing.
+
+# note: this has been updated to the model's use of 0 as the outer most point in a branch
 
 
-#this function allows you to input a series of branch points
+# this function allows you to input a series of branch points
 
 def tree_cubes_input(filename:str):
 
@@ -124,9 +136,9 @@ def tree_cubes_input(filename:str):
         c['branchIndex'] = branch
 
         if half == 'a':
-            c['mountPointIndex'] = c_idx * 2
+            c['mountPointIndex'] = (cubes - c_idx - 1) * 2
         else:
-            c['mountPointIndex'] = (c_idx * 2) + 1
+            c['mountPointIndex'] = ((cubes - c_idx - 1) * 2) + 1
 
         c['cubeSizeIndex'] = 1
 

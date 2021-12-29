@@ -36,6 +36,7 @@ class UITrees extends UI3dComponent {
 
     drawTrees(ui);
     drawShrubs(ui);
+    //drawFairyCircles(ui); // TODO: there would be a bit of steel in each fairy circle
     drawLights(ui);
   }
 
@@ -81,7 +82,7 @@ class UITrees extends UI3dComponent {
 
   private void drawShrub(UI ui, Shrub shrub) {
     int squareHalfSize = 2;
-    for (EntwinedCluster shrubCluster: shrub.shrubClusters){ // drew diamonds at every mount point. Crude, but does the job for now!
+    for (ShrubCluster shrubCluster: shrub.shrubClusters){ // drew diamonds at every mount point. Crude, but does the job for now!
       for (Rod rod: shrubCluster.rods){
         Vec3D p = rod.mountingPoint;
           beginShape();
@@ -122,39 +123,25 @@ class UITrees extends UI3dComponent {
     noStroke();
     noFill();
 
-    if (mappingTool.isEnabled()) {
-      Cube cube = mappingTool.getCube();
-      if (cube != null) {
+    for (Cube cube : model.cubes) {
+      if (cube.config.isActive) {
         drawCube(cube, colors);
       }
-      ShrubCube shrubCube = mappingTool.getShrubCube();
-      drawShrubCube(shrubCube, colors);
     }
-    else {
-      for (Cube cube : model.cubes) {
-        if (cube.config.isActive) {
-          drawCube(cube, colors);
-        }
-      }
-      for (ShrubCube shrubCube : model.shrubCubes) {
-          drawShrubCube(shrubCube, colors);
-      }
+    for (ShrubCube shrubCube : model.shrubCubes) {
+        drawShrubCube(shrubCube, colors);
     }
+    for (BaseCube cube : model.fairyCircleCubes) {
+        drawBaseCube(cube, colors);
+    }
+
     noLights();
   }
 
   void drawCube(Cube cube, int[] colors) {
     pushMatrix();
     fill(colors[cube.index]);
-    if (mappingTool.isEnabled()) {
-      Vec3D updatedPoint = model.getMountPoint(cube.config);
-      if (updatedPoint != null) {
-        translate(updatedPoint.x, updatedPoint.y, updatedPoint.z);
-      }
-    }
-    else {
-      translate(cube.x, cube.y, cube.z);
-    }
+    translate(cube.x, cube.y, cube.z);
     rotateY(-cube.ry * Utils.PI / 180);
     rotateX(-cube.rx * Utils.PI / 180);
     rotateZ(-cube.rz * Utils.PI / 180);
@@ -165,19 +152,22 @@ class UITrees extends UI3dComponent {
   void drawShrubCube(ShrubCube shrubCube, int[] colors) {
     pushMatrix();
     fill(colors[shrubCube.index]);
-    if (mappingTool.isEnabled()) {
-      Vec3D updatedPoint = model.getShrubMountPoint(shrubCube.config);
-      if (updatedPoint != null) {
-        translate(updatedPoint.x, updatedPoint.y, updatedPoint.z);
-      }
-    }
-    else {
-      translate(shrubCube.x, shrubCube.y, shrubCube.z);
-    }
+    translate(shrubCube.x, shrubCube.y, shrubCube.z);
     rotateY(-shrubCube.ry * Utils.PI / 180);
     rotateX(-shrubCube.rx * Utils.PI / 180);
     rotateZ(-shrubCube.rz * Utils.PI / 180);
     box(shrubCube.size, shrubCube.size, shrubCube.size);
+    popMatrix();
+  }
+
+  void drawBaseCube(BaseCube cube, int[] colors) {
+    pushMatrix();
+    fill(colors[cube.index]);
+    translate(cube.x, cube.y, cube.z);
+    rotateY(-cube.ry * Utils.PI / 180);
+    rotateX(-cube.rx * Utils.PI / 180);
+    rotateZ(-cube.rz * Utils.PI / 180);
+    box(cube.size, cube.size, cube.size);
     popMatrix();
   }
 }
@@ -261,7 +251,7 @@ public class UILoopRecorder extends UIWindow {
     });
     listener.onParameterChanged(null);
 
-    slotLabel.setLabel(labels[automationSlot.getValuei()] = "Burning Man Playlist.json");
+    slotLabel.setLabel(labels[automationSlot.getValuei()] = "entwined2021.json");
   }
 
   public void saveSet(File file) {
@@ -391,7 +381,8 @@ class UIChannelFaders extends UI2dContext {
             .setShowLabel(false)
             .addToContainer(this);
 
-    masterSlider.setParameter(outputBrightness);
+    //masterSlider.setParameter(outputBrightness);
+    masterSlider.setParameter(masterBrightnessParameter);
 
     LXParameterListener listener;
     lx.engine.focusedChannel.addListener(listener = new LXParameterListener() {
@@ -656,6 +647,63 @@ class UIShrubFaders extends UI2dContext {
     }
   }
 }
+
+class UIFairyCircleFaders extends UI2dContext {
+  final static int SPACER = 30;
+  final static int PADDING = 4;
+  final static int BUTTON_HEIGHT = 14;
+  final static int FADER_WIDTH = 40;
+  final static int HEIGHT = 140;
+  final public UISlider[] sliders;
+  final private ChannelFairyCircleLevels[] channelFairyCircleLevels;
+  final int numFairyCircles;
+  UIFairyCircleFaders(final UI ui, final ChannelFairyCircleLevels[] channelFairyCircleLevels, final int numFairyCircles) {
+    super(ui, 800, Trees.this.height-HEIGHT-PADDING, 2 * SPACER + PADDING + (PADDING+FADER_WIDTH)*(numFairyCircles), HEIGHT);
+    sliders = new UISlider[numFairyCircles];
+    this.channelFairyCircleLevels = channelFairyCircleLevels;
+    this.numFairyCircles = numFairyCircles;
+    setBackgroundColor(#292929);
+    setBorderColor(#444444);
+    final UILabel[] labels = new UILabel[numFairyCircles];
+
+    for (int i = 0; i < numFairyCircles; i++) {
+      float xPos = PADDING + i*(PADDING+FADER_WIDTH) + SPACER;
+      sliders[i] = new UISlider(UISlider.Direction.VERTICAL, xPos, 1*BUTTON_HEIGHT + 2*PADDING, FADER_WIDTH, this.height - 3*BUTTON_HEIGHT - 5*PADDING) {
+        @Override
+        protected void onDraw(UI ui, PGraphics pg) {
+          int primaryColor = ui.theme.getPrimaryColor();
+          ui.theme.setPrimaryColor(0xff222222);
+          super.onDraw(ui, pg);
+          ui.theme.setPrimaryColor(primaryColor);
+        }
+      };
+      sliders[i]
+              .setShowLabel(false)
+              .addToContainer(this);
+      labels[i] = new UILabel(xPos, this.height - 2*PADDING - 2*BUTTON_HEIGHT, FADER_WIDTH, BUTTON_HEIGHT);
+      labels[i]
+              .setLabel("FC" + (i+1))
+              .setAlignment(CENTER, CENTER)
+              .setFontColor(#999999)
+              .setBackgroundColor(#292929)
+              .setBorderColor(#666666)
+              .addToContainer(this);
+    }
+    setChannel(0);
+    float labelX = PADDING;
+    new UILabel(labelX, 2*PADDING+1*BUTTON_HEIGHT+2, 0, 0)
+            .setLabel("LEVEL")
+            .setFontColor(#666666)
+            .addToContainer(this);
+
+  }
+  public void setChannel(int channelIndex){
+    for (int i = 0; i < numFairyCircles; i++) {
+      sliders[i].setParameter(channelFairyCircleLevels[channelIndex].getParameter(i));
+    }
+  }
+}
+
 
 class UIMultiDeck extends UIWindow implements InterfaceController {
 
@@ -961,174 +1009,6 @@ class UIBeatIndicator extends UI2dComponent implements LXParameterListener {
   }
 }
 
-class UIMapping extends UIWindow {
-
-  final UILabel ipAddress;
-  final UIIntegerBox treeIndex;
-  final UIIntegerBox layerIndex;
-  final UIIntegerBox branchIndex;
-  final UIIntegerBox mountPointIndex;
-  final UIIntegerBox cubeSizeIndex;
-  final UIButton isActive;
-
-  UIMapping(UI ui) {
-    //super(ui, "CLUSTER TOOL", 4, Trees.this.height - 294, 140, 290);
-    super(ui, "CLUSTER TOOL", 4, Trees.this.height - 316, 140, 312);
-
-    final UIIntegerBox ipIndex = new UIIntegerBox().setParameter(mappingTool.ipIndex);
-    final UIIntegerBox outputIndex = new UIIntegerBox().setParameter(mappingTool.outputIndex);
-    final UIIntegerBox stringOffsetIndex = new UIIntegerBox().setParameter(mappingTool.stringOffsetIndex);
-
-    (ipAddress = new UILabel()).setAlignment(CENTER, CENTER).setBorderColor(#666666).setBackgroundColor(#292929);
-    treeIndex = new UIIntegerBox() {
-      protected void onValueChange(int value) {
-        TreeCubeConfig tcc = mappingTool.getConfig();
-        if (tcc != null) {
-          mappingTool.getConfig().treeIndex = value;
-          layerIndex.setRange(0, model.trees.get(value).treeLayers.size() - 1);
-        }
-      }
-    }.setRange(0, model.trees.size() - 1);
-    layerIndex = new UIIntegerBox() {
-      protected void onValueChange(int value) {
-        TreeCubeConfig tcc = mappingTool.getConfig();
-        if (tcc != null) {
-          tcc.layerIndex =  value;
-          branchIndex.setRange(0, model.trees.get(treeIndex.getValue()).treeLayers.get(value).branches.size() - 1);
-        }
-      }
-    }.setRange(0, 3);
-
-    branchIndex = new UIIntegerBox() {
-      protected void onValueChange(int value) {
-        TreeCubeConfig tcc = mappingTool.getConfig();
-        if (tcc != null) {
-          tcc.branchIndex =  value;
-          mountPointIndex.setRange(0, model.trees.get(treeIndex.getValue()).treeLayers.
-            get(layerIndex.getValue()).branches.get(value).availableMountingPoints.size() - 1);
-        }
-      }
-    }.setRange(0, 7);
-
-    mountPointIndex = new UIIntegerBox() {
-      protected void onValueChange(int value) {
-        TreeCubeConfig tcc = mappingTool.getConfig();
-        if (tcc != null) {
-          tcc.mountPointIndex = value;
-        }
-      }
-    }.setRange(0, 3);
-
-    cubeSizeIndex = new UIIntegerBox() {
-      protected void onValueChange(int value) {
-        TreeCubeConfig tcc = mappingTool.getConfig();
-        if (tcc != null) {
-          mappingTool.getConfig().cubeSizeIndex = value;
-        }
-      }
-    }.setRange(0, 1);
-
-
-    mappingTool.ipIndex.addListener(new LXParameterListener() {
-      public void onParameterChanged(LXParameter parameter) {
-        updateParameters(true);
-      }
-    });
-
-    mappingTool.outputIndex.addListener(new LXParameterListener() {
-      public void onParameterChanged(LXParameter parameter) {
-        updateParameters(false);
-      }
-    });
-
-    mappingTool.stringOffsetIndex.addListener(new LXParameterListener() {
-      public void onParameterChanged(LXParameter parameter) {
-        updateParameters(false);
-      }
-    });
-
-    float yPos = TITLE_LABEL_HEIGHT;
-    new UIButton(4, yPos, width-8, 20) {
-      void onToggle(boolean enabled) {
-        if (enabled) {
-          ipIndex.focus();
-        }
-      }
-    }
-            .setInactiveLabel("Disabled")
-            .setActiveLabel("Enabled")
-            .setParameter(mappingTool.enabled)
-            .addToContainer(this);
-    yPos += 24;
-
-    yPos = labelRow(yPos, "NDB", ipIndex);
-    yPos = labelRow(yPos, "OUTPUT", outputIndex);
-    yPos = labelRow(yPos, "OFFSET", stringOffsetIndex);
-    yPos = labelRow(yPos, "IP", ipAddress);
-    yPos = labelRow(yPos, "TREE", treeIndex);
-    yPos = labelRow(yPos, "LAYER", layerIndex);
-    yPos = labelRow(yPos, "BRANCH", branchIndex);
-    yPos = labelRow(yPos, "POINT", mountPointIndex);
-    yPos = labelRow(yPos, "SIZE", cubeSizeIndex);
-
-
-    isActive = (UIButton) new UIButton(4, yPos, width-8, 20) {
-      void onToggle(boolean enabled) {
-        TreeCubeConfig c = mappingTool.getConfig();
-        c.isActive = enabled;
-        if (enabled) {
-          c.layerIndex = layerIndex.getValue();
-          c.branchIndex = branchIndex.getValue();
-          c.mountPointIndex = mountPointIndex.getValue();
-        }
-      }
-    }
-    .setInactiveLabel("Cube inactive")
-    .setActiveLabel("Cube active")
-    .addToContainer(this);
-    yPos += 24;
-
-    new UIButton(4, yPos, this.width-8, 20) {
-      void onToggle(boolean active) {
-        if (active) {
-          String backupFileName = Config.CUBE_CONFIG_FILE + ".backup." + month() + "." + day() + "." + hour() + "." + minute() + "." + second();
-          saveStream(backupFileName, Config.CUBE_CONFIG_FILE);
-          engine.saveCubeConfigs();
-          setLabel("Saved. Restart needed.");
-        }
-      }
-    }.setMomentary(true).setLabel("Save Changes").addToContainer(this);
-
-    updateParameters(true);
-  }
-
-  float labelRow(float yPos, String label, UI2dComponent obj) {
-    new UILabel(4, yPos+5, 50, 20)
-            .setLabel(label)
-            .addToContainer(this);
-    obj
-            .setPosition(58, yPos)
-            .setSize(width-62, 20)
-            .addToContainer(this);
-    yPos += 24;
-    return yPos;
-  }
-
-  void updateParameters(boolean resetAll){
-    TreeCubeConfig c = mappingTool.getConfig();
-    if (c != null) {
-      ipAddress.setLabel(c.ipAddress);
-      treeIndex.setValue(c.treeIndex);
-      if (resetAll || c.isActive) {
-        layerIndex.setValue(c.layerIndex);
-        branchIndex.setValue(c.branchIndex);
-        mountPointIndex.setValue(c.mountPointIndex);
-      }
-      cubeSizeIndex.setValue(c.cubeSizeIndex);
-      isActive.setActive(c.isActive);
-    }
-  }
-}
 
 class UIOutput extends UIWindow {
   static final int LIST_NUM_ROWS = 3;
@@ -1150,10 +1030,18 @@ class UIOutput extends UIWindow {
     for (LXDatagram treeDatagram : treeDatagrams) {
       items.add(new DatagramItem(treeDatagram));
     }
-    new UIItemList(1, yPos, width-2, LIST_HEIGHT)
-            .setItems(items)
-            .setBackgroundColor(0xff0000)
-            .addToContainer(this);
+    for (LXDatagram shrubDatagram : shrubDatagrams) {
+      items.add(new DatagramItem(shrubDatagram));
+    }
+    for (LXDatagram fairyCircleDatagram : fairyCircleDatagrams) {
+      items.add(new DatagramItem(fairyCircleDatagram));
+    }
+    if (items.size() > 0) {
+      new UIItemList(1, yPos, width-2, LIST_HEIGHT)
+              .setItems(items)
+              .setBackgroundColor(0xff0000)
+              .addToContainer(this);
+      }
   }
 
   class DatagramItem extends UIItemList.AbstractItem {
@@ -1183,151 +1071,6 @@ class UIOutput extends UIWindow {
   }
 }
 
-/////////////////////////////////////////
-
-class UIShrubMapping extends UIWindow {
-
-  final UILabel shrubIpAddress;
-  final UIIntegerBox shrubIndex;
-  final UIIntegerBox clusterIndex;
-  final UIIntegerBox rodIndex;
-  //final UIIntegerBox mountPointIndex;
-  final UIIntegerBox cubeSizeIndex;
-  final UIButton isActive;
-
-  UIShrubMapping(UI ui) {
-    //super(ui, "SHRUB TOOL", 4, Trees.this.height - 294 - 240, 140, 240);
-    super(ui, "SHRUB TOOL", 4, Trees.this.height - 294 - 300, 140, 240);
-
-    final UIIntegerBox shrubIpIndex = new UIIntegerBox().setParameter(mappingTool.shrubIpIndex);
-    final UIIntegerBox shrubOutputIndex = new UIIntegerBox().setParameter(mappingTool.shrubOutputIndex);
-
-    (shrubIpAddress = new UILabel()).setAlignment(CENTER, CENTER).setBorderColor(#666666).setBackgroundColor(#292929);
-    shrubIndex = new UIIntegerBox() {
-      protected void onValueChange(int value) {
-        mappingTool.getShrubConfig().shrubIndex = value;
-        clusterIndex.setRange(0, model.shrubs.get(value).shrubClusters.size() - 1);
-      }
-    }.setRange(0, model.shrubs.size() - 1);
-    clusterIndex = new UIIntegerBox() {
-      protected void onValueChange(int value) {
-        mappingTool.getShrubConfig().clusterIndex =  value;
-        rodIndex.setRange(0, model.shrubs.get(shrubIndex.getValue()).shrubClusters.get(value).rods.size() - 1);
-
-      }
-    }.setRange(0, 12);
-
-    rodIndex = new UIIntegerBox() {
-      protected void onValueChange(int value) {
-        mappingTool.getShrubConfig().rodIndex =  value;
-        //mountPointIndex.setRange(0, model.shrubs.get(shrubIndex.getValue()).shrubClusters.get(clusterIndex.getValue()).rods.get(value).mountingPoint.size() - 1);
-      }
-    }.setRange(0, 5);
-
-    //mountPointIndex = new UIIntegerBox() {
-    //  protected void onValueChange(int value) {
-    //    mappingTool.getShrubConfig().mountPointIndex = value;
-    //  }
-    //}.setRange(0, 1);
-
-    cubeSizeIndex = new UIIntegerBox() {
-      protected void onValueChange(int value) {
-        mappingTool.getShrubConfig().cubeSizeIndex = value;
-      }
-    }.setRange(0, 1);
-
-
-    mappingTool.shrubIpIndex.addListener(new LXParameterListener() {
-      public void onParameterChanged(LXParameter parameter) {
-        updateParameters(true);
-      }
-    });
-
-    mappingTool.shrubOutputIndex.addListener(new LXParameterListener() {
-      public void onParameterChanged(LXParameter parameter) {
-        updateParameters(false);
-      }
-    });
-
-    float yPos = TITLE_LABEL_HEIGHT;
-    new UIButton(4, yPos, width-8, 20) {
-      void onToggle(boolean enabled) {
-        if (enabled) {
-          shrubIpIndex.focus();
-        }
-      }
-    }
-            .setInactiveLabel("Disabled")
-            .setActiveLabel("Enabled")
-            .setParameter(mappingTool.enabled)
-            .addToContainer(this);
-    yPos += 24;
-
-    yPos = labelRow(yPos, "NDB", shrubIpIndex);
-    yPos = labelRow(yPos, "OUTPUT", shrubOutputIndex);
-    yPos = labelRow(yPos, "IP", shrubIpAddress);
-    yPos = labelRow(yPos, "SHRUB", shrubIndex);
-    yPos = labelRow(yPos, "CLUSTER", clusterIndex);
-    //yPos = labelRow(yPos, "MOUNT", mountPointIndex);
-    yPos = labelRow(yPos, "ROD", rodIndex);
-    //yPos = labelRow(yPos, "SIZE", cubeSizeIndex);
-
-
-    isActive = (UIButton) new UIButton(4, yPos, width-8, 20) {
-      void onToggle(boolean enabled) {
-        ShrubCubeConfig c = mappingTool.getShrubConfig();
-        //c.isActive = enabled;
-        //if (enabled) {
-          c.clusterIndex = clusterIndex.getValue();
-          //c.mountPointIndex = mountPointIndex.getValue();
-          c.rodIndex = rodIndex.getValue();
-        //}
-      }
-    }
-    .setInactiveLabel("Cube inactive")
-    .setActiveLabel("Cube active")
-    .addToContainer(this);
-    yPos += 24;
-
-    new UIButton(4, yPos, this.width-8, 20) {
-      void onToggle(boolean active) {
-        if (active) {
-          String backupFileName = Config.SHRUB_CUBE_CONFIG_FILE + ".backup." + month() + "." + day() + "." + hour() + "." + minute() + "." + second();
-          saveStream(backupFileName, Config.SHRUB_CUBE_CONFIG_FILE);
-          engine.saveShrubCubeConfigs();
-          setLabel("Saved. Restart needed.");
-        }
-      }
-    }.setMomentary(true).setLabel("Save Changes").addToContainer(this);
-
-    updateParameters(true);
-  }
-
-  float labelRow(float yPos, String label, UI2dComponent obj) {
-    new UILabel(4, yPos+5, 50, 20)
-            .setLabel(label)
-            .addToContainer(this);
-    obj
-            .setPosition(58, yPos)
-            .setSize(width-62, 20)
-            .addToContainer(this);
-    yPos += 24;
-    return yPos;
-  }
-
-  void updateParameters(boolean resetAll){
-    ShrubCubeConfig c = mappingTool.getShrubConfig();
-    shrubIpAddress.setLabel(c.shrubIpAddress);
-    shrubIndex.setValue(c.shrubIndex);
-    if (resetAll /*|| c.isActive*/) {
-      clusterIndex.setValue(c.clusterIndex);
-      //mountPointIndex.setValue(c.mountPointIndex);
-      rodIndex.setValue(c.rodIndex);
-    }
-    cubeSizeIndex.setValue(c.cubeSizeIndex);
-    //isActive.setActive(c.isActive);
-  }
-}
 
 class UIShrubOutput extends UIWindow {
   static final int LIST_NUM_ROWS = 3;
@@ -1337,6 +1080,9 @@ class UIShrubOutput extends UIWindow {
   static final int SPACER = 8;
   UIShrubOutput(UI ui, float x, float y) {
     super(ui, "LIVE SHRUB OUTPUT", x, y + 100, 140, UIWindow.TITLE_LABEL_HEIGHT - 1 + BUTTON_HEIGHT + SPACER + LIST_HEIGHT);
+    // may not have any shrubs!
+    if (shrubDatagrams.length <= 0) return;
+
     float yPos = UIWindow.TITLE_LABEL_HEIGHT - 2;
     new UIButton(4, yPos, width-8, BUTTON_HEIGHT)
             .setParameter(shrubOutput.enabled)
@@ -1379,6 +1125,63 @@ class UIShrubOutput extends UIWindow {
 
     void onMousePressed() {
       shrubDatagram.enabled.toggle();
+    }
+  }
+}
+
+class UIFairyCircleOutput extends UIWindow {
+  static final int LIST_NUM_ROWS = 3;
+  static final int LIST_ROW_HEIGHT = 20;
+  static final int LIST_HEIGHT = LIST_NUM_ROWS * LIST_ROW_HEIGHT;
+  static final int BUTTON_HEIGHT = 20;
+  static final int SPACER = 8;
+  UIFairyCircleOutput(UI ui, float x, float y) {
+    super(ui, "LIVE FAIRY CIRCLE OUTPUT", x, y + 200, 140, UIWindow.TITLE_LABEL_HEIGHT - 1 + BUTTON_HEIGHT + SPACER + LIST_HEIGHT);
+    // may not have any fairy circles!
+    if (fairyCircleDatagrams.length <= 0) return;
+
+    float yPos = UIWindow.TITLE_LABEL_HEIGHT - 2;
+    new UIButton(4, yPos, width-8, BUTTON_HEIGHT)
+            .setParameter(fairyCircleOutput.enabled)
+            .setActiveLabel("Enabled")
+            .setInactiveLabel("Disabled")
+            .addToContainer(this);
+    yPos += BUTTON_HEIGHT + SPACER;
+
+    List<UIItemList.Item> items = new ArrayList<UIItemList.Item>();
+    for (LXDatagram fairyCircleDatagram : fairyCircleDatagrams) {
+      //System.out.println(fairyCircleDatagram);
+      items.add(new FairyCircleDatagramItem(fairyCircleDatagram));
+    }
+    new UIItemList(1, yPos, width-2, LIST_HEIGHT)
+            .setItems(items)
+            .setBackgroundColor(0xff0000)
+            .addToContainer(this);
+  }
+
+  class FairyCircleDatagramItem extends UIItemList.AbstractItem {
+
+    final LXDatagram fairyCircleDatagram;
+
+    FairyCircleDatagramItem(LXDatagram fairyCircleDatagram) {
+      this.fairyCircleDatagram = fairyCircleDatagram;
+      fairyCircleDatagram.enabled.addListener(new LXParameterListener() {
+        public void onParameterChanged(LXParameter parameter) {
+          redraw();
+        }
+      });
+    }
+
+    String getLabel() {
+      return fairyCircleDatagram.getAddress().toString();
+    }
+
+    boolean isSelected() {
+      return fairyCircleDatagram.enabled.isOn();
+    }
+
+    void onMousePressed() {
+      fairyCircleDatagram.enabled.toggle();
     }
   }
 }

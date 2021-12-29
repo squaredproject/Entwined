@@ -1,0 +1,14 @@
+[Unit]
+Description=LXStudio Headless
+After=network.target
+
+[Service]
+ExecStart=/home/entwined/Entwined/oldlx/run-headless.sh
+WorkingDirectory=/home/entwined/Entwined/oldlx
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target

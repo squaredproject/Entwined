@@ -1,0 +1,13 @@
+[
+	{
+			"ry" : 0,
+			"x" : -72,
+			"z" : 0,
+			"type" : "classic",
+			"cubeSizeIndex": 1,
+			"pieceId" : "shrub",
+			"shrubIpAddress" : "10.0.0.200"
+
+	}
+
+]

@@ -50,8 +50,8 @@ def shrub_add(filename:str, shrubIndex: int, ipAddress:str) -> None:
             print(" can't add index {} already exists in file delete first".format(shrubIndex))
             return
     shrubOutputIndex = 0
-    for clusterIndex in range(0,12):
-        for rodIndex in range(1,6):
+    for rodIndex in range(1,6):
+        for clusterIndex in range(0,12):
             # there are faster ways but this reads very clean
             s = {}
             s['shrubIndex'] = shrubIndex
@@ -66,16 +66,31 @@ def shrub_add(filename:str, shrubIndex: int, ipAddress:str) -> None:
         json.dump(data, f)
     print(' success adding ')
 
+# will be nice to print out what shrubs their IP
+def shrub_list(filename:str) -> None:
+    with open(filename) as f:
+        data = json.load(f)
+    u = {}
+    # error check. Would suck to add one the already exists
+    for shrub in data:
+        if shrub['shrubIndex'] not in u:
+            print(" shrub index {} ::: ip {}".format(shrub['shrubIndex'],shrub['shrubIpAddress']))
+            u[shrub['shrubIndex']] = True
+    print(' printed all ')
+
+
 def arg_init():
-    parser = argparse.ArgumentParser(prog='cube-maint', description='Munge the ShrubCube File')
+    parser = argparse.ArgumentParser(prog='shrub_maint', description='Munge the ShrubCube File')
 
     parser.add_argument('file', type=str, nargs=1, help='file to munge')
-    parser.add_argument('--shrub', '-i', type=int, required=True, help='shrub id to modify')
+    parser.add_argument('--shrub', '-i', type=int, help='shrub id to modify')
     parser.add_argument('--ip', type=str, help='ip address to set to')
 
-    parser.add_argument('--delete', '-d', action='store_true' )
-    parser.add_argument('--add', '-a', action='store_true')
-    parser.add_argument('--change', '-c', action='store_true')
+    parser.add_argument('--delete', '-d', action='store_true', help='delete a shrub requires shrub index' )
+    parser.add_argument('--add', '-a', action='store_true', help='add a shrub requires shrub index')
+    parser.add_argument('--change', '-c', action='store_true', help='change a shrub requires shrub index')
+
+    parser.add_argument('--list', '-l', action='store_true', help='list all shrub indexes and ips')
 
     args = parser.parse_args()
 
@@ -86,24 +101,39 @@ def arg_init():
 def main():
     args = arg_init()
 
-    print(" file to munge is {} shrub id is {}".format(args.file,args.shrub))
+    print(" file to munge is {}".format(args.file))
     if args.delete:
+        if args.shrub is None:
+            print(" error: must supply --shrub or -i to delete that shrub")
+            exit(-1)
         print(" deleting this shrub {}".format(args.shrub))
         shrub_delete(args.file[0], args.shrub)
 
     elif args.add:
-        if not args.ip:
-            print(" adding a shrub requires both an ID and an IP, you can cahnge it later tho")
+        if args.ip is None:
+            print(" error: adding a shrub requires both an ID and an IP")
+            exit(-1)
+        if args.shrub is None:
+            print(" error: must supply --shrub or -i to add that shrub")
             exit(-1)
         print(" adding a new shrub with this ID {} and IP {}".format(args.shrub,args.ip))
         shrub_add(args.file[0], args.shrub, args.ip)
 
     elif args.change:
-        print(" changing IP address to {}".format(args.ip))
+        if args.shrub is None:
+            print(" error: must supply --shrub or -i to change that shrub")
+            exit(-1)
+        if args.ip is None:
+            print(" error: changing a shrub requires both an ID and an IP")
+            exit(-1)
+        print(" changing shrub {} IP address to {}".format(args.shrub,args.ip))
         shrub_changeIP(args.file[0], args.shrub, args.ip)
 
+    elif args.list:
+        shrub_list(args.file[0])
+
     else:
-        print(' Must have exactly one of ip, add, or delete')
+        print(' Must have exactly one of add, delete, change, or list')
         exit(-1)
 
 
