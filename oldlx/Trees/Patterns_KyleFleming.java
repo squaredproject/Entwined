@@ -1249,6 +1249,7 @@ class CandyCloud extends TSPattern {
 class GalaxyCloud extends TSPattern {
 
   double time = 0;
+  PerlinNoise perlinNoise = new PerlinNoise();
 
   GalaxyCloud(LX lx) {
     super(lx);
@@ -1272,10 +1273,9 @@ class GalaxyCloud extends TSPattern {
     for (BaseCube cube : model.baseCubes) {
       float adjustedTheta = cube.transformedTheta / 360;
       float adjustedY = (cube.transformedY - model.yMin) / (model.yMax - model.yMin);
-      float adjustedTime = (float)time / 5000;
+      float adjustedTime = (float)time / 3000;
 
       // Use 2 textures so we don't have a seam. Interpolate between them between -45 & 45 and 135 & 225
-      PerlinNoise perlinNoise = new PerlinNoise();
       float hue1 = perlinNoise.noise(4 * adjustedTheta, 4 * adjustedY, adjustedTime);
       float hue2 = perlinNoise.noise(4 * ((adjustedTheta + 0.5f) % 1), 4 * adjustedY + 100, adjustedTime);
       float hue = Utils.lerp(hue1, hue2, Utils.min(Utils.max(Utils.abs(((adjustedTheta * 4 + 1) % 4) - 2) - 0.5f, 0), 1));

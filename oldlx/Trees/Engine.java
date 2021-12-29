@@ -240,6 +240,7 @@ abstract class Engine {
     registerPatternController("Leaves", new ColoredLeaves(lx));
 
     registerPatternController("Voronoi", new Voronoi(lx));
+    registerPatternController("Galaxy Cloud", new GalaxyCloud(lx));
     registerPatternController("Parallax", new Parallax(lx));
     registerPatternController("Burst", new Burst(lx));
 
@@ -377,6 +378,7 @@ abstract class Engine {
     patterns.add(new Twister(lx));
     patterns.add(new TwisterGlobal(lx));
     patterns.add(new CandyCloud(lx));
+    patterns.add(new GalaxyCloud(lx));
     patterns.add(new MarkLottor(lx));
     patterns.add(new SolidColor(lx));
 
