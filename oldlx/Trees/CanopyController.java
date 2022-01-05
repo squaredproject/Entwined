@@ -161,6 +161,17 @@ class CanopyController {
 		    	}
 		    });
 
+			socket.on("resetPieceSettings", new Emitter.Listener() {
+				@Override
+				public void call(Object... args) {
+					try {
+						resetPieceSettings((JSONObject) args[0]);
+					} catch (Exception e) {
+						log(" socket: resetPieceSettings threw error "+e);
+					}
+				}
+			});
+
 		    socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 		    	@Override
 		    	public void call(Object... args) {
@@ -321,6 +332,18 @@ class CanopyController {
 		engine.log(" updatePieceSettingException "+e);
 	}
 
+  }
+
+  void resetPieceSettings(JSONObject o) {
+	engine.log("resetPieceSettings: object "+o);
+
+	try {
+		String pieceId= o.getString("pieceId");
+
+		engine.interactiveHSVEffect.resetPiece(pieceId);
+	} catch (Exception e) {
+		engine.log(" resetPieceSettingsException "+e);
+	}
   }
 
   void stopPieceInteraction(JSONObject o) {
