@@ -279,13 +279,26 @@ class CanopyController {
   			case "lightning":  		
   			case "bass-slam":
   			case "rain":
-  			case "color-burst":	
+				engine.interactiveHSVEffect.resetPiece(pieceId);
+				break;
+
+			case "white":
+				engine.interactiveHSVEffect.resetPiece(pieceId);
+				engine.interactiveDesaturationEffect.onTriggeredPiece(pieceId);
+			case "rainbow":
+				engine.interactiveHSVEffect.resetPiece(pieceId);
+				engine.interactiveRainbowEffect.onTriggeredPiece(pieceId);
+				break;
+			case "candy-chaos":
+				engine.interactiveHSVEffect.resetPiece(pieceId);
+				engine.interactiveCandyChaosEffect.onTriggeredPiece(pieceId);
+				break;
   			case "fire":
   				engine.interactiveHSVEffect.resetPiece(pieceId);
   				engine.interactiveFireEffect.onTriggeredPiece(pieceId);
   				break;
   			default:
-  				engine.log("unknown trigger name "+triggerName);
+  				engine.log("unknown trigger name " + triggerName);
   				break;
   		}
 	} catch (Exception e) {
