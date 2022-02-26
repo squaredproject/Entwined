@@ -93,6 +93,9 @@ abstract class Engine {
   final CanopyController canopyController;
   final InteractiveHSVEffect interactiveHSVEffect;
   final InteractiveFireEffect interactiveFireEffect;
+  final InteractiveCandyChaosEffect interactiveCandyChaosEffect;
+  final InteractiveRainbowEffect interactiveRainbowEffect;
+  final InteractiveDesaturationEffect interactiveDesaturationEffect;
 
   // breadcrumb regarding channelTreeLevels and channelShrubLevels
   // these are controllers which should be used on a shrub-by-shrub basis to allow
@@ -181,10 +184,32 @@ abstract class Engine {
     interactiveHSVEffect = new InteractiveHSVEffect(lx);
     lx.addEffect(interactiveHSVEffect); /* want this one "on top" of everything else... is it? */
     interactiveHSVEffect.enable();
+
     // this fire effect, going to make it more generic, but make it work at all now
     interactiveFireEffect = new InteractiveFireEffect(lx, model);
     Effect[] fireEffects = interactiveFireEffect.getEffects();
     for (Effect effect : fireEffects) {
+      lx.addEffect(effect);
+      effect.enable();
+    }
+
+    interactiveCandyChaosEffect = new InteractiveCandyChaosEffect(lx, model);
+    Effect[] candyChaosEffects = interactiveCandyChaosEffect.getEffects();
+    for (Effect effect: candyChaosEffects) {
+      lx.addEffect(effect);
+      effect.enable();
+    }
+
+    interactiveRainbowEffect = new InteractiveRainbowEffect(lx, model);
+    Effect[] interactiveRainbowEffects = interactiveRainbowEffect.getEffects();
+    for (Effect effect: interactiveRainbowEffects) {
+      lx.addEffect(effect);
+      effect.enable();
+    }
+
+    interactiveDesaturationEffect = new InteractiveDesaturationEffect(lx, model);
+    Effect[] interactiveDesaturationEffects = interactiveDesaturationEffect.getEffects();
+    for (Effect effect: interactiveDesaturationEffects) {
       lx.addEffect(effect);
       effect.enable();
     }

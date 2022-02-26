@@ -293,6 +293,10 @@ class ColorEffect extends Effect {
   private final DampedParameter rainbowd = new DampedParameter(rainbow, 1);
   
   private float[] hsb = new float[3];
+
+  // if set to a value >= 0, the effects are limited to only
+  // the piece with that index (used for interactive effects)
+  protected int pieceIndex = -1;
   
   ColorEffect(LX lx) {
     super(lx);
@@ -317,6 +321,10 @@ class ColorEffect extends Effect {
     if (desatf > 0 || huef > 0 || sharpf > 0 || softf > 0 || monof > 0 || rainbowf > 0) {
       float pSharp = 1/(1-.99f*sharpf);
       for (int i = 0; i < colors.length; ++i) {
+        BaseCube cube = model.baseCubes.get(i);
+        // if we're only applying this effect to a given pieceIndex, filter out and don't set colors on other cubes
+        if (pieceIndex >= 0 && cube.pieceIndex != pieceIndex) continue;
+
         float b = LXColor.b(colors[i]) / 100.f;
         float bOrig = b;
         if (sharpf > 0) {
