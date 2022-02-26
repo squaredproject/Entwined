@@ -20,12 +20,13 @@ class EG_Template extends TSPattern {
 }
 
 class EG_UpDown extends TSPattern {
+    float time = 0;
     // All values below are on the scale from zero to one.
     // std dev of the gaussian function that determines the thickness of the line
     final double deviation = 0.05;
     final double minLineCenterY = 0 - 2 * deviation;
     final double maxLineCenterY = 1 + 2 * deviation;
-    final SinLFO upDownModulator = new SinLFO(minLineCenterY, maxLineCenterY, 4000);
+    final SinLFO upDownModulator = new SinLFO(minLineCenterY, maxLineCenterY, 5000);
 
     EG_UpDown(LX lx) {
         super(lx);
@@ -45,7 +46,7 @@ class EG_UpDown extends TSPattern {
         float scanHeight = upDownModulator.getValuef();
         for (BaseCube cube : model.baseCubes) {
             colors[cube.index] = LX.hsb(
-                    cube.theta,
+                    cube.theta + time / 6000 * 360,
                     100,
                     100 * gaussian(Utils.map(cube.y, model.yMin, model.yMax), scanHeight));
         }
@@ -53,6 +54,7 @@ class EG_UpDown extends TSPattern {
 }
 
 class EG_Radar extends TSPattern {
+    float time = 0;
     // All values below are on the scale from zero to one.
     // std dev of the gaussian function that determines the thickness of the line
     final double deviation = 0.03;
@@ -82,6 +84,7 @@ class EG_Radar extends TSPattern {
 
     @Override
     protected void run(double deltaMs) {
+        time += deltaMs;
         float sweepPosition = radarSweepModulator.getValuef();
         for (BaseCube cube : model.baseCubes) {
             float mappedCubeZ = 1 - Utils.map(cube.z, model.zMin, model.zMax);
@@ -96,7 +99,7 @@ class EG_Radar extends TSPattern {
                     10 + gaussian(mappedCubeZ, sweepPosition) * 60);
 
             colors[cube.index] = LX.hsb(
-                    160 - 80 * brightnessValue / 100,
+                    time / 4000 + 160 - 80 * brightnessValue / 100,
                     100 - 30 * brightnessValue / 100,
                     brightnessValue);
 
@@ -113,21 +116,37 @@ class EG_Radar extends TSPattern {
     }
 }
 
-class EG_PiecePops extends TSPattern {
-    double time = 0;
+class EG_CounterSpin extends TSPattern {
+    float time = 0;
     final PerlinNoise perlinNoise = new PerlinNoise();
     // Each value will count down from one to zero.
     final double[] treesSwirlProgress;
+    final double[] treesColorOffset;
     final double[] shrubsSwirlProgress;
+    final double[] shrubsColorOffset;
     final double[] fairyCirclesSwirlProgress;
+    final double[] fairyCirclesColorOffset;
     final double swirlDurationMs = 2000;
     final double progressSpeed = 1 / swirlDurationMs;
 
-    EG_PiecePops(LX lx) {
+    EG_CounterSpin(LX lx) {
         super(lx);
         treesSwirlProgress = new double[model.trees.size()];
+        treesColorOffset = new double[model.trees.size()];
         shrubsSwirlProgress = new double[model.shrubs.size()];
+        shrubsColorOffset = new double[model.shrubs.size()];
         fairyCirclesSwirlProgress = new double[model.fairyCircles.size()];
+        fairyCirclesColorOffset = new double[model.fairyCircles.size()];
+
+        for (Tree tree : model.trees) {
+            treesColorOffset[tree.index] = Utils.random(360);
+        }
+        for (Shrub shrub : model.shrubs) {
+            shrubsColorOffset[shrub.index] = Utils.random(360);
+        }
+        for (FairyCircle fairyCircle : model.fairyCircles) {
+            fairyCirclesColorOffset[fairyCircle.index] = Utils.random(360);
+        }
     }
 
     @Override
@@ -141,10 +160,7 @@ class EG_PiecePops extends TSPattern {
                 treesSwirlProgress[tree.index] = Math.max(0, treesSwirlProgress[tree.index] - deltaMs * progressSpeed);
             }
             for (BaseCube cube : tree.cubes) {
-                colors[cube.index] = LX.hsb(
-                        cube.theta,
-                        100,
-                        (float) (100 * treesSwirlProgress[tree.index]));
+                colors[cube.index] = getColors(cube, treesSwirlProgress[tree.index], treesColorOffset[tree.index]);
             }
         }
         for (Shrub shrub : model.shrubs) {
@@ -155,10 +171,7 @@ class EG_PiecePops extends TSPattern {
                         shrubsSwirlProgress[shrub.index] - deltaMs * progressSpeed);
             }
             for (BaseCube cube : shrub.cubes) {
-                colors[cube.index] = LX.hsb(
-                        cube.theta,
-                        100,
-                        (float) (100 * shrubsSwirlProgress[shrub.index]));
+                colors[cube.index] = getColors(cube, shrubsSwirlProgress[shrub.index], shrubsColorOffset[shrub.index]);
             }
         }
         for (FairyCircle fairyCircle : model.fairyCircles) {
@@ -169,11 +182,21 @@ class EG_PiecePops extends TSPattern {
                         fairyCirclesSwirlProgress[fairyCircle.index] - deltaMs * progressSpeed);
             }
             for (BaseCube cube : fairyCircle.cubes) {
-                colors[cube.index] = LX.hsb(
-                        cube.theta,
-                        100,
-                        (float) (100 * fairyCirclesSwirlProgress[fairyCircle.index]));
+                colors[cube.index] = getColors(cube, fairyCirclesSwirlProgress[fairyCircle.index], fairyCirclesColorOffset[fairyCircle.index]);
             }
         }
+    }
+
+    int getColors(BaseCube cube, double swirlProgress, double colorOffset) {
+        return LX.hsb(
+                (float)(cube.theta + colorOffset - time / 4000 * 360),
+                100,
+                60 + 40 * Utils.sin(
+                        time / 2000 * Utils.TWO_PI + cube.theta * Utils.TWO_PI / 360));
+
+        // + Utils.map(cube.y, model.yMin, model.yMax) * Utils.PI
+        // +
+        // (float) fairyCirclesSwirlProgress[shrub.index] * Utils.TWO_PI
+        // (float) (100 * fairyCirclesSwirlProgress[fairyCircle.index]));
     }
 }

@@ -400,7 +400,7 @@ abstract class Engine {
     // Eric Gauderman's patterns
     patterns.add(new EG_UpDown(lx));
     patterns.add(new EG_Radar(lx));
-    patterns.add(new EG_PiecePops(lx));
+    patterns.add(new EG_CounterSpin(lx));
 
     // Add patterns here.
     // The order here is the order it shows up in the patterns list
