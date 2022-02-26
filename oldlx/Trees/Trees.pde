@@ -77,7 +77,6 @@ void setup() {
   // framerate so let's let it do it's thing
   //frameRate(90); // this will get processing 2 to actually hit around 60
   
-  frameRate(120);
   engine = new ProcessingEngine(sketchPath());
   engine.start();
 }
@@ -171,8 +170,7 @@ void configureUI() {
 }
 
 void draw() {
-  // background(#222222);
-  background(#040404);
+  background(#222222);
 }
 
 TreesTransition getFaderTransition(LXChannel channel) {
