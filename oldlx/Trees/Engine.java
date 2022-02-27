@@ -312,6 +312,9 @@ abstract class Engine {
     // Quinn Keck
     registerPatternController("ButterflyEffect", new ButterflyEffect(lx));
 
+    // BB
+    registerPatternController("MultiColor", new MultiColor(lx));    
+
     // Misko's patterns
     registerPatternController("Circles", new Circles(lx));
     registerPatternController("LineScan", new LineScan(lx));
@@ -511,6 +514,9 @@ abstract class Engine {
     patterns.add(new HueRibbons(lx));
     patterns.add(new VerticalColorWaves(lx));
     patterns.add(new FlockingPoints(lx));
+
+        // BB
+    patterns.add(new MultiColor(lx));    
 
     // Omar Shehata pattern
     patterns.add(new FairySnakes(lx));
