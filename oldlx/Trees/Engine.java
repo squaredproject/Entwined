@@ -314,6 +314,8 @@ abstract class Engine {
 
     // BB
     registerPatternController("MultiColor", new MultiColor(lx));    
+    registerPatternController("MultiColor2", new MultiColor2(lx));    
+    registerPatternController("StripeStatic", new StripeStatic(lx));    
 
     // Misko's patterns
     registerPatternController("Circles", new Circles(lx));
@@ -510,11 +512,13 @@ abstract class Engine {
     patterns.add(new VerticalColorWaves(lx));
     patterns.add(new FlockingPoints(lx));
 
-        // BB
-    patterns.add(new MultiColor(lx));    
-
     // Omar Shehata pattern
     patterns.add(new FairySnakes(lx));
+
+    // Basic multicolor for nationalism
+    patterns.add(new MultiColor(lx));    
+    patterns.add(new MultiColor2(lx));    
+    patterns.add(new StripeStatic(lx));    
 
     // Test patterns
     patterns.add(new ClusterLineTest(lx));
