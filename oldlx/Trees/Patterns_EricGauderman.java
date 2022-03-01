@@ -4,27 +4,26 @@ import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BasicParameter;
 import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.parameter.LXParameter;
-import heronarts.lx.parameter.LXParameterListener;
 import toxi.geom.Vec3D;
 import toxi.math.noise.PerlinNoise;
 
-class EG_Template extends TSPattern {
-    EG_Template(LX lx) {
-        super(lx);
-    }
+// class Template extends TSPattern {
+//     Template(LX lx) {
+//         super(lx);
+//     }
 
-    @Override
-    protected void run(double deltaMs) {
-        for (BaseCube cube : model.baseCubes) {
-            colors[cube.index] = LX.hsb(
-                    cube.theta,
-                    100,
-                    100);
-        }
-    }
-}
+//     @Override
+//     protected void run(double deltaMs) {
+//         for (BaseCube cube : model.baseCubes) {
+//             colors[cube.index] = LX.hsb(
+//                     cube.theta,
+//                     100,
+//                     100);
+//         }
+//     }
+// }
 
-class EG_UpDown extends TSPattern {
+class UpDown extends TSPattern {
     float time = 0;
     // All values below are on the scale from zero to one.
     // std dev of the gaussian function that determines the thickness of the line
@@ -33,7 +32,7 @@ class EG_UpDown extends TSPattern {
     final double maxLineCenterY = 1 + 2 * deviation;
     final SinLFO upDownModulator = new SinLFO(minLineCenterY, maxLineCenterY, 5000);
 
-    EG_UpDown(LX lx) {
+    UpDown(LX lx) {
         super(lx);
         addModulator(upDownModulator).start();
     }
@@ -58,7 +57,7 @@ class EG_UpDown extends TSPattern {
     }
 }
 
-class EG_Radar extends TSPattern {
+class Radar extends TSPattern {
     float time = 0;
     // All values below are on the scale from zero to one.
     // std dev of the gaussian function that determines the thickness of the line
@@ -72,7 +71,7 @@ class EG_Radar extends TSPattern {
 
     double previousSweepPosition = minSweepCenter;
 
-    EG_Radar(LX lx) {
+    Radar(LX lx) {
         super(lx);
         addModulator(radarSweepModulator).start();
 
@@ -121,7 +120,7 @@ class EG_Radar extends TSPattern {
     }
 }
 
-class EG_CounterSpin extends TSPattern {
+class CounterSpin extends TSPattern {
     float time = 0;
     final PerlinNoise perlinNoise = new PerlinNoise();
     // Each value will count down from one to zero.
@@ -134,7 +133,7 @@ class EG_CounterSpin extends TSPattern {
     final double swirlDurationMs = 2000;
     final double progressSpeed = 1 / swirlDurationMs;
 
-    EG_CounterSpin(LX lx) {
+    CounterSpin(LX lx) {
         super(lx);
         treesSwirlProgress = new double[model.trees.size()];
         treesColorOffset = new double[model.trees.size()];
@@ -207,7 +206,7 @@ class EG_CounterSpin extends TSPattern {
     }
 }
 
-class EG_DiscreteColors extends TSPattern {
+class DiscreteColors extends TSPattern {
     final BasicParameter hue1Param = new BasicParameter("HU1", 60, 1, 360);
     // final BasicParameter sat1Param = new BasicParameter("SAT1", 100, 0, 100);
     // final BasicParameter bright1Param = new BasicParameter("BRIGHT1", 100, 0,
@@ -247,7 +246,7 @@ class EG_DiscreteColors extends TSPattern {
     final Vec3D octantExtent_NNP = new Vec3D(model.xMin, model.yMin, model.zMax);
     final Vec3D octantExtent_NNN = new Vec3D(model.xMin, model.yMin, model.zMin);
 
-    EG_DiscreteColors(LX lx) {
+    DiscreteColors(LX lx) {
         super(lx);
 
         addParameter(hue1Param);
