@@ -515,6 +515,12 @@ abstract class Engine {
     // Omar Shehata pattern
     patterns.add(new FairySnakes(lx));
 
+    // Eric Gauderman patterns
+    patterns.add(new UpDown(lx));
+    patterns.add(new Radar(lx));
+    patterns.add(new CounterSpin(lx));
+    patterns.add(new DiscreteColors(lx));
+    
     // Basic multicolor for nationalism
     patterns.add(new MultiColor(lx));    
     patterns.add(new MultiColor2(lx));    
