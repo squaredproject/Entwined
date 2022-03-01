@@ -100,7 +100,7 @@ class Radar extends TSPattern {
             }
 
             float brightnessValue = Math.max(detectedBrightness[cube.index] * 100,
-                    10 + gaussian(mappedCubeZ, sweepPosition) * 60);
+                    5 + gaussian(mappedCubeZ, sweepPosition) * 65);
 
             colors[cube.index] = LX.hsb(
                     time / 20000 * 360 + 160 - 80 * brightnessValue / 100,
