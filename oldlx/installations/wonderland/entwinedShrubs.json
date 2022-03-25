@@ -1,0 +1,110 @@
+[
+	{
+			"ry" : 130,
+			"x" : -868,
+			"z" : -1464,
+			"type" : "king",
+			"cubeSizeIndex": 0,
+			"pieceId" : "king-1",
+			"shrubIpAddress" : "10.0.0.120"
+	},
+	{
+			"ry" : 170,
+			"x" : -587,
+			"z" : -1596,
+			"type" : "classic",
+			"cubeSizeIndex": 1,
+			"pieceId" : "shrub-11",
+			"shrubIpAddress" : "10.0.0.109"
+	},
+	{
+			"ry" : 230,
+			"x" : -120,
+			"z" : 130,
+			"type" : "classic",
+			"cubeSizeIndex": 0,
+			"pieceId" : "shrub-12",
+			"shrubIpAddress" : "10.0.0.114"
+	},
+	{
+			"ry" : 320,
+			"x" : -24,
+			"z" : -152,
+			"type" : "classic",
+			"cubeSizeIndex": 0,
+			"pieceId" : "shrub-13",
+			"shrubIpAddress" : "10.0.0.113"
+	},
+	{
+			"ry" : 130,
+			"x" : 166,
+			"z" : -324,
+			"type" : "king",
+			"cubeSizeIndex": 0,
+			"pieceId" : "king-2",
+			"shrubIpAddress" : "10.0.0.118"
+	},
+	{
+			"ry" : 175,
+			"x" : 464,
+			"z" : -368,
+			"type" : "classic",
+			"cubeSizeIndex": 1,
+			"pieceId" : "shrub-21",
+			"shrubIpAddress" : "10.0.0.214"
+	},
+	{
+			"ry" : 260,
+			"x" : -190,
+			"z" : -36,
+			"type" : "classic",
+			"cubeSizeIndex": 0,
+			"pieceId" : "shrub-22",
+			"shrubIpAddress" : "10.0.0.112"
+	},
+	{
+			"ry" : 135,
+			"x" : -236,
+			"z" : -491,
+			"type" : "classic",
+			"cubeSizeIndex": 0,
+			"pieceId" : "shrub-23",
+			"shrubIpAddress" : "10.0.0.115"
+	},
+	{
+			"ry" : 300,
+			"x" : 447,
+			"z" : 306,
+			"type" : "king",
+			"cubeSizeIndex": 0,
+			"pieceId" : "king-3",
+			"shrubIpAddress" : "10.0.0.116"
+	},
+	{
+			"ry" : 270,
+			"x" : 499,
+			"z" : 552,
+			"type" : "classic",
+			"cubeSizeIndex": 1,
+			"pieceId" : "shrub-31",
+			"shrubIpAddress" : "10.0.0.111"
+	},
+	{
+			"ry" : 265,
+			"x" : 128,
+			"z" : 108,
+			"type" : "classic",
+			"cubeSizeIndex": 0,
+			"pieceId" : "shrub-32",
+			"shrubIpAddress" : "10.0.0.119"
+	},
+	{
+			"ry" : 180,
+			"x" : 108,
+			"z" : -96,
+			"type" : "classic",
+			"cubeSizeIndex": 0,
+			"pieceId" : "shrub-33",
+			"shrubIpAddress" : "10.0.0.117"
+	}
+]
