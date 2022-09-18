@@ -36,5 +36,5 @@ final class Config {
   static final String FAIRY_CIRCLE_CONFIG_FILE = "data/entwinedFairyCircles.json";
 
   // if this file doesn't exist you get a crash
-  static final String AUTOPLAY_FILE = "data/entwined2021.json";
+  static final String AUTOPLAY_FILE = "data/entwinedSetDec2021.json";
 }
