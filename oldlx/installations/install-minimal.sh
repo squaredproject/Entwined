@@ -12,3 +12,5 @@ fi
 echo "directory exists, copying files"
 cp $1/Config.java ../Trees
 cp $1/entwined* ../Trees/data
+# good idea because the config file is in java
+../compile.sh
