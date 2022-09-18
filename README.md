@@ -72,6 +72,7 @@ rpis are using https, so you might have to blow away the old one.
 You'll have to register the public key of of the rpi with your account. It's pretty hard to automate this.
 
 Go to `~/.ssh`. `cat id_ed25519.pub`, copy the output.
+If there is no ed25519 public key generate one: `ssh-keygen -t ed25519 -C "my-email-address"`
 Go to github.com with your login. Go to your profile. Go to settings under your profile (right side). Add a key, which is in the left menu. Use the friendly add button and paste your key in. After you've done all your work, you can delete that key (for proper security).
 
 # NEW LX
