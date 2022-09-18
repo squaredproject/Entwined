@@ -61,6 +61,18 @@ are configured in the entwinedShrubs.json, entwinedTrees.json, entwinedFairyCirc
 
 Please see the repo: https://github.com/squaredproject/entwined-canopy
 
+# Checking in
+
+It is very useful to be able to check in an installation configuration from the field. After getting your installation just so (see the `oldlx/installation`
+directory), you'll want to check it in.
+
+As of 2021, it is now impossible to check in using a https clone. You'll need to have a `git@github.com:squaredproject/Entwined` checkout. Many of the old
+rpis are using https, so you might have to blow away the old one.
+
+You'll have to register the public key of of the rpi with your account. It's pretty hard to automate this.
+
+Go to `~/.ssh`. `cat id_ed25519.pub`, copy the output.
+Go to github.com with your login. Go to your profile. Go to settings under your profile (right side). Add a key, which is in the left menu. Use the friendly add button and paste your key in. After you've done all your work, you can delete that key (for proper security).
 
 # NEW LX
 
