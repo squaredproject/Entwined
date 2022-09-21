@@ -6,5 +6,21 @@
 			"pieceId" : "yard",
 			"shrubIpAddress": "10.0.0.206",
 			"leds-per-cube": 4
+	},
+	{
+			"ry" : 0,
+			"x" : 200,
+			"z" : 0,
+			"pieceId" : "yard",
+			"shrubIpAddress": "10.0.0.207",
+			"leds-per-cube": 4
+	},
+	{
+			"ry" : 0,
+			"x" : -200,
+			"z" : 0,
+			"pieceId" : "yard",
+			"shrubIpAddress": "10.0.0.208",
+			"leds-per-cube": 4
 	}
 ]
