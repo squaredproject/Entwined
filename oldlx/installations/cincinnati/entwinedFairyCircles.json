@@ -3,7 +3,8 @@
 		"ry" : 220,
 		"x" : 500,
 		"z" : 200,
-		"radius" : 80,
+		"radius" : 160,
+		"degrees" : 180.0,
 		"pieceId" : "fairy",
 		"cubeSizeIndex" : 0,
 		"ipAddresses" : ["10.0.0.140"]
