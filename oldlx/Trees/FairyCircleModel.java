@@ -70,7 +70,7 @@ class MiniCluster {
         this.index = index;
         List<BaseCube> _cubes = new ArrayList<BaseCube>();
 
-        float rad_step = (float) Math.toRadians( 360.0f / N_CUBES );
+        float rad_step = (float) Math.toRadians( 380.0f / N_CUBES ); // this is stepping around the mini cluster
         float rads = (float) miniClusterRotation; // start with the global rotation + local rotation, rotate about
         for (int i = 0; i < N_CUBES; i++ ) {
             Vec3D cubePosition = new Vec3D(); // relative to sculpture
@@ -173,6 +173,7 @@ class FairyCircleConfig  {
   float z;
   float ry;
   float radius;
+  float degrees = 360.0f;
   int cubeSizeIndex;
   String[] ipAddresses;
   String pieceId;
@@ -194,6 +195,12 @@ class FairyCircle extends LXModel {
      * MiniClusters in the FairyCircle
      */
     public final List<MiniCluster> miniClusters;
+
+    /**
+     * Degrees in the fairly circle. 180 means a half circle, 90 means a full circle
+     * Default is 380
+     */
+    public final float degrees;
 
     /**
      * index of the fairy circle (in the configuration)
@@ -227,6 +234,7 @@ class FairyCircle extends LXModel {
         this.index = fairyCircleIndex;
         this.cubes = Collections.unmodifiableList(f.cubes);
         this.miniClusters = f.miniClusters;
+        this.degrees = fcc.degrees;
         this.ipMap = f.ipMap;
         this.x = fcc.x;
         this.z = fcc.z;
@@ -268,7 +276,9 @@ class FairyCircle extends LXModel {
             // always 5 minis per NDB
             int N_MINICLUSTERS = fcc.ipAddresses.length * MINICLUSTERS_PER_NDB;
 
-            float rad_step = (float) Math.toRadians( 360.0f / N_MINICLUSTERS );
+            // original version assumed the fairy circle was always a circle.
+            // now we can have a configuration for the number of degrees in a circle (but default is 360)
+            float rad_step = (float) Math.toRadians( fcc.degrees / N_MINICLUSTERS );
             float rads = (float) Math.toRadians(fcc.ry); // start with the global rotation, rotate about
             float miniClusterRotation = (float) Math.PI; // number 1 is inside
             for (int i = 0; i < N_MINICLUSTERS; i++ ) {
