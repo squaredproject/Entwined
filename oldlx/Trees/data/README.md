@@ -279,6 +279,11 @@ The radius will be used to calculate the distance between the minis. They will b
 evenly spaced, although I understand there are walkways. We'll have something to touch up
 the distances later if we want.
 
+Originally, fairy circles would be all circles. The default is still a full circle, so you don't
+have to put in a number, but Charlie wants to have a partial circle - so now we have `degrees` 
+which is a configuration parameter. If you set to 90, you have a quarter circle. You'll want to 
+rotate the circle to the right location.
+
 There will be the list of NDBs, **in order**. The minis will be connected as follows. Mini 1 and 2 will be 
 connected to output 1, in series. Thus mini 2 will be 1 through 12, mini 1 will be 13 through 24.
 
