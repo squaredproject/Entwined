@@ -1,10 +1,7 @@
-# basic python for taking information from configs and outputting json
-# This is code that knows nothing about LX Studio, thankfully
+# Turn an Entwined shrub definition file into an LXstudio fixture file(s)
 
 import argparse
-import getopt
 import json
-import math
 from pathlib import Path
 
 import numpy as np
@@ -105,7 +102,7 @@ class Shrub:
                     ])
 
                 # Now transform into shrub coordinates...
-                theta = -(cluster_idx + 1) * math.pi/6
+                theta = -(cluster_idx + 1) * np.pi/6
                 rot = np.array([
                     [np.cos(theta),0,np.sin(theta)],
                     [0,1,0],
@@ -135,8 +132,8 @@ class Shrub:
         outputs = lx_output["outputs"]
         coords = lx_output["components"][0]["coords"]
         outputs.append({"protocol": "ddp", "host": self.ip_addr, "start": 0, "num": len(self.cubes)})
-        for cube in shrub.cubes:
-            coords.append(cube)
+        for cube in self.cubes:
+            coords.append({'x': cube[0], 'y': cube[1], 'z': cube[2]})
 
         with open(config_path, 'w+') as output_f:
             json.dump(lx_output, output_f, indent=4)
@@ -156,9 +153,6 @@ if __name__ == "__main__":
     # Read configuration file. (They're json files)
     with open(args.shrub_config_file) as sc_f:
         shrub_configs = json.load(sc_f)  # XXX catch exceptions here.
-
-    # Now let's create some shrubs and cubes ...
-    shrubs = []
 
     for shrub_config in shrub_configs:
         shrub = Shrub(shrub_config)
