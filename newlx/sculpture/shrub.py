@@ -5,6 +5,7 @@ import argparse
 import getopt
 import json
 import math
+from pathlib import Path
 
 import numpy as np
 
@@ -122,23 +123,30 @@ class Shrub:
                     self.cubes.append({'x':cube_pos[0], 'y':cube_pos[1], 'z':cube_pos[2]})
 
 
-def create_lxstudio_config(shrubs):
-    lx_output = {"components": [ {"type": "points", "coords": []}], "outputs": []}
-    outputs = lx_output["outputs"]
-    coords = lx_output["components"][0]["coords"]
-    total_pix = 0
-    for shrub in shrubs:
-        outputs.append({"protocol": "ddp", "host": shrub.ip_addr, "start": total_pix, "num": len(shrub.cubes)})
+    def write_fixture_file(self, config_folder):
+        folder = Path(config_folder)
+        folder.mkdir(parents=True, exist_ok=True)
+        filename = Path(self.piece_id + ".lxf")
+        config_path = folder / filename
+        tags = ["SHRUB"]
+        if self.type == 'king':
+            tags.append("KING")
+        lx_output = {"label": self.piece_id, "tags": tags, "components": [ {"type": "points", "coords": []}], "outputs": []}
+        outputs = lx_output["outputs"]
+        coords = lx_output["components"][0]["coords"]
+        outputs.append({"protocol": "ddp", "host": self.ip_addr, "start": 0, "num": len(self.cubes)})
         for cube in shrub.cubes:
             coords.append(cube)
-        total_pix += len(shrub.cubes)
 
-    return lx_output
+        with open(config_path, 'w+') as output_f:
+            json.dump(lx_output, output_f, indent=4)
+
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description='Create newlx fixture config from shrub configuration file')
-    parser.add_argument('shrub_config_file', help='Name of shrub configuration file')
+    parser = argparse.ArgumentParser(description='Create newlx fixture configs from shrub configuration file')
+    parser.add_argument('shrub_config_file', help='Name of input shrub configuration file')
+    parser.add_argument('fixtures_config_folder', help='Name of folder to hold lx configurations')
     args = parser.parse_args()
 
     # Note that we could put different shrub configuration files into a single directory, and read the
@@ -153,12 +161,7 @@ if __name__ == "__main__":
     shrubs = []
 
     for shrub_config in shrub_configs:
-        shrubs.append(Shrub(shrub_config))  # this is going to set up the rods and the clusters
-
-
-    # and I should at this point be able to spit out the final json
-    lxstudio_config = create_lxstudio_config(shrubs)
-
-    with open('lx_input.json', 'w+') as output_f:
-        json.dump(lxstudio_config, output_f, indent=4)
+        shrub = Shrub(shrub_config)
+        shrub.write_fixture_file(args.fixtures_config_folder)
+        #shrubs.append(Shrub(shrub_config))  # this is going to set up the rods and the clusters
 
