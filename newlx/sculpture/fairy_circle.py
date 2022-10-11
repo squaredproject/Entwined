@@ -90,7 +90,7 @@ class FairyCircle:
         coords = lx_config['components'][0]['coords']
         outputs = lx_config['outputs']
         for cube in self.cubes:
-            # XXX - get the multiple cube things, if it happens in fairy circles...
+            # NB - the multiple leds in one cube issue does not occur with fairy circles...
             coords.append({'x': cube[0], 'y': cube[1], 'z': cube[2]})
 
         num_cubes_per_ndb = self.MINICLUSTER_N_CUBES * self.clusters_per_ndb

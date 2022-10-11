@@ -6,8 +6,7 @@ from pathlib import Path
 
 import numpy as np
 
-class SculptureGlobals:
-    pixels_per_cube = [1, 4, 6]
+import sculpture_globals
 
 
 class Shrub:
@@ -116,7 +115,7 @@ class Shrub:
                 # and add to our list
                 # If the cube size index shows that we have multiple leds in a cube,
                 # add more.
-                for _ in range(0, SculptureGlobals.pixels_per_cube[self.cube_size_index]):
+                for _ in range(0, sculpture_globals.pixels_per_cube[self.cube_size_index]):
                     self.cubes.append({'x':cube_pos[0], 'y':cube_pos[1], 'z':cube_pos[2]})
 
 
