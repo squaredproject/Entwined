@@ -52,8 +52,7 @@ import os
 import sys
 import argparse
 
-
-def tree_cubes_csv(csvFilename:str, cubeFilename:str, ndbFilename:str):
+def tree_cubes_load_csv(csvFilename:str):
 
     cubes = []
     ndbs = {} # dict with string is IP address, value is array of 16 ints for output length
@@ -65,11 +64,11 @@ def tree_cubes_csv(csvFilename:str, cubeFilename:str, ndbFilename:str):
                 print(" check CSV header: {}".format(csv_line))
             else:
                 values = csv_line.split(',') #only the one delimiter
-                ndb = values[0]                # str
-                tree = values[1].lower()       # str
-                cubeSize = int(values[2])      # int
-                output = int(values[3])        # int
-                cubesNum = int(values[4])            # int, length of string, some are 0 if not used
+                ndb = values[0]                # str, either the full ip addr of the ndb, or the final field (will append 10.0.0)
+                tree = values[1].lower()       # str, 's', 'm', 'l', or int index of the tree
+                cubeSize = int(values[2])      # int  number of leds? or the offset into that array? XXX
+                output = int(values[3])        # int, the ndb output channel
+                cubesNum = int(values[4])      # int, length of string of LEDs, some are 0 if not used
 
                 if cubesNum > 0:
                     branchStr = values[5]           # layer.branch.half
@@ -87,16 +86,22 @@ def tree_cubes_csv(csvFilename:str, cubeFilename:str, ndbFilename:str):
                 # it's actually pretty easy to do it manually and a good double check???
 
             lineNum += 1
-
     #print(' ndb output array is: ',ndbs)
     #print(' ndb output in json form is: ',convert_ndbs(ndbs))
+
+    return covert_ndbs(ndbs), cubes
+
+
+def tree_cubes_dump_csv(csvFilename:str, cubeFilename:str, ndbFilename:str):
+    ndbs, cubes = tree_cubes_load_csv(csvFilename)
 
     # write the output files
     with open(cubeFilename, 'w') as f:
         json.dump(cubes, f)
 
     with open(ndbFilename, 'w') as f:
-        json.dump(convert_ndbs(ndbs), f)
+        json.dump(ndbs, f)
+
 
 def update_ndbs(ndbs, ndb:str, output: int, cubesNum: int):
     if '.' not in ndb:
@@ -146,7 +151,6 @@ def convert_ndbs(ndbs):
 # returns an object
 
 def tree_cube_make_object(ip:str, output:int, tree, layer:int, branch:str, half:str, cubesNum:int, cubeSize:int, lineNum:int):
-
 
     print(' adding: ip {} output {} tree {} cubesize {} layer {} branch {} half {} cubes {} linenum {}'.format(ip,output,tree,cubeSize,layer,branch,half,cubesNum,lineNum))
 
