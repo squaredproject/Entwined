@@ -31,6 +31,7 @@ sudo apt -y install openjdk-8-jdk
 ######################
 cd $HOME
 echo -e "\n\n*********** Compiling Entwined **************\n\n"
+git config --global user.name "Raspberry Pi"
 cd $HOME;  git clone git@github.com:squaredproject/Entwined.git;
 cd Entwined/oldlx/  && sh compile.sh && cd $HOME
 echo -e "\n\n*********** Done compiling entwined **************\n\n"
