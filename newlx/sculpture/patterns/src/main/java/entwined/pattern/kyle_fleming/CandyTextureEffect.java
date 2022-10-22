@@ -8,7 +8,7 @@ import heronarts.lx.parameter.BoundedParameter;
 
 public class CandyTextureEffect extends LXEffect {
 
-  final BoundedParameter amount = new BoundedParameter("CAND");
+  protected final BoundedParameter amount = new BoundedParameter("CAND");
 
   double time = 0;
 
