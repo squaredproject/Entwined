@@ -89,7 +89,11 @@ class Tree:
             tags.append("SAPLING")
         else:
             tags.append("BIG_TREE")
-        lx_output = {"label": self.piece_id, "tags": tags, "components": [ {"type": "points", "coords": []}], "outputs": []}
+        lx_output = {"label": self.piece_id,
+                     "tags": tags,
+                     "components": [ {"type": "points", "coords": []}],
+                     "outputs": [],
+                     "meta": [{"name": self.piece_id}]}
         outputs = lx_output["outputs"]
         coords = lx_output["components"][0]["coords"]
         cur_ndb_addr = None

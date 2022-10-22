@@ -85,7 +85,8 @@ class FairyCircle:
         lx_config = {'label': self.piece_id,
                      'tags': ['FAIRY_CIRCLE'],
                      'components': [{'type': 'points', 'coords': []}],
-                     'outputs': []
+                     'outputs': [],
+                     'meta': [{'name': self.piece_id}]
                      }
         coords = lx_config['components'][0]['coords']
         outputs = lx_config['outputs']

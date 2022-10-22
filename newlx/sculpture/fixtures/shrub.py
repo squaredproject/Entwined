@@ -127,7 +127,11 @@ class Shrub:
         tags = ["SHRUB"]
         if self.type == 'king':
             tags.append("KING")
-        lx_output = {"label": self.piece_id, "tags": tags, "components": [ {"type": "points", "coords": []}], "outputs": []}
+        lx_output = {"label": self.piece_id,
+                     "tags": tags,
+                     "components": [ {"type": "points", "coords": []}],
+                     "outputs": [],
+                     "meta": [{"name": self.piece_id}]}
         outputs = lx_output["outputs"]
         coords = lx_output["components"][0]["coords"]
         outputs.append({"protocol": "ddp", "host": self.ip_addr, "start": 0, "num": len(self.cubes)})
