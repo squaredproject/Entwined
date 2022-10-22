@@ -16,3 +16,5 @@ cp ../Trees/data/entwinedCubes.json $1
 cp ../Trees/data/entwinedShrubs.json $1
 cp ../Trees/data/entwinedShrubCubes.json $1
 cp ../Trees/data/entwinedFairyCircles.json $1
+cp ../Trees/data/entwinedSpots.json $1
+

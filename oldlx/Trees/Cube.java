@@ -65,6 +65,8 @@ class BaseCube extends LXModel {
 
     public final float size;
 
+// TODO: sizes here only work for cubic representation and I want a rectangle
+
     /*
     ** number of output pixels for the cube
     */
@@ -169,6 +171,34 @@ class BaseCube extends LXModel {
         this.didTransform();
     }
 
+    // constructor exposes size and number of leds directly
+    BaseCube(Vec3D globalPosition, Vec3D sculpturePosition, float size, int sculptureIdx, PieceType pieceType, String pieceId, int pixels) {
+        super(Arrays.asList(new LXPoint[] { new LXPoint(globalPosition.x, globalPosition.y, globalPosition.z) }));
+        this.index = this.points.get(0).index;
+        this.sculptureIndex = sculptureIdx;
+        this.pieceType = pieceType;
+        this.pieceId = pieceId;
+        this.pieceIndex = -1;
+        this.size = size;
+        this.pixels = pixels;
+        this.rx = 0;
+        this.ry = 0;
+        this.rz = 0;
+        this.x = globalPosition.x;
+        this.y = globalPosition.y;
+        this.z = globalPosition.z;
+        this.sx = sculpturePosition.x;
+        this.sy = sculpturePosition.y;
+        this.sz = sculpturePosition.z;
+        this.r = (float) Point2D.distance(sculpturePosition.x, sculpturePosition.z, 0, 0);
+        this.theta = 180 + 180 / Utils.PI * Utils.atan2(sculpturePosition.z, sculpturePosition.x);
+        this.gr = (float) Point2D.distance(this.x, this.z, 0, 0);
+        this.globalTheta = (float) Math.toDegrees(Math.atan2((double)(0 - this.z), (double)(0 - this.x)));
+        // better inital - better than nulls
+        this.resetTransform();
+        this.didTransform();
+    }
+
     void resetTransform() {
         transformedTheta = theta;
         transformedY = y;
@@ -182,5 +212,6 @@ class BaseCube extends LXModel {
 enum PieceType {
   TREE,
   SHRUB,
-  FAIRY_CIRCLE
+  FAIRY_CIRCLE,
+  SPOT
 }

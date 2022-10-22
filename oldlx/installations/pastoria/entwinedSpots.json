@@ -1,0 +1,55 @@
+[
+	{
+		"x": 300,
+		"z": 100,
+		"y": 48,
+		"size": 50,
+		"ipAddress": "10.0.0.50",
+		"ndbOffset": 0,
+		"pieceId": "spot1-1"
+	},
+	{
+		"x": 300,
+		"z": 300,
+		"y": 48,
+		"size": 50,
+		"ipAddress": "10.0.0.50",
+		"ndbOffset": 1,
+		"pieceId": "spot1-2"
+	},
+	{
+		"x": 300,
+		"z": 500,
+		"y": 48,
+		"size": 50,
+		"ipAddress": "10.0.0.50",
+		"ndbOffset": 2,
+		"pieceId": "spot1-3"
+	},
+	{
+		"x": 500,
+		"z": 100,
+		"y": 48,
+		"size": 50,
+		"ipAddress": "10.0.0.51",
+		"ndbOffset": 0,
+		"pieceId": "spot2-1"
+	},
+	{
+		"x": 500,
+		"z": 300,
+		"y": 48,
+		"size": 50,
+		"ipAddress": "10.0.0.51",
+		"ndbOffset": 1,
+		"pieceId": "spot2-2"
+	},	{
+		"x": 500,
+		"z": 500,
+		"y": 48,
+		"size": 50,
+		"ipAddress": "10.0.0.51",
+		"ndbOffset": 2,
+		"pieceId": "spot2-3"
+	}
+]

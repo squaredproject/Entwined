@@ -298,6 +298,31 @@ Please see the root `ndb` directory for precise configuration and test informati
 It wouldn't surprise me if we have to recode this a bit because someday there will be a different
 number of minis per NDB. Then we would want some kind of list of NDB and the channels or something.
 
+## Spots
+
+For the installation at Pastoria in Sunnyvale, Charlie wants to have spot lights driven by NDBs and
+this software. Having "spots", which could even be a cube, gives a fast way to put together some kind of
+installation which is just cubes somewhere.
+
+### Note! Twister is all white, because each spot is at the center of the "piece"
+
+The configuration file is pretty simple. There's an X, Y, Z coordinate in the standard form,
+there's the string for the IP address of the NDB, there's an NDBoffset, which is the numerical LED
+of that spot. I didn't bother putting in an "cube led size" because generally spots have a single
+RGB value. There's a size parameter that allows you to visualize the cubes on screen a bit better.
+
+The system is a little fragile in configuration.
+
+You can't have any gaps in the NDBoffsets - eg, if you have IP address X, you need to have offsets 0, 1, 2: 
+you can't have a gap like 0, 1, 4. It shouldn't be super hard to fix that but I haven't bothered. The
+ipMaps always have the contiguous set of Cubes, it would be necessary to have a "fake cube" inserted
+where there is no output intended. That would be worth doing perhaps if this was a longer term code base.
+
+If you miss different configurations - like if you don't set an ndbOffset - you'll probably get a fail
+when you start up Processing, with an array out of bounds somewhere.
+
+Otherwise, it seems to work OK!
+
 ## Rotation
 
 All pieces have a `ry` which is the rotation. Here's how (I think) it works.

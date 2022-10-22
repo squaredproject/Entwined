@@ -43,9 +43,9 @@ class Model extends LXModel {
     public final Map<String, Integer> pieceIdMap;
 
     Model(List <NDBConfig> ndbConfigs, List<TreeConfig> treeConfigs, List<TreeCubeConfig> cubeConfigs, List<ShrubConfig> shrubConfigs,
-          List<ShrubCubeConfig> shrubCubeConfigs, List<FairyCircleConfig> fairyCircleConfigs) {
+          List<ShrubCubeConfig> shrubCubeConfigs, List<FairyCircleConfig> fairyCircleConfigs, List<SpotConfig> spotConfigs) {
 
-        super(new Fixture(ndbConfigs, treeConfigs, cubeConfigs, shrubConfigs, shrubCubeConfigs, fairyCircleConfigs));
+        super(new Fixture(ndbConfigs, treeConfigs, cubeConfigs, shrubConfigs, shrubCubeConfigs, fairyCircleConfigs, spotConfigs));
 
         Fixture f = (Fixture) this.fixtures.get(0);
 
@@ -85,6 +85,23 @@ class Model extends LXModel {
         }
         this.fairyCircleCubes = Collections.unmodifiableList(_fairyCircleCubes);
 
+        // spotlights
+        this.spotConfigs = spotConfigs;
+        List<BaseCube> _spotCubes = new ArrayList<BaseCube>();
+        this.spots = Collections.unmodifiableList(f.spots);
+
+        // spots are unusual in that the IPmaps have an internal structure,
+        // so there's a class specific getter. If this was longer term code I'd
+        // apply the same pattern to the other classes. The spotipmap
+        // on the model is final, let's not disturb the code overmuch
+        Map<String, BaseCube[]> _spotIpMap = Spot.spotsIpMapGet(this.spots);
+        spotIpMap.putAll(_spotIpMap);
+
+        for (Spot spot : this.spots) {
+            _spotCubes.addAll(spot.cubes);
+        }
+        this.spotCubes = Collections.unmodifiableList(_spotCubes);
+
         // get a list of the names all the pieces, and a map 
         // so you can get from a string to the id array fastest
 
@@ -122,6 +139,16 @@ class Model extends LXModel {
                 pieceIndex = pieceIndex + 1;
             }
         }
+        for (Spot spot : this.spots) {
+            if (spot.pieceId != null) {
+                _pieceIds.add(spot.pieceId);
+                _pieceIdMap.put(spot.pieceId, pieceIndex);
+                for (BaseCube cube : spot.cubes) {
+                    cube.pieceIndex = pieceIndex;
+                }
+                pieceIndex = pieceIndex + 1;
+            }
+        }
         this.pieceIds = _pieceIds.toArray(new String[_pieceIds.size()]);
         this.pieceIdMap = Collections.unmodifiableMap(_pieceIdMap);
         System.out.println(" pieces are: "+this.pieceIds);
@@ -138,6 +165,9 @@ class Model extends LXModel {
         for (FairyCircle fairyCircle : this.fairyCircles) {
             _baseCubes.addAll(fairyCircle.cubes);
         }
+        for (Spot spot : this.spots) {
+            _baseCubes.addAll(spot.cubes);
+        }
         this.baseCubes = Collections.unmodifiableList(_baseCubes);
 
     }
@@ -150,8 +180,10 @@ class Model extends LXModel {
 
         final List<FairyCircle> fairyCircles = new ArrayList<FairyCircle>();
 
+        final List<Spot> spots = new ArrayList<Spot>();
+
         private Fixture(List<NDBConfig> ndbConfigs, List<TreeConfig> treeConfigs, List<TreeCubeConfig> cubeConfigs,
-                    List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfigs, List<FairyCircleConfig> fairyCircleConfigs) {
+                    List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfigs, List<FairyCircleConfig> fairyCircleConfigs, List<SpotConfig> spotConfigs) {
 
             for (int i = 0; i < treeConfigs.size(); i++) {
                 TreeConfig tc = treeConfigs.get(i);
@@ -172,6 +204,14 @@ class Model extends LXModel {
                 FairyCircle fc = new FairyCircle(fcc, i);
                 fairyCircles.add(fc);
                 points.addAll(fc.points);
+            }
+
+            System.out.println(" constructing spots, size  "+spotConfigs.size() );
+            for (int i = 0; i < spotConfigs.size(); i++) {
+                SpotConfig sc = spotConfigs.get(i);
+                Spot s = new Spot(sc, i);
+                spots.add(s);
+                points.addAll(s.points);
             }
         }
     }
@@ -198,6 +238,7 @@ class Model extends LXModel {
         modelTransforms.add(modelTransform);
         shrubModelTransforms.add(modelTransform);
         //fairyCircleModelTransforms.add(modelTransforms);
+        //spotModelTransforms.add(modelTransforms);
     }
 
     public void runTransforms() {
@@ -238,7 +279,20 @@ class Model extends LXModel {
                 fairyCircleModelTransform.transform(this);
             }
         }
-        for (BaseCube cube : shrubCubes) {
+        for (BaseCube cube : fairyCircleCubes) {
+            cube.didTransform();
+        }
+        // for the spots
+        for (BaseCube cube : spotCubes) {
+            cube.resetTransform();
+        }
+        for (Effect modelTransform : spotModelTransforms) {
+            ModelTransform spotModelTransform = (ModelTransform) modelTransform;
+            if (spotModelTransform.isEnabled()) {
+                spotModelTransform.transform(this);
+            }
+        }
+        for (BaseCube cube : spotCubes) {
             cube.didTransform();
         }
 
@@ -327,6 +381,39 @@ class Model extends LXModel {
 
     public void addFairyCircleModelTransform(Effect fairyCircleModelTransform) {
         fairyCircleModelTransforms.add((ModelTransform) fairyCircleModelTransform);
+    }
+
+    /**
+     * Spots in the model
+     */
+    public final List<Spot> spots;
+
+    /**
+     * Spots have BaseCubes - the cubes in the model
+     */
+    public final List<BaseCube> spotCubes;
+    public final Map<String, BaseCube[]> spotIpMap = new HashMap<String, BaseCube[]>();
+
+    private final ArrayList<ModelTransform> spotModelTransforms = new ArrayList<>();
+    private final List<SpotConfig> spotConfigs;
+
+    public void runSpotTransforms() {
+        for (BaseCube cube : spotCubes) {
+            cube.resetTransform();
+        }
+        for (Effect modelTransform : spotModelTransforms) {
+            SpotModelTransform spotModelTransform = (SpotModelTransform) modelTransform;
+            if (spotModelTransform.isEnabled()) {
+                spotModelTransform.transform(this);
+            }
+        }
+        for (BaseCube cube : spotCubes) {
+            cube.didTransform();
+        }
+    }
+
+    public void addSpotModelTransform(Effect spotModelTransform) {
+        spotModelTransforms.add((ModelTransform) spotModelTransform);
     }
 
 
@@ -756,6 +843,7 @@ abstract class ModelTransform extends Effect {
         model.addModelTransform(this);
         model.addShrubModelTransform(this);
         model.addFairyCircleModelTransform(this);
+        model.addSpotModelTransform(this);
     }
 
     @Override

@@ -37,6 +37,7 @@ class UITrees extends UI3dComponent {
     drawTrees(ui);
     drawShrubs(ui);
     //drawFairyCircles(ui); // TODO: there would be a bit of steel in each fairy circle
+    //drawSpots(ui); // TODO: can't really think of what a spotlight has other than its cube of light
     drawLights(ui);
   }
 
@@ -132,6 +133,9 @@ class UITrees extends UI3dComponent {
         drawShrubCube(shrubCube, colors);
     }
     for (BaseCube cube : model.fairyCircleCubes) {
+        drawBaseCube(cube, colors);
+    }
+    for (BaseCube cube : model.spotCubes) {
         drawBaseCube(cube, colors);
     }
 
@@ -704,6 +708,61 @@ class UIFairyCircleFaders extends UI2dContext {
   }
 }
 
+class UISpotFaders extends UI2dContext {
+  final static int SPACER = 30;
+  final static int PADDING = 4;
+  final static int BUTTON_HEIGHT = 14;
+  final static int FADER_WIDTH = 40;
+  final static int HEIGHT = 140;
+  final public UISlider[] sliders;
+  final private ChannelSpotLevels[] channelSpotLevels;
+  final int numSpots;
+  UISpotFaders(final UI ui, final ChannelSpotLevels[] channelSpotLevels, final int numSpots) {
+    super(ui, 800, Trees.this.height-HEIGHT-PADDING, 2 * SPACER + PADDING + (PADDING+FADER_WIDTH)*(numSpots), HEIGHT);
+    sliders = new UISlider[numSpots];
+    this.channelSpotLevels = channelSpotLevels;
+    this.numSpots = numSpots;
+    setBackgroundColor(#292929);
+    setBorderColor(#444444);
+    final UILabel[] labels = new UILabel[numSpots];
+
+    for (int i = 0; i < numSpots; i++) {
+      float xPos = PADDING + i*(PADDING+FADER_WIDTH) + SPACER;
+      sliders[i] = new UISlider(UISlider.Direction.VERTICAL, xPos, 1*BUTTON_HEIGHT + 2*PADDING, FADER_WIDTH, this.height - 3*BUTTON_HEIGHT - 5*PADDING) {
+        @Override
+        protected void onDraw(UI ui, PGraphics pg) {
+          int primaryColor = ui.theme.getPrimaryColor();
+          ui.theme.setPrimaryColor(0xff222222);
+          super.onDraw(ui, pg);
+          ui.theme.setPrimaryColor(primaryColor);
+        }
+      };
+      sliders[i]
+              .setShowLabel(false)
+              .addToContainer(this);
+      labels[i] = new UILabel(xPos, this.height - 2*PADDING - 2*BUTTON_HEIGHT, FADER_WIDTH, BUTTON_HEIGHT);
+      labels[i]
+              .setLabel("FC" + (i+1))
+              .setAlignment(CENTER, CENTER)
+              .setFontColor(#999999)
+              .setBackgroundColor(#292929)
+              .setBorderColor(#666666)
+              .addToContainer(this);
+    }
+    setChannel(0);
+    float labelX = PADDING;
+    new UILabel(labelX, 2*PADDING+1*BUTTON_HEIGHT+2, 0, 0)
+            .setLabel("LEVEL")
+            .setFontColor(#666666)
+            .addToContainer(this);
+
+  }
+  public void setChannel(int channelIndex){
+    for (int i = 0; i < numSpots; i++) {
+      sliders[i].setParameter(channelSpotLevels[channelIndex].getParameter(i));
+    }
+  }
+}
 
 class UIMultiDeck extends UIWindow implements InterfaceController {
 
@@ -1036,6 +1095,9 @@ class UIOutput extends UIWindow {
     for (LXDatagram fairyCircleDatagram : fairyCircleDatagrams) {
       items.add(new DatagramItem(fairyCircleDatagram));
     }
+    for (LXDatagram spotDatagram : spotDatagrams) {
+      items.add(new DatagramItem(spotDatagram));
+    }
     if (items.size() > 0) {
       new UIItemList(1, yPos, width-2, LIST_HEIGHT)
               .setItems(items)
@@ -1185,3 +1247,61 @@ class UIFairyCircleOutput extends UIWindow {
     }
   }
 }
+
+class UISpotOutput extends UIWindow {
+  static final int LIST_NUM_ROWS = 3;
+  static final int LIST_ROW_HEIGHT = 20;
+  static final int LIST_HEIGHT = LIST_NUM_ROWS * LIST_ROW_HEIGHT;
+  static final int BUTTON_HEIGHT = 20;
+  static final int SPACER = 8;
+  UISpotOutput(UI ui, float x, float y) {
+    super(ui, "LIVE FAIRY CIRCLE OUTPUT", x, y + 200, 140, UIWindow.TITLE_LABEL_HEIGHT - 1 + BUTTON_HEIGHT + SPACER + LIST_HEIGHT);
+    // may not have any fairy circles!
+    if (spotDatagrams.length <= 0) return;
+
+    float yPos = UIWindow.TITLE_LABEL_HEIGHT - 2;
+    new UIButton(4, yPos, width-8, BUTTON_HEIGHT)
+            .setParameter(spotOutput.enabled)
+            .setActiveLabel("Enabled")
+            .setInactiveLabel("Disabled")
+            .addToContainer(this);
+    yPos += BUTTON_HEIGHT + SPACER;
+
+    List<UIItemList.Item> items = new ArrayList<UIItemList.Item>();
+    for (LXDatagram spotDatagram : spotDatagrams) {
+      //System.out.println(spotDatagram);
+      items.add(new SpotDatagramItem(spotDatagram));
+    }
+    new UIItemList(1, yPos, width-2, LIST_HEIGHT)
+            .setItems(items)
+            .setBackgroundColor(0xff0000)
+            .addToContainer(this);
+  }
+
+  class SpotDatagramItem extends UIItemList.AbstractItem {
+
+    final LXDatagram spotDatagram;
+
+    SpotDatagramItem(LXDatagram spotDatagram) {
+      this.spotDatagram = spotDatagram;
+      spotDatagram.enabled.addListener(new LXParameterListener() {
+        public void onParameterChanged(LXParameter parameter) {
+          redraw();
+        }
+      });
+    }
+
+    String getLabel() {
+      return spotDatagram.getAddress().toString();
+    }
+
+    boolean isSelected() {
+      return spotDatagram.enabled.isOn();
+    }
+
+    void onMousePressed() {
+      spotDatagram.enabled.toggle();
+    }
+  }
+}
+
