@@ -1,55 +1,288 @@
 [
 	{
-		"x": 300,
-		"z": 100,
-		"y": 48,
-		"size": 50,
-		"ipAddress": "10.0.0.50",
+		"x": 84,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.59",
 		"ndbOffset": 0,
-		"pieceId": "spot1-1"
+		"pieceId": "spot9-1"
 	},
 	{
-		"x": 300,
-		"z": 300,
-		"y": 48,
-		"size": 50,
-		"ipAddress": "10.0.0.50",
+		"x": 108,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.59",
 		"ndbOffset": 1,
-		"pieceId": "spot1-2"
+		"pieceId": "spot9-2"
 	},
 	{
-		"x": 300,
-		"z": 500,
-		"y": 48,
-		"size": 50,
-		"ipAddress": "10.0.0.50",
+		"x": 132,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.59",
 		"ndbOffset": 2,
-		"pieceId": "spot1-3"
+		"pieceId": "spot9-3"
 	},
 	{
-		"x": 500,
-		"z": 100,
-		"y": 48,
-		"size": 50,
-		"ipAddress": "10.0.0.51",
+		"x": 156,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.59",
+		"ndbOffset": 3,
+		"pieceId": "spot9-4"
+	},
+	{
+		"x": 180,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.59",
+		"ndbOffset": 4,
+		"pieceId": "spot9-5"
+	},
+	{
+		"x": 204,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.59",
+		"ndbOffset": 5,
+		"pieceId": "spot9-6"
+	},
+
+
+	{
+		"x": 360,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.58",
+		"ndbOffset": 0,
+		"pieceId": "spot8-1"
+	},
+	{
+		"x": 384,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.58",
+		"ndbOffset": 1,
+		"pieceId": "spot8-2"
+	},
+
+	{
+		"x": 540,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.57",
+		"ndbOffset": 0,
+		"pieceId": "spot7-1"
+	},
+	{
+		"x": 564,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.57",
+		"ndbOffset": 1,
+		"pieceId": "spot7-2"
+	},
+
+
+
+	{
+		"x": 684,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.56",
+		"ndbOffset": 0,
+		"pieceId": "spot6-1"
+	},
+	{
+		"x": 708,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.56",
+		"ndbOffset": 1,
+		"pieceId": "spot6-2"
+	},
+	{
+		"x": 732,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.56",
+		"ndbOffset": 2,
+		"pieceId": "spot6-3"
+	},
+	{
+		"x": 756,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.56",
+		"ndbOffset": 3,
+		"pieceId": "spot6-4"
+	},
+	{
+		"x": 780,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.56",
+		"ndbOffset": 4,
+		"pieceId": "spot6-5"
+	},
+	{
+		"x": 804,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.56",
+		"ndbOffset": 5,
+		"pieceId": "spot6-6"
+	},
+
+		{
+		"x": 960,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.55",
+		"ndbOffset": 0,
+		"pieceId": "spot5-1"
+	},
+	{
+		"x": 984,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.55",
+		"ndbOffset": 1,
+		"pieceId": "spot5-2"
+	},
+
+	{
+		"x": 1140,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.54",
+		"ndbOffset": 0,
+		"pieceId": "spot4-1"
+	},
+	{
+		"x": 1164,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.54",
+		"ndbOffset": 1,
+		"pieceId": "spot4-2"
+	},
+
+
+
+	{
+		"x": 1284,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.53",
+		"ndbOffset": 0,
+		"pieceId": "spot3-1"
+	},
+	{
+		"x": 1308,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.53",
+		"ndbOffset": 1,
+		"pieceId": "spot3-2"
+	},
+	{
+		"x": 1332,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.53",
+		"ndbOffset": 2,
+		"pieceId": "spot3-3"
+	},
+	{
+		"x": 1356,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.53",
+		"ndbOffset": 3,
+		"pieceId": "spot3-4"
+	},
+	{
+		"x": 1380,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.53",
+		"ndbOffset": 4,
+		"pieceId": "spot3-5"
+	},
+	{
+		"x": 1404,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.53",
+		"ndbOffset": 5,
+		"pieceId": "spot3-6"
+	},
+
+	{
+		"x": 1560,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.52",
 		"ndbOffset": 0,
 		"pieceId": "spot2-1"
 	},
 	{
-		"x": 500,
-		"z": 300,
-		"y": 48,
-		"size": 50,
-		"ipAddress": "10.0.0.51",
+		"x": 1584,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.52",
 		"ndbOffset": 1,
 		"pieceId": "spot2-2"
-	},	{
-		"x": 500,
-		"z": 500,
-		"y": 48,
-		"size": 50,
+	},
+
+
+	{
+		"x": 2088,
+		"z": 0,
+		"y": 72,
+		"size": 20,
 		"ipAddress": "10.0.0.51",
-		"ndbOffset": 2,
-		"pieceId": "spot2-3"
+		"ndbOffset": 0,
+		"pieceId": "spot1-1"
+	},
+	{
+		"x": 2112,
+		"z": 0,
+		"y": 72,
+		"size": 20,
+		"ipAddress": "10.0.0.51",
+		"ndbOffset": 1,
+		"pieceId": "spot1-2"
 	}
+
+
 ]
