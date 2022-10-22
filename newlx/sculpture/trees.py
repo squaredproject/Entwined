@@ -84,8 +84,11 @@ class Tree:
         filename = Path(self.piece_id + ".lxf")
         config_path = folder / filename
         tags = ["TREE"]
+        print(f"Writing config for {self.piece_id}")
         if self.type == 'sapling':
             tags.append("SAPLING")
+        else:
+            tags.append("BIG_TREE")
         lx_output = {"label": self.piece_id, "tags": tags, "components": [ {"type": "points", "coords": []}], "outputs": []}
         outputs = lx_output["outputs"]
         coords = lx_output["components"][0]["coords"]
@@ -110,6 +113,15 @@ class Tree:
                 cur_ndb_addr = cube_config['ipAddress']
                 ndb_pixel_start = total_pixels
             total_pixels += n_pixels
+        # let's add a cube at the origin...
+        coords.append({'x': int(self.translation[0]), 'y': 0, 'z': int(self.translation[2])})
+        total_pixels += 1
+        # write final ndb information...
+        output = {'protocol': 'ddp',
+                   'host': cur_ndb_addr,
+                   'start': ndb_pixel_start,
+                   'num': total_pixels-ndb_pixel_start}
+        outputs.append(output)
 
         with open(config_path, 'w+') as output_f:
             json.dump(lx_output, output_f)
@@ -127,20 +139,18 @@ class Tree:
 
 class EntwinedBranch:
     branch_length_ratios = [0.37, 0.41, 0.50, 0.56, 0.63]
-    height_adjustment_factors = [1.0, 0.96, 0.92, 0.88, 9.85]
-    SUBBRANCH_A = 'A'
-    SUBBRANCH_B = 'B'
+    height_adjustment_factors = [1.0, 0.96, 0.92, 0.88, 0.85]
 
     def __init__(self, canopy_major_length, rotation_pos, layer_base_height):
 
-        if rotation_pos < 4:  # XXX - there are 5 entries in this table, but this uses just 4 of them
+        if rotation_pos < 4:
             rotation_idx = rotation_pos
         else:
             rotation_idx = (4 - rotation_pos % 4)
         branch_length = canopy_major_length * self.branch_length_ratios[rotation_idx]
         height_adjustment = self.height_adjustment_factors[rotation_idx]
 
-        branch_rotation = rotation_idx * (np.pi/4)
+        branch_rotation = rotation_pos * (np.pi/4)
         branch_matrix = np.array([[np.cos(branch_rotation), 0, np.sin(branch_rotation)],
                                   [0, 1, 0],
                                   [-np.sin(branch_rotation), 0, np.cos(branch_rotation)]])
@@ -148,7 +158,7 @@ class EntwinedBranch:
         self.mount_points = []
 
         # In the coordinate system of the branch - x is along the branch (radially)
-        x_key_points = [canopy_major_length/12,
+        x_key_points = [canopy_major_length/15,
                         branch_length * 0.315,
                         branch_length * 0.623,
                         branch_length * 0.917,
@@ -158,14 +168,14 @@ class EntwinedBranch:
                         (72 * 0.671 + 6) * height_adjustment,
                          72 * 0.793 * height_adjustment,
                          72 * 0.914 * height_adjustment,
-                         72]
+                         72 * height_adjustment]
         # z is the distance from the center line of the branch. Notice that
         # the keypoints cross the midline as the branches entwine
         z_key_points = [branch_length * (-0.05),
                         branch_length * (-0.08),
                         0,
-                        branch_length * 0.199,
-                        branch_length * 0.13]
+                        branch_length * 0.13,
+                        branch_length * 0.199]
 
         # And now we find mounting points...
         # We walk backwards from the tip of the branch to find all mount points.
@@ -204,11 +214,6 @@ class EntwinedBranch:
                 self.mount_points.append(mount_point_b)
             mount_pt_x -= 8
 
-    def get_mount_point(self, mount_point_idx, subbranch):
-        if subbranch == EntwinedBranch.SUBBRANCH_A:
-            return self.mount_points[mount_point_idx * 2]
-        else:
-            return self.mount_points[mount_point_idx * 2 + 1]
 
 def main():
     parser = argparse.ArgumentParser(description="Create LxStudio configuration file from tree and cube definition files")
