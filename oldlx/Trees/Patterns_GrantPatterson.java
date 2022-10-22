@@ -189,6 +189,10 @@ class Planes extends TSPattern {
 
 /**
  Interconnected growth
+ **
+ * This is written assuming that there are only two sculpture types, trees and shrubs, and
+ * if your installation has neither trees nor shrubs, it crashes. Gonna put a check in to make it
+ * not crash, but it'll be very boring at least -bb
  */
 class Growth extends TSPattern {
 
@@ -456,6 +460,9 @@ class Growth extends TSPattern {
   }
 
   public void run(double deltaMs) {
+    // this crashes if there are no growers, which appens if no trees or shrubs
+    if (growers.size() == 0) return;
+
     clearColors();
     
     for (int i = 0; i < allRoots.size(); i++) {
