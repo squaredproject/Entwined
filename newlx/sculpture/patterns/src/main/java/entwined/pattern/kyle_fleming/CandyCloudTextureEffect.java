@@ -9,7 +9,7 @@ import heronarts.lx.parameter.BoundedParameter;
 
 public class CandyCloudTextureEffect extends LXEffect {
 
-  final BoundedParameter amount = new BoundedParameter("CLOU");
+  protected final BoundedParameter amount = new BoundedParameter("CLOU");
 
   double time = 0;
   final double scale = 2400;
