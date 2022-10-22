@@ -14,3 +14,6 @@ Trees, however, are unique snowflakes, and must additionally be provided
 with a cube configuration .csv file that describes the per-branch wiring
 for each tree. (Typically this csv file comes from a spreadsheet that is
 collaboratively filled out on site.)
+
+When the .lxf fixture files have been generated, they should be put in the
+FIXTURES directory of LXStudio
