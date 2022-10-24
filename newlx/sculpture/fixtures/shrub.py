@@ -1,15 +1,12 @@
-# basic python for taking information from configs and outputting json
-# This is code that knows nothing about LX Studio, thankfully
+# Turn an Entwined shrub definition file into an LXstudio fixture file(s)
 
 import argparse
-import getopt
 import json
-import math
+from pathlib import Path
 
 import numpy as np
 
-class SculptureGlobals:
-    pixels_per_cube = [1, 4, 6]
+import sculpture_globals
 
 
 class Shrub:
@@ -104,7 +101,7 @@ class Shrub:
                     ])
 
                 # Now transform into shrub coordinates...
-                theta = -(cluster_idx + 1) * math.pi/6
+                theta = -(cluster_idx + 1) * np.pi/6
                 rot = np.array([
                     [np.cos(theta),0,np.sin(theta)],
                     [0,1,0],
@@ -118,27 +115,38 @@ class Shrub:
                 # and add to our list
                 # If the cube size index shows that we have multiple leds in a cube,
                 # add more.
-                for _ in range(0, SculptureGlobals.pixels_per_cube[self.cube_size_index]):
-                    self.cubes.append({'x':cube_pos[0], 'y':cube_pos[1], 'z':cube_pos[2]})
+                for _ in range(0, sculpture_globals.pixels_per_cube[self.cube_size_index]):
+                    self.cubes.append([cube_pos[0], cube_pos[1], cube_pos[2]])
+        # self.cubes.append([int(self.translation[0]), 0, int(self.translation[2])])
 
+    def write_fixture_file(self, config_folder):
+        folder = Path(config_folder)
+        folder.mkdir(parents=True, exist_ok=True)
+        filename = Path(self.piece_id + ".lxf")
+        config_path = folder / filename
+        tags = ["SHRUB"]
+        if self.type == 'king':
+            tags.append("KING")
+        lx_output = {"label": self.piece_id,
+                     "tags": tags,
+                     "components": [ {"type": "points", "coords": []}],
+                     "outputs": [],
+                     "meta": [{"name": self.piece_id}]}
+        outputs = lx_output["outputs"]
+        coords = lx_output["components"][0]["coords"]
+        outputs.append({"protocol": "ddp", "host": self.ip_addr, "start": 0, "num": len(self.cubes)})
+        for cube in self.cubes:
+            coords.append({'x': cube[0], 'y': cube[1], 'z': cube[2]})
 
-def create_lxstudio_config(shrubs):
-    lx_output = {"components": [ {"type": "points", "coords": []}], "outputs": []}
-    outputs = lx_output["outputs"]
-    coords = lx_output["components"][0]["coords"]
-    total_pix = 0
-    for shrub in shrubs:
-        outputs.append({"protocol": "ddp", "host": shrub.ip_addr, "start": total_pix, "num": len(shrub.cubes)})
-        for cube in shrub.cubes:
-            coords.append(cube)
-        total_pix += len(shrub.cubes)
+        with open(config_path, 'w+') as output_f:
+            json.dump(lx_output, output_f, indent=4)
 
-    return lx_output
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description='Create newlx fixture config from shrub configuration file')
-    parser.add_argument('shrub_config_file', help='Name of shrub configuration file')
+    parser = argparse.ArgumentParser(description='Create newlx fixture configs from shrub configuration file')
+    parser.add_argument('shrub_config_file', help='Name of input shrub configuration file')
+    parser.add_argument('fixtures_config_folder', help='Name of folder to hold lx configurations')
     args = parser.parse_args()
 
     # Note that we could put different shrub configuration files into a single directory, and read the
@@ -149,16 +157,8 @@ if __name__ == "__main__":
     with open(args.shrub_config_file) as sc_f:
         shrub_configs = json.load(sc_f)  # XXX catch exceptions here.
 
-    # Now let's create some shrubs and cubes ...
-    shrubs = []
-
     for shrub_config in shrub_configs:
-        shrubs.append(Shrub(shrub_config))  # this is going to set up the rods and the clusters
-
-
-    # and I should at this point be able to spit out the final json
-    lxstudio_config = create_lxstudio_config(shrubs)
-
-    with open('lx_input.json', 'w+') as output_f:
-        json.dump(lxstudio_config, output_f, indent=4)
+        shrub = Shrub(shrub_config)
+        shrub.write_fixture_file(args.fixtures_config_folder)
+        #shrubs.append(Shrub(shrub_config))  # this is going to set up the rods and the clusters
 
