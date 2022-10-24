@@ -118,8 +118,8 @@ class Tree:
                 ndb_pixel_start = total_pixels
             total_pixels += n_pixels
         # let's add a cube at the origin...
-        coords.append({'x': int(self.translation[0]), 'y': 0, 'z': int(self.translation[2])})
-        total_pixels += 1
+        # coords.append({'x': int(self.translation[0]), 'y': 0, 'z': int(self.translation[2])})
+        # total_pixels += 1
         # write final ndb information...
         output = {'protocol': 'ddp',
                    'host': cur_ndb_addr,

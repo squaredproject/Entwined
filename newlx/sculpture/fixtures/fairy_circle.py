@@ -121,6 +121,5 @@ if __name__ == "__main__":
 
     # Now let's create some circles and cubes ...
     for config in fc_configs:
-        print(f"Config is {config}")
         circle = FairyCircle(config)
         circle.write_fixture_file(args.fixtures_config_folder)
