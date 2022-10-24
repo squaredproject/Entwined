@@ -5,6 +5,7 @@ import java.util.List;
 
 import entwined.core.CubeData;
 import entwined.core.CubeManager;
+import entwined.core.TSTriggerablePattern;
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
@@ -15,9 +16,8 @@ import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.parameter.LXParameter;
-import heronarts.lx.pattern.LXPattern;
 
-public class Pulleys extends LXPattern { // XXX - TSTriggerablePattern { //ported from SugarCubes
+public class Pulleys extends TSTriggerablePattern { //ported from SugarCubes
   private BoundedParameter sz = new BoundedParameter("SIZE", 0.5);
   private BoundedParameter beatAmount = new BoundedParameter("BEAT", 0);
   private BooleanParameter automated = new BooleanParameter("AUTO", true);
@@ -219,19 +219,22 @@ public class Pulleys extends LXPattern { // XXX - TSTriggerablePattern { //porte
     removeModulator(pulley.maxBrt);
   }
 
+  @Override
   public void onTriggerableModeEnabled() {
     super.onTriggerableModeEnabled();
     autoMode = false;
     isRising = false;
   }
 
+  @Override
   public void onTriggered(float strength) {
     numPulleys +=1;
     dropPulley.start();
   }
 
+  @Override
   public void onRelease() {
-    dropPulley.stopAndReset();
+    dropPulley.stop().reset();
   }
 }
 

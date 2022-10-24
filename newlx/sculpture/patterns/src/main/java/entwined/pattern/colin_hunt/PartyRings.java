@@ -31,7 +31,7 @@ public class PartyRings extends LXPattern {
     for (LXModel shrub: model.sub("SHRUB")) {
       int pointIdx = 0;
       for (LXPoint cube : shrub.points) {
-        int rodIndex = pointIdx % 5;
+        int rodIndex = (pointIdx/5) +1;
         float localTheta = CubeManager.getCube(cube.index).localTheta;
         colors[cube.index] = LX.hsb(ringStacks.get(shrubIdx).getHue(rodIndex), 100, ringStacks.get(shrubIdx).getBright(localTheta, rodIndex));
         pointIdx++;

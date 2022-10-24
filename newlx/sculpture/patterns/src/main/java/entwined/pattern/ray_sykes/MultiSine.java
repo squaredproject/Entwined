@@ -27,7 +27,7 @@ public class MultiSine extends LXPattern {
   public MultiSine(LX lx) {
     super(lx);
     for (int i = 0; i < numLayers; i++){
-      addParameter("timing", timingSettings[i]);
+      addParameter("timing_" + i, timingSettings[i]);
       addModulator(frequencies[i]).start();
     }
     addParameter("bright", brightEffect);

@@ -9,7 +9,7 @@ import heronarts.lx.model.LXModel;
 /**
 Do blooms of lights jumping from sculpture to sculpture.
 */
-class Blooms extends AutographedPattern{
+public class Blooms extends AutographedPattern{
   static final float maxBloomRadiusProportionPerS = 60.0f;
   static final float maxBloomRadiusParamPower = 3.0f;
 

@@ -5,16 +5,16 @@ import java.util.List;
 
 import entwined.core.CubeData;
 import entwined.core.CubeManager;
+import entwined.core.TSTriggerablePattern;
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.LinearEnvelope;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.DiscreteParameter;
-import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.utils.LXUtils;
 
-public class Bubbles extends LXPattern { // TSTriggerablePattern {
+public class Bubbles extends TSTriggerablePattern {
   final DiscreteParameter ballCount = new DiscreteParameter("NUM", 10, 1, 150);
   final BoundedParameter maxRadius = new BoundedParameter("RAD", 50, 5, 100);
   final BoundedParameter speed = new BoundedParameter("SPEED", 1, 0, 5);
@@ -125,6 +125,7 @@ public class Bubbles extends LXPattern { // TSTriggerablePattern {
     }
   }
 
+  @Override
   public void onTriggered(float strength) {
     super.onTriggered(strength);
 
@@ -133,6 +134,7 @@ public class Bubbles extends LXPattern { // TSTriggerablePattern {
     decay.reset().start();
   }
 
+  @Override
   public void onRelease() {
     super.onRelease();
 

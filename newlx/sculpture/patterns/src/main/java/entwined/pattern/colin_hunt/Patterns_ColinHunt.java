@@ -1,9 +1,14 @@
 package entwined.pattern.colin_hunt;
 
-
+import entwined.utils.SimplexNoise;
+import heronarts.lx.LX;
+import heronarts.lx.model.LXModel;
+import heronarts.lx.model.LXPoint;
+import heronarts.lx.pattern.LXPattern;
 
 /*
- * XXX - need subfixtures for tree layers/branches.
+ * XXX - need subfixtures for tree layers/branches. */
+
 class ChristmasTree extends LXPattern {
   double cubeNoise = 0;
 
@@ -31,8 +36,9 @@ class ChristmasTree extends LXPattern {
 
     // It's OK this is only cubes, because it's just the tree cubes
     //  XXX - Yes, i also need layers as separate fixture objects.
-    for (LXModel tree: model.sub("TREE")) {
-      for (LXPoint cube : model.points) {
+    for (LXModel tree: model.sub("TREE")) {  // XXX - get sub BRANCH
+      for (LXPoint cube : model.points) {  // not points
+        // will become if model.meta.get("layer") == "2" ...
         if (cube.config.layerIndex == 2) {
           colors[cube.index] = LX.hsb(60, 100, 100);
         }
@@ -40,7 +46,7 @@ class ChristmasTree extends LXPattern {
     }
   }
 }
-*/
+
 
 /* Working example of simplex noise for me because I am dumb
 class Simplex extends LXPattern {

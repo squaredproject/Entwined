@@ -13,12 +13,11 @@ public class TestShrubLayers extends LXPattern {
   final BoundedParameter shrubIndex;
 
   public TestShrubLayers(LX lx) {
-      super(lx);
-      // lowest level means turning that param off
-      addParameter("layer", rodLayer = new BoundedParameter("layer", 0, 0, 5));
-      addParameter("clusterIndex", clusterIndex = new BoundedParameter("clusterIndex", -1, -1, 11));
-      addParameter("shrubIndex", shrubIndex = new BoundedParameter("shrubIndex", -1, -1, 19));
-
+    super(lx);
+    // lowest level means turning that param off
+    addParameter("rodLayer", rodLayer = new BoundedParameter("layer", 0, 0, 5));
+    addParameter("clusterIndex", clusterIndex = new BoundedParameter("clusterIndex", -1, -1, 11));
+    addParameter("shrubIndex", shrubIndex = new BoundedParameter("shrubIndex", -1, -1, 19));
   }
 
   @Override
@@ -28,9 +27,10 @@ public class TestShrubLayers extends LXPattern {
     int shrubIdx = 0;
     for (LXModel shrub : model.sub("SHRUB")) {
       int idx = 0;
-      for (LXPoint cube : model.points) {
-        int rodIndex = idx % 5;
-        int clusterIdx = idx/12;
+      for (LXPoint cube : shrub.points) {
+        // The wiring is laid out in rod order - so, for each one of 5 rods, go through 12 clusters
+        int rodIndex = idx % 12;
+        int clusterIdx = idx/5;
         if (rodIndex == (int)rodLayer.getValue() || clusterIdx == (int)clusterIndex.getValue() || shrubIdx == (int)shrubIndex.getValue()) {
             colors[cube.index] = LX.hsb(135, 100, 100);
         } else {

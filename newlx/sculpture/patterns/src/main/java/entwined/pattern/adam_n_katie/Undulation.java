@@ -9,7 +9,7 @@ import heronarts.lx.parameter.BoundedParameter;
 /**
 Undulating cloud-like patterns.
 */
-class Undulation extends AutographedPattern{
+public class Undulation extends AutographedPattern{
   // Constants
   static final float durationMaxS = 10.0f;
   static final float sizeMax = 0.5f;

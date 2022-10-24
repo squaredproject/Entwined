@@ -2,18 +2,17 @@ package entwined.pattern.irene_zhou;
 
 import entwined.core.CubeData;
 import entwined.core.CubeManager;
+import entwined.core.TSTriggerablePattern;
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
-import heronarts.lx.LXSerializable.Utils;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.Accelerator;
 import heronarts.lx.modulator.Click;
 import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.LXParameter;
-import heronarts.lx.pattern.LXPattern;
 
-public class Pulley extends LXPattern { // TSTriggerablePattern { //ported from SugarCubes
+public class Pulley extends TSTriggerablePattern { //ported from SugarCubes
   final int NUM_DIVISIONS = 2;
   private final Accelerator[] gravity = new Accelerator[NUM_DIVISIONS];
   private final float[] baseSpeed = new float[NUM_DIVISIONS];
@@ -72,7 +71,7 @@ public class Pulley extends LXPattern { // TSTriggerablePattern { //ported from 
       }
       else {
         gravity[j].setVelocity(0).setAcceleration(-420);
-        delays[j].setPeriod(Utils.random(0, 500)).trigger();
+        delays[j].setPeriod(EntwinedUtils.random(0, 500)).trigger();
       }
       ++i;
     }
@@ -88,7 +87,7 @@ public class Pulley extends LXPattern { // TSTriggerablePattern { //ported from 
     if (turnOff.click()) {
       triggered = false;
       setColors(LX.hsb(0,0,0));
-      turnOff.stopAndReset();
+      turnOff.stop().reset();
     }
     if(triggered) {
       if (!isRising) {
@@ -127,11 +126,13 @@ public class Pulley extends LXPattern { // TSTriggerablePattern { //ported from 
     }
   }
 
+  @Override
   public void onTriggerableModeEnabled() {
     super.onTriggerableModeEnabled();
     triggered = false;
   }
 
+  @Override
   public void onTriggered(float strength) {
     triggered = true;
     isRising = true;
@@ -143,6 +144,7 @@ public class Pulley extends LXPattern { // TSTriggerablePattern { //ported from 
     trigger();
   }
 
+  @Override
   public void onRelease() {
   }
 }

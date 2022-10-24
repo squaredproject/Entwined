@@ -5,6 +5,7 @@ import java.util.List;
 
 import entwined.core.CubeData;
 import entwined.core.CubeManager;
+import entwined.core.TSTriggerablePattern;
 import entwined.utils.EntwinedUtils;
 import entwined.utils.Vec2D;
 import heronarts.lx.LX;
@@ -14,10 +15,10 @@ import heronarts.lx.modulator.LinearEnvelope;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.DiscreteParameter;
-import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.utils.LXUtils;
 
-public class Fireflies extends LXPattern { // XXX - // TSTriggerablePattern {
+
+public class Fireflies extends TSTriggerablePattern {
   final DiscreteParameter flyCount = new DiscreteParameter("NUM", 20, 1, 100);
   final BoundedParameter speed = new BoundedParameter("SPEED", 1, 0, 7.5);
   final BoundedParameter hue = new BoundedParameter("HUE", 0, 0, 360);
@@ -153,6 +154,7 @@ public class Fireflies extends LXPattern { // XXX - // TSTriggerablePattern {
     }
   }
 
+  @Override
   public void onTriggered(float strength) {
     super.onTriggered(strength);
 
@@ -161,6 +163,7 @@ public class Fireflies extends LXPattern { // XXX - // TSTriggerablePattern {
     decay.reset().start();
   }
 
+  @Override
   public void onRelease() {
     super.onRelease();
 

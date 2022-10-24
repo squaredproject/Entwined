@@ -12,7 +12,7 @@ import heronarts.lx.parameter.BoundedParameter;
 /**
 A flocking set of points.
 */
-class FlockingPoints extends AutographedPattern{
+public class FlockingPoints extends AutographedPattern{
   // Constants
   static final int numBoids = 50;
   static final float boidWorldSize = 640;
@@ -30,7 +30,7 @@ class FlockingPoints extends AutographedPattern{
 
   // Constructor and initial setup
   // Remember to use addParameter and addModulator if you're using Parameters or oscillators
-  FlockingPoints(LX lx){
+  public FlockingPoints(LX lx){
     super(lx);
     addParameter("brightness", bri);
     addParameter("radius", rad);

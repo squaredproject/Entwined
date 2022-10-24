@@ -5,14 +5,14 @@ import java.util.List;
 
 import entwined.core.CubeData;
 import entwined.core.CubeManager;
+import entwined.core.TSTriggerablePattern;
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.LinearEnvelope;
 import heronarts.lx.parameter.BoundedParameter;
-import heronarts.lx.pattern.LXPattern;
 
-public class Fire extends LXPattern { // TSTriggerablePattern {
+public class Fire extends TSTriggerablePattern {
   final BoundedParameter maxHeight = new BoundedParameter("HEIGHT", 5.0, 0.3, 12);
   final BoundedParameter flameSize = new BoundedParameter("SIZE", 30, 10, 75);
   final BoundedParameter flameCount = new BoundedParameter ("FLAMES", 75, 0, 75);
@@ -97,7 +97,7 @@ public class Fire extends LXPattern { // TSTriggerablePattern {
     }
 
     for (LXPoint cube : model.points) {
-      CubeData cdata = CubeManager.getCube(cube.index)
+      CubeData cdata = CubeManager.getCube(cube.index);
       float yn = (cdata.localY - model.yMin) / model.yMax;
       float cBrt = 0;
       float cHue = 0;
@@ -117,6 +117,7 @@ public class Fire extends LXPattern { // TSTriggerablePattern {
 
   }
 
+  @Override
   public void onTriggered(float strength) {
     super.onTriggered(strength);
 
@@ -124,6 +125,7 @@ public class Fire extends LXPattern { // TSTriggerablePattern {
     fireHeight.reset().start();
   };
 
+  @Override
   public void onRelease() {
     super.onRelease();
 

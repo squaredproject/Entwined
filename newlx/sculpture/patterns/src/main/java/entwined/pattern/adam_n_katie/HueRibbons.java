@@ -10,7 +10,7 @@ import heronarts.lx.parameter.BoundedParameter;
 /**
 Colorful undulating ribbons of color moving across the whole space.
 */
-class HueRibbons extends AutographedPattern{
+public class HueRibbons extends AutographedPattern{
   // Constants
   static final float durationMaxS = 10.0f;
   static final float sizeMax = 0.5f;

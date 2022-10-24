@@ -1,5 +1,6 @@
 package entwined.pattern.colin_hunt;
 
+import entwined.core.CubeManager;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
@@ -33,10 +34,11 @@ public class Peppermint extends LXPattern {
     if (getChannel().fader.getNormalized() == 0) return;
 
     for (LXPoint cube : model.points) {
+      System.out.println("spinner is " + spinner.getValuef());
 // XXX - theta again. And r.  This should be a local r, not a global one
-      if (((cube.theta + spinner.getValuef()
+      if (((CubeManager.getCube(cube.index).localTheta + spinner.getValuef()
       // plus the further from the center, the more hue is added, giving a swirl effect
-      - cube.r / 2// * swirlMult.getValuef()
+      - CubeManager.getCube(cube.index).localR / 2// * swirlMult.getValuef()
       ) % 120) > 60) {
         saturation = 0;
       } else {

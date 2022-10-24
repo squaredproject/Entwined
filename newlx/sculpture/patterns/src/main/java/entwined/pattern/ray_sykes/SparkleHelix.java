@@ -47,7 +47,6 @@ public class SparkleHelix extends LXPattern {
     float spinValue = spin.getValuef();
     float counterSpiralStrengthValue = counterSpiralStrength.getValuef();
     float sparkleValue = sparkle.getValuef();
-    System.out.println("Sparkle value is " + sparkleValue);
     float currentBaseHue = lx.engine.palette.color.getHuef();
 
     for (LXModel component:  model.children) {

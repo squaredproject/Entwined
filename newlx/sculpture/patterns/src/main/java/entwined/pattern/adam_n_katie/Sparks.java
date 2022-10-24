@@ -9,7 +9,7 @@ import heronarts.lx.parameter.BoundedParameter;
 /**
 Little sparks popping on the cubes.
 */
-class Sparks extends AutographedPattern{
+public class Sparks extends AutographedPattern{
   // Constants
   static final float maxSparFadePerS = 30.0f;
 

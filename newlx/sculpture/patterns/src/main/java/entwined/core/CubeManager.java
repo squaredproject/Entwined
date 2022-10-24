@@ -50,7 +50,7 @@ public class CubeManager implements LX.Listener {
           float localY = point.y;                 // XXX ditto
           float XZR    = (float)Math.sqrt(localX*localX + localZ*localZ);
           float tempTheta = (float)Math.atan2(localZ, localX);
-          cube.localTheta = (180 + 180/LX.PIf*tempTheta) % 360;
+          cube.localTheta = (180 + (180/LX.PIf)*tempTheta) % 360;
           cube.localPhi = (float)Math.atan2(localY, XZR);
           cube.localX   = localX;
           cube.localY   = localY;

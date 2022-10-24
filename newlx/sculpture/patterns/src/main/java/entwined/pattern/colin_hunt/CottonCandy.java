@@ -1,5 +1,6 @@
 package entwined.pattern.colin_hunt;
 
+import entwined.core.CubeManager;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
@@ -35,9 +36,9 @@ public class CottonCandy extends LXPattern {
 
     for (LXPoint cube : model.points) {
 // XXX  theta and r on the points
-      if (((cube.theta + spinnerVal
+      if (((CubeManager.getCube(cube.index).localTheta + spinnerVal
       // plus the further from the center, the more hue is added, giving a swirl effect
-      - cube.r / 2// * swirlMult.getValuef()
+      - CubeManager.getCube(cube.index).localR / 2// * swirlMult.getValuef()
       ) % 120) > 60) {
         hue = 330;
       } else {

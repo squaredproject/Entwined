@@ -9,7 +9,7 @@ import heronarts.lx.parameter.BoundedParameter;
 /**
 Vertical hue cycle waves starting at the ground and moving upward.
 */
-class VerticalColorWaves extends AutographedPattern{
+public class VerticalColorWaves extends AutographedPattern{
   // Constants
   static final float speedMult = 1000;
 

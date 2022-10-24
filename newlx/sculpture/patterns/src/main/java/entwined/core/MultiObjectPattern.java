@@ -8,9 +8,8 @@ import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BoundedParameter;
-import heronarts.lx.pattern.LXPattern;
 
-public abstract class MultiObjectPattern <ObjectType extends MultiObject> extends LXPattern { // XXX TSTriggerablePattern {
+public abstract class MultiObjectPattern <ObjectType extends MultiObject> extends TSTriggerablePattern {
 
   protected BoundedParameter frequency;
 
@@ -97,6 +96,7 @@ public abstract class MultiObjectPattern <ObjectType extends MultiObject> extend
     objects.add(object);
   }
 
+  @Override
   public void onTriggered(float strength) {
     super.onTriggered(strength);
 

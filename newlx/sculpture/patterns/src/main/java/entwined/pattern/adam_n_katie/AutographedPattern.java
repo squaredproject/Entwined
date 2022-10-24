@@ -172,7 +172,7 @@ public class AutographedPattern extends LXPattern {
   // Constructor and inital setup
   // Remember to use addParameter and addModulator if you're using Parameters
   // or oscilators
-  AutographedPattern(LX lx){
+  public AutographedPattern(LX lx){
    super(lx);
    addModulator(autographCubeWave).start();
    //addParameter(autographCubeWaveSlopeParam);
