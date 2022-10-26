@@ -40,9 +40,9 @@ public class UpDown extends LXPattern {
           for (LXPoint cube : model.points) {
               CubeData cubeData = CubeManager.getCube(cube.index);
               colors[cube.index] = LX.hsb(
-                      cubeData.localTheta + time / 6000 * 360,  // XXX check that this is the right theta...
+                      cubeData.localTheta + time / 6000 * 360,
                       100,
-                      100 * gaussian(EntwinedUtils.map(cube.y, component.yMin, component.yMax), scanHeight));
+                      100 * gaussian(EntwinedUtils.map(cube.y, model.yMin, model.yMax), scanHeight));
           }
         }
     }

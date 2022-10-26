@@ -5,7 +5,7 @@ import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.utils.LXUtils;
 import heronarts.lx.model.LXPoint;
-
+import entwined.core.CubeManager;
 import entwined.utils.EntwinedUtils;
 
 public class TwisterGlobal extends LXPattern {
@@ -30,7 +30,7 @@ public class TwisterGlobal extends LXPattern {
     float spinf = spin.getValuef();
     float coilf = 2*coil(spin.getBasisf());
     for (LXPoint cube : model.points) {
-      float wrapdist = LXUtils.wrapdistf(cube.theta, (spinf + (model.yMax - cube.y)*coilf) % 360, 360);
+      float wrapdist = LXUtils.wrapdistf(CubeManager.getCube(cube.index).theta, (spinf + (model.yMax - cube.y)*coilf) % 360, 360);
       float yn = (cube.y / model.yMax);
       float width = 10 + 30 * yn;
       float df = EntwinedUtils.max(0, 100 - (100 / 45) * EntwinedUtils.max(0, wrapdist-width));

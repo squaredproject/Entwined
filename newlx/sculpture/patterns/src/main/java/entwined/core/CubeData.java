@@ -10,5 +10,7 @@ public class CubeData {
   public float localY;
   public float localZ;
   public float localR;
+  public float theta;  // XXX - I thought this was in the standard cube data, but it doesn't seem to be
+
 }
 

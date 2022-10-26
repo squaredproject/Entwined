@@ -10,18 +10,19 @@ import heronarts.lx.LX;
 import heronarts.lx.modulator.SawLFO;
 
 public class AcidTrip extends LXPattern {
-  
+
   final SawLFO trails = new SawLFO(360, 0, 7000);
-  
-  AcidTrip(LX lx) {
+
+  public AcidTrip(LX lx) {
     super(lx);
 
     addModulator(trails).start();
   }
-    
+
+  @Override
   public void run(double deltaMs) {
     if (getChannel().fader.getNormalized() == 0) return;
-   
+
     for (LXPoint cube : model.points) {
       CubeData cdata = CubeManager.getCube(cube.index);
       colors[cube.index] = LX.hsb(

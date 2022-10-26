@@ -1,5 +1,7 @@
 package entwined.pattern.ray_sykes;
 
+import entwined.core.CubeManager;
+import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.utils.LXUtils;
 import heronarts.lx.model.LXPoint;
@@ -51,9 +53,8 @@ public class SparkleHelix extends LXPattern {
 
     for (LXModel component:  model.children) {
       for (LXPoint cube : component.points) {
-        float localX = cube.x - component.cx;
-        float localZ = cube.z - component.cz;
-        float localTheta = (float)Math.atan2(localZ, localX); //  * 180/LX.PI; Seems to be wanted in radians here
+        float localTheta = CubeManager.getCube(cube.index).localTheta;
+        localTheta = localTheta *180/LX.PIf;
         float compensatedWidth = (0.7f + .02f / coilValue) * widthValue;
         float wrapAngleForward   = (8*LX.TWO_PIf + spinValue + coilValue*(cube.y-component.cy)) % LX.TWO_PIf;
         float wrapAngleBackwards = (8*LX.TWO_PIf - spinValue - coilValue*(cube.y-component.cy)) % LX.TWO_PIf;
@@ -66,14 +67,15 @@ public class SparkleHelix extends LXPattern {
             100 - (100*LX.TWO_PIf/(compensatedWidth)*LXUtils.wrapdistf(localTheta, wrapAngleBackwards, LX.TWO_PIf))
         );
         float hueVal = (currentBaseHue + .1f*cube.y) % 360;
-        if (sparkleTimeOuts[cube.index] <= 0){
+        if (sparkleTimeOuts[cube.index] > EntwinedUtils.millis()){
           colors[cube.index] = LX.hsb(hueVal, sparkleSaturation.getValuef(), 100);
+          //System.out.println("timeout is " + sparkleTimeOuts[cube.index] + ", " + EntwinedUtils.millis());
         }
         else{
           sparkleTimeOuts[cube.index] -= deltaMs;
-          colors[cube.index] = LX.hsb(hueVal, 100, LXUtils.maxf(spiralVal, counterSpiralVal));
+          colors[cube.index] = LX.hsb(hueVal, 100, (LXUtils.maxf(spiralVal, counterSpiralVal)) % 100);
           if (Math.random() * LXUtils.maxf(spiralVal, counterSpiralVal) > sparkleValue){
-            sparkleTimeOuts[cube.index] = 100;
+            sparkleTimeOuts[cube.index] = EntwinedUtils.millis() + 100;
           }
         }
       }

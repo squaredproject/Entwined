@@ -1,5 +1,6 @@
 package entwined.pattern.lindsay_jason;
 
+import entwined.core.CubeManager;
 import heronarts.lx.LX;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.BooleanParameter;
@@ -78,7 +79,7 @@ public class SparkleWave extends LXPattern {
         brightness = sparkleMap[index];
       }
 
-      colors[cube.index] = LX.hsb(cube.theta, saturation, brightness);
+      colors[cube.index] = LX.hsb(CubeManager.getCube(cube.index).localTheta, saturation, brightness);
     }
   }
 

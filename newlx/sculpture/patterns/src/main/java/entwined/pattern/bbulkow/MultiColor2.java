@@ -62,7 +62,7 @@ public class MultiColor2 extends LXPattern {
     // Use a for loop here to set the cube colors
     int sculptureIdx = 0;
     for (LXModel component : model.children) {
-      for (LXPoint cube : model.points) {
+      for (LXPoint cube : component.points) {
         int ci = sculptureIdx % nColors;
         colors[cube.index] = LX.hsb(hue[ci],100,brightness[ci]);
       }
