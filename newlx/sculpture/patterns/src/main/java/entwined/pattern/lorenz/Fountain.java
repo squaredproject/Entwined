@@ -102,7 +102,7 @@ public class Fountain extends LXPattern {
       }
     }
     int treeIdx = 0;
-    for (LXModel tree : model.sub("TREE")) {
+    for (LXModel tree : model.sub("BIG_TREE")) {
       // Find the world position of each tree.
       treesX[treeIdx] = tree.cx;
       treesZ[treeIdx] = tree.cy;
@@ -191,7 +191,7 @@ public class Fountain extends LXPattern {
     int treeIdx = 0;
     for (LXModel component : model.children) {
       for (LXPoint cube : component.points) {
-        if (component.tags.contains("TREE")) {
+        if (component.tags.contains("BIG_TREE")) {
           if (treeIdx == treeIndexNewColor) {
             // This is the tree that changes to the new color.
             float s = Math.max(0, 100 - Math.abs(cube.r - rPulsingRing - ringOffset.getValuef()));

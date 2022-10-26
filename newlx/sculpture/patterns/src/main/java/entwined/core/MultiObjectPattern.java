@@ -82,7 +82,8 @@ public abstract class MultiObjectPattern <ObjectType extends MultiObject> extend
       while (iter.hasNext()) {
         ObjectType object = iter.next();
         if (!object.running) {
-          layers.remove(object);
+          removeLayer(object);
+          //layers.remove(object);
           iter.remove();
         }
       }

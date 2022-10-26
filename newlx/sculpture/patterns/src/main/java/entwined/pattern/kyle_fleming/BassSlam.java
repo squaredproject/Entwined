@@ -1,12 +1,13 @@
 package entwined.pattern.kyle_fleming;
 
 import entwined.core.CubeManager;
+import entwined.core.TSTriggerablePattern;
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.pattern.LXPattern;
 
-public class BassSlam extends LXPattern { // XXX TSTriggerablePattern {
+public class BassSlam extends TSTriggerablePattern {
 
   final private double flashTimePercent = 0.1f;
   final private int patternHue = 200;
@@ -43,7 +44,7 @@ public class BassSlam extends LXPattern { // XXX TSTriggerablePattern {
       y = EntwinedUtils.max(0, 100 * (y - 1) + 250);
 
       for (LXPoint cube : model.points) {
-        setColor(cube.index, LX.hsb(patternHue, 100, EntwinedUtils.constrainf(100 - 2 * EntwinedUtils.abs(y - CubeManager.getCube(cube.index).localY), 0, 100)));
+        setColor(cube.index, LX.hsb(patternHue, 100, EntwinedUtils.constrain(100 - 2 * EntwinedUtils.abs(y - CubeManager.getCube(cube.index).localY), 0, 100)));
       }
     }
   }

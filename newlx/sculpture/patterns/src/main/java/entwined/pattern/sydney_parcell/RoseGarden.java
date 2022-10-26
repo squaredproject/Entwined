@@ -162,7 +162,7 @@ public class RoseGarden extends LXPattern {
     //}
 
     // int shrubIndex = -1;
-    // cubeMax = 0;
+    int cubeMax = 0;
     float startHue = 110;
     float startSat = 40;
     float startBright = 60;
@@ -170,12 +170,12 @@ public class RoseGarden extends LXPattern {
       boolean firstCube = true;
       for (LXPoint cube : shrub.points) {
         if (firstCube) {
-          // cubeMax = cube.index + 30;
+          cubeMax = cube.index + 30;
           startHue = 120;
           startSat = 40;
           startBright = 60;
           firstCube = false;
-        } else {
+        } else if (cube.index < cubeMax) {
           // make the index green
           colors[cube.index] = LX.hsb(startHue, 70, 40);
           startHue++;
