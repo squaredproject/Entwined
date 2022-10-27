@@ -17,7 +17,7 @@ public class AcidTripTextureEffect extends LXEffect {
 
   public AcidTripTextureEffect(LX lx) {
     super(lx);
-
+    addParameter("amount", amount);
     addModulator(trails).start();
   }
 

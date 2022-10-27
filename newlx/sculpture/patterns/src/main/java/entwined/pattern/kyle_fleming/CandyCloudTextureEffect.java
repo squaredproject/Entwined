@@ -22,6 +22,7 @@ public class CandyCloudTextureEffect extends LXEffect {
 
   public CandyCloudTextureEffect(LX lx) {
     super(lx);
+    addParameter("amount", amount);
   }
 
   @Override

@@ -12,6 +12,7 @@ public class ColorStrobeTextureEffect extends LXEffect {
 
   public ColorStrobeTextureEffect(LX lx) {
     super(lx);
+    addParameter("amount", amount);
   }
 
   @Override

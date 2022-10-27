@@ -17,6 +17,7 @@ public class GhostEffect extends LXEffect {
 
   public GhostEffect(LX lx) {
     super(lx);
+    addParameter("amount", amount);
     addLayer(new GhostEffectsLayer(lx));
   }
 

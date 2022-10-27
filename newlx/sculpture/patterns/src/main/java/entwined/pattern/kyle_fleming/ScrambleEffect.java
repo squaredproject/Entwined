@@ -13,6 +13,7 @@ public class ScrambleEffect extends LXEffect {
 
   public ScrambleEffect(LX lx) {
     super(lx);
+    addParameter("amount", amount);
 
     offset = lx.getModel().size / 4 + 5;
   }
