@@ -1,10 +1,11 @@
 package entwined.pattern.kyle_fleming;
 
+import entwined.core.TSTriggerablePattern;
 import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.pattern.LXPattern;
 
-public class StrobeOneshot extends LXPattern { // TSTriggerablePattern {
+public class StrobeOneshot extends TSTriggerablePattern {
 
   StrobeOneshot(LX lx) {
     super(lx);

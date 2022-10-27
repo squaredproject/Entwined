@@ -1,11 +1,12 @@
 package entwined.pattern.kyle_fleming;
 
+import entwined.core.TSTriggerablePattern;
 import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.parameter.BoundedParameter;
-import heronarts.lx.pattern.LXPattern;
 
-public class Strobe extends LXPattern { // XXX TSTriggerablePattern {
+
+public class Strobe extends TSTriggerablePattern {
 
   final BoundedParameter speed = new BoundedParameter("SPEE", 200, 3000, 30).setExponent(.5);
   final BoundedParameter balance = new BoundedParameter("BAL", .5, .01, .99);
@@ -35,12 +36,14 @@ public class Strobe extends LXPattern { // XXX TSTriggerablePattern {
     }
   }
 
+  @Override
   public void onTriggered(float strength) {
     super.onTriggered(strength);
 
     on = true;
   }
 
+  @Override
   public void onRelease() {
     super.onRelease();
 

@@ -1,5 +1,6 @@
 package entwined.pattern.eric_gauderman;
 
+import entwined.core.CubeManager;
 import entwined.utils.EntwinedUtils;
 import entwined.utils.PerlinNoise;
 
@@ -94,11 +95,12 @@ public class CounterSpin extends LXPattern {
 
     // XXX - watch it with theta here!! Should be the local theta I believe...
     int getColors(LXPoint cube, double swirlProgress, double colorOffset) {
+      float localTheta = CubeManager.getCube(cube.index).localTheta;
         return LX.hsb(
-                (float) (cube.theta + colorOffset - time / 7000 * 360),
+                (float) ((localTheta + colorOffset - time / 7000 * 360) % 360),
                 100,
                 50 + 50 * (float)Math.sin(
-                        time / 2000 * LX.TWO_PI + cube.theta * LX.TWO_PI / 360));
+                        time / 2000 * LX.TWO_PI + localTheta * LX.TWO_PI / 360)) ;
 
         // + Utils.map(cube.y, model.yMin, model.yMax) * Utils.PI
         // +
