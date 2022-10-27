@@ -29,9 +29,20 @@ public class PartyRings extends LXPattern {
 
     int shrubIdx = 0;
     for (LXModel shrub: model.sub("SHRUB")) {
+      // How many leds per cube do we have?
+      String ledsPerCubeStr = shrub.meta("leds_per_cube");
+      int ledsPerCube = 1;
+      if (ledsPerCubeStr != null) {
+        ledsPerCube = Integer.parseInt(ledsPerCubeStr);
+      } else {
+        ledsPerCube = shrub.points.length/60;
+      }
       int pointIdx = 0;
+      // System.out.println("Number of points is " + shrub.points.length);
+      // XXX - okay, I've got another problem in that the fixture code is returning
+      // 240, rather than 120 pixels.
       for (LXPoint cube : shrub.points) {
-        int rodIndex = (pointIdx/5) +1;
+        int rodIndex = pointIdx/(12 * ledsPerCube); // NB - rod major.
         float localTheta = CubeManager.getCube(cube.index).localTheta;
         colors[cube.index] = LX.hsb(ringStacks.get(shrubIdx).getHue(rodIndex), 100, ringStacks.get(shrubIdx).getBright(localTheta, rodIndex));
         pointIdx++;
@@ -55,7 +66,8 @@ public class PartyRings extends LXPattern {
     }
 
     private float getHue(int rodPosition) {
-      return hues[rodPosition - 1];
+      //System.out.println("Rod position is " + rodPosition);
+      return hues[rodPosition];
     }
 
     private float getSat(int rodPosition) {
@@ -63,7 +75,7 @@ public class PartyRings extends LXPattern {
     }
 
     private float getBright(float theta, int rodPosition) {
-      return (Math.abs((theta - head[rodPosition - 1]) / 180.0f)) * 100.0f;
+      return (Math.abs((theta - head[rodPosition]) / 180.0f)) * 100.0f;
     }
   }
 }
