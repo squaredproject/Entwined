@@ -43,7 +43,6 @@ public class CubeManager implements LX.Listener {
       // loop through all models and points....
       for (LXModel component : model.children) {
         for (LXPoint point : component.points) {
-          System.out.println("Create cube, idx is " + point.index);
           CubeData cube = this.cubes[point.index];
           float localX = point.x - component.cx;  // XXX - should be component origin, but don't have that yet.
           float localZ = point.z - component.cz;  // XXX ditto
@@ -51,6 +50,8 @@ public class CubeManager implements LX.Listener {
           float XZR    = (float)Math.sqrt(localX*localX + localZ*localZ);
           float tempTheta = (float)Math.atan2(localZ, localX);
           cube.localTheta = (180 + (180/LX.PIf)*tempTheta) % 360;
+          tempTheta = (float)Math.atan2(point.z,  point.x);
+          cube.theta = (180 + (180/LX.PIf)*tempTheta) % 360;
           cube.localPhi = (float)Math.atan2(localY, XZR);
           cube.localX   = localX;
           cube.localY   = localY;

@@ -40,7 +40,7 @@ public class Fumes extends LXPattern {
     }
   }
 
-  Fumes(LX lx) {
+  public Fumes(LX lx) {
     super(lx);
     addParameter("hue", hue);
     addParameter("speed", speed);
