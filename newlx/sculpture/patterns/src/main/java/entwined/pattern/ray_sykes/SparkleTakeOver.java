@@ -1,7 +1,8 @@
 package entwined.pattern.ray_sykes;
 
+import entwined.core.CubeManager;
+import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
-import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
@@ -54,28 +55,28 @@ public class SparkleTakeOver extends LXPattern {
       resetDone = false;
     }
 
-    // XXX - no LXUtils.millis function
     float hueVariationValue = hueVariation.getValuef();
     float coverageValue = coverage.getValuef();
     float currentBaseHue = lx.engine.palette.color.getHuef();
 
-    for (LXModel component : model.children) {
-      for (LXPoint cube : component.points) {
-        float localTheta = (float)Math.atan2(cube.z - component.cz, cube.x - component.cx) * 180/LX.PIf;
-        float newHueVal = (currentBaseHue +     complimentaryToggle * hueSeparation + hueVariationValue * cube.y) % 360;
-        float oldHueVal = (currentBaseHue + lastComplimentaryToggle * hueSeparation + hueVariationValue * cube.y) % 360;
-        if (sparkleTimeOuts[cube.index] > System.currentTimeMillis()){
-          colors[cube.index] = LX.hsb(newHueVal, (30  + coverageValue) / 1.3f, newBrightVal);
+    for (LXPoint cube : model.points) {
+      float localTheta = CubeManager.getCube(cube.index).localTheta * LX.TWO_PIf/360;
+      float localY = CubeManager.getCube(cube.index).localY;
+      float newHueVal = (currentBaseHue + complimentaryToggle * hueSeparation + hueVariationValue * localY) % 360;
+      // (float)Math.atan2(cube.z - component.cz, cube.x - component.cx) * 180/LX.PIf;
+      float oldHueVal = (currentBaseHue + lastComplimentaryToggle * hueSeparation + hueVariationValue * localY) % 360;
+      if (sparkleTimeOuts[cube.index] > EntwinedUtils.millis()){
+        colors[cube.index] = LX.hsb(newHueVal, ((30  + coverageValue) / 1.3f) % 100, newBrightVal);
+      }
+      else {
+        colors[cube.index] = LX.hsb(oldHueVal, ((140 - coverageValue) / 1.4f) % 100, oldBrightVal);
+        float chance = EntwinedUtils.random(EntwinedUtils.abs(LXUtils.sinf((LX.TWO_PIf / 360) * localTheta * 4)   * 50)
+                                          + EntwinedUtils.abs(LXUtils.sinf( LX.TWO_PIf        * (cube.y / 9000))) * 50);
+        if (chance > (100 - 100*(Math.pow(coverageValue/100, 2)))){
+          sparkleTimeOuts[cube.index] = EntwinedUtils.millis() + 50000;
         }
-        else {
-          colors[cube.index] = LX.hsb(oldHueVal, (140 - coverageValue) / 1.4f, oldBrightVal);
-          float chance = (float)(Math.random() * (Math.abs(LXUtils.sinf((LX.TWO_PIf / 360) * localTheta * 4) * 50) + Math.abs(LXUtils.sinf(LX.TWO_PIf * (cube.y / 9000))) * 50));
-          if (chance > (100 - 100*(Math.pow(coverageValue/100, 2)))){
-            sparkleTimeOuts[cube.index] = (int)System.currentTimeMillis() + 50000;
-          }
-          else if (chance > 1.1f * (100 - coverage.getValuef())){
-            sparkleTimeOuts[cube.index] = (int)System.currentTimeMillis() + 100;
-          }
+        else if (chance > 1.1f * (100 - coverage.getValuef())){
+          sparkleTimeOuts[cube.index] = EntwinedUtils.millis() + 100;
         }
       }
     }
