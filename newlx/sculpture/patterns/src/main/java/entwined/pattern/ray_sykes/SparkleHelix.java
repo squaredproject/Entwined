@@ -1,5 +1,6 @@
 package entwined.pattern.ray_sykes;
 
+import entwined.core.CubeData;
 import entwined.core.CubeManager;
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
@@ -53,28 +54,27 @@ public class SparkleHelix extends LXPattern {
 
     for (LXModel component:  model.children) {
       for (LXPoint cube : component.points) {
-        float localTheta = CubeManager.getCube(cube.index).localTheta;
-        localTheta = localTheta *180/LX.PIf;
+        CubeData cubeData = CubeManager.getCube(cube.index);
+        float localTheta = cubeData.localTheta * LX.PIf/180;  // wrapping using radians...
         float compensatedWidth = (0.7f + .02f / coilValue) * widthValue;
-        float wrapAngleForward   = (8*LX.TWO_PIf + spinValue + coilValue*(cube.y-component.cy)) % LX.TWO_PIf;
-        float wrapAngleBackwards = (8*LX.TWO_PIf - spinValue - coilValue*(cube.y-component.cy)) % LX.TWO_PIf;
+        float wrapAngleForward = (spinValue + coilValue * cubeData.localY) % LX.TWO_PIf;
+        float wrapAngleBackwards = LX.TWO_PIf - wrapAngleForward;
         float spiralVal = LXUtils.maxf(
             0,
-            100 - (100*LX.TWO_PIf/(compensatedWidth)*LXUtils.wrapdistf(localTheta, wrapAngleForward, LX.TWO_PIf))
+            100 - ((100*LX.TWO_PIf/(compensatedWidth))*LXUtils.wrapdistf(localTheta, wrapAngleForward, LX.TWO_PIf))
         );
         float counterSpiralVal = counterSpiralStrengthValue * LXUtils.maxf(
             0,
             100 - (100*LX.TWO_PIf/(compensatedWidth)*LXUtils.wrapdistf(localTheta, wrapAngleBackwards, LX.TWO_PIf))
         );
-        float hueVal = (currentBaseHue + .1f*cube.y) % 360;
+        float hueVal = (currentBaseHue + .1f*cubeData.localY) % 360;
         if (sparkleTimeOuts[cube.index] > EntwinedUtils.millis()){
           colors[cube.index] = LX.hsb(hueVal, sparkleSaturation.getValuef(), 100);
-          //System.out.println("timeout is " + sparkleTimeOuts[cube.index] + ", " + EntwinedUtils.millis());
         }
         else{
           sparkleTimeOuts[cube.index] -= deltaMs;
           colors[cube.index] = LX.hsb(hueVal, 100, (LXUtils.maxf(spiralVal, counterSpiralVal)) % 100);
-          if (Math.random() * LXUtils.maxf(spiralVal, counterSpiralVal) > sparkleValue){
+          if (EntwinedUtils.random(LXUtils.maxf(spiralVal, counterSpiralVal)) > sparkleValue){
             sparkleTimeOuts[cube.index] = EntwinedUtils.millis() + 100;
           }
         }

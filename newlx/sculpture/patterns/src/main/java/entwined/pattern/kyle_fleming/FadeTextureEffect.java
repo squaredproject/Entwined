@@ -14,6 +14,7 @@ public class FadeTextureEffect extends LXEffect {
 
   public FadeTextureEffect(LX lx) {
     super(lx);
+    addParameter("amount", amount);
 
     addModulator(colr).start();
   }

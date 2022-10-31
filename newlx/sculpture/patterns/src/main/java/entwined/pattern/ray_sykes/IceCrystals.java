@@ -1,7 +1,8 @@
 package entwined.pattern.ray_sykes;
 
+import entwined.core.CubeManager;
+import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
-import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.DiscreteParameter;
@@ -38,41 +39,39 @@ public class IceCrystals extends LXPattern {
     }
     crystal.doUpdate();
 
-    for (LXModel component : model.children) {
-      for (LXPoint cube : component.points) {
-        float localTheta = (float)Math.atan2(cube.z - component.cz, cube.x - component.cx) * 180/LX.PIf;
-        float lineFactor = crystal.getLineFactor(cube.y, localTheta);
-        if (lineFactor > 110) {
-          lineFactor = 200 - lineFactor;
-        }
-        float hueVal;
-        float satVal;
-        float brightVal = LXUtils.minf(100, 20 + lineFactor);
-        if (lineFactor > 100){
-          brightVal = 100;
-          hueVal = 180;
-          satVal = 0;
-        }
-        else if (lineFactor < 20){
-          hueVal = 220;
-          satVal = 100;
-        }
-        else if (lineFactor < 50){
-          hueVal = 240;
-          satVal = 60;
-        }
-        else {
-          hueVal = 240;
-          satVal = 60 - 60 * (lineFactor / 100);
-        }
-        colors[cube.index] = LX.hsb(hueVal,  satVal, brightVal);
+    for (LXPoint cube : model.points) {
+      float localTheta = CubeManager.getCube(cube.index).localTheta;
+      float lineFactor = crystal.getLineFactor(cube.y, localTheta);
+      if (lineFactor > 110) {
+        lineFactor = 200 - lineFactor;
       }
+      float hueVal;
+      float satVal;
+      float brightVal = LXUtils.minf(100, 20 + lineFactor);
+      if (lineFactor > 100){
+        brightVal = 100;
+        hueVal = 180;
+        satVal = 0;
+      }
+      else if (lineFactor < 20){
+        hueVal = 220;
+        satVal = 100;
+      }
+      else if (lineFactor < 50){
+        hueVal = 240;
+        satVal = 60;
+      }
+      else {
+        hueVal = 240;
+        satVal = 60 - 60 * (lineFactor / 100);
+      }
+      colors[cube.index] = LX.hsb(hueVal,  satVal, brightVal);
     }
   }
   void startCrystal(){
     crystal.doReset();
     settingsObj.doSettings(recursionDepth.getValuei(), lineWidth.getValuef(), 150, propagationSpeed.getValuef());
-    crystal.doStart(100, (float)Math.random()*360, (7 + ((int)(Math.random() * 2.9f))) % 8);
+    crystal.doStart(100, EntwinedUtils.random(360), (7 + ((int)EntwinedUtils.random(2.9f))) % 8);
   }
 
   /*
@@ -110,7 +109,7 @@ class IceCrystalSettings {
     growthFinished = false;
     lineLengths = new float[totalRecursionDepth + 1];
     for (int i=0; i <= totalRecursionDepth; i++){
-      lineLengths[i] =  (float)(Math.pow(0.9f, i) * (0.5f + Math.random()) * baseLineLength);
+      lineLengths[i] =  EntwinedUtils.pow(0.9f, i) * (0.5f + EntwinedUtils.random(1)) * baseLineLength;
     }
   }
 
@@ -128,7 +127,7 @@ class IceCrystalSettings {
 
   public void setGrowthFinished(){
     if (!growthFinished){
-      growthFinishedTime = (int)System.currentTimeMillis();
+      growthFinishedTime = EntwinedUtils.millis();
     }
     growthFinished = true;
   }
@@ -172,7 +171,7 @@ class IceCrystalLine {
     this.propagationSpeed = settings.getPropagationSpeed(recursionDepth);
     lineLength = settings.getLineLength(recursionDepth);
     lineWidth = settings.getLineWidth(recursionDepth);
-    startTime = (int)System.currentTimeMillis();
+    startTime = EntwinedUtils.millis();
     doUpdate();
   }
 
@@ -189,7 +188,7 @@ class IceCrystalLine {
   public void doUpdate(){
     switch(lifeCycleState){
       case 0: //this line is growing
-        float currentLineLength = (System.currentTimeMillis() - startTime) * propagationSpeed / 10;
+        float currentLineLength = (EntwinedUtils.millis() - startTime) * propagationSpeed / 10;
         if (currentLineLength > lineLength) {
           currentLineLength = lineLength;
           if (recursionDepth >= settings.totalRecursionDepth){
@@ -217,17 +216,17 @@ class IceCrystalLine {
         checkRangeOfChildren();
       break;
       case 3: // frozen
-        if (recursionDepth <= 3 && settings.growthFinished && settings.growthFinishedTime < (System.currentTimeMillis() - 8000 / propagationSpeed)){
+        if (recursionDepth <= 3 && settings.growthFinished && settings.growthFinishedTime < (EntwinedUtils.millis() - 8000 / propagationSpeed)){
           changeLifeCycleState(4);
         }
       break;
       case 4: // melting
-        nodeMeltRadius = (float) Math.pow((settings.totalRecursionDepth - recursionDepth) * ((int)System.currentTimeMillis() - lifeCycleStateChangeTime) * propagationSpeed  / 7000, 2);
+        nodeMeltRadius = (float) Math.pow((settings.totalRecursionDepth - recursionDepth) * (EntwinedUtils.millis() - lifeCycleStateChangeTime) * propagationSpeed  / 7000, 2);
         applicableRange[0][0] = LXUtils.minf(applicableRange[0][0], LXUtils.maxf(0, endTheta - nodeMeltRadius));
         applicableRange[0][1] = LXUtils.maxf(applicableRange[0][1], LXUtils.minf(720, endTheta + nodeMeltRadius));
         applicableRange[1][0] = LXUtils.minf(applicableRange[1][0], LXUtils.maxf(100, (endY - nodeMeltRadius)));
         applicableRange[1][1] = LXUtils.maxf(applicableRange[1][1], LXUtils.minf(700, (endY + nodeMeltRadius)));
-        if (lifeCycleStateChangeTime < (System.currentTimeMillis() - 27000 / propagationSpeed)){
+        if (lifeCycleStateChangeTime < (EntwinedUtils.millis() - 27000 / propagationSpeed)){
           changeLifeCycleState(5);
           children[0].doReset();
           children[1].doReset();
@@ -235,7 +234,7 @@ class IceCrystalLine {
         }
       break;
       case 5: //water
-        if (lifeCycleStateChangeTime < (System.currentTimeMillis() - 8000 / propagationSpeed)){
+        if (lifeCycleStateChangeTime < (EntwinedUtils.millis() - 8000 / propagationSpeed)){
           changeLifeCycleState(6);
         }
       break;
@@ -264,7 +263,7 @@ class IceCrystalLine {
       return result;
     }
     if (lifeCycleState == 4){
-      float distFromNode = (float)Math.sqrt(Math.pow(Math.abs(endY - yToCheck), 2) + Math.pow(LXUtils.wrapdistf(endTheta, thetaToCheck, 360), 2));
+      float distFromNode = (float)Math.sqrt(Math.pow(Math.abs(endY - yToCheck), 2) + Math.pow(LXUtils.wrapdistf(endTheta%360, thetaToCheck%360, 360), 2));
       if (distFromNode < nodeMeltRadius){
         result = LXUtils.minf(200, 100 + 150 * (nodeMeltRadius - distFromNode) / nodeMeltRadius);
       }
@@ -275,7 +274,7 @@ class IceCrystalLine {
      if (yToCheck >= lowestY && yToCheck <= highestY){
         float targetTheta = startTheta + (endTheta - startTheta) * (yToCheck - startY) / (endY - startY);
         float lineThetaWidth = lineWidth / (2 * Math.abs(angleFactors[angleIndex][1]));
-        result = LXUtils.maxf(result, 100 * LXUtils.maxf(0, (lineThetaWidth - Math.abs(LXUtils.wrapdistf(targetTheta, thetaToCheck, 360)))) / lineThetaWidth);
+        result = LXUtils.maxf(result, 100 * LXUtils.maxf(0, (lineThetaWidth - Math.abs(LXUtils.wrapdistf(targetTheta%360, thetaToCheck%360, 360)))) / lineThetaWidth);
       }
     }
     else {
@@ -311,7 +310,7 @@ class IceCrystalLine {
   }
 
   void changeLifeCycleState(int lifeCycleStateIn){
-    lifeCycleStateChangeTime = (int)System.currentTimeMillis();
+    lifeCycleStateChangeTime = EntwinedUtils.millis();
     this.lifeCycleState = lifeCycleStateIn;
   }
 

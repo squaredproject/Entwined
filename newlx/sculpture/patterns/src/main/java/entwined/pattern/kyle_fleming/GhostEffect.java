@@ -17,6 +17,7 @@ public class GhostEffect extends LXEffect {
 
   public GhostEffect(LX lx) {
     super(lx);
+    addParameter("amount", amount);
     addLayer(new GhostEffectsLayer(lx));
   }
 
@@ -28,7 +29,7 @@ public class GhostEffect extends LXEffect {
 
     GhostEffectsLayer(LX lx) {
       super(lx);
-      addParameter("amount", amount);
+      //addParameter("amount", amount);
     }
 
     float timer = 0;
@@ -52,7 +53,7 @@ public class GhostEffect extends LXEffect {
         while (iter.hasNext()) {
           GhostEffectLayer ghost = iter.next();
           if (!ghost.running) {
-            layers.remove(ghost);
+            removeLayer(ghost);
             iter.remove();
           }
         }
