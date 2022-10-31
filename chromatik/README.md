@@ -24,3 +24,7 @@ $ mvn package
 `mvn package` builds the Entwined library to a JAR. The resulting content JAR file lives at `target/entwined-0.0.1-SNAPSHOT.jar`
 
 The `install.sh` script will automatically copy this file into the Chromatik content library. Alternately, the JAR file may be drag and dropped onto the running Chromatik app to import it manually.
+
+## Re-generating the fixture definitions
+
+Use the `gen-fixtures.sh` script to regenerate the LXF fixture definitions from the `newlx/sculpture` tree. Requires `python3` and `numpy` installed via `pip3 install numpy`
