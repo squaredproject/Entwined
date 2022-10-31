@@ -11,8 +11,8 @@ import entwined.utils.EntwinedUtils;
 
 public class ColorEffect extends LXEffect {
 
-  protected final BoundedParameter desaturation = new BoundedParameter("WHT", 0);
-  final BoundedParameter hueShift = new BoundedParameter("HUE", 0, 360);
+  public final BoundedParameter desaturation = new BoundedParameter("WHT", 0);
+  public final BoundedParameter hueShift = new BoundedParameter("HUE", 0, 360);
   final BoundedParameter sharp = new BoundedParameter("SHRP", 0);
   final BoundedParameter soft = new BoundedParameter("SOFT", 0);
   final BoundedParameter mono = new BoundedParameter("MON", 0);

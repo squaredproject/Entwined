@@ -1,8 +1,13 @@
 package entwined.modulator;
 
+import entwined.pattern.anon.ColorEffect;
+import entwined.pattern.anon.HueFilterEffect;
+import entwined.pattern.kyle_fleming.CandyCloudTextureEffect;
+import entwined.pattern.kyle_fleming.SpeedEffect;
 import heronarts.glx.ui.component.UIKnob;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
+import heronarts.lx.effect.BlurEffect;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.modulator.LXModulator;
 import heronarts.lx.studio.LXStudio.UI;
@@ -40,34 +45,34 @@ public class GlobalEffects extends LXModulator implements UIModulatorControls<Gl
     for (UIKnob knob : this.knobs) {
       knob.setParameter(null);
     }
-    /*
     ColorEffect color = findEffect(ColorEffect.class);
     if (color != null) {
       this.knobs[0].setParameter(color.hueShift);
       this.knobs[1].setParameter(color.desaturation);
     }
     HueFilterEffect hueFilter = findEffect(HueFilterEffect.class);
-    if (hueFilter != hull) {
+    if (hueFilter != null) {
       this.knobs[2].setParameter(hueFilter.hueFilter);
       this.knobs[3].setParameter(hueFilter.amount);
     }
     BlurEffect blur = findEffect(BlurEffect.class);
     if (blur != null) {
-      this.knobs[4].setParameter(blur.amount);
+      this.knobs[4].setParameter(blur.level);
     }
     SpeedEffect speed = findEffect(SpeedEffect.class);
     if (speed != null) {
       this.knobs[5].setParameter(speed.speed);
     }
+    /*
     SpinEffect spin = findEffect(SpinEffect.class);
     if (spin != null) {
       this.knobs[6].setParameter(spin.spin);
     }
-    CandyCloudTexture candyCloud = findEffect(CandyCloudTextureEffect.class);
+    */
+    CandyCloudTextureEffect candyCloud = findEffect(CandyCloudTextureEffect.class);
     if (candyCloud != null) {
       this.knobs[7].setParameter(candyCloud.amount);
     }
-    */
   }
 
   @SuppressWarnings("unchecked")

@@ -1,6 +1,6 @@
 {
   "version": "0.4.2-SNAPSHOT",
-  "timestamp": 1667251452806,
+  "timestamp": 1667253575107,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -997,7 +997,7 @@
           "label": "Mixer",
           "crossfader": 1.0,
           "crossfaderBlendMode": 0,
-          "focusedChannel": 0,
+          "focusedChannel": 1,
           "focusedChannelAux": 0,
           "cueA": false,
           "cueB": false,
@@ -1018,10 +1018,194 @@
             "parameters": {
               "label": "Master",
               "arm": false,
-              "selected": false
+              "selected": true
             },
             "children": {},
-            "effects": [],
+            "effects": [
+              {
+                "id": 44082,
+                "class": "entwined.pattern.anon.ColorEffect",
+                "internal": {
+                  "modulationColor": 0,
+                  "modulationControlsExpanded": true,
+                  "expanded": true,
+                  "expandedCue": true,
+                  "expandedAux": true,
+                  "modulationExpanded": false
+                },
+                "parameters": {
+                  "label": "Color",
+                  "enabled": true,
+                  "desaturation": 0.0,
+                  "hueShift": 0.0,
+                  "sharp": 0.0,
+                  "soft": 0.0,
+                  "mono": 0.0,
+                  "rainbow": 0.0
+                },
+                "children": {
+                  "modulation": {
+                    "id": 44083,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0,
+                      "modulationControlsExpanded": true
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [],
+                    "modulations": [],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1
+              },
+              {
+                "id": 44087,
+                "class": "entwined.pattern.anon.HueFilterEffect",
+                "internal": {
+                  "modulationColor": 0,
+                  "modulationControlsExpanded": true,
+                  "expanded": true,
+                  "expandedCue": true,
+                  "expandedAux": true,
+                  "modulationExpanded": false
+                },
+                "parameters": {
+                  "label": "HueFilter",
+                  "enabled": true,
+                  "hue_filter": 0.0,
+                  "amount": 0.0
+                },
+                "children": {
+                  "modulation": {
+                    "id": 44088,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0,
+                      "modulationControlsExpanded": true
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [],
+                    "modulations": [],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1
+              },
+              {
+                "id": 44090,
+                "class": "heronarts.lx.effect.BlurEffect",
+                "internal": {
+                  "modulationColor": 0,
+                  "modulationControlsExpanded": true,
+                  "expanded": true,
+                  "expandedCue": true,
+                  "expandedAux": true,
+                  "modulationExpanded": false
+                },
+                "parameters": {
+                  "label": "Blur",
+                  "enabled": true,
+                  "level": 0.0,
+                  "decay": 1.0,
+                  "mode": 0
+                },
+                "children": {
+                  "modulation": {
+                    "id": 44091,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0,
+                      "modulationControlsExpanded": true
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [],
+                    "modulations": [],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1
+              },
+              {
+                "id": 44093,
+                "class": "entwined.pattern.kyle_fleming.SpeedEffect",
+                "internal": {
+                  "modulationColor": 0,
+                  "modulationControlsExpanded": true,
+                  "expanded": true,
+                  "expandedCue": true,
+                  "expandedAux": true,
+                  "modulationExpanded": false
+                },
+                "parameters": {
+                  "label": "Speed",
+                  "enabled": true,
+                  "speed": 1.0
+                },
+                "children": {
+                  "modulation": {
+                    "id": 44094,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0,
+                      "modulationControlsExpanded": true
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [],
+                    "modulations": [],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1
+              },
+              {
+                "id": 44096,
+                "class": "entwined.pattern.kyle_fleming.CandyCloudTextureEffect",
+                "internal": {
+                  "modulationColor": 0,
+                  "modulationControlsExpanded": true,
+                  "expanded": true,
+                  "expandedCue": true,
+                  "expandedAux": true,
+                  "modulationExpanded": false
+                },
+                "parameters": {
+                  "label": "CandyCloudTexture",
+                  "enabled": true,
+                  "amount": 0.0
+                },
+                "children": {
+                  "modulation": {
+                    "id": 44097,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0,
+                      "modulationControlsExpanded": true
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [],
+                    "modulations": [],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1
+              }
+            ],
             "clips": []
           }
         },
@@ -1034,12 +1218,13 @@
               "modulationControlsExpanded": true,
               "controlsExpandedCue": true,
               "controlsExpandedAux": true,
-              "controlsExpanded": true
+              "controlsExpanded": true,
+              "viewPatternLabel": false
             },
             "parameters": {
               "label": "Test",
               "arm": false,
-              "selected": true,
+              "selected": false,
               "enabled": true,
               "cue": false,
               "aux": false,
@@ -1164,7 +1349,36 @@
           "label": "Modulation"
         },
         "children": {},
-        "modulators": [],
+        "modulators": [
+          {
+            "id": 44099,
+            "class": "entwined.modulator.GlobalEffects",
+            "internal": {
+              "modulationColor": 0,
+              "modulationControlsExpanded": true
+            },
+            "parameters": {
+              "label": "Global FX",
+              "running": true,
+              "trigger": false
+            },
+            "children": {}
+          },
+          {
+            "id": 44100,
+            "class": "heronarts.lx.modulator.FocusedPatternControls",
+            "internal": {
+              "modulationColor": 1,
+              "modulationControlsExpanded": true
+            },
+            "parameters": {
+              "label": "Focused Pattern",
+              "running": true,
+              "trigger": false
+            },
+            "children": {}
+          }
+        ],
         "modulations": [],
         "triggers": []
       },

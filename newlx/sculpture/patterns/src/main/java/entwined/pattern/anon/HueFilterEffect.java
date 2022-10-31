@@ -7,8 +7,8 @@ import heronarts.lx.parameter.BoundedParameter;
 
 public class HueFilterEffect extends LXEffect {
 
-  final BoundedParameter hueFilter = new BoundedParameter("HUEF", 0, 360); // 0 to 360 starting at 0
-  final BoundedParameter amount = new BoundedParameter("HDEG", 0, 180);
+  public final BoundedParameter hueFilter = new BoundedParameter("HUEF", 0, 360); // 0 to 360 starting at 0
+  public final BoundedParameter amount = new BoundedParameter("HDEG", 0, 180);
 
   //private float[] hsb = new float[3];
 

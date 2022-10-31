@@ -4,20 +4,22 @@ import heronarts.lx.LX;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.LXParameter;
-import heronarts.lx.parameter.LXParameterListener;
 
 public class SpeedEffect extends LXEffect {
 
-  final BoundedParameter speed = new BoundedParameter("SPEED", 1, .1, 10).setExponent(2);
+  public final BoundedParameter speed = new BoundedParameter("SPEED", 1, .1, 10).setExponent(2);
+
   public SpeedEffect(final LX lx) {
     super(lx);
     addParameter("speed", speed);
+  }
 
-    speed.addListener(new LXParameterListener() {
-      public void onParameterChanged(LXParameter parameter) {
-        lx.engine.setSpeed(speed.getValue());
-      }
-    });
+  @Override
+  public void onParameterChanged(LXParameter p) {
+    super.onParameterChanged(p);
+    if (p == this.speed) {
+      lx.engine.setSpeed(this.speed.getValue());
+    }
   }
 
   @Override
