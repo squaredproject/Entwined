@@ -11,6 +11,7 @@ public class SpeedEffect extends LXEffect {
   final BoundedParameter speed = new BoundedParameter("SPEED", 1, .1, 10).setExponent(2);
   public SpeedEffect(final LX lx) {
     super(lx);
+    addParameter("speed", speed);
 
     speed.addListener(new LXParameterListener() {
       public void onParameterChanged(LXParameter parameter) {

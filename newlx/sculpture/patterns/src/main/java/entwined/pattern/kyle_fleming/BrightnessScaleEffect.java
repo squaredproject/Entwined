@@ -11,6 +11,7 @@ public class BrightnessScaleEffect extends LXEffect {
 
   public BrightnessScaleEffect(LX lx) {
     super(lx);
+    addParameter("amount", amount);
     enable();
   }
 
