@@ -2,13 +2,9 @@
 
 This folder contains bootstrapping to build the Entwined content as a library for LX's new Chromatik runtime. The Entwined content is simply built into a JAR container file which is loaded dynamically by Chromatik, without needing to rebuild and link the entire LX project.
 
-## Running Chromatik
-
-To run Chromatik, ensure that you have Java 17 Temurin installed, available at https://adoptium.net/
-
-The `run.sh` script will start Chromatik. Make sure to do this once before building Entwined, so that Chromatik can create its content folders on disk.
-
 ## Building and Installing Entwined
+
+Ensure that you have Java 17 Temurin installed, available at https://adoptium.net/
 
 The `install.sh` script runs all the necessary commands to build the Entwined library and install it to the Chromatik content library.
 
@@ -26,6 +22,10 @@ $ mvn package
 The `install.sh` script will automatically copy this file into the Chromatik content library. Alternately, the JAR file may be drag and dropped onto the running Chromatik app to import it manually.
 
 Any time updates have been made to pattern/effect content, fixtures, etc. the install process should be repeated.
+
+## Running Chromatik
+
+The `run.sh` script will start Chromatik and load the Entwined project. Make sure that you have followed the steps above to install the Entwined content libraries first.
 
 ## Regenerating the fixture definitions
 
