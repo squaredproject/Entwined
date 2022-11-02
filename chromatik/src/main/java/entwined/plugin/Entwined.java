@@ -4,6 +4,7 @@ import java.io.File;
 
 import heronarts.lx.LX;
 import heronarts.lx.LXComponent;
+import heronarts.lx.midi.LXMidiInput;
 import heronarts.lx.midi.LXMidiListener;
 import heronarts.lx.midi.MidiNote;
 import heronarts.lx.midi.MidiNoteOn;
@@ -58,7 +59,11 @@ public class Entwined implements LXStudio.Plugin {
     // global stuff can go directly in the initialize method.
 
     lx.engine.midi.whenReady(() -> {
-      lx.engine.midi.findInput(APC40.DEVICE_NAME).addListener(new LXMidiListener() {
+      final LXMidiInput apc = lx.engine.midi.findInput(APC40.DEVICE_NAME);
+      if (apc == null) {
+        return;
+      }
+      apc.addListener(new LXMidiListener() {
         public void noteOnReceived(MidiNoteOn note) {
           noteReceived(note, true);
         }
