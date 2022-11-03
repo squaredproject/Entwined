@@ -4,11 +4,11 @@ import entwined.pattern.anon.ColorEffect;
 import entwined.pattern.anon.HueFilterEffect;
 import entwined.pattern.kyle_fleming.CandyCloudTextureEffect;
 import entwined.pattern.kyle_fleming.SpeedEffect;
+import entwined.plugin.Entwined;
 import heronarts.glx.ui.component.UIKnob;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.effect.BlurEffect;
-import heronarts.lx.effect.LXEffect;
 import heronarts.lx.modulator.LXModulator;
 import heronarts.lx.studio.LXStudio.UI;
 import heronarts.lx.studio.ui.modulation.UIModulator;
@@ -45,21 +45,21 @@ public class GlobalEffects extends LXModulator implements UIModulatorControls<Gl
     for (UIKnob knob : this.knobs) {
       knob.setParameter(null);
     }
-    ColorEffect color = findEffect(ColorEffect.class);
+    ColorEffect color = Entwined.findMasterEffect(this.lx, ColorEffect.class);
     if (color != null) {
       this.knobs[0].setParameter(color.hueShift);
       this.knobs[1].setParameter(color.desaturation);
     }
-    HueFilterEffect hueFilter = findEffect(HueFilterEffect.class);
+    HueFilterEffect hueFilter = Entwined.findMasterEffect(this.lx, HueFilterEffect.class);
     if (hueFilter != null) {
       this.knobs[2].setParameter(hueFilter.hueFilter);
       this.knobs[3].setParameter(hueFilter.amount);
     }
-    BlurEffect blur = findEffect(BlurEffect.class);
+    BlurEffect blur = Entwined.findMasterEffect(this.lx, BlurEffect.class);
     if (blur != null) {
       this.knobs[4].setParameter(blur.level);
     }
-    SpeedEffect speed = findEffect(SpeedEffect.class);
+    SpeedEffect speed = Entwined.findMasterEffect(this.lx, SpeedEffect.class);
     if (speed != null) {
       this.knobs[5].setParameter(speed.speed);
     }
@@ -69,21 +69,13 @@ public class GlobalEffects extends LXModulator implements UIModulatorControls<Gl
       this.knobs[6].setParameter(spin.spin);
     }
     */
-    CandyCloudTextureEffect candyCloud = findEffect(CandyCloudTextureEffect.class);
+    CandyCloudTextureEffect candyCloud = Entwined.findMasterEffect(this.lx, CandyCloudTextureEffect.class);
     if (candyCloud != null) {
       this.knobs[7].setParameter(candyCloud.amount);
     }
   }
 
-  @SuppressWarnings("unchecked")
-  private <T extends LXEffect> T findEffect(Class<T> clazz) {
-    for (LXEffect effect : this.lx.engine.mixer.masterBus.effects) {
-      if (effect.getClass().equals(clazz)) {
-        return (T) effect;
-      }
-    }
-    return null;
-  }
+
 
   @Override
   public void buildModulatorControls(UI ui, UIModulator uiModulator, GlobalEffects modulator) {

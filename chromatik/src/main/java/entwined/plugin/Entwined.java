@@ -5,12 +5,16 @@ import java.io.File;
 import entwined.core.CubeManager;
 import heronarts.lx.LX;
 import heronarts.lx.LXComponent;
+import heronarts.lx.effect.LXEffect;
 import heronarts.lx.midi.LXMidiInput;
 import heronarts.lx.midi.LXMidiListener;
 import heronarts.lx.midi.MidiNote;
 import heronarts.lx.midi.MidiNoteOn;
 import heronarts.lx.midi.surface.APC40;
+import heronarts.lx.mixer.LXBus;
+import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.parameter.BooleanParameter;
+import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.studio.LXStudio;
 import heronarts.lx.studio.LXStudio.UI;
 
@@ -117,6 +121,30 @@ public class Entwined implements LXStudio.Plugin {
     // NOTE(mcslee): potentially something here if we ever want custom UI components, but
     // most likely they are also not needed
     log("Entwined.onUIReady");
+  }
+
+  public static <T extends LXEffect> T findMasterEffect(LX lx, Class<T> clazz) {
+    return findEffect(lx.engine.mixer.masterBus, clazz);
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T extends LXEffect> T findEffect(LXBus bus, Class<T> clazz) {
+    for (LXEffect effect : bus.effects) {
+      if (effect.getClass().equals(clazz)) {
+        return (T) effect;
+      }
+    }
+    return null;
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T extends LXPattern> T findPattern(LXChannel channel, Class<T> clazz) {
+    for (LXPattern pattern : channel.patterns) {
+      if (pattern.getClass().equals(clazz)) {
+        return (T) pattern;
+      }
+    }
+    return null;
   }
 
 }
