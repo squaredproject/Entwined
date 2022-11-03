@@ -10,10 +10,12 @@ import entwined.pattern.kyle_fleming.BrightnessScaleEffect;
 import entwined.pattern.kyle_fleming.ScrambleEffect;
 import entwined.pattern.kyle_fleming.SpeedEffect;
 import heronarts.lx.LX;
+import heronarts.lx.LXEngine;
 import heronarts.lx.LXLoopTask;
 import heronarts.lx.effect.BlurEffect;
 import heronarts.lx.mixer.LXAbstractChannel;
 import heronarts.lx.mixer.LXChannel;
+import heronarts.lx.parameter.BoundedParameter;
 
 public class EngineController {
   LX lx;
@@ -544,3 +546,64 @@ public class EngineController {
   }
   */
 }
+
+class BoundedParameterProxy extends BoundedParameter {
+
+  final List<BoundedParameter> parameters = new ArrayList<BoundedParameter>();
+
+  BoundedParameterProxy(double value) {
+    super("Proxy", value);
+  }
+
+  @Override
+    protected double updateValue(double value) {
+    for (BoundedParameter parameter : parameters) {
+      parameter.setValue(value);
+    }
+    return value;
+  }
+}
+
+
+// Bogus class until I find the equivalent of LXAutomationRecorder in the new lx.
+class TSAutomationRecorder {
+  boolean isPaused;
+
+  TSAutomationRecorder(LXEngine engine) {
+    // nop
+  }
+
+  public void setPaused(boolean paused) {
+    isPaused = paused;
+  }
+}
+/*
+class TSAutomationRecorder extends LXAutomationRecorder {
+
+  boolean isPaused;
+
+  TSAutomationRecorder(LXEngine engine) {
+    super(engine);
+  }
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+    isPaused = false;
+  }
+
+  public void setPaused(boolean paused) {
+    if (!paused && !isRunning()) {
+      start();
+    }
+    isPaused = paused;
+  }
+
+  @Override
+  public void loop(double deltaMs) {
+    if (!isPaused) {
+      super.loop(deltaMs);
+    }
+  }
+}
+*/

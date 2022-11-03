@@ -1,7 +1,7 @@
 package entwined.plugin;
 
-import java.io.File;
 import java.time.ZonedDateTime;
+import heronarts.lx.LX;
 import heronarts.lx.LXComponent;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.midi.LXMidiInput;
@@ -336,7 +336,8 @@ public class Entwined implements LXStudio.Plugin {
     // essentially this lets us have extra decks for the drumpad
     // patterns without letting them be assigned to channels
     // -kf
-    lx.engine.mixer.focusedChannel.setRange(Engine.NUM_BASE_CHANNELS);
+    // lx.engine.mixer.focusedChannel.setRange(Engine.NUM_BASE_CHANNELS);
+    lx.engine.mixer.focusedChannel.setRange(8);  // XXX CSW - What is NUM_BASE_CHANNELS, and where is it now?
   }
 
   @Override
