@@ -179,8 +179,8 @@ public class AutographedPattern extends LXPattern {
    //addParameter(autographCubeSpeedParam);
 
    // Init the HSB array.
-   hsbArray = new ColorHSB[colors.length];
-   for(int i = 0; i < colors.length; ++i){
+   hsbArray = new ColorHSB[lx.getModel().size];
+   for(int i = 0; i < hsbArray.length; ++i){
      hsbArray[i] = new ColorHSB();
      hsbArray[i].hue0To360 = 0.0f;
      hsbArray[i].sat0To100 = 0.0f;
