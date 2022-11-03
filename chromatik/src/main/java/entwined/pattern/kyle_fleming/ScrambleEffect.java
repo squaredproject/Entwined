@@ -18,8 +18,12 @@ public class ScrambleEffect extends LXEffect {
     offset = lx.getModel().size / 4 + 5;
   }
 
-  int getAmount() {
+  public int getAmount() {
     return (int)(amount.getValue() * lx.getModel().size / 2);
+  }
+
+  public void setAmount(double val) {
+    amount.setValue(val);
   }
 
   @Override

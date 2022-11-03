@@ -23,6 +23,14 @@ public class CandyTextureEffect extends LXEffect {
     addParameter("amount", amount);
   }
 
+  public double getAmount() {
+    return amount.getValue();
+  }
+
+  public void setAmount(double val) {
+    amount.setValue(val);
+  }
+
   @Override
   public void run(double deltaMs, double strength) {
     if (amount.getValue() > 0) {

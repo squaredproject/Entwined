@@ -50,7 +50,7 @@ public class InteractiveCandyChaosEffect {
      super(lx);
 
      // turn the effect on 100%
-     super.amount.setValue(1);
+     super.setAmount(1);
 
      this.pieceIndex = pieceIndex;
      this.triggered = false;

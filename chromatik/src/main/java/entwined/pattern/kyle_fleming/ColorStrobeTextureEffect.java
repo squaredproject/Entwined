@@ -27,5 +27,9 @@ public class ColorStrobeTextureEffect extends LXEffect {
       }
     }
   }
+
+  public float getAmount() {
+    return amount.getValuef();
+  }
 }
 

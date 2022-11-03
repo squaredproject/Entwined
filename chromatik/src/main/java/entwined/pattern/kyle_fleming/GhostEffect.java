@@ -25,6 +25,10 @@ public class GhostEffect extends LXEffect {
   protected void run(double deltaMs, double amount) {
   }
 
+  public float getAmount() {
+    return amount.getValuef();
+  }
+
   class GhostEffectsLayer extends LXLayer {
 
     GhostEffectsLayer(LX lx) {

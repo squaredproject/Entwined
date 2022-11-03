@@ -105,32 +105,9 @@ class SpinEffect extends ModelTransform {
 
 
 
-class TSBlurEffect extends BlurEffect {
-  TSBlurEffect(LX lx) {
-    super(lx);
-  }
 
-  @Override
-  public void loop(double deltaMs) {
-    if (isEnabled()) {
-      super.loop(deltaMs);
-    }
-  }
-}
 
-class TSBlurEffect2 extends TSBlurEffect {
-  TSBlurEffect2(LX lx) {
-    super(lx);
-  }
-}
 
-class NoPattern extends LXPattern {
-  NoPattern(LX lx) {
-    super(lx);
-  }
 
-  @Override
-  public void run(double deltaMs) {
-  }
-}
+
 */

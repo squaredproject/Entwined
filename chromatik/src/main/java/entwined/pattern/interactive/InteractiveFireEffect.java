@@ -43,7 +43,7 @@ public class InteractiveFireEffect {
   final Map<String, Integer> pieceIdMap;
 
   // constructor
-  InteractiveFireEffect(LX lx, LXModel model) {
+  public InteractiveFireEffect(LX lx, LXModel model) {
 
    //System.out.println("InteractiveFireEffect constructor");
 
@@ -64,11 +64,11 @@ public class InteractiveFireEffect {
    }
   }
 
-  LXEffect[] getEffects() {
+  public LXEffect[] getEffects() {
    return ( pieceFires );
   }
 
-  void onTriggeredPiece(String pieceId) {
+  public void onTriggeredPiece(String pieceId) {
    Integer pieceIndex_o = pieceIdMap.get(pieceId);
    if (pieceIndex_o == null) return;
    pieceFires[pieceIndex_o ].onTriggered();

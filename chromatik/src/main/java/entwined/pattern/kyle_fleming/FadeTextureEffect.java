@@ -31,4 +31,8 @@ public class FadeTextureEffect extends LXEffect {
       }
     }
   }
+
+  public float getAmount() {
+    return amount.getValuef();
+  }
 }
