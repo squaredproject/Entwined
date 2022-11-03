@@ -181,6 +181,7 @@ public class Entwined implements LXStudio.Plugin {
 
   @Override
   public void initialize(LX lx) {
+    System.out.println(" initialize being called ");
     log("Entwined.initialize()");
 
     // Check if we are running from Eclipse/IDE mode, where the Entwined

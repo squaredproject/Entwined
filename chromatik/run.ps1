@@ -1,0 +1,1 @@
+java -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies-windows.jar heronarts.lx.studio.Chromatik --warnings --disable-zeroconf --enable-plugin entwined.plugin.Entwined src/main/resources/projects/Entwined-2022.lxp
