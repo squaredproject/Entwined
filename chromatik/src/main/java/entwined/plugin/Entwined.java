@@ -1,8 +1,7 @@
 package entwined.plugin;
 
 import java.io.File;
-import entwined.core.CubeManager;
-import heronarts.lx.LX;
+import java.time.ZonedDateTime;
 import heronarts.lx.LXComponent;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.midi.LXMidiInput;
@@ -17,7 +16,26 @@ import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.studio.LXStudio;
 import heronarts.lx.studio.LXStudio.UI;
 
+import entwined.core.CubeManager;
+import entwined.pattern.interactive.InteractiveCandyChaosEffect;
+import entwined.pattern.interactive.InteractiveDesaturationEffect;
+import entwined.pattern.interactive.InteractiveFireEffect;
+import entwined.pattern.interactive.InteractiveHSVEffect;
+import entwined.pattern.interactive.InteractiveRainbowEffect;
+
 public class Entwined implements LXStudio.Plugin {
+
+
+  EngineController engineController;
+  LX lx;
+
+  CanopyController canopyController;
+  InteractiveHSVEffect interactiveHSVEffect;
+  InteractiveFireEffect interactiveFireEffect;
+  InteractiveCandyChaosEffect interactiveCandyChaosEffect;
+  InteractiveRainbowEffect interactiveRainbowEffect;
+  InteractiveDesaturationEffect interactiveDesaturationEffect;
+
 
   public static class Triggerables extends LXComponent {
 
@@ -179,6 +197,19 @@ public class Entwined implements LXStudio.Plugin {
     lx.registry.addPattern(entwined.pattern.sydney_parcell.RoseGarden.class);
   }
 
+  /* configureServer */
+  void configureServer() {
+    new AppServer(lx, engineController).start();
+  }
+
+  /*
+  // Log Helper
+  void log(String s) {
+      System.out.println(
+      ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + " " + s );
+  }
+  */
+
   @Override
   public void initialize(LX lx) {
     System.out.println(" initialize being called ");
@@ -192,8 +223,12 @@ public class Entwined implements LXStudio.Plugin {
       registerEntwinedContent(lx);
     }
 
+    this.lx = lx;
+
     log("Set up Triggerables");
     lx.engine.registerComponent("entwined-triggers", getTriggerables());
+
+    engineController = new EngineController(lx);
 
     log("CubeManager.init(lx)");
     CubeManager.init(lx);
@@ -230,6 +265,7 @@ public class Entwined implements LXStudio.Plugin {
       });
     });
 
+    /*
     lx.addProjectListener(new LX.ProjectListener() {
       @Override
       public void projectChanged(File file, Change change) {
@@ -241,6 +277,66 @@ public class Entwined implements LXStudio.Plugin {
         }
       }
     });
+    */
+
+
+    configureServer(); // turns on the TCP listener
+
+
+    // this special filter is used by Canopy -- the interactive effects
+    interactiveHSVEffect = new InteractiveHSVEffect(lx);
+    lx.addEffect(interactiveHSVEffect); /* want this one "on top" of everything else... is it? */
+    interactiveHSVEffect.enable();
+
+    // this fire effect, going to make it more generic, but make it work at all now
+    interactiveFireEffect = new InteractiveFireEffect(lx, lx.getModel());
+    LXEffect[] fireEffects = interactiveFireEffect.getEffects();
+    for (LXEffect effect : fireEffects) {
+      lx.addEffect(effect);
+      effect.enable();
+    }
+
+    interactiveCandyChaosEffect = new InteractiveCandyChaosEffect(lx, lx.getModel());
+    LXEffect[] candyChaosEffects = interactiveCandyChaosEffect.getEffects();
+    for (LXEffect effect: candyChaosEffects) {
+      lx.addEffect(effect);
+      effect.enable();
+    }
+
+    interactiveRainbowEffect = new InteractiveRainbowEffect(lx, lx.getModel());
+    LXEffect[] interactiveRainbowEffects = interactiveRainbowEffect.getEffects();
+    for (LXEffect effect: interactiveRainbowEffects) {
+      lx.addEffect(effect);
+      effect.enable();
+    }
+
+    interactiveDesaturationEffect = new InteractiveDesaturationEffect(lx, lx.getModel());
+    LXEffect[] interactiveDesaturationEffects = interactiveDesaturationEffect.getEffects();
+    for (LXEffect effect: interactiveDesaturationEffects) {
+      lx.addEffect(effect);
+      effect.enable();
+    }
+
+    // must be after creation of the filter effect(s) used
+    canopyController = new CanopyController(this);
+
+
+    // tell the canopyController what it should be up to.
+    // this perhaps needs to move elsewhere, possibly to the constructor of canopy
+    // controller or the main init, unclear it should really be intermixed with EngineController
+    ZonedDateTime firstPause = ZonedDateTime.now();
+    firstPause.plusSeconds( (int) (Config.pauseRunMinutes * 60.0) );
+    canopyController.modelUpdate(true /*interactive*/, (int) (Config.pauseRunMinutes * 60.0f) /*runSeconds*/,
+      (int) (Config.pausePauseMinutes * 60.0f) /*pauseSeconds*/,"run" /*state*/,firstPause);
+
+
+    // bad code I know
+    // (shouldn't mess with engine internals)
+    // maybe need a way to specify a deck shouldn't be focused?
+    // essentially this lets us have extra decks for the drumpad
+    // patterns without letting them be assigned to channels
+    // -kf
+    lx.engine.mixer.focusedChannel.setRange(Engine.NUM_BASE_CHANNELS);
   }
 
   @Override
