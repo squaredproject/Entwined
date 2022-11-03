@@ -45,5 +45,14 @@ The above scripts are sufficient to develop Entwined for Chromatik. However, it'
 
 3. Click `Finish` and you should see the project tree as follows
   <img src="doc/project.jpg" alt="Project Tree" width="742" />
-  
+
+### Running from Eclipse
+
 It is not necessary to build and run directly from Eclipse. Chromatik runs as a standalone application and the `install.sh` script is sufficient to package the Entwined library into the JAR file which is installed to the Chromatik content folder.
+
+However, if you prefer to run directly from Eclipse, use the following:
+
+- Run `uninstall.sh` to ensure that the built Entwined package JAR is removed from the Chromatik content folder
+- Use the `Entwined.launch` Run Configuration for Eclipse to launch
+
+
