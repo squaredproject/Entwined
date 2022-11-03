@@ -1,7 +1,6 @@
 package entwined.plugin;
 
 import java.io.File;
-
 import entwined.core.CubeManager;
 import heronarts.lx.LX;
 import heronarts.lx.LXComponent;
@@ -54,9 +53,143 @@ public class Entwined implements LXStudio.Plugin {
     LX.log("[ENTWINED] " + str);
   }
 
+  private void registerEntwinedContent(LX lx) {
+    // lx.registry.addPattern(entwined.pattern.adam_n_katie.AutographedPattern.class);
+    lx.registry.addPattern(entwined.pattern.adam_n_katie.Blooms.class);
+    // lx.registry.addPattern(entwined.pattern.adam_n_katie.Boid.class);
+    lx.registry.addPattern(entwined.pattern.adam_n_katie.ExpandingCircles.class);
+    lx.registry.addPattern(entwined.pattern.adam_n_katie.FlockingPoints.class);
+    lx.registry.addPattern(entwined.pattern.adam_n_katie.HueRibbons.class);
+    lx.registry.addPattern(entwined.pattern.adam_n_katie.MovingPoint.class);
+    // lx.registry.addPattern(entwined.pattern.adam_n_katie.Patterns_AdamNKatie.class);
+    lx.registry.addPattern(entwined.pattern.adam_n_katie.Sparks.class);
+    lx.registry.addPattern(entwined.pattern.adam_n_katie.SpiralArms.class);
+    lx.registry.addPattern(entwined.pattern.adam_n_katie.Undulation.class);
+    lx.registry.addPattern(entwined.pattern.adam_n_katie.VerticalColorWaves.class);
+    lx.registry.addPattern(entwined.pattern.adam_n_katie.WavesToMainTree.class);
+    lx.registry.addPattern(entwined.pattern.alchemy.Zebra.class);
+    lx.registry.addPattern(entwined.pattern.anon.ColoredLeaves.class);
+    lx.registry.addEffect(entwined.pattern.anon.ColorEffect.class);
+    lx.registry.addPattern(entwined.pattern.anon.DiffusionTestPattern.class);
+    lx.registry.addPattern(entwined.pattern.anon.DoubleHelix.class);
+    lx.registry.addEffect(entwined.pattern.anon.HueFilterEffect.class);
+    // lx.registry.addPattern(entwined.pattern.anon.Patterns.class);
+    lx.registry.addPattern(entwined.pattern.anon.SeeSaw.class);
+    lx.registry.addPattern(entwined.pattern.anon.SweepPattern.class);
+    lx.registry.addPattern(entwined.pattern.anon.TestPattern.class);
+    lx.registry.addPattern(entwined.pattern.anon.TestShrubLayers.class);
+    lx.registry.addPattern(entwined.pattern.anon.TestShrubSweep.class);
+    lx.registry.addPattern(entwined.pattern.anon.Twister.class);
+    lx.registry.addPattern(entwined.pattern.anon.TwisterGlobal.class);
+    lx.registry.addPattern(entwined.pattern.bbulkow.MultiColor.class);
+    lx.registry.addPattern(entwined.pattern.bbulkow.MultiColor2.class);
+    lx.registry.addPattern(entwined.pattern.bbulkow.StripeStatic.class);
+    lx.registry.addPattern(entwined.pattern.charlie_stigler.Burst.class);
+    lx.registry.addPattern(entwined.pattern.colin_hunt.BeachBall.class);
+    lx.registry.addPattern(entwined.pattern.colin_hunt.BleepBloop.class);
+    lx.registry.addPattern(entwined.pattern.colin_hunt.Bloop.class);
+    lx.registry.addPattern(entwined.pattern.colin_hunt.Breath.class);
+    lx.registry.addPattern(entwined.pattern.colin_hunt.ColorWave.class);
+    lx.registry.addPattern(entwined.pattern.colin_hunt.CottonCandy.class);
+    lx.registry.addPattern(entwined.pattern.colin_hunt.PartyRings.class);
+    lx.registry.addPattern(entwined.pattern.colin_hunt.Peppermint.class);
+    lx.registry.addPattern(entwined.pattern.colin_hunt.SimplexSparkle.class);
+    lx.registry.addPattern(entwined.pattern.colin_hunt.UpNDown.class);
+    lx.registry.addPattern(entwined.pattern.colin_hunt.Wreathes.class);
+    lx.registry.addPattern(entwined.pattern.eric_gauderman.CounterSpin.class);
+    lx.registry.addPattern(entwined.pattern.eric_gauderman.DiscreteColors.class);
+    lx.registry.addPattern(entwined.pattern.eric_gauderman.Radar.class);
+    lx.registry.addPattern(entwined.pattern.eric_gauderman.UpDown.class);
+    lx.registry.addPattern(entwined.pattern.evy.CircleBreath.class);
+    lx.registry.addPattern(entwined.pattern.evy.FirefliesNcase.class);
+    lx.registry.addPattern(entwined.pattern.geoff_schmidt.Parallax.class);
+    lx.registry.addPattern(entwined.pattern.geoff_schmidt.Pixels.class);
+    lx.registry.addPattern(entwined.pattern.geoff_schmidt.Wedges.class);
+    // lx.registry.addPattern(entwined.pattern.grant_patterson.GrantTest.class);
+    // lx.registry.addPattern(entwined.pattern.grant_patterson.Growth.class);
+    // lx.registry.addPattern(entwined.pattern.grant_patterson.Planes.class);
+    lx.registry.addPattern(entwined.pattern.grant_patterson.Pond.class);
+    // lx.registry.addEffect(entwined.pattern.interactive.InteractiveDesaturationEffect.class);
+    // lx.registry.addEffect(entwined.pattern.interactive.InteractiveFireEffect.class);
+    lx.registry.addEffect(entwined.pattern.interactive.InteractiveHSVEffect.class);
+    // lx.registry.addEffect(entwined.pattern.interactive.InteractiveRainbowEffect.class);
+    lx.registry.addPattern(entwined.pattern.irene_zhou.Bubbles.class);
+    lx.registry.addPattern(entwined.pattern.irene_zhou.Cells.class);
+    lx.registry.addPattern(entwined.pattern.irene_zhou.Fire.class);
+    lx.registry.addPattern(entwined.pattern.irene_zhou.Fireflies.class);
+    lx.registry.addPattern(entwined.pattern.irene_zhou.Fumes.class);
+    lx.registry.addPattern(entwined.pattern.irene_zhou.Lattice.class);
+    // lx.registry.addPattern(entwined.pattern.irene_zhou.Patterns_IreneZhou.class);
+    lx.registry.addPattern(entwined.pattern.irene_zhou.Pulley.class);
+    lx.registry.addPattern(entwined.pattern.irene_zhou.Pulleys.class);
+    lx.registry.addPattern(entwined.pattern.irene_zhou.Springs.class);
+    lx.registry.addPattern(entwined.pattern.irene_zhou.Voronoi.class);
+    lx.registry.addPattern(entwined.pattern.jake_lampack.AcidTrip.class);
+    lx.registry.addEffect(entwined.pattern.kyle_fleming.AcidTripTextureEffect.class);
+    lx.registry.addPattern(entwined.pattern.kyle_fleming.Brightness.class);
+    lx.registry.addEffect(entwined.pattern.kyle_fleming.BrightnessScaleEffect.class);
+    lx.registry.addPattern(entwined.pattern.kyle_fleming.CandyCloud.class);
+    lx.registry.addEffect(entwined.pattern.kyle_fleming.CandyCloudTextureEffect.class);
+    lx.registry.addPattern(entwined.pattern.kyle_fleming.ClusterLineTest.class);
+    lx.registry.addPattern(entwined.pattern.kyle_fleming.ColorStrobe.class);
+    lx.registry.addEffect(entwined.pattern.kyle_fleming.ColorStrobeTextureEffect.class);
+    lx.registry.addPattern(entwined.pattern.kyle_fleming.Explosions.class);
+    lx.registry.addPattern(entwined.pattern.kyle_fleming.Fade.class);
+    lx.registry.addEffect(entwined.pattern.kyle_fleming.FadeTextureEffect.class);
+    lx.registry.addPattern(entwined.pattern.kyle_fleming.GalaxyCloud.class);
+    lx.registry.addEffect(entwined.pattern.kyle_fleming.GhostEffect.class);
+    lx.registry.addPattern(entwined.pattern.kyle_fleming.MappingPattern.class);
+    lx.registry.addPattern(entwined.pattern.kyle_fleming.Palette.class);
+    // lx.registry.addPattern(entwined.pattern.kyle_fleming.Patterns_KyleFleming.class);
+    lx.registry.addPattern(entwined.pattern.kyle_fleming.Rain.class);
+    lx.registry.addPattern(entwined.pattern.kyle_fleming.RandomColor.class);
+    lx.registry.addPattern(entwined.pattern.kyle_fleming.RandomColorGlitch.class);
+    lx.registry.addEffect(entwined.pattern.kyle_fleming.ScrambleEffect.class);
+    lx.registry.addPattern(entwined.pattern.kyle_fleming.SolidColor.class);
+    lx.registry.addEffect(entwined.pattern.kyle_fleming.SpeedEffect.class);
+    lx.registry.addEffect(entwined.pattern.kyle_fleming.StaticEffect.class);
+    lx.registry.addPattern(entwined.pattern.kyle_fleming.Strobe.class);
+    lx.registry.addEffect(entwined.pattern.kyle_fleming.TurnOffDeadPixelsEffect.class);
+    lx.registry.addPattern(entwined.pattern.kyle_fleming.Wisps.class);
+    lx.registry.addPattern(entwined.pattern.kyle_stuart.Snowflakes.class);
+    lx.registry.addPattern(entwined.pattern.lindsay_jason.SparkleWave.class);
+    lx.registry.addPattern(entwined.pattern.lorenz.Fountain.class);
+    lx.registry.addPattern(entwined.pattern.mark_lottor.MarkLottor.class);
+    lx.registry.addPattern(entwined.pattern.mary_wang.Twinkle.class);
+    lx.registry.addPattern(entwined.pattern.mary_wang.VerticalSweep.class);
+    lx.registry.addPattern(entwined.pattern.mattaniah.OscillatingDarkRing.class);
+    lx.registry.addPattern(entwined.pattern.mattaniah.RadialGradiant.class);
+    lx.registry.addPattern(entwined.pattern.misko.Circles.class);
+    lx.registry.addPattern(entwined.pattern.misko.ColorBlast.class);
+    lx.registry.addPattern(entwined.pattern.misko.LightHouse.class);
+    lx.registry.addPattern(entwined.pattern.misko.LineScan.class);
+    lx.registry.addPattern(entwined.pattern.misko.RainbowWaveScan.class);
+    lx.registry.addPattern(entwined.pattern.misko.ShrubRiver.class);
+    lx.registry.addPattern(entwined.pattern.misko.Stringy.class);
+    lx.registry.addPattern(entwined.pattern.misko.Vertigo.class);
+    lx.registry.addPattern(entwined.pattern.misko.WaveScan.class);
+    lx.registry.addPattern(entwined.pattern.quinn_keck.ButterflyEffect.class);
+    lx.registry.addPattern(entwined.pattern.ray_sykes.IceCrystals.class);
+    lx.registry.addPattern(entwined.pattern.ray_sykes.Lightning.class);
+    lx.registry.addPattern(entwined.pattern.ray_sykes.MultiSine.class);
+    lx.registry.addPattern(entwined.pattern.ray_sykes.Ripple.class);
+    lx.registry.addPattern(entwined.pattern.ray_sykes.SparkleHelix.class);
+    lx.registry.addPattern(entwined.pattern.ray_sykes.SparkleTakeOver.class);
+    lx.registry.addPattern(entwined.pattern.ray_sykes.Stripes.class);
+    lx.registry.addPattern(entwined.pattern.sydney_parcell.RoseGarden.class);
+  }
+
   @Override
   public void initialize(LX lx) {
     log("Entwined.initialize()");
+
+    // Check if we are running from Eclipse/IDE mode, where the Entwined
+    // plugin is on the classpath, not in a dynamic JAR, and was specified
+    // from the CLI args. In this case we need to register our content classes
+    // manually, as they will not be dynamically loaded from a JAR.
+    if (lx.flags.classpathPlugins.contains("entwined.plugin.Entwined")) {
+      registerEntwinedContent(lx);
+    }
 
     log("Set up Triggerables");
     lx.engine.registerComponent("entwined-triggers", getTriggerables());
