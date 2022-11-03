@@ -5,7 +5,7 @@ import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.QuadraticEnvelope;
 import heronarts.lx.modulator.SawLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class Burst extends LXPattern {
@@ -17,8 +17,8 @@ public class Burst extends LXPattern {
   static float[] HUES = {131, 200, 277, 100, 360, 157, 304, 232, 325, 65, 185, 23};
 
   final QuadraticEnvelope radiusModulator = new QuadraticEnvelope(0, MAX_R + PAUSE_LENGTH_INCHES, BURST_PERIOD_MS);
-  final BoundedParameter satParam = new BoundedParameter("Saturation", 100, 0, 100);
-  final BoundedParameter fadeParam = new BoundedParameter("Fade", DEFAULT_FADE_LENGTH_INCHES, 0, MAX_R);
+  final CompoundParameter satParam = new CompoundParameter("Saturation", 100, 0, 100);
+  final CompoundParameter fadeParam = new CompoundParameter("Fade", DEFAULT_FADE_LENGTH_INCHES, 0, MAX_R);
   final SawLFO colorSelectionSaw = new SawLFO(0, HUES.length, BURST_PERIOD_MS * HUES.length);
 
   // Constructor
