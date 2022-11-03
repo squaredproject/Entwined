@@ -2,6 +2,7 @@ package entwined.plugin;
 
 import java.io.File;
 
+import entwined.core.CubeManager;
 import heronarts.lx.LX;
 import heronarts.lx.LXComponent;
 import heronarts.lx.midi.LXMidiInput;
@@ -53,7 +54,11 @@ public class Entwined implements LXStudio.Plugin {
   public void initialize(LX lx) {
     log("Entwined.initialize()");
 
+    log("Set up Triggerables");
     lx.engine.registerComponent("entwined-triggers", getTriggerables());
+
+    log("CubeManager.init(lx)");
+    CubeManager.init(lx);
 
     // NOTE(mcslee): start up things here like the Server, ServerController, CanopyServer
     // global stuff can go directly in the initialize method.
