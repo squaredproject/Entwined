@@ -188,29 +188,32 @@ class ClientModelUpdater {
     //returnParams.put("hue", engineController.hueEffect.amount.getValue());
 
     List<Map> channelsParams = new ArrayList<Map>(engineController.numChannels);
-    for (LXAbstractChannel channel : engineController.getChannels()) {
-      Map<String, Object> channelParams = new HashMap<String, Object>();
-      channelParams.put("index", channel.getIndex() - engineController.baseChannelIndex);
-      int currentPatternIndex = channel.getNextPatternIndex();
-      if (currentPatternIndex == 0) {
-        currentPatternIndex = -1;
-      } else {
-        currentPatternIndex--;
-      }
-      channelParams.put("currentPatternIndex", currentPatternIndex);
-      channelParams.put("visibility", channel.getFader().getValue());
+    for (LXAbstractChannel abstractChannel : engineController.getChannels()) {
+      if (abstractChannel instanceof LXChannel) {
+        LXChannel channel = (LXChannel)abstractChannel;
+        Map<String, Object> channelParams = new HashMap<String, Object>();
+        channelParams.put("index", channel.getIndex() - engineController.baseChannelIndex);
+        int currentPatternIndex = channel.getNextPatternIndex();
+        if (currentPatternIndex == 0) {
+          currentPatternIndex = -1;
+        } else {
+          currentPatternIndex--;
+        }
+        channelParams.put("currentPatternIndex", currentPatternIndex);
+        channelParams.put("visibility", channel.fader.getValue());
 
-      List<Map> patternsParams = new ArrayList<Map>(channel.getPatterns().size());
-      for (int i = 1; i < channel.getPatterns().size(); i++) {
-        LXPattern pattern = channel.getPatterns().get(i);
-        Map<String, Object> patternParams = new HashMap<String, Object>();
-        patternParams.put("name", pattern.getLabel());
-        patternParams.put("index", i-1);
-        patternsParams.add(patternParams);
-      }
-      channelParams.put("patterns", patternsParams);
+        List<Map> patternsParams = new ArrayList<Map>(channel.getPatterns().size());
+        for (int i = 1; i < channel.getPatterns().size(); i++) {
+          LXPattern pattern = channel.getPatterns().get(i);
+          Map<String, Object> patternParams = new HashMap<String, Object>();
+          patternParams.put("name", pattern.getLabel());
+          patternParams.put("index", i-1);
+          patternsParams.add(patternParams);
+        }
+        channelParams.put("patterns", patternsParams);
 
-      channelsParams.add(channelParams);
+        channelsParams.add(channelParams);
+      }
     }
     returnParams.put("channels", channelsParams);
 
@@ -228,7 +231,7 @@ class ClientModelUpdater {
 
     returnParams.put("speed", engineController.speedEffect.speed.getValue());
     // returnParams.put("spin", engineController.spinEffect.spin.getValue());
-    returnParams.put("blur", engineController.blurEffect.amount.getValue());
+    returnParams.put("blur", engineController.blurEffect.level);
     returnParams.put("scramble", engineController.scrambleEffect.getAmount());
 
     Map<String, Object> pauseParams = new HashMap<String, Object>();

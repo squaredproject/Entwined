@@ -31,11 +31,11 @@ public class InteractiveCandyChaosEffect {
    }
   }
 
-  LXEffect[] getEffects() {
+  public LXEffect[] getEffects() {
    return ( pieceEffects );
   }
 
-  void onTriggeredPiece(String pieceId) {
+  public void onTriggeredPiece(String pieceId) {
    Integer pieceIndex_o = pieceIdMap.get(pieceId);
    if (pieceIndex_o == null) return;
    pieceEffects[pieceIndex_o ].onTriggered();
