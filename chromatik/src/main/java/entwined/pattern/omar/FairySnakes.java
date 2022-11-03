@@ -1,25 +1,14 @@
 package entwined.pattern.omar;
 
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Collections;
-
 import heronarts.lx.LX;
-import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.modulator.Accelerator;
-import heronarts.lx.modulator.Click;
-import heronarts.lx.modulator.LinearEnvelope;
-import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
-import heronarts.lx.parameter.BooleanParameter;
-import heronarts.lx.parameter.DiscreteParameter;
-import heronarts.lx.parameter.LXParameter;
 import heronarts.lx.pattern.LXPattern;
 
 /*
@@ -90,6 +79,7 @@ public class FairySnakes extends LXPattern {
     // the outer/inner halves of the mini clusters.
     // These were obtained through trial & error.
     HashMap<String, Integer> RotationOffsets = new HashMap<String, Integer>();
+    // XXX - this is fairly installation dependent - could we make a config file to generalize it?
     RotationOffsets.put("circle-1", 3);
     RotationOffsets.put("circle-2", 0);
     RotationOffsets.put("circle-3", -3);
@@ -97,30 +87,41 @@ public class FairySnakes extends LXPattern {
     for (LXModel fc : model.sub("FAIRY_CIRCLE")) {
       List<LXPoint> newInnerPath =  new ArrayList<LXPoint>();
       List<LXPoint> newOuterPath =  new ArrayList<LXPoint>();
-      int rotationOffset = RotationOffsets.getOrDefault(fc.pieceId, 0);
+      String pieceId = fc.meta("label");
+      int rotationOffset = RotationOffsets.getOrDefault(pieceId, 0);
+      int miniClusterIdx = 0;
+      int currentFCCubeIdx = 0;
+      for (LXPoint cube : fc.points) {
 
-      for (MiniCluster cluster : fc.miniClusters) {
+//      for (MiniCluster cluster : fc.miniClusters) {
         // In each mini cluster, grab roughly half of it as a snake piece
 
         // inner path
         for (int i = -lengthOfSnakePiece/2; i <= lengthOfSnakePiece/2; i++) {
-          int size = cluster.cubes.size();
+          int size = 12; //cluster.cubes.size(); // all miniclusters are the same
           int index = Math.round(i + size) % size;
           int newIndex = wrapNegativeIndex(index - rotationOffset, size) % size;
-          newInnerPath.add(cluster.cubes.get(newIndex));
+          //newInnerPath.add(cluster.cubes.get(newIndex));
+          newInnerPath.add(fc.points[miniClusterIdx*12 + newIndex]);
+
         }
 
         // outer path
         for (int i = lengthOfSnakePiece/2; i >= -lengthOfSnakePiece/2; i--) {
-          int size = cluster.cubes.size();
+          int size = 12; // cluster.cubes.size(); // all miniclusters are the same
           int index = Math.round(i + size + 6) % size;
           int newIndex = wrapNegativeIndex(index - rotationOffset, size) % size;
-          newOuterPath.add(cluster.cubes.get(newIndex));
+          // newOuterPath.add(cluster.cubes.get(newIndex));
+          newOuterPath.add(fc.points[miniClusterIdx*12 + newIndex]);
+        }
+        currentFCCubeIdx++;
+        if (currentFCCubeIdx % 12 == 0) {
+          miniClusterIdx++;
         }
       }
 
-      innerPaths.put(fc.pieceId, newInnerPath);
-      outerPaths.put(fc.pieceId, newOuterPath);
+      innerPaths.put(pieceId, newInnerPath);
+      outerPaths.put(pieceId, newOuterPath);
     }
 
 
@@ -220,11 +221,8 @@ public class FairySnakes extends LXPattern {
 
     // Reset all fairy circle cubes to black
     for (LXModel fc : model.sub("FAIRY_CIRCLE")) {
-      // XXX - not sure how I'm defining mini clusters here - may need subfixture/subcomponent?
-      for (MiniCluster cluster : fc.miniClusters) {
-        for (int i = 0; i < cluster.cubes.size(); i++) {
-          colors[cluster.cubes.get(i).index] = LX.hsb(0, 0, 0);
-        }
+      for (LXPoint cube : fc.points) {
+          colors[cube.index] = LX.hsb(0, 0, 0);
       }
     }
 
