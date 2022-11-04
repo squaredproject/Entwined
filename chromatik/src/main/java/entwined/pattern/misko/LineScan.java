@@ -17,10 +17,10 @@ public class LineScan extends LXPattern {
   private float n = 0;
   private double total_ms =0.0;
   final BoundedParameter speedParam = new BoundedParameter("Speed", 5, 20, .01);
-  final BoundedParameter waveSlope = new BoundedParameter("waveSlope", 360, 1, 720);
+  final BoundedParameter waveSlope = new BoundedParameter("wvSlope", 360, 1, 720);
   final BoundedParameter theta = new BoundedParameter("theta", 45, 0, 360);
   final BoundedParameter hue = new BoundedParameter("hue", 45, 0, 360);
-  final BoundedParameter wave_width = new BoundedParameter("waveWidth", 500, 10, 1500);
+  final BoundedParameter wave_width = new BoundedParameter("wvWidth", 500, 10, 1500);
   final SawLFO wave360 = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
   final SinLFO wave100 = new SinLFO(0, 100, speedParam.getValuef() * speedMult);
 
