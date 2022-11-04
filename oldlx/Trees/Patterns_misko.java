@@ -30,7 +30,7 @@ class Circles extends TSPattern {
   private float speedMult = 1000;
 
   final BasicParameter speedParam = new BasicParameter("Speed", 5, 20, .01);
-  final BasicParameter waveSlope = new BasicParameter("waveSlope", 360, 1, 720);
+  final BasicParameter waveSlope = new BasicParameter("wvSlope", 360, 1, 720);
   final SawLFO wave360 = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
   final SawLFO wave100 = new SawLFO(0, 100, speedParam.getValuef() * speedMult);
 
@@ -78,10 +78,10 @@ class LineScan extends TSPattern {
   private float n = 0;
   private double total_ms =0.0;
   final BasicParameter speedParam = new BasicParameter("Speed", 5, 20, .01);
-  final BasicParameter waveSlope = new BasicParameter("waveSlope", 360, 1, 720);
+  final BasicParameter waveSlope = new BasicParameter("wvSlope", 360, 1, 720);
   final BasicParameter theta = new BasicParameter("theta", 45, 0, 360);
   final BasicParameter hue = new BasicParameter("hue", 45, 0, 360);
-  final BasicParameter wave_width = new BasicParameter("waveWidth", 500, 10, 1500);
+  final BasicParameter wave_width = new BasicParameter("wvWidth", 500, 10, 1500);
   final SawLFO wave360 = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
   final SinLFO wave100 = new SinLFO(0, 100, speedParam.getValuef() * speedMult);
 
@@ -145,7 +145,7 @@ class Stringy extends TSPattern {
   private int current_cube_g[];
   private int current_cube_b[];
   final BasicParameter speedParam = new BasicParameter("Speed", 5, 20, .01);
-  final BasicParameter waveSlope = new BasicParameter("waveSlope", 360, 1, 720);
+  final BasicParameter waveSlope = new BasicParameter("wvSlope", 360, 1, 720);
   final SawLFO wave360 = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
   final SinLFO wave100 = new SinLFO(0, 100, speedParam.getValuef() * speedMult);
 
@@ -328,10 +328,10 @@ class WaveScan extends TSPattern {
   private float n = 0;
   private double total_ms =0.0;
   final BasicParameter speedParam = new BasicParameter("Speed", 5, 20, .01);
-  final BasicParameter waveSlope = new BasicParameter("waveSlope", 360, 1, 720);
+  final BasicParameter waveSlope = new BasicParameter("wvSlope", 360, 1, 720);
   final BasicParameter theta = new BasicParameter("theta", 45, 0, 360);
   final BasicParameter hue = new BasicParameter("hue", 45, 0, 360);
-  final BasicParameter wave_width = new BasicParameter("waveWidth", 20, 1, 50);
+  final BasicParameter wave_width = new BasicParameter("wvWidth", 20, 1, 50);
   final SawLFO wave360 = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
   final SinLFO wave100 = new SinLFO(0, 100, speedParam.getValuef() * speedMult);
 
@@ -369,37 +369,42 @@ class WaveScan extends TSPattern {
   }
 }
 
+// modified BB to have different controllers for Hue and Line speed
 class RainbowWaveScan extends TSPattern {
   // Variable Declarations go here
   private float waveWidth = 1;
-  private float speedMult = 1000;
+  //private float speedMult = 1000;
 
   private float nx = 0;
   private float nz = 0;
   private float n = 0;
   private double total_ms =0.0;
-  final BasicParameter speedParam = new BasicParameter("Speed", 5, 20, .01);
-  final BasicParameter waveSlope = new BasicParameter("waveSlope", 360, 1, 720);
+  final BasicParameter lSpeedParam = new BasicParameter("LSpeed", 5000, 10000, 10);
+  final BasicParameter hSpeedParam = new BasicParameter("HSpeed", 5000, 1000, 1000000); // 16 minute max
+  final BasicParameter waveSlope = new BasicParameter("wvSlope", 360, 1, 720);
   final BasicParameter theta = new BasicParameter("theta", 45, 0, 360);
   final BasicParameter hue = new BasicParameter("hue", 45, 0, 360);
-  final BasicParameter wave_width = new BasicParameter("waveWidth", 20, 1, 50);
-  final SawLFO wave360 = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
-  final SinLFO wave100 = new SinLFO(0, 100, speedParam.getValuef() * speedMult);
+  final BasicParameter wave_width = new BasicParameter("wvWidth", 20, 1, 100);
+  // hue LFO
+  final SawLFO wave360 = new SawLFO(0, 360, hSpeedParam.getValuef());
+  // brightness LFO
+  final SinLFO wave100 = new SinLFO(0, 100, lSpeedParam.getValuef() );
 
     RainbowWaveScan(LX lx) {
     super(lx);
     addModulator(wave360).start();
     addModulator(wave100).start();
+
+    addParameter(lSpeedParam);
+    addParameter(hSpeedParam);
     addParameter(waveSlope);
-    addParameter(speedParam);
+    addParameter(wave_width);
     addParameter(theta);
     addParameter(hue);
-    addParameter(wave_width);
-
 
   }
   private float dist(float  x, float z) {
-	return (nx*x+nz*z)/n;
+	   return (nx*x+nz*z)/n;
   }
   // This is the pattern loop, which will run continuously via LX
   public void run(double deltaMs) {
@@ -409,14 +414,19 @@ class RainbowWaveScan extends TSPattern {
     nx = (float)Math.sin(theta_rad);
     nz = (float)Math.cos(theta_rad);
     n = (float)Math.sqrt(Math.pow(nx,2)+Math.pow(nz,2));
-    wave360.setPeriod(speedParam.getValuef() * speedMult);
-    wave100.setPeriod(speedParam.getValuef() * speedMult);
-      total_ms+=deltaMs;
-      // Use a for loop here to set the ube colors
-      for (BaseCube cube : model.baseCubes) {
-        float d = (float)(50.0*(Math.sin(dist(cube.x,cube.z)/(wave_width.getValuef()) + speedParam.getValuef()*total_ms/1000.0)+1.0));
-        colors[cube.index] = lx.hsb( wave360.getValuef()  , 100, d);
-      }
+    wave360.setPeriod(hSpeedParam.getValuef());
+    wave100.setPeriod(lSpeedParam.getValuef());
+    total_ms+=deltaMs;
+    // Use a for loop here to set the ube colors
+    for (BaseCube cube : model.baseCubes) {
+      // brightness is the distance along the line
+      float d = (float)( 50.0 *
+        (Math.sin(
+          (dist(cube.x,cube.z) / (wave_width.getValuef())) + ((lSpeedParam.getValuef()/1000.0) * total_ms / 1000.0)
+        )+1.0)
+      );
+      colors[cube.index] = lx.hsb( wave360.getValuef()  , 100, d);
+    }
   }
 }
 
@@ -424,8 +434,8 @@ class SyncSpinner extends TSPattern {
    
     private float speedMult = 1000;
     final BasicParameter hue = new BasicParameter("hue", 135, 0, 360);
-    final BasicParameter globalTheta = new BasicParameter("globalTheta", 1.0, 0, 1.0);
-    final BasicParameter colorSpeed = new BasicParameter("colorSpeed", 100, 0, 200);
+    final BasicParameter globalTheta = new BasicParameter("gTheta", 1.0, 0, 1.0);
+    final BasicParameter colorSpeed = new BasicParameter("cSpeed", 100, 0, 200);
     final BasicParameter speedParam = new BasicParameter("Speed", 5, 20, .01);
     final BasicParameter glow = new BasicParameter("glow", 0.1, 0.0, 1.0);
     final SawLFO wave = new SawLFO(0, 12, 1000);
