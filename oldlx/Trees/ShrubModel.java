@@ -161,7 +161,6 @@ class ShrubModel extends LXModel {
 
     ShrubModel(List<ShrubConfig> shrubConfigs, List<ShrubCubeConfig> shrubCubeConfig) {
         super(new ShrubFixture(shrubConfigs, shrubCubeConfig));
-        System.out.println(" SHRUBMODEL CTOR???? ");
         this.shrubConfigs = shrubConfigs;
         ShrubFixture f = (ShrubFixture) this.fixtures.get(0);
         List<ShrubCube> _cubes = new ArrayList<ShrubCube>();

@@ -63,8 +63,6 @@ class SpotModel extends LXModel {
     SpotModel(List<SpotConfig> spotConfigs) {
         super(new SpotFixture(spotConfigs)); // construct all the fairy circles
 
-        System.out.println("CTOR Spotmodel: nconfigs is "+spotConfigs.size());
-
         this.spotConfigs = spotConfigs;
         SpotFixture f = (SpotFixture) this.fixtures.get(0);
         List<BaseCube> _cubes = new ArrayList<BaseCube>();
@@ -176,8 +174,6 @@ class Spot extends LXModel {
 
     Spot(SpotConfig sc, int index) {
         super(new Fixture(sc, index));
-
-        System.out.println(" CTOR for a spot ");
 
         Fixture f = (Fixture) this.fixtures.get(0);
         this.cubes = Collections.unmodifiableList(f.cubes);
