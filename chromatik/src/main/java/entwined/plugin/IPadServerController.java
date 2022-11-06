@@ -6,16 +6,24 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import entwined.pattern.anon.ColorEffect;
 import entwined.pattern.kyle_fleming.BrightnessScaleEffect;
+import entwined.pattern.kyle_fleming.CandyCloudTextureEffect;
+import entwined.pattern.kyle_fleming.CandyTextureEffect;
+import entwined.pattern.kyle_fleming.ColorStrobeTextureEffect;
+import entwined.pattern.kyle_fleming.FadeTextureEffect;
 import entwined.pattern.kyle_fleming.ScrambleEffect;
 import entwined.pattern.kyle_fleming.SpeedEffect;
+import entwined.pattern.kyle_fleming.TSBlurEffect2;
 import heronarts.lx.LX;
 import heronarts.lx.LXEngine;
 import heronarts.lx.LXLoopTask;
 import heronarts.lx.effect.BlurEffect;
+import heronarts.lx.effect.LXEffect;
 import heronarts.lx.mixer.LXAbstractChannel;
 import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.LXListenableNormalizedParameter;
 
 /*
  * Provides interface and controls for the iPad app
@@ -51,17 +59,35 @@ public class IPadServerController {
   IPadServerController(LX lx) {
     this.lx = lx;
 
-    System.out.println("creating auto pause task");
+    baseChannelIndex = Config.NUM_BASE_CHANNELS;
+    numServerChannels = Config.NUM_SERVER_CHANNELS;
+    automation = new TSAutomationRecorder(lx.engine);
+
+    registerIPadEffects();
+
+    masterBrightnessEffect = new BrightnessScaleEffect(lx);
+    autoplayBrightnessEffect = new BrightnessScaleEffect(lx);
+    outputBrightness = new BoundedParameterProxy(1);
+    autoplayBrightnessEffect.setAmount(Config.autoplayBrightness);
+
     this.autoPauseTask = new AutoPauseTask();
     lx.engine.addLoopTask(this.autoPauseTask);
   }
 
-  // this gets the 'iPad channels' only
+  /*
+   * getChannels()
+   * Gets the 'iPad channels' only
+   */
   List<LXAbstractChannel> getChannels() {
+    System.out.println("ENTWINED: Base channel index is " + baseChannelIndex + ", num server channels is " + numServerChannels);
     return lx.engine.mixer.getChannels().subList(baseChannelIndex, baseChannelIndex + numServerChannels);
   }
 
-  // The indexes here are real indexes, because when we gave the channel, we gave the actual index
+  /*
+   * setChannelPattern()
+   * Set pattern on a channel. The index for the channel is the real index,
+   * not the index of the patterns that we are supposed to be controlling.
+   */
   void setChannelPattern(int channelIndex, int patternIndex) {
     if (patternIndex == -1) {
       patternIndex = 0;
@@ -75,6 +101,67 @@ public class IPadServerController {
     //lx.engine.mixer.getChannel(channelIndex).goIndex(patternIndex);
     }
   }
+
+  // XXX - One question I have here is whether we are registering effects twice with lx, and if so, why
+  // We appear to be registering twice with the patterns. I do not know why we would do this.
+
+  /*
+   * registerIPadEffects()
+   *
+   * Make sure that the global effects associated with the iPad are available, and registered
+   * as invokable by the iPad
+   * XXX - Like iPad patterns, these should be specified in the config file.
+   * Any general global patterns that we *dont* expect the iPad to depend on should be in the
+   * lxp file, not created here.
+   */
+
+  private void registerIPadEffects() {
+    ColorEffect colorEffect = new ColorEffect(lx);
+    ColorStrobeTextureEffect colorStrobeTextureEffect = new ColorStrobeTextureEffect(lx);
+    FadeTextureEffect fadeTextureEffect = new FadeTextureEffect(lx);
+    // AcidTripTextureEffect acidTripTextureEffect = new AcidTripTextureEffect(lx);
+    CandyTextureEffect candyTextureEffect = new CandyTextureEffect(lx);
+    CandyCloudTextureEffect candyCloudTextureEffect = new CandyCloudTextureEffect(lx);
+    // GhostEffect ghostEffect = new GhostEffect(lx);
+    // RotationEffect rotationEffect = new RotationEffect(lx);
+
+    // XXX - should check to see whether these are already globally registered. Don't add them if they
+    // already exist.
+    speedEffect = new SpeedEffect(lx);
+    blurEffect = new TSBlurEffect2(lx);
+    scrambleEffect = new ScrambleEffect(lx);
+    // spinEffect = new SpinEffect(lx);  // for the moment with newlx
+
+    lx.addEffect(speedEffect);
+    lx.addEffect(blurEffect);
+    lx.addEffect(scrambleEffect);
+    // lx.addEffect(spinEffect);
+
+    lx.addEffect(colorEffect);
+    lx.addEffect(colorStrobeTextureEffect);
+    lx.addEffect(fadeTextureEffect);
+    // lx.addEffect(acidTripTextureEffect);
+    lx.addEffect(candyTextureEffect);
+    lx.addEffect(candyCloudTextureEffect);
+    // lx.addEffect(ghostEffect);
+    // lx.addEffect(rotationEffect);
+
+    registerEffectController("Rainbow", candyCloudTextureEffect, candyCloudTextureEffect.amount);
+    registerEffectController("Candy Chaos", candyTextureEffect, candyTextureEffect.amount);
+    registerEffectController("Color Strobe", colorStrobeTextureEffect, colorStrobeTextureEffect.amount);
+    registerEffectController("Fade", fadeTextureEffect, fadeTextureEffect.amount);
+    registerEffectController("Monochrome", colorEffect, colorEffect.mono);
+    registerEffectController("White", colorEffect, colorEffect.desaturation);
+  }
+
+
+  private void registerEffectController(String name, LXEffect effect, LXListenableNormalizedParameter parameter) {
+    ParameterTriggerableAdapter triggerable = new ParameterTriggerableAdapter(lx, parameter);
+    TSEffectController effectController = new TSEffectController(name, effect, triggerable);
+
+    effectControllers.add(effectController);
+  }
+
 
   void setChannelVisibility(int channelIndex, double visibility) {
     // have to be sure

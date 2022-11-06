@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import heronarts.lx.LX;
 import heronarts.lx.LXComponent;
-import heronarts.lx.effect.BlurEffect;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.midi.LXMidiInput;
 import heronarts.lx.midi.LXMidiListener;
@@ -16,26 +15,16 @@ import heronarts.lx.midi.surface.APC40;
 import heronarts.lx.mixer.LXBus;
 import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.parameter.BooleanParameter;
-import heronarts.lx.parameter.LXListenableNormalizedParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.studio.LXStudio;
 import heronarts.lx.studio.LXStudio.UI;
 
 import entwined.core.CubeManager;
-import entwined.pattern.anon.ColorEffect;
 import entwined.pattern.interactive.InteractiveCandyChaosEffect;
 import entwined.pattern.interactive.InteractiveDesaturationEffect;
 import entwined.pattern.interactive.InteractiveFireEffect;
 import entwined.pattern.interactive.InteractiveHSVEffect;
 import entwined.pattern.interactive.InteractiveRainbowEffect;
-import entwined.pattern.kyle_fleming.BrightnessScaleEffect;
-import entwined.pattern.kyle_fleming.CandyCloudTextureEffect;
-import entwined.pattern.kyle_fleming.CandyTextureEffect;
-import entwined.pattern.kyle_fleming.ColorStrobeTextureEffect;
-import entwined.pattern.kyle_fleming.FadeTextureEffect;
-import entwined.pattern.kyle_fleming.ScrambleEffect;
-import entwined.pattern.kyle_fleming.SpeedEffect;
-import entwined.pattern.kyle_fleming.TSBlurEffect2;
 
 public class Entwined implements LXStudio.Plugin {
 
@@ -224,7 +213,7 @@ public class Entwined implements LXStudio.Plugin {
   }
 
   /* configureServer */
-  void configureServer() {
+  private void configureServer() {
     new AppServer(lx, engineController).start();
   }
 
@@ -251,11 +240,7 @@ public class Entwined implements LXStudio.Plugin {
     // Set up some master parameters... XXX - not sure if this is really used.
     // XXX - it *was* also used to do autoplayback and (I think) recording, which is
     // a crucial feature.
-    engineController = new IPadServerController(lx);
-    engineController.masterBrightnessEffect = new BrightnessScaleEffect(lx);
-    engineController.autoplayBrightnessEffect = new BrightnessScaleEffect(lx);
-    engineController.outputBrightness = new BoundedParameterProxy(1);
-    engineController.autoplayBrightnessEffect.setAmount(Config.autoplayBrightness);
+
 
     // Set up to initialize midi commands from the APC40, when the midi system
     // is ready for it.
@@ -288,6 +273,8 @@ public class Entwined implements LXStudio.Plugin {
       });
     });
 
+    CubeManager.init(lx);
+
     lx.addProjectListener(new LX.ProjectListener() {
       @Override
       public void projectChanged(File file, Change change) {
@@ -296,20 +283,23 @@ public class Entwined implements LXStudio.Plugin {
           // NOTE(mcslee): a new project file has been opened! may need to
           // initialize or re-initialize things that depend upon the project
           // state here
-          configureChannels();
           // Additional stuff for tracking cube properties
-          CubeManager.init(lx);  // XXX - don't already have a change listener on the cube manager? Has an on model change handler
 
+          // Set up the channels
+          configureChannels();
+
+          // Set up the low level iPad Controller
+          engineController = new IPadServerController(lx);  // XXX might want to have a listener on the controller, rather than newing up the engine controller here
+
+          // Set up high level iPad Server. Uses the iPadController to actually do the work.
+          configureServer(); // turns on the TCP listener
+
+          // Set up Canopy listener (also TCP) for interactive commands
+          configureCanopy();
         }
       }
     });
 
-
-    // Set up TCP listener for iPad commands. Uses the engineController to actually do the work.
-    configureServer(); // turns on the TCP listener
-
-    // Set up Canopy listener (also TCP) for interactive commands
-    configureCanopy();  // XXX - do I need to do this after project changed has happened? I really don't care about project changed, I just want to do it once at startup
 
 
     // bad code I know
@@ -319,7 +309,7 @@ public class Entwined implements LXStudio.Plugin {
     // patterns without letting them be assigned to channels
     // -kf
     // lx.engine.mixer.focusedChannel.setRange(Engine.NUM_BASE_CHANNELS);
-    lx.engine.mixer.focusedChannel.setRange(8);  // XXX CSW - What is NUM_BASE_CHANNELS, and where is it now?
+    lx.engine.mixer.focusedChannel.setRange(Config.NUM_BASE_CHANNELS);
   }
 
   /*
@@ -394,8 +384,6 @@ public class Entwined implements LXStudio.Plugin {
   // fixed - ShrubRiver, SpiralArms
 
 
-
-  // XXX - is Strobe in main list? I may have forgotten it.
   /*
   void registerPatternController(String name, LXPattern pattern) {
     LXTransition t = new DissolveTransition(lx).setDuration(dissolveTime);
@@ -439,8 +427,6 @@ public class Entwined implements LXStudio.Plugin {
       }
     }
 
-    engineController.baseChannelIndex = Config.NUM_BASE_CHANNELS - 1;
-
     // XXX - ask Mark... I want to set a dissolve fade on the iPad channels for when
     // I swap them. How to do this?
 
@@ -472,66 +458,6 @@ public class Entwined implements LXStudio.Plugin {
 
   // XXX - Can I get a channel listener for these channels, and a global listener, so I can update
   // the iPad if these channels are changing under it? TODO
-
-
-  // XXX - One question I have here is whether we are registering effects twice with lx, and if so, why
-  // We appear to be registering twice with the patterns. I do not know why we would do this.
-
-  /*
-   * registerIPadEffects
-   *
-   * Make sure that the global effects associated with the iPad are available, and registered
-   * as invokable by the iPad
-   * XXX - Like iPad patterns, these should be specified in the config file.
-   * Any general global patterns that we *dont* expect the iPad to depend on should be in the
-   * lxp file, not created here.
-   */
-
-  void registerIPadEffects() {
-    ColorEffect colorEffect = new ColorEffect(lx);
-    ColorStrobeTextureEffect colorStrobeTextureEffect = new ColorStrobeTextureEffect(lx);
-    FadeTextureEffect fadeTextureEffect = new FadeTextureEffect(lx);
-    // AcidTripTextureEffect acidTripTextureEffect = new AcidTripTextureEffect(lx);
-    CandyTextureEffect candyTextureEffect = new CandyTextureEffect(lx);
-    CandyCloudTextureEffect candyCloudTextureEffect = new CandyCloudTextureEffect(lx);
-    // GhostEffect ghostEffect = new GhostEffect(lx);
-    // RotationEffect rotationEffect = new RotationEffect(lx);
-
-    SpeedEffect speedEffect = engineController.speedEffect = new SpeedEffect(lx);
-    // SpinEffect spinEffect = engineController.spinEffect = new SpinEffect(lx);
-    BlurEffect blurEffect = engineController.blurEffect = new TSBlurEffect2(lx);
-    ScrambleEffect scrambleEffect = engineController.scrambleEffect = new ScrambleEffect(lx);
-    // StaticEffect staticEffect = engineController.staticEffect = new StaticEffect(lx);
-
-    lx.addEffect(blurEffect);
-    lx.addEffect(colorEffect);
-    // lx.addEffect(staticEffect);
-    // lx.addEffect(spinEffect);
-    lx.addEffect(speedEffect);
-    lx.addEffect(colorStrobeTextureEffect);
-    lx.addEffect(fadeTextureEffect);
-    // lx.addEffect(acidTripTextureEffect);
-    lx.addEffect(candyTextureEffect);
-    lx.addEffect(candyCloudTextureEffect);
-    // lx.addEffect(ghostEffect);
-    lx.addEffect(scrambleEffect);
-    // lx.addEffect(rotationEffect);
-    registerEffectController("Rainbow", candyCloudTextureEffect, candyCloudTextureEffect.amount);
-    registerEffectController("Candy Chaos", candyTextureEffect, candyTextureEffect.amount);
-    registerEffectController("Color Strobe", colorStrobeTextureEffect, colorStrobeTextureEffect.amount);
-    registerEffectController("Fade", fadeTextureEffect, fadeTextureEffect.amount);
-    registerEffectController("Monochrome", colorEffect, colorEffect.mono);
-    registerEffectController("White", colorEffect, colorEffect.desaturation);
-
-  }
-
-
-  void registerEffectController(String name, LXEffect effect, LXListenableNormalizedParameter parameter) {
-    ParameterTriggerableAdapter triggerable = new ParameterTriggerableAdapter(lx, parameter);
-    TSEffectController effectController = new TSEffectController(name, effect, triggerable);
-
-    engineController.effectControllers.add(effectController);
-  }
 
 
   @Override

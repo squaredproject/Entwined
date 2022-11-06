@@ -123,7 +123,7 @@ class AppServer {
 
         String method = (String)message.get("method");
         @SuppressWarnings("unchecked")
-        Map<String, Object> params = (Map)message.get("params");
+        Map<String, Object> params = (Map<String, Object>)message.get("params");
 
         if (method == null) return;
         if (params == null) params = new HashMap<String, Object>();
@@ -190,6 +190,7 @@ class AppServer {
     }
   }
 
+
   class ClientModelUpdater {
     IPadServerController engineController;
     ClientCommunicator communicator;
@@ -206,7 +207,7 @@ class AppServer {
       returnParams.put("brightness", engineController.getMasterBrightness());
       //returnParams.put("hue", engineController.hueEffect.amount.getValue());
 
-      List<Map> channelsParams = new ArrayList<Map>(engineController.numServerChannels);
+      List<Map <String, Object>> channelsParams = new ArrayList<Map <String, Object>>(engineController.numServerChannels);
       for (LXAbstractChannel abstractChannel : engineController.getChannels()) {
         if (abstractChannel instanceof LXChannel) {
           LXChannel channel = (LXChannel)abstractChannel;
@@ -221,8 +222,8 @@ class AppServer {
           channelParams.put("currentPatternIndex", currentPatternIndex);
           channelParams.put("visibility", channel.fader.getValue());
 
-          List<Map> patternsParams = new ArrayList<Map>(channel.getPatterns().size());
-          for (int i = 1; i < channel.getPatterns().size(); i++) {
+          List<Map <String, Object>> patternsParams = new ArrayList<Map<String, Object>>(channel.getPatterns().size());
+          for (int i = 1; i < channel.getPatterns().size(); i++) {  // NB - intentionally skipping id 0, which is NoPattern
             LXPattern pattern = channel.getPatterns().get(i);
             Map<String, Object> patternParams = new HashMap<String, Object>();
             patternParams.put("name", pattern.getLabel());
@@ -236,7 +237,7 @@ class AppServer {
       }
       returnParams.put("channels", channelsParams);
 
-      List<Map> effectsParams = new ArrayList<Map>(engineController.effectControllers.size());
+      List<Map<String, Object>> effectsParams = new ArrayList<Map<String,Object>>(engineController.effectControllers.size());
       for (int i = 0; i < engineController.effectControllers.size(); i++) {
         TSEffectController effectController = engineController.effectControllers.get(i);
         Map<String, Object> effectParams = new HashMap<String, Object>();
@@ -250,7 +251,7 @@ class AppServer {
 
       returnParams.put("speed", engineController.speedEffect.speed.getValue());
       // returnParams.put("spin", engineController.spinEffect.spin.getValue());
-      returnParams.put("blur", engineController.blurEffect.level);
+      returnParams.put("blur", engineController.blurEffect.level.getValue());
       returnParams.put("scramble", engineController.scrambleEffect.getAmount());
 
       Map<String, Object> pauseParams = new HashMap<String, Object>();
@@ -301,7 +302,7 @@ class AppServer {
       this.server = server;
     }
 
-    void send(String method, Map params) {
+    void send(String method, Map<String, Object> params) {
       Map<String, Object> json = new HashMap<String, Object>();
       json.put("method", method);
       json.put("params", params);
