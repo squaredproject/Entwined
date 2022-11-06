@@ -7,7 +7,8 @@ mkdir -p ~/Chromatik/Fixtures/Entwined
 cp src/main/resources/fixtures/* ~/Chromatik/Fixtures/Entwined
 
 if [[ $OSTYPE == 'darwin'* ]]; then
-	$RUNOPT = "-XstartOnFirstThread"
+  RUNOPT="-XstartOnFirstThread"
 fi
 
+echo $RUNOPT
 java $RUNOPT -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies.jar heronarts.lx.studio.Chromatik --warnings --disable-zeroconf --enable-plugin entwined.plugin.Entwined src/main/resources/projects/Entwined-2022.lxp
