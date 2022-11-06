@@ -14,7 +14,7 @@ import entwined.utils.Plane;
 /**
 Planes rotating through the space
 */
-class Planes extends LXPattern {
+public class Planes extends LXPattern {
  // Random seed for our noise functions so it's different on every run
  double seed;
  // These offsets increase relative to deltaMs and speed parameters

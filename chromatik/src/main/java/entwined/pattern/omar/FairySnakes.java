@@ -87,7 +87,7 @@ public class FairySnakes extends LXPattern {
     for (LXModel fc : model.sub("FAIRY_CIRCLE")) {
       List<LXPoint> newInnerPath =  new ArrayList<LXPoint>();
       List<LXPoint> newOuterPath =  new ArrayList<LXPoint>();
-      String pieceId = fc.meta("label");
+      String pieceId = fc.meta("name");
       int rotationOffset = RotationOffsets.getOrDefault(pieceId, 0);
       int miniClusterIdx = 0;
       int currentFCCubeIdx = 0;

@@ -8,7 +8,7 @@ import heronarts.lx.parameter.BoundedParameter;
 
 public class ColorStrobeTextureEffect extends LXEffect {
 
-  final BoundedParameter amount = new BoundedParameter("SEIZ", 0, 0, 1).setExponent(2);
+  public final BoundedParameter amount = new BoundedParameter("SEIZ", 0, 0, 1).setExponent(2);
 
   public ColorStrobeTextureEffect(LX lx) {
     super(lx);
