@@ -24,21 +24,10 @@ public class GlobalEffects extends LXModulator implements UIModulatorControls<Gl
   private static final int CONTROLS_ROW_HEIGHT = UIKnob.HEIGHT + 4;
   private static final int CONTROLS_PER_ROW = 4;
 
-  private final LX lx;
   private final UIKnob[] knobs = new UIKnob[8];
 
   public GlobalEffects(LX lx) {
     super("Global FX");
-    this.lx = lx;
-    for (int i = 0; i < this.knobs.length; ++i) {
-      int controlX = CONTROL_PADDING + (i % CONTROLS_PER_ROW) * (UIKnob.WIDTH + CONTROL_SPACING);
-      int controlY = CONTROLS_Y + (i/CONTROLS_PER_ROW) * CONTROLS_ROW_HEIGHT;
-      this.knobs[i] = new UIKnob(controlX, controlY);
-    }
-    setKnobs();
-
-    // Listen for project changes and re-set the knobs!
-    lx.addProjectListener((file, change) -> { setKnobs(); });
   }
 
   private void setKnobs() {
@@ -75,10 +64,18 @@ public class GlobalEffects extends LXModulator implements UIModulatorControls<Gl
     }
   }
 
-
-
   @Override
   public void buildModulatorControls(UI ui, UIModulator uiModulator, GlobalEffects modulator) {
+    for (int i = 0; i < this.knobs.length; ++i) {
+      int controlX = CONTROL_PADDING + (i % CONTROLS_PER_ROW) * (UIKnob.WIDTH + CONTROL_SPACING);
+      int controlY = CONTROLS_Y + (i/CONTROLS_PER_ROW) * CONTROLS_ROW_HEIGHT;
+      this.knobs[i] = new UIKnob(controlX, controlY);
+    }
+    setKnobs();
+
+    // Listen for project changes and re-set the knobs!
+    lx.addProjectListener((file, change) -> { setKnobs(); });
+
     uiModulator.addChildren(this.knobs);
     uiModulator.setContentHeight(2*CONTROLS_ROW_HEIGHT);
   }
