@@ -1,8 +1,6 @@
 package entwined.plugin;
 
 import java.io.File;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
@@ -42,7 +40,7 @@ import entwined.pattern.kyle_fleming.TSBlurEffect2;
 public class Entwined implements LXStudio.Plugin {
 
 
-  EngineController engineController;
+  IPadServerController engineController;
   LX lx;
 
   CanopyController canopyController;
@@ -230,17 +228,9 @@ public class Entwined implements LXStudio.Plugin {
     new AppServer(lx, engineController).start();
   }
 
-  /*
-  // Log Helper
-  void log(String s) {
-      System.out.println(
-      ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + " " + s );
-  }
-  */
 
   @Override
   public void initialize(LX lx) {
-    System.out.println(" initialize being called ");
     log("Entwined.initialize()");
 
     // Check if we are running from Eclipse/IDE mode, where the Entwined
@@ -261,7 +251,7 @@ public class Entwined implements LXStudio.Plugin {
     // Set up some master parameters... XXX - not sure if this is really used.
     // XXX - it *was* also used to do autoplayback and (I think) recording, which is
     // a crucial feature.
-    engineController = new EngineController(lx);
+    engineController = new IPadServerController(lx);
     engineController.masterBrightnessEffect = new BrightnessScaleEffect(lx);
     engineController.autoplayBrightnessEffect = new BrightnessScaleEffect(lx);
     engineController.outputBrightness = new BoundedParameterProxy(1);
@@ -332,6 +322,23 @@ public class Entwined implements LXStudio.Plugin {
     lx.engine.mixer.focusedChannel.setRange(8);  // XXX CSW - What is NUM_BASE_CHANNELS, and where is it now?
   }
 
+  /*
+   * configureCanopy
+   *
+   * Canopy is the system used to control per-component interactivity from external devices,
+   * such as the web interface on a phone, or an rPi hooked up to some sensor.
+   *
+   * The configuration here creates these special interactive effects and sets up the
+   * Canopy controller.
+   *
+   * Note that currently the pattern for effects used by Canopy is a little non-obvious. For
+   * each type of effect we want to have available to Canopy, we create a separate global effect
+   * for each component. (So N types of effects, M components, N*M global effects). This probably
+   * needs a little more thinking through - there are probably ways of abstracting it so we
+   * can use a config file, have a CanopyEffect class, and don't have to create quite so many
+   * global effects.
+   */
+
   void configureCanopy() {
     // Canopy - interactive effects from web (or potentially rPi)
     // this special filter is used by Canopy -- the interactive effects
@@ -387,123 +394,6 @@ public class Entwined implements LXStudio.Plugin {
   // fixed - ShrubRiver, SpiralArms
 
 
-  // ArrayList<LXPattern> serverChannelPatterns = new ArrayList<LXPattern>();
-  String [] serverChannelPatterns;
-
-
-  void registerServerPatterns() {
-    // Get list of iPad patterns from Config file
-    serverChannelPatterns = Config.iPadPatterns;
-  }
-
-  /*
-  void registerIPadPatterns() {
-    registerPatternController("None", new NoPattern(lx));
-    registerPatternController("Twister", new Twister(lx));
-    registerPatternController("TwisterGlobal", new TwisterGlobal(lx));
-    registerPatternController("Candy Cloud", new CandyCloud(lx));
-    registerPatternController("BeachBall", new BeachBall(lx));
-    registerPatternController("Breath", new Breath(lx));
-
-    registerPatternController("Lottor", new MarkLottor(lx));
-    registerPatternController("Ripple", new Ripple(lx));
-    registerPatternController("Stripes", new Stripes(lx));
-    registerPatternController("Lattice", new Lattice(lx));
-    registerPatternController("Leaves", new ColoredLeaves(lx));
-
-    registerPatternController("Voronoi", new Voronoi(lx));
-    registerPatternController("Galaxy Cloud", new GalaxyCloud(lx));
-    registerPatternController("Parallax", new Parallax(lx));
-    registerPatternController("Burst", new Burst(lx));
-
-    registerPatternController("Peppermint", new Peppermint(lx));
-
-    registerPatternController("Ice Crystals", new IceCrystals(lx));
-    registerPatternController("Fire", new Fire(lx));
-    registerPatternController("Acid Trip", new AcidTrip(lx));
-    registerPatternController("Rain", new Rain(lx));
-
-    registerPatternController("Pond", new Pond(lx));
-    registerPatternController("Planes", new Planes(lx));
-    registerPatternController("Growth", new Growth(lx));
-
-    registerPatternController("Lightning", new Lightning(lx));
-    registerPatternController("Sparkle Takeover", new SparkleTakeOver(lx));
-    registerPatternController("SparkleHelix", new SparkleHelix(lx));
-
-    registerPatternController("Multi-Sine", new MultiSine(lx));
-    registerPatternController("Seesaw", new SeeSaw(lx));
-    registerPatternController("Cells", new Cells(lx));
-    registerPatternController("Fade", new Fade(lx));
-    registerPatternController("Springs", new Springs(lx));
-
-    // registerPatternController("Bass Slam", new BassSlam(lx));  // XXX add when working
-
-    registerPatternController("Fireflies", new Fireflies(lx));
-    registerPatternController("Bubbles", new Bubbles(lx));
-
-    registerPatternController("Wisps", new Wisps(lx));
-    registerPatternController("Fireworks", new Explosions(lx));
-
-    registerPatternController("ColorWave", new ColorWave(lx));
-    registerPatternController("Wedges", new Wedges(lx));
-
-    // Lindsay
-    registerPatternController("SparkleWave", new SparkleWave(lx));
-
-    // Mattaniah
-    registerPatternController("OscillatingDarkRing", new OscillatingDarkRing(lx));
-    registerPatternController("RadialGradiant", new RadialGradiant(lx));
-
-    // Quinn Keck
-    registerPatternController("ButterflyEffect", new ButterflyEffect(lx));
-
-    // BB
-    registerPatternController("MultiColor", new MultiColor(lx));
-    registerPatternController("MultiColor2", new MultiColor2(lx));
-    registerPatternController("StripeStatic", new StripeStatic(lx));
-
-    // Misko's patterns
-    registerPatternController("Circles", new Circles(lx));
-    registerPatternController("LineScan", new LineScan(lx));
-    registerPatternController("WaveScan", new WaveScan(lx));
-    registerPatternController("Stringy", new Stringy(lx));
-    registerPatternController("RainbowWaveScan", new RainbowWaveScan(lx));
-    // registerPatternController("SyncSpinner", new SyncSpinner(lx));  // XXX add when working
-    registerPatternController("LightHouse", new LightHouse(lx));
-    //registerPatternController("ShrubRiver", new ShrubRiver(lx));
-    registerPatternController("ColorBlast", new ColorBlast(lx));
-    registerPatternController("Vertigo", new Vertigo(lx));
-
-    // Adam Croston and Katie Ballinger's patterns.
-    registerPatternController("ExpandingCircles", new ExpandingCircles(lx));
-    //registerPatternController("SpiralArms", new SpiralArms(lx));
-    registerPatternController("Sparks", new Sparks(lx));
-    registerPatternController("Blooms", new Blooms(lx));
-    registerPatternController("MovingPoint", new MovingPoint(lx));
-    //registerPatternController("WavesToMainTree", new WavesToMainTree(lx));
-    registerPatternController("Undulation", new Undulation(lx));
-    registerPatternController("HueRibbons", new HueRibbons(lx));
-    registerPatternController("VerticalColorWaves", new VerticalColorWaves(lx));
-    registerPatternController("FlockingPoints", new FlockingPoints(lx));
-
-    // Evy's patterns
-    registerPatternController("CircleBreath", new CircleBreath(lx));
-    registerPatternController("FirefliesNcase", new FirefliesNcase(lx));
-
-    // Sydney
-    registerPatternController("RoseGarden", new RoseGarden(lx));
-
-    //Lorenz
-    registerPatternController("Fountain", new Fountain(lx));
-
-
-    registerPatternController("Fumes", new Fumes(lx));
-    registerPatternController("Color Strobe", new ColorStrobe(lx));
-    registerPatternController("Strobe", new Strobe(lx));
-
-  }
-  */
 
   // XXX - is Strobe in main list? I may have forgotten it.
   /*
@@ -514,29 +404,25 @@ public class Entwined implements LXStudio.Plugin {
     patterns.add(pattern);
   }
   */
+
+
   /*
-  void registerServerChannelPattern(String className) {
-    // Attempt to create a new lx pattern from the class
-    // XXX - need to see if the pattern is already registered, and not bother if it is.
-    // XXX - heh. I don't seem to have to create an instance, just register the class.
-    try {
-      Class<?> c = Class.forName(className);
-      Constructor<?> cons = c.getConstructor(LX.class);
-      Object pattern = cons.newInstance(lx);
-      serverChannelPatterns.add((LXPattern)pattern);
-    } catch (Exception e) {
-      System.out.println("Could not instantiate pattern class " + className + ", continuing"); // XXX - want to make this a standard log
-    }
-  }
-  */
+   * configureChannels
+   *
+   * The system relies on two separate sets of channels - a set of 8 channels
+   * that is used by the APC40, and a separate set of 3 channels that is used by
+   * the iPad app. These are the 'base channels' and the 'server channels, respectively.
+   *
+   * This code is called at startup to make sure that we have enough channels allocated. It will
+   * also populate any new server channels with the default iPad patterns.
+   */
 
   void configureChannels() {
     // Check if there are already NUM_BASE_CHANNELS channels. If there are not,
     // create them.
     int currentNumChannels = lx.engine.mixer.channels.size();
-    System.out.println("Configure channels - have " + currentNumChannels + " channels, base channels is " + Config.NUM_BASE_CHANNELS);
+    log("Configure channels - have " + currentNumChannels + " channels, base channels is " + Config.NUM_BASE_CHANNELS + ", server channels is " + Config.NUM_SERVER_CHANNELS);
     if (currentNumChannels < Config.NUM_BASE_CHANNELS) {
-      System.out.println("Adding base channels");
       for (int i=0; i<Config.NUM_BASE_CHANNELS - currentNumChannels; i++) {
         lx.engine.mixer.addChannel();
       }
@@ -546,21 +432,14 @@ public class Entwined implements LXStudio.Plugin {
     // create them.
     currentNumChannels = lx.engine.mixer.channels.size();
 
-    System.out.println("Configure channels - have " + currentNumChannels + " channels, server channels is " + Config.NUM_SERVER_CHANNELS);
-
     if (lx.engine.mixer.channels.size() < Config.NUM_SERVER_CHANNELS + Config.NUM_BASE_CHANNELS) {
       for (int i=0; i<Config.NUM_SERVER_CHANNELS + Config.NUM_BASE_CHANNELS - currentNumChannels; i++) {
-        System.out.println("Adding server channel");
         LXChannel channel = lx.engine.mixer.addChannel();
-        ArrayList <LXPattern> patternArray = getIPadPatterns();
-        LXPattern patterns [] = new LXPattern[patternArray.size()];
-        channel.setPatterns(patternArray.toArray(patterns));
+        channel.setPatterns(getIPadPatterns(lx));
       }
     }
 
     engineController.baseChannelIndex = Config.NUM_BASE_CHANNELS - 1;
-
-    // For all the server channels, set the ipad patterns, and set the dissolve
 
     // XXX - ask Mark... I want to set a dissolve fade on the iPad channels for when
     // I swap them. How to do this?
@@ -569,32 +448,45 @@ public class Entwined implements LXStudio.Plugin {
     // XXX -todo
   }
 
-  ArrayList<LXPattern> getIPadPatterns( ) {
+
+  /*
+   * getIPadPatterns
+   *
+   * Construct an array consisting of the default iPad patterns, as specified in the config file.
+   * This array is used to fill out the patterns available on the Server channels, which are used
+   * by the iPad app.
+   */
+
+  LXPattern[] getIPadPatterns(LX lx ) {
     ArrayList<LXPattern> iPadPatterns = new ArrayList<LXPattern>();
-    for (String patternClassName : Config.iPadPatterns) {
-      System.out.println("Attempting to create object of class " + patternClassName);
-      for (Class<? extends LXPattern> clazz : lx.registry.patterns) {
-        if (clazz.getCanonicalName() == patternClassName) {  // assuming Java does string compare in the expected way
-          try {
-            Class<?> c = Class.forName(patternClassName);
-            System.out.println("Have matching class in registry, about to get constructor");
-            Constructor<?> cons = c.getConstructor(LX.class);
-            System.out.println("Have constructor");
-            LXPattern pattern = (LXPattern)cons.newInstance(lx);
-            System.out.println("Created new instance of " + patternClassName);
-            iPadPatterns.add(pattern);
-          } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
-            log("Could not create class " + patternClassName + " for ipod, ignoring");
-          }
-        }
+    for (Class<?> patternClass : Config.iPadPatterns) {
+      try {
+        iPadPatterns.add(lx.instantiatePattern(patternClass.asSubclass(LXPattern.class)));
+      } catch (LX.InstantiationException ix) {
+        log("Could not create class " + patternClass + " for iPad, ignoring");
       }
     }
-    return iPadPatterns;
+
+    return iPadPatterns.toArray(new LXPattern[0]);
   }
+
+  // XXX - Can I get a channel listener for these channels, and a global listener, so I can update
+  // the iPad if these channels are changing under it? TODO
 
 
   // XXX - One question I have here is whether we are registering effects twice with lx, and if so, why
   // We appear to be registering twice with the patterns. I do not know why we would do this.
+
+  /*
+   * registerIPadEffects
+   *
+   * Make sure that the global effects associated with the iPad are available, and registered
+   * as invokable by the iPad
+   * XXX - Like iPad patterns, these should be specified in the config file.
+   * Any general global patterns that we *dont* expect the iPad to depend on should be in the
+   * lxp file, not created here.
+   */
+
   void registerIPadEffects() {
     ColorEffect colorEffect = new ColorEffect(lx);
     ColorStrobeTextureEffect colorStrobeTextureEffect = new ColorStrobeTextureEffect(lx);
@@ -630,7 +522,9 @@ public class Entwined implements LXStudio.Plugin {
     registerEffectController("Fade", fadeTextureEffect, fadeTextureEffect.amount);
     registerEffectController("Monochrome", colorEffect, colorEffect.mono);
     registerEffectController("White", colorEffect, colorEffect.desaturation);
+
   }
+
 
   void registerEffectController(String name, LXEffect effect, LXListenableNormalizedParameter parameter) {
     ParameterTriggerableAdapter triggerable = new ParameterTriggerableAdapter(lx, parameter);
@@ -638,6 +532,7 @@ public class Entwined implements LXStudio.Plugin {
 
     engineController.effectControllers.add(effectController);
   }
+
 
   @Override
   public void initializeUI(LXStudio lx, UI ui) {
@@ -652,6 +547,11 @@ public class Entwined implements LXStudio.Plugin {
     // most likely they are also not needed
     log("Entwined.onUIReady");
   }
+
+
+  /*
+   * Some handy helper functions
+   */
 
   public static <T extends LXEffect> T findMasterEffect(LX lx, Class<T> clazz) {
     return findEffect(lx.engine.mixer.masterBus, clazz);

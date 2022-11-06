@@ -17,7 +17,11 @@ import heronarts.lx.mixer.LXAbstractChannel;
 import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.parameter.BoundedParameter;
 
-public class EngineController {
+/*
+ * Provides interface and controls for the iPad app
+ */
+
+public class IPadServerController {
   LX lx;
 
   int baseChannelIndex; // the starting channel that the engine controls - ie, 8
@@ -44,7 +48,7 @@ public class EngineController {
 
   double masterBrightnessStash = 1.0;
 
-  EngineController(LX lx) {
+  IPadServerController(LX lx) {
     this.lx = lx;
 
     System.out.println("creating auto pause task");
