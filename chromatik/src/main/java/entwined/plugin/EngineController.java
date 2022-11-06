@@ -21,7 +21,7 @@ public class EngineController {
   LX lx;
 
   int baseChannelIndex; // the starting channel that the engine controls - ie, 8
-  int numChannels;      // the number of channels controlled by this controller is 3
+  int numServerChannels;      // the number of channels controlled by this controller is 3
 
   int startEffectIndex; // these are the limits of the IPAD EFFECTS
   int endEffectIndex;
@@ -54,7 +54,7 @@ public class EngineController {
 
   // this gets the 'iPad channels' only
   List<LXAbstractChannel> getChannels() {
-    return lx.engine.mixer.getChannels().subList(baseChannelIndex, baseChannelIndex + numChannels);
+    return lx.engine.mixer.getChannels().subList(baseChannelIndex, baseChannelIndex + numServerChannels);
   }
 
   // The indexes here are real indexes, because when we gave the channel, we gave the actual index
@@ -179,7 +179,7 @@ public class EngineController {
         boolean toEnable;
         if (channel.getIndex() < baseChannelIndex) {
           toEnable = autoplay; // base channels
-        } else if (channel.getIndex() < baseChannelIndex + numChannels) {
+        } else if (channel.getIndex() < baseChannelIndex + numServerChannels) {
           toEnable = !autoplay; // server channels
         } else {
           toEnable = autoplay; // others

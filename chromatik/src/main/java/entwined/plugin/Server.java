@@ -187,7 +187,7 @@ class ClientModelUpdater {
     returnParams.put("brightness", engineController.getMasterBrightness());
     //returnParams.put("hue", engineController.hueEffect.amount.getValue());
 
-    List<Map> channelsParams = new ArrayList<Map>(engineController.numChannels);
+    List<Map> channelsParams = new ArrayList<Map>(engineController.numServerChannels);
     for (LXAbstractChannel abstractChannel : engineController.getChannels()) {
       if (abstractChannel instanceof LXChannel) {
         LXChannel channel = (LXChannel)abstractChannel;

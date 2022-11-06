@@ -22,6 +22,13 @@ public class InteractiveRainbowEffect {
     int nPieces = model.children.length;
     this.nPieces = nPieces;
     this.pieceIdMap = new HashMap<String, Integer>();
+    // XXX - the pieceIdMap is really something that a lot of patterns use, and probably should be in CubeManager,
+    // or something core.
+    int pieceIdx = 0;
+    for (LXModel child : model.children) {
+      this.pieceIdMap.put(child.meta("name"), pieceIdx);
+      pieceIdx++;
+    }
 
     pieceEffects = new InteractiveRainbow[nPieces];
     for (int pieceIndex=0 ; pieceIndex<nPieces ; pieceIndex++) {
@@ -40,7 +47,7 @@ public class InteractiveRainbowEffect {
   }
 
 
-  class InteractiveRainbow extends CandyCloudTextureEffect {
+  public class InteractiveRainbow extends CandyCloudTextureEffect {
     private boolean triggered;
     private long triggerEndMillis; // when to un-enable if enabled
 

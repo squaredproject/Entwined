@@ -40,4 +40,87 @@ final class Config {
 
   // if this file doesn't exist you get a crash
   static final String AUTOPLAY_FILE = "data/entwinedSetDec2021.json";
+
+  static final int NUM_BASE_CHANNELS = 8;
+  static final int NUM_SERVER_CHANNELS = 3;
+
+  // These are the patterns available on the ipad, in the order that they are displayed on the ipad
+  // Change this if you want to change the ipad display
+  // Any pattern here *must* be listed and registered in the initialization code; consider these
+  // to be references to already registered patterns.
+  static final String[] iPadPatterns = {"entwined.patters.kyle_fleming.NoPattern"};
+  /*
+                                        "Twister",
+                                        "TwisterGlobal",
+                                        "Candy Cloud",
+                                        "BeachBall",
+                                        "Breath",
+                                        "MarkLottor",
+                                        "Ripple",
+                                        "Stripes",
+                                        "Lattice",
+                                        "ColoredLeaves",
+                                        "Voronoi",
+                                        "GalaxyCloud",
+                                        "Parallax",
+                                        "Burst",
+                                        "Peppermint",
+                                        "IceCrystals",
+                                        "Fire",
+                                        "AcidTrip",
+                                        "Rain",
+                                        "Pond",
+                                        "Planes",
+                                        "Growth",
+                                        "Lightning",
+                                        "SparkleTakeOver",
+                                        "SparkleHelix",
+                                        "MultiSine",
+                                        "SeeSaw",
+                                        "Cells",
+                                        "Fade",
+                                        "Springs",
+                                        "BassSlam",
+                                        "Fireflies",
+                                        "Bubbles",
+                                        "Wisps",
+                                        "Explosions",
+                                        "ColorWave",
+                                        "Wedges",
+                                        "SparkleWave",
+                                        "OscillatingDarkRing",
+                                        "RadialGradiant",
+                                        "ButterflyEffect",
+                                        "MultiColor",
+                                        "MultiColor2",
+                                        "StripeStatic",
+                                        "Circles",
+                                        "LineScan",
+                                        "Stringy",
+                                        "RainbowWaveScan",
+                                        "SyncSpinner",
+                                        "LightHouse",
+                                        // "ShrubRiver",
+                                        "ColorBlast",
+                                        "Vertigo",
+                                        "ExpandingCircles",
+                                        // "SpiralArms",
+                                        "Sparks",
+                                        "Blooms",
+                                        "MovingPoint",
+                                        //"WavesToMainTree",
+                                        "Undulation",
+                                        "HueRibbons",
+                                        "VerticalColorWaves",
+                                        "FlockingPoints",
+                                        "CircleBreath",
+                                        "FirefliesNcase",
+                                        "RoseGarden",
+                                        "Fountain",
+                                        "Fumes",
+                                        "ColorStrobe",
+                                        "Strobe"
+                                        };
+                                        */
+
 }

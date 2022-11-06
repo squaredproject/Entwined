@@ -42,7 +42,7 @@ public class InteractiveCandyChaosEffect {
   }
 
 
-  class InteractiveCandyChaos extends CandyTextureEffect {
+  public class InteractiveCandyChaos extends CandyTextureEffect {
    private boolean triggered;
    private long triggerEndMillis; // when to un-enable if enabled
 
