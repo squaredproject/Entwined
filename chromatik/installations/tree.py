@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Take the json tree definition file, and a csv file describing the cube
 # and ndb layouts of the trees, and create a lxstudio fixture configuration file
 
@@ -221,9 +223,9 @@ class EntwinedBranch:
 
 def main():
     parser = argparse.ArgumentParser(description="Create LxStudio configuration file from tree and cube definition files")
-    parser.add_argument('tree_config', type=str)
-    parser.add_argument('cubes_config', type=str)
-    parser.add_argument('--folder', type=str, default='fixtures', help='output directory for fixture files')
+    parser.add_argument('-t', '--tree_config', type=str, required=True, help='Input tree JSON configuration file')
+    parser.add_argument('-b', '--branch_config', type=str, required=True, help='Input branch CSV configuration file')
+    parser.add_argument('-f', '--fixtures_folder', type=str, required=True, help='Name of folder to hold lx configurations')
 
     args = parser.parse_args()
 
@@ -231,7 +233,7 @@ def main():
     # dicts for ndbs, trees, and cubes
     with open(args.tree_config) as tc_f:
         tree_configs = json.load(tc_f)
-    ndb_configs, cube_configs = tree_cubes_load_csv(args.cubes_config)
+    ndb_configs, cube_configs = tree_cubes_load_csv(args.branch_config)
 
     # divide the cubes in the cube_configs into a list associated
     # with each tree
@@ -245,7 +247,7 @@ def main():
     for tree_idx, cube_tree_config in enumerate(cubes_by_tree):
         cube_tree_config.sort(key=get_cube_config_sort_key)
         tree = Tree(tree_configs[tree_idx], cube_tree_config)
-        tree.write_fixture_config(args.folder)
+        tree.write_fixture_config(args.fixtures_folder)
 
 if __name__ == '__main__':
     main()

@@ -1,5 +1,21 @@
 # Installing an Installation
 
+## prerequsites
+
+`python` must be `python3`
+
+`pip install numpy`
+
+## Building fixture files from the installations
+
+`install.sh` is intended for a production install. Use it on a raspberry pi, where
+it will install statuscake and chrontab files to turn a sculpture on
+and off
+
+`install-fixtures.sh` is what to use to use the scripts which will generate the LXF
+files for Chromatik, and place them in the well known directory. Use
+this when you are installing on a laptop and want to see an installation.
+
 ## Notes on using the fixture generation tools
 
 CSW, 10/2022

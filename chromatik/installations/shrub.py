@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Turn an Entwined shrub definition file into an LXstudio fixture file(s)
 
 import argparse
@@ -67,7 +69,10 @@ class Shrub:
         self.piece_id = shrub_config['pieceId']
         self.ip_addr = shrub_config['shrubIpAddress']
         self.cube_size_index = shrub_config['cubeSizeIndex']
-        self.type = shrub_config['type']
+        if 'type' in shrub_config:
+            self.type = shrub_config['type']
+        else:
+            self.type = 'standard'
         self.rotation = np.array([
             [np.cos(shrub_config['ry']),0,np.sin(shrub_config['ry'])],
             [0,1,0],
@@ -145,8 +150,8 @@ class Shrub:
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Create newlx fixture configs from shrub configuration file')
-    parser.add_argument('shrub_config_file', help='Name of input shrub configuration file')
-    parser.add_argument('fixtures_config_folder', help='Name of folder to hold lx configurations')
+    parser.add_argument('-c', '--config', type=str, required=True, help='Input shrub JSON configuration file')
+    parser.add_argument('-f', '--fixtures_folder', type=str, required=True, help='Folder to store lx configurations')
     args = parser.parse_args()
 
     # Note that we could put different shrub configuration files into a single directory, and read the
@@ -154,11 +159,11 @@ if __name__ == "__main__":
     # a scenegraph using a directory structure
 
     # Read configuration file. (They're json files)
-    with open(args.shrub_config_file) as sc_f:
+    with open(args.config) as sc_f:
         shrub_configs = json.load(sc_f)  # XXX catch exceptions here.
 
     for shrub_config in shrub_configs:
         shrub = Shrub(shrub_config)
-        shrub.write_fixture_file(args.fixtures_config_folder)
+        shrub.write_fixture_file(args.fixtures_folder)
         #shrubs.append(Shrub(shrub_config))  # this is going to set up the rods and the clusters
 

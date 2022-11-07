@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Turn an Entwined fairy circle definition file into an LXstudio fixture file(s)
 
 import argparse
@@ -111,15 +113,15 @@ class FairyCircle:
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Create newlx fixture configs from fairy circle  configuration file')
-    parser.add_argument('config_file', help='Name of input fairy circle  configuration file')
-    parser.add_argument('fixtures_config_folder', help='Name of folder to hold lx configurations')
+    parser.add_argument('-c', '--config', type=str, required=True, help='Input fairy circle JSON configuration file')
+    parser.add_argument('-f', '--fixtures_folder', type=str, required=True, help='Folder to output lx configurations')
     args = parser.parse_args()
 
     # Read configuration file. (They're json files)
-    with open(args.config_file) as sc_f:
+    with open(args.config) as sc_f:
         fc_configs = json.load(sc_f)  # XXX catch exceptions here.
 
     # Now let's create some circles and cubes ...
     for config in fc_configs:
         circle = FairyCircle(config)
-        circle.write_fixture_file(args.fixtures_config_folder)
+        circle.write_fixture_file(args.fixtures_folder)
