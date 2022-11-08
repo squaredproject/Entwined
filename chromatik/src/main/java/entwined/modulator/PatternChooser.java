@@ -39,8 +39,12 @@ public class PatternChooser extends LXModulator implements UIModulatorControls<P
         .setTextOffset(4, 0)
         .addToContainer(uiModulator);
 
-        new UIPatternList(ui, 0, 0, (int) uiModulator.getContentWidth(), 320, channel)
-        .addToContainer(uiModulator);
+        final UIPatternList list = (UIPatternList)
+          new UIPatternList(ui, 0, 0, (int) uiModulator.getContentWidth(), 320, channel)
+          .setDeleteEnabled(false)
+          .setReorderable(false);
+
+        list.addToContainer(uiModulator);
       }
     }, true);
 
