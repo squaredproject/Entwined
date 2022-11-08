@@ -76,6 +76,11 @@ public class Entwined implements LXStudio.Plugin {
 
   private void registerEntwinedContent(LX lx) {
     // NB - all available patterns - including those available on the iPad - should be registered here
+
+    lx.registry.addModulator(entwined.modulator.GlobalEffects.class);
+    lx.registry.addModulator(entwined.modulator.PatternChooser.class);
+    lx.registry.addModulator(entwined.modulator.Triggerables.class);
+
     // lx.registry.addPattern(entwined.pattern.adam_n_katie.AutographedPattern.class);
     lx.registry.addPattern(entwined.pattern.adam_n_katie.Blooms.class);
     // lx.registry.addPattern(entwined.pattern.adam_n_katie.Boid.class);
