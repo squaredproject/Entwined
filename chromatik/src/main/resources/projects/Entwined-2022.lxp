@@ -1350,6 +1350,20 @@
         },
         "children": {},
         "modulators": [
+   		  {
+            "id": 44101,
+            "class": "entwined.modulator.Recordings",
+            "internal": {
+              "modulationColor": 0,
+              "modulationControlsExpanded": true
+            },
+            "parameters": {
+              "label": "Recordings",
+              "running": true,
+              "trigger": false
+            },
+            "children": {}
+          },
           {
             "id": 44099,
             "class": "entwined.modulator.GlobalEffects",
