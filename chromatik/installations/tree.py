@@ -95,7 +95,11 @@ class Tree:
                      "tags": tags,
                      "components": [ {"type": "points", "coords": []}],
                      "outputs": [],
-                     "meta": {"name": self.piece_id}}
+                     "meta": {"name": self.piece_id,
+                              "base_x": int(self.translation[0]),
+                              "base_y": int(self.translation[1]),
+                              "base_z": int(self.translation[2])
+                     }}
         outputs = lx_output["outputs"]
         coords = lx_output["components"][0]["coords"]
         cur_ndb_addr = None
