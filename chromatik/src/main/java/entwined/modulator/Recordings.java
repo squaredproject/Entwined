@@ -101,11 +101,7 @@ public class Recordings extends LXModulator implements UIModulatorControls<Recor
       public void onToggle(boolean on) {
         if (on) {
           stopRecording.trigger();
-          for (LXBus bus : lx.engine.mixer.channels) {
-            bus.arm.setValue(false);
-          }
-          lx.engine.mixer.masterBus.arm.setValue(false);
-          ui.lx.engine.clips.launchScene(0);
+          playRecording(lx);
         } else {
           stopTrigger.trigger();
         }
@@ -204,7 +200,7 @@ public class Recordings extends LXModulator implements UIModulatorControls<Recor
     }
   }
 
-  private void openRecording(LX lx, File file) {
+  public void openRecording(LX lx, File file) {
     try (FileReader fr = new FileReader(file)) {
       JsonObject obj = new Gson().fromJson(fr, JsonObject.class);
       JsonArray clips = obj.get("clips").getAsJsonArray();
@@ -223,6 +219,14 @@ public class Recordings extends LXModulator implements UIModulatorControls<Recor
     } catch (Throwable x) {
       LX.error(x, "Could not load recording file: " + x.getMessage());
     }
+  }
+
+  public void playRecording(LX lx) {
+    for (LXBus bus : lx.engine.mixer.channels) {
+      bus.arm.setValue(false);
+    }
+    lx.engine.mixer.masterBus.arm.setValue(false);
+    lx.engine.clips.launchScene(0);
   }
 
   @Override

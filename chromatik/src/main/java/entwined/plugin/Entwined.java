@@ -14,12 +14,14 @@ import heronarts.lx.midi.MidiNoteOn;
 import heronarts.lx.midi.surface.APC40;
 import heronarts.lx.mixer.LXBus;
 import heronarts.lx.mixer.LXChannel;
+import heronarts.lx.modulator.LXModulator;
 import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.studio.LXStudio;
 import heronarts.lx.studio.LXStudio.UI;
 
 import entwined.core.CubeManager;
+import entwined.modulator.Recordings;
 import entwined.pattern.interactive.InteractiveCandyChaosEffect;
 import entwined.pattern.interactive.InteractiveDesaturationEffect;
 import entwined.pattern.interactive.InteractiveFireEffect;
@@ -302,6 +304,20 @@ public class Entwined implements LXStudio.Plugin {
 
           // Set up Canopy listener (also TCP) for interactive commands
           configureCanopy();
+
+          Recordings recordings = findModulator(lx, Recordings.class);
+          if (recordings != null) {
+            File autoplayFile = null;
+            // TODO - read a possibly-existing config file from disk here that specifies a
+            // recording file that should be loaded
+            if (autoplayFile != null) {
+              log("Auto-playing saved recording file: " + autoplayFile);
+              recordings.openRecording(lx, autoplayFile);
+              recordings.playRecording(lx);
+            }
+
+          }
+
         }
       }
     });
@@ -504,6 +520,16 @@ public class Entwined implements LXStudio.Plugin {
     for (LXPattern pattern : channel.patterns) {
       if (pattern.getClass().equals(clazz)) {
         return (T) pattern;
+      }
+    }
+    return null;
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T extends LXModulator> T findModulator(LX lx, Class<T> clazz) {
+    for (LXModulator modulator : lx.engine.modulation.modulators) {
+      if (modulator.getClass().equals(clazz)) {
+        return (T) modulator;
       }
     }
     return null;
