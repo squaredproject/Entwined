@@ -5,7 +5,6 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 import heronarts.lx.LX;
-import heronarts.lx.LXComponent;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.midi.LXMidiInput;
 import heronarts.lx.midi.LXMidiListener;
@@ -15,13 +14,13 @@ import heronarts.lx.midi.surface.APC40;
 import heronarts.lx.mixer.LXBus;
 import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.modulator.LXModulator;
-import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.studio.LXStudio;
 import heronarts.lx.studio.LXStudio.UI;
 
 import entwined.core.CubeManager;
 import entwined.modulator.Recordings;
+import entwined.modulator.Triggerables;
 import entwined.pattern.interactive.InteractiveCandyChaosEffect;
 import entwined.pattern.interactive.InteractiveDesaturationEffect;
 import entwined.pattern.interactive.InteractiveFireEffect;
@@ -41,36 +40,7 @@ public class Entwined implements LXStudio.Plugin {
   InteractiveRainbowEffect interactiveRainbowEffect;
   InteractiveDesaturationEffect interactiveDesaturationEffect;
 
-
-  public static class Triggerables extends LXComponent {
-
-    public static final int NUM_ROWS = APC40.CLIP_LAUNCH_ROWS + 1;
-    public static final int NUM_COLS = APC40.NUM_CHANNELS + 1;
-
-    public final BooleanParameter[][] grid;
-
-    Triggerables() {
-      this.grid = new BooleanParameter[NUM_ROWS][NUM_COLS];
-      for (int i = 0; i < NUM_ROWS; ++i) {
-        for (int j = 0; j < NUM_COLS; ++j) {
-          this.grid[i][j] =
-            new BooleanParameter("Grid[" + i + "][" + j + "]", false)
-            .setMode(BooleanParameter.Mode.MOMENTARY)
-            .setDescription("Grid button " + i + "/" + j);
-          addParameter("grid-" + i + "-" + j, this.grid[i][j]);
-        }
-      }
-    }
-  }
-
-  private static Triggerables triggers = null;
-
-  public static Triggerables getTriggerables() {
-    if (triggers == null) {
-      triggers = new Triggerables();
-    }
-    return triggers;
-  }
+  Triggerables triggerables;
 
   public static void log(String str) {
     LX.log("[ENTWINED] " + str);
@@ -241,10 +211,6 @@ public class Entwined implements LXStudio.Plugin {
 
     this.lx = lx;
 
-    // This sets up interface for the APC 40
-    log("Set up Triggerables");
-    lx.engine.registerComponent("entwined-triggers", getTriggerables());
-
     // Set up some master parameters... XXX - not sure if this is really used.
     // XXX - it *was* also used to do autoplayback and (I think) recording, which is
     // a crucial feature.
@@ -268,14 +234,16 @@ public class Entwined implements LXStudio.Plugin {
 
         private void noteReceived(MidiNote note, boolean on) {
           log("APC40:" + (on ? "On" : "Off") + ":" + note);
-          final int channel = note.getChannel();
-          final int pitch = note.getPitch();
-          if (pitch >= APC40.CLIP_LAUNCH && pitch <= APC40.CLIP_LAUNCH_MAX) {
-            getTriggerables().grid[pitch - APC40.CLIP_LAUNCH][channel].setValue(on);
-          } else if (pitch == APC40.CLIP_STOP) {
-            getTriggerables().grid[Triggerables.NUM_COLS - 1][channel].setValue(on);
-          } else if (pitch >= APC40.SCENE_LAUNCH && pitch <= APC40.SCENE_LAUNCH_MAX) {
-            getTriggerables().grid[pitch - APC40.SCENE_LAUNCH][Triggerables.NUM_ROWS - 1].setValue(on);
+          if (triggerables != null) {
+            final int channel = note.getChannel();
+            final int pitch = note.getPitch();
+            if (pitch >= APC40.CLIP_LAUNCH && pitch <= APC40.CLIP_LAUNCH_MAX) {
+              triggerables.grid[pitch - APC40.CLIP_LAUNCH][channel].setValue(on);
+            } else if (pitch == APC40.CLIP_STOP) {
+              triggerables.grid[Triggerables.NUM_COLS - 1][channel].setValue(on);
+            } else if (pitch >= APC40.SCENE_LAUNCH && pitch <= APC40.SCENE_LAUNCH_MAX) {
+              triggerables.grid[pitch - APC40.SCENE_LAUNCH][Triggerables.NUM_ROWS - 1].setValue(on);
+            }
           }
         }
       });
@@ -304,6 +272,10 @@ public class Entwined implements LXStudio.Plugin {
 
           // Set up Canopy listener (also TCP) for interactive commands
           configureCanopy();
+
+          // Grab the triggerables object if it exists
+          triggerables = findModulator(lx, Triggerables.class);
+
 
           Recordings recordings = findModulator(lx, Recordings.class);
           if (recordings != null) {
