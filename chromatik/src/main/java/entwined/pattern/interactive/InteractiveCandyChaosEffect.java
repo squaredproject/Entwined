@@ -31,18 +31,18 @@ public class InteractiveCandyChaosEffect {
    }
   }
 
-  LXEffect[] getEffects() {
+  public LXEffect[] getEffects() {
    return ( pieceEffects );
   }
 
-  void onTriggeredPiece(String pieceId) {
+  public void onTriggeredPiece(String pieceId) {
    Integer pieceIndex_o = pieceIdMap.get(pieceId);
    if (pieceIndex_o == null) return;
    pieceEffects[pieceIndex_o ].onTriggered();
   }
 
 
-  class InteractiveCandyChaos extends CandyTextureEffect {
+  public class InteractiveCandyChaos extends CandyTextureEffect {
    private boolean triggered;
    private long triggerEndMillis; // when to un-enable if enabled
 
@@ -50,7 +50,7 @@ public class InteractiveCandyChaosEffect {
      super(lx);
 
      // turn the effect on 100%
-     super.amount.setValue(1);
+     super.setAmount(1);
 
      this.pieceIndex = pieceIndex;
      this.triggered = false;

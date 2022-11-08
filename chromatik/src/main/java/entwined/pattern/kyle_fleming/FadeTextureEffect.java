@@ -8,7 +8,7 @@ import heronarts.lx.parameter.BoundedParameter;
 
 public class FadeTextureEffect extends LXEffect {
 
-  final BoundedParameter amount = new BoundedParameter("FADE");
+  public final BoundedParameter amount = new BoundedParameter("FADE");
 
   final SawLFO colr = new SawLFO(0, 360, 10000);
 
@@ -30,5 +30,9 @@ public class FadeTextureEffect extends LXEffect {
         colors[i] = LX.hsb(LXColor.h(blendedColor), LXColor.s(blendedColor), LXColor.b(oldColor));
       }
     }
+  }
+
+  public float getAmount() {
+    return amount.getValuef();
   }
 }

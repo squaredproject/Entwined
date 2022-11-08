@@ -34,7 +34,7 @@ public class InteractiveHSVEffect extends LXEffect {
     int componentIdx = 0;
     for (LXModel component : model.children) {
       this.pieceIdMap.put(component.metaData.get("name"), componentIdx);  // XXX this can throw!
-      componentIdx++;  // XXX this can throw.
+      componentIdx++;
     }
 
 

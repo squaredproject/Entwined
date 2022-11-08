@@ -16,7 +16,7 @@ import heronarts.lx.pattern.LXPattern;
 /**
 Interconnected growth
 */
-class Growth extends LXPattern {
+public class Growth extends LXPattern {
 
  final BoundedParameter growthSpeedParam = new BoundedParameter("spd", 2, .1, 10);
  final BoundedParameter lifeSpeedParam = new BoundedParameter("life", 5, 0, 10);

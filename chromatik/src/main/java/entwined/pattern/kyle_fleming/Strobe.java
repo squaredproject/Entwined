@@ -14,7 +14,7 @@ public class Strobe extends TSTriggerablePattern {
   int timer = 0;
   boolean on = false;
 
-  Strobe(LX lx) {
+  public Strobe(LX lx) {
     super(lx);
 
     addParameter("speed", speed);

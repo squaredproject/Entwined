@@ -26,7 +26,7 @@ public class Stringy extends LXPattern {
   private int current_cube_g[];
   private int current_cube_b[];
   final BoundedParameter speedParam = new BoundedParameter("Speed", 5, 20, .01);
-  final BoundedParameter waveSlope = new BoundedParameter("waveSlope", 360, 1, 720);
+  final BoundedParameter waveSlope = new BoundedParameter("wvSlope", 360, 1, 720);
   final SawLFO wave360 = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
   final SinLFO wave100 = new SinLFO(0, 100, speedParam.getValuef() * speedMult);
 

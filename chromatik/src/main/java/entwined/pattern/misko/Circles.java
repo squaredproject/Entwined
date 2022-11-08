@@ -17,7 +17,7 @@ public class Circles extends LXPattern {
   private float speedMult = 1000;
 
   final BoundedParameter speedParam = new BoundedParameter("Speed", 5, 20, .01);
-  final BoundedParameter waveSlope = new BoundedParameter("waveSlope", 360, 1, 720);
+  final BoundedParameter waveSlope = new BoundedParameter("wvSlope", 360, 1, 720);
   final SawLFO wave360 = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
   final SawLFO wave100 = new SawLFO(0, 100, speedParam.getValuef() * speedMult);
 

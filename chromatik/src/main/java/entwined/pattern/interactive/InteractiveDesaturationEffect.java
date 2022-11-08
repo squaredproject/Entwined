@@ -27,20 +27,28 @@ public class InteractiveDesaturationEffect {
     for (int pieceIndex=0 ; pieceIndex<nPieces ; pieceIndex++) {
       pieceEffects[pieceIndex] = new InteractiveDesaturation(lx, pieceIndex);
     }
+
+    // XXX - the pieceIdMap is really something that a lot of patterns use, and probably should be in CubeManager,
+    // or something core.
+    int pieceIdx = 0;
+    for (LXModel child : model.children) {
+      this.pieceIdMap.put(child.meta("name"), pieceIdx);
+      pieceIdx++;
+    }
   }
 
-  LXEffect[] getEffects() {
+  public LXEffect[] getEffects() {
     return ( pieceEffects );
   }
 
-  void onTriggeredPiece(String pieceId) {
+  public void onTriggeredPiece(String pieceId) {
     Integer pieceIndex_o = pieceIdMap.get(pieceId);
     if (pieceIndex_o == null) return;
     pieceEffects[pieceIndex_o ].onTriggered();
   }
 
 
-  class InteractiveDesaturation extends ColorEffect {
+  public class InteractiveDesaturation extends ColorEffect {
     private boolean triggered;
     private long triggerEndMillis; // when to un-enable if enabled
 

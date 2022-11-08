@@ -15,8 +15,12 @@ public class BrightnessScaleEffect extends LXEffect {
     enable();
   }
 
-  public float getValue() {
+  public float getAmount() {
     return( amount.getValuef() );
+  }
+
+  public void setAmount(double val) {
+    amount.setValue(val);
   }
 
   public BoundedParameter getParameter() {
