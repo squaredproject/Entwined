@@ -1,12 +1,15 @@
 package entwined.modulator;
 
+import entwined.plugin.Entwined;
 import heronarts.glx.ui.component.UIButton;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.midi.surface.APC40;
+import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.modulator.LXModulator;
 import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.parameter.LXParameter;
+import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.studio.LXStudio.UI;
 import heronarts.lx.studio.ui.modulation.UIModulator;
 import heronarts.lx.studio.ui.modulation.UIModulatorControls;
@@ -18,7 +21,7 @@ public class Triggerables extends LXModulator implements UIModulatorControls<Tri
   public static interface TriggerAction {
     public void onEnable();
     public void onDisable();
-    public void onTimeout();
+    public default void onTimeout() { onDisable(); };
   }
 
   public static final int NUM_ROWS = APC40.CLIP_LAUNCH_ROWS + 1;
@@ -47,6 +50,44 @@ public class Triggerables extends LXModulator implements UIModulatorControls<Tri
 
     // TODO: can hardcode whatever sorts of configuration you want here to wire up
     // what does what on all these triggerables...
+
+    // e.g. if you have a channel set up with blending composite mode
+    LXChannel triggerablesChannel = getTriggerablesChannel();
+    if (triggerablesChannel != null) {
+      triggerablesChannel.compositeMode.setValue(LXChannel.CompositeMode.BLEND);
+      triggerablesChannel.compositeDampingEnabled.setValue(true);
+      triggerablesChannel.compositeDampingTimeSecs.setValue(1);
+
+      // Then triggering patterns is as simple as enabling/disabling them
+      // they'll automatically dissolve in/out with a 1 second blend
+
+      setAction(0, 0, Entwined.findPattern(triggerablesChannel, entwined.pattern.adam_n_katie.Blooms.class));
+      setAction(0, 1, Entwined.findPattern(triggerablesChannel, entwined.pattern.adam_n_katie.Sparks.class));
+    }
+
+  }
+
+  private LXChannel getTriggerablesChannel() {
+    // TODO: ideally this channel is already setup in the project and you find it,
+    // or you could create it here...
+    return null;
+  }
+
+  public Triggerables setAction(int row, int col, LXPattern pattern) {
+    if (pattern == null) {
+      return this;
+    }
+    return setAction(row, col, new TriggerAction() {
+      @Override
+      public void onEnable() {
+        pattern.enabled.setValue(true);
+      }
+      @Override
+      public void onDisable() {
+        pattern.enabled.setValue(false);
+
+      }
+    });
   }
 
   public Triggerables setAction(int row, int col, TriggerAction action) {
