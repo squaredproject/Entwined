@@ -87,7 +87,8 @@ public class Fireflies extends TSTriggerablePattern {
     if (getChannel().fader.getNormalized() == 0) return;
 
     if (!triggered && fireflies.size() == 0) {
-      setCallRun(false);
+      enabled.setValue(false);
+      // setCallRun(false);
     }
 
     for (LXPoint cube : model.points) {
@@ -155,8 +156,8 @@ public class Fireflies extends TSTriggerablePattern {
   }
 
   @Override
-  public void onTriggered(float strength) {
-    super.onTriggered(strength);
+  public void onTriggered() {
+    super.onTriggered();
 
     numFireflies += 25;
     decay.setRange(numFireflies, 10);
@@ -164,8 +165,8 @@ public class Fireflies extends TSTriggerablePattern {
   }
 
   @Override
-  public void onRelease() {
-    super.onRelease();
+  public void onReleased() {
+    super.onReleased();
 
     decay.setRange(numFireflies, 0);
     decay.reset().start();

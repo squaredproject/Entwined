@@ -37,15 +37,15 @@ public class Strobe extends TSTriggerablePattern {
   }
 
   @Override
-  public void onTriggered(float strength) {
-    super.onTriggered(strength);
+  public void onTriggered() {
+    super.onTriggered();
 
     on = true;
   }
 
   @Override
-  public void onRelease() {
-    super.onRelease();
+  public void onReleased() {
+    super.onReleased();
 
     timer = 0;
     on = false;

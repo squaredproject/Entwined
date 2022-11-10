@@ -14,7 +14,6 @@ import entwined.pattern.kyle_fleming.ColorStrobeTextureEffect;
 import entwined.pattern.kyle_fleming.FadeTextureEffect;
 import entwined.pattern.kyle_fleming.ScrambleEffect;
 import entwined.pattern.kyle_fleming.SpeedEffect;
-import entwined.pattern.kyle_fleming.TSBlurEffect2;
 import heronarts.lx.LX;
 import heronarts.lx.LXEngine;
 import heronarts.lx.LXLoopTask;
@@ -116,6 +115,16 @@ public class IPadServerController {
    */
 
   private void registerIPadEffects() {
+    ColorEffect colorEffect = Entwined.setupMasterEffect(lx, ColorEffect.class);
+    ColorStrobeTextureEffect colorStrobeTextureEffect = Entwined.setupMasterEffect(lx, ColorStrobeTextureEffect.class);
+    FadeTextureEffect fadeTextureEffect = Entwined.setupMasterEffect(lx, FadeTextureEffect.class);
+    CandyTextureEffect candyTextureEffect = Entwined.setupMasterEffect(lx, CandyTextureEffect.class);
+    CandyCloudTextureEffect candyCloudTextureEffect = Entwined.setupMasterEffect(lx, CandyCloudTextureEffect.class);
+    // SpeedEffect speedEffect = Entwined.setupMasterEffect(lx, SpeedEffect.class);
+    // TSBlurEffect blurEffect = Entwined.setupMasterEffect(lx, TSBlurEffect.class);  // XXX - replace with standard blur effect?
+    // ScrambleEffect scrambleEffect = Entwined.setupMasterEffect(lx, ScrambleEffect.class);
+
+/*
     ColorEffect colorEffect = new ColorEffect(lx);
     ColorStrobeTextureEffect colorStrobeTextureEffect = new ColorStrobeTextureEffect(lx);
     FadeTextureEffect fadeTextureEffect = new FadeTextureEffect(lx);
@@ -145,6 +154,8 @@ public class IPadServerController {
     lx.addEffect(candyCloudTextureEffect);
     // lx.addEffect(ghostEffect);
     // lx.addEffect(rotationEffect);
+     *
+     */
 
     registerEffectController("Rainbow", candyCloudTextureEffect, candyCloudTextureEffect.amount);
     registerEffectController("Candy Chaos", candyTextureEffect, candyTextureEffect.amount);

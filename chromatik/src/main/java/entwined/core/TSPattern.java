@@ -1,60 +1,93 @@
 package entwined.core;
 
+
+import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
-import heronarts.lx.model.LXModel;
 import heronarts.lx.pattern.LXPattern;
-import heronarts.lx.parameter.BoundedParameter;
-import heronarts.lx.parameter.LXParameter;
-import heronarts.lx.parameter.LXParameterListener;
 
-abstract class TSPattern extends LXPattern {
-  ParameterTriggerableAdapter parameterTriggerableAdapter;
-  String readableName;
+public abstract class TSPattern extends LXPattern implements Triggerable {
+  Boolean triggerable = false;
+  Boolean triggered = false;
+  double triggeredTime = 0.0;
+  // ParameterTriggerableAdapter parameterTriggerableAdapter;
+  // String readableName;  // XXX CSW - handled by LXPattern.label, if anyone wants to override
 
-  protected final LXModel model;
+  // protected final LXModel model;  // XXX handled in by LXPattern
 
-  TSPattern(LX lx) {
+  public TSPattern(LX lx) {
     super(lx);
-    model = lx.getModel();
+    //model = lx.getModel();
   }
 
-  void onTriggerableModeEnabled() {
-    getChannel().fader.setValue(0);
-    getChannelFade().setValue(0);
-    parameterTriggerableAdapter = getParameterTriggerableAdapter();
-    parameterTriggerableAdapter.addOutputTriggeredListener(new LXParameterListener() {
-      public void onParameterChanged(LXParameter parameter) {
-        setCallRun(parameter.getValue() != 0);
-      }
-    });
-    setCallRun(false);
+  // And that works for most of the standard  trigger patterns
+  public void onTriggered() {
+    if (triggerable) {
+      this.enabled.setValue(true);
+      // turn effect on
+      this.triggered = true;
+      this.triggeredTime = EntwinedUtils.millis();
+    }
   }
 
-  Triggerable getTriggerable() {
-    return parameterTriggerableAdapter;
+  // XXX maybe I just override on disable. Easy enough.
+  public void onReleased() {
+    if (triggerable) {
+      // turn effect off
+      this.enabled.setValue(false);
+      this.triggered = false;
+    }
   }
 
-  BoundedParameter getChannelFade() {
+  public boolean isTriggered() {
+    return this.triggered;
+  }
+
+  public void onTimeout() {
+    onReleased();  // By default, just turn the thing off.
+  }
+
+  // For the ones that are timed triggers, they'll override onDisable. I'll make something for that
+  //
+
+  public void enableTriggerMode() {
+    triggerable = true;
+    //void onTriggerableModeEnabled() {
+    // getChannel().fader.setValue(0);
+    //getChannelFade().setValue(0);
+    // parameterTriggerableAdapter = getParameterTriggerableAdapter();
+    // parameterTriggerableAdapter.addOutputTriggeredListener(new LXParameterListener() {
+      //public void onParameterChanged(LXParameter parameter) {
+      //  setCallRun(parameter.getValue() != 0);
+      //}
+    //});
+    //setCallRun(false);
+  }
+
+  //Triggerable getTriggerable() {
+  //  return parameterTriggerableAdapter;
+  //}
+
+  //BoundedParameter getChannelFade() {
     // XXX
-    return null;
+  //  return null;
     //return getFaderTransition(getChannel()).fade;
-  }
+  //}
 
-  ParameterTriggerableAdapter getParameterTriggerableAdapter() {
-    return new ParameterTriggerableAdapter(lx, getChannelFade());
-  }
+  //ParameterTriggerableAdapter getParameterTriggerableAdapter() {
+  //  return new ParameterTriggerableAdapter(lx, getChannelFade());
+  //}
 
-  protected void setCallRun(boolean callRun) {
-    getChannel().enabled.setValue(callRun);
-  }
+  //protected void setCallRun(boolean callRun) {
+  //  getChannel().enabled.setValue(callRun);
+  //}
 
-  boolean getEnabled() {
-    return getTriggerable().isTriggered();
-  }
+  //boolean getEnabled() {
+  //  return getTriggerable().isTriggered();
+  //}
 
-  double getVisibility() {
-    return getChannel().fader.getValue();
-  }
+  //double getVisibility() {
+  //  return getChannel().fader.getValue();
+  //}
 
   /* XXX
   TreesTransition getFaderTransition(LXChannel channel) {
@@ -63,6 +96,7 @@ abstract class TSPattern extends LXPattern {
   */
 }
 
+/*
 class ChannelTreeLevels {
   private BoundedParameter[] levels;
   ChannelTreeLevels(int numTrees) {
@@ -110,8 +144,11 @@ class ChannelFairyCircleLevels {
       return this.levels[i].getValue();
     }
   }
+  */
 
 /*
+ Okay - this is this weird trees transition thing that use channel tree levels and shrub levels and
+ I have no idea what else. And it derives from a class that no longer exists.
 class TreesTransition extends LXTransition {
 
   private final LXChannel channel;
@@ -132,6 +169,8 @@ class TreesTransition extends LXTransition {
     this.channelShrubLevels = channelShrubLevels;
     this.channelFairyCircleLevels = channelFairyCircleLevels;
 
+    // Okay, when someone changes the blend mode parameter, update the internals.
+    // Now, I don't know how someone sees the blend mode parameter in new lx, but, moving on...
     blendMode.addListener(new LXParameterListener() {
       @Override
       public void onParameterChanged(LXParameter parameter) {
@@ -156,6 +195,11 @@ class TreesTransition extends LXTransition {
   // I think this modifies the outputs of trees and shrubs specifically, using the tree and shrub
   // sliders. Currently, we don't have shrub sliders, and there's no way to set a level on a tree
   // that would effect triggerables
+  // XXX this seems like something that is very specific to Entwined, and I'm not sure that I'd want
+  // it as part of the core, at least not at this level. One of the interesting questions to ask is,
+  // what are the key parts of the sculpture, how do I identify them, and how do I control them separately,
+  // but that seems like a config file thing that feeds into an abstraction at this level, rather than
+  // separate sliders for trees and shrubs and fairy circles and god only knows what else.
 
   // it appears the functionlity is to blend c1 and c2 into the colors output, mediated
   // by the channelTreeLevels.

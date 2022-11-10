@@ -3,6 +3,7 @@ package entwined.pattern.adam_n_katie;
 import entwined.utils.EntwinedUtils;
 import entwined.utils.Vec3D;
 import heronarts.lx.LX;
+import heronarts.lx.LXComponent;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
@@ -13,6 +14,7 @@ import heronarts.lx.pattern.LXPattern;
 //----------------------------------------------------------------------------
 //As the base class for other patterns we won't actually register this one
 //explicitly.
+@LXComponent.Hidden
 public class AutographedPattern extends LXPattern {
   // Constants
 

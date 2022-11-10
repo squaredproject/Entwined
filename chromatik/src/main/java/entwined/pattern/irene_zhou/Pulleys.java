@@ -25,9 +25,7 @@ public class Pulleys extends TSTriggerablePattern { //ported from SugarCubes
   final DiscreteParameter pulleyCount = new DiscreteParameter("NUM", 1, 1, 5);
   private Click dropPulley = new Click(4000);
 
-
   private boolean isRising = false; //are the pulleys rising or falling
-  boolean triggered = true; //has the trigger to rise/fall been pulled
   boolean autoMode = true; //triggerMode vs autoMode.
   private int numPulleys = 0;
   private List<Pulley> pulleys = new ArrayList<Pulley>(numPulleys);
@@ -113,7 +111,8 @@ public class Pulleys extends TSTriggerablePattern { //ported from SugarCubes
     if (getChannel().fader.getNormalized() == 0) return;
 
     if (!triggered && pulleys.size() == 0) {
-      setCallRun(false);
+      enabled.setValue(false);
+      // setCallRun(false);
     }
 
     if (autoMode) {
@@ -220,20 +219,23 @@ public class Pulleys extends TSTriggerablePattern { //ported from SugarCubes
   }
 
   @Override
-  public void onTriggerableModeEnabled() {
-    super.onTriggerableModeEnabled();
+  // XXX - should call down into an impl in the subclass instead of relying on the subclass to know to call me.
+  public void enableTriggerMode() {
+    super.enableTriggerMode();
     autoMode = false;
     isRising = false;
   }
 
   @Override
-  public void onTriggered(float strength) {
+  public void onTriggered() {
+    super.onTriggered();
     numPulleys +=1;
     dropPulley.start();
   }
 
   @Override
-  public void onRelease() {
+  public void onReleased() {
+    super.onTriggered();
     dropPulley.stop().reset();
   }
 }

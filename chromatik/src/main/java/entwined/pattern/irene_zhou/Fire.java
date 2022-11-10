@@ -71,7 +71,8 @@ public class Fire extends TSTriggerablePattern {
     if (getChannel().fader.getNormalized() == 0) return;
 
     if (!triggered && flames.size() == 0) {
-      setCallRun(false);
+      enabled.setValue(false);
+      // setCallRun(false);
     }
 
     if (!triggerableModeEnabled) {
@@ -118,16 +119,16 @@ public class Fire extends TSTriggerablePattern {
   }
 
   @Override
-  public void onTriggered(float strength) {
-    super.onTriggered(strength);
+  public void onTriggered() {
+    super.onTriggered();
 
     fireHeight.setRange(1,0.6f);
     fireHeight.reset().start();
   };
 
   @Override
-  public void onRelease() {
-    super.onRelease();
+  public void onReleased() {
+    super.onReleased();
 
     fireHeight.setRange(height, 0);
     fireHeight.reset().start();
