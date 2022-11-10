@@ -17,7 +17,6 @@ if (! ( Test-Path -Path $install_dir )) {
 }
 
 
-
 mkdir -p $fixtures_dir -ea 0
 rm $fixtures_dir/*
 

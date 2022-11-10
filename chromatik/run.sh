@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 mvn package
 mkdir -p ~/Chromatik/Packages
 rm -f ~/Chromatik/Packages/entwined-0.0.1-SNAPSHOT.jar
