@@ -9,6 +9,7 @@ import entwined.core.CubeData;
 import entwined.core.CubeManager;
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
+import heronarts.lx.LXComponent;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
@@ -74,7 +75,7 @@ public class InteractiveFireEffect {
    pieceFires[pieceIndex_o ].onTriggered();
   }
 
-
+  @LXComponent.Hidden
   public class InteractiveFire extends LXEffect {
    final BoundedParameter maxHeight = new BoundedParameter("HEIGHT", 0.8, 0.3, 1);
    final BoundedParameter flameSize = new BoundedParameter("SIZE", 30, 10, 75);

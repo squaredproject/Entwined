@@ -1,6 +1,7 @@
 package entwined.plugin;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
@@ -11,6 +12,7 @@ import heronarts.lx.midi.LXMidiListener;
 import heronarts.lx.midi.MidiNote;
 import heronarts.lx.midi.MidiNoteOn;
 import heronarts.lx.midi.surface.APC40;
+import heronarts.lx.mixer.LXAbstractChannel;
 import heronarts.lx.mixer.LXBus;
 import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.modulator.LXModulator;
@@ -19,28 +21,45 @@ import heronarts.lx.studio.LXStudio;
 import heronarts.lx.studio.LXStudio.UI;
 
 import entwined.core.CubeManager;
+import entwined.core.Triggerable;
 import entwined.modulator.Recordings;
 import entwined.modulator.Triggerables;
+import entwined.pattern.anon.ColorEffect;
+import entwined.pattern.anon.HueFilterEffect;
 import entwined.pattern.interactive.InteractiveCandyChaosEffect;
 import entwined.pattern.interactive.InteractiveDesaturationEffect;
 import entwined.pattern.interactive.InteractiveFireEffect;
 import entwined.pattern.interactive.InteractiveHSVEffect;
 import entwined.pattern.interactive.InteractiveRainbowEffect;
+import entwined.pattern.irene_zhou.Bubbles;
+import entwined.pattern.irene_zhou.Cells;
+import entwined.pattern.kyle_fleming.AcidTripTextureEffect;
+import entwined.pattern.kyle_fleming.BrightnessScaleEffect;
+import entwined.pattern.kyle_fleming.CandyCloudTextureEffect;
+import entwined.pattern.kyle_fleming.CandyTextureEffect;
+import entwined.pattern.kyle_fleming.ColorStrobeTextureEffect;
+import entwined.pattern.kyle_fleming.FadeTextureEffect;
+import entwined.pattern.kyle_fleming.GhostEffect;
+import entwined.pattern.kyle_fleming.ScrambleEffect;
+import entwined.pattern.kyle_fleming.SpeedEffect;
+import entwined.pattern.kyle_fleming.StaticEffect;
+import entwined.pattern.kyle_fleming.TSBlurEffect;
 
 public class Entwined implements LXStudio.Plugin {
 
 
-  IPadServerController engineController;
   LX lx;
 
+  IPadServerController engineController;
   CanopyController canopyController;
+  Triggerables triggerables;
   InteractiveHSVEffect interactiveHSVEffect;
   InteractiveFireEffect interactiveFireEffect;
   InteractiveCandyChaosEffect interactiveCandyChaosEffect;
   InteractiveRainbowEffect interactiveRainbowEffect;
   InteractiveDesaturationEffect interactiveDesaturationEffect;
 
-  Triggerables triggerables;
+  LXChannel effectsChannel;
 
   public static void log(String str) {
     LX.log("[ENTWINED] " + str);
@@ -196,6 +215,64 @@ public class Entwined implements LXStudio.Plugin {
   }
 
 
+  /* Instantiate standard effects and add them to the master output if they
+   * aren't already there.
+   */
+  private void setupEffects() {
+
+    // Add master effects
+    /*
+    TSBlurEffect blur                               = setupMasterEffect(lx, TSBlurEffect.class);
+    ColorEffect colorEfect                          = setupMasterEffect(lx, ColorEffect.class);
+    HueFilterEffect hueFilterEffect                 = setupMasterEffect(lx, HueFilterEffect.class);
+    GhostEffect ghostEffect                         = setupMasterEffect(lx, GhostEffect.class);
+    ScrambleEffect scrambleEffect                   = setupMasterEffect(lx, ScrambleEffect.class);
+    StaticEffect staticEffect                       = setupMasterEffect(lx, StaticEffect.class);
+    SpeedEffect speedEffect                         = setupMasterEffect(lx, SpeedEffect.class);
+    ColorStrobeTextureEffect strobeTextureEffect    = setupMasterEffect(lx, ColorStrobeTextureEffect.class);
+    FadeTextureEffect fadeTextureEffect             = setupMasterEffect(lx, FadeTextureEffect.class);
+    AcidTripTextureEffect acidTripTextureEffect     = setupMasterEffect(lx, AcidTripTextureEffect.class);
+    CandyTextureEffect candyTextureEffect           = setupMasterEffect(lx, CandyTextureEffect.class);
+    CandyCloudTextureEffect candyCloudTextureEffect = setupMasterEffect(lx, CandyCloudTextureEffect.class);
+    */
+
+    setupMasterEffect(lx, TSBlurEffect.class);
+    setupMasterEffect(lx, ColorEffect.class);
+    setupMasterEffect(lx, HueFilterEffect.class);
+    setupMasterEffect(lx, GhostEffect.class);
+    setupMasterEffect(lx, ScrambleEffect.class);
+    setupMasterEffect(lx, StaticEffect.class);
+    setupMasterEffect(lx, SpeedEffect.class);
+    setupMasterEffect(lx, ColorStrobeTextureEffect.class);
+    setupMasterEffect(lx, FadeTextureEffect.class);
+    setupMasterEffect(lx, AcidTripTextureEffect.class);
+    setupMasterEffect(lx, CandyTextureEffect.class);
+    setupMasterEffect(lx, CandyCloudTextureEffect.class);
+
+    // We assume at this point that the effects channel for pattern effects has been created.
+    if (effectsChannel == null) {
+      // XXX complain vociferously
+    }
+
+    // XXX - and these two. How do I add them and make they aren't already there?
+    // Ditto on the canopy effects. Or wait - I'm adding the canopy effects
+    // damn. I keep forgetting about ipad channels vs interactive effects. Too much to remember.
+
+    BrightnessScaleEffect masterBrightnessEffect = new BrightnessScaleEffect(lx);
+    BrightnessScaleEffect autoplayBrightnessEffect = new BrightnessScaleEffect(lx);
+
+    lx.addEffect(masterBrightnessEffect);
+    lx.addEffect(autoplayBrightnessEffect);   // XXX dear god why are there two? XXX
+
+    /* configureCanopyEffects(); */
+  }
+
+  private void configureTriggeredEffects() {
+    setupEffects();
+    configureTriggerables();
+  }
+
+
   @Override
   public void initialize(LX lx) {
     log("Entwined.initialize()");
@@ -276,6 +353,10 @@ public class Entwined implements LXStudio.Plugin {
           // Grab the triggerables object if it exists
           triggerables = findModulator(lx, Triggerables.class);
 
+          // Set up triggerable events
+          if (triggerables != null) {
+            configureTriggeredEffects();
+          }
 
           Recordings recordings = findModulator(lx, Recordings.class);
           if (recordings != null) {
@@ -287,23 +368,89 @@ public class Entwined implements LXStudio.Plugin {
               recordings.openRecording(lx, autoplayFile);
               recordings.playRecording(lx);
             }
-
           }
 
+          // bad code I know
+          // (shouldn't mess with engine internals)
+          // maybe need a way to specify a deck shouldn't be focused?
+          // essentially this lets us have extra decks for the drumpad
+          // patterns without letting them be assigned to channels
+          // -kf
+          // // This basically prevents the UI from changing (or accessing, really) the
+          // channels in the high range - the iPad channels and the effect channels.
+          //lx.engine.mixer.focusedChannel.setRange(Config.NUM_BASE_CHANNELS);
         }
       }
     });
 
+  }
+
+  // Configure the array of triggerables.
+  void configureTriggerables()
+  {
+    // There are several types of triggerables -
+    // Events (which derive from LXEvent)
+    // Standard patterns
+    // One-shot patterns
+    // Patterns that use a parameter in addition to the fader for fading in and out
 
 
-    // bad code I know
-    // (shouldn't mess with engine internals)
-    // maybe need a way to specify a deck shouldn't be focused?
-    // essentially this lets us have extra decks for the drumpad
-    // patterns without letting them be assigned to channels
-    // -kf
-    // lx.engine.mixer.focusedChannel.setRange(Engine.NUM_BASE_CHANNELS);
-    lx.engine.mixer.focusedChannel.setRange(Config.NUM_BASE_CHANNELS);
+    // TODO: can hardcode whatever sorts of configuration you want here to wire up
+    // what does what on all these triggerables...
+    // XXX - there's this whole issue of 'amounts' on our triggers. In the original code
+    // we specified a parameter that was used to catch the on/off event. For the moment,
+    // I'm ignoring this.
+
+    // straight up on/off on the effect. XXX want to be able to set for different values
+    triggerables.setAction(0,0, new EventTrigger(Entwined.findMasterEffect(lx, ColorEffect.class), 0, 1));
+    triggerables.setAction(0,1, new EventTrigger(Entwined.findMasterEffect(lx, ColorEffect.class), 0, 0.5f));
+
+    // straight up pattern effect
+    // XXX - I probably need to turn off the pattern by default if I'm using the effects channel with its
+    // compositing. This *should* have happened, but...
+    // XXX - He's got a function called instantiate class that I can use maybe. Ctor issue.
+    triggerables.setAction(0,2, Entwined.findPattern(effectsChannel, Cells.class));
+    // One shot or something
+    Bubbles bubbles = Entwined.findPattern(effectsChannel, Bubbles.class);
+    triggerables.setAction(0,3, bubbles);
+
+    // triggerables.setAction(0, 3, ParameterTriggerableAdapter());
+    //triggerables.setAction
+    // XXX - it's better to hard code these in the plugin, with triggerables.setAction()
+    // And then I can set up these parameterized things. Yay.
+
+  }
+
+  //This is not really a good way of doing this. ipad effects are different?
+  class EventTrigger implements Triggerable{
+    LXEffect effect;
+    Boolean isTriggered = false;
+    EventTrigger(LXEffect effect){
+      this.effect = effect;
+    }
+    EventTrigger(LXEffect effect, float onAmount, float offAmount){
+      this.effect = effect;
+      isTriggered = true;
+    }
+    @Override
+    public void onTriggered() {
+      effect.enabled.setValue(true);
+    }
+    @Override
+    public void onReleased() {
+      isTriggered = false;
+      effect.enabled.setValue(false);
+    }
+    @Override
+    public void onTimeout() {
+      isTriggered = false;
+      effect.enabled.setValue(false);
+    }
+
+    @Override
+    public boolean isTriggered() {
+      return isTriggered;
+    }
   }
 
   /*
@@ -370,6 +517,7 @@ public class Entwined implements LXStudio.Plugin {
     // tell the canopyController what it should be up to.
     // this perhaps needs to move elsewhere, possibly to the constructor of canopy
     // controller or the main init, unclear it should really be intermixed with EngineController
+    // XXX FIXME THIS SHOULDNT BE HERE XXX
     ZonedDateTime firstPause = ZonedDateTime.now();
     firstPause.plusSeconds( (int) (Config.pauseRunMinutes * 60.0) );
     canopyController.modelUpdate(true , (int) (Config.pauseRunMinutes * 60.0f) ,
@@ -400,39 +548,76 @@ public class Entwined implements LXStudio.Plugin {
    * that is used by the APC40, and a separate set of 3 channels that is used by
    * the iPad app. These are the 'base channels' and the 'server channels, respectively.
    *
+   * In addition, there is a single channel for triggerable effects,
+   * the effectChannel.
+   *
    * This code is called at startup to make sure that we have enough channels allocated. It will
    * also populate any new server channels with the default iPad patterns.
    */
 
   void configureChannels() {
-    // Check if there are already NUM_BASE_CHANNELS channels. If there are not,
+
+    int numCurrentChannels = 0;
+    for (LXAbstractChannel abstractChannel : lx.engine.mixer.channels) {
+      if (abstractChannel instanceof LXChannel) {
+        numCurrentChannels++;
+      }
+    }
+
+    log("Configure channels - have " + numCurrentChannels + " channels, base channels is " + Config.NUM_BASE_CHANNELS + ", server channels is " + Config.NUM_SERVER_CHANNELS);
+
+    // If there are not already NUM_BASE_CHANNELS channels,
     // create them.
-    int currentNumChannels = lx.engine.mixer.channels.size();
-    log("Configure channels - have " + currentNumChannels + " channels, base channels is " + Config.NUM_BASE_CHANNELS + ", server channels is " + Config.NUM_SERVER_CHANNELS);
-    if (currentNumChannels < Config.NUM_BASE_CHANNELS) {
-      for (int i=0; i<Config.NUM_BASE_CHANNELS - currentNumChannels; i++) {
+    int numAddedChannels = 0;
+    if (numCurrentChannels < Config.NUM_BASE_CHANNELS) {
+      for (int i=0; i<Config.NUM_BASE_CHANNELS - numCurrentChannels; i++) {
         lx.engine.mixer.addChannel();
+        numAddedChannels++;
       }
     }
 
     // Check if there are also and additional NUM_SERVER_CHANNELS. If not,
     // create them.
-    currentNumChannels = lx.engine.mixer.channels.size();
-
-    if (lx.engine.mixer.channels.size() < Config.NUM_SERVER_CHANNELS + Config.NUM_BASE_CHANNELS) {
-      for (int i=0; i<Config.NUM_SERVER_CHANNELS + Config.NUM_BASE_CHANNELS - currentNumChannels; i++) {
+    numCurrentChannels = numCurrentChannels + numAddedChannels;
+    numAddedChannels = 0;
+    if (numCurrentChannels < Config.NUM_SERVER_CHANNELS + Config.NUM_BASE_CHANNELS) {
+      for (int i=0; i<Config.NUM_SERVER_CHANNELS + Config.NUM_BASE_CHANNELS - numCurrentChannels; i++) {
         LXChannel channel = lx.engine.mixer.addChannel();
-        channel.setPatterns(getIPadPatterns(lx));
+        channel.setPatterns(getIPadPatterns(lx));  // NB - This is intentionally. Only configure if not configured in project file.
+        numAddedChannels++;
       }
     }
 
-    // XXX - ask Mark... I want to set a dissolve fade on the iPad channels for when
-    // I swap them. How to do this?
+    // And if we need the effects channel, create it
+    numCurrentChannels += numAddedChannels;
+    if (numCurrentChannels < Config.NUM_BASE_CHANNELS + Config.NUM_SERVER_CHANNELS + 1) {
+      lx.engine.mixer.addChannel();
+      numCurrentChannels += 1;
+    }
 
-    // Set the pattern name on the server channels to SERVER as a note to people not to fuck with them.
-    // XXX -todo
+    // Now let's rename the channels for additional sanity
+    int currentChannelIdx = 0;
+    for (LXAbstractChannel abstractChannel : lx.engine.mixer.channels) {
+      if (abstractChannel instanceof LXChannel) {
+        if ((currentChannelIdx >= Config.NUM_BASE_CHANNELS) &&
+            (currentChannelIdx < Config.NUM_BASE_CHANNELS + Config.NUM_SERVER_CHANNELS)) {
+           abstractChannel.label.setValue("IPad");
+           abstractChannel.label.setDescription("Patterns and channels used by iPad application");
+        } else if (currentChannelIdx == Config.NUM_BASE_CHANNELS + Config.NUM_SERVER_CHANNELS) {
+          abstractChannel.label.setValue("Effects");
+          abstractChannel.label.setDescription("Channel handling patterns that produce triggerable effects. Set up by plugin, do not modify");
+          effectsChannel = (LXChannel)abstractChannel;
+        }
+        currentChannelIdx++;
+      }
+    }
+
+    // And let's make sure that the effects channel is in the right mode
+    for (LXPattern pattern : effectsChannel.patterns) {
+      pattern.enabled.setValue(false);
+      effectsChannel.compositeMode.setValue(LXChannel.CompositeMode.BLEND);
+    }
   }
-
 
   /*
    * getIPadPatterns
@@ -477,6 +662,35 @@ public class Entwined implements LXStudio.Plugin {
   /*
    * Some handy helper functions
    */
+
+  @SuppressWarnings("unchecked")
+  public static <T extends LXEffect> T setupMasterEffect(LX lx, Class<T> clazz) {
+    LXEffect effect = findMasterEffect(lx, clazz);
+    if (effect == null) {
+      try {
+        effect = (clazz.getConstructor(LX.class).newInstance(lx));
+        lx.addEffect(effect);
+      } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+        System.out.println("Constructor for class " + clazz + "failing, continuing on");
+      }
+    }
+    return (T)effect;
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T extends LXPattern> T setupTriggerablePattern(LXChannel channel, Class<T> clazz) {
+    LXPattern pattern = findPattern(channel, clazz);
+    if (pattern == null) {
+      try {
+        pattern = (clazz.newInstance());
+        channel.addPattern(pattern);
+      } catch (InstantiationException | IllegalAccessException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } // XXX would like to be able to specify constructors in many instances. Erk
+    }
+    return (T)pattern;
+  }
 
   public static <T extends LXEffect> T findMasterEffect(LX lx, Class<T> clazz) {
     return findEffect(lx.engine.mixer.masterBus, clazz);

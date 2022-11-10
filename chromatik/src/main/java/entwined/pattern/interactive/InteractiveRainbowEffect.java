@@ -5,6 +5,7 @@ import java.util.Map;
 
 import entwined.pattern.kyle_fleming.CandyCloudTextureEffect;
 import heronarts.lx.LX;
+import heronarts.lx.LXComponent;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXModel;
 
@@ -46,7 +47,7 @@ public class InteractiveRainbowEffect {
     pieceEffects[pieceIndex_o ].onTriggered();
   }
 
-
+  @LXComponent.Hidden
   public class InteractiveRainbow extends CandyCloudTextureEffect {
     private boolean triggered;
     private long triggerEndMillis; // when to un-enable if enabled

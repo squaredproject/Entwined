@@ -7,6 +7,7 @@ import entwined.pattern.kyle_fleming.CandyTextureEffect;
 import heronarts.lx.LX;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXModel;
+import heronarts.lx.LXComponent;
 
 //add color effects for Canopy use
 
@@ -41,7 +42,7 @@ public class InteractiveCandyChaosEffect {
    pieceEffects[pieceIndex_o ].onTriggered();
   }
 
-
+  @LXComponent.Hidden
   public class InteractiveCandyChaos extends CandyTextureEffect {
    private boolean triggered;
    private long triggerEndMillis; // when to un-enable if enabled

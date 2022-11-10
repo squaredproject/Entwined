@@ -190,6 +190,9 @@ class AppServer {
     }
   }
 
+  // Okay. There's an issue of parameters, and whether the parameters effectively say 'more of this' as you're
+  // pushing down the button. That's an interesting and useful feature.
+
 
   class ClientModelUpdater {
     IPadServerController engineController;
@@ -376,9 +379,11 @@ class AppServer {
         // which is called when a new guy connects
         try {
           serverEventMethod =
-            parent.getClass().getMethod("serverEvent", Server.class, TSClient.class);
+            parent.getClass().getMethod("serverEvent", TSServer.class, TSClient.class);
         } catch (Exception e) {
-        	// this happens. No server events apparently
+        	// At the moment, this is the standard path. This code was brought over
+          // from Processing and heavily modified; we do not use the serverEventMethod
+          // functionality.  CSW - 11/2022
           //System.out.println("server create: no server event on this object");
         }
 

@@ -65,7 +65,8 @@ public abstract class MultiObjectPattern <ObjectType extends MultiObject> extend
         makeObject(0);
       }
     } else if (objects.size() == 0) {
-      setCallRun(false);
+      enabled.setValue(false);
+      // setCallRun(false);
     }
 
     if (shouldAutofade) {
@@ -98,10 +99,10 @@ public abstract class MultiObjectPattern <ObjectType extends MultiObject> extend
   }
 
   @Override
-  public void onTriggered(float strength) {
-    super.onTriggered(strength);
+  public void onTriggered() {
+    super.onTriggered();
 
-    makeObject(strength);
+    makeObject(1);  // 1 appears to be the default 'strenght', which is basically ignored by all the makeObject  XXX
   }
 
   protected abstract ObjectType generateObject(float strength);

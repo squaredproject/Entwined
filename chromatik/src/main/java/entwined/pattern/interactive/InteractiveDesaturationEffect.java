@@ -5,6 +5,7 @@ import java.util.Map;
 
 import entwined.pattern.anon.ColorEffect;
 import heronarts.lx.LX;
+import heronarts.lx.LXComponent;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXModel;
 
@@ -47,7 +48,7 @@ public class InteractiveDesaturationEffect {
     pieceEffects[pieceIndex_o ].onTriggered();
   }
 
-
+  @LXComponent.Hidden
   public class InteractiveDesaturation extends ColorEffect {
     private boolean triggered;
     private long triggerEndMillis; // when to un-enable if enabled
