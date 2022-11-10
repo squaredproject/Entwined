@@ -21,6 +21,7 @@ import heronarts.lx.studio.LXStudio;
 import heronarts.lx.studio.LXStudio.UI;
 
 import entwined.core.CubeManager;
+import entwined.core.TSPattern;
 import entwined.core.Triggerable;
 import entwined.modulator.Recordings;
 import entwined.modulator.Triggerables;
@@ -409,7 +410,7 @@ public class Entwined implements LXStudio.Plugin {
     // XXX - I probably need to turn off the pattern by default if I'm using the effects channel with its
     // compositing. This *should* have happened, but...
     // XXX - He's got a function called instantiate class that I can use maybe. Ctor issue.
-    triggerables.setAction(0,2, Entwined.findPattern(effectsChannel, Cells.class));
+    triggerables.setAction(0,2, Entwined.setupTriggerablePattern(lx, effectsChannel, Cells.class));
     // One shot or something
     Bubbles bubbles = Entwined.findPattern(effectsChannel, Bubbles.class);
     triggerables.setAction(0,3, bubbles);
@@ -434,15 +435,18 @@ public class Entwined implements LXStudio.Plugin {
     }
     @Override
     public void onTriggered() {
+      System.out.println("Event trigger triggered!!");
       effect.enabled.setValue(true);
     }
     @Override
     public void onReleased() {
+      System.out.println("Event trigger released!!");
       isTriggered = false;
       effect.enabled.setValue(false);
     }
     @Override
     public void onTimeout() {
+      System.out.println("Event trigger timeout");
       isTriggered = false;
       effect.enabled.setValue(false);
     }
@@ -598,6 +602,7 @@ public class Entwined implements LXStudio.Plugin {
             (currentChannelIdx < Config.NUM_BASE_CHANNELS + Config.NUM_SERVER_CHANNELS)) {
            abstractChannel.label.setValue("IPad");
            abstractChannel.label.setDescription("Patterns and channels used by iPad application");
+           abstractChannel.fader.setValue(1);
         } else if (currentChannelIdx == Config.NUM_BASE_CHANNELS + Config.NUM_SERVER_CHANNELS) {
           abstractChannel.label.setValue("Effects");
           abstractChannel.label.setDescription("Channel handling patterns that produce triggerable effects. Set up by plugin, do not modify");
@@ -610,8 +615,9 @@ public class Entwined implements LXStudio.Plugin {
     // And let's make sure that the effects channel is in the right mode
     for (LXPattern pattern : effectsChannel.patterns) {
       pattern.enabled.setValue(false);
-      effectsChannel.compositeMode.setValue(LXChannel.CompositeMode.BLEND);
     }
+    effectsChannel.compositeMode.setValue(LXChannel.CompositeMode.BLEND);
+    effectsChannel.fader.setValue(1.0);
   }
 
   /*
@@ -673,17 +679,20 @@ public class Entwined implements LXStudio.Plugin {
   }
 
   @SuppressWarnings("unchecked")
-  public static <T extends LXPattern> T setupTriggerablePattern(LXChannel channel, Class<T> clazz) {
-    LXPattern pattern = findPattern(channel, clazz);
+  public static <T extends TSPattern> T setupTriggerablePattern(LX lx, LXChannel channel, Class<T> clazz) {
+    TSPattern pattern = findPattern(channel, clazz);
     if (pattern == null) {
       try {
-        pattern = (clazz.newInstance());
+        pattern = (clazz.getConstructor(LX.class).newInstance(lx));
         channel.addPattern(pattern);
-      } catch (InstantiationException | IllegalAccessException e) {
-        // TODO Auto-generated catch block
+      } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
         e.printStackTrace();
+        return null;
       } // XXX would like to be able to specify constructors in many instances. Erk
     }
+
+    pattern.enabled.setValue(false);
+    pattern.enableTriggerMode();
     return (T)pattern;
   }
 
