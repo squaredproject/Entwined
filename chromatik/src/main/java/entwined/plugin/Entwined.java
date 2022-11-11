@@ -279,10 +279,10 @@ public class Entwined implements LXStudio.Plugin {
 
           Recordings recordings = findModulator(lx, Recordings.class);
           if (recordings != null) {
-            File autoplayFile = null;
-            // TODO - read a possibly-existing config file from disk here that specifies a
-            // recording file that should be loaded
-            if (autoplayFile != null) {
+            // TODO - perhaps come up with a more elegant solution here for specifying
+            // what the file to auto-play is?
+            File autoplayFile = new File("autoplay.lxr");
+            if ((autoplayFile != null) && autoplayFile.exists()) {
               log("Auto-playing saved recording file: " + autoplayFile);
               recordings.openRecording(lx, autoplayFile);
               recordings.playRecording(lx);
