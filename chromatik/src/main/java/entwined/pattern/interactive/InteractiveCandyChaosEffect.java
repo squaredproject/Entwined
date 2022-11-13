@@ -9,7 +9,6 @@ import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.parameter.LXParameter;
-import heronarts.lx.parameter.LXParameterListener;
 import heronarts.lx.LXComponent;
 
 //add color effects for Canopy use
@@ -61,15 +60,6 @@ public class InteractiveCandyChaosEffect {
 
      this.onOff = new BooleanParameter("ONOFF");
      this.onOff.setValue(false);
-     this.onOff.addListener(new LXParameterListener() {
-       @Override
-       public void onParameterChanged(LXParameter parameter) {
-         triggered = onOff.getValueb();
-         if (triggered) {
-           triggerEndMillis = System.currentTimeMillis() + 6000;
-         }
-       }
-     });
 
      addParameter("onOff_" + pieceIndex, this.onOff);
 
@@ -79,6 +69,18 @@ public class InteractiveCandyChaosEffect {
      this.pieceIndex = pieceIndex;
      this.triggered = false;
    }
+
+   @Override
+   public void onParameterChanged(LXParameter parameter) {
+     if (parameter == onOff) {
+       triggered = onOff.getValueb();
+       if (triggered) {
+         triggerEndMillis = System.currentTimeMillis() + 6000;
+       }
+     }
+     super.onParameterChanged(parameter);
+   }
+
 
    @Override
    public void run(double deltaMs, double amount) {

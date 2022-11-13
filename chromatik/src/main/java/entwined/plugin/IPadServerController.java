@@ -73,6 +73,10 @@ public class IPadServerController {
     lx.engine.addLoopTask(this.autoPauseTask);
   }
 
+  void shutdown() {
+    lx.engine.removeLoopTask(autoPauseTask);
+  }
+
   /*
    * getChannels()
    * Gets the 'iPad channels' only

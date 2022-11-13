@@ -10,7 +10,6 @@ import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.parameter.LXParameter;
-import heronarts.lx.parameter.LXParameterListener;
 
 public class InteractiveRainbowEffect {
   final public InteractiveRainbow pieceEffects[];
@@ -59,15 +58,6 @@ public class InteractiveRainbowEffect {
       super(lx);
       this.onOff = new BooleanParameter("ONOFF");
       this.onOff.setValue(false);
-      this.onOff.addListener(new LXParameterListener() {
-        @Override
-        public void onParameterChanged(LXParameter parameter) {
-          triggered = onOff.getValueb();
-          if (triggered) {
-            triggerEndMillis = System.currentTimeMillis() + 6000;
-          }
-        }
-      });
 
       addParameter("onOff_" + pieceIndex, this.onOff);
 
@@ -84,6 +74,17 @@ public class InteractiveRainbowEffect {
       if (System.currentTimeMillis() > triggerEndMillis) onRelease();
 
       super.run(deltaMs, amount);
+    }
+
+    @Override
+    public void onParameterChanged(LXParameter parameter) {
+      if (parameter == onOff) {
+        triggered = onOff.getValueb();
+        if (triggered) {
+          triggerEndMillis = System.currentTimeMillis() + 6000;
+        }
+      }
+      super.onParameterChanged(parameter);
     }
 
     public void onTriggered() {
