@@ -17,7 +17,6 @@ import heronarts.lx.modulator.LinearEnvelope;
 import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.LXParameter;
-import heronarts.lx.parameter.LXParameterListener;
 
 //Per shrub interactivity - OneShotTriggers - Fire
 //
@@ -49,10 +48,7 @@ public class InteractiveFireEffect {
   // constructor
   public InteractiveFireEffect(LX lx, LXModel model) {
 
-   //System.out.println("InteractiveFireEffect constructor");
-
    // Need to know the different pieces that exist, and be able to look them up by name
-   //
    int nPieces = model.children.length;
    this.nPieces = nPieces;
    int componentIdx = 0;
@@ -120,15 +116,6 @@ public class InteractiveFireEffect {
 
      this.onOff = new BooleanParameter("ONOFF");
      this.onOff.setValue(false);
-     this.onOff.addListener(new LXParameterListener() {
-       @Override
-       public void onParameterChanged(LXParameter parameter) {
-         triggered = onOff.getValueb();
-         if (triggered) {
-           triggerEndMillis = System.currentTimeMillis() + 6000;
-         }
-       }
-     });
 
      addParameter("onOff_" + pieceIndex, this.onOff);
 
@@ -144,6 +131,17 @@ public class InteractiveFireEffect {
      for (int i = 0; i < numFlames; ++i) {
        flames.add(new Flame(height, false));
      }
+   }
+
+   @Override
+   public void onParameterChanged(LXParameter parameter) {
+     if (parameter == onOff) {
+       triggered = onOff.getValueb();
+       if (triggered) {
+         triggerEndMillis = System.currentTimeMillis() + 6000;
+       }
+     }
+     super.onParameterChanged(parameter);
    }
 
    public void updateNumFlames(int numFlames) {

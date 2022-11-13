@@ -38,6 +38,8 @@ import heronarts.lx.pattern.LXPattern;
 class AppServer {
   LX lx;
   IPadServerController engineController;
+  TSServer server;
+  ParseClientTask parseClientTask;
 
   AppServer(LX lx, IPadServerController engineController) {
     this.lx = lx;
@@ -45,13 +47,18 @@ class AppServer {
   }
 
   void start() {
-    TSServer server = new TSServer(lx, 5204);
+    server = new TSServer(lx, 5204);
 
     ClientCommunicator clientCommunicator = new ClientCommunicator(server);
     ClientModelUpdater clientModelUpdater = new ClientModelUpdater(engineController, clientCommunicator);
     ClientTimerUpdater clientTimerUpdater = new ClientTimerUpdater(engineController, clientCommunicator);
-    ParseClientTask parseClientTask = new ParseClientTask(engineController, server, clientModelUpdater, clientTimerUpdater);
+    parseClientTask = new ParseClientTask(engineController, server, clientModelUpdater, clientTimerUpdater);
     lx.engine.addLoopTask(parseClientTask);
+  }
+
+  public void shutdown() {
+    lx.engine.removeLoopTask(parseClientTask);
+    server.stop();
   }
 
   class ParseClientTask implements LXLoopTask {
@@ -72,9 +79,7 @@ class AppServer {
     }
 
     // we want to watch for the last client that disconnects
-    // this method is called when anything disconnects so we can try to do the right thing
-    //
-    //
+    // this method is called at the beginning of the main parse loop.
     public void checkClientsAllDisconnected() {
 
     	if (hasActiveClients) {
