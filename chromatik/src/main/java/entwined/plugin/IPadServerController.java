@@ -16,7 +16,6 @@ import entwined.pattern.kyle_fleming.ScrambleEffect;
 import entwined.pattern.kyle_fleming.SpeedEffect;
 import heronarts.lx.LX;
 import heronarts.lx.LXEngine;
-import heronarts.lx.LXLoopTask;
 import heronarts.lx.effect.BlurEffect;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.mixer.LXAbstractChannel;
@@ -51,7 +50,7 @@ public class IPadServerController {
   BrightnessScaleEffect masterBrightnessEffect;
   BrightnessScaleEffect autoplayBrightnessEffect;
   BoundedParameterProxy outputBrightness;
-  AutoPauseTask autoPauseTask;
+  // AutoPauseTask autoPauseTask;  // No longer supporting autopause
 
   double masterBrightnessStash = 1.0;
 
@@ -69,12 +68,13 @@ public class IPadServerController {
     outputBrightness = new BoundedParameterProxy(1);
     autoplayBrightnessEffect.setAmount(Config.autoplayBrightness);
 
-    this.autoPauseTask = new AutoPauseTask();
-    lx.engine.addLoopTask(this.autoPauseTask);
+    // And this definitely needs to be in the main plugin. This is not ipad.
+    // this.autoPauseTask = new AutoPauseTask(outputBrightness);
+    //lx.engine.addLoopTask(this.autoPauseTask);
   }
 
   void shutdown() {
-    lx.engine.removeLoopTask(autoPauseTask);
+    //lx.engine.removeLoopTask(autoPauseTask);
   }
 
   /*
@@ -256,13 +256,14 @@ public class IPadServerController {
     setAutoplay(autoplay, false);
   }
 
+
   // If true, this enables the base channels and starts the auto-play.
   // if false, this disables the base channels and enables the IPad channels
   //    and keeps the prior channel state and resets to that
-
   void setAutoplay(boolean autoplay, boolean forceUpdate) {
     if (autoplay != isAutoplaying || forceUpdate) {
       isAutoplaying = autoplay;
+      // autoPauseTask.setAutoplay(isAutoplaying); No longer supporting autopause
       automation.setPaused(!autoplay);
 
       // if we are disabling auto-play, stash the last brightness
@@ -323,161 +324,6 @@ public class IPadServerController {
     }
   }
 
-  /* force pauses whenever autoplay is playing (only then) */
-  /* moved this into EngineController because it seems more right, it controls things
-     and also we need to bang it from the network, which has an Engine Controller but
-     no easy link to Engine */
-  class AutoPauseTask implements LXLoopTask {
-
-    long startTime = System.currentTimeMillis() / 1000;
-    boolean lightsOn = true;
-
-    boolean fadeing = false;
-    long    fadeStart;
-    Long    fadeEnd;
-    boolean fadeIn = false; // or its is a fade out
-
-    // can't use lightson / lightsoff because that takes into account whether we are autoplay
-    boolean pauseStateRunning() {
-
-      // if not configured, running
-      if (Config.pauseRunMinutes == 0.0 || Config.pausePauseMinutes == 0.0) return(true);
-
-      double timeRemaining;
-      long now = ( System.currentTimeMillis() / 1000);
-      long totalPeriod = (long) ((Config.pauseRunMinutes + Config.pausePauseMinutes) * 60.0);
-      long secsIntoPeriod = (now - startTime) % totalPeriod;
-
-      // paused
-      if ((Config.pauseRunMinutes * 60.0) <= secsIntoPeriod) {
-        //log("pauseStateRunning: false");
-        return(false);
-      }
-      //log("pauseStateRunning: true");
-      return(true);
-    }
-
-    // number of seconds left in current state
-    // does NOT include fade
-    // does NOT account for whether we are in auto-play
-    double pauseTimeRemaining() {
-
-      if (Config.pauseRunMinutes == 0.0 || Config.pausePauseMinutes == 0.0) return(0.0);
-      final double pauseRunSeconds = Config.pauseRunMinutes * 60.0;
-      final double pausePauseSeconds = Config.pausePauseMinutes * 60.0;
-
-      double timeRemaining;
-      long now = ( System.currentTimeMillis() / 1000);
-      long totalPeriod = (long) (pauseRunSeconds + pausePauseSeconds);
-      long secsIntoPeriod = (now - startTime) % totalPeriod;
-
-      // we're in paused
-      if (pauseRunSeconds <= secsIntoPeriod) {
-        timeRemaining = pausePauseSeconds  - (secsIntoPeriod - pauseRunSeconds);
-      }
-      // we're in running
-      else {
-        timeRemaining = pauseRunSeconds - secsIntoPeriod;
-      }
-
-      //log("pauseTimeRemaining: "+timeRemaining);
-
-      return(timeRemaining);
-    }
-
-    // reset to beginning of running - next loop around will do the right thing
-    void pauseResetRunning() {
-      log("pause: Reset to Running: ");
-      startTime = System.currentTimeMillis() / 1000;
-    }
-
-    // reset to beginning of pause (which is in the past), this is a little counter intuitive but the start of Pause is Run in the past
-    void pauseResetPaused() {
-      log("pause: reset to Paused: ");
-      startTime = ( System.currentTimeMillis() / 1000 ) - (long)Math.floor(Config.pauseRunMinutes * 60.0);
-    }
-
-    // these nows are in milliseconds
-    void startFadeIn() {
-      fadeStart = System.currentTimeMillis();
-      fadeEnd = fadeStart + (long)( Config.pauseFadeInSeconds * 1000 );
-      fadeIn = true;
-      fadeing = true;
-      //log(" start Fade In ");
-      // no point in trying to set not, hasn't changed enough
-    }
-
-    // these nows are in milliseconds
-    void startFadeOut() {
-      fadeStart = System.currentTimeMillis();
-      fadeEnd = fadeStart + (long)( Config.pauseFadeOutSeconds * 1000 );
-      fadeIn = false;
-      fadeing = true;
-      //log(" start fade out ");
-      // no point in trying to set not, hasn't changed enough
-    }
-
-    void setFadeValue() {
-      long now = System.currentTimeMillis();
-      if (now > fadeEnd) {
-        fadeing = false;
-        outputBrightness.setValue(fadeIn ? 1.0f : 0.0f);
-        lightsOn = fadeIn ? true : false;
-        //log(" fade over ");
-        return;
-      }
-      double value = ((double)(now - fadeStart)) / (double)((fadeEnd - fadeStart));
-      // log(" fade value: fadeStart "+fadeStart+" fadeEnd "+fadeEnd+" now "+now);
-      if (fadeIn == false) { value = 1.0f - value; }
-      outputBrightness.setValue(value);
-      //log(" fadeing: "+(fadeIn?"in ":"out ")+" value: "+value);
-    }
-
-    @Override
-    public void loop(double deltaMs) {
-
-      // if not configured just quit (allows for on-the-fly-config-change)
-      if (Config.pauseRunMinutes == 0.0 || Config.pausePauseMinutes == 0.0) {
-        return;
-      }
-
-      // no matter what, if we start fading, finish it
-      if (fadeing) {
-        setFadeValue();
-        return;
-      }
-
-      // if we are not autoplaying, the ipad has us, and we trust the ipad
-      if (! isAutoplaying ) {
-        if (lightsOn == false) {
-          log( " PauseTask: not autoplaying, lightson unconditionally " );
-          startFadeIn();
-        }
-        return;
-      }
-
-       // move these to seconds for better scale
-      long now = ( System.currentTimeMillis() / 1000);
-
-      // check if I should be on or off
-      boolean shouldLightsOn = true;
-      long totalPeriod = (long) ((Config.pauseRunMinutes + Config.pausePauseMinutes) * 60.0);
-      long secsIntoPeriod = (now - startTime) % totalPeriod;
-      if ((Config.pauseRunMinutes * 60.0) <= secsIntoPeriod) shouldLightsOn = false;
-
-      //log( " PauseTask: totalPeriod "+totalPeriod+" timeIntoPeriod "+secsIntoPeriod+" should: "+shouldLightsOn );
-      //log( " PauseTask: now  "+now+" startTime "+startTime );
-
-      if (shouldLightsOn && lightsOn == false) {
-        log( " PauseTask: lightson: for "+Config.pauseRunMinutes+" minutes" );
-          startFadeIn();
-      }
-      else if (shouldLightsOn == false && lightsOn) {
-        log(" PauseTask: lightsoff: for "+Config.pausePauseMinutes+" minutes" );
-          startFadeOut();
-      }
-    }
-  }
 
    // Log Helper
   ZoneId localZone = ZoneId.of("America/Los_Angeles");
