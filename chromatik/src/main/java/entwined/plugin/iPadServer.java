@@ -184,10 +184,10 @@ class AppServer {
         } else if (method.equals("getTimer")) {
           clientTimerUpdater.sendTimer();
         }
-        else if (method.equals("resetTimerRun")) {
-          engineController.autoPauseTask.pauseResetRunning();
+        else if (method.equals("resetTimerRun")) {  // No longer supporting autopause
+          // engineController.autoPauseTask.pauseResetRunning();
         } else if (method.equals("resetTimerPause")) {
-          engineController.autoPauseTask.pauseResetPaused();
+          // engineController.autoPauseTask.pauseResetPaused();
         }
       } catch (Exception e) {
         e.printStackTrace();
@@ -262,11 +262,13 @@ class AppServer {
       returnParams.put("blur", engineController.blurEffect.level.getValue());
       returnParams.put("scramble", engineController.scrambleEffect.getAmount());
 
+      // NB - Pause params really not used any more. Keeping this data here because client
+      // may rely on it. And who knows, maybe one day we'll want to use the interface again.
       Map<String, Object> pauseParams = new HashMap<String, Object>();
       pauseParams.put("runSeconds", Config.pauseRunMinutes * 60.0 );
       pauseParams.put("pauseSeconds", Config.pausePauseMinutes * 60.0 );
-      pauseParams.put("state",  engineController.autoPauseTask.pauseStateRunning() ? "run" : "pause");
-      pauseParams.put("timeRemaining", engineController.autoPauseTask.pauseTimeRemaining() );
+      pauseParams.put("state",  "run");
+      pauseParams.put("timeRemaining", 60);
       returnParams.put("pauseTimer", pauseParams);
 
       communicator.send("model", returnParams);
@@ -291,10 +293,11 @@ class AppServer {
     void sendTimer() {
       Map<String, Object> returnParams = new HashMap<String, Object>();
 
+      // See comment about AutoPause in sendModel.
       returnParams.put("runSeconds", Config.pauseRunMinutes * 60.0 );
       returnParams.put("pauseSeconds", Config.pausePauseMinutes * 60.0 );
-      returnParams.put("state",  engineController.autoPauseTask.pauseStateRunning() ? "run" : "pause");
-      returnParams.put("timeRemaining", engineController.autoPauseTask.pauseTimeRemaining() );
+      returnParams.put("state",  "run");
+      returnParams.put("timeRemaining", 60 );
 
       communicator.send("pauseTimer", returnParams);
     }
