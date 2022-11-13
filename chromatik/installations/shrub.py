@@ -118,11 +118,8 @@ class Shrub:
                 cube_pos = cube_pos + self.translation
 
                 # and add to our list
-                # If the cube size index shows that we have multiple leds in a cube,
-                # add more.
-                for _ in range(0, sculpture_globals.pixels_per_cube[self.cube_size_index]):
-                    self.cubes.append([cube_pos[0], cube_pos[1], cube_pos[2]])
-        # self.cubes.append([int(self.translation[0]), 0, int(self.translation[2])])
+                self.cubes.append([cube_pos[0], cube_pos[1], cube_pos[2]])
+
 
     def write_fixture_file(self, config_folder):
         folder = Path(config_folder)
@@ -139,7 +136,7 @@ class Shrub:
                      "meta": {"name": self.piece_id}}
         outputs = lx_output["outputs"]
         coords = lx_output["components"][0]["coords"]
-        outputs.append({"protocol": "ddp", "host": self.ip_addr, "start": 0, "num": len(self.cubes)})
+        outputs.append({"protocol": "ddp", "host": self.ip_addr, "start": 0, "num": len(self.cubes), "repeat": sculpture_globals.pixels_per_cube[self.cube_size_index]})
         for cube in self.cubes:
             coords.append({'x': cube[0], 'y': cube[1], 'z': cube[2]})
 

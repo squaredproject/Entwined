@@ -107,6 +107,7 @@ class Tree:
             cube_position = np.dot(cube_position, self.rotation)
             cube_position += self.translation
             n_pixels = sculpture_globals.pixels_per_cube[cube_config['cubeSizeIndex']]
+            n_pixels = 1
             for _ in range(n_pixels):
                 coords.append({'x': cube_position[0], 'y': cube_position[1], 'z': cube_position[2]})
             if cube_config['ipAddress'] != cur_ndb_addr:
@@ -114,7 +115,8 @@ class Tree:
                     output = {'protocol': 'ddp',
                               'host': cur_ndb_addr,
                               'start': ndb_pixel_start,
-                              'num': total_pixels-ndb_pixel_start}
+                              'num': total_pixels-ndb_pixel_start,
+                              'repeat': sculpture_globals.pixels_per_cube[cube_config['cubeSizeIndex']]}
                     outputs.append(output)
                 cur_ndb_addr = cube_config['ipAddress']
                 ndb_pixel_start = total_pixels
