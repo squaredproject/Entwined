@@ -7,6 +7,9 @@ import entwined.pattern.kyle_fleming.CandyTextureEffect;
 import heronarts.lx.LX;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXModel;
+import heronarts.lx.parameter.BooleanParameter;
+import heronarts.lx.parameter.LXParameter;
+import heronarts.lx.parameter.LXParameterListener;
 import heronarts.lx.LXComponent;
 
 //add color effects for Canopy use
@@ -25,10 +28,15 @@ public class InteractiveCandyChaosEffect {
    int nPieces = model.children.length;
    this.nPieces = nPieces;
    this.pieceIdMap = new HashMap<String, Integer>();
-
    pieceEffects = new InteractiveCandyChaos[nPieces];
-   for (int pieceIndex=0 ; pieceIndex<nPieces ; pieceIndex++) {
-     pieceEffects[pieceIndex] = new InteractiveCandyChaos(lx, pieceIndex);
+
+   int pieceIdx = 0;
+   for (LXModel child : model.children) {
+     String pieceName = child.metaData.get("name");
+     pieceEffects[pieceIdx] = new InteractiveCandyChaos(lx, pieceIdx);
+     pieceEffects[pieceIdx].label.setValue("CandyChaos " + pieceName);
+     this.pieceIdMap.put(pieceName, pieceIdx);
+     pieceIdx++;
    }
   }
 
@@ -46,9 +54,24 @@ public class InteractiveCandyChaosEffect {
   public class InteractiveCandyChaos extends CandyTextureEffect {
    private boolean triggered;
    private long triggerEndMillis; // when to un-enable if enabled
+   public final BooleanParameter onOff;  // This is really for debugging - allows us to turn the effect on and off from the UI
 
    InteractiveCandyChaos(LX lx, int pieceIndex) {
      super(lx);
+
+     this.onOff = new BooleanParameter("ONOFF");
+     this.onOff.setValue(false);
+     this.onOff.addListener(new LXParameterListener() {
+       @Override
+       public void onParameterChanged(LXParameter parameter) {
+         triggered = onOff.getValueb();
+         if (triggered) {
+           triggerEndMillis = System.currentTimeMillis() + 6000;
+         }
+       }
+     });
+
+     addParameter("onOff_" + pieceIndex, this.onOff);
 
      // turn the effect on 100%
      super.setAmount(1);
@@ -72,6 +95,7 @@ public class InteractiveCandyChaosEffect {
 
    public void onRelease() {
      triggered = false;
+     this.onOff.setValue(false);
    }
   }
 }

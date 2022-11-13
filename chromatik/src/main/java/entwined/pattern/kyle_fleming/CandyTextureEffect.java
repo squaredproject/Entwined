@@ -37,7 +37,6 @@ public class CandyTextureEffect extends LXEffect {
       time += deltaMs;
       int componentIdx = 0;
       for (LXModel component : model.children) {
-        componentIdx++;
         if (componentIdx == pieceIndex) {
           for (LXPoint cube : component.points) {
             int oldColor = colors[cube.index];
@@ -47,6 +46,7 @@ public class CandyTextureEffect extends LXEffect {
             colors[cube.index] = LX.hsb(LXColor.h(blendedColor), LXColor.s(blendedColor), LXColor.b(oldColor));
           }
         }
+        componentIdx++;
       }
     }
   }
