@@ -1,18 +1,23 @@
 package entwined.pattern.interactive;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import entwined.pattern.kyle_fleming.CandyTextureEffect;
 import heronarts.lx.LX;
-import heronarts.lx.effect.LXEffect;
-import heronarts.lx.model.LXModel;
-import heronarts.lx.parameter.BooleanParameter;
-import heronarts.lx.parameter.LXParameter;
-import heronarts.lx.LXComponent;
+
+public class InteractiveCandyChaosEffect extends InteractiveEffect {
+  public InteractiveCandyChaosEffect(LX lx) {
+    super(lx);
+    this.childClass = CandyTextureEffect.class;
+  }
+
+  @Override
+  void onChildEffectCreated(TSEffect childEffect) {
+    CandyTextureEffect child = (CandyTextureEffect)childEffect;
+    child.setAmount(1.0);
+  }
+}
 
 //add color effects for Canopy use
-
+/*
 public class InteractiveCandyChaosEffect {
   final public InteractiveCandyChaos pieceEffects[];
 
@@ -101,4 +106,5 @@ public class InteractiveCandyChaosEffect {
    }
   }
 }
+*/
 

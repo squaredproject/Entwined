@@ -1,6 +1,8 @@
 package entwined.plugin;
 
-final class Config {
+import java.util.HashMap;
+
+public final class Config {
   // Change this when setting up a new installation!
   // it's used for Canopy and must be unique for each installation
   static final String installationId = "ggp";
@@ -43,6 +45,11 @@ final class Config {
 
   static final int NUM_BASE_CHANNELS = 8;
   static final int NUM_SERVER_CHANNELS = 3;
+
+  public static final HashMap<String, String[]> groups = new HashMap<String, String[]>();
+  static {
+    groups.put("shrubies", new String[] {"shrub-1", "shrub-2"});
+  }
 
   // These are the patterns available on the ipad, in the order that they are displayed on the device
   // Change this if you want to change the ipad display

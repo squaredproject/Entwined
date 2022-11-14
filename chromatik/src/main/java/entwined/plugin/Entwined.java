@@ -2,7 +2,6 @@ package entwined.plugin;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 import heronarts.lx.LX;
@@ -470,12 +469,17 @@ public class Entwined implements LXStudio.Plugin {
    */
 
   void configureCanopy() {
+    System.out.println("Configuring canopy, lx is " + lx);
 
-    return;
+    interactiveCandyChaosEffect = setupMasterEffect(lx, InteractiveCandyChaosEffect.class);
 
-/*    
+/*
     // Canopy - interactive effects from web (or potentially rPi)
     // this special filter is used by Canopy -- the interactive effects
+
+    // Since effect setup can be stored in the project file, look for evidence that
+    // these effects have been set up before - here, I look for an effect with a name that starts
+    // with 'Fire-'.
     interactiveHSVEffect = new InteractiveHSVEffect(lx);
     //lx.addEffect(interactiveHSVEffect);
     //interactiveHSVEffect.enable();
@@ -513,10 +517,14 @@ public class Entwined implements LXStudio.Plugin {
     canopyController = new CanopyController(this);
 
 
-    // tell the canopyController what it should be up to.
-    // this perhaps needs to move elsewhere, possibly to the constructor of canopy
-    // controller or the main init, unclear it should really be intermixed with EngineController
-    // XXX FIXME THIS SHOULDNT BE HERE XXX
+    // tell the canopyController what it should be up to. The system alternates between running
+    // and pausing, so the information being conveyed here is -
+    //  - what state we're currently in (running)
+    //  - when we next change state
+    //  - the length of the pause and running intervals
+    // This on/off thing was a requirement of the Parks Department in times of Covid, to
+    // keep people from enjoying the sculpture too much. If pausePauseMinutes is 0, it
+    // doesn't pause.
     ZonedDateTime firstPause = ZonedDateTime.now();
     firstPause.plusSeconds( (int) (Config.pauseRunMinutes * 60.0) );
     canopyController.modelUpdate(true , (int) (Config.pauseRunMinutes * 60.0f) ,
