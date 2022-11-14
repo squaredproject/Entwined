@@ -34,9 +34,6 @@ public class IPadServerController {
   int baseChannelIndex; // the starting channel that the engine controls - ie, 8
   int numServerChannels;      // the number of channels controlled by this controller is 3
 
-  int startEffectIndex; // these are the limits of the IPAD EFFECTS
-  int endEffectIndex;
-
   boolean isAutoplaying;
   TSAutomationRecorder automation;
   boolean[] previousChannelIsOn;
@@ -91,6 +88,10 @@ public class IPadServerController {
    * not the index of the patterns that we are supposed to be controlling.
    */
   void setChannelPattern(int channelIndex, int patternIndex) {
+    if (isAutoplaying) {
+      System.out.println("ENTWINED: Attempting to remotely change channel during autoplay, aborting");
+      return;
+    }
     if (patternIndex == -1) {
       patternIndex = 0;
     } else {
@@ -170,6 +171,10 @@ public class IPadServerController {
   }
 
   void setActiveColorEffect(int effectIndex) {
+    if (isAutoplaying) {
+      return;
+    }
+
     if (activeEffectControllerIndex == effectIndex) {
       return;
     }
@@ -185,21 +190,29 @@ public class IPadServerController {
   }
 
   void setSpeed(double amount) {
-    speedEffect.speed.setValue(amount);
+    if (!isAutoplaying) {
+      speedEffect.speed.setValue(amount);
+    }
   }
 
   /*
   void setSpin(double amount) {
-    spinEffect.spin.setValue(amount);
+    if (!isAutoplaying) {
+      spinEffect.spin.setValue(amount);
+    }
   }
   */
 
   void setBlur(double amount) {
-    blurEffect.level.setValue(amount);
+    if (!isAutoplaying) {
+      blurEffect.level.setValue(amount);
+    }
   }
 
   void setScramble(double amount) {
-    scrambleEffect.setAmount(amount);
+    if (!isAutoplaying) {
+      scrambleEffect.setAmount(amount);
+    }
   }
 
   // this controls the OUTPUT brightness for controlling the amount
@@ -275,7 +288,6 @@ public class IPadServerController {
         masterBrightnessStash = getMasterBrightness();
       }
 
-
       // I think this should only effect base channels? bb
       if (previousChannelIsOn == null) {
         previousChannelIsOn = new boolean[lx.engine.mixer.getChannels().size()];
@@ -284,6 +296,16 @@ public class IPadServerController {
         }
       }
 
+      // XXX - so it appears that the base channels work when we're doing autoplay,
+      // but the ipad channels don't. So effectively the ipad is locked out during autoplay,
+      // except to turn off autoplay? This is weird.
+      // XXX - do I just want to stop any effects that are currently playing from the main
+      // effect channel? What about the global spin and blur and scramble effects?
+      // XXX yes, I think that's what I do. With a caveat that I *dont* want to turn off
+      // the interactive effects, which take precedence.
+
+      // The ipad effects do include blur and color and speed and spin and scramble... it's
+      // everything but the master controllers. So previously I'd set the enable flag on those effects to off.
       for (LXAbstractChannel channel : lx.engine.mixer.getChannels()) {
         boolean toEnable;
         if (channel.getIndex() < baseChannelIndex) {

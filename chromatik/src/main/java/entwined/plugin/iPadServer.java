@@ -94,22 +94,35 @@ class AppServer {
 
     		System.out.println(" detected all clients disconnected, forcing autoplay ");
 
-    		if (false == engineController.isAutoplaying) {
-          	engineController.setAutoplay(true);
-          }
-          engineController.setMasterBrightness(1.0);
-
-          hasActiveClients = false;
-    	}
+        hasActiveClients = false;
+      }
     }
+
+
+    public void enableAutoplay() {
+      if (false == engineController.isAutoplaying) {
+        engineController.setAutoplay(true);
+      }
+      engineController.setMasterBrightness(1.0);
+    }
+
 
     public void loop(double deltaMs) {
       try {
+        // If the client has just disconnected, turn on autoplay
+        boolean hadActiveClients = hasActiveClients;
         checkClientsAllDisconnected();
+        if (hadActiveClients && !hasActiveClients) {
+          enableAutoplay();
+        }
+
+        // Check for incoming requests
         TSClient client = server.available();
         if (client == null) return;
+
         hasActiveClients = true;
 
+         // Read incoming request
         String whatClientSaid = client.readStringUntil('\n');
         if (whatClientSaid == null) return;
 
@@ -126,6 +139,14 @@ class AppServer {
 
         if (message == null) return;
 
+        // Vector message to receivers. Most messages will get sent to the enginecontroller,
+        // which can actually change things in the system.
+        // Requests for status, such as 'loadModel' and 'getTimer'
+        // are served by the ClientModelUpdater and the ClientTimerUpdater, which
+        // for all intents and purposes, are just functions.
+        // (Note that I do not see any provision for handling multiple simultaneous clients. Maybe state of
+        // which client you're addressing is held in the TSServer; maybe everything explodes if you attempt
+        // two simultaneous connections. Not that two simultaneous connections necessarily a good thing.)
         String method = (String)message.get("method");
         @SuppressWarnings("unchecked")
         Map<String, Object> params = (Map<String, Object>)message.get("params");
@@ -195,9 +216,20 @@ class AppServer {
     }
   }
 
-  // Okay. There's an issue of parameters, and whether the parameters effectively say 'more of this' as you're
-  // pushing down the button. That's an interesting and useful feature.
 
+  /*
+   * Client model updater
+   * Invoked when an iPad when a client explicitly makes a
+   * 'loadmodel'request (which it presumably does when it attaches)
+   * Sends the current state of client-controllable features, including:
+   *  -- AutoplayState
+   *  -- BrightnessLevels
+   *  -- Patterns on addressable channels (8-11)
+   *  -- Effects registered for iPad usage
+   *  -- Values of global effects - speed, blur, scramble, spin
+   *  -- Pause/run state information
+   *  (This is basically a function masquerading as a class.)
+   */
 
   class ClientModelUpdater {
     IPadServerController engineController;
@@ -275,6 +307,12 @@ class AppServer {
     }
   }
 
+  /*
+   * Update attached iPad client about the current run/pause state.
+   * Called when the client makes a 'loadtimer' request.
+   *
+   * (Like ClientModelUpdater, this is largely a function masquerading as a class)
+   */
   class ClientTimerUpdater {
     IPadServerController engineController;
     ClientCommunicator communicator;

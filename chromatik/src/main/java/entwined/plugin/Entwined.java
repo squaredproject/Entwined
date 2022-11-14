@@ -21,8 +21,8 @@ import heronarts.lx.studio.LXStudio;
 import heronarts.lx.studio.LXStudio.UI;
 
 import entwined.core.CubeManager;
-import entwined.core.TSPattern;
 import entwined.core.Triggerable;
+import entwined.core.TSPattern;
 import entwined.modulator.Recordings;
 import entwined.modulator.Triggerables;
 import entwined.pattern.anon.ColorEffect;
@@ -58,6 +58,7 @@ public class Entwined implements LXStudio.Plugin {
   InteractiveCandyChaosEffect interactiveCandyChaosEffect;
   InteractiveRainbowEffect interactiveRainbowEffect;
   InteractiveDesaturationEffect interactiveDesaturationEffect;
+  AppServer iPadServer;
 
   BrightnessScaleEffect masterBrightnessEffect;
   BrightnessScaleEffect autoplayBrightnessEffect;
@@ -142,10 +143,10 @@ public class Entwined implements LXStudio.Plugin {
     // lx.registry.addEffect(entwined.pattern.interactive.InteractiveRainbowEffect.class);
     // XXX - I'm guessing that these - the children of the above - don't have to be registered either, since they are never
     // accessed directly by the UI. Trying to check with Mark about this...
-    lx.registry.addEffect(entwined.pattern.interactive.InteractiveCandyChaosEffect.InteractiveCandyChaos.class);
-    lx.registry.addEffect(entwined.pattern.interactive.InteractiveDesaturationEffect.InteractiveDesaturation.class);
-    lx.registry.addEffect(entwined.pattern.interactive.InteractiveFireEffect.InteractiveFire.class);
-    lx.registry.addEffect(entwined.pattern.interactive.InteractiveRainbowEffect.InteractiveRainbow.class);
+    //lx.registry.addEffect(entwined.pattern.interactive.InteractiveCandyChaosEffect.InteractiveCandyChaos.class);
+    //lx.registry.addEffect(entwined.pattern.interactive.InteractiveDesaturationEffect.InteractiveDesaturation.class);
+    //lx.registry.addEffect(entwined.pattern.interactive.InteractiveFireEffect.InteractiveFire.class);
+    //lx.registry.addEffect(entwined.pattern.interactive.InteractiveRainbowEffect.InteractiveRainbow.class);
 
     lx.registry.addEffect(entwined.pattern.interactive.InteractiveHSVEffect.class);
     lx.registry.addPattern(entwined.pattern.irene_zhou.Bubbles.class);
@@ -217,7 +218,16 @@ public class Entwined implements LXStudio.Plugin {
 
   /* configureServer */
   private void configureServer() {
-    new AppServer(lx, engineController).start();
+    iPadServer = new AppServer(lx, engineController);
+    iPadServer.start();
+  }
+
+  private void shutdownIPadServer() {
+    iPadServer.shutdown();
+  }
+
+  private void shutdownCanopy() {
+    canopyController.shutdown();
   }
 
 
@@ -316,7 +326,6 @@ public class Entwined implements LXStudio.Plugin {
           // NOTE(mcslee): a new project file has been opened! may need to
           // initialize or re-initialize things that depend upon the project
           // state here
-          // Additional stuff for tracking cube properties
 
           // Set up the channels
           configureChannels();
@@ -357,12 +366,19 @@ public class Entwined implements LXStudio.Plugin {
           // patterns without letting them be assigned to channels
           // -kf
           // // This basically prevents the UI from changing (or accessing, really) the
-          // channels in the high range - the iPad channels and the effect channels.
+          // channels in the high range - the iPad channels and the effect channels - CSW
+          // And... Turning this on also prevents you from accessing the master channel,
+          // which is a no-go.
           //lx.engine.mixer.focusedChannel.setRange(Config.NUM_BASE_CHANNELS);
         }
       }
     });
+  }
 
+  @Override
+  public void dispose() {
+    shutdownIPadServer();
+    shutdownCanopy();
   }
 
   // Configure the array of triggerables.
