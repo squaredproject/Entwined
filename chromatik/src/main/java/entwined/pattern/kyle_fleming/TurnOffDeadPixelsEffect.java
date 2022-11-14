@@ -2,7 +2,10 @@ package entwined.pattern.kyle_fleming;
 
 import heronarts.lx.LX;
 import heronarts.lx.effect.LXEffect;
+import heronarts.lx.LXComponent;
 
+// XXX - take this out
+@LXComponent.Hidden
 public class TurnOffDeadPixelsEffect extends LXEffect {
   int[] deadPixelIndices = new int[] { };
   int[] deadPixelClusters = new int[] { };

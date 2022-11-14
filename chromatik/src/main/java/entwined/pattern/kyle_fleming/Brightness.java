@@ -15,12 +15,15 @@ public class Brightness extends TSTriggerablePattern {
   }
 
   @Override
-  public void onTriggered(float strength) {
+  public void onTriggered() {
+    super.onTriggered();
+    float strength = 1.0f;  // XXX - used to be from the drumpad value. Giving up on that for right now.
     setColors(LX.hsb(0, 0, 100 * strength));
   }
 
   @Override
-  public void onRelease() {
+  public void onReleased() {
+    super.onReleased();
     setColors(LXColor.BLACK);
   }
 }

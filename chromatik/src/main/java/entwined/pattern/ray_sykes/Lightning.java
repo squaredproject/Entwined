@@ -59,7 +59,8 @@ public class Lightning extends TSTriggerablePattern {
         treeIndex++;
       }
       if (!running) {
-        setCallRun(false);
+        enabled.setValue(false);
+        // setCallRun(false);
       }
     }
 
@@ -117,7 +118,8 @@ public class Lightning extends TSTriggerablePattern {
         shrubIndex++;
       }
       if (!running) {
-        setCallRun(false);
+        enabled.setValue(false);
+        // setCallRun(false);
       }
     }
 
@@ -173,10 +175,10 @@ public class Lightning extends TSTriggerablePattern {
   }
 
   @Override
-  public void onTriggered(float strength) {
-    super.onTriggered(strength);
+  public void onTriggered() {
+    super.onTriggered();
 
-    propagationSpeed.setNormalized(strength);
+    propagationSpeed.setNormalized(1.0);  // XXX this used to be strength, from the drumpad strength. Giving up on that for now.
 
     int treeIndex = 0;
 

@@ -9,11 +9,14 @@ import entwined.core.CubeData;
 import entwined.core.CubeManager;
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
+import heronarts.lx.LXComponent;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.LinearEnvelope;
+import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.LXParameter;
 
 //Per shrub interactivity - OneShotTriggers - Fire
 //
@@ -45,22 +48,18 @@ public class InteractiveFireEffect {
   // constructor
   public InteractiveFireEffect(LX lx, LXModel model) {
 
-   //System.out.println("InteractiveFireEffect constructor");
-
    // Need to know the different pieces that exist, and be able to look them up by name
-   //
    int nPieces = model.children.length;
    this.nPieces = nPieces;
    int componentIdx = 0;
    this.pieceIdMap = new HashMap<String, Integer>();
-   for (LXModel component : model.children) {
-     this.pieceIdMap.put(component.metaData.get("name"),componentIdx);
-     componentIdx++;
-   }
-
    pieceFires = new InteractiveFire[nPieces];
-   for (int pieceIndex=0 ; pieceIndex<nPieces ; pieceIndex++) {
-     pieceFires[pieceIndex] = new InteractiveFire(lx, pieceIndex);
+   for (LXModel component : model.children) {
+     String name = component.metaData.get("name");
+     this.pieceIdMap.put(name,componentIdx);
+     pieceFires[componentIdx] = new InteractiveFire(lx, componentIdx);
+     pieceFires[componentIdx].label.setValue("Fire - " + name);
+     componentIdx++;
    }
   }
 
@@ -74,12 +73,14 @@ public class InteractiveFireEffect {
    pieceFires[pieceIndex_o ].onTriggered();
   }
 
-
+  @LXComponent.Hidden
   public class InteractiveFire extends LXEffect {
    final BoundedParameter maxHeight = new BoundedParameter("HEIGHT", 0.8, 0.3, 1);
    final BoundedParameter flameSize = new BoundedParameter("SIZE", 30, 10, 75);
    final BoundedParameter flameCount = new BoundedParameter ("FLAMES", 75, 0, 75);
    private LinearEnvelope fireHeight = new LinearEnvelope(0,0,500);
+   public final BooleanParameter onOff;   // This is really for debugging - allows us to turn the effect on and off from the UI
+
    final float hue = 0.0f; // red, no need to change it
 
    private float height = 0;
@@ -87,7 +88,7 @@ public class InteractiveFireEffect {
    private List<Flame> flames;
 
    private final int pieceIndex;
-   private boolean triggerableModeEnabled;
+   private boolean triggered;
    private long triggerEndMillis; // when to un-enable if enabled
 
    private class Flame {
@@ -113,8 +114,13 @@ public class InteractiveFireEffect {
    InteractiveFire(LX lx, int pieceIndex) {
      super(lx);
 
+     this.onOff = new BooleanParameter("ONOFF");
+     this.onOff.setValue(false);
+
+     addParameter("onOff_" + pieceIndex, this.onOff);
+
      this.pieceIndex = pieceIndex;
-     this.triggerableModeEnabled = false;
+     this.triggered = false;
 
      addParameter("maxHeight", maxHeight);
      addParameter("flameSize", flameSize);
@@ -125,6 +131,17 @@ public class InteractiveFireEffect {
      for (int i = 0; i < numFlames; ++i) {
        flames.add(new Flame(height, false));
      }
+   }
+
+   @Override
+   public void onParameterChanged(LXParameter parameter) {
+     if (parameter == onOff) {
+       triggered = onOff.getValueb();
+       if (triggered) {
+         triggerEndMillis = System.currentTimeMillis() + 6000;
+       }
+     }
+     super.onParameterChanged(parameter);
    }
 
    public void updateNumFlames(int numFlames) {
@@ -140,10 +157,10 @@ public class InteractiveFireEffect {
      //if (!triggered && flames.size() == 0) {
      //  setCallRun(false);
      //}
-     if (triggerableModeEnabled == false) return;
-     if (System.currentTimeMillis() > triggerEndMillis) onRelease();
+     if (triggered == false) return;
+     if (System.currentTimeMillis() > triggerEndMillis) onReleased();
 
-     if (!triggerableModeEnabled) {
+     if (!triggered) {
        height = maxHeight.getValuef();
        numFlames = (int) (flameCount.getValue() / 75 * 30); // Convert for backwards compatibility
      } else {
@@ -187,15 +204,16 @@ public class InteractiveFireEffect {
    }
 
    public void onTriggered() {
-     triggerableModeEnabled = true;
+     triggered = true;
      triggerEndMillis = System.currentTimeMillis() + 3000;
 
      fireHeight.setRange(3,0.8f);
      fireHeight.reset().start();
    };
 
-   public void onRelease() {
-     triggerableModeEnabled = false;
+   public void onReleased() {
+     triggered = false;
+     this.onOff.setValue(false);
      //decay.setRange(numFireflies, 0);
      //decay.reset().start();
    }

@@ -14,10 +14,9 @@ import entwined.pattern.kyle_fleming.ColorStrobeTextureEffect;
 import entwined.pattern.kyle_fleming.FadeTextureEffect;
 import entwined.pattern.kyle_fleming.ScrambleEffect;
 import entwined.pattern.kyle_fleming.SpeedEffect;
-import entwined.pattern.kyle_fleming.TSBlurEffect2;
+import entwined.pattern.kyle_fleming.TSBlurEffect;
 import heronarts.lx.LX;
 import heronarts.lx.LXEngine;
-import heronarts.lx.LXLoopTask;
 import heronarts.lx.effect.BlurEffect;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.mixer.LXAbstractChannel;
@@ -35,9 +34,6 @@ public class IPadServerController {
   int baseChannelIndex; // the starting channel that the engine controls - ie, 8
   int numServerChannels;      // the number of channels controlled by this controller is 3
 
-  int startEffectIndex; // these are the limits of the IPAD EFFECTS
-  int endEffectIndex;
-
   boolean isAutoplaying;
   TSAutomationRecorder automation;
   boolean[] previousChannelIsOn;
@@ -52,7 +48,7 @@ public class IPadServerController {
   BrightnessScaleEffect masterBrightnessEffect;
   BrightnessScaleEffect autoplayBrightnessEffect;
   BoundedParameterProxy outputBrightness;
-  AutoPauseTask autoPauseTask;
+  // AutoPauseTask autoPauseTask;  // No longer supporting autopause
 
   double masterBrightnessStash = 1.0;
 
@@ -65,13 +61,16 @@ public class IPadServerController {
 
     registerIPadEffects();
 
-    masterBrightnessEffect = new BrightnessScaleEffect(lx);
-    autoplayBrightnessEffect = new BrightnessScaleEffect(lx);
     outputBrightness = new BoundedParameterProxy(1);
     autoplayBrightnessEffect.setAmount(Config.autoplayBrightness);
 
-    this.autoPauseTask = new AutoPauseTask();
-    lx.engine.addLoopTask(this.autoPauseTask);
+    // And this definitely needs to be in the main plugin. This is not ipad.
+    // this.autoPauseTask = new AutoPauseTask(outputBrightness);
+    //lx.engine.addLoopTask(this.autoPauseTask);
+  }
+
+  void shutdown() {
+    //lx.engine.removeLoopTask(autoPauseTask);
   }
 
   /*
@@ -89,6 +88,10 @@ public class IPadServerController {
    * not the index of the patterns that we are supposed to be controlling.
    */
   void setChannelPattern(int channelIndex, int patternIndex) {
+    if (isAutoplaying) {
+      System.out.println("ENTWINED: Attempting to remotely change channel during autoplay, aborting");
+      return;
+    }
     if (patternIndex == -1) {
       patternIndex = 0;
     } else {
@@ -102,49 +105,40 @@ public class IPadServerController {
     }
   }
 
-  // XXX - One question I have here is whether we are registering effects twice with lx, and if so, why
-  // We appear to be registering twice with the patterns. I do not know why we would do this.
-
   /*
    * registerIPadEffects()
    *
-   * Make sure that the global effects associated with the iPad are available, and registered
-   * as invokable by the iPad
+   * Make sure that the effects associated with the iPad are available, and registered as invokable
+   * by the iPad.
    * XXX - Like iPad patterns, these should be specified in the config file.
-   * Any general global patterns that we *dont* expect the iPad to depend on should be in the
-   * lxp file, not created here.
    */
 
   private void registerIPadEffects() {
-    ColorEffect colorEffect = new ColorEffect(lx);
-    ColorStrobeTextureEffect colorStrobeTextureEffect = new ColorStrobeTextureEffect(lx);
-    FadeTextureEffect fadeTextureEffect = new FadeTextureEffect(lx);
-    // AcidTripTextureEffect acidTripTextureEffect = new AcidTripTextureEffect(lx);
-    CandyTextureEffect candyTextureEffect = new CandyTextureEffect(lx);
-    CandyCloudTextureEffect candyCloudTextureEffect = new CandyCloudTextureEffect(lx);
-    // GhostEffect ghostEffect = new GhostEffect(lx);
-    // RotationEffect rotationEffect = new RotationEffect(lx);
 
-    // XXX - should check to see whether these are already globally registered. Don't add them if they
-    // already exist.
-    speedEffect = new SpeedEffect(lx);
-    blurEffect = new TSBlurEffect2(lx);
-    scrambleEffect = new ScrambleEffect(lx);
-    // spinEffect = new SpinEffect(lx);  // for the moment with newlx
+    // Set up iPad registered effects.
+    // Note that the names of these effects start with 'iPad'. This is how I'm differentiating
+    // between iPad and non-iPad effects when we toggle between iPad mode and Autoplay mode
+    ColorEffect colorEffect =
+      Entwined.setupMasterEffectWithName(lx, ColorEffect.class, "iPad - Color");
+    ColorStrobeTextureEffect colorStrobeTextureEffect =
+      Entwined.setupMasterEffectWithName(lx, ColorStrobeTextureEffect.class, "iPad - ColorStrobe");
+    FadeTextureEffect fadeTextureEffect =
+      Entwined.setupMasterEffectWithName(lx, FadeTextureEffect.class, "iPad - Fade");
+    CandyTextureEffect candyTextureEffect =
+      Entwined.setupMasterEffectWithName(lx, CandyTextureEffect.class, "iPad - Candy");
+    CandyCloudTextureEffect candyCloudTextureEffect =
+      Entwined.setupMasterEffectWithName(lx, CandyCloudTextureEffect.class, "iPad - Cloud");
+    // NB not hooking up RotationEffect, SpinEffect, or GhostEffect.  -- CSW
 
-    lx.addEffect(speedEffect);
-    lx.addEffect(blurEffect);
-    lx.addEffect(scrambleEffect);
-    // lx.addEffect(spinEffect);
-
-    lx.addEffect(colorEffect);
-    lx.addEffect(colorStrobeTextureEffect);
-    lx.addEffect(fadeTextureEffect);
-    // lx.addEffect(acidTripTextureEffect);
-    lx.addEffect(candyTextureEffect);
-    lx.addEffect(candyCloudTextureEffect);
-    // lx.addEffect(ghostEffect);
-    // lx.addEffect(rotationEffect);
+    // General global effects at the end - they (ideally) operate after the other effects.
+    // XXX - how to guarantee this? Maybe we just futz with the project file.
+    // Essentially, I've got a race condition going on that I cannot win - I need general effects, then ipad effects,
+    // and then global effects.
+    speedEffect = Entwined.setupMasterEffect(lx, SpeedEffect.class);
+    blurEffect = Entwined.setupMasterEffect(lx, TSBlurEffect.class);  // XXX - replace with standard blur effect?
+    scrambleEffect = Entwined.setupMasterEffect(lx, ScrambleEffect.class);
+    masterBrightnessEffect = Entwined.setupMasterEffectWithName(lx, BrightnessScaleEffect.class, Entwined.masterBrightnessName);
+    autoplayBrightnessEffect = Entwined.setupMasterEffectWithName(lx, BrightnessScaleEffect.class, Entwined.autoplayBrightnessName);
 
     registerEffectController("Rainbow", candyCloudTextureEffect, candyCloudTextureEffect.amount);
     registerEffectController("Candy Chaos", candyTextureEffect, candyTextureEffect.amount);
@@ -162,6 +156,12 @@ public class IPadServerController {
     effectControllers.add(effectController);
   }
 
+  /*******************************************************
+   *
+   * The following methods are called by the IPadServer when it receives a command
+   * from the iPad
+   *
+   *******************************************************/
 
   void setChannelVisibility(int channelIndex, double visibility) {
     // have to be sure
@@ -171,6 +171,10 @@ public class IPadServerController {
   }
 
   void setActiveColorEffect(int effectIndex) {
+    if (isAutoplaying) {
+      return;
+    }
+
     if (activeEffectControllerIndex == effectIndex) {
       return;
     }
@@ -186,26 +190,35 @@ public class IPadServerController {
   }
 
   void setSpeed(double amount) {
-    speedEffect.speed.setValue(amount);
+    if (!isAutoplaying) {
+      speedEffect.speed.setValue(amount);
+    }
   }
 
   /*
   void setSpin(double amount) {
-    spinEffect.spin.setValue(amount);
+    if (!isAutoplaying) {
+      spinEffect.spin.setValue(amount);
+    }
   }
   */
 
   void setBlur(double amount) {
-    blurEffect.level.setValue(amount);
+    if (!isAutoplaying) {
+      blurEffect.level.setValue(amount);
+    }
   }
 
   void setScramble(double amount) {
-    scrambleEffect.setAmount(amount);
+    if (!isAutoplaying) {
+      scrambleEffect.setAmount(amount);
+    }
   }
 
   // this controls the OUTPUT brightness for controlling the amount
   // of power consumed, it will NOT effect what you see in the model
   // on processing
+  // XXX - I don't think that's true any more. --CSW
   void setMasterBrightness(double amount) {
     masterBrightnessEffect.setAmount(amount);
   }
@@ -241,13 +254,31 @@ public class IPadServerController {
     setAutoplay(autoplay, false);
   }
 
+  /***************************************************************
+   *
+   * setAutoPlay
+   * @param autoplay
+   * @param forceUpdate
+   *
+   * Switches control between autoplay (using base channels) and
+   * iPad (using server channels).
+   *
+   * Stashes previous base channel state (and brightness) when
+   * switching to Ipad mode, restores when going back to autoplay
+   *
+   * Forceupdate forces the state change logic even if it appears
+   * that autoplay is already in the desired state
+   *
+   * XXX - I have no idea how this works with Mark's stuff
+   *
+   ***************************************************************/
   // If true, this enables the base channels and starts the auto-play.
   // if false, this disables the base channels and enables the IPad channels
   //    and keeps the prior channel state and resets to that
-
   void setAutoplay(boolean autoplay, boolean forceUpdate) {
     if (autoplay != isAutoplaying || forceUpdate) {
       isAutoplaying = autoplay;
+      // autoPauseTask.setAutoplay(isAutoplaying); No longer supporting autopause
       automation.setPaused(!autoplay);
 
       // if we are disabling auto-play, stash the last brightness
@@ -257,7 +288,6 @@ public class IPadServerController {
         masterBrightnessStash = getMasterBrightness();
       }
 
-
       // I think this should only effect base channels? bb
       if (previousChannelIsOn == null) {
         previousChannelIsOn = new boolean[lx.engine.mixer.getChannels().size()];
@@ -266,6 +296,16 @@ public class IPadServerController {
         }
       }
 
+      // XXX - so it appears that the base channels work when we're doing autoplay,
+      // but the ipad channels don't. So effectively the ipad is locked out during autoplay,
+      // except to turn off autoplay? This is weird.
+      // XXX - do I just want to stop any effects that are currently playing from the main
+      // effect channel? What about the global spin and blur and scramble effects?
+      // XXX yes, I think that's what I do. With a caveat that I *dont* want to turn off
+      // the interactive effects, which take precedence.
+
+      // The ipad effects do include blur and color and speed and spin and scramble... it's
+      // everything but the master controllers. So previously I'd set the enable flag on those effects to off.
       for (LXAbstractChannel channel : lx.engine.mixer.getChannels()) {
         boolean toEnable;
         if (channel.getIndex() < baseChannelIndex) {
@@ -273,7 +313,7 @@ public class IPadServerController {
         } else if (channel.getIndex() < baseChannelIndex + numServerChannels) {
           toEnable = !autoplay; // server channels
         } else {
-          toEnable = autoplay; // others
+          toEnable = autoplay; // others // XXX - be very careful about disablng the Effects channel, which the ipad depends on FIXME
         }
 
         if (toEnable) {
@@ -286,183 +326,24 @@ public class IPadServerController {
         }
       }
 
-      /* XXX - to fix the compile error here, I really need to understand what this does. Do we really mean
-       global effects that run on all the channels, which is what this implies? If so, is there a a mechanism for
-       this in Chromatic, or do I have to layer one on? If no, what does this mean?  -- CSW
-
-      for (int i = 0; i < lx.engine.getEffects().size(); i++) {
-        LXEffect effect = lx.engine.getEffects().get(i);
-        if (i < startEffectIndex) {
-          effect.enabled.setValue(autoplay);
-        } else if (i < endEffectIndex) {
+      /* Turn off global effects that are registered to the iPad, and the iPad only */
+      // XXX - I think this really just should turn effects *off*, if I understand what
+      // effect.enabled does. When we toggle, we don't want anything from the old panel of
+      // effects.  FIXME?? CSW
+      for (int i = 0; i < lx.engine.mixer.masterBus.effects.size(); i++) {
+        LXEffect effect = lx.engine.mixer.masterBus.effects.get(i);
+        if (effect.getLabel().startsWith("iPad")) {
           effect.enabled.setValue(!autoplay);
+        } else {
+          effect.enabled.setValue(autoplay); // XXX again, be very very careful not to turn off Canopy Effects FIXME. And I really don't know that we want to set up all these effects?
         }
       }
-      */
 
       // this effect is enabled or disabled if autoplay
       autoplayBrightnessEffect.enabled.setValue(autoplay);
-      // this is a bit of a hack. If we're coming out of "controller" and
-      //
-
     }
   }
 
-  /* force pauses whenever autoplay is playing (only then) */
-  /* moved this into EngineController because it seems more right, it controls things
-     and also we need to bang it from the network, which has an Engine Controller but
-     no easy link to Engine */
-  class AutoPauseTask implements LXLoopTask {
-
-    long startTime = System.currentTimeMillis() / 1000;
-    boolean lightsOn = true;
-
-    boolean fadeing = false;
-    long    fadeStart;
-    Long    fadeEnd;
-    boolean fadeIn = false; // or its is a fade out
-
-    // can't use lightson / lightsoff because that takes into account whether we are autoplay
-    boolean pauseStateRunning() {
-
-      // if not configured, running
-      if (Config.pauseRunMinutes == 0.0 || Config.pausePauseMinutes == 0.0) return(true);
-
-      double timeRemaining;
-      long now = ( System.currentTimeMillis() / 1000);
-      long totalPeriod = (long) ((Config.pauseRunMinutes + Config.pausePauseMinutes) * 60.0);
-      long secsIntoPeriod = (now - startTime) % totalPeriod;
-
-      // paused
-      if ((Config.pauseRunMinutes * 60.0) <= secsIntoPeriod) {
-        //log("pauseStateRunning: false");
-        return(false);
-      }
-      //log("pauseStateRunning: true");
-      return(true);
-    }
-
-    // number of seconds left in current state
-    // does NOT include fade
-    // does NOT account for whether we are in auto-play
-    double pauseTimeRemaining() {
-
-      if (Config.pauseRunMinutes == 0.0 || Config.pausePauseMinutes == 0.0) return(0.0);
-      final double pauseRunSeconds = Config.pauseRunMinutes * 60.0;
-      final double pausePauseSeconds = Config.pausePauseMinutes * 60.0;
-
-      double timeRemaining;
-      long now = ( System.currentTimeMillis() / 1000);
-      long totalPeriod = (long) (pauseRunSeconds + pausePauseSeconds);
-      long secsIntoPeriod = (now - startTime) % totalPeriod;
-
-      // we're in paused
-      if (pauseRunSeconds <= secsIntoPeriod) {
-        timeRemaining = pausePauseSeconds  - (secsIntoPeriod - pauseRunSeconds);
-      }
-      // we're in running
-      else {
-        timeRemaining = pauseRunSeconds - secsIntoPeriod;
-      }
-
-      //log("pauseTimeRemaining: "+timeRemaining);
-
-      return(timeRemaining);
-    }
-
-    // reset to beginning of running - next loop around will do the right thing
-    void pauseResetRunning() {
-      log("pause: Reset to Running: ");
-      startTime = System.currentTimeMillis() / 1000;
-    }
-
-    // reset to beginning of pause (which is in the past), this is a little counter intuitive but the start of Pause is Run in the past
-    void pauseResetPaused() {
-      log("pause: reset to Paused: ");
-      startTime = ( System.currentTimeMillis() / 1000 ) - (long)Math.floor(Config.pauseRunMinutes * 60.0);
-    }
-
-    // these nows are in milliseconds
-    void startFadeIn() {
-      fadeStart = System.currentTimeMillis();
-      fadeEnd = fadeStart + (long)( Config.pauseFadeInSeconds * 1000 );
-      fadeIn = true;
-      fadeing = true;
-      //log(" start Fade In ");
-      // no point in trying to set not, hasn't changed enough
-    }
-
-    // these nows are in milliseconds
-    void startFadeOut() {
-      fadeStart = System.currentTimeMillis();
-      fadeEnd = fadeStart + (long)( Config.pauseFadeOutSeconds * 1000 );
-      fadeIn = false;
-      fadeing = true;
-      //log(" start fade out ");
-      // no point in trying to set not, hasn't changed enough
-    }
-
-    void setFadeValue() {
-      long now = System.currentTimeMillis();
-      if (now > fadeEnd) {
-        fadeing = false;
-        outputBrightness.setValue(fadeIn ? 1.0f : 0.0f);
-        lightsOn = fadeIn ? true : false;
-        //log(" fade over ");
-        return;
-      }
-      double value = ((double)(now - fadeStart)) / (double)((fadeEnd - fadeStart));
-      // log(" fade value: fadeStart "+fadeStart+" fadeEnd "+fadeEnd+" now "+now);
-      if (fadeIn == false) { value = 1.0f - value; }
-      outputBrightness.setValue(value);
-      //log(" fadeing: "+(fadeIn?"in ":"out ")+" value: "+value);
-    }
-
-    @Override
-    public void loop(double deltaMs) {
-
-      // if not configured just quit (allows for on-the-fly-config-change)
-      if (Config.pauseRunMinutes == 0.0 || Config.pausePauseMinutes == 0.0) {
-        return;
-      }
-
-      // no matter what, if we start fading, finish it
-      if (fadeing) {
-        setFadeValue();
-        return;
-      }
-
-      // if we are not autoplaying, the ipad has us, and we trust the ipad
-      if (! isAutoplaying ) {
-        if (lightsOn == false) {
-          log( " PauseTask: not autoplaying, lightson unconditionally " );
-          startFadeIn();
-        }
-        return;
-      }
-
-       // move these to seconds for better scale
-      long now = ( System.currentTimeMillis() / 1000);
-
-      // check if I should be on or off
-      boolean shouldLightsOn = true;
-      long totalPeriod = (long) ((Config.pauseRunMinutes + Config.pausePauseMinutes) * 60.0);
-      long secsIntoPeriod = (now - startTime) % totalPeriod;
-      if ((Config.pauseRunMinutes * 60.0) <= secsIntoPeriod) shouldLightsOn = false;
-
-      //log( " PauseTask: totalPeriod "+totalPeriod+" timeIntoPeriod "+secsIntoPeriod+" should: "+shouldLightsOn );
-      //log( " PauseTask: now  "+now+" startTime "+startTime );
-
-      if (shouldLightsOn && lightsOn == false) {
-        log( " PauseTask: lightson: for "+Config.pauseRunMinutes+" minutes" );
-          startFadeIn();
-      }
-      else if (shouldLightsOn == false && lightsOn) {
-        log(" PauseTask: lightsoff: for "+Config.pausePauseMinutes+" minutes" );
-          startFadeOut();
-      }
-    }
-  }
 
    // Log Helper
   ZoneId localZone = ZoneId.of("America/Los_Angeles");
