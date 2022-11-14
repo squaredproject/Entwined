@@ -14,6 +14,7 @@ import entwined.pattern.kyle_fleming.ColorStrobeTextureEffect;
 import entwined.pattern.kyle_fleming.FadeTextureEffect;
 import entwined.pattern.kyle_fleming.ScrambleEffect;
 import entwined.pattern.kyle_fleming.SpeedEffect;
+import entwined.pattern.kyle_fleming.TSBlurEffect;
 import heronarts.lx.LX;
 import heronarts.lx.LXEngine;
 import heronarts.lx.LXLoopTask;
@@ -64,8 +65,6 @@ public class IPadServerController {
 
     registerIPadEffects();
 
-    masterBrightnessEffect = new BrightnessScaleEffect(lx);
-    autoplayBrightnessEffect = new BrightnessScaleEffect(lx);
     outputBrightness = new BoundedParameterProxy(1);
     autoplayBrightnessEffect.setAmount(Config.autoplayBrightness);
 
@@ -105,61 +104,39 @@ public class IPadServerController {
     }
   }
 
-  // XXX - One question I have here is whether we are registering effects twice with lx, and if so, why
-  // We appear to be registering twice with the patterns. I do not know why we would do this.
-
   /*
    * registerIPadEffects()
    *
-   * Make sure that the global effects associated with the iPad are available, and registered
-   * as invokable by the iPad
+   * Make sure that the effects associated with the iPad are available, and registered as invokable
+   * by the iPad.
    * XXX - Like iPad patterns, these should be specified in the config file.
-   * Any general global patterns that we *dont* expect the iPad to depend on should be in the
-   * lxp file, not created here.
    */
 
   private void registerIPadEffects() {
-    ColorEffect colorEffect = Entwined.setupMasterEffect(lx, ColorEffect.class);
-    ColorStrobeTextureEffect colorStrobeTextureEffect = Entwined.setupMasterEffect(lx, ColorStrobeTextureEffect.class);
-    FadeTextureEffect fadeTextureEffect = Entwined.setupMasterEffect(lx, FadeTextureEffect.class);
-    CandyTextureEffect candyTextureEffect = Entwined.setupMasterEffect(lx, CandyTextureEffect.class);
-    CandyCloudTextureEffect candyCloudTextureEffect = Entwined.setupMasterEffect(lx, CandyCloudTextureEffect.class);
-    // SpeedEffect speedEffect = Entwined.setupMasterEffect(lx, SpeedEffect.class);
-    // TSBlurEffect blurEffect = Entwined.setupMasterEffect(lx, TSBlurEffect.class);  // XXX - replace with standard blur effect?
-    // ScrambleEffect scrambleEffect = Entwined.setupMasterEffect(lx, ScrambleEffect.class);
 
-/*
-    ColorEffect colorEffect = new ColorEffect(lx);
-    ColorStrobeTextureEffect colorStrobeTextureEffect = new ColorStrobeTextureEffect(lx);
-    FadeTextureEffect fadeTextureEffect = new FadeTextureEffect(lx);
-    // AcidTripTextureEffect acidTripTextureEffect = new AcidTripTextureEffect(lx);
-    CandyTextureEffect candyTextureEffect = new CandyTextureEffect(lx);
-    CandyCloudTextureEffect candyCloudTextureEffect = new CandyCloudTextureEffect(lx);
-    // GhostEffect ghostEffect = new GhostEffect(lx);
-    // RotationEffect rotationEffect = new RotationEffect(lx);
+    // A couple of links to key global effecs first
+    masterBrightnessEffect = Entwined.setupMasterEffectWithName(lx, BrightnessScaleEffect.class, Entwined.masterBrightnessName);
+    autoplayBrightnessEffect = Entwined.setupMasterEffectWithName(lx, BrightnessScaleEffect.class, Entwined.autoplayBrightnessName);
 
-    // XXX - should check to see whether these are already globally registered. Don't add them if they
-    // already exist.
-    speedEffect = new SpeedEffect(lx);
-    blurEffect = new TSBlurEffect2(lx);
-    scrambleEffect = new ScrambleEffect(lx);
-    // spinEffect = new SpinEffect(lx);  // for the moment with newlx
 
-    lx.addEffect(speedEffect);
-    lx.addEffect(blurEffect);
-    lx.addEffect(scrambleEffect);
-    // lx.addEffect(spinEffect);
+    // Set up iPad registered effects.
+    // Note that the names of these effects start with 'iPad'. This is how I'm differentiating
+    // between iPad and non-iPad effects when we toggle between iPad mode and Autoplay mode
+    ColorEffect colorEffect =
+      Entwined.setupMasterEffectWithName(lx, ColorEffect.class, "iPad - Color");
+    ColorStrobeTextureEffect colorStrobeTextureEffect =
+      Entwined.setupMasterEffectWithName(lx, ColorStrobeTextureEffect.class, "iPad - ColorStrobe");
+    FadeTextureEffect fadeTextureEffect =
+      Entwined.setupMasterEffectWithName(lx, FadeTextureEffect.class, "iPad - Fade");
+    CandyTextureEffect candyTextureEffect =
+      Entwined.setupMasterEffectWithName(lx, CandyTextureEffect.class, "iPad - Candy");
+    CandyCloudTextureEffect candyCloudTextureEffect =
+      Entwined.setupMasterEffectWithName(lx, CandyCloudTextureEffect.class, "iPad - Cloud");
+    // NB not hooking up RotationEffect, SpinEffect, or GhostEffect.  -- CSW
 
-    lx.addEffect(colorEffect);
-    lx.addEffect(colorStrobeTextureEffect);
-    lx.addEffect(fadeTextureEffect);
-    // lx.addEffect(acidTripTextureEffect);
-    lx.addEffect(candyTextureEffect);
-    lx.addEffect(candyCloudTextureEffect);
-    // lx.addEffect(ghostEffect);
-    // lx.addEffect(rotationEffect);
-     *
-     */
+    speedEffect = Entwined.setupMasterEffect(lx, SpeedEffect.class);
+    blurEffect = Entwined.setupMasterEffect(lx, TSBlurEffect.class);  // XXX - replace with standard blur effect?
+    scrambleEffect = Entwined.setupMasterEffect(lx, ScrambleEffect.class);
 
     registerEffectController("Rainbow", candyCloudTextureEffect, candyCloudTextureEffect.amount);
     registerEffectController("Candy Chaos", candyTextureEffect, candyTextureEffect.amount);
@@ -177,6 +154,12 @@ public class IPadServerController {
     effectControllers.add(effectController);
   }
 
+  /*******************************************************
+   *
+   * The following methods are called by the IPadServer when it receives a command
+   * from the iPad
+   *
+   *******************************************************/
 
   void setChannelVisibility(int channelIndex, double visibility) {
     // have to be sure
@@ -221,6 +204,7 @@ public class IPadServerController {
   // this controls the OUTPUT brightness for controlling the amount
   // of power consumed, it will NOT effect what you see in the model
   // on processing
+  // XXX - I don't think that's true any more. --CSW
   void setMasterBrightness(double amount) {
     masterBrightnessEffect.setAmount(amount);
   }
@@ -256,6 +240,24 @@ public class IPadServerController {
     setAutoplay(autoplay, false);
   }
 
+  /***************************************************************
+   *
+   * setAutoPlay
+   * @param autoplay
+   * @param forceUpdate
+   *
+   * Switches control between autoplay (using base channels) and
+   * iPad (using server channels).
+   *
+   * Stashes previous base channel state (and brightness) when
+   * switching to Ipad mode, restores when going back to autoplay
+   *
+   * Forceupdate forces the state change logic even if it appears
+   * that autoplay is already in the desired state
+   *
+   * XXX - I have no idea how this works with Mark's stuff
+   *
+   ***************************************************************/
   // If true, this enables the base channels and starts the auto-play.
   // if false, this disables the base channels and enables the IPad channels
   //    and keeps the prior channel state and resets to that
@@ -288,7 +290,7 @@ public class IPadServerController {
         } else if (channel.getIndex() < baseChannelIndex + numServerChannels) {
           toEnable = !autoplay; // server channels
         } else {
-          toEnable = autoplay; // others
+          toEnable = autoplay; // others // XXX - be very careful about disablng the Effects channel, which the ipad depends on FIXME
         }
 
         if (toEnable) {
@@ -301,25 +303,21 @@ public class IPadServerController {
         }
       }
 
-      /* XXX - to fix the compile error here, I really need to understand what this does. Do we really mean
-       global effects that run on all the channels, which is what this implies? If so, is there a a mechanism for
-       this in Chromatic, or do I have to layer one on? If no, what does this mean?  -- CSW
-
-      for (int i = 0; i < lx.engine.getEffects().size(); i++) {
-        LXEffect effect = lx.engine.getEffects().get(i);
-        if (i < startEffectIndex) {
-          effect.enabled.setValue(autoplay);
-        } else if (i < endEffectIndex) {
+      /* Turn off global effects that are registered to the iPad, and the iPad only */
+      // XXX - I think this really just should turn effects *off*, if I understand what
+      // effect.enabled does. When we toggle, we don't want anything from the old panel of
+      // effects.  FIXME?? CSW
+      for (int i = 0; i < lx.engine.mixer.masterBus.effects.size(); i++) {
+        LXEffect effect = lx.engine.mixer.masterBus.effects.get(i);
+        if (effect.getLabel().startsWith("iPad")) {
           effect.enabled.setValue(!autoplay);
+        } else {
+          effect.enabled.setValue(autoplay); // XXX again, be very very careful not to turn off Canopy Effects FIXME. And I really don't know that we want to set up all these effects?
         }
       }
-      */
 
       // this effect is enabled or disabled if autoplay
       autoplayBrightnessEffect.enabled.setValue(autoplay);
-      // this is a bit of a hack. If we're coming out of "controller" and
-      //
-
     }
   }
 

@@ -48,7 +48,6 @@ import entwined.pattern.kyle_fleming.TSBlurEffect;
 
 public class Entwined implements LXStudio.Plugin {
 
-
   LX lx;
 
   IPadServerController engineController;
@@ -59,6 +58,12 @@ public class Entwined implements LXStudio.Plugin {
   InteractiveCandyChaosEffect interactiveCandyChaosEffect;
   InteractiveRainbowEffect interactiveRainbowEffect;
   InteractiveDesaturationEffect interactiveDesaturationEffect;
+
+  BrightnessScaleEffect masterBrightnessEffect;
+  BrightnessScaleEffect autoplayBrightnessEffect;
+
+  static String autoplayBrightnessName = "Autoplay Brightness";
+  static String masterBrightnessName = "Master Brightness";
 
   LXChannel effectsChannel;
 
@@ -219,24 +224,10 @@ public class Entwined implements LXStudio.Plugin {
   /* Instantiate standard effects and add them to the master output if they
    * aren't already there.
    */
-  private void setupEffects() {
+  private void setupMasterEffects() {
 
-    // Add master effects
-    /*
-    TSBlurEffect blur                               = setupMasterEffect(lx, TSBlurEffect.class);
-    ColorEffect colorEfect                          = setupMasterEffect(lx, ColorEffect.class);
-    HueFilterEffect hueFilterEffect                 = setupMasterEffect(lx, HueFilterEffect.class);
-    GhostEffect ghostEffect                         = setupMasterEffect(lx, GhostEffect.class);
-    ScrambleEffect scrambleEffect                   = setupMasterEffect(lx, ScrambleEffect.class);
-    StaticEffect staticEffect                       = setupMasterEffect(lx, StaticEffect.class);
-    SpeedEffect speedEffect                         = setupMasterEffect(lx, SpeedEffect.class);
-    ColorStrobeTextureEffect strobeTextureEffect    = setupMasterEffect(lx, ColorStrobeTextureEffect.class);
-    FadeTextureEffect fadeTextureEffect             = setupMasterEffect(lx, FadeTextureEffect.class);
-    AcidTripTextureEffect acidTripTextureEffect     = setupMasterEffect(lx, AcidTripTextureEffect.class);
-    CandyTextureEffect candyTextureEffect           = setupMasterEffect(lx, CandyTextureEffect.class);
-    CandyCloudTextureEffect candyCloudTextureEffect = setupMasterEffect(lx, CandyCloudTextureEffect.class);
-    */
-
+    // These effects go on the master channel. They should always be available
+    // XXX - why? Is the APC40 somehow linked to them?
     setupMasterEffect(lx, TSBlurEffect.class);
     setupMasterEffect(lx, ColorEffect.class);
     setupMasterEffect(lx, HueFilterEffect.class);
@@ -250,27 +241,22 @@ public class Entwined implements LXStudio.Plugin {
     setupMasterEffect(lx, CandyTextureEffect.class);
     setupMasterEffect(lx, CandyCloudTextureEffect.class);
 
+    // Master brightness and autoplay brightness also go on the master channel,
+    // but they are also tied to some internal logic.
+    masterBrightnessEffect   = setupMasterEffectWithName(lx, BrightnessScaleEffect.class, masterBrightnessName);
+    autoplayBrightnessEffect = setupMasterEffectWithName(lx, BrightnessScaleEffect.class, autoplayBrightnessName);
+
     // We assume at this point that the effects channel for pattern effects has been created.
     if (effectsChannel == null) {
       // XXX complain vociferously
     }
 
-    // XXX - and these two. How do I add them and make they aren't already there?
-    // Ditto on the canopy effects. Or wait - I'm adding the canopy effects
-    // damn. I keep forgetting about ipad channels vs interactive effects. Too much to remember.
-
-    BrightnessScaleEffect masterBrightnessEffect = new BrightnessScaleEffect(lx);
-    BrightnessScaleEffect autoplayBrightnessEffect = new BrightnessScaleEffect(lx);
-
-    lx.addEffect(masterBrightnessEffect);
-    lx.addEffect(autoplayBrightnessEffect);   // XXX dear god why are there two? XXX
-
     /* configureCanopyEffects(); */
   }
 
   private void configureTriggeredEffects() {
-    setupEffects();
-    configureTriggerables();
+    setupMasterEffects();     // sets up standard effects on master channel
+    configureTriggerables();  // Configures triggerable effects, including effects for APC40
   }
 
 
@@ -683,6 +669,24 @@ public class Entwined implements LXStudio.Plugin {
     return (T)effect;
   }
 
+  // Utility function for checking for the existence of an effect with this particular *name*, as well
+  // as class.
+  //
+  @SuppressWarnings("unchecked")
+  public static <T extends LXEffect> T setupMasterEffectWithName(LX lx, Class<T> clazz, String name) {
+    LXEffect effect = findMasterEffectWithName(lx, clazz, name);
+    if (effect == null) {
+      try {
+        effect = (clazz.getConstructor(LX.class).newInstance(lx));
+        effect.label.setValue(name);
+        lx.addEffect(effect);
+      } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+        System.out.println("Constructor for class " + clazz + "failing, continuing on");
+      }
+    }
+    return (T)effect;
+  }
+
   @SuppressWarnings("unchecked")
   public static <T extends TSPattern> T setupTriggerablePattern(LX lx, LXChannel channel, Class<T> clazz) {
     TSPattern pattern = findPattern(channel, clazz);
@@ -701,14 +705,30 @@ public class Entwined implements LXStudio.Plugin {
     return (T)pattern;
   }
 
+  @SuppressWarnings("unchecked")
   public static <T extends LXEffect> T findMasterEffect(LX lx, Class<T> clazz) {
     return findEffect(lx.engine.mixer.masterBus, clazz);
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T extends LXEffect> T findMasterEffectWithName(LX lx, Class<T> clazz, String name) {
+    return findEffectWithName(lx.engine.mixer.masterBus, clazz, name);
   }
 
   @SuppressWarnings("unchecked")
   public static <T extends LXEffect> T findEffect(LXBus bus, Class<T> clazz) {
     for (LXEffect effect : bus.effects) {
       if (effect.getClass().equals(clazz)) {
+        return (T) effect;
+      }
+    }
+    return null;
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T extends LXEffect> T findEffectWithName(LXBus bus, Class<T> clazz, String name) {
+    for (LXEffect effect : bus.effects) {
+      if (effect.getClass().equals(clazz) && effect.label.getLabel().equals(name)) {
         return (T) effect;
       }
     }
