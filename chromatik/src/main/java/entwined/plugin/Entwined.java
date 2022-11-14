@@ -245,13 +245,6 @@ public class Entwined implements LXStudio.Plugin {
     // but they are also tied to some internal logic.
     masterBrightnessEffect   = setupMasterEffectWithName(lx, BrightnessScaleEffect.class, masterBrightnessName);
     autoplayBrightnessEffect = setupMasterEffectWithName(lx, BrightnessScaleEffect.class, autoplayBrightnessName);
-
-    // We assume at this point that the effects channel for pattern effects has been created.
-    if (effectsChannel == null) {
-      // XXX complain vociferously
-    }
-
-    /* configureCanopyEffects(); */
   }
 
   private void configureTriggeredEffects() {

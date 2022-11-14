@@ -114,11 +114,6 @@ public class IPadServerController {
 
   private void registerIPadEffects() {
 
-    // A couple of links to key global effecs first
-    masterBrightnessEffect = Entwined.setupMasterEffectWithName(lx, BrightnessScaleEffect.class, Entwined.masterBrightnessName);
-    autoplayBrightnessEffect = Entwined.setupMasterEffectWithName(lx, BrightnessScaleEffect.class, Entwined.autoplayBrightnessName);
-
-
     // Set up iPad registered effects.
     // Note that the names of these effects start with 'iPad'. This is how I'm differentiating
     // between iPad and non-iPad effects when we toggle between iPad mode and Autoplay mode
@@ -134,9 +129,15 @@ public class IPadServerController {
       Entwined.setupMasterEffectWithName(lx, CandyCloudTextureEffect.class, "iPad - Cloud");
     // NB not hooking up RotationEffect, SpinEffect, or GhostEffect.  -- CSW
 
+    // General global effects at the end - they (ideally) operate after the other effects.
+    // XXX - how to guarantee this? Maybe we just futz with the project file.
+    // Essentially, I've got a race condition going on that I cannot win - I need general effects, then ipad effects,
+    // and then global effects.
     speedEffect = Entwined.setupMasterEffect(lx, SpeedEffect.class);
     blurEffect = Entwined.setupMasterEffect(lx, TSBlurEffect.class);  // XXX - replace with standard blur effect?
     scrambleEffect = Entwined.setupMasterEffect(lx, ScrambleEffect.class);
+    masterBrightnessEffect = Entwined.setupMasterEffectWithName(lx, BrightnessScaleEffect.class, Entwined.masterBrightnessName);
+    autoplayBrightnessEffect = Entwined.setupMasterEffectWithName(lx, BrightnessScaleEffect.class, Entwined.autoplayBrightnessName);
 
     registerEffectController("Rainbow", candyCloudTextureEffect, candyCloudTextureEffect.amount);
     registerEffectController("Candy Chaos", candyTextureEffect, candyTextureEffect.amount);
