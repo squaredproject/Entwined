@@ -324,6 +324,10 @@ public class Entwined implements LXStudio.Plugin {
    */
 
   void configureCanopy() {
+
+    return;
+
+/*    
     // Canopy - interactive effects from web (or potentially rPi)
     // this special filter is used by Canopy -- the interactive effects
     interactiveHSVEffect = new InteractiveHSVEffect(lx);
@@ -368,8 +372,9 @@ public class Entwined implements LXStudio.Plugin {
     // controller or the main init, unclear it should really be intermixed with EngineController
     ZonedDateTime firstPause = ZonedDateTime.now();
     firstPause.plusSeconds( (int) (Config.pauseRunMinutes * 60.0) );
-    canopyController.modelUpdate(true /*interactive*/, (int) (Config.pauseRunMinutes * 60.0f) /*runSeconds*/,
-      (int) (Config.pausePauseMinutes * 60.0f) /*pauseSeconds*/,"run" /*state*/,firstPause);
+    canopyController.modelUpdate(true , (int) (Config.pauseRunMinutes * 60.0f) ,
+      (int) (Config.pausePauseMinutes * 60.0f) ,"run" ,firstPause);
+*/
   }
 
   // NOTE! Entwined can be installed without any trees, or with
