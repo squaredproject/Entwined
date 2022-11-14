@@ -721,7 +721,7 @@ public class Entwined implements LXStudio.Plugin {
   @SuppressWarnings("unchecked")
   public static <T extends LXEffect> T findEffectWithName(LXBus bus, Class<T> clazz, String name) {
     for (LXEffect effect : bus.effects) {
-      if (effect.getClass().equals(clazz) && effect.label.getLabel().equals(name)) {
+      if (effect.getClass().equals(clazz) && effect.label.getString().equals(name)) {
         return (T) effect;
       }
     }
