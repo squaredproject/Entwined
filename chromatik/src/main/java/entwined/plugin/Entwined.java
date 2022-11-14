@@ -2,6 +2,7 @@ package entwined.plugin;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 import heronarts.lx.LX;
@@ -472,46 +473,10 @@ public class Entwined implements LXStudio.Plugin {
     System.out.println("Configuring canopy, lx is " + lx);
 
     interactiveCandyChaosEffect = setupMasterEffect(lx, InteractiveCandyChaosEffect.class);
-
-/*
-    // Canopy - interactive effects from web (or potentially rPi)
-    // this special filter is used by Canopy -- the interactive effects
-
-    // Since effect setup can be stored in the project file, look for evidence that
-    // these effects have been set up before - here, I look for an effect with a name that starts
-    // with 'Fire-'.
-    interactiveHSVEffect = new InteractiveHSVEffect(lx);
-    //lx.addEffect(interactiveHSVEffect);
-    //interactiveHSVEffect.enable();
-
-    // this fire effect, going to make it more generic, but make it work at all now
-    interactiveFireEffect = new InteractiveFireEffect(lx, lx.getModel());
-    LXEffect[] fireEffects = interactiveFireEffect.getEffects();
-    for (LXEffect effect : fireEffects) {
-      //lx.addEffect(effect);
-      //effect.enable();
-    }
-
-    interactiveCandyChaosEffect = new InteractiveCandyChaosEffect(lx, lx.getModel());
-    LXEffect[] candyChaosEffects = interactiveCandyChaosEffect.getEffects();
-    for (LXEffect effect: candyChaosEffects) {
-      //lx.addEffect(effect);
-      //effect.enable();
-    }
-
-    interactiveRainbowEffect = new InteractiveRainbowEffect(lx, lx.getModel());
-    LXEffect[] interactiveRainbowEffects = interactiveRainbowEffect.getEffects();
-    for (LXEffect effect: interactiveRainbowEffects) {
-      //lx.addEffect(effect);
-      //effect.enable();
-    }
-
-    interactiveDesaturationEffect = new InteractiveDesaturationEffect(lx, lx.getModel());
-    LXEffect[] interactiveDesaturationEffects = interactiveDesaturationEffect.getEffects();
-    for (LXEffect effect: interactiveDesaturationEffects) {
-      //lx.addEffect(effect);
-      //effect.enable();
-    }
+    interactiveDesaturationEffect = setupMasterEffect(lx, InteractiveDesaturationEffect.class);
+    interactiveRainbowEffect = setupMasterEffect(lx, InteractiveRainbowEffect.class);
+    interactiveFireEffect = setupMasterEffect(lx, InteractiveFireEffect.class);
+    interactiveHSVEffect = setupMasterEffect(lx, InteractiveHSVEffect.class);
 
     // must be after creation of the filter effect(s) used
     canopyController = new CanopyController(this);
@@ -529,7 +494,6 @@ public class Entwined implements LXStudio.Plugin {
     firstPause.plusSeconds( (int) (Config.pauseRunMinutes * 60.0) );
     canopyController.modelUpdate(true , (int) (Config.pauseRunMinutes * 60.0f) ,
       (int) (Config.pausePauseMinutes * 60.0f) ,"run" ,firstPause);
-*/
   }
 
   // NOTE! Entwined can be installed without any trees, or with

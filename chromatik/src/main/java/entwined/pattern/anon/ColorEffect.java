@@ -4,12 +4,12 @@ import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.modulator.DampedParameter;
 import heronarts.lx.parameter.BoundedParameter;
-import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
+import entwined.pattern.interactive.TSEffect;
 import entwined.utils.EntwinedUtils;
 
-public class ColorEffect extends LXEffect {
+public class ColorEffect extends TSEffect {
 
   public final BoundedParameter desaturation = new BoundedParameter("WHT", 0);
   public final BoundedParameter hueShift = new BoundedParameter("HUE", 0, 360);
@@ -26,7 +26,7 @@ public class ColorEffect extends LXEffect {
   // if set to a value >= 0, the effects are limited to only
   // the piece with that index (used for interactive effects)
   // XXX so how is this ever set?
-  protected int pieceIndex = -1;
+  // protected int pieceIndex = -1;
 
   public ColorEffect(LX lx) {
     super(lx);
@@ -55,7 +55,7 @@ public class ColorEffect extends LXEffect {
       float pSharp = 1/(1-.99f*sharpf);
       int componentIdx = 0;
       for (LXModel component : model.children) {
-        if (pieceIndex < 0 || componentIdx == pieceIndex) {
+        //if (pieceIndex < 0 || componentIdx == pieceIndex) {
           for (LXPoint cube : component.points) {
             float b = LXColor.b(colors[cube.index]) / 100.f;
             float bOrig = b;
@@ -94,8 +94,8 @@ public class ColorEffect extends LXEffect {
               100*b
             );
           }
-        }
-        componentIdx++;
+        //}
+        //componentIdx++;
       }
     }
   }

@@ -4,30 +4,29 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
+import entwined.core.TSPattern;
 import entwined.plugin.Config;
 import entwined.utils.EntwinedUtils;
 
 import java.util.HashMap;
 import heronarts.lx.LX;
+import heronarts.lx.LXDeviceComponent;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.parameter.LXParameter;
 
 // TODO -
-// Make effects inherit from new TSEffect
-// Add parameter to specify the pieceId
-// Add parameter to turn on effect for currentId
+// Make the debug options something more useful and/or dynamic
 // ?? Would like to be able to expose the parameters of the child class, that is,
 // introspect the child class, pull out the parameters, add similar parameters to the parent class
 // and then set the parameters in the child class based on the values in the parent class when
 // I create the childclass.
-// Not sure how this serializes when we load the project....
 
 public abstract class InteractiveEffect extends LXEffect {
   HashMap<String, EffectInfo> activeEffects = new HashMap<String, EffectInfo>();
   int effectDuration = 6000;
-  Class<?> childClass;  // child classes must define this. Should extend TSEffect
+  Class<?> childClass;  // child classes must define this. Should extend TSEffect or TSPattern
   DiscreteParameter debugId;
   String[] debugOptionsArray = new String[]{"None", "shrub-11", "shrub-12"};
 
@@ -56,7 +55,6 @@ public abstract class InteractiveEffect extends LXEffect {
     ArrayList<LXModel> pieces = new ArrayList<LXModel>();
 
     // Look through children to find the one with the correct pieceId
-    System.out.println("Model has " + lx.getModel().points.length + " points");
     for (LXModel child : lx.getModel().children) {
       if (child.metaData.get("name").equalsIgnoreCase(pieceId)) {
         pieces.add(child);
@@ -80,7 +78,7 @@ public abstract class InteractiveEffect extends LXEffect {
       }
     }
 
-    System.out.println("Found " + pieces.size() + " model pieces for " + pieceId);
+    // System.out.println("Found " + pieces.size() + " model pieces for " + pieceId);
     if (pieces.size() == 0) {
       return null;
     }
@@ -88,12 +86,10 @@ public abstract class InteractiveEffect extends LXEffect {
     LXModel[] modelArray = new LXModel[pieces.size()];
     modelArray = pieces.toArray(modelArray);
     LXModel newModel = new LXModel(modelArray);
-    System.out.println("New model has " + newModel.points.length + " points");
-    System.out.println("new model has " + newModel.children.length + " children");
     return newModel;
   }
 
-  abstract void onChildEffectCreated(TSEffect child);
+  abstract void onChildEffectCreated(LXDeviceComponent child);
     // Do whatever you need to do to actually turn the child on, if that's what
     // the effect requires.
 
@@ -104,11 +100,10 @@ public abstract class InteractiveEffect extends LXEffect {
       EffectInfo info = activeEffects.get(pieceId);
       info.resetTimeout(effectDuration);
     } else {
-      TSEffect newEffect;
+      LXDeviceComponent newEffect;
       try {
         Constructor constructor = childClass.getConstructor(LX.class);
-        newEffect = (TSEffect)constructor.newInstance(lx);
-        System.out.println("Have new instance of class");
+        newEffect = (LXDeviceComponent)constructor.newInstance(lx);
       } catch (InstantiationException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException
         | NoSuchMethodException | SecurityException e) {
@@ -118,7 +113,6 @@ public abstract class InteractiveEffect extends LXEffect {
       }
       LXModel effectModel = getModelFromPieceId(pieceId);
       if (effectModel != null) {
-        System.out.println("Setting model on effect, model has " + effectModel.points.length + " points");
         newEffect.setModel(effectModel);
         EffectInfo newEffectInfo = new EffectInfo(newEffect, effectModel, effectDuration);
         activeEffects.put(pieceId, newEffectInfo);
@@ -140,15 +134,21 @@ public abstract class InteractiveEffect extends LXEffect {
           if (currentTime > value.timeout) {
             removeList.add(key);
           } else {
-            value.effect.setColors(colors);
-            value.effect.triggeredRun(deltaMs, strength);
+            if (value.isTSEffect) {
+              TSEffect effect = (TSEffect)(value.effect);
+              effect.setColors(colors);
+              effect.triggeredRun(deltaMs, strength);
+            } else {
+              TSPattern pattern = (TSPattern)(value.effect);
+              pattern.setColors(colors);
+              pattern.triggeredRun(deltaMs);
+            }
           }
         }
     );
 
 
     for (int i=0; i<removeList.size(); i++) {
-      // XXX - grab the effect and shut it down!! XXX - this is java. Garbage collection.
       activeEffects.remove(removeList.get(i));
       System.out.println("Removing effect");
     }
@@ -164,11 +164,19 @@ public abstract class InteractiveEffect extends LXEffect {
 
 
   class EffectInfo {
-    TSEffect effect;
+    LXDeviceComponent effect;  // Really has to be a TSEffect or TSPattern; I'm choosing the closest ancestor
     int timeout;
     LXModel effectModel;
+    Boolean isTSEffect;
 
-    EffectInfo(TSEffect effect, LXModel effectModel, int timeoutFromNow) {
+    EffectInfo(LXDeviceComponent effect, LXModel effectModel, int timeoutFromNow) {
+      if (effect instanceof TSEffect) {
+        isTSEffect = true;
+      } else if (effect instanceof TSPattern) {
+        isTSEffect = false;
+      } else {
+        throw new IllegalArgumentException("Effect must inherit from TSPattern or TSEffect");
+      }
       this.effect = effect;
       this.effectModel = effectModel;
       this.timeout = EntwinedUtils.millis() + timeoutFromNow;
