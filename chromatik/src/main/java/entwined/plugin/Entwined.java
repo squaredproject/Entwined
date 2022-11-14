@@ -461,36 +461,36 @@ public class Entwined implements LXStudio.Plugin {
     // Canopy - interactive effects from web (or potentially rPi)
     // this special filter is used by Canopy -- the interactive effects
     interactiveHSVEffect = new InteractiveHSVEffect(lx);
-    lx.addEffect(interactiveHSVEffect);
-    interactiveHSVEffect.enable();
+    //lx.addEffect(interactiveHSVEffect);
+    //interactiveHSVEffect.enable();
 
     // this fire effect, going to make it more generic, but make it work at all now
     interactiveFireEffect = new InteractiveFireEffect(lx, lx.getModel());
     LXEffect[] fireEffects = interactiveFireEffect.getEffects();
     for (LXEffect effect : fireEffects) {
-      lx.addEffect(effect);
-      effect.enable();
+      //lx.addEffect(effect);
+      //effect.enable();
     }
 
     interactiveCandyChaosEffect = new InteractiveCandyChaosEffect(lx, lx.getModel());
     LXEffect[] candyChaosEffects = interactiveCandyChaosEffect.getEffects();
     for (LXEffect effect: candyChaosEffects) {
-      lx.addEffect(effect);
-      effect.enable();
+      //lx.addEffect(effect);
+      //effect.enable();
     }
 
     interactiveRainbowEffect = new InteractiveRainbowEffect(lx, lx.getModel());
     LXEffect[] interactiveRainbowEffects = interactiveRainbowEffect.getEffects();
     for (LXEffect effect: interactiveRainbowEffects) {
-      lx.addEffect(effect);
-      effect.enable();
+      //lx.addEffect(effect);
+      //effect.enable();
     }
 
     interactiveDesaturationEffect = new InteractiveDesaturationEffect(lx, lx.getModel());
     LXEffect[] interactiveDesaturationEffects = interactiveDesaturationEffect.getEffects();
     for (LXEffect effect: interactiveDesaturationEffects) {
-      lx.addEffect(effect);
-      effect.enable();
+      //lx.addEffect(effect);
+      //effect.enable();
     }
 
     // must be after creation of the filter effect(s) used
