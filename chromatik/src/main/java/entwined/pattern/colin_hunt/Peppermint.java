@@ -34,7 +34,6 @@ public class Peppermint extends LXPattern {
     if (getChannel().fader.getNormalized() == 0) return;
 
     for (LXPoint cube : model.points) {
-      System.out.println("spinner is " + spinner.getValuef());
 // XXX - theta again. And r.  This should be a local r, not a global one
       if (((CubeManager.getCube(cube.index).localTheta + spinner.getValuef()
       // plus the further from the center, the more hue is added, giving a swirl effect

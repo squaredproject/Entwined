@@ -61,7 +61,8 @@ def tree_cubes_load_csv(csvFilename:str):
         lineNum = 1
         for csv_line in csv_f:
             if lineNum == 1:
-                print(" check CSV header: {}".format(csv_line))
+                #print(" check CSV header: {}".format(csv_line))
+                pass
             else:
                 values = csv_line.split(',') #only the one delimiter
                 ndb = values[0]                # str, either the full ip addr of the ndb, or the final field (will append 10.0.0)
