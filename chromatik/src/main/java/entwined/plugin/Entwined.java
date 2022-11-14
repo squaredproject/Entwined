@@ -470,58 +470,30 @@ public class Entwined implements LXStudio.Plugin {
    */
 
   void configureCanopy() {
+    System.out.println("Configuring canopy, lx is " + lx);
 
-    return;
-
-/*    
-    // Canopy - interactive effects from web (or potentially rPi)
-    // this special filter is used by Canopy -- the interactive effects
-    interactiveHSVEffect = new InteractiveHSVEffect(lx);
-    //lx.addEffect(interactiveHSVEffect);
-    //interactiveHSVEffect.enable();
-
-    // this fire effect, going to make it more generic, but make it work at all now
-    interactiveFireEffect = new InteractiveFireEffect(lx, lx.getModel());
-    LXEffect[] fireEffects = interactiveFireEffect.getEffects();
-    for (LXEffect effect : fireEffects) {
-      //lx.addEffect(effect);
-      //effect.enable();
-    }
-
-    interactiveCandyChaosEffect = new InteractiveCandyChaosEffect(lx, lx.getModel());
-    LXEffect[] candyChaosEffects = interactiveCandyChaosEffect.getEffects();
-    for (LXEffect effect: candyChaosEffects) {
-      //lx.addEffect(effect);
-      //effect.enable();
-    }
-
-    interactiveRainbowEffect = new InteractiveRainbowEffect(lx, lx.getModel());
-    LXEffect[] interactiveRainbowEffects = interactiveRainbowEffect.getEffects();
-    for (LXEffect effect: interactiveRainbowEffects) {
-      //lx.addEffect(effect);
-      //effect.enable();
-    }
-
-    interactiveDesaturationEffect = new InteractiveDesaturationEffect(lx, lx.getModel());
-    LXEffect[] interactiveDesaturationEffects = interactiveDesaturationEffect.getEffects();
-    for (LXEffect effect: interactiveDesaturationEffects) {
-      //lx.addEffect(effect);
-      //effect.enable();
-    }
+    interactiveCandyChaosEffect = setupMasterEffect(lx, InteractiveCandyChaosEffect.class);
+    interactiveDesaturationEffect = setupMasterEffect(lx, InteractiveDesaturationEffect.class);
+    interactiveRainbowEffect = setupMasterEffect(lx, InteractiveRainbowEffect.class);
+    interactiveFireEffect = setupMasterEffect(lx, InteractiveFireEffect.class);
+    interactiveHSVEffect = setupMasterEffect(lx, InteractiveHSVEffect.class);
 
     // must be after creation of the filter effect(s) used
     canopyController = new CanopyController(this);
 
 
-    // tell the canopyController what it should be up to.
-    // this perhaps needs to move elsewhere, possibly to the constructor of canopy
-    // controller or the main init, unclear it should really be intermixed with EngineController
-    // XXX FIXME THIS SHOULDNT BE HERE XXX
+    // tell the canopyController what it should be up to. The system alternates between running
+    // and pausing, so the information being conveyed here is -
+    //  - what state we're currently in (running)
+    //  - when we next change state
+    //  - the length of the pause and running intervals
+    // This on/off thing was a requirement of the Parks Department in times of Covid, to
+    // keep people from enjoying the sculpture too much. If pausePauseMinutes is 0, it
+    // doesn't pause.
     ZonedDateTime firstPause = ZonedDateTime.now();
     firstPause.plusSeconds( (int) (Config.pauseRunMinutes * 60.0) );
     canopyController.modelUpdate(true , (int) (Config.pauseRunMinutes * 60.0f) ,
       (int) (Config.pausePauseMinutes * 60.0f) ,"run" ,firstPause);
-*/
   }
 
   // NOTE! Entwined can be installed without any trees, or with

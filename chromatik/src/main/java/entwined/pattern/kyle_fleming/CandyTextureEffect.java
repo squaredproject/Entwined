@@ -1,13 +1,13 @@
 package entwined.pattern.kyle_fleming;
 
+import entwined.pattern.interactive.TSEffect;
 import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
-import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BoundedParameter;
 
-public class CandyTextureEffect extends LXEffect {
+public class CandyTextureEffect extends TSEffect {
 
   public final BoundedParameter amount = new BoundedParameter("CAND");
 
@@ -20,6 +20,7 @@ public class CandyTextureEffect extends LXEffect {
 
   public CandyTextureEffect(LX lx) {
     super(lx);
+    System.out.println("Attempting to instantiate candy texture effect");
     addParameter("amount", amount);
   }
 
@@ -35,9 +36,10 @@ public class CandyTextureEffect extends LXEffect {
   public void run(double deltaMs, double strength) {
     if (amount.getValue() > 0) {
       time += deltaMs;
-      int componentIdx = 0;
+//     int componentIdx = 0;
+
       for (LXModel component : model.children) {
-        if (componentIdx == pieceIndex) {
+//         if (componentIdx == pieceIndex) {
           for (LXPoint cube : component.points) {
             int oldColor = colors[cube.index];
             float newHue = cube.index * 127 + 9342 + (float)time % 360;
@@ -45,8 +47,8 @@ public class CandyTextureEffect extends LXEffect {
             int blendedColor = LXColor.lerp(oldColor, newColor, amount.getValuef());
             colors[cube.index] = LX.hsb(LXColor.h(blendedColor), LXColor.s(blendedColor), LXColor.b(oldColor));
           }
-        }
-        componentIdx++;
+ //       }
+ //       componentIdx++;
       }
     }
   }
