@@ -1,0 +1,14 @@
+[Unit]
+Description=Entwined Brightness Toggle
+After=network.target
+
+[Service]
+ExecStart=/home/ent/Entwined/oldlx/brightness-toggle.sh
+WorkingDirectory=/home/ent/Entwined/oldlx
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target

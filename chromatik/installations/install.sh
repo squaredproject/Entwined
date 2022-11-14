@@ -9,7 +9,7 @@ then
 fi
 
 mkdir -p ~/Chromatik/Fixtures/Entwined
-rm ~/Chromatik/Fixtures/Entwined/*
+# rm ~/Chromatik/Fixtures/Entwined/*
 
 echo "building LXF files from JSON descriptions"
 python fairy_circle.py --config $1/fairy_circles.json --fixtures_folder ~/Chromatik/Fixtures/Entwined

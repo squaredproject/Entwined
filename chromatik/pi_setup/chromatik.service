@@ -1,0 +1,14 @@
+[Unit]
+Description=Chromatic Headless
+After=network.target
+
+[Service]
+ExecStart=/home/pi/Entwined/chromatik/headless.sh
+WorkingDirectory=/home/pi/Entwined/chromatik
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
