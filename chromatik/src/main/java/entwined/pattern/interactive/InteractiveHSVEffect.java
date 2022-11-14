@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import heronarts.lx.LX;
+import heronarts.lx.LXComponent;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BoundedParameter;
 
+@LXComponent.Hidden
 public class InteractiveHSVEffect extends LXEffect {
 
   final BoundedParameter hueSet[];
@@ -23,6 +25,7 @@ public class InteractiveHSVEffect extends LXEffect {
 
   final int nPieces;
   final Map<String, Integer> pieceIdMap = new HashMap<String, Integer>();
+
 
   public InteractiveHSVEffect(LX lx) {
     super(lx);

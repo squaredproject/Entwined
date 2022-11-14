@@ -9,11 +9,11 @@ public class TSBlurEffect extends BlurEffect {
     super(lx);
   }
 
-  /*
+
   public void setAmount(double val) {
-    amount.setValue(val);
+    // amount.setValue(val);
   }
-  */
+
 
   @Override
   public void loop(double deltaMs) {

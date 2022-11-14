@@ -1,8 +1,7 @@
 package entwined.plugin;
 
-import heronarts.lx.LX;
 import heronarts.lx.effect.LXEffect;
-import heronarts.lx.model.LXModel;
+import entwined.core.Triggerable;
 
 /*
 abstract class Effect extends LXEffect {
@@ -45,9 +44,9 @@ class TSEffectController {
 
   void setEnabled(boolean enabled) {
     if (enabled) {
-      triggerable.onTriggered(1);
+      triggerable.onTriggered();
     } else {
-      triggerable.onRelease();
+      triggerable.onReleased();
     }
   }
 }

@@ -316,7 +316,8 @@
             "protocol": "ddp",
             "host": "10.0.0.120",
             "start": 0,
-            "num": 60
+            "num": 60,
+            "repeat": 1
         }
     ],
     "meta": {

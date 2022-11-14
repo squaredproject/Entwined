@@ -38,6 +38,8 @@ import heronarts.lx.pattern.LXPattern;
 class AppServer {
   LX lx;
   IPadServerController engineController;
+  TSServer server;
+  ParseClientTask parseClientTask;
 
   AppServer(LX lx, IPadServerController engineController) {
     this.lx = lx;
@@ -45,13 +47,18 @@ class AppServer {
   }
 
   void start() {
-    TSServer server = new TSServer(lx, 5204);
+    server = new TSServer(lx, 5204);
 
     ClientCommunicator clientCommunicator = new ClientCommunicator(server);
     ClientModelUpdater clientModelUpdater = new ClientModelUpdater(engineController, clientCommunicator);
     ClientTimerUpdater clientTimerUpdater = new ClientTimerUpdater(engineController, clientCommunicator);
-    ParseClientTask parseClientTask = new ParseClientTask(engineController, server, clientModelUpdater, clientTimerUpdater);
+    parseClientTask = new ParseClientTask(engineController, server, clientModelUpdater, clientTimerUpdater);
     lx.engine.addLoopTask(parseClientTask);
+  }
+
+  public void shutdown() {
+    lx.engine.removeLoopTask(parseClientTask);
+    server.stop();
   }
 
   class ParseClientTask implements LXLoopTask {
@@ -72,9 +79,7 @@ class AppServer {
     }
 
     // we want to watch for the last client that disconnects
-    // this method is called when anything disconnects so we can try to do the right thing
-    //
-    //
+    // this method is called at the beginning of the main parse loop.
     public void checkClientsAllDisconnected() {
 
     	if (hasActiveClients) {
@@ -89,22 +94,35 @@ class AppServer {
 
     		System.out.println(" detected all clients disconnected, forcing autoplay ");
 
-    		if (false == engineController.isAutoplaying) {
-          	engineController.setAutoplay(true);
-          }
-          engineController.setMasterBrightness(1.0);
-
-          hasActiveClients = false;
-    	}
+        hasActiveClients = false;
+      }
     }
+
+
+    public void enableAutoplay() {
+      if (false == engineController.isAutoplaying) {
+        engineController.setAutoplay(true);
+      }
+      engineController.setMasterBrightness(1.0);
+    }
+
 
     public void loop(double deltaMs) {
       try {
+        // If the client has just disconnected, turn on autoplay
+        boolean hadActiveClients = hasActiveClients;
         checkClientsAllDisconnected();
+        if (hadActiveClients && !hasActiveClients) {
+          enableAutoplay();
+        }
+
+        // Check for incoming requests
         TSClient client = server.available();
         if (client == null) return;
+
         hasActiveClients = true;
 
+         // Read incoming request
         String whatClientSaid = client.readStringUntil('\n');
         if (whatClientSaid == null) return;
 
@@ -121,6 +139,14 @@ class AppServer {
 
         if (message == null) return;
 
+        // Vector message to receivers. Most messages will get sent to the enginecontroller,
+        // which can actually change things in the system.
+        // Requests for status, such as 'loadModel' and 'getTimer'
+        // are served by the ClientModelUpdater and the ClientTimerUpdater, which
+        // for all intents and purposes, are just functions.
+        // (Note that I do not see any provision for handling multiple simultaneous clients. Maybe state of
+        // which client you're addressing is held in the TSServer; maybe everything explodes if you attempt
+        // two simultaneous connections. Not that two simultaneous connections necessarily a good thing.)
         String method = (String)message.get("method");
         @SuppressWarnings("unchecked")
         Map<String, Object> params = (Map<String, Object>)message.get("params");
@@ -179,10 +205,10 @@ class AppServer {
         } else if (method.equals("getTimer")) {
           clientTimerUpdater.sendTimer();
         }
-        else if (method.equals("resetTimerRun")) {
-          engineController.autoPauseTask.pauseResetRunning();
+        else if (method.equals("resetTimerRun")) {  // No longer supporting autopause
+          // engineController.autoPauseTask.pauseResetRunning();
         } else if (method.equals("resetTimerPause")) {
-          engineController.autoPauseTask.pauseResetPaused();
+          // engineController.autoPauseTask.pauseResetPaused();
         }
       } catch (Exception e) {
         e.printStackTrace();
@@ -190,6 +216,20 @@ class AppServer {
     }
   }
 
+
+  /*
+   * Client model updater
+   * Invoked when an iPad when a client explicitly makes a
+   * 'loadmodel'request (which it presumably does when it attaches)
+   * Sends the current state of client-controllable features, including:
+   *  -- AutoplayState
+   *  -- BrightnessLevels
+   *  -- Patterns on addressable channels (8-11)
+   *  -- Effects registered for iPad usage
+   *  -- Values of global effects - speed, blur, scramble, spin
+   *  -- Pause/run state information
+   *  (This is basically a function masquerading as a class.)
+   */
 
   class ClientModelUpdater {
     IPadServerController engineController;
@@ -254,17 +294,25 @@ class AppServer {
       returnParams.put("blur", engineController.blurEffect.level.getValue());
       returnParams.put("scramble", engineController.scrambleEffect.getAmount());
 
+      // NB - Pause params really not used any more. Keeping this data here because client
+      // may rely on it. And who knows, maybe one day we'll want to use the interface again.
       Map<String, Object> pauseParams = new HashMap<String, Object>();
       pauseParams.put("runSeconds", Config.pauseRunMinutes * 60.0 );
       pauseParams.put("pauseSeconds", Config.pausePauseMinutes * 60.0 );
-      pauseParams.put("state",  engineController.autoPauseTask.pauseStateRunning() ? "run" : "pause");
-      pauseParams.put("timeRemaining", engineController.autoPauseTask.pauseTimeRemaining() );
+      pauseParams.put("state",  "run");
+      pauseParams.put("timeRemaining", 60);
       returnParams.put("pauseTimer", pauseParams);
 
       communicator.send("model", returnParams);
     }
   }
 
+  /*
+   * Update attached iPad client about the current run/pause state.
+   * Called when the client makes a 'loadtimer' request.
+   *
+   * (Like ClientModelUpdater, this is largely a function masquerading as a class)
+   */
   class ClientTimerUpdater {
     IPadServerController engineController;
     ClientCommunicator communicator;
@@ -283,10 +331,11 @@ class AppServer {
     void sendTimer() {
       Map<String, Object> returnParams = new HashMap<String, Object>();
 
+      // See comment about AutoPause in sendModel.
       returnParams.put("runSeconds", Config.pauseRunMinutes * 60.0 );
       returnParams.put("pauseSeconds", Config.pausePauseMinutes * 60.0 );
-      returnParams.put("state",  engineController.autoPauseTask.pauseStateRunning() ? "run" : "pause");
-      returnParams.put("timeRemaining", engineController.autoPauseTask.pauseTimeRemaining() );
+      returnParams.put("state",  "run");
+      returnParams.put("timeRemaining", 60 );
 
       communicator.send("pauseTimer", returnParams);
     }
@@ -376,9 +425,11 @@ class AppServer {
         // which is called when a new guy connects
         try {
           serverEventMethod =
-            parent.getClass().getMethod("serverEvent", Server.class, TSClient.class);
+            parent.getClass().getMethod("serverEvent", TSServer.class, TSClient.class);
         } catch (Exception e) {
-        	// this happens. No server events apparently
+        	// At the moment, this is the standard path. This code was brought over
+          // from Processing and heavily modified; we do not use the serverEventMethod
+          // functionality.  CSW - 11/2022
           //System.out.println("server create: no server event on this object");
         }
 

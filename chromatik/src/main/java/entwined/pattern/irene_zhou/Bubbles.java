@@ -71,7 +71,8 @@ public class Bubbles extends TSTriggerablePattern {
     if (getChannel().fader.getNormalized() == 0) return;
 
     if (!triggered && bubbles.size() == 0) {
-      setCallRun(false);
+      enabled.setValue(false);
+      // setCallRun(false);
     }
 
     for (LXPoint cube : model.points) {
@@ -126,8 +127,8 @@ public class Bubbles extends TSTriggerablePattern {
   }
 
   @Override
-  public void onTriggered(float strength) {
-    super.onTriggered(strength);
+  public void onTriggered() {
+    super.onTriggered();  // XXX do a different call so I don't have to invoke the superclass?
 
     numBubbles += 25;
     decay.setRange(numBubbles, 10);
@@ -135,8 +136,8 @@ public class Bubbles extends TSTriggerablePattern {
   }
 
   @Override
-  public void onRelease() {
-    super.onRelease();
+  public void onReleased() {
+    super.onReleased();
 
     decay.setRange(numBubbles, 0);
     decay.reset().start();

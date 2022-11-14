@@ -20,7 +20,6 @@ public class Pulley extends TSTriggerablePattern { //ported from SugarCubes
    private final Click turnOff = new Click(9000);
 
   private boolean isRising = false;
-  boolean triggered = true;
   float coil = 10;
 
   private BoundedParameter sz = new BoundedParameter("SIZE", 0.5);
@@ -63,7 +62,7 @@ public class Pulley extends TSTriggerablePattern { //ported from SugarCubes
 
   private void trigger() {
     isRising = !isRising;
-    int i = 0;
+    // int i = 0;
     for (int j = 0; j < NUM_DIVISIONS; ++j) {
       if (isRising) {
         baseSpeed[j] = EntwinedUtils.random(20, 33);
@@ -73,7 +72,7 @@ public class Pulley extends TSTriggerablePattern { //ported from SugarCubes
         gravity[j].setVelocity(0).setAcceleration(-420);
         delays[j].setPeriod(EntwinedUtils.random(0, 500)).trigger();
       }
-      ++i;
+      // ++i;
     }
   }
 
@@ -127,14 +126,8 @@ public class Pulley extends TSTriggerablePattern { //ported from SugarCubes
   }
 
   @Override
-  public void onTriggerableModeEnabled() {
-    super.onTriggerableModeEnabled();
-    triggered = false;
-  }
-
-  @Override
-  public void onTriggered(float strength) {
-    triggered = true;
+  public void onTriggered() {
+    super.onTriggered();
     isRising = true;
     turnOff.start();
 
@@ -144,8 +137,5 @@ public class Pulley extends TSTriggerablePattern { //ported from SugarCubes
     trigger();
   }
 
-  @Override
-  public void onRelease() {
-  }
 }
 

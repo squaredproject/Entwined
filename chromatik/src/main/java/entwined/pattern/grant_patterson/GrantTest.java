@@ -3,6 +3,7 @@ package entwined.pattern.grant_patterson;
 import java.util.ArrayList;
 
 import heronarts.lx.LX;
+import heronarts.lx.LXComponent;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
@@ -13,6 +14,7 @@ import heronarts.lx.pattern.LXPattern;
 /**
 Testing position, theta, distance from center
 */
+@LXComponent.Hidden
 class GrantTest extends LXPattern {
  final DiscreteParameter whichParam = new DiscreteParameter("which", 0, 0, 23);
  final BoundedParameter angleParam = new BoundedParameter("angle", 0, 0, 2*Math.PI);

@@ -56,6 +56,7 @@ class CanopyController {
   Runnable canopyRunnable;
   Thread  canopyThread;
   Socket socket;
+  private volatile boolean running = true;
 
   final Entwined engine; // gives us access to the InteractiveEffects
 
@@ -73,12 +74,12 @@ class CanopyController {
 
   	canopyRunnable = new Runnable() {
 
-		// Log Helper
-	  final ZoneId localZone = ZoneId.of("America/Los_Angeles");
-		void log(String s) {
-			System.out.println(
-		  ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + " " + s );
-		}
+  		// Log Helper
+  	  final ZoneId localZone = ZoneId.of("America/Los_Angeles");
+  		void log(String s) {
+  			System.out.println(
+  		  ZonedDateTime.now( localZone ).format( DateTimeFormatter.ISO_LOCAL_DATE_TIME ) + " " + s );
+  		}
 
 	  	@Override
 	  	public void run() {
@@ -152,16 +153,16 @@ class CanopyController {
 		    	}
 		    });
 
-			socket.on("resetPieceSettings", new Emitter.Listener() {
-				@Override
-				public void call(Object... args) {
-					try {
-						resetPieceSettings((JSONObject) args[0]);
-					} catch (Exception e) {
-						log(" socket: resetPieceSettings threw error "+e);
-					}
-				}
-			});
+			  socket.on("resetPieceSettings", new Emitter.Listener() {
+				  @Override
+				  public void call(Object... args) {
+					  try {
+						  resetPieceSettings((JSONObject) args[0]);
+					  } catch (Exception e) {
+						  log(" socket: resetPieceSettings threw error "+e);
+					  }
+				  }
+			  });
 
 		    socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 		    	@Override
@@ -217,21 +218,23 @@ class CanopyController {
 		    // network capabilities it doesn't retry very much. So retrying every 10 seconds until it finally
 		    // gets through helps enough. Best to both disconnect and reconnect for some reason. Doesn't
 		    // seem to hurt if the network is really down.
-		    while (true) {
+		    while (running) {
 		    	try {
 		    			// 20 seconds seems like a nice number
 		    	    Thread.sleep(20000);
-		        } catch (Exception e) {
-		        	log(" CanopyThreadSleepException: "+e);
-		        }
+		      } catch (Exception e) {
+		       	log(" CanopyThreadSleepException: "+e);
+		      }
  		    	log("CanopyController connect state: "+ socket.connected() );
-		        // seems like we have to kick it to retry?
-		       if (socket.connected() == false) {
-		       	 log("CanopyController not connected, TIMER RETRY another connect ");
-		       	 socket.disconnect();
-		       	 socket.connect();
-		       }
+		      // seems like we have to kick it to retry?
+ 		    	if (socket.connected() == false) {
+		       	log("CanopyController not connected, TIMER RETRY another connect ");
+		       	socket.disconnect();
+		       	socket.connect();
+ 		    	}
 		    }
+		    System.out.println("XXXX Canopy disconnect");
+		    socket.disconnect();
 
 		} /* run */
 	}; /* runnable */
@@ -239,6 +242,13 @@ class CanopyController {
 	canopyThread = new Thread(canopyRunnable);
 	canopyThread.start();
 
+  }
+
+  void shutdown() {
+    this.running = false;
+    if (this.canopyThread != null) {
+      this.canopyThread.interrupt();
+    }
   }
 
   void onSocketConnectError() {
