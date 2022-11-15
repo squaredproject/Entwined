@@ -6,14 +6,12 @@ import java.util.List;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.pattern.LXPattern;
-
 import entwined.core.CubeManager;
+import entwined.core.TSBufferedPattern;
+import entwined.plugin.Entwined;
 
-/*
-need to have subfixtures to do this... or
-*/
-public class PartyRings extends LXPattern {
+
+public class PartyRings extends TSBufferedPattern {
 
   private List<RingStack> ringStacks = new ArrayList<RingStack>();
 
@@ -25,24 +23,13 @@ public class PartyRings extends LXPattern {
   }
 
   @Override
-  public void run(double deltaMs) {
+  public void bufferedRun(double deltaMs) {
 
     int shrubIdx = 0;
     for (LXModel shrub: model.sub("SHRUB")) {
-      // How many leds per cube do we have?
-      String ledsPerCubeStr = shrub.meta("leds_per_cube");
-      int ledsPerCube = 1;
-      if (ledsPerCubeStr != null) {
-        ledsPerCube = Integer.parseInt(ledsPerCubeStr);
-      } else {
-        ledsPerCube = shrub.points.length/60;
-      }
       int pointIdx = 0;
-      // System.out.println("Number of points is " + shrub.points.length);
-      // XXX - okay, I've got another problem in that the fixture code is returning
-      // 240, rather than 120 pixels.
       for (LXPoint cube : shrub.points) {
-        int rodIndex = pointIdx/(12 * ledsPerCube); // NB - rod major.
+        int rodIndex = Entwined.getCubeLayer(pointIdx);
         float localTheta = CubeManager.getCube(lx, cube.index).localTheta;
         colors[cube.index] = LX.hsb(ringStacks.get(shrubIdx).getHue(rodIndex), 100, ringStacks.get(shrubIdx).getBright(localTheta, rodIndex));
         pointIdx++;

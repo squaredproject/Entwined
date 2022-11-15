@@ -1,13 +1,13 @@
 package entwined.pattern.misko;
 
+import entwined.core.TSBufferedPattern;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.parameter.BoundedParameter;
-import heronarts.lx.pattern.LXPattern;
 
-public class SyncSpinner extends LXPattern {
+public class SyncSpinner extends TSBufferedPattern {
 
   private float speedMult = 1000;
   final BoundedParameter hue = new BoundedParameter("hue", 135, 0, 360);
@@ -31,14 +31,19 @@ public class SyncSpinner extends LXPattern {
   }
 
   @Override
-  public void run(double deltaMs) {
+  public void bufferedRun(double deltaMs) {
     if (getChannel().fader.getNormalized() == 0) return;
 
     wave.setPeriod(speedParam.getValuef() * speedMult / 3 );
     total_ms+=deltaMs*speedParam.getValuef();
     for (LXModel shrub : model.sub("SHRUB")) {
-      int ry = Integer.parseInt(model.meta("ry"));
-      int shrub_offset = (int)(-ry/30+24)%12;
+      int ry;
+      if (model.meta("ry") != null) {
+        ry = Integer.parseInt(model.meta("ry"));
+      } else {
+        ry = 0;
+      }
+      int shrub_offset = (-ry/30+24)%12;
       int cubeIdx = 0;
       for (LXPoint shrubCube : shrub.points) {
 

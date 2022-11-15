@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+
+import entwined.core.TSBufferedPattern;
 import heronarts.lx.LX;
-import heronarts.lx.ModelBuffer;
-import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
-import heronarts.lx.pattern.LXPattern;
 
 /*
 
@@ -42,7 +41,7 @@ class SnakeConfig {
   }
 }
 
-public class FairySnakes extends LXPattern {
+public class FairySnakes extends TSBufferedPattern {
   /* For every fairy circle, construct two "snake paths".
   A regular one and an alternate one.
 
@@ -62,8 +61,6 @@ public class FairySnakes extends LXPattern {
 
   final BoundedParameter speedParam = new BoundedParameter("Speed", 3, 0.1, 20);
   final SinLFO snakeFadeInSin = new SinLFO(0.0, 0.9, 1000 * 30);
-
-  private final ModelBuffer myBuffer = new ModelBuffer(lx, LXColor.BLACK);
 
   public FairySnakes(LX lx) {
     super(lx);
@@ -219,10 +216,7 @@ public class FairySnakes extends LXPattern {
   }
 
   @Override
-  public void run(double deltaMs) {
-    // Restore the previous frame content before updating pixels
-    this.myBuffer.copyTo(getBuffer());
-
+  public void bufferedRun(double deltaMs) {
     // This counter drives the snakes moving along their paths
     counter += deltaMs * 0.005 * speedParam.getValuef();
 
@@ -254,9 +248,6 @@ public class FairySnakes extends LXPattern {
         makeSnake(pieceId, config.hue, config.offset, localFadeFactor, config.direction, config.alternate);
       }
     }
-
-    // Keep a copy of our rendered state around
-    this.myBuffer.copyFrom(getBuffer());
   }
 
   int wrapNegativeIndex(int index, int arrayLen) {
