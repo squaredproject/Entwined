@@ -105,7 +105,7 @@ public class Bubbles extends TSTriggerablePattern {
 
     for (Bubble bubble: bubbles) {
       for (LXPoint cube : model.points) {
-        CubeData cdata = CubeManager.getCube(cube.index);
+        CubeData cdata = CubeManager.getCube(lx, cube.index);
         if (EntwinedUtils.abs(bubble.theta - cdata.localTheta) < bubble.radius && EntwinedUtils.abs(bubble.yPos - (cdata.localY - model.yMin)) < bubble.radius) {
           float distTheta = LXUtils.wrapdistf(bubble.theta, cdata.localTheta, 360) * 0.8f;
           float distY = bubble.yPos - (cdata.localY - model.yMin);

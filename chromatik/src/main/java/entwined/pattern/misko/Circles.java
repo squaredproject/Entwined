@@ -49,7 +49,7 @@ public class Circles extends LXPattern {
 
       // Use a for loop here to set the cube colors
     for (LXPoint cube : model.points) {
-      CubeData cdata = CubeManager.getCube(cube.index);
+      CubeData cdata = CubeManager.getCube(lx, cube.index);
       float v = (float)( (-wave360.getValuef() + waveSlope.getValuef()) + Math.sqrt(Math.pow(cdata.localX,2)+Math.pow(cdata.localZ,2))*5 );
       colors[cube.index] = LX.hsb( v % 360, 100,  100);
       //colors[cube.index] = lx.hsb( (float)( Math.sqrt(Math.pow(cube.sx,2)+Math.pow(cube.sz,2)) % 360), 100, 100);

@@ -85,7 +85,7 @@ public abstract class MultiObject extends LXLayer {
   }
 
   public float getBrightnessForCube(LXPoint cube) {
-    Vec2D cubePointPrime = VecUtils.movePointToSamePlane(currentPoint, CubeManager.getCube(cube.index).cylinderPoint);
+    Vec2D cubePointPrime = VecUtils.movePointToSamePlane(currentPoint, CubeManager.getCube(lx, cube.index).cylinderPoint);
     float dist = Float.MAX_VALUE;
 
     Vec2D localLastPoint = lastPoint;

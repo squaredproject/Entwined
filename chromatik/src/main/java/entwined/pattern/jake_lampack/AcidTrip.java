@@ -24,7 +24,7 @@ public class AcidTrip extends LXPattern {
     if (getChannel().fader.getNormalized() == 0) return;
 
     for (LXPoint cube : model.points) {
-      CubeData cdata = CubeManager.getCube(cube.index);
+      CubeData cdata = CubeManager.getCube(lx, cube.index);
       colors[cube.index] = LX.hsb(
         EntwinedUtils.abs(model.cy - cdata.localY) + EntwinedUtils.abs(model.cy - cdata.localTheta) + trails.getValuef() % 360,
         100,

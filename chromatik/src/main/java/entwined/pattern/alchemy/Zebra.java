@@ -33,7 +33,7 @@ public class Zebra extends LXPattern {
       float saturation;
       float brightness = 1;
 
-      if (((CubeManager.getCube(cube.index).localY + position.getValue() + CubeManager.getCube(cube.index).localTheta) % 200) > thickness.getValue()) {
+      if (((CubeManager.getCube(lx, cube.index).localY + position.getValue() + CubeManager.getCube(lx, cube.index).localTheta) % 200) > thickness.getValue()) {
         saturation=0;
         brightness=1;
       } else {

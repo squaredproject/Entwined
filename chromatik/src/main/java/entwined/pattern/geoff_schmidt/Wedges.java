@@ -40,8 +40,8 @@ public class Wedges extends LXPattern {
     double quant = 360.0f/sections;
 
     for (LXPoint cube : model.points) {
-      colors[cube.index] = LXColor.hsb( // XXX transformedTheta is what?
-        Math.floor((rotation - CubeManager.getCube(cube.index).localTheta) / quant) * quant + vHue * 360.0f,
+      colors[cube.index] = LXColor.hsb(
+        Math.floor((rotation - CubeManager.getCube(lx, cube.index).localTheta) / quant) * quant + vHue * 360.0f,
         (1 - vSat) * 100,
         100
       );

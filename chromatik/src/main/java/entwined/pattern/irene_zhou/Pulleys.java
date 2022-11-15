@@ -174,7 +174,7 @@ public class Pulleys extends TSTriggerablePattern { //ported from SugarCubes
       float currentBaseHue = lx.engine.palette.color.getHuef();  // XXX this modulates in the previous LX studio
 
       for (LXPoint cube : model.points) {
-        CubeData cdata = CubeManager.getCube(cube.index);
+        CubeData cdata = CubeManager.getCube(lx, cube.index);
         float cBrt = 0;
         float cHue = 0;
         for (int j = 0; j < pulleys.size(); ++j) {

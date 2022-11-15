@@ -74,7 +74,7 @@ public class Springs extends TSPattern {
     //float coilf = 2*coil(spin.getBasisf());
 
     for (LXPoint cube : model.points) {
-      CubeData cdata = CubeManager.getCube(cube.index);
+      CubeData cdata = CubeManager.getCube(lx, cube.index);
       float yn =  cdata.localY/model.yMax;
       float width = (1-yn) * 25;
       float wrapdist = LXUtils.wrapdistf(cdata.localTheta, (spinf + (cdata.localY) * 1/(gravity.getValuef() + 0.2f))%360, 360);

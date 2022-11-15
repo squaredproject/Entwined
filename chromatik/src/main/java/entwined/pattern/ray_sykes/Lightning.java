@@ -84,8 +84,8 @@ public class Lightning extends TSTriggerablePattern {
         }
       }
       for (LXPoint cube : tree.points) {
-        float localTheta = CubeManager.getCube(cube.index).localTheta;
-        float localY = CubeManager.getCube(cube.index).localY;
+        float localTheta = CubeManager.getCube(lx, cube.index).localTheta;
+        float localY = CubeManager.getCube(lx, cube.index).localY;
         float hueVal = 300;
         float lightningFactor = bolts[treeIndex].getLightningFactor(localY, localTheta);
         float brightVal = lightningFactor;
@@ -143,8 +143,8 @@ public class Lightning extends TSTriggerablePattern {
         }
       }
       for (LXPoint cube : shrub.points) {
-        float localTheta = CubeManager.getCube(cube.index).localTheta;
-        float localY = CubeManager.getCube(cube.index).localY;
+        float localTheta = CubeManager.getCube(lx, cube.index).localTheta;
+        float localY = CubeManager.getCube(lx, cube.index).localY;
         float hueVal = 300;
         float lightningFactor = bolts[shrubIndex].getLightningFactor(localY, localTheta);
         float brightVal = lightningFactor;
@@ -214,7 +214,7 @@ class LightningLine {
   private final float propagationSpeed;
   private final float lineWidth;
   private float wideningStartTime = 0;
-  @SuppressWarnings("unchecked")
+
   private ArrayList<LightningLine> forks = new ArrayList<LightningLine>();
 
   LightningLine(int startTime, float startY, float startTheta, float basicAngle, float propagationSpeed, float lineWidth, int recursionDepthLeft, float forkingChance){

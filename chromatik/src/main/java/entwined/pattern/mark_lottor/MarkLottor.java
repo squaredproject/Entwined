@@ -134,8 +134,8 @@ public class MarkLottor extends LXPattern {
 
       // light up any cubes "near" this ball
      for (LXPoint cube : model.points) {
-       if ((EntwinedUtils.abs(theta - CubeManager.getCube(cube.index).localTheta) < (50*p1v)) &&
-         (EntwinedUtils.abs(y - CubeManager.getCube(cube.index).localY) < (50*p1v)))
+       if ((EntwinedUtils.abs(theta - CubeManager.getCube(lx, cube.index).localTheta) < (50*p1v)) &&
+         (EntwinedUtils.abs(y - CubeManager.getCube(lx, cube.index).localY) < (50*p1v)))
          colors[cube.index] = balls[n].getcolor();
      }
 

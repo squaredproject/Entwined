@@ -60,8 +60,8 @@ public class SparkleTakeOver extends LXPattern {
     float currentBaseHue = lx.engine.palette.color.getHuef();
 
     for (LXPoint cube : model.points) {
-      float localTheta = CubeManager.getCube(cube.index).localTheta * LX.TWO_PIf/360;
-      float localY = CubeManager.getCube(cube.index).localY;
+      float localTheta = CubeManager.getCube(lx, cube.index).localTheta * LX.TWO_PIf/360;
+      float localY = CubeManager.getCube(lx, cube.index).localY;
       float newHueVal = (currentBaseHue + complimentaryToggle * hueSeparation + hueVariationValue * localY) % 360;
       // (float)Math.atan2(cube.z - component.cz, cube.x - component.cx) * 180/LX.PIf;
       float oldHueVal = (currentBaseHue + lastComplimentaryToggle * hueSeparation + hueVariationValue * localY) % 360;

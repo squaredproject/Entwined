@@ -38,7 +38,7 @@ public class UpDown extends LXPattern {
         float scanHeight = upDownModulator.getValuef();
         for (LXModel component : model.children) {
           for (LXPoint cube : model.points) {
-              CubeData cubeData = CubeManager.getCube(cube.index);
+              CubeData cubeData = CubeManager.getCube(lx, cube.index);
               colors[cube.index] = LX.hsb(
                       cubeData.localTheta + time / 6000 * 360,
                       100,

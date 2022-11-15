@@ -43,7 +43,7 @@ public class PartyRings extends LXPattern {
       // 240, rather than 120 pixels.
       for (LXPoint cube : shrub.points) {
         int rodIndex = pointIdx/(12 * ledsPerCube); // NB - rod major.
-        float localTheta = CubeManager.getCube(cube.index).localTheta;
+        float localTheta = CubeManager.getCube(lx, cube.index).localTheta;
         colors[cube.index] = LX.hsb(ringStacks.get(shrubIdx).getHue(rodIndex), 100, ringStacks.get(shrubIdx).getBright(localTheta, rodIndex));
         pointIdx++;
       }

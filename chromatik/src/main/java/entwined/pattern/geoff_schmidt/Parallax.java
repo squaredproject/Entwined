@@ -53,7 +53,7 @@ public class Parallax extends LXPattern {
       colors[cube.index] = LX.hsb(0, 0, 0);
 
       for (ColorBar colorBar : colorBars) {  // XXX - cube.transformedY
-        if (colorBar.intersects(bouncedNow, CubeManager.getCube(cube.index).localY)) {
+        if (colorBar.intersects(bouncedNow, CubeManager.getCube(lx, cube.index).localY)) {
           colors[cube.index] = colorBar.getColor(pHue.getValuef() * 360);
           break;
         }

@@ -20,7 +20,6 @@ import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.studio.LXStudio;
 import heronarts.lx.studio.LXStudio.UI;
 
-import entwined.core.CubeManager;
 import entwined.core.Triggerable;
 import entwined.core.TSPattern;
 import entwined.modulator.Recordings;
@@ -315,8 +314,6 @@ public class Entwined implements LXStudio.Plugin {
         }
       });
     });
-
-    CubeManager.init(lx);
 
     lx.addProjectListener(new LX.ProjectListener() {
       @Override

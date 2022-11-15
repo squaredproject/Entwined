@@ -113,7 +113,7 @@ class Explosion extends MultiObject {
 
   @Override
   public float getBrightnessForCube(LXPoint cube) {
-    Vec2D cubePointPrime = VecUtils.movePointToSamePlane(origin, CubeManager.getCube(cube.index).cylinderPoint);
+    Vec2D cubePointPrime = VecUtils.movePointToSamePlane(origin, CubeManager.getCube(lx, cube.index).cylinderPoint);
     float dist = origin.distanceTo(cubePointPrime);
     switch (state) {
       case EXPLOSION_STATE_IMPLOSION_EXPAND:

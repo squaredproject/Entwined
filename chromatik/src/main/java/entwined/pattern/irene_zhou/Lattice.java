@@ -38,7 +38,7 @@ public class Lattice extends LXPattern {
     float currentBaseHue = lx.engine.palette.color.getHuef();  // XXX this modulates in the previous LX studio
 
     for (LXPoint cube : model.points) {
-      CubeData cdata = CubeManager.getCube(cube.index);
+      CubeData cdata = CubeManager.getCube(lx, cube.index);
       float wrapdistleft  = LXUtils.wrapdistf(cdata.localTheta,  (spinf + (model.yMax - cdata.localY) * coilf) % 180, 180);
       float wrapdistright = LXUtils.wrapdistf(cdata.localTheta, (-spinf - (model.yMax - cdata.localY) * coilf) % 180, 180);
       float width = yClimb.getValuef() + ((cdata.localY - yHeight.getValuef())/model.yMax) * 50;

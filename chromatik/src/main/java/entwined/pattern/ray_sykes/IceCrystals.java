@@ -40,7 +40,7 @@ public class IceCrystals extends LXPattern {
     crystal.doUpdate();
 
     for (LXPoint cube : model.points) {
-      float localTheta = CubeManager.getCube(cube.index).localTheta;
+      float localTheta = CubeManager.getCube(lx, cube.index).localTheta;
       float lineFactor = crystal.getLineFactor(cube.y, localTheta);
       if (lineFactor > 110) {
         lineFactor = 200 - lineFactor;

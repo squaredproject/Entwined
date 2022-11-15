@@ -56,7 +56,7 @@ public class Cells extends TSPattern {
     for (LXPoint cube : model.points) {
       float minDistSq = 1000000;
       float nextMinDistSq = 1000000;
-      CubeData cdata = CubeManager.getCube(cube.index);
+      CubeData cdata = CubeManager.getCube(lx, cube.index);
       for (int i = 0; i < sites.length; ++i) {
         if (EntwinedUtils.abs(sites[i].yPos - cdata.localY) < 150) { //restraint on calculation
           float distSq = EntwinedUtils.pow((LXUtils.wrapdistf(sites[i].theta, cdata.localTheta, 360)), 2) + EntwinedUtils.pow(sites[i].yPos - cdata.localY, 2);

@@ -44,7 +44,7 @@ public class BassSlam extends TSTriggerablePattern {
       y = EntwinedUtils.max(0, 100 * (y - 1) + 250);
 
       for (LXPoint cube : model.points) {
-        setColor(cube.index, LX.hsb(patternHue, 100, EntwinedUtils.constrain(100 - 2 * EntwinedUtils.abs(y - CubeManager.getCube(cube.index).localY), 0, 100)));
+        setColor(cube.index, LX.hsb(patternHue, 100, EntwinedUtils.constrain(100 - 2 * EntwinedUtils.abs(y - CubeManager.getCube(lx, cube.index).localY), 0, 100)));
       }
     }
   }

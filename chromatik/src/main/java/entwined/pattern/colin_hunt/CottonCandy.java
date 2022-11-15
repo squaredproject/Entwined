@@ -36,9 +36,9 @@ public class CottonCandy extends LXPattern {
 
     for (LXPoint cube : model.points) {
 // XXX  theta and r on the points
-      if (((CubeManager.getCube(cube.index).localTheta + spinnerVal
+      if (((CubeManager.getCube(lx, cube.index).localTheta + spinnerVal
       // plus the further from the center, the more hue is added, giving a swirl effect
-      - CubeManager.getCube(cube.index).localR / 2// * swirlMult.getValuef()
+      - CubeManager.getCube(lx, cube.index).localR / 2// * swirlMult.getValuef()
       ) % 120) > 60) {
         hue = 330;
       } else {

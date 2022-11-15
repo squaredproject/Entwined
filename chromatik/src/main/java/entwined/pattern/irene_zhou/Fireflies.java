@@ -135,7 +135,7 @@ public class Fireflies extends TSTriggerablePattern {
 
     for (Firefly fly:fireflies) {
       for (LXPoint cube : model.points) {
-        CubeData cdata = CubeManager.getCube(cube.index);
+        CubeData cdata = CubeManager.getCube(lx, cube.index);
         if (EntwinedUtils.abs(fly.yPos - cdata.localY) <= radius && EntwinedUtils.abs(fly.theta - cdata.localTheta) <= radius) {
           float distSq = EntwinedUtils.pow((LXUtils.wrapdistf(fly.theta, cdata.localTheta, 360)), 2) + EntwinedUtils.pow(fly.yPos - cdata.localY, 2);
           float brt = EntwinedUtils.max(0, 100 - EntwinedUtils.sqrt(distSq * 4) - blinkers[fly.blinkIndex].getValuef());

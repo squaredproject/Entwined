@@ -54,7 +54,7 @@ public class SparkleHelix extends LXPattern {
 
     for (LXModel component:  model.children) {
       for (LXPoint cube : component.points) {
-        CubeData cubeData = CubeManager.getCube(cube.index);
+        CubeData cubeData = CubeManager.getCube(lx, cube.index);
         float localTheta = cubeData.localTheta * LX.PIf/180;  // wrapping using radians...
         float compensatedWidth = (0.7f + .02f / coilValue) * widthValue;
         float wrapAngleForward = (spinValue + coilValue * cubeData.localY) % LX.TWO_PIf;

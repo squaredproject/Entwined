@@ -36,7 +36,7 @@ public class DoubleHelix extends LXPattern {
       // These are *not* the local coordinates of the point.
       for (LXPoint cube : component.points) {
         float coilf = coil.getValuef() * (cube.y - model.cy);
-        float localTheta = CubeManager.getCube(cube.index).localTheta;
+        float localTheta = CubeManager.getCube(lx, cube.index).localTheta;
 
         colors[cube.index] = LX.hsb(
           currentBaseHue + .4f*EntwinedUtils.abs(cube.y - model.cy) +.2f* EntwinedUtils.abs(localTheta * 180/LX.PIf - 180),

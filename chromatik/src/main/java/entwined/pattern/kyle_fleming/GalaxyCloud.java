@@ -33,8 +33,8 @@ public class GalaxyCloud extends LXPattern {
 
     time += deltaMs;
     for (LXPoint cube : model.points) {
-      float adjustedTheta = CubeManager.getCube(cube.index).localTheta / 360;
-      float adjustedY = (CubeManager.getCube(cube.index).localY - model.yMin) / (model.yMax - model.yMin);
+      float adjustedTheta = CubeManager.getCube(lx, cube.index).localTheta / 360;
+      float adjustedY = (CubeManager.getCube(lx, cube.index).localY - model.yMin) / (model.yMax - model.yMin);
       float adjustedTime = (float)time / 3000;
 
       // Use 2 textures so we don't have a seam. Interpolate between them between -45 & 45 and 135 & 225

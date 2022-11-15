@@ -98,7 +98,7 @@ public class Fire extends TSTriggerablePattern {
     }
 
     for (LXPoint cube : model.points) {
-      CubeData cdata = CubeManager.getCube(cube.index);
+      CubeData cdata = CubeManager.getCube(lx, cube.index);
       float yn = (cdata.localY - model.yMin) / model.yMax;
       float cBrt = 0;
       float cHue = 0;

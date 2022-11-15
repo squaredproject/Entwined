@@ -95,7 +95,7 @@ public class CounterSpin extends LXPattern {
 
     // XXX - watch it with theta here!! Should be the local theta I believe...
     int getColors(LXPoint cube, double swirlProgress, double colorOffset) {
-      float localTheta = CubeManager.getCube(cube.index).localTheta;
+      float localTheta = CubeManager.getCube(lx, cube.index).localTheta;
         return LX.hsb(
                 (float) ((localTheta + colorOffset - time / 7000 * 360) % 360),
                 100,

@@ -20,16 +20,23 @@ public class CubeManager implements LX.Listener {
       theCubeManager = new CubeManager(lx);
     }
 
-    public static CubeManager getCubeManager() {
+    public static CubeManager getCubeManager(LX lx) {
+      if (theCubeManager == null) {
+        theCubeManager = new CubeManager(lx);
+      }
       return theCubeManager;
     }
 
-    public static CubeData getCube(int idx) {
+    public static CubeData getCube(LX lx, int idx) {
+      if (theCubeManager == null) {
+        theCubeManager = new CubeManager(lx);
+      }
       // XXX - throw if out of range
       return theCubeManager.cubes[idx];
     }
 
     private CubeManager(LX lx) {
+      this.modelChanged(lx,  lx.getModel());
       lx.addListener(this);
     }
 

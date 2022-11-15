@@ -79,7 +79,7 @@ public class SparkleWave extends LXPattern {
         brightness = sparkleMap[index];
       }
 
-      colors[cube.index] = LX.hsb(CubeManager.getCube(cube.index).localTheta, saturation, brightness);
+      colors[cube.index] = LX.hsb(CubeManager.getCube(lx, cube.index).localTheta, saturation, brightness);
     }
   }
 

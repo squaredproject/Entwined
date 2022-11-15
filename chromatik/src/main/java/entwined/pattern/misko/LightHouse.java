@@ -40,7 +40,7 @@ public class LightHouse extends LXPattern {
     total_ms+=deltaMs*speedParam.getValuef();
     //float offset = (wave.getValuef()+360.0f)%360.0f;
     for (LXPoint cube : model.points) {
-      float diff = (360.0f+(wave.getValuef() - CubeManager.getCube(cube.index).theta)%360.0f)%360.f; // smallest positive representation modulo 360
+      float diff = (360.0f+(wave.getValuef() - CubeManager.getCube(lx, cube.index).theta)%360.0f)%360.f; // smallest positive representation modulo 360
       if ((360-diff)<diff) {
         diff=360-diff;
       }

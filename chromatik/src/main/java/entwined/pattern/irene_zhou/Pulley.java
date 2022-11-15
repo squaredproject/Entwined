@@ -113,7 +113,7 @@ public class Pulley extends TSTriggerablePattern { //ported from SugarCubes
 
       float falloff = 100.f / (3 + sz.getValuef() * 36 + fPos * beatAmount.getValuef()*48);
       for (LXPoint cube : model.points) {
-        CubeData cdata = CubeManager.getCube(cube.index);
+        CubeData cdata = CubeManager.getCube(lx, cube.index);
         int gi = (int) EntwinedUtils.constrain((cube.x - model.xMin) * NUM_DIVISIONS / (model.xMax - model.xMin), 0, NUM_DIVISIONS-1);
         float yn =  cdata.localY/model.yMax;
         colors[cube.index] = LX.hsb(

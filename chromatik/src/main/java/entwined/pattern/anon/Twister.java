@@ -45,7 +45,7 @@ public class Twister extends LXPattern {
         // float localY = cube.y - offsetY;
         //
         //float localTheta = (float) Math.atan2(cube.z - offsetZ, cube.x - offsetX);
-        CubeData cubeData = CubeManager.getCube(cube.index);
+        CubeData cubeData = CubeManager.getCube(lx, cube.index);
 
         float localTheta = cubeData.localTheta; // XXX want in radians and degrees... And
         float localY = cubeData.localY;

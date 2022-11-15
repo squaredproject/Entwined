@@ -30,7 +30,7 @@ public class ClusterLineTest extends LXPattern {
 
     Vec2D origin = new Vec2D(theta.getValuef(), y.getValuef());
     for (LXPoint cube : model.points) {
-      Vec2D cubePointPrime = VecUtils.movePointToSamePlane(origin, CubeManager.getCube(cube.index).cylinderPoint);
+      Vec2D cubePointPrime = VecUtils.movePointToSamePlane(origin, CubeManager.getCube(lx, cube.index).cylinderPoint);
       float dist = origin.distanceTo(cubePointPrime);
       float cubeTheta = (spin.getValuef() + 15) + cubePointPrime.sub(origin).heading() * 180 / LX.PIf + 360;
       colors[cube.index] = LX.hsb(135, 100, 100
