@@ -105,7 +105,14 @@ public class Fire extends TSTriggerablePattern {
       float flameWidth = flameSize.getValuef() / 2;
       for (int i = 0; i < flames.size(); ++i) {
         if (EntwinedUtils.abs(flames.get(i).theta - cdata.localTheta) < (flameWidth * (1- yn))) {
-          cBrt = EntwinedUtils.min(100, EntwinedUtils.max(0, EntwinedUtils.max(cBrt, (100 - 2 * EntwinedUtils.abs(cdata.localY - flames.get(i).decay.getValuef()) - flames.get(i).decay.getBasisf() * 25) * EntwinedUtils.min(1, 2 * (1 - flames.get(i).decay.getBasisf())) )));
+          cBrt = EntwinedUtils.min(
+            100,
+            EntwinedUtils.max(
+              0,
+              EntwinedUtils.max(
+                cBrt,
+                (100 - 2 * EntwinedUtils.abs(cdata.localY - flames.get(i).decay.getValuef()) - flames.get(i).decay.getBasisf() * 25) * EntwinedUtils.min(1, 2 * (1 - flames.get(i).decay.getBasisf()))
+            )));
           cHue = EntwinedUtils.max(0,  (cHue + cBrt * 0.7f) * 0.5f);
         }
       }

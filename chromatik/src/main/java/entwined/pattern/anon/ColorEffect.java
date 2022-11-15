@@ -2,14 +2,14 @@ package entwined.pattern.anon;
 
 import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
+import heronarts.lx.effect.LXEffect;
 import heronarts.lx.modulator.DampedParameter;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
-import entwined.pattern.interactive.TSEffect;
 import entwined.utils.EntwinedUtils;
 
-public class ColorEffect extends TSEffect {
+public class ColorEffect extends LXEffect {
 
   public final BoundedParameter desaturation = new BoundedParameter("WHT", 0);
   public final BoundedParameter hueShift = new BoundedParameter("HUE", 0, 360);

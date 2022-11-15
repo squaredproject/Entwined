@@ -19,15 +19,6 @@ public abstract class TSPattern extends LXPattern implements Triggerable {
     //model = lx.getModel();
   }
 
-
-  public void triggeredRun(double deltaMs) {
-    run(deltaMs);
-  }
-
-  public void setColors(int[] colors) {
-    this.colors = colors;
-  }
-
   // And that works for most of the standard  trigger patterns
   public void onTriggered() {
     if (triggerable) {

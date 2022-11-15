@@ -4,7 +4,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
-import entwined.core.TSPattern;
 import entwined.plugin.Config;
 import entwined.utils.EntwinedUtils;
 
@@ -26,7 +25,7 @@ import heronarts.lx.parameter.LXParameter;
 public abstract class InteractiveEffect extends LXEffect {
   HashMap<String, EffectInfo> activeEffects = new HashMap<String, EffectInfo>();
   int effectDuration = 6000;
-  Class<?> childClass;  // child classes must define this. Should extend TSEffect or TSPattern
+  Class<?> childClass;  // child classes must define this. Should extend LXEffect or LXPattern
   DiscreteParameter debugId;
   String[] debugOptionsArray = new String[]{"None", "shrub-11", "shrub-12"};
 
@@ -134,15 +133,9 @@ public abstract class InteractiveEffect extends LXEffect {
           if (currentTime > value.timeout) {
             removeList.add(key);
           } else {
-            if (value.isTSEffect) {
-              TSEffect effect = (TSEffect)(value.effect);
-              effect.setColors(colors);
-              effect.triggeredRun(deltaMs, strength);
-            } else {
-              TSPattern pattern = (TSPattern)(value.effect);
-              pattern.setColors(colors);
-              pattern.triggeredRun(deltaMs);
-            }
+            LXDeviceComponent effect = value.effect;
+            effect.setBuffer(getBuffer());
+            effect.loop(deltaMs);
           }
         }
     );
@@ -150,7 +143,6 @@ public abstract class InteractiveEffect extends LXEffect {
 
     for (int i=0; i<removeList.size(); i++) {
       activeEffects.remove(removeList.get(i));
-      System.out.println("Removing effect");
     }
 
     if (activeEffects.size() == 0 && oldSize > 0) {
@@ -159,7 +151,6 @@ public abstract class InteractiveEffect extends LXEffect {
     // XXX may also want to do a fade if we're getting near the timeout. This would involve making a copy of the colors in the model pieces
     // and lerping them.
     // Hmm. Seems like there's a built in damping thing that maybe I could use....
-
   }
 
 
@@ -167,16 +158,9 @@ public abstract class InteractiveEffect extends LXEffect {
     LXDeviceComponent effect;  // Really has to be a TSEffect or TSPattern; I'm choosing the closest ancestor
     int timeout;
     LXModel effectModel;
-    Boolean isTSEffect;
 
     EffectInfo(LXDeviceComponent effect, LXModel effectModel, int timeoutFromNow) {
-      if (effect instanceof TSEffect) {
-        isTSEffect = true;
-      } else if (effect instanceof TSPattern) {
-        isTSEffect = false;
-      } else {
-        throw new IllegalArgumentException("Effect must inherit from TSPattern or TSEffect");
-      }
+
       this.effect = effect;
       this.effectModel = effectModel;
       this.timeout = EntwinedUtils.millis() + timeoutFromNow;

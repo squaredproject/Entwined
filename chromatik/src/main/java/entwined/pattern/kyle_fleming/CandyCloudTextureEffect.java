@@ -1,14 +1,14 @@
 package entwined.pattern.kyle_fleming;
 
-import entwined.pattern.interactive.TSEffect;
 import entwined.utils.SimplexNoise;
 import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
+import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BoundedParameter;
 
-public class CandyCloudTextureEffect extends TSEffect {
+public class CandyCloudTextureEffect extends LXEffect {
 
   public final BoundedParameter amount = new BoundedParameter("CLOU");
 
