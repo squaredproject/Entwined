@@ -39,8 +39,8 @@ public class Lattice extends LXPattern {
 
     for (LXPoint cube : model.points) {
       CubeData cdata = CubeManager.getCube(cube.index);
-      float wrapdistleft = LXUtils.wrapdistf(cdata.localTheta, spinf + (model.yMax - cdata.localY) * coilf, 180);
-      float wrapdistright = LXUtils.wrapdistf(cdata.localTheta, -spinf - (model.yMax - cdata.localY) * coilf, 180);
+      float wrapdistleft  = LXUtils.wrapdistf(cdata.localTheta,  (spinf + (model.yMax - cdata.localY) * coilf) % 180, 180);
+      float wrapdistright = LXUtils.wrapdistf(cdata.localTheta, (-spinf - (model.yMax - cdata.localY) * coilf) % 180, 180);
       float width = yClimb.getValuef() + ((cdata.localY - yHeight.getValuef())/model.yMax) * 50;
       float df = EntwinedUtils.min(100, 3 * EntwinedUtils.max(0, wrapdistleft - width) + 3 * EntwinedUtils.max(0, wrapdistright - width));
 
