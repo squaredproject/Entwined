@@ -6,8 +6,7 @@ import heronarts.lx.LXDeviceComponent;
 
 public class InteractiveCandyChaosEffect extends InteractiveEffect {
   public InteractiveCandyChaosEffect(LX lx) {
-    super(lx);
-    this.childClass = CandyTextureEffect.class;
+    super(lx, CandyTextureEffect.class);
   }
 
   @Override

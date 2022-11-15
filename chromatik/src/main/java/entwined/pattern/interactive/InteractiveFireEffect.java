@@ -6,8 +6,7 @@ import heronarts.lx.LXDeviceComponent;
 
 public class InteractiveFireEffect extends InteractiveEffect {
   public InteractiveFireEffect(LX lx) {
-    super(lx);
-    this.childClass = Fire.class;
+    super(lx, Fire.class);
   }
 
   @Override

@@ -8,6 +8,8 @@ import entwined.plugin.Config;
 import entwined.utils.EntwinedUtils;
 
 import java.util.HashMap;
+import java.util.Map;
+
 import heronarts.lx.LX;
 import heronarts.lx.LXDeviceComponent;
 import heronarts.lx.effect.LXEffect;
@@ -23,24 +25,28 @@ import heronarts.lx.parameter.LXParameter;
 // I create the childclass.
 
 public abstract class InteractiveEffect extends LXEffect {
-  HashMap<String, EffectInfo> activeEffects = new HashMap<String, EffectInfo>();
-  int effectDuration = 6000;
-  Class<?> childClass;  // child classes must define this. Should extend LXEffect or LXPattern
-  DiscreteParameter debugId;
-  String[] debugOptionsArray = new String[]{"None", "shrub-11", "shrub-12"};
+  private final Map<String, EffectInfo> activeEffects = new HashMap<String, EffectInfo>();
 
-  public InteractiveEffect(LX lx) {
+  protected int effectDuration = 6000;
+
+  private final Class<? extends LXDeviceComponent> childClass;  // child classes must define this. Should extend LXEffect or LXPattern
+
+  private final String[] debugOptionsArray = { "None", "shrub-11", "shrub-12" };
+
+  private final DiscreteParameter debugId = new DiscreteParameter("ID", this.debugOptionsArray);
+
+  public InteractiveEffect(LX lx, Class<? extends LXDeviceComponent> childClass) {
     super(lx);
-    debugId = new DiscreteParameter("ID", debugOptionsArray);
-    addParameter("debugId", debugId);
+    this.childClass = childClass;
+    addParameter("debugId", this.debugId);
   }
 
   @Override
   public void onParameterChanged(LXParameter param) {
-    if (param == debugId) {
-      int index = debugId.getValuei();
+    if (param == this.debugId) {
+      int index = this.debugId.getValuei();
       if (index > 0) {
-        onTriggeredPiece(debugOptionsArray[index]);
+        onTriggeredPiece(this.debugOptionsArray[index]);
       }
     }
   }
@@ -101,7 +107,7 @@ public abstract class InteractiveEffect extends LXEffect {
     } else {
       LXDeviceComponent newEffect;
       try {
-        Constructor constructor = childClass.getConstructor(LX.class);
+        Constructor<?> constructor = childClass.getConstructor(LX.class);
         newEffect = (LXDeviceComponent)constructor.newInstance(lx);
       } catch (InstantiationException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException

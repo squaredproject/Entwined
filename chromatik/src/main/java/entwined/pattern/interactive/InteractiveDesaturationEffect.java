@@ -7,8 +7,7 @@ import heronarts.lx.LXDeviceComponent;
 
 public class InteractiveDesaturationEffect extends InteractiveEffect {
   public InteractiveDesaturationEffect(LX lx) {
-    super(lx);
-    this.childClass = ColorEffect.class;
+    super(lx, ColorEffect.class);
   }
 
   @Override

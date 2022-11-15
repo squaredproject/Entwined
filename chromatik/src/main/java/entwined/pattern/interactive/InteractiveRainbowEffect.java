@@ -6,8 +6,7 @@ import heronarts.lx.LXDeviceComponent;
 
 public class InteractiveRainbowEffect extends InteractiveEffect {
   public InteractiveRainbowEffect(LX lx) {
-    super(lx);
-    this.childClass = CandyCloudTextureEffect.class;
+    super(lx, CandyCloudTextureEffect.class);
   }
 
   @Override
