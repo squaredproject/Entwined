@@ -37,11 +37,12 @@ public class SyncSpinner extends LXPattern {
     wave.setPeriod(speedParam.getValuef() * speedMult / 3 );
     total_ms+=deltaMs*speedParam.getValuef();
     for (LXModel shrub : model.sub("SHRUB")) {
-      int shrub_offset = (int)(-shrub.ry/30+24)%12;  // XXX WTF?  NB - ry is the theta of the shrub, which I do not currently have
+      int ry = Integer.parseInt(model.meta("ry"));
+      int shrub_offset = (int)(-ry/30+24)%12;
       int cubeIdx = 0;
       for (LXPoint shrubCube : shrub.points) {
 
-    //System.out.format("%f %d %d | %d\n",shrub.ry,shrub_offset,shrubCube.config.clusterIndex,(shrubCube.config.clusterIndex+shrub_offset)%12);
+    //System.out.format("%f %d %d | %d\n",ry,shrub_offset,shrubCube.config.clusterIndex,(shrubCube.config.clusterIndex+shrub_offset)%12);
         float diff = (12.0f+(wave.getValuef() - (cubeIdx/12 + shrub_offset))%12.0f)%12.0f;
         if (diff<0) {
           System.out.println(diff);
