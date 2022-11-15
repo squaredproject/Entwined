@@ -10,19 +10,22 @@ public class MappingPattern extends LXPattern {
   int numBits;
   int count;
   int numCompleteResetCycles = 10;
-  int numCyclesToShowFrame = 2;
+  int numCyclesToShowFrame = 4;
   int numResetCycles = 3;
-  int numCyclesBlack = 4;
+  int numCyclesBlack = 2;
   int cycleCount = 0;
-
+  int stepTimeMs = 500;
+  int elapsedTimeMs = 0;
   public MappingPattern(LX lx) {
     super(lx);
+    count = 0;
 
     numBits = model.points.length;
   }
 
   @Override
   public void run(double deltaMs) {
+    elapsedTimeMs += deltaMs;
     if (count >= numBits) {
       if (numBits + numCyclesBlack <= count && count < numBits + numCyclesBlack + numCompleteResetCycles) {
         setColors(LXColor.WHITE);
@@ -40,9 +43,12 @@ public class MappingPattern extends LXPattern {
         setColor(cube.index, cube.index == count ? LXColor.WHITE : LXColor.BLACK);
       }
     }
-    cycleCount = (cycleCount + 1) % (numCyclesToShowFrame + numResetCycles + 2*numCyclesBlack);
-    if (cycleCount == 0) {
-      count = (count + 1) % (numBits + numCompleteResetCycles + 2*numCyclesBlack);
+    if (elapsedTimeMs > stepTimeMs) {
+      elapsedTimeMs = 0;
+      cycleCount = (cycleCount + 1) % (numCyclesToShowFrame + numResetCycles + 2*numCyclesBlack);
+      if (cycleCount == 0) {
+        count = (count + 1) % (numBits + numCompleteResetCycles + 2*numCyclesBlack);
+      }
     }
   }
 }
