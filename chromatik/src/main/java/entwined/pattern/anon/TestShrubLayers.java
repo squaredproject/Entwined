@@ -1,5 +1,6 @@
 package entwined.pattern.anon;
 
+import entwined.plugin.Entwined;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
@@ -29,9 +30,9 @@ public class TestShrubLayers extends LXPattern {
       int idx = 0;
       for (LXPoint cube : shrub.points) {
         // The wiring is laid out in rod order - so, for each one of 5 rods, go through 12 clusters
-        int rodIndex = idx % 12;
-        int clusterIdx = idx/5;
-        if (rodIndex == (int)rodLayer.getValue() || clusterIdx == (int)clusterIndex.getValue() || shrubIdx == (int)shrubIndex.getValue()) {
+        int clusterIdx = Entwined.getCubeCluster(idx);
+        int rodIndex = Entwined.getCubeLayer(idx);
+        if (clusterIdx == (int)clusterIndex.getValue() || rodIndex == (int)rodLayer.getValue() || shrubIdx == (int)shrubIndex.getValue()) {
             colors[cube.index] = LX.hsb(135, 100, 100);
         } else {
             colors[cube.index] = LX.hsb(135, 100, 0);

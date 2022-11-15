@@ -5,7 +5,6 @@ import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.pattern.LXPattern;
 
-// NB - this one works.
 public class TestShrubSweep extends LXPattern {
 
     final BoundedParameter x;

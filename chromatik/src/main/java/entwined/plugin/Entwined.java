@@ -736,4 +736,12 @@ public class Entwined implements LXStudio.Plugin {
     return null;
   }
 
+  public static int getCubeCluster(int idx) {
+    return idx % 12;
+  }
+
+  public static int getCubeLayer(int idx) {
+    return idx/12;
+  }
+
 }
