@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import entwined.modulator.Recordings;
 import entwined.pattern.anon.ColorEffect;
 import entwined.pattern.kyle_fleming.BrightnessScaleEffect;
 import entwined.pattern.kyle_fleming.CandyCloudTextureEffect;
@@ -16,7 +17,6 @@ import entwined.pattern.kyle_fleming.ScrambleEffect;
 import entwined.pattern.kyle_fleming.SpeedEffect;
 import entwined.pattern.kyle_fleming.TSBlurEffect;
 import heronarts.lx.LX;
-import heronarts.lx.LXEngine;
 import heronarts.lx.effect.BlurEffect;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.mixer.LXAbstractChannel;
@@ -35,8 +35,9 @@ public class IPadServerController {
   int numServerChannels;      // the number of channels controlled by this controller is 3
 
   boolean isAutoplaying;
-  TSAutomationRecorder automation;
   boolean[] previousChannelIsOn;
+  boolean[] previousEffectIsOn;
+  boolean wasRunningAutomation = false;
 
   ArrayList<TSEffectController> effectControllers = new ArrayList<TSEffectController>();
   int activeEffectControllerIndex = -1;
@@ -48,7 +49,6 @@ public class IPadServerController {
   BrightnessScaleEffect masterBrightnessEffect;
   BrightnessScaleEffect autoplayBrightnessEffect;
   BoundedParameterProxy outputBrightness;
-  // AutoPauseTask autoPauseTask;  // No longer supporting autopause
 
   double masterBrightnessStash = 1.0;
 
@@ -57,20 +57,14 @@ public class IPadServerController {
 
     baseChannelIndex = Config.NUM_BASE_CHANNELS;
     numServerChannels = Config.NUM_SERVER_CHANNELS;
-    automation = new TSAutomationRecorder(lx.engine);
 
     registerIPadEffects();
 
     outputBrightness = new BoundedParameterProxy(1);
     autoplayBrightnessEffect.setAmount(Config.autoplayBrightness);
-
-    // And this definitely needs to be in the main plugin. This is not ipad.
-    // this.autoPauseTask = new AutoPauseTask(outputBrightness);
-    //lx.engine.addLoopTask(this.autoPauseTask);
   }
 
   void shutdown() {
-    //lx.engine.removeLoopTask(autoPauseTask);
   }
 
   /*
@@ -101,7 +95,6 @@ public class IPadServerController {
     if (abstractChannel instanceof LXChannel) {
       LXChannel channel = (LXChannel)abstractChannel;
       channel.goPatternIndex(patternIndex);
-    //lx.engine.mixer.getChannel(channelIndex).goIndex(patternIndex);
     }
   }
 
@@ -131,7 +124,8 @@ public class IPadServerController {
     // NB not hooking up RotationEffect, SpinEffect, or GhostEffect.  -- CSW
 
     // General global effects at the end - they (ideally) operate after the other effects.
-    // XXX - how to guarantee this? Maybe we just futz with the project file.
+    // XXX - how to guarantee this? The only way currently is to futz with the project file, and
+    // manually put them in the correct order.
     // Essentially, I've got a race condition going on that I cannot win - I need general effects, then ipad effects,
     // and then global effects.
     speedEffect = Entwined.setupMasterEffect(lx, SpeedEffect.class);
@@ -278,8 +272,11 @@ public class IPadServerController {
   void setAutoplay(boolean autoplay, boolean forceUpdate) {
     if (autoplay != isAutoplaying || forceUpdate) {
       isAutoplaying = autoplay;
-      // autoPauseTask.setAutoplay(isAutoplaying); No longer supporting autopause
-      automation.setPaused(!autoplay);
+      Recordings recordings = Entwined.findModulator(lx, Recordings.class);
+      if (!autoplay && recordings != null) {
+        wasRunningAutomation = recordings.isRunning();
+        recordings.stop();
+      }
 
       // if we are disabling auto-play, stash the last brightness
       if (autoplay) {
@@ -296,51 +293,72 @@ public class IPadServerController {
         }
       }
 
-      // XXX - so it appears that the base channels work when we're doing autoplay,
-      // but the ipad channels don't. So effectively the ipad is locked out during autoplay,
-      // except to turn off autoplay? This is weird.
-      // XXX - do I just want to stop any effects that are currently playing from the main
-      // effect channel? What about the global spin and blur and scramble effects?
-      // XXX yes, I think that's what I do. With a caveat that I *dont* want to turn off
-      // the interactive effects, which take precedence.
+      if (previousEffectIsOn == null ) {
+        previousEffectIsOn = new boolean[lx.engine.mixer.masterBus.effects.size()];
+        int effectIdx = 0;
+        for (LXEffect effect : lx.engine.mixer.masterBus.effects) {
+          previousEffectIsOn[effectIdx] = effect.isEnabled();
+          effectIdx++;
+        }
+      }
 
       // The ipad effects do include blur and color and speed and spin and scramble... it's
       // everything but the master controllers. So previously I'd set the enable flag on those effects to off.
+      // XXX - deal better with effects that the ipad can use. And this weird ipad only thing FIXME
       for (LXAbstractChannel channel : lx.engine.mixer.getChannels()) {
         boolean toEnable;
-        if (channel.getIndex() < baseChannelIndex) {
+        int channelIdx = channel.getIndex();
+        /*
+        if (channelIdx < baseChannelIndex) {
           toEnable = autoplay; // base channels
-        } else if (channel.getIndex() < baseChannelIndex + numServerChannels) {
+        } else if (channelIdx < baseChannelIndex + numServerChannels) {
           toEnable = !autoplay; // server channels
         } else {
           toEnable = autoplay; // others // XXX - be very careful about disablng the Effects channel, which the ipad depends on FIXME
         }
+        */
 
-        if (toEnable) {
-          channel.enabled.setValue(previousChannelIsOn[channel.getIndex()]);
-          //System.out.println(" setAutoplay: toEnable true: channel "+channel.getIndex()+" setting to "+previousChannelIsOn[channel.getIndex()]);
-        } else {
-          previousChannelIsOn[channel.getIndex()] = channel.enabled.isOn();
-          channel.enabled.setValue(false);
-          //System.out.println(" setAutoplay: toEnable false: channel "+channel.getIndex()+" setting to false");
+        if (channelIdx < previousChannelIsOn.length) {  // Safety XXX - one could have a listener for channel changes.
+          if (channelIdx >= baseChannelIndex && channelIdx < baseChannelIndex + numServerChannels) { // we're an ipad channel
+            channel.enabled.setValue(!autoplay);
+          } else { // non ipad channel
+            if (autoplay) {  // turning off ipad
+              channel.enabled.setValue(previousChannelIsOn[channelIdx]);
+              //System.out.println(" setAutoplay: toEnable true: channel "+channel.getIndex()+" setting to "+previousChannelIsOn[channel.getIndex()]);
+            } else { // turning on ipad
+              previousChannelIsOn[channelIdx] = channel.enabled.isOn();
+              channel.enabled.setValue(false);
+              //System.out.println(" setAutoplay: toEnable false: channel "+channel.getIndex()+" setting to false");
+            }
+          }
         }
       }
 
-      /* Turn off global effects that are registered to the iPad, and the iPad only */
-      // XXX - I think this really just should turn effects *off*, if I understand what
-      // effect.enabled does. When we toggle, we don't want anything from the old panel of
-      // effects.  FIXME?? CSW
+      /* Toggle between global effects that are registered to the iPad, and global effects that aren't.
+       * A couple of things here - like channels, we want to save the previous values.
+       * And we want to make sure not to turn off the interactive effects */
       for (int i = 0; i < lx.engine.mixer.masterBus.effects.size(); i++) {
         LXEffect effect = lx.engine.mixer.masterBus.effects.get(i);
         if (effect.getLabel().startsWith("iPad")) {
           effect.enabled.setValue(!autoplay);
         } else {
-          effect.enabled.setValue(autoplay); // XXX again, be very very careful not to turn off Canopy Effects FIXME. And I really don't know that we want to set up all these effects?
+          if (i < previousEffectIsOn.length) {
+            if (autoplay) {
+              effect.enabled.setValue(previousEffectIsOn[i]);
+            } else {
+              if (!effect.getLabel().startsWith("Interactive")) {  // XXX FIXME. We should register these and then ask rather than depending on their names!!!
+                effect.enabled.setValue(false);
+              }
+            }
+          }
         }
       }
 
       // this effect is enabled or disabled if autoplay
       autoplayBrightnessEffect.enabled.setValue(autoplay);
+      if (recordings != null && autoplay && wasRunningAutomation) {
+        recordings.start();
+      }
     }
   }
 
@@ -535,47 +553,3 @@ class BoundedParameterProxy extends BoundedParameter {
     return value;
   }
 }
-
-
-// Bogus class until I find the equivalent of LXAutomationRecorder in the new lx.
-class TSAutomationRecorder {
-  boolean isPaused;
-
-  TSAutomationRecorder(LXEngine engine) {
-    // nop
-  }
-
-  public void setPaused(boolean paused) {
-    isPaused = paused;
-  }
-}
-/*
-class TSAutomationRecorder extends LXAutomationRecorder {
-
-  boolean isPaused;
-
-  TSAutomationRecorder(LXEngine engine) {
-    super(engine);
-  }
-
-  @Override
-  protected void onStart() {
-    super.onStart();
-    isPaused = false;
-  }
-
-  public void setPaused(boolean paused) {
-    if (!paused && !isRunning()) {
-      start();
-    }
-    isPaused = paused;
-  }
-
-  @Override
-  public void loop(double deltaMs) {
-    if (!isPaused) {
-      super.loop(deltaMs);
-    }
-  }
-}
-*/
