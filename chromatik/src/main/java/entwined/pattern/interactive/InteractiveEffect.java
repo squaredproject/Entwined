@@ -75,7 +75,7 @@ public abstract class InteractiveEffect extends LXEffect {
         LXModel model = lx.getModel();
         for (String componentName : components) {
           for (LXModel child : model.children) {
-            if (child.metaData.get("name") == componentName) {
+            if (child.metaData.get("name").equals(componentName)) {
               pieces.add(child);
             }
           }
@@ -84,14 +84,11 @@ public abstract class InteractiveEffect extends LXEffect {
     }
 
     // System.out.println("Found " + pieces.size() + " model pieces for " + pieceId);
-    if (pieces.size() == 0) {
+    if (pieces.isEmpty()) {
       return null;
     }
 
-    LXModel[] modelArray = new LXModel[pieces.size()];
-    modelArray = pieces.toArray(modelArray);
-    LXModel newModel = new LXModel(modelArray);
-    return newModel;
+    return new LXModel(pieces.toArray(new LXModel[pieces.size()]));
   }
 
   abstract void onChildEffectCreated(LXDeviceComponent child);
