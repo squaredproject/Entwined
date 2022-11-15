@@ -2,6 +2,8 @@ package entwined.pattern.adam_n_katie;
 
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
+import heronarts.lx.ModelBuffer;
+import heronarts.lx.color.LXColor;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.model.LXModel;
@@ -44,6 +46,8 @@ public class Blooms extends AutographedPattern{
   */
   private ColorHSB bloomLitColorHSB = new ColorHSB();
 
+  private final ModelBuffer myBuffer = new ModelBuffer(lx, LXColor.BLACK);
+
   public Blooms(LX lx){
     super(lx);
     addParameter("shrubBloomsPerTree", shrubBloomsPerTreeBloomParam);
@@ -55,6 +59,9 @@ public class Blooms extends AutographedPattern{
 
   @Override
   public void run(double deltaMs){
+    // Restore the previous frame content before updating pixels
+    this.myBuffer.copyTo(getBuffer());
+
     // Update time related variables.
     super.run(deltaMs);
 
@@ -242,6 +249,9 @@ public class Blooms extends AutographedPattern{
     // Make sure to show off the magic cube so we know
     // this is one of our patterns.
     UpdateAndSetColorOfTheOneAutographCube();
+
+    // Keep a copy of our rendered state around
+    this.myBuffer.copyFrom(getBuffer());
 
   }// END public void run(double deltaMs)
 }// class Blooms extends TSPattern
