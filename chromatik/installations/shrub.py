@@ -83,6 +83,8 @@ class Shrub:
         self.clusters_per_shrub = 12
         self.cubes = []
 
+        self.ry = shrub_config['ry']
+
         self.calculate_cubes()
 
 
@@ -136,7 +138,8 @@ class Shrub:
                      "meta": {"name": self.piece_id,
                               "base_x": int(self.translation[0]),
                               "base_y": int(self.translation[1]),
-                              "base_z": int(self.translation[2])
+                              "base_z": int(self.translation[2]),
+                              "ry"   : self.ry
                      }}
         outputs = lx_output["outputs"]
         coords = lx_output["components"][0]["coords"]

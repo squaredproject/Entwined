@@ -31,6 +31,7 @@ class FairyCircle:
         self.radius = config['radius']
         self.ip_addrs = config['ipAddresses']
         self.piece_id = config['pieceId']
+        self.ry = config['ry']
         self.clusters_per_ndb = 5
         if 'degrees' in config:
             arc = np.pi * config['degrees']/180
@@ -91,7 +92,8 @@ class FairyCircle:
                      "meta": {"name": self.piece_id,
                               "base_x": int(self.translation[0]),
                               "base_y": int(self.translation[1]),
-                              "base_z": int(self.translation[2])
+                              "base_z": int(self.translation[2]),
+                              "ry": self.ry
                      }}
         coords = lx_config['components'][0]['coords']
         outputs = lx_config['outputs']

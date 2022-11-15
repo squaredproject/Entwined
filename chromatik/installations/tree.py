@@ -68,6 +68,7 @@ class Tree:
         self.ip_addresses = self.get_ndb_addresses()
         self.piece_id = tree_config['pieceId']
         self.type = 'sapling' if self.piece_id.startswith('sapling') else 'classic'
+        self.ry = tree_config['ry']
 
         # set up branches and their mounting points...
         self.branches = []
@@ -98,7 +99,8 @@ class Tree:
                      "meta": {"name": self.piece_id,
                               "base_x": int(self.translation[0]),
                               "base_y": int(self.translation[1]),
-                              "base_z": int(self.translation[2])
+                              "base_z": int(self.translation[2]),
+                              "ry": self.ry
                      }}
         outputs = lx_output["outputs"]
         coords = lx_output["components"][0]["coords"]
