@@ -320,6 +320,10 @@
         }
     ],
     "meta": {
-        "name": "shrub-13"
+        "name": "shrub-13",
+        "base_x": -1026,
+        "base_y": 0,
+        "base_z": -1166,
+        "ry": 130
     }
 }

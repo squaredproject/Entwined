@@ -625,6 +625,10 @@
         }
     ],
     "meta": {
-        "name": "circle-2"
+        "name": "circle-2",
+        "base_x": -920,
+        "base_y": 0,
+        "base_z": -464,
+        "ry": 340
     }
 }

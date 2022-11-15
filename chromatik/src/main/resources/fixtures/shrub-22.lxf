@@ -320,6 +320,10 @@
         }
     ],
     "meta": {
-        "name": "shrub-22"
+        "name": "shrub-22",
+        "base_x": 35,
+        "base_y": 0,
+        "base_z": -631,
+        "ry": 180
     }
 }

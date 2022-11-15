@@ -321,6 +321,10 @@
         }
     ],
     "meta": {
-        "name": "king-3"
+        "name": "king-3",
+        "base_x": 447,
+        "base_y": 0,
+        "base_z": 306,
+        "ry": 300
     }
 }
