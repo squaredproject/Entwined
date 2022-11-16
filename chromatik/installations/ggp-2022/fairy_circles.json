@@ -1,29 +1,112 @@
 [
 	{
 			"ry" : 40,
-			"x" : -219,
-			"z" : -1420,
-			"radius" : 180,
-			"pieceId" : "circle-1",
+			"x" : 660,
+			"z" : -330,
+			"radius" : 60,
+			"pieceId" : "fairy-1",
 			"cubeSizeIndex" : 0,
+			"clustersPerNdb" : 5,
 			"ipAddresses" : ["10.0.0.140", "10.0.0.141"]
 	},
 	{
 			"ry" : 340,
-			"x" : -920,
-			"z" : -464,
-			"radius" : 240,
-			"pieceId" : "circle-2",
+			"x" : 180,
+			"z" : 600,
+			"radius" : 60,
+			"degrees" : 60,
+			"pieceId" : "fairy-2",
 			"cubeSizeIndex" : 0,
-			"ipAddresses" : ["10.0.0.142", "10.0.0.143"]
+			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.142"]
 	},
-		{
-			"ry" : 270,
-			"x" : 1008,
-			"z" : 675,
-			"radius" : 300,
+	{
+			"ry" : 340,
+			"x" : -540,
+			"z" : 840,
+			"radius" : 60,
+			"degrees" : 60,
+			"pieceId" : "fairy-3",
 			"cubeSizeIndex" : 0,
-			"pieceId" : "circle-3",
-			"ipAddresses" : ["10.0.0.145", "10.0.0.146","10.0.0.147", "10.0.0.144"]
+			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.143"]
+	},
+	{
+			"ry" : 340,
+			"x" : -600,
+			"z" : 0,
+			"radius" : 60,
+			"degrees" : 60,
+			"pieceId" : "fairy-4",
+			"cubeSizeIndex" : 0,
+			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.144"]
+	},
+	{
+			"ry" : 340,
+			"x" : -480,
+			"z" : -600,
+			"radius" : 60,
+			"degrees" : 60,
+			"pieceId" : "fairy-5",
+			"cubeSizeIndex" : 0,
+			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.145"]
+	},
+	{
+			"ry" : 340,
+			"x" : -240,
+			"z" : -1020,
+			"radius" : 60,
+			"degrees" : 60,
+			"pieceId" : "fairy-6",
+			"cubeSizeIndex" : 0,
+			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.146"]
+	},
+	{
+			"ry" : 340,
+			"x" : 240,
+			"z" : -720,
+			"radius" : 60,
+			"degrees" : 60,
+			"pieceId" : "fairy-7",
+			"cubeSizeIndex" : 0,
+			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.147"]
+	},
+	{
+			"ry" : 340,
+			"x" : 1200,
+			"z" : -1200,
+			"degrees" : 60,
+			"radius" : 60,
+			"pieceId" : "fairy-8",
+			"cubeSizeIndex" : 0,
+			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.148"]
+	},
+	{
+			"ry" : 340,
+			"x" : 1500,
+			"z" : -1020,
+			"radius" : 60,
+			"degrees" : 60,
+			"pieceId" : "fairy-9",
+			"cubeSizeIndex" : 0,
+			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.149"]
+	},
+	{
+			"ry" : 340,
+			"x" : -600,
+			"z" : -480,
+			"radius" : 60,
+			"degrees" : 60,
+			"pieceId" : "fairy-10",
+			"cubeSizeIndex" : 0,
+			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.139"]
 	}
+
 ]

@@ -32,7 +32,10 @@ class FairyCircle:
         self.ip_addrs = config['ipAddresses']
         self.piece_id = config['pieceId']
         self.ry = config['ry']
-        self.clusters_per_ndb = 5
+        if 'clustersPerNdb' in config:
+            self.clusters_per_ndb = config['clustersPerNdb']
+        else:
+            self.clusters_per_ndb = 5
         if 'degrees' in config:
             arc = np.pi * config['degrees']/180
         else:
@@ -72,13 +75,20 @@ class FairyCircle:
 
                 ndb_cubes.append(cluster_cubes)
             # there's an issue here about how the miniclusters are actually attached to the ndbs, which is not
-            # in rotational order.  Instead of 1-2-3-4-5, it's 2-1-3-4-5. I need to set up the cube list this way...
-            self.cubes += ndb_cubes[1]
-            self.cubes += ndb_cubes[0]
-            self.cubes += ndb_cubes[2]
-            self.cubes += ndb_cubes[3]
-            self.cubes += ndb_cubes[4]
-
+            # in rotational order.  Instead of 1-2-3-4-5, it's 2-1-3-4-5 (for 5) but 1-2-3 (for 3)
+            if (self.clusters_per_ndb == 5):
+                self.cubes += ndb_cubes[1]
+                self.cubes += ndb_cubes[0]
+                self.cubes += ndb_cubes[2]
+                self.cubes += ndb_cubes[3]
+                self.cubes += ndb_cubes[4]
+            elif (self.clusters_per_ndb == 3):
+                self.cubes += ndb_cubes[0]
+                self.cubes += ndb_cubes[1]
+                self.cubes += ndb_cubes[2]
+            else:
+                print(f'only supports 3 and 5 clusters per ndb, not {self.clusters_per_ndb}')
+                exit()
 
     def write_fixture_file(self, folder):
         folder_path = Path(folder)
