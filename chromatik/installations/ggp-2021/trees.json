@@ -5,7 +5,8 @@
 		"ry" : 135,
 		"x" : -640,
 		"z" : -1026,
-		"pieceId": "tree-medium"
+		"pieceId": "tree-medium",
+    "center": true
 	},
 	{
 		"canopyMajorLengths" : [180, 120],

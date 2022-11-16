@@ -69,6 +69,9 @@ class Tree:
         self.piece_id = tree_config['pieceId']
         self.type = 'sapling' if self.piece_id.startswith('sapling') else 'classic'
         self.ry = tree_config['ry']
+        self.is_center = False
+        if 'center' in tree_config:
+            self.is_center = tree_config['center']
 
         # set up branches and their mounting points...
         self.branches = []
@@ -92,6 +95,9 @@ class Tree:
             tags.append("SAPLING")
         else:
             tags.append("BIG_TREE")
+        if self.is_center:
+            tags.append("CENTER")
+
         lx_output = {"label": self.piece_id,
                      "tags": tags,
                      "components": [ {"type": "points", "coords": []}],

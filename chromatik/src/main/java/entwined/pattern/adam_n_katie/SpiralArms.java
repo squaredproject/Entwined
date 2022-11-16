@@ -11,10 +11,6 @@ import heronarts.lx.parameter.BoundedParameter;
 Radiating arms that can be spiralled.
 */
 
-//NOTE! This pattern depends on there being a tree at position 0
-//which is not true with entwined.
-//It has thus been removed from the main pattern list until repaired.
-
 
 public class SpiralArms extends AutographedPattern{
   // Constants
@@ -33,7 +29,6 @@ public class SpiralArms extends AutographedPattern{
     new BoundedParameter("SPD", 3, 1, 100);
 
   // Variables
-  private LXModel theMainTree;  // this is going to be the medium size tree since the tall tree is gone
   private Vec3D theMainTreePos0To1;
   private float distFromMainTreeXZMax = -Float.MAX_VALUE;
 
@@ -48,9 +43,15 @@ public class SpiralArms extends AutographedPattern{
     addParameter("rotSpeed", rotSpeedParam);
 
     // Get the Main tree's position.
-    theMainTree = model.sub("TREE").get(0);// Trees have no Y position.
+    float centerElement_x = 0;
+    float centerElement_z = 0;
+    LXModel centerElement = model.sub("CENTER").get(0);// Trees have no Y position.
+    if (centerElement != null) {
+      centerElement_x = centerElement.cx;
+      centerElement_z = centerElement.cz;
+    }
     theMainTreePos0To1 =
-      PosRawToPos0To1(theMainTree.cx, 0.0f, theMainTree.cz);
+      PosRawToPos0To1(centerElement_x, 0.0f, centerElement_z);
 
     // Get the maximum distance from the Main tree.
     for (LXPoint cube : model.points){

@@ -11,10 +11,6 @@ import heronarts.lx.parameter.BoundedParameter;
 Circular hue cycle waves starting far from the main tree and moving toward it.
 */
 
-// NOTE! This pattern depends on there being a tree at position 0
-// which is not true with entwined.
-// It has thus been removed from the main pattern list until repaired.
-
 public class WavesToMainTree extends AutographedPattern{
   // Constants
   static final float speedMult = 1000;
@@ -28,7 +24,6 @@ public class WavesToMainTree extends AutographedPattern{
     new SawLFO(0, 360, speedParam.getValuef() * speedMult);
 
   // Variables
-  private LXModel theMainTree;
   private Vec3D theMainTreePos0To1;
   private float distFromMainTreeXZMax = -Float.MAX_VALUE;
 
@@ -42,9 +37,15 @@ public class WavesToMainTree extends AutographedPattern{
     addParameter("speed", speedParam);
 
     // Get the Main tree's position.
-    theMainTree = model.sub("TREE").get(0);// Trees have no Y position.
+    float centerElement_x = 0;
+    float centerElement_z = 0; // we're on a plane and we don't care about y.
+    LXModel centerElement = model.sub("CENTER").get(0);
+    if (centerElement != null) {
+      centerElement_x = centerElement.cx;
+      centerElement_z = centerElement.cz;
+    }
     theMainTreePos0To1 =
-      PosRawToPos0To1(theMainTree.cx, 0.0f, theMainTree.cz);
+      PosRawToPos0To1(centerElement_x, 0.0f, centerElement_z);
 
     // Get the maximum distance from the Main tree.
     for (LXPoint cube : model.points){
