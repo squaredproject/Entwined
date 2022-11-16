@@ -5,6 +5,7 @@
 
 import argparse
 import json
+from collections import defaultdict
 from pathlib import Path
 
 import numpy as np
@@ -22,36 +23,27 @@ from tree_csv import tree_cubes_load_csv
 #   mountPointIndex     # where the cube is on the branch, 0 outermost
 #   cubeSizeIndex       # How many LEDs per cube
 #   stringOffsetIndex   # offset in the string
+#   ndbOffset           # offset into ndb frame
 # ndb_config ... Hmm. Maybe I don't need the ndb config, since I have the ipaddress
 
 
-def cube_config_sort(cc1, cc2):
-    # ipaddress is the first pass
-    if cc1['ipAddress'] > cc2['ipAddress']:
-        return True
-    elif cc1['ipAddress'] < cc2['ipAddress']:
-        return False
-
-    # outputIndex (channel) is the second pass
-    if cc1['outputIndex'] > cc2['outputIndex']:
-        return True
-    elif cc1['outputIndex'] < cc2['outputIndex']:
-        return False
-
-    # position in string is the third pass
-    if cc1['stringOffsetIndex'] > cc2['stringOffsetIndex']:
-        return True
-    elif cc1['stringOffsetIndex'] < cc2['stringOffsetIndex']:
-        return False
-
-    print(f"Error - two cubes have same ndb, channel, and offset")
-
-    return False
-
-
-def get_cube_config_sort_key(cc):
+def get_cube_config_ndb_sort_key(cc):
     return cc['ipAddress'] + str(cc['outputIndex']).zfill(2) + str(cc['stringOffsetIndex']).zfill(3)
 
+def get_cube_config_layer_sort_key(cc):
+    return str(cc['layerIndex']) + cc['ipAddress'] + str(cc['ndbOffset']).zfill(3)
+
+
+def index_ndb_outputs(cube_tree_config):
+    cube_tree_config.sort(sortkey = get_cube_config_ndb_sort_key)
+    cur_ndb_addr = None
+    cur_ndb_offset = 0
+    for cc in cube_tree_config:
+        if cc['ipAddress'] != cur_ndb_addr:
+            cur_ndb_offset = 0
+            cur_ndb_addr = cc['ipAddress']
+        cc['ndbOffset'] = cur_ndb_offset
+        cur_ndb_offset += 1
 
 class Tree:
     rotational_positions = [[ 0, 1, 2, 3, 4, 5, 6, 7],
@@ -65,13 +57,27 @@ class Tree:
                                 ])
         self.translation = np.array([tree_config['x'], 0, tree_config['z']])
         self.cubes_config = cubes_config
-        self.ip_addresses = self.get_ndb_addresses()
         self.piece_id = tree_config['pieceId']
         self.type = 'sapling' if self.piece_id.startswith('sapling') else 'classic'
         self.ry = tree_config['ry']
         self.is_center = False
         if 'center' in tree_config:
             self.is_center = tree_config['center']
+        self.metadata = {"name": self.piece_id,
+                         "base_x": int(self.translation[0]),
+                         "base_y": int(self.translation[1]),
+                         "base_z": int(self.translation[2]),
+                         "ry": self.ry
+                        }
+        self.tags = ["TREE"]
+        if self.type == 'sapling':
+            self.tags.append("SAPLING")
+        else:
+            self.tags.append("BIG_TREE")
+        if self.is_center:
+            self.tags.append("CENTER")
+
+        self.repeat_count = sculpture_globals.pixels_per_cube[self.cubes_config[0]['cubeSizeIndex']]  # For the moment we do not allow different size cubes
 
         # set up branches and their mounting points...
         self.branches = []
@@ -83,78 +89,168 @@ class Tree:
                          tree_config['layerBaseHeights'][layer_idx])
                 self.branches[layer_idx].append(branch)
 
+        # Add information about position and ndb offset to the cubes, put them in layer
+        # format  XXX - I may not need or want to do this with saplings...
+        self._pre_process_cubes()
 
-    def  write_fixture_config(self, config_folder ):
+
+    # So I think I need to take a two pass approach here. In the first pass, I order
+    # the pixels by ndb, channel, etc (as previous). I also create a output index for each
+    # of the pixels.
+    # Next, I recorder the list so that it's broken into layers. I go through the layers looking
+    # at each of the pixels, and adding a new output section if
+    #  a) the ndb has changed
+    #  b) the pixel index within the ndb is not sequential
+
+    def  write_fixture_config(self, config_folder):
         folder = Path(config_folder)
         folder.mkdir(parents=True, exist_ok=True)
-        filename = Path(self.piece_id + ".lxf")
-        config_path = folder / filename
-        tags = ["TREE"]
-        print(f"Writing config for {self.piece_id}")
-        if self.type == 'sapling':
-            tags.append("SAPLING")
-        else:
-            tags.append("BIG_TREE")
-        if self.is_center:
-            tags.append("CENTER")
+        parser = PixelParser(folder, self.piece_id, self.tags, self.metadata, self.repeat_count)
 
-        lx_output = {"label": self.piece_id,
-                     "tags": tags,
-                     "components": [ {"type": "points", "coords": []}],
-                     "outputs": [],
-                     "meta": {"name": self.piece_id,
-                              "base_x": int(self.translation[0]),
-                              "base_y": int(self.translation[1]),
-                              "base_z": int(self.translation[2]),
-                              "ry": self.ry
-                     }}
-        outputs = lx_output["outputs"]
-        coords = lx_output["components"][0]["coords"]
-        cur_ndb_addr = None
-        total_pixels = 0
-        ndb_pixel_start = 0
         for cube_config in self.cubes_config:
+            parser.add_cube(cube_config)
+        parser.finish()
+
+
+    def _pre_process_cubes(self):
+        # We start out with a cube array indexed by ndb, without position information.
+        # We modify this to add position information and the cube's offset in the ndb frame.
+        # Then we resort so that the cubes are in layer order.
+        ndb_offset = None
+        cur_ndb = None
+        for cube_config in self.cubes_config:
+            # Add position information
             branch = self.branches[cube_config['layerIndex']][cube_config['branchIndex']]
             cube_position = branch.mount_points[cube_config['mountPointIndex']]
             cube_position = np.dot(cube_position, self.rotation)
             cube_position += self.translation
-            n_pixels = sculpture_globals.pixels_per_cube[cube_config['cubeSizeIndex']]
-            n_pixels = 1
-            for _ in range(n_pixels):
-                coords.append({'x': cube_position[0], 'y': cube_position[1], 'z': cube_position[2]})
-            if cube_config['ipAddress'] != cur_ndb_addr:
-                if cur_ndb_addr is not None:
-                    output = {'protocol': 'ddp',
-                              'host': cur_ndb_addr,
-                              'start': ndb_pixel_start,
-                              'num': total_pixels-ndb_pixel_start,
-                              'repeat': sculpture_globals.pixels_per_cube[cube_config['cubeSizeIndex']]}
-                    outputs.append(output)
-                cur_ndb_addr = cube_config['ipAddress']
-                ndb_pixel_start = total_pixels
-            total_pixels += n_pixels
-        # let's add a cube at the origin...
-        # coords.append({'x': int(self.translation[0]), 'y': 0, 'z': int(self.translation[2])})
-        # total_pixels += 1
-        # write final ndb information...
-        output = {'protocol': 'ddp',
-                   'host': cur_ndb_addr,
-                   'start': ndb_pixel_start,
-                   'num': total_pixels-ndb_pixel_start}
-        outputs.append(output)
+            cube_config["x"] = cube_position[0]
+            cube_config["y"] = cube_position[1]
+            cube_config["z"] = cube_position[2]
 
-        with open(config_path, 'w+') as output_f:
-            json.dump(lx_output, output_f)
+            # add ndb offset
+            if cube_config["ipAddress"] != cur_ndb:
+                cur_ndb = cube_config["ipAddress"]
+                ndb_offset = 0
+            cube_config["ndbOffset"] = ndb_offset
+            ndb_offset += 1
+        # Sort by layer
+        self.cubes_config.sort(key=get_cube_config_layer_sort_key)
 
 
-    def get_ndb_addresses(self):
-        # Note that the addresses will be in the correct order because the
-        # cube_configuration is in the correct order
-        ip_addresses = []
-        for cube in self.cubes_config:
-            if cube['ipAddress'] not in ip_addresses:
-                ip_addresses.append(cube['ipAddress'])
-        return ip_addresses
+class PixelParser:
+
+    def __init__(self, output_folder: Path, piece_id: str, tags: [str], metadata: [dict], repeat_count: int):
+        # statics
+        self.piece_id = piece_id
+        self.output_folder = output_folder
+        self.tags = tags
+        self.metadata = metadata
+        self.repeat_count = repeat_count
+
+        # internal state
+        self.reset_layer()
+        self.offsets = defaultdict(lambda : 0)
+        self.components = []
+
+
+    def add_cube(self, cube_config: dict):
+        if cube_config["layerIndex"] != self.cur_layer_idx:
+            self.open_layer(cube_config)
+        elif cube_config["ipAddress"] != self.cur_ndb_addr:
+            self.open_output(cube_config)
+        elif cube_config["ndbOffset"] != self.cur_ndb_offset:
+            self.open_output(cube_config)
+        self.incr_cube()
+        self.coords.append({"x": cube_config["x"], "y": cube_config["y"], "z": cube_config["z"]})
+
+
+    def reset_layer(self):
+        self.cur_layer_idx  = None
+        self.cur_ndb_addr   = None
+        self.cur_ndb_offset = 0  # index of current pixel in ndb frame
+        self.cur_cube_idx   = 0  # index of current pixel in full frame buffer
+        self.outputs = []           # output sections
+        self.output_start_idx = 0 # index of first pixel in output section
+        self.output = None           # current output section
+        self.coords = []            # full frame buffer
+
+
+    def create_layer_data(self, layer_name: str) -> dict:
+        layer_data = {"label": layer_name,
+                      "tags": ["LAYER_" + str(self.cur_layer_idx)],
+                      "components": [ {"type": "points", "coords": self.coords}],
+                      "outputs": self.outputs,
+                      "repeat": self.repeat_count
+                     }
+        return layer_data
+
+
+    def create_container_output(self) -> dict:
+        return {"label": self.piece_id,
+                "tags": self.tags,
+                "metadata" : self.metadata,
+                "components": self.components
+               }
+
+
+    def incr_cube(self):
+        self.cur_cube_idx += 1
+        self.cur_ndb_offset += 1
+
+
+    def open_layer(self, cube_config: dict):
+        self.close_layer()
+        self.cur_layer_idx = cube_config["layerIndex"]
+        self.cur_cube_idx = 0
+        self.open_output(cube_config)
+        # set up layer output - stuff that we write to file
+
+
+    def close_layer(self):
+        if self.cur_layer_idx == None:
+            return
+        self.close_output()
+        layer_name = self.piece_id + "_layer_" + str(self.cur_layer_idx)
+        layer_file_name = layer_name + ".lxf"
+        layer_data = self.create_layer_data(layer_name)
+        layer_data["outputs"] = self.outputs
+        with open(self.output_folder / Path(layer_file_name), "w+") as output_f:
+            json.dump(layer_data, output_f, indent=4)
+
+        self.reset_layer()
+
+        self.components.append({"type": layer_name})
+
+
+    def close_output(self):
+        n_cubes_in_output = self.cur_cube_idx - self.output_start_idx
+        self.output["num"] = n_cubes_in_output
+        self.outputs.append(self.output)
+        self.offsets[self.cur_ndb_addr] = self.cur_ndb_offset + n_cubes_in_output
+
+
+    def open_output(self, cube_config: dict):
+        if self.output is not None:
+            self.close_output()
+        self.output =  {'protocol' : 'ddp',
+                        'host': cube_config["ipAddress"],
+                        'start': self.cur_cube_idx,
+                        'repeat': self.repeat_count,
+                        'num': -1,
+                        'offset': cube_config["ndbOffset"]
+                        }
+        self.output_start_idx = self.cur_cube_idx
+        self.cur_ndb_addr = cube_config["ipAddress"]
+        self.cur_ndb_offset = cube_config["ndbOffset"]
+
+
+    def finish(self):
+        self.close_layer()
+        output = self.create_container_output()
+        with open(self.output_folder/ Path(self.piece_id+ ".lxf"), "w+") as output_f:
+            json.dump(output, output_f, indent=4)
+
 
 
 class EntwinedBranch:
@@ -259,7 +355,7 @@ def main():
     # Create Tree object with cube_config information for this tree,
     # and then write the output fixture file for that tree
     for tree_idx, cube_tree_config in enumerate(cubes_by_tree):
-        cube_tree_config.sort(key=get_cube_config_sort_key)
+        cube_tree_config.sort(key=get_cube_config_ndb_sort_key)
         tree = Tree(tree_configs[tree_idx], cube_tree_config)
         tree.write_fixture_config(args.fixtures_folder)
 
