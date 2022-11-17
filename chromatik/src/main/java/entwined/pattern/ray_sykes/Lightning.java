@@ -6,6 +6,8 @@ import entwined.core.CubeManager;
 import entwined.core.TSTriggerablePattern;
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
+import heronarts.lx.ModelBuffer;
+import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BooleanParameter;
@@ -24,6 +26,8 @@ public class Lightning extends TSTriggerablePattern {
   final BoundedParameter forkingChance = new BoundedParameter("Fork", 3, 1, 10);
   final BooleanParameter firesOnBeat = new BooleanParameter("Beat");
   int[] randomCheckTimeOuts = new int[nTrees + nShrubs];
+  private final ModelBuffer myBuffer = new ModelBuffer(lx, LXColor.BLACK);
+
 
   public Lightning(LX lx) {
     super(lx);
@@ -44,6 +48,9 @@ public class Lightning extends TSTriggerablePattern {
   @Override
   public void run(double deltaMs) {
     if (getChannel().fader.getNormalized() == 0) return;
+
+    this.myBuffer.copyTo(getBuffer());  // deal with the fact that we don't touch all the pixels
+
 
     int treeIndex = 0;
 
@@ -165,6 +172,7 @@ public class Lightning extends TSTriggerablePattern {
       }
       shrubIndex ++;
     }
+    this.myBuffer.copyFrom(getBuffer());
   }
 
   LightningLine makeBolt(){

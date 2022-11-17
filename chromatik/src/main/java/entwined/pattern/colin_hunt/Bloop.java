@@ -6,13 +6,12 @@ import java.util.List;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.pattern.LXPattern;
-
+import entwined.core.TSBufferedPattern;
 import entwined.utils.SimplexNoise;
 /**
 Blips go up
 */
-public class Bloop extends LXPattern {
+public class Bloop extends TSBufferedPattern {
   private List<Blip> blips = new ArrayList<Blip>();
 
   float xOff = 0;
@@ -32,7 +31,7 @@ public class Bloop extends LXPattern {
   }
 
   @Override
-  public void run(double deltaMs) {
+  public void bufferedRun(double deltaMs) {
 
     a += .001;  // XXX this does not appear to be used, except for sparkle parameters
     hue1 = (hue1 + .05f) % 360.0f;  // XXX - should use the number of milliseconds

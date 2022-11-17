@@ -8,15 +8,14 @@ import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.parameter.BoundedParameter;
-import heronarts.lx.pattern.LXPattern;
-
+import entwined.core.TSBufferedPattern;
 import entwined.utils.EntwinedUtils;
 
 //inspired by https://ncase.me/fireflies/
 //TODO in the future if we add interactivity that supports this,
 // maybe someone could click a button on a shrub and that would make
 // that shrub light up (by changing the shrub's lightUpOffset)
-public class FirefliesNcase extends LXPattern {
+public class FirefliesNcase extends TSBufferedPattern {
 
   final BoundedParameter hue = new BoundedParameter("HUE", 52, 0, 360);
   final SawLFO cycle = new SawLFO(0, 100, 3000); // fireflies flash every 3 seconds
@@ -62,7 +61,7 @@ public class FirefliesNcase extends LXPattern {
 
   // This is the pattern loop, which will run continuously via LX
   @Override
-  public void run(double deltaMs) {
+  public void bufferedRun(double deltaMs) {
      // see above comment for how reset works
      if (reset == false && resetTimer.getValuef() < 0) {
        reset();

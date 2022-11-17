@@ -5,18 +5,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.ListIterator;
 
+import entwined.core.TSBufferedPattern;
 import entwined.utils.SimplexNoise;
 import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BoundedParameter;
-import heronarts.lx.pattern.LXPattern;
 
 /**
 Interconnected growth
 */
-public class Growth extends LXPattern {
+public class Growth extends TSBufferedPattern {
 
  final BoundedParameter growthSpeedParam = new BoundedParameter("spd", 2, .1, 10);
  final BoundedParameter lifeSpeedParam = new BoundedParameter("life", 5, 0, 10);
@@ -282,7 +282,7 @@ public class Growth extends LXPattern {
  }
 
  @Override
- public void run(double deltaMs) {
+ public void bufferedRun(double deltaMs) {
    clearColors();
 
    for (int i = 0; i < allRoots.size(); i++) {

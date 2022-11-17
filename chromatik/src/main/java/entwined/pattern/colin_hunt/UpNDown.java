@@ -6,14 +6,13 @@ import java.util.List;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.pattern.LXPattern;
-
+import entwined.core.TSBufferedPattern;
 import entwined.utils.SimplexNoise;
 
 /**
 Blips go up
 */
-public class UpNDown extends LXPattern {
+public class UpNDown extends TSBufferedPattern {
   private List<Blip> blips = new ArrayList<Blip>();
 
   float xOff = 0;
@@ -33,7 +32,7 @@ public class UpNDown extends LXPattern {
   }
 
   @Override
-  public void run(double deltaMs) {
+  public void bufferedRun(double deltaMs) {
 
     a += .01;
     hue1 = (hue1 + .05f) % 360.0f;
