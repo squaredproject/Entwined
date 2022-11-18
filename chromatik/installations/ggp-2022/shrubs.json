@@ -2,7 +2,7 @@
 	{
 			"ry" : 130,
 			"x" : 420,
-			"z" : -36,
+			"z" : 36,
 			"type" : "king",
 			"cubeSizeIndex": 0,
 			"pieceId" : "king-1",
@@ -11,7 +11,7 @@
 	{
 			"ry" : 130,
 			"x" : 0,
-			"z" : -420,
+			"z" : 420,
 			"type" : "king",
 			"cubeSizeIndex": 0,
 			"pieceId" : "king-2",
@@ -20,7 +20,7 @@
 	{
 			"ry" : 130,
 			"x" : 600,
-			"z" : -600,
+			"z" : 600,
 			"type" : "king",
 			"cubeSizeIndex": 0,
 			"pieceId" : "king-3",
@@ -29,7 +29,7 @@
 	{
 			"ry" : 170,
 			"x" : 84,
-			"z" : 600,
+			"z" : -420,
 			"type" : "classic",
 			"cubeSizeIndex": 1,
 			"pieceId" : "shrub-1",
@@ -37,8 +37,8 @@
 	},
 	{
 			"ry" : 130,
-			"x" : -204,
-			"z" : 600,
+			"x" : -240,
+			"z" : -420,
 			"type" : "classic",
 			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-2",
@@ -47,7 +47,7 @@
 	{
 			"ry" : 130,
 			"x" : -360,
-			"z" : 120,
+			"z" : -120,
 			"type" : "classic",
 			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-3",
@@ -56,7 +56,7 @@
 	{
 			"ry" : 130,
 			"x" : -480,
-			"z" : -360,
+			"z" : 360,
 			"type" : "classic",
 			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-4",
@@ -65,7 +65,7 @@
 	{
 			"ry" : 130,
 			"x" : -180,
-			"z" : -900,
+			"z" : 900,
 			"type" : "classic",
 			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-5",
@@ -74,7 +74,7 @@
 	{
 			"ry" : 130,
 			"x" : 288,
-			"z" : -900,
+			"z" : 900,
 			"type" : "classic",
 			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-6",
@@ -83,7 +83,7 @@
 	{
 			"ry" : 130,
 			"x" : 1104,
-			"z" : -1104,
+			"z" : 1104,
 			"type" : "classic",
 			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-7",
@@ -92,7 +92,7 @@
 	{
 			"ry" : 130,
 			"x" : 1260,
-			"z" : -936,
+			"z" : 936,
 			"type" : "classic",
 			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-8",
@@ -101,7 +101,7 @@
 	{
 			"ry" : 130,
 			"x" : 1020,
-			"z" : -780,
+			"z" : 780,
 			"type" : "classic",
 			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-9",

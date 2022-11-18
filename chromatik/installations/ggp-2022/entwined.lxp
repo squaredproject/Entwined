@@ -1,6 +1,6 @@
 {
   "version": "0.4.2-SNAPSHOT",
-  "timestamp": 1668584810801,
+  "timestamp": 1668758429221,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -32,316 +32,16 @@
     },
     "fixtures": [
       {
-        "jsonFixtureType": "Entwined/fairy-1",
-        "jsonParameters": {},
-        "id": 71209,
-        "class": "heronarts.lx.structure.JsonFixture",
-        "internal": {
-          "modulationColor": 0,
-          "modulationControlsExpanded": true
-        },
-        "parameters": {
-          "label": "fairy-1 1",
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0,
-          "yaw": 0.0,
-          "pitch": 0.0,
-          "roll": 0.0,
-          "scale": 1.0,
-          "selected": false,
-          "deactivate": false,
-          "enabled": true,
-          "brightness": 1.0,
-          "identify": false,
-          "mute": false,
-          "solo": false,
-          "tags": "",
-          "fixtureType": "Entwined/fairy-1"
-        },
-        "children": {}
-      },
-      {
-        "jsonFixtureType": "Entwined/fairy-10",
-        "jsonParameters": {},
-        "id": 71211,
-        "class": "heronarts.lx.structure.JsonFixture",
-        "internal": {
-          "modulationColor": 0,
-          "modulationControlsExpanded": true
-        },
-        "parameters": {
-          "label": "fairy-10 2",
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0,
-          "yaw": 0.0,
-          "pitch": 0.0,
-          "roll": 0.0,
-          "scale": 1.0,
-          "selected": false,
-          "deactivate": false,
-          "enabled": true,
-          "brightness": 1.0,
-          "identify": false,
-          "mute": false,
-          "solo": false,
-          "tags": "",
-          "fixtureType": "Entwined/fairy-10"
-        },
-        "children": {}
-      },
-      {
-        "jsonFixtureType": "Entwined/fairy-2",
-        "jsonParameters": {},
-        "id": 71213,
-        "class": "heronarts.lx.structure.JsonFixture",
-        "internal": {
-          "modulationColor": 0,
-          "modulationControlsExpanded": true
-        },
-        "parameters": {
-          "label": "fairy-2 3",
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0,
-          "yaw": 0.0,
-          "pitch": 0.0,
-          "roll": 0.0,
-          "scale": 1.0,
-          "selected": false,
-          "deactivate": false,
-          "enabled": true,
-          "brightness": 1.0,
-          "identify": false,
-          "mute": false,
-          "solo": false,
-          "tags": "",
-          "fixtureType": "Entwined/fairy-2"
-        },
-        "children": {}
-      },
-      {
-        "jsonFixtureType": "Entwined/fairy-3",
-        "jsonParameters": {},
-        "id": 71215,
-        "class": "heronarts.lx.structure.JsonFixture",
-        "internal": {
-          "modulationColor": 0,
-          "modulationControlsExpanded": true
-        },
-        "parameters": {
-          "label": "fairy-3 4",
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0,
-          "yaw": 0.0,
-          "pitch": 0.0,
-          "roll": 0.0,
-          "scale": 1.0,
-          "selected": false,
-          "deactivate": false,
-          "enabled": true,
-          "brightness": 1.0,
-          "identify": false,
-          "mute": false,
-          "solo": false,
-          "tags": "",
-          "fixtureType": "Entwined/fairy-3"
-        },
-        "children": {}
-      },
-      {
-        "jsonFixtureType": "Entwined/fairy-4",
-        "jsonParameters": {},
-        "id": 71217,
-        "class": "heronarts.lx.structure.JsonFixture",
-        "internal": {
-          "modulationColor": 0,
-          "modulationControlsExpanded": true
-        },
-        "parameters": {
-          "label": "fairy-4 5",
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0,
-          "yaw": 0.0,
-          "pitch": 0.0,
-          "roll": 0.0,
-          "scale": 1.0,
-          "selected": false,
-          "deactivate": false,
-          "enabled": true,
-          "brightness": 1.0,
-          "identify": false,
-          "mute": false,
-          "solo": false,
-          "tags": "",
-          "fixtureType": "Entwined/fairy-4"
-        },
-        "children": {}
-      },
-      {
-        "jsonFixtureType": "Entwined/fairy-5",
-        "jsonParameters": {},
-        "id": 71219,
-        "class": "heronarts.lx.structure.JsonFixture",
-        "internal": {
-          "modulationColor": 0,
-          "modulationControlsExpanded": true
-        },
-        "parameters": {
-          "label": "fairy-5 6",
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0,
-          "yaw": 0.0,
-          "pitch": 0.0,
-          "roll": 0.0,
-          "scale": 1.0,
-          "selected": false,
-          "deactivate": false,
-          "enabled": true,
-          "brightness": 1.0,
-          "identify": false,
-          "mute": false,
-          "solo": false,
-          "tags": "",
-          "fixtureType": "Entwined/fairy-5"
-        },
-        "children": {}
-      },
-      {
-        "jsonFixtureType": "Entwined/fairy-6",
-        "jsonParameters": {},
-        "id": 71221,
-        "class": "heronarts.lx.structure.JsonFixture",
-        "internal": {
-          "modulationColor": 0,
-          "modulationControlsExpanded": true
-        },
-        "parameters": {
-          "label": "fairy-6 7",
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0,
-          "yaw": 0.0,
-          "pitch": 0.0,
-          "roll": 0.0,
-          "scale": 1.0,
-          "selected": false,
-          "deactivate": false,
-          "enabled": true,
-          "brightness": 1.0,
-          "identify": false,
-          "mute": false,
-          "solo": false,
-          "tags": "",
-          "fixtureType": "Entwined/fairy-6"
-        },
-        "children": {}
-      },
-      {
-        "jsonFixtureType": "Entwined/fairy-7",
-        "jsonParameters": {},
-        "id": 71223,
-        "class": "heronarts.lx.structure.JsonFixture",
-        "internal": {
-          "modulationColor": 0,
-          "modulationControlsExpanded": true
-        },
-        "parameters": {
-          "label": "fairy-7 8",
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0,
-          "yaw": 0.0,
-          "pitch": 0.0,
-          "roll": 0.0,
-          "scale": 1.0,
-          "selected": false,
-          "deactivate": false,
-          "enabled": true,
-          "brightness": 1.0,
-          "identify": false,
-          "mute": false,
-          "solo": false,
-          "tags": "",
-          "fixtureType": "Entwined/fairy-7"
-        },
-        "children": {}
-      },
-      {
-        "jsonFixtureType": "Entwined/fairy-8",
-        "jsonParameters": {},
-        "id": 71225,
-        "class": "heronarts.lx.structure.JsonFixture",
-        "internal": {
-          "modulationColor": 0,
-          "modulationControlsExpanded": true
-        },
-        "parameters": {
-          "label": "fairy-8 9",
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0,
-          "yaw": 0.0,
-          "pitch": 0.0,
-          "roll": 0.0,
-          "scale": 1.0,
-          "selected": false,
-          "deactivate": false,
-          "enabled": true,
-          "brightness": 1.0,
-          "identify": false,
-          "mute": false,
-          "solo": false,
-          "tags": "",
-          "fixtureType": "Entwined/fairy-8"
-        },
-        "children": {}
-      },
-      {
-        "jsonFixtureType": "Entwined/fairy-9",
-        "jsonParameters": {},
-        "id": 71227,
-        "class": "heronarts.lx.structure.JsonFixture",
-        "internal": {
-          "modulationColor": 0,
-          "modulationControlsExpanded": true
-        },
-        "parameters": {
-          "label": "fairy-9 10",
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0,
-          "yaw": 0.0,
-          "pitch": 0.0,
-          "roll": 0.0,
-          "scale": 1.0,
-          "selected": false,
-          "deactivate": false,
-          "enabled": true,
-          "brightness": 1.0,
-          "identify": false,
-          "mute": false,
-          "solo": false,
-          "tags": "",
-          "fixtureType": "Entwined/fairy-9"
-        },
-        "children": {}
-      },
-      {
         "jsonFixtureType": "Entwined/king-1",
         "jsonParameters": {},
-        "id": 71229,
+        "id": 43814,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
           "modulationControlsExpanded": true
         },
         "parameters": {
-          "label": "king-1 11",
+          "label": "king-1 4",
           "x": 0.0,
           "y": 0.0,
           "z": 0.0,
@@ -364,14 +64,14 @@
       {
         "jsonFixtureType": "Entwined/king-2",
         "jsonParameters": {},
-        "id": 71231,
+        "id": 43816,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
           "modulationControlsExpanded": true
         },
         "parameters": {
-          "label": "king-2 12",
+          "label": "king-2 5",
           "x": 0.0,
           "y": 0.0,
           "z": 0.0,
@@ -394,14 +94,14 @@
       {
         "jsonFixtureType": "Entwined/king-3",
         "jsonParameters": {},
-        "id": 71233,
+        "id": 43818,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
           "modulationControlsExpanded": true
         },
         "parameters": {
-          "label": "king-3 13",
+          "label": "king-3 6",
           "x": 0.0,
           "y": 0.0,
           "z": 0.0,
@@ -422,16 +122,16 @@
         "children": {}
       },
       {
-        "jsonFixtureType": "Entwined/king-4",
+        "jsonFixtureType": "Entwined/tree-medium",
         "jsonParameters": {},
-        "id": 71235,
+        "id": 43855,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
           "modulationControlsExpanded": true
         },
         "parameters": {
-          "label": "king-4 14",
+          "label": "tree-medium 22",
           "x": 0.0,
           "y": 0.0,
           "z": 0.0,
@@ -439,7 +139,7 @@
           "pitch": 0.0,
           "roll": 0.0,
           "scale": 1.0,
-          "selected": true,
+          "selected": false,
           "deactivate": false,
           "enabled": true,
           "brightness": 1.0,
@@ -447,14 +147,314 @@
           "mute": false,
           "solo": false,
           "tags": "",
-          "fixtureType": "Entwined/king-4"
+          "fixtureType": "Entwined/tree-medium"
+        },
+        "children": {}
+      },
+      {
+        "jsonFixtureType": "Entwined/tree-small",
+        "jsonParameters": {},
+        "id": 43857,
+        "class": "heronarts.lx.structure.JsonFixture",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true
+        },
+        "parameters": {
+          "label": "tree-small 23",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "roll": 0.0,
+          "scale": 1.0,
+          "selected": false,
+          "deactivate": false,
+          "enabled": true,
+          "brightness": 1.0,
+          "identify": false,
+          "mute": false,
+          "solo": false,
+          "tags": "",
+          "fixtureType": "Entwined/tree-small"
+        },
+        "children": {}
+      },
+      {
+        "jsonFixtureType": "Entwined/shrub-1",
+        "jsonParameters": {},
+        "id": 65832,
+        "class": "heronarts.lx.structure.JsonFixture",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true
+        },
+        "parameters": {
+          "label": "shrub-1 15",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "roll": 0.0,
+          "scale": 1.0,
+          "selected": false,
+          "deactivate": false,
+          "enabled": true,
+          "brightness": 1.0,
+          "identify": false,
+          "mute": false,
+          "solo": false,
+          "tags": "",
+          "fixtureType": "Entwined/shrub-1"
+        },
+        "children": {}
+      },
+      {
+        "jsonFixtureType": "Entwined/shrub-2",
+        "jsonParameters": {},
+        "id": 65842,
+        "class": "heronarts.lx.structure.JsonFixture",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true
+        },
+        "parameters": {
+          "label": "shrub-2 16",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "roll": 0.0,
+          "scale": 1.0,
+          "selected": false,
+          "deactivate": false,
+          "enabled": true,
+          "brightness": 1.0,
+          "identify": false,
+          "mute": false,
+          "solo": false,
+          "tags": "",
+          "fixtureType": "Entwined/shrub-2"
+        },
+        "children": {}
+      },
+      {
+        "jsonFixtureType": "Entwined/shrub-3",
+        "jsonParameters": {},
+        "id": 65852,
+        "class": "heronarts.lx.structure.JsonFixture",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true
+        },
+        "parameters": {
+          "label": "shrub-3 17",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "roll": 0.0,
+          "scale": 1.0,
+          "selected": false,
+          "deactivate": false,
+          "enabled": true,
+          "brightness": 1.0,
+          "identify": false,
+          "mute": false,
+          "solo": false,
+          "tags": "",
+          "fixtureType": "Entwined/shrub-3"
+        },
+        "children": {}
+      },
+      {
+        "jsonFixtureType": "Entwined/shrub-4",
+        "jsonParameters": {},
+        "id": 65862,
+        "class": "heronarts.lx.structure.JsonFixture",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true
+        },
+        "parameters": {
+          "label": "shrub-4 18",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "roll": 0.0,
+          "scale": 1.0,
+          "selected": false,
+          "deactivate": false,
+          "enabled": true,
+          "brightness": 1.0,
+          "identify": false,
+          "mute": false,
+          "solo": false,
+          "tags": "",
+          "fixtureType": "Entwined/shrub-4"
+        },
+        "children": {}
+      },
+      {
+        "jsonFixtureType": "Entwined/shrub-5",
+        "jsonParameters": {},
+        "id": 65872,
+        "class": "heronarts.lx.structure.JsonFixture",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true
+        },
+        "parameters": {
+          "label": "shrub-5 19",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "roll": 0.0,
+          "scale": 1.0,
+          "selected": false,
+          "deactivate": false,
+          "enabled": true,
+          "brightness": 1.0,
+          "identify": false,
+          "mute": false,
+          "solo": false,
+          "tags": "",
+          "fixtureType": "Entwined/shrub-5"
+        },
+        "children": {}
+      },
+      {
+        "jsonFixtureType": "Entwined/shrub-6",
+        "jsonParameters": {},
+        "id": 65882,
+        "class": "heronarts.lx.structure.JsonFixture",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true
+        },
+        "parameters": {
+          "label": "shrub-6 20",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "roll": 0.0,
+          "scale": 1.0,
+          "selected": false,
+          "deactivate": false,
+          "enabled": true,
+          "brightness": 1.0,
+          "identify": false,
+          "mute": false,
+          "solo": false,
+          "tags": "",
+          "fixtureType": "Entwined/shrub-6"
+        },
+        "children": {}
+      },
+      {
+        "jsonFixtureType": "Entwined/shrub-7",
+        "jsonParameters": {},
+        "id": 65892,
+        "class": "heronarts.lx.structure.JsonFixture",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true
+        },
+        "parameters": {
+          "label": "shrub-7 21",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "roll": 0.0,
+          "scale": 1.0,
+          "selected": false,
+          "deactivate": false,
+          "enabled": true,
+          "brightness": 1.0,
+          "identify": false,
+          "mute": false,
+          "solo": false,
+          "tags": "",
+          "fixtureType": "Entwined/shrub-7"
+        },
+        "children": {}
+      },
+      {
+        "jsonFixtureType": "Entwined/shrub-8",
+        "jsonParameters": {},
+        "id": 65902,
+        "class": "heronarts.lx.structure.JsonFixture",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true
+        },
+        "parameters": {
+          "label": "shrub-8 22",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "roll": 0.0,
+          "scale": 1.0,
+          "selected": false,
+          "deactivate": false,
+          "enabled": true,
+          "brightness": 1.0,
+          "identify": false,
+          "mute": false,
+          "solo": false,
+          "tags": "",
+          "fixtureType": "Entwined/shrub-8"
+        },
+        "children": {}
+      },
+      {
+        "jsonFixtureType": "Entwined/shrub-9",
+        "jsonParameters": {},
+        "id": 65953,
+        "class": "heronarts.lx.structure.JsonFixture",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true
+        },
+        "parameters": {
+          "label": "shrub-9 23",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "roll": 0.0,
+          "scale": 1.0,
+          "selected": false,
+          "deactivate": false,
+          "enabled": true,
+          "brightness": 1.0,
+          "identify": false,
+          "mute": false,
+          "solo": false,
+          "tags": "",
+          "fixtureType": "Entwined/shrub-9"
         },
         "children": {}
       },
       {
         "jsonFixtureType": "Entwined/sapling-1",
         "jsonParameters": {},
-        "id": 71237,
+        "id": 67000,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
@@ -484,7 +484,7 @@
       {
         "jsonFixtureType": "Entwined/sapling-2",
         "jsonParameters": {},
-        "id": 71239,
+        "id": 67019,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
@@ -514,7 +514,7 @@
       {
         "jsonFixtureType": "Entwined/sapling-3",
         "jsonParameters": {},
-        "id": 71241,
+        "id": 67038,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
@@ -544,7 +544,7 @@
       {
         "jsonFixtureType": "Entwined/sapling-4",
         "jsonParameters": {},
-        "id": 71243,
+        "id": 67057,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
@@ -574,7 +574,7 @@
       {
         "jsonFixtureType": "Entwined/sapling-5",
         "jsonParameters": {},
-        "id": 71245,
+        "id": 67076,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
@@ -604,7 +604,7 @@
       {
         "jsonFixtureType": "Entwined/sapling-6",
         "jsonParameters": {},
-        "id": 71247,
+        "id": 67095,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
@@ -634,7 +634,7 @@
       {
         "jsonFixtureType": "Entwined/sapling-7",
         "jsonParameters": {},
-        "id": 71249,
+        "id": 67114,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
@@ -664,7 +664,7 @@
       {
         "jsonFixtureType": "Entwined/sapling-8",
         "jsonParameters": {},
-        "id": 71251,
+        "id": 67133,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
@@ -694,7 +694,7 @@
       {
         "jsonFixtureType": "Entwined/sapling-9",
         "jsonParameters": {},
-        "id": 71253,
+        "id": 67152,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
@@ -709,7 +709,7 @@
           "pitch": 0.0,
           "roll": 0.0,
           "scale": 1.0,
-          "selected": false,
+          "selected": true,
           "deactivate": false,
           "enabled": true,
           "brightness": 1.0,
@@ -722,16 +722,16 @@
         "children": {}
       },
       {
-        "jsonFixtureType": "Entwined/shrub-1",
+        "jsonFixtureType": "Entwined/fairy-01",
         "jsonParameters": {},
-        "id": 71255,
+        "id": 68054,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
           "modulationControlsExpanded": true
         },
         "parameters": {
-          "label": "shrub-1 24",
+          "label": "fairy-01 24",
           "x": 0.0,
           "y": 0.0,
           "z": 0.0,
@@ -747,21 +747,21 @@
           "mute": false,
           "solo": false,
           "tags": "",
-          "fixtureType": "Entwined/shrub-1"
+          "fixtureType": "Entwined/fairy-01"
         },
         "children": {}
       },
       {
-        "jsonFixtureType": "Entwined/shrub-2",
+        "jsonFixtureType": "Entwined/fairy-02",
         "jsonParameters": {},
-        "id": 71257,
+        "id": 68081,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
           "modulationControlsExpanded": true
         },
         "parameters": {
-          "label": "shrub-2 25",
+          "label": "fairy-02 25",
           "x": 0.0,
           "y": 0.0,
           "z": 0.0,
@@ -777,21 +777,21 @@
           "mute": false,
           "solo": false,
           "tags": "",
-          "fixtureType": "Entwined/shrub-2"
+          "fixtureType": "Entwined/fairy-02"
         },
         "children": {}
       },
       {
-        "jsonFixtureType": "Entwined/shrub-3",
+        "jsonFixtureType": "Entwined/fairy-03",
         "jsonParameters": {},
-        "id": 71259,
+        "id": 68108,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
           "modulationControlsExpanded": true
         },
         "parameters": {
-          "label": "shrub-3 26",
+          "label": "fairy-03 26",
           "x": 0.0,
           "y": 0.0,
           "z": 0.0,
@@ -807,21 +807,21 @@
           "mute": false,
           "solo": false,
           "tags": "",
-          "fixtureType": "Entwined/shrub-3"
+          "fixtureType": "Entwined/fairy-03"
         },
         "children": {}
       },
       {
-        "jsonFixtureType": "Entwined/shrub-4",
+        "jsonFixtureType": "Entwined/fairy-04",
         "jsonParameters": {},
-        "id": 71261,
+        "id": 68135,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
           "modulationControlsExpanded": true
         },
         "parameters": {
-          "label": "shrub-4 27",
+          "label": "fairy-04 27",
           "x": 0.0,
           "y": 0.0,
           "z": 0.0,
@@ -837,21 +837,21 @@
           "mute": false,
           "solo": false,
           "tags": "",
-          "fixtureType": "Entwined/shrub-4"
+          "fixtureType": "Entwined/fairy-04"
         },
         "children": {}
       },
       {
-        "jsonFixtureType": "Entwined/shrub-5",
+        "jsonFixtureType": "Entwined/fairy-05",
         "jsonParameters": {},
-        "id": 71263,
+        "id": 68162,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
           "modulationControlsExpanded": true
         },
         "parameters": {
-          "label": "shrub-5 28",
+          "label": "fairy-05 28",
           "x": 0.0,
           "y": 0.0,
           "z": 0.0,
@@ -867,21 +867,21 @@
           "mute": false,
           "solo": false,
           "tags": "",
-          "fixtureType": "Entwined/shrub-5"
+          "fixtureType": "Entwined/fairy-05"
         },
         "children": {}
       },
       {
-        "jsonFixtureType": "Entwined/shrub-6",
+        "jsonFixtureType": "Entwined/fairy-06",
         "jsonParameters": {},
-        "id": 71265,
+        "id": 68189,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
           "modulationControlsExpanded": true
         },
         "parameters": {
-          "label": "shrub-6 29",
+          "label": "fairy-06 29",
           "x": 0.0,
           "y": 0.0,
           "z": 0.0,
@@ -897,21 +897,21 @@
           "mute": false,
           "solo": false,
           "tags": "",
-          "fixtureType": "Entwined/shrub-6"
+          "fixtureType": "Entwined/fairy-06"
         },
         "children": {}
       },
       {
-        "jsonFixtureType": "Entwined/shrub-7",
+        "jsonFixtureType": "Entwined/fairy-07",
         "jsonParameters": {},
-        "id": 71267,
+        "id": 68216,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
           "modulationControlsExpanded": true
         },
         "parameters": {
-          "label": "shrub-7 30",
+          "label": "fairy-07 30",
           "x": 0.0,
           "y": 0.0,
           "z": 0.0,
@@ -927,21 +927,21 @@
           "mute": false,
           "solo": false,
           "tags": "",
-          "fixtureType": "Entwined/shrub-7"
+          "fixtureType": "Entwined/fairy-07"
         },
         "children": {}
       },
       {
-        "jsonFixtureType": "Entwined/shrub-8",
+        "jsonFixtureType": "Entwined/fairy-08",
         "jsonParameters": {},
-        "id": 71269,
+        "id": 68243,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
           "modulationControlsExpanded": true
         },
         "parameters": {
-          "label": "shrub-8 31",
+          "label": "fairy-08 31",
           "x": 0.0,
           "y": 0.0,
           "z": 0.0,
@@ -957,21 +957,21 @@
           "mute": false,
           "solo": false,
           "tags": "",
-          "fixtureType": "Entwined/shrub-8"
+          "fixtureType": "Entwined/fairy-08"
         },
         "children": {}
       },
       {
-        "jsonFixtureType": "Entwined/shrub-9",
+        "jsonFixtureType": "Entwined/fairy-09",
         "jsonParameters": {},
-        "id": 71271,
+        "id": 68270,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
           "modulationControlsExpanded": true
         },
         "parameters": {
-          "label": "shrub-9 32",
+          "label": "fairy-09 32",
           "x": 0.0,
           "y": 0.0,
           "z": 0.0,
@@ -987,21 +987,21 @@
           "mute": false,
           "solo": false,
           "tags": "",
-          "fixtureType": "Entwined/shrub-9"
+          "fixtureType": "Entwined/fairy-09"
         },
         "children": {}
       },
       {
-        "jsonFixtureType": "Entwined/tree-medium",
+        "jsonFixtureType": "Entwined/fairy-10",
         "jsonParameters": {},
-        "id": 71273,
+        "id": 68297,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
           "modulationControlsExpanded": true
         },
         "parameters": {
-          "label": "tree-medium 33",
+          "label": "fairy-10 33",
           "x": 0.0,
           "y": 0.0,
           "z": 0.0,
@@ -1017,21 +1017,21 @@
           "mute": false,
           "solo": false,
           "tags": "",
-          "fixtureType": "Entwined/tree-medium"
+          "fixtureType": "Entwined/fairy-10"
         },
         "children": {}
       },
       {
-        "jsonFixtureType": "Entwined/tree-small",
+        "jsonFixtureType": "Entwined/fairy-11",
         "jsonParameters": {},
-        "id": 71275,
+        "id": 68324,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
           "modulationControlsExpanded": true
         },
         "parameters": {
-          "label": "tree-small 34",
+          "label": "fairy-11 34",
           "x": 0.0,
           "y": 0.0,
           "z": 0.0,
@@ -1047,7 +1047,7 @@
           "mute": false,
           "solo": false,
           "tags": "",
-          "fixtureType": "Entwined/tree-small"
+          "fixtureType": "Entwined/fairy-11"
         },
         "children": {}
       }
@@ -2971,7 +2971,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 65030,
+                "id": 64997,
                 "class": "entwined.pattern.anon.ColorEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -2993,7 +2993,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 65031,
+                    "id": 64998,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -3011,7 +3011,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 65035,
+                "id": 65002,
                 "class": "entwined.pattern.kyle_fleming.ColorStrobeTextureEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -3028,7 +3028,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 65036,
+                    "id": 65003,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -3046,7 +3046,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 65038,
+                "id": 65005,
                 "class": "entwined.pattern.kyle_fleming.FadeTextureEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -3063,7 +3063,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 65039,
+                    "id": 65006,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -3081,7 +3081,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 65042,
+                "id": 65009,
                 "class": "entwined.pattern.kyle_fleming.CandyTextureEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -3098,7 +3098,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 65043,
+                    "id": 65010,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -3116,7 +3116,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 65045,
+                "id": 65012,
                 "class": "entwined.pattern.kyle_fleming.CandyCloudTextureEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -3133,7 +3133,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 65046,
+                    "id": 65013,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -3151,7 +3151,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 65048,
+                "id": 65015,
                 "class": "entwined.pattern.kyle_fleming.TSBlurEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -3170,7 +3170,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 65049,
+                    "id": 65016,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -3188,7 +3188,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 65051,
+                "id": 65018,
                 "class": "entwined.pattern.kyle_fleming.BrightnessScaleEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -3205,7 +3205,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 65052,
+                    "id": 65019,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -3223,7 +3223,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 65054,
+                "id": 65021,
                 "class": "entwined.pattern.kyle_fleming.BrightnessScaleEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -3240,7 +3240,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 65055,
+                    "id": 65022,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -3258,7 +3258,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 65057,
+                "id": 65024,
                 "class": "entwined.pattern.interactive.InteractiveCandyChaosEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -3275,7 +3275,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 65058,
+                    "id": 65025,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -3293,7 +3293,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 65060,
+                "id": 65027,
                 "class": "entwined.pattern.interactive.InteractiveDesaturationEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -3310,7 +3310,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 65061,
+                    "id": 65028,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -3328,7 +3328,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 65063,
+                "id": 65030,
                 "class": "entwined.pattern.interactive.InteractiveRainbowEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -3345,7 +3345,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 65064,
+                    "id": 65031,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -3363,7 +3363,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 65066,
+                "id": 65033,
                 "class": "entwined.pattern.interactive.InteractiveFireEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -3380,7 +3380,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 65067,
+                    "id": 65034,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -3398,7 +3398,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 65069,
+                "id": 65036,
                 "class": "entwined.pattern.interactive.InteractiveHSVEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -3414,7 +3414,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 65070,
+                    "id": 65037,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -3432,7 +3432,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 65072,
+                "id": 65039,
                 "class": "entwined.pattern.kyle_fleming.GhostEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -3449,7 +3449,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 65073,
+                    "id": 65040,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -3467,7 +3467,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 65076,
+                "id": 65043,
                 "class": "entwined.pattern.kyle_fleming.StaticEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -3484,7 +3484,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 65077,
+                    "id": 65044,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -3502,7 +3502,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 65079,
+                "id": 65046,
                 "class": "entwined.pattern.kyle_fleming.AcidTripTextureEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -3519,7 +3519,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 65080,
+                    "id": 65047,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -3582,7 +3582,7 @@
             "children": {},
             "effects": [],
             "clips": [],
-            "patternIndex": 6,
+            "patternIndex": 4,
             "patterns": [
               {
                 "id": 50478,
@@ -3897,8 +3897,46 @@
             "children": {},
             "effects": [],
             "clips": [],
-            "patternIndex": -1,
-            "patterns": []
+            "patternIndex": 0,
+            "patterns": [
+              {
+                "id": 68351,
+                "class": "entwined.pattern.colin_hunt.Breath",
+                "internal": {
+                  "modulationColor": 0,
+                  "modulationControlsExpanded": true,
+                  "expanded": true,
+                  "expandedCue": true,
+                  "expandedAux": true,
+                  "modulationExpanded": false
+                },
+                "parameters": {
+                  "label": "Breath",
+                  "enabled": true,
+                  "recall": false,
+                  "compositeMode": 0,
+                  "compositeLevel": 1.0
+                },
+                "children": {
+                  "modulation": {
+                    "id": 68352,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0,
+                      "modulationControlsExpanded": true
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [],
+                    "modulations": [],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1
+              }
+            ]
           },
           {
             "id": 47785,
@@ -12289,7 +12327,7 @@
             ]
           },
           {
-            "id": 65014,
+            "id": 64981,
             "class": "heronarts.lx.mixer.LXChannel",
             "internal": {
               "modulationColor": 0,
@@ -12332,7 +12370,7 @@
             "patternIndex": 0,
             "patterns": [
               {
-                "id": 65083,
+                "id": 65050,
                 "class": "entwined.pattern.irene_zhou.Cells",
                 "internal": {
                   "modulationColor": 0,
@@ -12354,7 +12392,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 65084,
+                    "id": 65051,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -12524,7 +12562,7 @@
         },
         "parameters": {
           "label": "Output",
-          "enabled": true,
+          "enabled": false,
           "brightness": 1.0,
           "fps": 0.0,
           "gamma": 1.0,
@@ -12772,22 +12810,22 @@
         "depth": 2.0,
         "camera": {
           "active": false,
-          "radius": 3121.9773701484974,
-          "theta": 255.9390464532189,
-          "phi": 35.34975235607453,
-          "x": 529.8359609246254,
-          "y": -254.8748459815979,
-          "z": -414.47060683369637
+          "radius": 2164.2575383289186,
+          "theta": 357.91414570389315,
+          "phi": 43.925622284412384,
+          "x": 407.1361239552498,
+          "y": 115.80886083841324,
+          "z": -253.4637457728386
         },
         "cue": [
           {
             "active": false,
-            "radius": 3121.9773701484974,
-            "theta": 255.9390464532189,
-            "phi": 35.34975235607453,
-            "x": 529.8359609246254,
-            "y": -254.8748459815979,
-            "z": -414.47060683369637
+            "radius": 2164.2575383289186,
+            "theta": 357.91414570389315,
+            "phi": 43.925622284412384,
+            "x": 407.1361239552498,
+            "y": 115.80886083841324,
+            "z": -253.4637457728386
           },
           {
             "active": false,

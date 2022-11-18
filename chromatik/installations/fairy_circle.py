@@ -96,7 +96,7 @@ class FairyCircle:
         filename = Path(self.piece_id + ".lxf")
         file_path = folder_path / filename
         lx_config = {'label': self.piece_id,
-                     'tags': ['FAIRY_CIRCLE'],
+                     'tags': ['FAIRY_CIRCLE', self.piece_id],
                      'components': [{'type': 'points', 'coords': []}],
                      'outputs': [],
                      "meta": {"name": self.piece_id,

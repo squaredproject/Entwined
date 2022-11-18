@@ -131,6 +131,7 @@ class Shrub:
         tags = ["SHRUB"]
         if self.type == 'king':
             tags.append("KING")
+        tags.append(self.piece_id)
         lx_output = {"label": self.piece_id,
                      "tags": tags,
                      "components": [ {"type": "points", "coords": []}],

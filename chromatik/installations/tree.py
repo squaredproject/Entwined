@@ -76,6 +76,7 @@ class Tree:
             self.tags.append("BIG_TREE")
         if self.is_center:
             self.tags.append("CENTER")
+        self.tags.append(self.piece_id)
 
         self.repeat_count = sculpture_globals.pixels_per_cube[self.cubes_config[0]['cubeSizeIndex']]  # For the moment we do not allow different size cubes
 
