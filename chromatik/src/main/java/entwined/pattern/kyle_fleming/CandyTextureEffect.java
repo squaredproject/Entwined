@@ -20,7 +20,6 @@ public class CandyTextureEffect extends LXEffect {
 
   public CandyTextureEffect(LX lx) {
     super(lx);
-    System.out.println("Attempting to instantiate candy texture effect");
     addParameter("amount", amount);
   }
 
