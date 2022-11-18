@@ -239,7 +239,7 @@ class PixelParser:
                         'start': self.cur_cube_idx,
                         'repeat': self.repeat_count,
                         'num': -1,
-                        'offset': cube_config["ndbOffset"]
+                        'dataOffset': cube_config["ndbOffset"]
                         }
         self.output_start_idx = self.cur_cube_idx
         self.cur_ndb_addr = cube_config["ipAddress"]
