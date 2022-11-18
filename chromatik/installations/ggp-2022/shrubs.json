@@ -6,7 +6,7 @@
 			"type" : "king",
 			"cubeSizeIndex": 0,
 			"pieceId" : "king-1",
-			"shrubIpAddress" : "10.0.0.110"
+			"shrubIpAddress" : "10.0.0.111"
 	},
 	{
 			"ry" : 130,
@@ -15,7 +15,7 @@
 			"type" : "king",
 			"cubeSizeIndex": 0,
 			"pieceId" : "king-2",
-			"shrubIpAddress" : "10.0.0.111"
+			"shrubIpAddress" : "10.0.0.112"
 	},	
 	{
 			"ry" : 130,
@@ -24,7 +24,7 @@
 			"type" : "king",
 			"cubeSizeIndex": 0,
 			"pieceId" : "king-3",
-			"shrubIpAddress" : "10.0.0.112"
+			"shrubIpAddress" : "10.0.0.113"
 	},	
 	{
 			"ry" : 170,

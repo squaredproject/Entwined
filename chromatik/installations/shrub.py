@@ -73,10 +73,11 @@ class Shrub:
             self.type = shrub_config['type']
         else:
             self.type = 'standard'
+        rot = (np.pi / 180.0) * shrub_config['ry'] # get into radians
         self.rotation = np.array([
-            [np.cos(shrub_config['ry']),0,np.sin(shrub_config['ry'])],
+            [np.cos(rot),0,np.sin(rot)],
             [0,1,0],
-            [-np.sin(shrub_config['ry']), 0, np.cos(shrub_config['ry'])]
+            [-np.sin(rot), 0, np.cos(rot)]
         ])
         self.translation = np.array([shrub_config['x'], 0, shrub_config['z']])
         self.rods_per_cluster = 5

@@ -51,9 +51,10 @@ class Tree:
                             [ 1, 3, 5, 7]]
 
     def __init__(self, tree_config, cubes_config):
-        self.rotation = np.array([[np.cos(tree_config['ry']), 0, np.sin(tree_config['ry'])],
+        rot = (np.pi / 180.0) * tree_config['ry'] # get into radians
+        self.rotation = np.array([[np.cos(rot), 0, np.sin(rot)],
                                   [0, 1, 0],
-                                  [-np.sin(tree_config['ry']), 0, np.cos(tree_config['ry'])]
+                                  [-np.sin(rot), 0, np.cos(rot)]
                                 ])
         self.translation = np.array([tree_config['x'], 0, tree_config['z']])
         self.cubes_config = cubes_config

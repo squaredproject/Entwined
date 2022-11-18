@@ -1,7 +1,8 @@
 #!/usr/bin/env pwsh
 
 # no longer compile on every run
-mvn package
+# mvn package
+
 mkdir -p ~/Chromatik/Packages -ea 0
 rm -Force -ea 0 ~/Chromatik/Packages/entwined-0.0.1-SNAPSHOT.jar
 cp target/entwined-0.0.1-SNAPSHOT-jar-with-dependencies.jar ~/Chromatik/Packages

@@ -24,22 +24,23 @@ class FairyCircle:
 
 
     def __init__(self, config):
-        self.rotation = np.array([[np.cos(config['ry']), 0, np.sin(config['ry'])],
+        rot = (np.pi / 180.0) * config['ry'] # get into radians
+        self.rotation = np.array([[np.cos(rot), 0, np.sin(rot)],
                                   [0, 1, 0],
-                                  [-np.sin(config['ry']), 0, np.cos(config['ry'])]])
+                                  [-np.sin(rot), 0, np.cos(rot)]])
         self.translation = np.array([config['x'], 0, config['z']])
         self.radius = config['radius']
         self.ip_addrs = config['ipAddresses']
         self.piece_id = config['pieceId']
-        self.ry = config['ry']
+        self.ry = config['ry'] # degrees
         if 'clustersPerNdb' in config:
             self.clusters_per_ndb = config['clustersPerNdb']
         else:
             self.clusters_per_ndb = 5
         if 'degrees' in config:
-            arc = np.pi * config['degrees']/180
+            arc = (np.pi * float(config['degrees'])) / 180.0
         else:
-            arc = 2 * np.pi
+            arc = 2.0 * np.pi
         self.arc_step = arc / (self.clusters_per_ndb*len(self.ip_addrs)) # the number of ndbs is the size of the ip_addr array
         self.cubes = []
 
@@ -49,7 +50,7 @@ class FairyCircle:
             for _ in range(self.clusters_per_ndb):
                 cluster_cubes = []
                 stem_rotation = 0
-                stem_rot_step = (2*np.pi)/self.MINICLUSTER_N_CUBES
+                stem_rot_step = (2*np.pi)/float(self.MINICLUSTER_N_CUBES)
                 cluster_rot_matrix = np.array([[np.cos(cluster_rotation), 0, np.sin(cluster_rotation)],
                                                [0, 1, 0],
                                                [-np.sin(cluster_rotation), 0, np.cos(cluster_rotation)]])
