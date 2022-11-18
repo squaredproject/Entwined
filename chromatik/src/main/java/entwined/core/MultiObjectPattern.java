@@ -58,15 +58,14 @@ public abstract class MultiObjectPattern <ObjectType extends MultiObject> extend
 
     if (triggered) {
       pauseTimerCountdown -= deltaMs;
-
       if (pauseTimerCountdown <= 0) {
         float delay = 1000 / frequency.getValuef();
         pauseTimerCountdown = EntwinedUtils.random(delay / 2) + delay * 3 / 4;
         makeObject(0);
       }
     } else if (objects.size() == 0) {
+      //System.out.println("No objects to show, turning off");
       enabled.setValue(false);
-      // setCallRun(false);
     }
 
     if (shouldAutofade) {
@@ -102,7 +101,7 @@ public abstract class MultiObjectPattern <ObjectType extends MultiObject> extend
   public void onTriggered() {
     super.onTriggered();
 
-    makeObject(1);  // 1 appears to be the default 'strenght', which is basically ignored by all the makeObject  XXX
+    makeObject(1);  // 1 appears to be the default 'strength', which is basically ignored by all the makeObject  XXX
   }
 
   protected abstract ObjectType generateObject(float strength);
