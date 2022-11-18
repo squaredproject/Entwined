@@ -21,7 +21,7 @@
 		"layerBaseHeights" : [24],
 		"ry" : 0,
 		"x" : 120,
-		"z" : 660,
+		"z" : 600,
 		"pieceId" : "sapling-1"
 	},
 	{
@@ -29,14 +29,14 @@
 		"layerBaseHeights" : [24],
 		"ry" : 0,
 		"x" : -180,
-		"z" : 720,
+		"z" : 600,
 		"pieceId" : "sapling-2"
 	},
 	{
 		"canopyMajorLengths" : [100],
 		"layerBaseHeights" : [24],
 		"ry" : 0,
-		"x" : -600,
+		"x" : -540,
 		"z" : 60,
 		"pieceId" : "sapling-3"
 	},
@@ -44,32 +44,32 @@
 		"canopyMajorLengths" : [100],
 		"layerBaseHeights" : [24],
 		"ry" : 0,
-		"x" : -600,
-		"z" : 60,
+		"x" : -420,
+		"z" : -540,
 		"pieceId" : "sapling-4"
 	},
 	{
 		"canopyMajorLengths" : [100],
 		"layerBaseHeights" : [24],
 		"ry" : 0,
-		"x" : -180,
-		"z" : -1080,
+		"x" : -240,
+		"z" : -1020,
 		"pieceId" : "sapling-5"
 	},
 	{
 		"canopyMajorLengths" : [100],
 		"layerBaseHeights" : [24],
 		"ry" : 0,
-		"x" : 360,
-		"z" : -1140,
+		"x" : 120,
+		"z" : -960,
 		"pieceId" : "sapling-6"
 	},
 	{
 		"canopyMajorLengths" : [100],
 		"layerBaseHeights" : [24],
 		"ry" : 0,
-		"x" : 1080,
-		"z" : -1140,
+		"x" : 960,
+		"z" : -1200,
 		"pieceId" : "sapling-7"
 	},
 	{
@@ -77,7 +77,7 @@
 		"layerBaseHeights" : [24],
 		"ry" : 0,
 		"x" : 1500,
-		"z" : -900,
+		"z" : -960,
 		"pieceId" : "sapling-8"
 	},
 	{
@@ -85,7 +85,7 @@
 		"layerBaseHeights" : [24],
 		"ry" : 0,
 		"x" : 1200,
-		"z" : 1200,
+		"z" : 1020,
 		"pieceId" : "sapling-9"
 	}
 ]

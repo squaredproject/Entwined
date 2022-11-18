@@ -1,10 +1,10 @@
 [
 	{
 			"ry" : 40,
-			"x" : 660,
-			"z" : -330,
-			"radius" : 60,
-			"pieceId" : "fairy-1",
+			"x" : 540,
+			"z" : -300,
+			"radius" : 120,
+			"pieceId" : "fairy-01",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 5,
 			"ipAddresses" : ["10.0.0.140", "10.0.0.141"]
@@ -12,101 +12,113 @@
 	{
 			"ry" : 340,
 			"x" : 180,
-			"z" : 600,
+			"z" : 540,
 			"radius" : 60,
 			"degrees" : 60,
-			"pieceId" : "fairy-2",
+			"pieceId" : "fairy-02",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
 			"ipAddresses" : ["10.0.0.142"]
 	},
 	{
 			"ry" : 340,
-			"x" : -540,
-			"z" : 840,
+			"x" : -360,
+			"z" : 660,
 			"radius" : 60,
 			"degrees" : 60,
-			"pieceId" : "fairy-3",
+			"pieceId" : "fairy-03",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
 			"ipAddresses" : ["10.0.0.143"]
 	},
 	{
 			"ry" : 340,
-			"x" : -600,
+			"x" : -504,
 			"z" : 0,
 			"radius" : 60,
 			"degrees" : 60,
-			"pieceId" : "fairy-4",
+			"pieceId" : "fairy-04",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
 			"ipAddresses" : ["10.0.0.144"]
 	},
 	{
 			"ry" : 340,
-			"x" : -480,
-			"z" : -600,
+			"x" : -396,
+			"z" : -444,
 			"radius" : 60,
 			"degrees" : 60,
-			"pieceId" : "fairy-5",
+			"pieceId" : "fairy-05",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
 			"ipAddresses" : ["10.0.0.145"]
 	},
 	{
 			"ry" : 340,
-			"x" : -240,
+			"x" : -300,
 			"z" : -1020,
 			"radius" : 60,
 			"degrees" : 60,
-			"pieceId" : "fairy-6",
+			"pieceId" : "fairy-06",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
 			"ipAddresses" : ["10.0.0.146"]
 	},
 	{
 			"ry" : 340,
-			"x" : 240,
-			"z" : -720,
+			"x" : 360,
+			"z" : -900,
 			"radius" : 60,
 			"degrees" : 60,
-			"pieceId" : "fairy-7",
+			"pieceId" : "fairy-07",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
 			"ipAddresses" : ["10.0.0.147"]
 	},
 	{
 			"ry" : 340,
-			"x" : 1200,
-			"z" : -1200,
+			"x" : 240,
+			"z" : -540,
 			"degrees" : 60,
 			"radius" : 60,
-			"pieceId" : "fairy-8",
+			"pieceId" : "fairy-08",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
 			"ipAddresses" : ["10.0.0.148"]
 	},
 	{
 			"ry" : 340,
-			"x" : 1500,
-			"z" : -1020,
+			"x" : 1140,
+			"z" : -1260,
 			"radius" : 60,
 			"degrees" : 60,
-			"pieceId" : "fairy-9",
+			"pieceId" : "fairy-09",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
 			"ipAddresses" : ["10.0.0.149"]
 	},
 	{
 			"ry" : 340,
-			"x" : -600,
-			"z" : -480,
+			"x" : 1500,
+			"z" : -1080,
 			"radius" : 60,
 			"degrees" : 60,
 			"pieceId" : "fairy-10",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.138"]
+	}
+		{
+			"ry" : 340,
+			"x" : -480,
+			"z" : -600,
+			"radius" : 60,
+			"degrees" : 60,
+			"pieceId" : "fairy-11",
+			"cubeSizeIndex" : 0,
+			"clustersPerNdb" : 3,
 			"ipAddresses" : ["10.0.0.139"]
 	}
+
 
 ]
