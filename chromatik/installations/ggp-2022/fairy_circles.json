@@ -107,8 +107,8 @@
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
 			"ipAddresses" : ["10.0.0.138"]
-	}
-		{
+	},
+	{
 			"ry" : 340,
 			"x" : -480,
 			"z" : -600,
@@ -119,6 +119,5 @@
 			"clustersPerNdb" : 3,
 			"ipAddresses" : ["10.0.0.139"]
 	}
-
 
 ]
