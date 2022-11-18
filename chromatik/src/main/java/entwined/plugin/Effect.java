@@ -38,9 +38,11 @@ class TSEffectController {
     return name;
   }
 
+  /*
   boolean getEnabled() {
     return triggerable.isTriggered();
   }
+  */
 
   void setEnabled(boolean enabled) {
     if (enabled) {

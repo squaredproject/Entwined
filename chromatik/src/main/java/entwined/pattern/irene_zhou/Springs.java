@@ -2,7 +2,6 @@ package entwined.pattern.irene_zhou;
 
 import entwined.core.CubeData;
 import entwined.core.CubeManager;
-import entwined.core.TSPattern;
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
@@ -12,9 +11,10 @@ import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.LXParameter;
+import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.utils.LXUtils;
 
-public class Springs extends TSPattern {
+public class Springs extends LXPattern {
   final BoundedParameter hue = new BoundedParameter("HUE", 0, 0, 360);
   private BooleanParameter automated = new BooleanParameter("AUTO", true);
   private final Accelerator gravity = new Accelerator(0, 0, 0);

@@ -1,6 +1,6 @@
 package entwined.core;
 
-
+/*
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.pattern.LXPattern;
@@ -10,9 +10,6 @@ public abstract class TSPattern extends LXPattern implements Triggerable {
   Boolean triggered = false;
   double triggeredTime = 0.0;
   // ParameterTriggerableAdapter parameterTriggerableAdapter;
-  // String readableName;  // XXX CSW - handled by LXPattern.label, if anyone wants to override
-
-  // protected final LXModel model;  // XXX handled in by LXPattern
 
   public TSPattern(LX lx) {
     super(lx);
@@ -36,10 +33,6 @@ public abstract class TSPattern extends LXPattern implements Triggerable {
       this.enabled.setValue(false);
       this.triggered = false;
     }
-  }
-
-  public boolean isTriggered() {
-    return this.triggered;
   }
 
   public void onTimeout() {
@@ -89,12 +82,13 @@ public abstract class TSPattern extends LXPattern implements Triggerable {
   //  return getChannel().fader.getValue();
   //}
 
+*/
   /* XXX
   TreesTransition getFaderTransition(LXChannel channel) {
     return (TreesTransition) channel.getFaderTransition();
   }
   */
-}
+//}
 
 /*
 class ChannelTreeLevels {

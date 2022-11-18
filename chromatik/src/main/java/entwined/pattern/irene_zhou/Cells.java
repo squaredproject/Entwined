@@ -2,15 +2,15 @@ package entwined.pattern.irene_zhou;
 
 import entwined.core.CubeData;
 import entwined.core.CubeManager;
-import entwined.core.TSPattern;
 import entwined.utils.EntwinedUtils;
 import entwined.utils.Vec2D;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.utils.LXUtils;
 
-public class Cells extends TSPattern {
+public class Cells extends LXPattern {
   final BoundedParameter speed = new BoundedParameter("SPEED", 1, 0, 5);
   final BoundedParameter width = new BoundedParameter("WIDTH", 0.75, 0.5, 1.25);
   final BoundedParameter hue = new BoundedParameter("HUE", 0, 0, 360);
