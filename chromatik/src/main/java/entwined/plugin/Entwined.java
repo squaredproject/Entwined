@@ -358,6 +358,9 @@ public class Entwined implements LXStudio.Plugin {
               recordings.openRecording(lx, autoplayFile);
               recordings.playRecording(lx);
             }
+            else {
+              log(" autoplay file not found, continuing");
+            }
           }
 
           // bad code I know

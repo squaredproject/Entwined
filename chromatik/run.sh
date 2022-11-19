@@ -19,5 +19,9 @@ if [[ $OSTYPE == 'linux'* ]]; then
   JARTYPE="-linux"
 fi
 
-echo $RUNOPT $JARTYPE
-java $RUNOPT -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies$JARTYPE.jar heronarts.lx.studio.Chromatik --warnings --disable-zeroconf --enable-plugin entwined.plugin.Entwined ~/Chromatik/Projects/entwined.lxp
+$CWD=`cwd`
+
+echo $RUNOPT $JARTYPE $CWD
+
+cd ~/Chromatik
+java $RUNOPT -cp $CWD/lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies$JARTYPE.jar heronarts.lx.studio.Chromatik --warnings --disable-zeroconf --enable-plugin entwined.plugin.Entwined ~/Chromatik/Projects/entwined.lxp
