@@ -158,7 +158,7 @@ class Bench:
     def __init__(self, bench_config) :
         self.piece_id = bench_config['pieceId']
         self.ip_addr = bench_config['ipAddress']
-        self.ry = bench_config['ry'] * np.pi/180
+        self.ry = bench_config['ry'] 
         self.rotation = np.array([
             [np.cos(bench_config['ry']),0,np.sin(bench_config['ry'])],
             [0,1,0],
@@ -193,7 +193,7 @@ class Bench:
                               "base_x": int(self.translation[0]),
                               "base_y": int(self.translation[1]),
                               "base_z": int(self.translation[2]),
-                              "ry"   : self.ry * 180/np.pi
+                              "ry"   : self.ry
                      }}
         outputs = lx_output["outputs"]
         coords = lx_output["components"][0]["coords"]
