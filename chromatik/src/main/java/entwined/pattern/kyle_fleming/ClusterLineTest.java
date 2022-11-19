@@ -5,11 +5,13 @@ import entwined.utils.EntwinedUtils;
 import entwined.utils.Vec2D;
 import entwined.utils.VecUtils;
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.utils.LXUtils;
 
+@LXCategory(LXCategory.TEST)
 public class ClusterLineTest extends LXPattern {
 
   final BoundedParameter y;
