@@ -9,6 +9,17 @@ Entwined allows art work to scale up or down to the installation. Some have a fe
 have a few trees, some have each. To run a given installation, use the `oldlx` installation
 directory to pick a given installation!
 
+# New in 2022, the newest version of [LX Studio](http://http://lx.studio/) Chromatik!
+
+Chromatik is the newest platform for art lighting made by [Mark Slee](https://mcslee.com/).
+The latest version of LX Studio, it runs without the Processing engine,
+avoiding complexity and making the software faster and easier to install.
+
+Chromatik is the way to run Entwined! Please see the readme in the Chromatik 
+directory.
+
+The `oldlx` directory continues to exist, and supports all the versions before 2022. 
+
 # Running Entwined and the Simulator
 
 Entwined is intended to be run with processing. The "renderer" runs in Java,
@@ -75,13 +86,3 @@ Go to `~/.ssh`. `cat id_ed25519.pub`, copy the output.
 If there is no ed25519 public key generate one: `ssh-keygen -t ed25519 -C "my-email-address"`
 Go to github.com with your login. Go to your profile. Go to settings under your profile (right side). Add a key, which is in the left menu. Use the friendly add button and paste your key in. After you've done all your work, you can delete that key (for proper security).
 
-# NEW LX
-
-Regrettably, the "new" LX system is not yet fully functional. The simulator
-works, but some patterns crash. It is now behind in functionality compared
-to the `oldlx` branch.
-
-It intends to use
-the current version of LX Studio, but the port has not yet been fully completed.
-
-Please see that directory for instructions on running.
