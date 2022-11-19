@@ -9,22 +9,22 @@ Entwined allows art work to scale up or down to the installation. Some have a fe
 have a few trees, some have each. To run a given installation, use the `oldlx` installation
 directory to pick a given installation!
 
-# New in 2022, the newest version of [LX Studio](http://http://lx.studio/) Chromatik!
+# New in 2022, the newest version of [LX Studio](http://lx.studio/) Chromatik!
 
 Chromatik is the newest platform for art lighting made by [Mark Slee](https://mcslee.com/).
 The latest version of LX Studio, it runs without the Processing engine,
 avoiding complexity and making the software faster and easier to install.
 
-Chromatik is the way to run Entwined! [Please see the readme in the Chromatik 
-directory](chromatik/README.md).
+Chromatik is the way to run Entwined! 
+[Please see the readme in the Chromatik directory](chromatik/README.md).
 
 The `oldlx` directory continues to exist, and supports all the versions before 2022. 
 
 # Running Entwined prior to 2022
 
 Some older installations (reno, scottsdale, tiburon, pastoria) still
-use the older version of LX studio. [This version is still in active
-use, please see the `oldlx` directory](oldlx/README.md). 
+use the older version of LX studio. 
+[This version is still in active use, please see the `oldlx` directory](oldlx/README.md). 
 
 It has been reported that newer MacOS likely requires Processing 4 due to its
 use of Java. Please use Processing 4 (available from Processing) to resolve those issues.
