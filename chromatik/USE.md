@@ -8,6 +8,12 @@ Submit a pull request, or write an issue tag documentation.
 
 After you've got LX Studio running, [please peruse the documentation](https://github.com/heronarts/LXStudio/wiki). However, you'll see a wealth of info. We'll specifically focus on using Entwined.
 
+## Reporting problems
+
+Not everything works yet! Please report issues using Github's issue system.
+You may see your issue already listed, upvote it or add a comment so people
+working can see you care or have experienced the issue.
+
 ## The main window
 
 The window has the following elements. 
@@ -26,13 +32,37 @@ Unlike Processing based LX Studio, the window can be resized. Moving the sculptu
 around is best done with a trackpad. Pinch to zoom, drag to rotate, and CTL-drag to
 shift.
 
-### Channels and Channel names
+## Channels and Channel names
 
 The name of the channel can be set to a string - like "channel 1" which isn't very
 descriptive - or can be set to something more descriptive like "TREES" (a channel
 which only effects the trees), or can be set to the currently playing pattern.
 
 You can change this yourself by clicking on the name and using the pulldown.
+
+### Changing the running pattern on a channel
+
+Changing a running pattern on a channel is a very different experience in LX Studio
+these days! To the right of the channel list, when a channel is selected, is a list of
+all the patterns currently allowed for the channel. To add more, use the '+' icon
+nearby - but remember you'll have to save the project file and check it in for
+other people to use this pattern.
+
+The checked in version of the project files has every interesting pattern on every
+channel. Test patterns can be added to a channel and used, and not checked in.
+
+Changing patterns on a channel can be done with an autofade. It can also be done 
+automatically. There are two lines: the first is the ability to auto-cycle to another
+pattern in the list - and whether they should be cycled sequentially or randomly, and how long on each pattern. The second one is a fading transition. This allows setting a time
+that one pattern will fade into the next, or other transitions, and how long the transition takes. If you look carefully at the amount of time, you'll see a very small
+green crawling bar when a transition is active, which shows the progress of the transition.
+
+When changing patterns, you can use the pattern list at the bottom, but we've also
+replicated that list on the right hand side. That list can't be edited, but you can see
+a lot more patterns. To change patterns, you can scroll with the arrow keys then
+hit return, or you can scroll with the track pad and double click. If you have the transition feature set, the transition will be done, so the old pattern will still show
+as active until the transition is complete.
+
 
 ### What if I can't see all the channels?
 
