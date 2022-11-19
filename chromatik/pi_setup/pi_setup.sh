@@ -68,8 +68,9 @@ sudo cp Entwined/oldlx/pi_setup/brightness-toggle.service /etc/systemd/system/
 sudo systemctl enable chromatik
 sudo systemctl enable brightness-toggle
 
+cd ..; ./build.sh ; cd -
+cd ../installations; ./install.sh ggp-2022
 
-cd $HOME/Entwined/oldlx/pi_setup/
 
 ## install hostapd & others
 sudo apt install -y hostapd dnsmasq 
