@@ -141,34 +141,16 @@ After you've got a PI up with this version, follow the instructions above (java 
 
 The only difference is the run command is `headless.sh`.
 
+# Connecting to Canopy
 
+As of writing, the configuration for the name of the installation in Canopy, and
+the name of the Canopy server, is in a Config.java source file in the plugin.
 
-The essential build steps here are:
+This will get pulled into a java file at some point. If you need to run your
+own Canopy server for debugging, or don't want to be the 'ggp' sculpture,
+you'll have to edit the java file.
 
-```sh
-$ mvn validate
-$ mvn package
-```
-
-`mvn validate` installs the chromatik library dependncies into your local Maven repository.
-
-`mvn package` builds the Entwined library to a JAR. The resulting content JAR file lives at `target/entwined-0.0.1-SNAPSHOT.jar`
-
-The `install.sh` script will automatically copy this file into the Chromatik content library. Alternately, the JAR file may be drag and dropped onto the running Chromatik app to import it manually.
-
-Any time updates have been made to pattern/effect content, fixtures, etc. the install process should be repeated.
-
-## Running Chromatik
-
-The `run.sh` script will start Chromatik and load the Entwined project. Make sure that you have followed the steps above to install the Entwined content libraries first.
-
-## Regenerating the fixture definitions
-
-Use the `gen-fixtures.sh` script to regenerate the LXF fixture definitions from the `sculpture` tree. Requires `python3` and `numpy` installed via `pip3 install numpy`
-
-This action should be followed by re-running the `install.sh` script to import the new fixture definitions into the Chromatik content library.
-
-## Developing in Eclipse
+# Developing in Eclipse
 
 The above scripts are sufficient to develop Entwined for Chromatik. However, it's of course nice to work in an IDE. The Entwined content library for Chromatik is configured as a Maven project which can be easily imported to any IDE. For Eclipse, instructions are as follows.
 
@@ -181,7 +163,7 @@ The above scripts are sufficient to develop Entwined for Chromatik. However, it'
 3. Click `Finish` and you should see the project tree as follows
   <img src="doc/project.jpg" alt="Project Tree" width="742" />
 
-# Running from Eclipse
+## Running from Eclipse
 
 It is not necessary to build and run directly from Eclipse. Chromatik runs as a standalone application and the `install.sh` script is sufficient to package the Entwined library into the JAR file which is installed to the Chromatik content folder.
 
