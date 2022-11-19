@@ -1,11 +1,13 @@
 package entwined.pattern.anon;
 
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
 
+@LXCategory(LXCategory.TEST)
 public class TestPattern extends LXPattern {
 
   int CUBE_MOD = 14;

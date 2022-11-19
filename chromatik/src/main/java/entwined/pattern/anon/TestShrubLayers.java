@@ -2,11 +2,13 @@ package entwined.pattern.anon;
 
 import entwined.plugin.Entwined;
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.pattern.LXPattern;
 
+@LXCategory(LXCategory.TEST)
 public class TestShrubLayers extends LXPattern {
 
   final BoundedParameter rodLayer;
