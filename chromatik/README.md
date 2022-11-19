@@ -2,8 +2,10 @@
 
 Welcome to 2022's revamp of Entwined, featuring the latest version of LX Studio, Chromatik.
 
-Programming Chromatik is just like programming recent versions of LX Sudio.
-However, the runtime is built on a much more recent version of Java (Java 17).
+If you're looking for Chromatik documentation, see LX Studio. The
+programming and use is the same. The installation is different, see below.
+
+[Check here for an Entwined based guide to using Chromatik](USE.md).
 
 # Prerequisites (Interactive, Headless at end)
 

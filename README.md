@@ -15,22 +15,19 @@ Chromatik is the newest platform for art lighting made by [Mark Slee](https://mc
 The latest version of LX Studio, it runs without the Processing engine,
 avoiding complexity and making the software faster and easier to install.
 
-Chromatik is the way to run Entwined! Please see the readme in the Chromatik 
-directory.
+Chromatik is the way to run Entwined! [Please see the readme in the Chromatik 
+directory](chromatik/README.md).
 
 The `oldlx` directory continues to exist, and supports all the versions before 2022. 
 
-# Running Entwined and the Simulator
+# Running Entwined prior to 2022
 
-Entwined is intended to be run with processing. The "renderer" runs in Java,
-and exists within the `oldlx` directory. A not-quite-finished port to the modern
-LX Studio is in the `newlx` directory but it doesn't completly work.
+Some older installations (reno, scottsdale, tiburon, pastoria) still
+use the older version of LX studio. [This version is still in active
+use, please see the `oldlx` directory](oldlx/README.md). 
 
-The simulator has been tested with both Processing 3 and Processing 4 (beta 2).
-
-It has been reported that newer MacOS implementations require Processing 4 due to its
-use of Java. Please use P4 to resolve those issues.
-
+It has been reported that newer MacOS likely requires Processing 4 due to its
+use of Java. Please use Processing 4 (available from Processing) to resolve those issues.
 
 # Testing pieces in the shop
 
