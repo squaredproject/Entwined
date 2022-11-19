@@ -352,7 +352,7 @@ public class Entwined implements LXStudio.Plugin {
           if (recordings != null) {
             // TODO - perhaps come up with a more elegant solution here for specifying
             // what the file to auto-play is?
-            File autoplayFile = new File("autoplay.lxr");
+            File autoplayFile = lx.getMediaFile("autoplay.lxr");
             if ((autoplayFile != null) && autoplayFile.exists()) {
               log("Auto-playing saved recording file: " + autoplayFile);
               recordings.openRecording(lx, autoplayFile);
