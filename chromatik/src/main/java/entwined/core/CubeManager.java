@@ -58,7 +58,11 @@ public class CubeManager implements LX.Listener {
           float tempTheta = (float)Math.atan2(localZ, localX);
           int ry = 0;
           if (component.meta("ry") != null) {
-            ry = Integer.parseInt(component.meta("ry"));
+            try {
+              ry = (int)(Double.parseDouble(component.meta("ry")));
+            } catch (NumberFormatException e) {
+              System.out.println("Could not parse number " + component.meta("ry") + " considering it to be 0");
+            }
           }
           cube.localTheta = (180 + (180/LX.PIf)*tempTheta + ry) % 360;  // All theta here in degrees
           tempTheta = (float)Math.atan2(point.z,  point.x);
