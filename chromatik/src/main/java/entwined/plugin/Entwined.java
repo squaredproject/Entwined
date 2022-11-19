@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 import heronarts.lx.LX;
+import heronarts.lx.LXDeviceComponent;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.midi.LXMidiInput;
 import heronarts.lx.midi.LXMidiListener;
@@ -16,12 +17,13 @@ import heronarts.lx.mixer.LXAbstractChannel;
 import heronarts.lx.mixer.LXBus;
 import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.modulator.LXModulator;
+import heronarts.lx.parameter.LXListenableNormalizedParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.studio.LXStudio;
 import heronarts.lx.studio.LXStudio.UI;
 
 import entwined.core.Triggerable;
-import entwined.core.TSPattern;
+// import entwined.core.TSPattern;
 import entwined.modulator.Recordings;
 import entwined.modulator.Triggerables;
 import entwined.pattern.anon.ColorEffect;
@@ -44,6 +46,8 @@ import entwined.pattern.kyle_fleming.ScrambleEffect;
 import entwined.pattern.kyle_fleming.SpeedEffect;
 import entwined.pattern.kyle_fleming.StaticEffect;
 import entwined.pattern.kyle_fleming.TSBlurEffect;
+import entwined.pattern.kyle_fleming.Wisps;
+import entwined.pattern.ray_sykes.Lightning;
 
 public class Entwined implements LXStudio.Plugin {
 
@@ -327,6 +331,14 @@ public class Entwined implements LXStudio.Plugin {
           // Set up the channels
           configureChannels();
 
+          // Grab the triggerables object if it exists
+          triggerables = findModulator(lx, Triggerables.class);
+
+          // Set up triggerable events
+          if (triggerables != null) {
+            configureTriggeredEffects();
+          }
+
           // Set up the low level iPad Controller
           engineController = new IPadServerController(lx);  // XXX might want to have a listener on the controller, rather than newing up the engine controller here
 
@@ -335,14 +347,6 @@ public class Entwined implements LXStudio.Plugin {
 
           // Set up Canopy listener (also TCP) for interactive commands
           configureCanopy();
-
-          // Grab the triggerables object if it exists
-          triggerables = findModulator(lx, Triggerables.class);
-
-          // Set up triggerable events
-          if (triggerables != null) {
-            configureTriggeredEffects();
-          }
 
           Recordings recordings = findModulator(lx, Recordings.class);
           if (recordings != null) {
@@ -387,65 +391,152 @@ public class Entwined implements LXStudio.Plugin {
     // One-shot patterns
     // Patterns that use a parameter in addition to the fader for fading in and out
 
+    // straight up on/off on the effect - turn on or off the standard color effect
+    triggerables.setAction(0,0, new EventTrigger(Entwined.findMasterEffect(lx, ColorEffect.class)));
 
-    // TODO: can hardcode whatever sorts of configuration you want here to wire up
-    // what does what on all these triggerables...
-    // XXX - there's this whole issue of 'amounts' on our triggers. In the original code
-    // we specified a parameter that was used to catch the on/off event. For the moment,
-    // I'm ignoring this.
+    // Instead of turning the action on or off, let's change the color. ReleaseDisables indicates that this
+    // is an effect that is always going to be on - we're just playing with its values.
+    ColorEffect colorEffect = Entwined.findMasterEffect(lx, ColorEffect.class);
+    triggerables.setAction(0,1, new EventTrigger(colorEffect, colorEffect.hueShift, 1).releaseDisables(false));
+    colorEffect.enabled.setValue(false);
 
-    // straight up on/off on the effect. XXX want to be able to set for different values
-    triggerables.setAction(0,0, new EventTrigger(Entwined.findMasterEffect(lx, ColorEffect.class), 0, 1));
-    triggerables.setAction(0,1, new EventTrigger(Entwined.findMasterEffect(lx, ColorEffect.class), 0, 0.5f));
-
-    // straight up pattern effect
-    // XXX - I probably need to turn off the pattern by default if I'm using the effects channel with its
-    // compositing. This *should* have happened, but...
-    // XXX - He's got a function called instantiate class that I can use maybe. Ctor issue.
-    triggerables.setAction(0,2, Entwined.setupTriggerablePattern(lx, effectsChannel, Cells.class));
-    // One shot or something
+    // The same sort of thing can be used for triggering patterns on the 'Events' channel..
     Bubbles bubbles = Entwined.findPattern(effectsChannel, Bubbles.class);
-    triggerables.setAction(0,3, bubbles);
+    if (bubbles == null) {
+      bubbles = new Bubbles(lx);
+      effectsChannel.addPattern(bubbles);
+    }
+    triggerables.setAction(0,2, new EventTrigger(bubbles, bubbles.ballCount, 50.0));  // Lots of bubbles
+    triggerables.setAction(0,3, new EventTrigger(bubbles, bubbles.ballCount, 5.0));   // Not so many bubbles
+    bubbles.enabled.setValue(false);
 
-    // triggerables.setAction(0, 3, ParameterTriggerableAdapter());
-    //triggerables.setAction
-    // XXX - it's better to hard code these in the plugin, with triggerables.setAction()
-    // And then I can set up these parameterized things. Yay.
+    // Let's set up a lot of Wisps as well. That seemed to be popular in the previous version of LX
+    // Here I construct a large number of slightly different versions.
+    Wisps downward_yellow_wisp = Entwined.findPatternWithName(effectsChannel, Wisps.class, "Wisp: yellow");
+    if (downward_yellow_wisp == null) {
+      downward_yellow_wisp = new Wisps(lx, 1, 60, 50, 270, 20, 3.5, 10);
+      downward_yellow_wisp.label.setValue("Wisp: yellow");
+      effectsChannel.addPattern(downward_yellow_wisp);
+    }
+    triggerables.setAction(0, 4, downward_yellow_wisp);
+    downward_yellow_wisp.enabled.setValue(false);
+
+    Wisps colorful_wisp_storm = Entwined.findPatternWithName(effectsChannel, Wisps.class, "Wisp: storm");
+    if (colorful_wisp_storm == null) {
+      colorful_wisp_storm = new Wisps(lx, 30, 210, 100, 90, 20, 3.5, 10);
+      colorful_wisp_storm.label.setValue("Wisp: storm");
+      effectsChannel.addPattern(colorful_wisp_storm);
+    }
+    triggerables.setAction(0, 5, colorful_wisp_storm);
+    colorful_wisp_storm.enableTriggerMode();
+
+
+    Wisps multidirection_wisps = Entwined.findPatternWithName(effectsChannel, Wisps.class, "Wisp: multi");
+    if (multidirection_wisps == null) {
+      multidirection_wisps = new Wisps(lx, 1, 210, 100, 90, 130, 3.5, 10);
+      multidirection_wisps.label.setValue("Wisp: multi");
+      effectsChannel.addPattern(multidirection_wisps);
+    }
+    multidirection_wisps.enableTriggerMode();
+    triggerables.setAction(0, 6, multidirection_wisps);
+
+
+    Wisps rainstorm_wisps = Entwined.findPatternWithName(effectsChannel, Wisps.class, "Wisp: rain");
+    if (rainstorm_wisps == null) {
+      rainstorm_wisps = new Wisps(lx, 3, 210, 10, 270, 0, 3.5, 10);
+      rainstorm_wisps.label.setValue("Wisp: rain");
+      effectsChannel.addPattern(rainstorm_wisps);
+    }
+    rainstorm_wisps.enableTriggerMode();
+    triggerables.setAction(0, 7, rainstorm_wisps);
+
+
+    Wisps twister_wisps = Entwined.findPatternWithName(effectsChannel, Wisps.class, "Wisp: twister");
+    if (twister_wisps == null) {
+      twister_wisps = new Wisps(lx, 35, 210, 180, 180, 15, 2, 15);
+      twister_wisps.label.setValue("Wisp: twister");
+      effectsChannel.addPattern(twister_wisps);
+    }
+    twister_wisps.enableTriggerMode();
+    triggerables.setAction(0, 8, twister_wisps);
+
+    // Here's another way of setting things up if the pattern isn't designed for triggers Very simple!
+    triggerables.createPatternAction(1, 0, Entwined.setupTriggerablePattern(lx, effectsChannel, Cells.class));
+
+    // And some lightning because - why not?
+    Lightning lightning = Entwined.findPattern(effectsChannel, Lightning.class);
+    if (lightning == null) {
+      lightning = new Lightning(lx);
+      effectsChannel.addPattern(lightning);
+    }
+    lightning.enableTriggerMode();
+    triggerables.setAction(1,1, lightning);
 
   }
 
-  //This is not really a good way of doing this. ipad effects are different?
+
   class EventTrigger implements Triggerable{
-    LXEffect effect;
+    LXDeviceComponent effect;
     Boolean isTriggered = false;
-    EventTrigger(LXEffect effect){
+    double onAmount;
+    double originalAmount;
+    boolean releaseDisables = true;
+    LXListenableNormalizedParameter amountControl = null;
+
+    EventTrigger(LXDeviceComponent effect){
       this.effect = effect;
     }
-    EventTrigger(LXEffect effect, float onAmount, float offAmount){
+
+    EventTrigger(LXDeviceComponent effect, LXListenableNormalizedParameter amountControl, double onAmount){
       this.effect = effect;
-      isTriggered = true;
+      this.amountControl = amountControl;
+      this.onAmount = onAmount;
     }
-    @Override
-    public void onTriggered() {
-      System.out.println("Event trigger triggered!!");
-      effect.enabled.setValue(true);
-    }
-    @Override
-    public void onReleased() {
-      System.out.println("Event trigger released!!");
-      isTriggered = false;
-      effect.enabled.setValue(false);
-    }
-    @Override
-    public void onTimeout() {
-      System.out.println("Event trigger timeout");
-      isTriggered = false;
-      effect.enabled.setValue(false);
+
+    public EventTrigger releaseDisables(boolean tf) {
+      this.releaseDisables = tf;
+      return this;
     }
 
     @Override
-    public boolean isTriggered() {
-      return isTriggered;
+    public void onTriggered() {
+      System.out.println("Event trigger triggered!!");
+      isTriggered = true;
+      if (amountControl != null) {
+        originalAmount = amountControl.getValue();
+        amountControl.setValue(onAmount);
+      }
+      if (effect instanceof LXEffect) {
+        ((LXEffect)effect).enabled.setValue(true);
+      } else if (effect instanceof LXPattern) {
+        ((LXPattern)effect).enabled.setValue(true);
+      }
+    }
+
+    @Override
+    public void onReleased() {
+      System.out.println("Event trigger released!!");
+      shutdownTriggeredEvent();
+    }
+
+    void shutdownTriggeredEvent() {
+      isTriggered = false;
+      if (amountControl != null) {
+        amountControl.setValue(originalAmount);
+      }
+      if (releaseDisables) {
+        if (effect instanceof LXEffect) {
+          ((LXEffect)effect).enabled.setValue(false);
+        } else if (effect instanceof LXPattern) {
+          ((LXPattern)effect).enabled.setValue(false);
+        }
+      }
+    }
+
+    @Override
+    public void onTimeout() {
+      System.out.println("Event trigger timeout");
+      shutdownTriggeredEvent();
     }
   }
 
@@ -506,6 +597,7 @@ public class Entwined implements LXStudio.Plugin {
     pattern.readableName = name;
     patterns.add(pattern);
   }
+  // XXX - do I want this to come back? This is an interesting little bit of code.
   */
 
 
@@ -587,6 +679,8 @@ public class Entwined implements LXStudio.Plugin {
     }
     effectsChannel.compositeMode.setValue(LXChannel.CompositeMode.BLEND);
     effectsChannel.fader.setValue(1.0);
+    effectsChannel.compositeDampingEnabled.setValue(true);
+    effectsChannel.compositeDampingTimeSecs.setValue(1);
   }
 
   /*
@@ -666,8 +760,8 @@ public class Entwined implements LXStudio.Plugin {
   }
 
   @SuppressWarnings("unchecked")
-  public static <T extends TSPattern> T setupTriggerablePattern(LX lx, LXChannel channel, Class<T> clazz) {
-    TSPattern pattern = findPattern(channel, clazz);
+  public static <T extends LXPattern> T setupTriggerablePattern(LX lx, LXChannel channel, Class<T> clazz) {
+    LXPattern pattern = findPattern(channel, clazz);
     if (pattern == null) {
       try {
         pattern = (clazz.getConstructor(LX.class).newInstance(lx));
@@ -679,7 +773,6 @@ public class Entwined implements LXStudio.Plugin {
     }
 
     pattern.enabled.setValue(false);
-    pattern.enableTriggerMode();
     return (T)pattern;
   }
 
@@ -717,6 +810,17 @@ public class Entwined implements LXStudio.Plugin {
   public static <T extends LXPattern> T findPattern(LXChannel channel, Class<T> clazz) {
     for (LXPattern pattern : channel.patterns) {
       if (pattern.getClass().equals(clazz)) {
+        return (T) pattern;
+      }
+    }
+    return null;
+  }
+
+
+  @SuppressWarnings("unchecked")
+  public static <T extends LXPattern> T findPatternWithName(LXChannel channel, Class<T> clazz, String name) {
+    for (LXPattern pattern : channel.patterns) {
+      if (pattern.getClass().equals(clazz) && pattern.label.getString().equals(name)) {
         return (T) pattern;
       }
     }

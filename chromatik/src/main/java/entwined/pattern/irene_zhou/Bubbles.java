@@ -15,7 +15,7 @@ import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.utils.LXUtils;
 
 public class Bubbles extends TSTriggerablePattern {
-  final DiscreteParameter ballCount = new DiscreteParameter("NUM", 10, 1, 150);
+  public final DiscreteParameter ballCount = new DiscreteParameter("NUM", 10, 1, 150);
   final BoundedParameter maxRadius = new BoundedParameter("RAD", 50, 5, 100);
   final BoundedParameter speed = new BoundedParameter("SPEED", 1, 0, 5);
   final BoundedParameter hue = new BoundedParameter("HUE", 0, 0, 360);
