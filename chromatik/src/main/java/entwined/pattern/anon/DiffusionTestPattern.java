@@ -1,11 +1,12 @@
 package entwined.pattern.anon;
 
 import heronarts.lx.LX;
+import heronarts.lx.LXCategory;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.parameter.BoundedParameter;
 
-// XXX ? not used?
+@LXCategory(LXCategory.TEST)
 public class DiffusionTestPattern extends LXPattern {
 
   final BoundedParameter hue = new BoundedParameter("HUE", 0, 360);
