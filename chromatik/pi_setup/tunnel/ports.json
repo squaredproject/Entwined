@@ -1,0 +1,90 @@
+{
+        "message": {
+                "name": "reno",
+                "port": 9070,
+		"comment": "Reno Entwined Red",
+		"tunnel": " ssh -p 9091 -R  *:9070:localhost:22 ent@950arnold.ddns.net",
+		"ssh": " ssh -p 9070 pi@950arnold.ddns.net"
+        }
+
+}
+{
+        "message": {
+                "name": "entwinedmeadow",
+                "port": 9071,
+		"comment": "Entwined Meadow Pi",
+		"tunnel": " ssh -p 9091 -R  *:9071:localhost:22 ent@950arnold.ddns.net",
+		"ssh": " ssh -p 9071 pi@950arnold.ddns.net"
+
+	}
+}
+
+{
+        "message": {
+                "name": "marin",
+                "port": 9072,
+		"comment": "Marin Pi",
+		"tunnel": " ssh -p 9091 -R  *:9072:localhost:22 ent@950arnold.ddns.net",
+		"ssh": " ssh -p 9072 pi@950arnold.ddns.net"
+
+	}
+}
+
+
+{
+        "message": {
+                "name": "lapu",
+                "port": 9073,
+		"comment": "LapuLapu Community Garden",
+		"tunnel": " ssh -p 9091 -R  *:9073:localhost:22 ent@950arnold.ddns.net",
+		"ssh": " ssh -p 9073 pi@950arnold.ddns.net"
+
+	}
+}
+
+{
+        "message": {
+                "name": "cotner",
+                "port": 9074,
+		"comment": "Scott Cotner Shrub",
+		"tunnel": " ssh -p 9091 -R  *:9074:localhost:22 ent@950arnold.ddns.net",
+		"ssh": " ssh -p 9074 pi@950arnold.ddns.net"
+
+	}
+}
+
+{
+        "message": {
+                "name": "auction",
+                "port": 9075,
+		"comment": "Burning Man Auctioned Shrub",
+		"tunnel": " ssh -p 9091 -R  *:9075:localhost:22 ent@950arnold.ddns.net",
+		"ssh": " ssh -p 9075 pi@950arnold.ddns.net"
+
+	}
+}
+
+{
+        "message": {
+                "name": "brian",
+                "port": 9076,
+		"comment": "Brian and Carolyn Shrub",
+		"tunnel": " ssh -p 9091 -R  *:9076:localhost:22 ent@950arnold.ddns.net",
+		"ssh": " ssh -p 9076 pi@950arnold.ddns.net"
+
+	}
+}
+
+{
+        "message": {
+                "name": "scottsdale",
+                "port": 9077,
+		"comment": "Brian and Carolyn Shrub",
+		"tunnel": " ssh -p 9091 -R  *:9077:localhost:22 ent@950arnold.ddns.net",
+		"ssh": " ssh -p 9077 pi@950arnold.ddns.net"
+
+	}
+}
+
+{
+}

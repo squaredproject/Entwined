@@ -3,4 +3,4 @@
 build/
 .lxpreferences
 .DS_Store
-
+__pycache__

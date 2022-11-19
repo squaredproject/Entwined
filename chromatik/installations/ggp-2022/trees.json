@@ -1,0 +1,91 @@
+[
+	{
+		"canopyMajorLengths" : [240, 160, 96],
+		"layerBaseHeights" : [20, 71, 112],
+		"ry" : 135,
+		"x" : 0,
+		"z" : 0,
+		"pieceId": "tree-medium",
+    "center": true
+	},
+	{
+		"canopyMajorLengths" : [180, 120],
+		"layerBaseHeights" : [43, 95],
+		"ry" : 180,
+		"x" : 720,
+		"z" : 840,
+		"pieceId": "tree-small"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : 120,
+		"z" : -600,
+		"pieceId" : "sapling-1"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : -204,
+		"z" : -600,
+		"pieceId" : "sapling-2"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : -540,
+		"z" : -60,
+		"pieceId" : "sapling-3"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : -420,
+		"z" : 540,
+		"pieceId" : "sapling-4"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : -240,
+		"z" : 1020,
+		"pieceId" : "sapling-5"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : 120,
+		"z" : 960,
+		"pieceId" : "sapling-6"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : 960,
+		"z" : 1200,
+		"pieceId" : "sapling-7"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : 1500,
+		"z" : 960,
+		"pieceId" : "sapling-8"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 0,
+		"x" : 1200,
+		"z" : 660,
+		"pieceId" : "sapling-9"
+	}
+]
