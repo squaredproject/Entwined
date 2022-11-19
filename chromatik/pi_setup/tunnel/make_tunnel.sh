@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ###  script so that you can ssh to any entwined pi that has internet access using a reverse ssh tunnel
 ###  each pi sets up a tunnel using 950arnold.ddns.net as the remote server
@@ -57,5 +57,5 @@ sudo systemctl enable  $SERVICE
 echo "adding cron job to restart tunnel every 15 mins"
 CRONSTRING=$(crontab -l)
 if [[ "$CRONSTRING" != *"entwined-tunnel"* ]];  then
-	(crontab -l 2>/dev/null; echo "*/15 * * * * sudo systemctl restart entwined-tunnel") | sudo crontab -
+	(crontab -l 2>/dev/null; echo "*/15 * * * * sudo systemctl restart entwined-tunnel") |  crontab -
 fi
