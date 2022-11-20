@@ -35,11 +35,6 @@ echo -e "\n\n********** downloading Entwined **************\n\n"
 #####################################
 
 sudo apt-get install -y wget apt-transport-https gnupg
-#  THIS COMMAND HAS TO BE PHYSICALLY RUN AS ROOT, SUDO DOESNT WORK
-# wget -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | apt-key add -
-#sudo echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | sudo tee /etc/apt/sources.list.d/adoptium.list
-#sudo apt-get install temurin-17-jdk
-
 sudo apt install maven
 sudo apt install -y wget apt-transport-https
 sudo mkdir -p /etc/apt/keyrings
@@ -70,7 +65,7 @@ sudo systemctl enable brightness-toggle
 
 cd ..; ./build.sh ; cd -
 cd ../installations; ./install.sh ggp-2022
-
+mkdir /home/pi/Chromatik; mkdir /home/pi/Chromatik/Projects/
 
 ## install hostapd & others
 sudo apt install -y hostapd dnsmasq 
