@@ -19,7 +19,7 @@ if [[ $OSTYPE == 'linux'* ]]; then
   JARTYPE="-linux"
 fi
 
-$CWD=`cwd`
+CWD=`pwd`
 
 echo $RUNOPT $JARTYPE $CWD
 
