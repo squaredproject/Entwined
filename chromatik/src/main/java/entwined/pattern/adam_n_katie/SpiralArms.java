@@ -45,11 +45,16 @@ public class SpiralArms extends AutographedPattern{
     // Get the Main tree's position.
     float centerElement_x = 0;
     float centerElement_z = 0;
-    LXModel centerElement = model.sub("CENTER").get(0);// Trees have no Y position.
-    if (centerElement != null) {
-      centerElement_x = centerElement.cx;
-      centerElement_z = centerElement.cz;
+    try {
+      LXModel centerElement = model.sub("CENTER").get(0);// Trees have no Y position.
+      if (centerElement != null) {
+        centerElement_x = centerElement.cx;
+        centerElement_z = centerElement.cz;
+      }
+    } catch (Exception e) {
+      System.out.println(" SpiralArms: no center object, using 0,0 of sculpture");
     }
+
     theMainTreePos0To1 =
       PosRawToPos0To1(centerElement_x, 0.0f, centerElement_z);
 
