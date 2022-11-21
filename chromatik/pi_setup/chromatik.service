@@ -8,6 +8,7 @@ WorkingDirectory=/home/pi/Entwined/chromatik
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
+RestartSec=3
 User=pi
 
 [Install]
