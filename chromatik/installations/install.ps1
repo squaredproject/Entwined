@@ -28,5 +28,5 @@ python shrub.py --config $install_dir/shrubs.json --fixtures_folder $fixtures_di
 python tree.py --tree_config $install_dir/trees.json --branch_config $install_dir/tree_branches.csv --fixtures_folder $fixtures_dir
 python bench.py --config $install_dir/bench.json --fixtures_folder $fixtures_dir
 cp $install_dir/entwined.lxp "$HOME/Chromatik/Projects"
-cp $install_dir/autoplay.lxr "$HOME/Chromatik/Projects"
+cp $install_dir/autoplay.lxr "$HOME/Chromatik"
 
