@@ -10,7 +10,7 @@ fi
 
 mkdir -p ~/Chromatik/Fixtures/Entwined
 rm ~/Chromatik/Fixtures/Entwined/*
-rm ~/Chromatik/entwined.lxp
+rm ~/Chromatik/Projects/entwined.lxp
 rm ~/Chromatik/autoplay.lxr
 
 

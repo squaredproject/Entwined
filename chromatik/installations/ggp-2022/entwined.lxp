@@ -1,6 +1,6 @@
 {
   "version": "0.4.2-SNAPSHOT",
-  "timestamp": 1669590912361,
+  "timestamp": 1669592042934,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -169,7 +169,7 @@
           "pitch": 0.0,
           "roll": 0.0,
           "scale": 1.0,
-          "selected": true,
+          "selected": false,
           "deactivate": false,
           "enabled": true,
           "brightness": 1.0,
@@ -1069,7 +1069,7 @@
           "pitch": 0.0,
           "roll": 0.0,
           "scale": 1.0,
-          "selected": false,
+          "selected": true,
           "deactivate": false,
           "enabled": true,
           "brightness": 1.0,
@@ -1358,7 +1358,7 @@
           "crossfader": 0.5263157612644136,
           "crossfaderBlendMode": 0,
           "focusedChannel": 0,
-          "focusedChannelAux": 7,
+          "focusedChannelAux": 11,
           "cueA": false,
           "cueB": false,
           "auxA": false,
@@ -1467,7 +1467,7 @@
                 },
                 "parameters": {
                   "label": "Color",
-                  "enabled": true,
+                  "enabled": false,
                   "desaturation": 0.007874015748031496,
                   "hueShift": 0.0,
                   "sharp": 0.0,
@@ -2348,14 +2348,14 @@
               "transitionEnabled": true,
               "transitionTimeSecs": 3.0,
               "transitionBlendMode": 0,
-              "focusedPattern": 1,
+              "focusedPattern": 0,
               "triggerPatternCycle": false
             },
             "children": {},
             "effects": [],
             "clips": [
               {
-                "id": 186163,
+                "id": 242465,
                 "class": "heronarts.lx.clip.LXChannelClip",
                 "internal": {
                   "modulationColor": 0,
@@ -2374,7 +2374,7 @@
                 },
                 "children": {
                   "snapshot": {
-                    "id": 186164,
+                    "id": 242466,
                     "class": "heronarts.lx.snapshot.LXClipSnapshot",
                     "internal": {
                       "modulationColor": 0,
@@ -2421,7 +2421,7 @@
                         "scope": "PATTERNS",
                         "type": "PARAMETER",
                         "enabled": true,
-                        "parameterPath": "/pattern/2/enabled",
+                        "parameterPath": "/lx/mixer/channel/1/pattern/2/enabled",
                         "value": 1.0,
                         "normalizedValue": 1.0
                       },
@@ -2429,7 +2429,7 @@
                         "scope": "PATTERNS",
                         "type": "PARAMETER",
                         "enabled": true,
-                        "parameterPath": "/pattern/2/recall",
+                        "parameterPath": "/lx/mixer/channel/1/pattern/2/recall",
                         "value": 0.0,
                         "normalizedValue": 0.0
                       },
@@ -2437,7 +2437,7 @@
                         "scope": "PATTERNS",
                         "type": "PARAMETER",
                         "enabled": true,
-                        "parameterPath": "/pattern/2/compositeMode",
+                        "parameterPath": "/lx/mixer/channel/1/pattern/2/compositeMode",
                         "value": 0,
                         "normalizedValue": 0.0
                       },
@@ -2445,49 +2445,9 @@
                         "scope": "PATTERNS",
                         "type": "PARAMETER",
                         "enabled": true,
-                        "parameterPath": "/pattern/2/compositeLevel",
+                        "parameterPath": "/lx/mixer/channel/1/pattern/2/compositeLevel",
                         "value": 1.0,
                         "normalizedValue": 1.0
-                      },
-                      {
-                        "scope": "PATTERNS",
-                        "type": "PARAMETER",
-                        "enabled": true,
-                        "parameterPath": "/pattern/2/color/brightness",
-                        "value": 100.0,
-                        "normalizedValue": 1.0
-                      },
-                      {
-                        "scope": "PATTERNS",
-                        "type": "PARAMETER",
-                        "enabled": true,
-                        "parameterPath": "/pattern/2/color/saturation",
-                        "value": 100.0,
-                        "normalizedValue": 1.0
-                      },
-                      {
-                        "scope": "PATTERNS",
-                        "type": "PARAMETER",
-                        "enabled": true,
-                        "parameterPath": "/pattern/2/color/hue",
-                        "value": 0.0,
-                        "normalizedValue": 0.0
-                      },
-                      {
-                        "scope": "PATTERNS",
-                        "type": "PARAMETER",
-                        "enabled": true,
-                        "parameterPath": "/pattern/2/color/mode",
-                        "value": 0,
-                        "normalizedValue": 0.0
-                      },
-                      {
-                        "scope": "PATTERNS",
-                        "type": "PARAMETER",
-                        "enabled": true,
-                        "parameterPath": "/pattern/2/color/index",
-                        "value": 1,
-                        "normalizedValue": 0.0
                       }
                     ]
                   }
@@ -2503,11 +2463,11 @@
                     "events": [
                       {
                         "cursor": 0.0,
-                        "patternIndex": 1
+                        "patternIndex": 2
                       },
                       {
                         "cursor": 18001.0,
-                        "patternIndex": 1
+                        "patternIndex": 2
                       },
                       {
                         "cursor": 36010.0,
@@ -2531,7 +2491,7 @@
                       },
                       {
                         "cursor": 120911.0,
-                        "patternIndex": 1
+                        "patternIndex": 2
                       },
                       {
                         "cursor": 138935.0,
@@ -3942,7 +3902,7 @@
                 ]
               }
             ],
-            "patternIndex": 6,
+            "patternIndex": 0,
             "patterns": [
               {
                 "id": 50478,
@@ -31268,7 +31228,7 @@
             ]
           },
           {
-            "id": 47881,
+            "id": 228719,
             "class": "heronarts.lx.mixer.LXChannel",
             "internal": {
               "modulationColor": 0,
@@ -31311,7 +31271,7 @@
             "patternIndex": 0,
             "patterns": [
               {
-                "id": 47897,
+                "id": 228735,
                 "class": "entwined.pattern.kyle_fleming.NoPattern",
                 "internal": {
                   "modulationColor": 0,
@@ -31330,7 +31290,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 47898,
+                    "id": 228736,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -31348,7 +31308,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 47908,
+                "id": 228746,
                 "class": "entwined.pattern.anon.Twister",
                 "internal": {
                   "modulationColor": 0,
@@ -31367,7 +31327,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 47909,
+                    "id": 228747,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -31385,7 +31345,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 47920,
+                "id": 228758,
                 "class": "entwined.pattern.anon.TwisterGlobal",
                 "internal": {
                   "modulationColor": 0,
@@ -31404,7 +31364,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 47921,
+                    "id": 228759,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -31422,7 +31382,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 47932,
+                "id": 228770,
                 "class": "entwined.pattern.kyle_fleming.CandyCloud",
                 "internal": {
                   "modulationColor": 0,
@@ -31442,7 +31402,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 47933,
+                    "id": 228771,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -31460,7 +31420,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 47943,
+                "id": 228781,
                 "class": "entwined.pattern.colin_hunt.BeachBall",
                 "internal": {
                   "modulationColor": 0,
@@ -31481,7 +31441,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 47944,
+                    "id": 228782,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -31499,7 +31459,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 47955,
+                "id": 228793,
                 "class": "entwined.pattern.colin_hunt.Breath",
                 "internal": {
                   "modulationColor": 0,
@@ -31518,7 +31478,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 47956,
+                    "id": 228794,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -31536,7 +31496,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 47967,
+                "id": 228805,
                 "class": "entwined.pattern.mark_lottor.MarkLottor",
                 "internal": {
                   "modulationColor": 0,
@@ -31559,7 +31519,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 47968,
+                    "id": 228806,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -31577,7 +31537,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 47980,
+                "id": 228818,
                 "class": "entwined.pattern.ray_sykes.Ripple",
                 "internal": {
                   "modulationColor": 0,
@@ -31598,7 +31558,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 47981,
+                    "id": 228819,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -31616,7 +31576,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 47992,
+                "id": 228830,
                 "class": "entwined.pattern.ray_sykes.Stripes",
                 "internal": {
                   "modulationColor": 0,
@@ -31637,7 +31597,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 47993,
+                    "id": 228831,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -31655,7 +31615,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48005,
+                "id": 228843,
                 "class": "entwined.pattern.irene_zhou.Lattice",
                 "internal": {
                   "modulationColor": 0,
@@ -31676,7 +31636,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48006,
+                    "id": 228844,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -31694,7 +31654,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48018,
+                "id": 228856,
                 "class": "entwined.pattern.anon.ColoredLeaves",
                 "internal": {
                   "modulationColor": 0,
@@ -31713,7 +31673,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48019,
+                    "id": 228857,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -31731,7 +31691,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48037,
+                "id": 228875,
                 "class": "entwined.pattern.irene_zhou.Voronoi",
                 "internal": {
                   "modulationColor": 0,
@@ -31753,7 +31713,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48038,
+                    "id": 228876,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -31771,7 +31731,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48048,
+                "id": 228886,
                 "class": "entwined.pattern.kyle_fleming.GalaxyCloud",
                 "internal": {
                   "modulationColor": 0,
@@ -31790,7 +31750,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48049,
+                    "id": 228887,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -31808,7 +31768,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48059,
+                "id": 228897,
                 "class": "entwined.pattern.geoff_schmidt.Parallax",
                 "internal": {
                   "modulationColor": 0,
@@ -31831,7 +31791,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48060,
+                    "id": 228898,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -31849,7 +31809,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48071,
+                "id": 228909,
                 "class": "entwined.pattern.charlie_stigler.Burst",
                 "internal": {
                   "modulationColor": 0,
@@ -31870,7 +31830,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48072,
+                    "id": 228910,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -31888,7 +31848,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48084,
+                "id": 228922,
                 "class": "entwined.pattern.colin_hunt.Peppermint",
                 "internal": {
                   "modulationColor": 0,
@@ -31909,7 +31869,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48085,
+                    "id": 228923,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -31927,7 +31887,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48096,
+                "id": 228934,
                 "class": "entwined.pattern.ray_sykes.IceCrystals",
                 "internal": {
                   "modulationColor": 0,
@@ -31949,7 +31909,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48097,
+                    "id": 228935,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -31967,7 +31927,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48107,
+                "id": 228945,
                 "class": "entwined.pattern.irene_zhou.Fire",
                 "internal": {
                   "modulationColor": 0,
@@ -31991,7 +31951,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48108,
+                    "id": 228946,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32009,7 +31969,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48131,
+                "id": 228969,
                 "class": "entwined.pattern.jake_lampack.AcidTrip",
                 "internal": {
                   "modulationColor": 0,
@@ -32028,7 +31988,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48132,
+                    "id": 228970,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32046,7 +32006,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48143,
+                "id": 228981,
                 "class": "entwined.pattern.kyle_fleming.Rain",
                 "internal": {
                   "modulationColor": 0,
@@ -32067,7 +32027,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48144,
+                    "id": 228982,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32085,7 +32045,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48154,
+                "id": 228992,
                 "class": "entwined.pattern.grant_patterson.Pond",
                 "internal": {
                   "modulationColor": 0,
@@ -32107,7 +32067,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48155,
+                    "id": 228993,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32125,7 +32085,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48165,
+                "id": 229003,
                 "class": "entwined.pattern.grant_patterson.Planes",
                 "internal": {
                   "modulationColor": 0,
@@ -32152,7 +32112,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48166,
+                    "id": 229004,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32170,7 +32130,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48176,
+                "id": 229014,
                 "class": "entwined.pattern.grant_patterson.Growth",
                 "internal": {
                   "modulationColor": 0,
@@ -32193,7 +32153,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48177,
+                    "id": 229015,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32211,7 +32171,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48187,
+                "id": 229025,
                 "class": "entwined.pattern.ray_sykes.Lightning",
                 "internal": {
                   "modulationColor": 0,
@@ -32237,7 +32197,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48188,
+                    "id": 229026,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32255,7 +32215,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48198,
+                "id": 229036,
                 "class": "entwined.pattern.ray_sykes.SparkleTakeOver",
                 "internal": {
                   "modulationColor": 0,
@@ -32275,7 +32235,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48199,
+                    "id": 229037,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32293,7 +32253,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48211,
+                "id": 229049,
                 "class": "entwined.pattern.ray_sykes.SparkleHelix",
                 "internal": {
                   "modulationColor": 0,
@@ -32317,7 +32277,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48212,
+                    "id": 229050,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32335,7 +32295,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48226,
+                "id": 229064,
                 "class": "entwined.pattern.ray_sykes.MultiSine",
                 "internal": {
                   "modulationColor": 0,
@@ -32358,7 +32318,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48227,
+                    "id": 229065,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32376,7 +32336,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48240,
+                "id": 229078,
                 "class": "entwined.pattern.anon.SeeSaw",
                 "internal": {
                   "modulationColor": 0,
@@ -32395,7 +32355,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48241,
+                    "id": 229079,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32413,7 +32373,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48255,
+                "id": 229093,
                 "class": "entwined.pattern.irene_zhou.Cells",
                 "internal": {
                   "modulationColor": 0,
@@ -32435,7 +32395,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48256,
+                    "id": 229094,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32453,7 +32413,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48266,
+                "id": 229104,
                 "class": "entwined.pattern.kyle_fleming.Fade",
                 "internal": {
                   "modulationColor": 0,
@@ -32474,7 +32434,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48267,
+                    "id": 229105,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32492,7 +32452,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48278,
+                "id": 229116,
                 "class": "entwined.pattern.irene_zhou.Springs",
                 "internal": {
                   "modulationColor": 0,
@@ -32513,7 +32473,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48279,
+                    "id": 229117,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32528,7 +32488,7 @@
                     "triggers": []
                   },
                   "gravity": {
-                    "id": 48289,
+                    "id": 229127,
                     "class": "heronarts.lx.modulator.Accelerator",
                     "internal": {
                       "modulationColor": 0,
@@ -32542,7 +32502,7 @@
                     "children": {}
                   },
                   "reset": {
-                    "id": 48290,
+                    "id": 229128,
                     "class": "heronarts.lx.modulator.Click",
                     "internal": {
                       "modulationColor": 0,
@@ -32561,7 +32521,7 @@
                     "basis": 0.0
                   },
                   "spin": {
-                    "id": 48291,
+                    "id": 229129,
                     "class": "heronarts.lx.modulator.SinLFO",
                     "internal": {
                       "modulationColor": 0,
@@ -32583,7 +32543,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48292,
+                "id": 229130,
                 "class": "entwined.pattern.irene_zhou.Fireflies",
                 "internal": {
                   "modulationColor": 0,
@@ -32606,7 +32566,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48293,
+                    "id": 229131,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32624,7 +32584,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48314,
+                "id": 229152,
                 "class": "entwined.pattern.irene_zhou.Bubbles",
                 "internal": {
                   "modulationColor": 0,
@@ -32648,7 +32608,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48315,
+                    "id": 229153,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32666,7 +32626,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48326,
+                "id": 229164,
                 "class": "entwined.pattern.kyle_fleming.Wisps",
                 "internal": {
                   "modulationColor": 0,
@@ -32693,7 +32653,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48327,
+                    "id": 229165,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32711,7 +32671,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48337,
+                "id": 229175,
                 "class": "entwined.pattern.kyle_fleming.Explosions",
                 "internal": {
                   "modulationColor": 0,
@@ -32732,7 +32692,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48338,
+                    "id": 229176,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32750,7 +32710,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48348,
+                "id": 229186,
                 "class": "entwined.pattern.colin_hunt.ColorWave",
                 "internal": {
                   "modulationColor": 0,
@@ -32771,7 +32731,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48349,
+                    "id": 229187,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32789,7 +32749,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48360,
+                "id": 229198,
                 "class": "entwined.pattern.geoff_schmidt.Wedges",
                 "internal": {
                   "modulationColor": 0,
@@ -32812,7 +32772,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48361,
+                    "id": 229199,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32830,7 +32790,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48371,
+                "id": 229209,
                 "class": "entwined.pattern.lindsay_jason.SparkleWave",
                 "internal": {
                   "modulationColor": 0,
@@ -32854,7 +32814,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48372,
+                    "id": 229210,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32872,7 +32832,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48382,
+                "id": 229220,
                 "class": "entwined.pattern.mattaniah.OscillatingDarkRing",
                 "internal": {
                   "modulationColor": 0,
@@ -32891,7 +32851,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48383,
+                    "id": 229221,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32909,7 +32869,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48396,
+                "id": 229234,
                 "class": "entwined.pattern.mattaniah.RadialGradiant",
                 "internal": {
                   "modulationColor": 0,
@@ -32930,7 +32890,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48397,
+                    "id": 229235,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32948,7 +32908,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48408,
+                "id": 229246,
                 "class": "entwined.pattern.quinn_keck.ButterflyEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -32967,7 +32927,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48409,
+                    "id": 229247,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -32985,7 +32945,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48419,
+                "id": 229257,
                 "class": "entwined.pattern.bbulkow.MultiColor",
                 "internal": {
                   "modulationColor": 0,
@@ -33010,7 +32970,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48420,
+                    "id": 229258,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33028,7 +32988,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48430,
+                "id": 229268,
                 "class": "entwined.pattern.bbulkow.MultiColor2",
                 "internal": {
                   "modulationColor": 0,
@@ -33053,7 +33013,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48431,
+                    "id": 229269,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33071,7 +33031,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48441,
+                "id": 229279,
                 "class": "entwined.pattern.bbulkow.StripeStatic",
                 "internal": {
                   "modulationColor": 0,
@@ -33097,7 +33057,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48442,
+                    "id": 229280,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33115,7 +33075,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48452,
+                "id": 229290,
                 "class": "entwined.pattern.misko.Circles",
                 "internal": {
                   "modulationColor": 0,
@@ -33136,7 +33096,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48453,
+                    "id": 229291,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33154,7 +33114,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48465,
+                "id": 229303,
                 "class": "entwined.pattern.misko.LineScan",
                 "internal": {
                   "modulationColor": 0,
@@ -33178,7 +33138,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48466,
+                    "id": 229304,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33196,8 +33156,8 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48478,
-                "class": "entwined.pattern.misko.RainbowWaveScan",
+                "id": 229316,
+                "class": "entwined.pattern.misko.WaveScanRainbow",
                 "internal": {
                   "modulationColor": 0,
                   "modulationControlsExpanded": true,
@@ -33207,7 +33167,7 @@
                   "modulationExpanded": false
                 },
                 "parameters": {
-                  "label": "RainbowWaveScan",
+                  "label": "WaveScanRainbow",
                   "enabled": true,
                   "recall": false,
                   "compositeMode": 0,
@@ -33220,7 +33180,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48479,
+                    "id": 229317,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33238,7 +33198,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48491,
+                "id": 229328,
                 "class": "entwined.pattern.misko.LightHouse",
                 "internal": {
                   "modulationColor": 0,
@@ -33263,7 +33223,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48492,
+                    "id": 229329,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33281,7 +33241,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48503,
+                "id": 229340,
                 "class": "entwined.pattern.misko.ColorBlast",
                 "internal": {
                   "modulationColor": 0,
@@ -33306,7 +33266,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48504,
+                    "id": 229341,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33324,7 +33284,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48515,
+                "id": 229352,
                 "class": "entwined.pattern.misko.Vertigo",
                 "internal": {
                   "modulationColor": 0,
@@ -33349,7 +33309,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48516,
+                    "id": 229353,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33367,7 +33327,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48527,
+                "id": 229364,
                 "class": "entwined.pattern.adam_n_katie.ExpandingCircles",
                 "internal": {
                   "modulationColor": 0,
@@ -33390,7 +33350,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48528,
+                    "id": 229365,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33408,7 +33368,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48539,
+                "id": 229376,
                 "class": "entwined.pattern.adam_n_katie.Sparks",
                 "internal": {
                   "modulationColor": 0,
@@ -33429,7 +33389,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48540,
+                    "id": 229377,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33447,7 +33407,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48551,
+                "id": 229388,
                 "class": "entwined.pattern.adam_n_katie.Blooms",
                 "internal": {
                   "modulationColor": 0,
@@ -33471,7 +33431,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48552,
+                    "id": 229389,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33489,7 +33449,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48563,
+                "id": 229400,
                 "class": "entwined.pattern.adam_n_katie.MovingPoint",
                 "internal": {
                   "modulationColor": 0,
@@ -33511,7 +33471,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48564,
+                    "id": 229401,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33529,7 +33489,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48575,
+                "id": 229412,
                 "class": "entwined.pattern.adam_n_katie.Undulation",
                 "internal": {
                   "modulationColor": 0,
@@ -33550,7 +33510,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48576,
+                    "id": 229413,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33568,7 +33528,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48587,
+                "id": 229424,
                 "class": "entwined.pattern.adam_n_katie.HueRibbons",
                 "internal": {
                   "modulationColor": 0,
@@ -33592,7 +33552,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48588,
+                    "id": 229425,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33610,7 +33570,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48599,
+                "id": 229436,
                 "class": "entwined.pattern.adam_n_katie.VerticalColorWaves",
                 "internal": {
                   "modulationColor": 0,
@@ -33631,7 +33591,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48600,
+                    "id": 229437,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33649,7 +33609,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48612,
+                "id": 229449,
                 "class": "entwined.pattern.adam_n_katie.FlockingPoints",
                 "internal": {
                   "modulationColor": 0,
@@ -33674,7 +33634,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48613,
+                    "id": 229450,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33692,7 +33652,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48624,
+                "id": 229461,
                 "class": "entwined.pattern.evy.CircleBreath",
                 "internal": {
                   "modulationColor": 0,
@@ -33712,7 +33672,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48625,
+                    "id": 229462,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33730,7 +33690,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48636,
+                "id": 229473,
                 "class": "entwined.pattern.evy.FirefliesNcase",
                 "internal": {
                   "modulationColor": 0,
@@ -33751,7 +33711,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48637,
+                    "id": 229474,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33766,7 +33726,7 @@
                     "triggers": []
                   },
                   "resetTimer": {
-                    "id": 48648,
+                    "id": 229485,
                     "class": "heronarts.lx.modulator.SawLFO",
                     "internal": {
                       "modulationColor": 0,
@@ -33788,7 +33748,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48649,
+                "id": 229486,
                 "class": "entwined.pattern.sydney_parcell.RoseGarden",
                 "internal": {
                   "modulationColor": 0,
@@ -33807,7 +33767,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48650,
+                    "id": 229487,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33825,7 +33785,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48662,
+                "id": 229499,
                 "class": "entwined.pattern.lorenz.Fountain",
                 "internal": {
                   "modulationColor": 0,
@@ -33846,7 +33806,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48663,
+                    "id": 229500,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33864,7 +33824,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48677,
+                "id": 229514,
                 "class": "entwined.pattern.irene_zhou.Fumes",
                 "internal": {
                   "modulationColor": 0,
@@ -33886,7 +33846,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48678,
+                    "id": 229515,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33904,7 +33864,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48688,
+                "id": 229525,
                 "class": "entwined.pattern.kyle_fleming.ColorStrobe",
                 "internal": {
                   "modulationColor": 0,
@@ -33923,7 +33883,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48689,
+                    "id": 229526,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33941,7 +33901,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48699,
+                "id": 229536,
                 "class": "entwined.pattern.kyle_fleming.Strobe",
                 "internal": {
                   "modulationColor": 0,
@@ -33963,7 +33923,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48700,
+                    "id": 229537,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -33983,7 +33943,7 @@
             ]
           },
           {
-            "id": 48710,
+            "id": 229547,
             "class": "heronarts.lx.mixer.LXChannel",
             "internal": {
               "modulationColor": 0,
@@ -34026,7 +33986,7 @@
             "patternIndex": 0,
             "patterns": [
               {
-                "id": 48726,
+                "id": 229563,
                 "class": "entwined.pattern.kyle_fleming.NoPattern",
                 "internal": {
                   "modulationColor": 0,
@@ -34045,7 +34005,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48727,
+                    "id": 229564,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34063,7 +34023,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48737,
+                "id": 229574,
                 "class": "entwined.pattern.anon.Twister",
                 "internal": {
                   "modulationColor": 0,
@@ -34082,7 +34042,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48738,
+                    "id": 229575,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34100,7 +34060,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48749,
+                "id": 229586,
                 "class": "entwined.pattern.anon.TwisterGlobal",
                 "internal": {
                   "modulationColor": 0,
@@ -34119,7 +34079,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48750,
+                    "id": 229587,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34137,7 +34097,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48761,
+                "id": 229598,
                 "class": "entwined.pattern.kyle_fleming.CandyCloud",
                 "internal": {
                   "modulationColor": 0,
@@ -34157,7 +34117,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48762,
+                    "id": 229599,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34175,7 +34135,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48772,
+                "id": 229609,
                 "class": "entwined.pattern.colin_hunt.BeachBall",
                 "internal": {
                   "modulationColor": 0,
@@ -34196,7 +34156,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48773,
+                    "id": 229610,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34214,7 +34174,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48784,
+                "id": 229621,
                 "class": "entwined.pattern.colin_hunt.Breath",
                 "internal": {
                   "modulationColor": 0,
@@ -34233,7 +34193,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48785,
+                    "id": 229622,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34251,7 +34211,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48796,
+                "id": 229633,
                 "class": "entwined.pattern.mark_lottor.MarkLottor",
                 "internal": {
                   "modulationColor": 0,
@@ -34274,7 +34234,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48797,
+                    "id": 229634,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34292,7 +34252,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48809,
+                "id": 229646,
                 "class": "entwined.pattern.ray_sykes.Ripple",
                 "internal": {
                   "modulationColor": 0,
@@ -34313,7 +34273,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48810,
+                    "id": 229647,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34331,7 +34291,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48821,
+                "id": 229658,
                 "class": "entwined.pattern.ray_sykes.Stripes",
                 "internal": {
                   "modulationColor": 0,
@@ -34352,7 +34312,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48822,
+                    "id": 229659,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34370,7 +34330,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48834,
+                "id": 229671,
                 "class": "entwined.pattern.irene_zhou.Lattice",
                 "internal": {
                   "modulationColor": 0,
@@ -34391,7 +34351,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48835,
+                    "id": 229672,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34409,7 +34369,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48847,
+                "id": 229684,
                 "class": "entwined.pattern.anon.ColoredLeaves",
                 "internal": {
                   "modulationColor": 0,
@@ -34428,7 +34388,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48848,
+                    "id": 229685,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34446,7 +34406,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48866,
+                "id": 229703,
                 "class": "entwined.pattern.irene_zhou.Voronoi",
                 "internal": {
                   "modulationColor": 0,
@@ -34468,7 +34428,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48867,
+                    "id": 229704,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34486,7 +34446,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48877,
+                "id": 229714,
                 "class": "entwined.pattern.kyle_fleming.GalaxyCloud",
                 "internal": {
                   "modulationColor": 0,
@@ -34505,7 +34465,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48878,
+                    "id": 229715,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34523,7 +34483,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48888,
+                "id": 229725,
                 "class": "entwined.pattern.geoff_schmidt.Parallax",
                 "internal": {
                   "modulationColor": 0,
@@ -34546,7 +34506,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48889,
+                    "id": 229726,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34564,7 +34524,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48900,
+                "id": 229737,
                 "class": "entwined.pattern.charlie_stigler.Burst",
                 "internal": {
                   "modulationColor": 0,
@@ -34585,7 +34545,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48901,
+                    "id": 229738,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34603,7 +34563,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48913,
+                "id": 229750,
                 "class": "entwined.pattern.colin_hunt.Peppermint",
                 "internal": {
                   "modulationColor": 0,
@@ -34624,7 +34584,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48914,
+                    "id": 229751,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34642,7 +34602,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48925,
+                "id": 229762,
                 "class": "entwined.pattern.ray_sykes.IceCrystals",
                 "internal": {
                   "modulationColor": 0,
@@ -34664,7 +34624,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48926,
+                    "id": 229763,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34682,7 +34642,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48936,
+                "id": 229773,
                 "class": "entwined.pattern.irene_zhou.Fire",
                 "internal": {
                   "modulationColor": 0,
@@ -34706,7 +34666,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48937,
+                    "id": 229774,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34724,7 +34684,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48960,
+                "id": 229797,
                 "class": "entwined.pattern.jake_lampack.AcidTrip",
                 "internal": {
                   "modulationColor": 0,
@@ -34743,7 +34703,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48961,
+                    "id": 229798,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34761,7 +34721,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48972,
+                "id": 229809,
                 "class": "entwined.pattern.kyle_fleming.Rain",
                 "internal": {
                   "modulationColor": 0,
@@ -34782,7 +34742,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48973,
+                    "id": 229810,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34800,7 +34760,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48983,
+                "id": 229820,
                 "class": "entwined.pattern.grant_patterson.Pond",
                 "internal": {
                   "modulationColor": 0,
@@ -34822,7 +34782,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48984,
+                    "id": 229821,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34840,7 +34800,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 48994,
+                "id": 229831,
                 "class": "entwined.pattern.grant_patterson.Planes",
                 "internal": {
                   "modulationColor": 0,
@@ -34867,7 +34827,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 48995,
+                    "id": 229832,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34885,7 +34845,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49005,
+                "id": 229842,
                 "class": "entwined.pattern.grant_patterson.Growth",
                 "internal": {
                   "modulationColor": 0,
@@ -34908,7 +34868,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49006,
+                    "id": 229843,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34926,7 +34886,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49016,
+                "id": 229853,
                 "class": "entwined.pattern.ray_sykes.Lightning",
                 "internal": {
                   "modulationColor": 0,
@@ -34952,7 +34912,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49017,
+                    "id": 229854,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -34970,7 +34930,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49027,
+                "id": 229864,
                 "class": "entwined.pattern.ray_sykes.SparkleTakeOver",
                 "internal": {
                   "modulationColor": 0,
@@ -34990,7 +34950,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49028,
+                    "id": 229865,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35008,7 +34968,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49040,
+                "id": 229877,
                 "class": "entwined.pattern.ray_sykes.SparkleHelix",
                 "internal": {
                   "modulationColor": 0,
@@ -35032,7 +34992,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49041,
+                    "id": 229878,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35050,7 +35010,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49055,
+                "id": 229892,
                 "class": "entwined.pattern.ray_sykes.MultiSine",
                 "internal": {
                   "modulationColor": 0,
@@ -35073,7 +35033,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49056,
+                    "id": 229893,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35091,7 +35051,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49069,
+                "id": 229906,
                 "class": "entwined.pattern.anon.SeeSaw",
                 "internal": {
                   "modulationColor": 0,
@@ -35110,7 +35070,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49070,
+                    "id": 229907,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35128,7 +35088,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49084,
+                "id": 229921,
                 "class": "entwined.pattern.irene_zhou.Cells",
                 "internal": {
                   "modulationColor": 0,
@@ -35150,7 +35110,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49085,
+                    "id": 229922,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35168,7 +35128,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49095,
+                "id": 229932,
                 "class": "entwined.pattern.kyle_fleming.Fade",
                 "internal": {
                   "modulationColor": 0,
@@ -35189,7 +35149,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49096,
+                    "id": 229933,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35207,7 +35167,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49107,
+                "id": 229944,
                 "class": "entwined.pattern.irene_zhou.Springs",
                 "internal": {
                   "modulationColor": 0,
@@ -35228,7 +35188,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49108,
+                    "id": 229945,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35243,7 +35203,7 @@
                     "triggers": []
                   },
                   "gravity": {
-                    "id": 49118,
+                    "id": 229955,
                     "class": "heronarts.lx.modulator.Accelerator",
                     "internal": {
                       "modulationColor": 0,
@@ -35257,7 +35217,7 @@
                     "children": {}
                   },
                   "reset": {
-                    "id": 49119,
+                    "id": 229956,
                     "class": "heronarts.lx.modulator.Click",
                     "internal": {
                       "modulationColor": 0,
@@ -35276,7 +35236,7 @@
                     "basis": 0.0
                   },
                   "spin": {
-                    "id": 49120,
+                    "id": 229957,
                     "class": "heronarts.lx.modulator.SinLFO",
                     "internal": {
                       "modulationColor": 0,
@@ -35298,7 +35258,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49121,
+                "id": 229958,
                 "class": "entwined.pattern.irene_zhou.Fireflies",
                 "internal": {
                   "modulationColor": 0,
@@ -35321,7 +35281,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49122,
+                    "id": 229959,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35339,7 +35299,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49143,
+                "id": 229980,
                 "class": "entwined.pattern.irene_zhou.Bubbles",
                 "internal": {
                   "modulationColor": 0,
@@ -35363,7 +35323,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49144,
+                    "id": 229981,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35381,7 +35341,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49155,
+                "id": 229992,
                 "class": "entwined.pattern.kyle_fleming.Wisps",
                 "internal": {
                   "modulationColor": 0,
@@ -35408,7 +35368,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49156,
+                    "id": 229993,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35426,7 +35386,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49166,
+                "id": 230003,
                 "class": "entwined.pattern.kyle_fleming.Explosions",
                 "internal": {
                   "modulationColor": 0,
@@ -35447,7 +35407,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49167,
+                    "id": 230004,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35465,7 +35425,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49177,
+                "id": 230014,
                 "class": "entwined.pattern.colin_hunt.ColorWave",
                 "internal": {
                   "modulationColor": 0,
@@ -35486,7 +35446,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49178,
+                    "id": 230015,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35504,7 +35464,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49189,
+                "id": 230026,
                 "class": "entwined.pattern.geoff_schmidt.Wedges",
                 "internal": {
                   "modulationColor": 0,
@@ -35527,7 +35487,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49190,
+                    "id": 230027,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35545,7 +35505,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49200,
+                "id": 230037,
                 "class": "entwined.pattern.lindsay_jason.SparkleWave",
                 "internal": {
                   "modulationColor": 0,
@@ -35569,7 +35529,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49201,
+                    "id": 230038,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35587,7 +35547,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49211,
+                "id": 230048,
                 "class": "entwined.pattern.mattaniah.OscillatingDarkRing",
                 "internal": {
                   "modulationColor": 0,
@@ -35606,7 +35566,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49212,
+                    "id": 230049,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35624,7 +35584,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49225,
+                "id": 230062,
                 "class": "entwined.pattern.mattaniah.RadialGradiant",
                 "internal": {
                   "modulationColor": 0,
@@ -35645,7 +35605,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49226,
+                    "id": 230063,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35663,7 +35623,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49237,
+                "id": 230074,
                 "class": "entwined.pattern.quinn_keck.ButterflyEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -35682,7 +35642,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49238,
+                    "id": 230075,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35700,7 +35660,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49248,
+                "id": 230085,
                 "class": "entwined.pattern.bbulkow.MultiColor",
                 "internal": {
                   "modulationColor": 0,
@@ -35725,7 +35685,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49249,
+                    "id": 230086,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35743,7 +35703,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49259,
+                "id": 230096,
                 "class": "entwined.pattern.bbulkow.MultiColor2",
                 "internal": {
                   "modulationColor": 0,
@@ -35768,7 +35728,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49260,
+                    "id": 230097,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35786,7 +35746,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49270,
+                "id": 230107,
                 "class": "entwined.pattern.bbulkow.StripeStatic",
                 "internal": {
                   "modulationColor": 0,
@@ -35812,7 +35772,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49271,
+                    "id": 230108,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35830,7 +35790,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49281,
+                "id": 230118,
                 "class": "entwined.pattern.misko.Circles",
                 "internal": {
                   "modulationColor": 0,
@@ -35851,7 +35811,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49282,
+                    "id": 230119,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35869,7 +35829,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49294,
+                "id": 230131,
                 "class": "entwined.pattern.misko.LineScan",
                 "internal": {
                   "modulationColor": 0,
@@ -35893,7 +35853,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49295,
+                    "id": 230132,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35911,8 +35871,8 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49307,
-                "class": "entwined.pattern.misko.RainbowWaveScan",
+                "id": 230144,
+                "class": "entwined.pattern.misko.WaveScanRainbow",
                 "internal": {
                   "modulationColor": 0,
                   "modulationControlsExpanded": true,
@@ -35922,7 +35882,7 @@
                   "modulationExpanded": false
                 },
                 "parameters": {
-                  "label": "RainbowWaveScan",
+                  "label": "WaveScanRainbow",
                   "enabled": true,
                   "recall": false,
                   "compositeMode": 0,
@@ -35935,7 +35895,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49308,
+                    "id": 230145,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35953,7 +35913,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49320,
+                "id": 230156,
                 "class": "entwined.pattern.misko.LightHouse",
                 "internal": {
                   "modulationColor": 0,
@@ -35978,7 +35938,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49321,
+                    "id": 230157,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -35996,7 +35956,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49332,
+                "id": 230168,
                 "class": "entwined.pattern.misko.ColorBlast",
                 "internal": {
                   "modulationColor": 0,
@@ -36021,7 +35981,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49333,
+                    "id": 230169,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36039,7 +35999,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49344,
+                "id": 230180,
                 "class": "entwined.pattern.misko.Vertigo",
                 "internal": {
                   "modulationColor": 0,
@@ -36064,7 +36024,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49345,
+                    "id": 230181,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36082,7 +36042,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49356,
+                "id": 230192,
                 "class": "entwined.pattern.adam_n_katie.ExpandingCircles",
                 "internal": {
                   "modulationColor": 0,
@@ -36105,7 +36065,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49357,
+                    "id": 230193,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36123,7 +36083,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49368,
+                "id": 230204,
                 "class": "entwined.pattern.adam_n_katie.Sparks",
                 "internal": {
                   "modulationColor": 0,
@@ -36144,7 +36104,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49369,
+                    "id": 230205,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36162,7 +36122,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49380,
+                "id": 230216,
                 "class": "entwined.pattern.adam_n_katie.Blooms",
                 "internal": {
                   "modulationColor": 0,
@@ -36186,7 +36146,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49381,
+                    "id": 230217,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36204,7 +36164,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49392,
+                "id": 230228,
                 "class": "entwined.pattern.adam_n_katie.MovingPoint",
                 "internal": {
                   "modulationColor": 0,
@@ -36226,7 +36186,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49393,
+                    "id": 230229,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36244,7 +36204,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49404,
+                "id": 230240,
                 "class": "entwined.pattern.adam_n_katie.Undulation",
                 "internal": {
                   "modulationColor": 0,
@@ -36265,7 +36225,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49405,
+                    "id": 230241,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36283,7 +36243,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49416,
+                "id": 230252,
                 "class": "entwined.pattern.adam_n_katie.HueRibbons",
                 "internal": {
                   "modulationColor": 0,
@@ -36307,7 +36267,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49417,
+                    "id": 230253,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36325,7 +36285,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49428,
+                "id": 230264,
                 "class": "entwined.pattern.adam_n_katie.VerticalColorWaves",
                 "internal": {
                   "modulationColor": 0,
@@ -36346,7 +36306,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49429,
+                    "id": 230265,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36364,7 +36324,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49441,
+                "id": 230277,
                 "class": "entwined.pattern.adam_n_katie.FlockingPoints",
                 "internal": {
                   "modulationColor": 0,
@@ -36389,7 +36349,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49442,
+                    "id": 230278,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36407,7 +36367,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49453,
+                "id": 230289,
                 "class": "entwined.pattern.evy.CircleBreath",
                 "internal": {
                   "modulationColor": 0,
@@ -36427,7 +36387,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49454,
+                    "id": 230290,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36445,7 +36405,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49465,
+                "id": 230301,
                 "class": "entwined.pattern.evy.FirefliesNcase",
                 "internal": {
                   "modulationColor": 0,
@@ -36466,7 +36426,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49466,
+                    "id": 230302,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36481,7 +36441,7 @@
                     "triggers": []
                   },
                   "resetTimer": {
-                    "id": 49477,
+                    "id": 230313,
                     "class": "heronarts.lx.modulator.SawLFO",
                     "internal": {
                       "modulationColor": 0,
@@ -36503,7 +36463,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49478,
+                "id": 230314,
                 "class": "entwined.pattern.sydney_parcell.RoseGarden",
                 "internal": {
                   "modulationColor": 0,
@@ -36522,7 +36482,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49479,
+                    "id": 230315,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36540,7 +36500,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49491,
+                "id": 230327,
                 "class": "entwined.pattern.lorenz.Fountain",
                 "internal": {
                   "modulationColor": 0,
@@ -36561,7 +36521,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49492,
+                    "id": 230328,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36579,7 +36539,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49506,
+                "id": 230342,
                 "class": "entwined.pattern.irene_zhou.Fumes",
                 "internal": {
                   "modulationColor": 0,
@@ -36601,7 +36561,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49507,
+                    "id": 230343,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36619,7 +36579,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49517,
+                "id": 230353,
                 "class": "entwined.pattern.kyle_fleming.ColorStrobe",
                 "internal": {
                   "modulationColor": 0,
@@ -36638,7 +36598,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49518,
+                    "id": 230354,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36656,7 +36616,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49528,
+                "id": 230364,
                 "class": "entwined.pattern.kyle_fleming.Strobe",
                 "internal": {
                   "modulationColor": 0,
@@ -36678,7 +36638,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49529,
+                    "id": 230365,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36698,7 +36658,7 @@
             ]
           },
           {
-            "id": 49539,
+            "id": 230375,
             "class": "heronarts.lx.mixer.LXChannel",
             "internal": {
               "modulationColor": 0,
@@ -36741,7 +36701,7 @@
             "patternIndex": 0,
             "patterns": [
               {
-                "id": 49555,
+                "id": 230391,
                 "class": "entwined.pattern.kyle_fleming.NoPattern",
                 "internal": {
                   "modulationColor": 0,
@@ -36760,7 +36720,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49556,
+                    "id": 230392,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36778,7 +36738,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49566,
+                "id": 230402,
                 "class": "entwined.pattern.anon.Twister",
                 "internal": {
                   "modulationColor": 0,
@@ -36797,7 +36757,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49567,
+                    "id": 230403,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36815,7 +36775,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49578,
+                "id": 230414,
                 "class": "entwined.pattern.anon.TwisterGlobal",
                 "internal": {
                   "modulationColor": 0,
@@ -36834,7 +36794,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49579,
+                    "id": 230415,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36852,7 +36812,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49590,
+                "id": 230426,
                 "class": "entwined.pattern.kyle_fleming.CandyCloud",
                 "internal": {
                   "modulationColor": 0,
@@ -36872,7 +36832,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49591,
+                    "id": 230427,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36890,7 +36850,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49601,
+                "id": 230437,
                 "class": "entwined.pattern.colin_hunt.BeachBall",
                 "internal": {
                   "modulationColor": 0,
@@ -36911,7 +36871,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49602,
+                    "id": 230438,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36929,7 +36889,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49613,
+                "id": 230449,
                 "class": "entwined.pattern.colin_hunt.Breath",
                 "internal": {
                   "modulationColor": 0,
@@ -36948,7 +36908,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49614,
+                    "id": 230450,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -36966,7 +36926,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49625,
+                "id": 230461,
                 "class": "entwined.pattern.mark_lottor.MarkLottor",
                 "internal": {
                   "modulationColor": 0,
@@ -36989,7 +36949,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49626,
+                    "id": 230462,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37007,7 +36967,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49638,
+                "id": 230474,
                 "class": "entwined.pattern.ray_sykes.Ripple",
                 "internal": {
                   "modulationColor": 0,
@@ -37028,7 +36988,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49639,
+                    "id": 230475,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37046,7 +37006,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49650,
+                "id": 230486,
                 "class": "entwined.pattern.ray_sykes.Stripes",
                 "internal": {
                   "modulationColor": 0,
@@ -37067,7 +37027,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49651,
+                    "id": 230487,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37085,7 +37045,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49663,
+                "id": 230499,
                 "class": "entwined.pattern.irene_zhou.Lattice",
                 "internal": {
                   "modulationColor": 0,
@@ -37106,7 +37066,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49664,
+                    "id": 230500,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37124,7 +37084,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49676,
+                "id": 230512,
                 "class": "entwined.pattern.anon.ColoredLeaves",
                 "internal": {
                   "modulationColor": 0,
@@ -37143,7 +37103,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49677,
+                    "id": 230513,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37161,7 +37121,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49695,
+                "id": 230531,
                 "class": "entwined.pattern.irene_zhou.Voronoi",
                 "internal": {
                   "modulationColor": 0,
@@ -37183,7 +37143,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49696,
+                    "id": 230532,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37201,7 +37161,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49706,
+                "id": 230542,
                 "class": "entwined.pattern.kyle_fleming.GalaxyCloud",
                 "internal": {
                   "modulationColor": 0,
@@ -37220,7 +37180,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49707,
+                    "id": 230543,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37238,7 +37198,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49717,
+                "id": 230553,
                 "class": "entwined.pattern.geoff_schmidt.Parallax",
                 "internal": {
                   "modulationColor": 0,
@@ -37261,7 +37221,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49718,
+                    "id": 230554,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37279,7 +37239,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49729,
+                "id": 230565,
                 "class": "entwined.pattern.charlie_stigler.Burst",
                 "internal": {
                   "modulationColor": 0,
@@ -37300,7 +37260,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49730,
+                    "id": 230566,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37318,7 +37278,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49742,
+                "id": 230578,
                 "class": "entwined.pattern.colin_hunt.Peppermint",
                 "internal": {
                   "modulationColor": 0,
@@ -37339,7 +37299,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49743,
+                    "id": 230579,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37357,7 +37317,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49754,
+                "id": 230590,
                 "class": "entwined.pattern.ray_sykes.IceCrystals",
                 "internal": {
                   "modulationColor": 0,
@@ -37379,7 +37339,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49755,
+                    "id": 230591,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37397,7 +37357,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49765,
+                "id": 230601,
                 "class": "entwined.pattern.irene_zhou.Fire",
                 "internal": {
                   "modulationColor": 0,
@@ -37421,7 +37381,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49766,
+                    "id": 230602,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37439,7 +37399,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49789,
+                "id": 230625,
                 "class": "entwined.pattern.jake_lampack.AcidTrip",
                 "internal": {
                   "modulationColor": 0,
@@ -37458,7 +37418,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49790,
+                    "id": 230626,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37476,7 +37436,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49801,
+                "id": 230637,
                 "class": "entwined.pattern.kyle_fleming.Rain",
                 "internal": {
                   "modulationColor": 0,
@@ -37497,7 +37457,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49802,
+                    "id": 230638,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37515,7 +37475,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49812,
+                "id": 230648,
                 "class": "entwined.pattern.grant_patterson.Pond",
                 "internal": {
                   "modulationColor": 0,
@@ -37537,7 +37497,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49813,
+                    "id": 230649,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37555,7 +37515,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49823,
+                "id": 230659,
                 "class": "entwined.pattern.grant_patterson.Planes",
                 "internal": {
                   "modulationColor": 0,
@@ -37582,7 +37542,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49824,
+                    "id": 230660,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37600,7 +37560,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49834,
+                "id": 230670,
                 "class": "entwined.pattern.grant_patterson.Growth",
                 "internal": {
                   "modulationColor": 0,
@@ -37623,7 +37583,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49835,
+                    "id": 230671,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37641,7 +37601,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49845,
+                "id": 230681,
                 "class": "entwined.pattern.ray_sykes.Lightning",
                 "internal": {
                   "modulationColor": 0,
@@ -37667,7 +37627,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49846,
+                    "id": 230682,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37685,7 +37645,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49856,
+                "id": 230692,
                 "class": "entwined.pattern.ray_sykes.SparkleTakeOver",
                 "internal": {
                   "modulationColor": 0,
@@ -37705,7 +37665,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49857,
+                    "id": 230693,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37723,7 +37683,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49869,
+                "id": 230705,
                 "class": "entwined.pattern.ray_sykes.SparkleHelix",
                 "internal": {
                   "modulationColor": 0,
@@ -37747,7 +37707,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49870,
+                    "id": 230706,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37765,7 +37725,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49884,
+                "id": 230720,
                 "class": "entwined.pattern.ray_sykes.MultiSine",
                 "internal": {
                   "modulationColor": 0,
@@ -37788,7 +37748,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49885,
+                    "id": 230721,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37806,7 +37766,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49898,
+                "id": 230734,
                 "class": "entwined.pattern.anon.SeeSaw",
                 "internal": {
                   "modulationColor": 0,
@@ -37825,7 +37785,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49899,
+                    "id": 230735,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37843,7 +37803,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49913,
+                "id": 230749,
                 "class": "entwined.pattern.irene_zhou.Cells",
                 "internal": {
                   "modulationColor": 0,
@@ -37865,7 +37825,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49914,
+                    "id": 230750,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37883,7 +37843,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49924,
+                "id": 230760,
                 "class": "entwined.pattern.kyle_fleming.Fade",
                 "internal": {
                   "modulationColor": 0,
@@ -37904,7 +37864,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49925,
+                    "id": 230761,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37922,7 +37882,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49936,
+                "id": 230772,
                 "class": "entwined.pattern.irene_zhou.Springs",
                 "internal": {
                   "modulationColor": 0,
@@ -37943,7 +37903,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49937,
+                    "id": 230773,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -37958,7 +37918,7 @@
                     "triggers": []
                   },
                   "gravity": {
-                    "id": 49947,
+                    "id": 230783,
                     "class": "heronarts.lx.modulator.Accelerator",
                     "internal": {
                       "modulationColor": 0,
@@ -37972,7 +37932,7 @@
                     "children": {}
                   },
                   "reset": {
-                    "id": 49948,
+                    "id": 230784,
                     "class": "heronarts.lx.modulator.Click",
                     "internal": {
                       "modulationColor": 0,
@@ -37991,7 +37951,7 @@
                     "basis": 0.0
                   },
                   "spin": {
-                    "id": 49949,
+                    "id": 230785,
                     "class": "heronarts.lx.modulator.SinLFO",
                     "internal": {
                       "modulationColor": 0,
@@ -38013,7 +37973,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49950,
+                "id": 230786,
                 "class": "entwined.pattern.irene_zhou.Fireflies",
                 "internal": {
                   "modulationColor": 0,
@@ -38036,7 +37996,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49951,
+                    "id": 230787,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38054,7 +38014,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49972,
+                "id": 230808,
                 "class": "entwined.pattern.irene_zhou.Bubbles",
                 "internal": {
                   "modulationColor": 0,
@@ -38078,7 +38038,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49973,
+                    "id": 230809,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38096,7 +38056,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49984,
+                "id": 230820,
                 "class": "entwined.pattern.kyle_fleming.Wisps",
                 "internal": {
                   "modulationColor": 0,
@@ -38123,7 +38083,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49985,
+                    "id": 230821,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38141,7 +38101,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 49995,
+                "id": 230831,
                 "class": "entwined.pattern.kyle_fleming.Explosions",
                 "internal": {
                   "modulationColor": 0,
@@ -38162,7 +38122,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 49996,
+                    "id": 230832,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38180,7 +38140,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50006,
+                "id": 230842,
                 "class": "entwined.pattern.colin_hunt.ColorWave",
                 "internal": {
                   "modulationColor": 0,
@@ -38201,7 +38161,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50007,
+                    "id": 230843,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38219,7 +38179,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50018,
+                "id": 230854,
                 "class": "entwined.pattern.geoff_schmidt.Wedges",
                 "internal": {
                   "modulationColor": 0,
@@ -38242,7 +38202,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50019,
+                    "id": 230855,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38260,7 +38220,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50029,
+                "id": 230865,
                 "class": "entwined.pattern.lindsay_jason.SparkleWave",
                 "internal": {
                   "modulationColor": 0,
@@ -38284,7 +38244,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50030,
+                    "id": 230866,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38302,7 +38262,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50040,
+                "id": 230876,
                 "class": "entwined.pattern.mattaniah.OscillatingDarkRing",
                 "internal": {
                   "modulationColor": 0,
@@ -38321,7 +38281,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50041,
+                    "id": 230877,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38339,7 +38299,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50054,
+                "id": 230890,
                 "class": "entwined.pattern.mattaniah.RadialGradiant",
                 "internal": {
                   "modulationColor": 0,
@@ -38360,7 +38320,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50055,
+                    "id": 230891,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38378,7 +38338,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50066,
+                "id": 230902,
                 "class": "entwined.pattern.quinn_keck.ButterflyEffect",
                 "internal": {
                   "modulationColor": 0,
@@ -38397,7 +38357,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50067,
+                    "id": 230903,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38415,7 +38375,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50077,
+                "id": 230913,
                 "class": "entwined.pattern.bbulkow.MultiColor",
                 "internal": {
                   "modulationColor": 0,
@@ -38440,7 +38400,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50078,
+                    "id": 230914,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38458,7 +38418,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50088,
+                "id": 230924,
                 "class": "entwined.pattern.bbulkow.MultiColor2",
                 "internal": {
                   "modulationColor": 0,
@@ -38483,7 +38443,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50089,
+                    "id": 230925,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38501,7 +38461,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50099,
+                "id": 230935,
                 "class": "entwined.pattern.bbulkow.StripeStatic",
                 "internal": {
                   "modulationColor": 0,
@@ -38527,7 +38487,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50100,
+                    "id": 230936,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38545,7 +38505,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50110,
+                "id": 230946,
                 "class": "entwined.pattern.misko.Circles",
                 "internal": {
                   "modulationColor": 0,
@@ -38566,7 +38526,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50111,
+                    "id": 230947,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38584,7 +38544,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50123,
+                "id": 230959,
                 "class": "entwined.pattern.misko.LineScan",
                 "internal": {
                   "modulationColor": 0,
@@ -38608,7 +38568,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50124,
+                    "id": 230960,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38626,8 +38586,8 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50136,
-                "class": "entwined.pattern.misko.RainbowWaveScan",
+                "id": 230972,
+                "class": "entwined.pattern.misko.WaveScanRainbow",
                 "internal": {
                   "modulationColor": 0,
                   "modulationControlsExpanded": true,
@@ -38637,7 +38597,7 @@
                   "modulationExpanded": false
                 },
                 "parameters": {
-                  "label": "RainbowWaveScan",
+                  "label": "WaveScanRainbow",
                   "enabled": true,
                   "recall": false,
                   "compositeMode": 0,
@@ -38650,7 +38610,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50137,
+                    "id": 230973,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38668,7 +38628,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50149,
+                "id": 230984,
                 "class": "entwined.pattern.misko.LightHouse",
                 "internal": {
                   "modulationColor": 0,
@@ -38693,7 +38653,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50150,
+                    "id": 230985,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38711,7 +38671,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50161,
+                "id": 230996,
                 "class": "entwined.pattern.misko.ColorBlast",
                 "internal": {
                   "modulationColor": 0,
@@ -38736,7 +38696,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50162,
+                    "id": 230997,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38754,7 +38714,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50173,
+                "id": 231008,
                 "class": "entwined.pattern.misko.Vertigo",
                 "internal": {
                   "modulationColor": 0,
@@ -38779,7 +38739,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50174,
+                    "id": 231009,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38797,7 +38757,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50185,
+                "id": 231020,
                 "class": "entwined.pattern.adam_n_katie.ExpandingCircles",
                 "internal": {
                   "modulationColor": 0,
@@ -38820,7 +38780,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50186,
+                    "id": 231021,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38838,7 +38798,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50197,
+                "id": 231032,
                 "class": "entwined.pattern.adam_n_katie.Sparks",
                 "internal": {
                   "modulationColor": 0,
@@ -38859,7 +38819,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50198,
+                    "id": 231033,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38877,7 +38837,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50209,
+                "id": 231044,
                 "class": "entwined.pattern.adam_n_katie.Blooms",
                 "internal": {
                   "modulationColor": 0,
@@ -38901,7 +38861,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50210,
+                    "id": 231045,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38919,7 +38879,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50221,
+                "id": 231056,
                 "class": "entwined.pattern.adam_n_katie.MovingPoint",
                 "internal": {
                   "modulationColor": 0,
@@ -38941,7 +38901,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50222,
+                    "id": 231057,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38959,7 +38919,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50233,
+                "id": 231068,
                 "class": "entwined.pattern.adam_n_katie.Undulation",
                 "internal": {
                   "modulationColor": 0,
@@ -38980,7 +38940,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50234,
+                    "id": 231069,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -38998,7 +38958,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50245,
+                "id": 231080,
                 "class": "entwined.pattern.adam_n_katie.HueRibbons",
                 "internal": {
                   "modulationColor": 0,
@@ -39022,7 +38982,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50246,
+                    "id": 231081,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -39040,7 +39000,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50257,
+                "id": 231092,
                 "class": "entwined.pattern.adam_n_katie.VerticalColorWaves",
                 "internal": {
                   "modulationColor": 0,
@@ -39061,7 +39021,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50258,
+                    "id": 231093,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -39079,7 +39039,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50270,
+                "id": 231105,
                 "class": "entwined.pattern.adam_n_katie.FlockingPoints",
                 "internal": {
                   "modulationColor": 0,
@@ -39104,7 +39064,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50271,
+                    "id": 231106,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -39122,7 +39082,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50282,
+                "id": 231117,
                 "class": "entwined.pattern.evy.CircleBreath",
                 "internal": {
                   "modulationColor": 0,
@@ -39142,7 +39102,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50283,
+                    "id": 231118,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -39160,7 +39120,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50294,
+                "id": 231129,
                 "class": "entwined.pattern.evy.FirefliesNcase",
                 "internal": {
                   "modulationColor": 0,
@@ -39181,7 +39141,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50295,
+                    "id": 231130,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -39196,7 +39156,7 @@
                     "triggers": []
                   },
                   "resetTimer": {
-                    "id": 50306,
+                    "id": 231141,
                     "class": "heronarts.lx.modulator.SawLFO",
                     "internal": {
                       "modulationColor": 0,
@@ -39218,7 +39178,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50307,
+                "id": 231142,
                 "class": "entwined.pattern.sydney_parcell.RoseGarden",
                 "internal": {
                   "modulationColor": 0,
@@ -39237,7 +39197,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50308,
+                    "id": 231143,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -39255,7 +39215,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50320,
+                "id": 231155,
                 "class": "entwined.pattern.lorenz.Fountain",
                 "internal": {
                   "modulationColor": 0,
@@ -39276,7 +39236,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50321,
+                    "id": 231156,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -39294,7 +39254,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50335,
+                "id": 231170,
                 "class": "entwined.pattern.irene_zhou.Fumes",
                 "internal": {
                   "modulationColor": 0,
@@ -39316,7 +39276,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50336,
+                    "id": 231171,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -39334,7 +39294,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50346,
+                "id": 231181,
                 "class": "entwined.pattern.kyle_fleming.ColorStrobe",
                 "internal": {
                   "modulationColor": 0,
@@ -39353,7 +39313,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50347,
+                    "id": 231182,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -39371,7 +39331,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 50357,
+                "id": 231192,
                 "class": "entwined.pattern.kyle_fleming.Strobe",
                 "internal": {
                   "modulationColor": 0,
@@ -39393,7 +39353,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 50358,
+                    "id": 231193,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -39413,7 +39373,7 @@
             ]
           },
           {
-            "id": 64981,
+            "id": 231203,
             "class": "heronarts.lx.mixer.LXChannel",
             "internal": {
               "modulationColor": 0,
@@ -39456,47 +39416,7 @@
             "patternIndex": 0,
             "patterns": [
               {
-                "id": 65050,
-                "class": "entwined.pattern.irene_zhou.Cells",
-                "internal": {
-                  "modulationColor": 0,
-                  "modulationControlsExpanded": true,
-                  "expanded": true,
-                  "expandedCue": true,
-                  "expandedAux": true,
-                  "modulationExpanded": false
-                },
-                "parameters": {
-                  "label": "Cells",
-                  "enabled": false,
-                  "recall": false,
-                  "compositeMode": 0,
-                  "compositeLevel": 1.0,
-                  "speed": 1.0,
-                  "width": 0.75,
-                  "hue": 0.0
-                },
-                "children": {
-                  "modulation": {
-                    "id": 65051,
-                    "class": "heronarts.lx.modulation.LXModulationEngine",
-                    "internal": {
-                      "modulationColor": 0,
-                      "modulationControlsExpanded": true
-                    },
-                    "parameters": {
-                      "label": "Modulation"
-                    },
-                    "children": {},
-                    "modulators": [],
-                    "modulations": [],
-                    "triggers": []
-                  }
-                },
-                "deviceVersion": -1
-              },
-              {
-                "id": 71425,
+                "id": 231219,
                 "class": "entwined.pattern.irene_zhou.Bubbles",
                 "internal": {
                   "modulationColor": 0,
@@ -39520,7 +39440,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 71426,
+                    "id": 231220,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -39538,7 +39458,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 71437,
+                "id": 231231,
                 "class": "entwined.pattern.kyle_fleming.Wisps",
                 "internal": {
                   "modulationColor": 0,
@@ -39565,7 +39485,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 71438,
+                    "id": 231232,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -39583,7 +39503,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 71448,
+                "id": 231242,
                 "class": "entwined.pattern.kyle_fleming.Wisps",
                 "internal": {
                   "modulationColor": 0,
@@ -39610,7 +39530,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 71449,
+                    "id": 231243,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -39628,7 +39548,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 71459,
+                "id": 231253,
                 "class": "entwined.pattern.kyle_fleming.Wisps",
                 "internal": {
                   "modulationColor": 0,
@@ -39655,7 +39575,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 71460,
+                    "id": 231254,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -39673,7 +39593,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 71470,
+                "id": 231264,
                 "class": "entwined.pattern.kyle_fleming.Wisps",
                 "internal": {
                   "modulationColor": 0,
@@ -39700,7 +39620,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 71471,
+                    "id": 231265,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -39718,7 +39638,7 @@
                 "deviceVersion": -1
               },
               {
-                "id": 71481,
+                "id": 231275,
                 "class": "entwined.pattern.kyle_fleming.Wisps",
                 "internal": {
                   "modulationColor": 0,
@@ -39745,7 +39665,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 71482,
+                    "id": 231276,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
@@ -39763,7 +39683,47 @@
                 "deviceVersion": -1
               },
               {
-                "id": 71492,
+                "id": 231286,
+                "class": "entwined.pattern.irene_zhou.Cells",
+                "internal": {
+                  "modulationColor": 0,
+                  "modulationControlsExpanded": true,
+                  "expanded": true,
+                  "expandedCue": true,
+                  "expandedAux": true,
+                  "modulationExpanded": false
+                },
+                "parameters": {
+                  "label": "Cells",
+                  "enabled": false,
+                  "recall": false,
+                  "compositeMode": 0,
+                  "compositeLevel": 1.0,
+                  "speed": 1.0,
+                  "width": 0.75,
+                  "hue": 0.0
+                },
+                "children": {
+                  "modulation": {
+                    "id": 231287,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0,
+                      "modulationControlsExpanded": true
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [],
+                    "modulations": [],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1
+              },
+              {
+                "id": 231297,
                 "class": "entwined.pattern.ray_sykes.Lightning",
                 "internal": {
                   "modulationColor": 0,
@@ -39789,7 +39749,7 @@
                 },
                 "children": {
                   "modulation": {
-                    "id": 71493,
+                    "id": 231298,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,
