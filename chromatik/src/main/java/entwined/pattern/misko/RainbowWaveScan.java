@@ -16,16 +16,16 @@ public class RainbowWaveScan extends LXPattern {
   private float nx = 0;
   private float nz = 0;
   private float n = 0;
-  private double total_ms =0.0;
+  private double total_ms = 0.0;
   final BoundedParameter speedParam = new BoundedParameter("Speed", 5, 20, .01);
-  final BoundedParameter lSpeedParam = new BoundedParameter("LSpeed", 5000, 10000, 10);
+  final BoundedParameter lSpeedParam = new BoundedParameter("LSpeed", 5000, 100000, 1000);
   final BoundedParameter hSpeedParam = new BoundedParameter("HSpeed", 5000, 1000, 1000000);
   final BoundedParameter waveSlope = new BoundedParameter("wvSlope", 360, 1, 720);
   final BoundedParameter theta = new BoundedParameter("theta", 45, 0, 360);
   final BoundedParameter hue = new BoundedParameter("hue", 45, 0, 360);
   final BoundedParameter wave_width = new BoundedParameter("wvWidth", 20, 1, 50);
-  final SawLFO wave360 = new SawLFO(0, 360, hSpeedParam.getValuef());  // Hue LFO
-  final SinLFO wave100 = new SinLFO(0, 100, lSpeedParam.getValuef());  // brightness LFO
+  final SawLFO wave360 = new SawLFO(0, 360, hSpeedParam);  // Hue LFO - period in ms
+  final SinLFO wave100 = new SinLFO(0, 100, lSpeedParam);  // brightness LFO
 
   public RainbowWaveScan(LX lx) {
     super(lx);
@@ -52,16 +52,14 @@ public class RainbowWaveScan extends LXPattern {
     nx = (float)Math.sin(theta_rad);
     nz = (float)Math.cos(theta_rad);
     n = (float)Math.sqrt(Math.pow(nx,2)+Math.pow(nz,2));
-    wave360.setPeriod(hSpeedParam.getValuef());
-    wave100.setPeriod(lSpeedParam.getValuef());
-      total_ms+=deltaMs;
-      // Use a for loop here to set the cube colors
-      for (LXPoint cube : model.points) {
-        float d = (float)( 50.0 *
-            (Math.sin(
-                (dist(cube.x,cube.z)/(wave_width.getValuef())) + (lSpeedParam.getValuef()*total_ms/1000.0))
-             + 1.0)
-            );
+    total_ms+=deltaMs;
+    // Use a for loop here to set the cube colors
+    for (LXPoint cube : model.points) {
+      float d = (float)( 50.0 *
+          (Math.sin(
+                (dist(cube.x,cube.z)/(wave_width.getValuef())) + (wave100.getValuef()*total_ms/1000.0))
+            + 1.0)
+          );
         colors[cube.index] = LX.hsb( wave360.getValuef(), 100, d);
       }
   }

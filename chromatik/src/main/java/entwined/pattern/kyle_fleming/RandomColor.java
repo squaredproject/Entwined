@@ -3,26 +3,26 @@ package entwined.pattern.kyle_fleming;
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class RandomColor extends LXPattern {
 
-  final BoundedParameter speed = new BoundedParameter("Speed", 1, 1, 10);
+  final CompoundParameter speed = new CompoundParameter("Speed", 200.0, 20.0, 1500.0);
 
-  int frameCount = 0;
+  double msCount = 0.0f;
 
   public RandomColor(LX lx) {
     super(lx);
-    addParameter("speed", speed);
+    addParameter("randomcolorSpeed", speed);
   }
 
   @Override
   public void run(double deltaMs) {
     if (getChannel().fader.getNormalized() == 0) return;
 
-    frameCount++;
-    if (frameCount >= speed.getValuef()) {
+    msCount += deltaMs;
+    if (msCount >= speed.getValue()) {
       for (LXPoint cube : model.points) {
         colors[cube.index] = LX.hsb(
           EntwinedUtils.random(360),
@@ -30,7 +30,7 @@ public class RandomColor extends LXPattern {
           100
         );
       }
-      frameCount = 0;
+      msCount = 0.0f;
     }
   }
 }

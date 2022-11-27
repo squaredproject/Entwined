@@ -34,14 +34,14 @@ public class ShrubRiver extends LXPattern {
   public ShrubRiver(LX lx) {
     super(lx);
     addModulator(wave).start();
-    addParameter("treeHue", treeHue);
-    addParameter("hue", hue);
-    addParameter("globalTheta", globalTheta);
-    addParameter("speed", speedParam);
-    addParameter("colorSpeed", colorSpeed);
-    addParameter("glow", glow);
-    addParameter("width", width);
-    addParameter("colorOffset", color_offset);
+    addParameter("shrubRiverTreeHue", treeHue);
+    addParameter("shrubRiverHue", hue);
+    addParameter("shrubRiverGlobalTheta", globalTheta);
+    addParameter("shrubRiverSpeed", speedParam);
+    addParameter("shrubRiverColorSpeed", colorSpeed);
+    addParameter("shrubRiverGlow", glow);
+    addParameter("shrubRiverWidth", width);
+    addParameter("shrubRiverColorOffset", color_offset);
     shrub_dists=new float[shrub_order.length];
     LXModel prevShrub = null;
     LXModel firstShrub = null;

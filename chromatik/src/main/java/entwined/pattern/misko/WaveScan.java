@@ -28,11 +28,11 @@ public class WaveScan extends LXPattern {
     super(lx);
     addModulator(wave360).start();
     addModulator(wave100).start();
-    addParameter("waveSlope", waveSlope);
-    addParameter("speedParam", speedParam);
-    addParameter("theta", theta);
-    addParameter("hue", hue);
-    addParameter("waveWidth", wave_width);
+    addParameter("wavescanWaveSlope", waveSlope);
+    addParameter("wavescanSpeed", speedParam);
+    addParameter("wavescanTheta", theta);
+    addParameter("wavescanHue", hue);
+    addParameter("wavescanWaveWidth", wave_width);
 
 
   }
