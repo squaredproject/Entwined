@@ -44,6 +44,14 @@
 # Spreadsheet to track, by IP address, the length and location of each input
 # https://docs.google.com/spreadsheets/d/10tKJYqjxg17QCM_UkV8Fsvh25ctIzKlinF9jcdDPwts/edit?usp=sharing
 #
+# CSV format must be: for each branch:
+# ndb,tree,cubesize,output,cubesnum,branchStr
+# ndb = last octet of the ip address, 10.0.0. implied
+# tree = tree id 0 indexed in the tree.json file
+# cubesize = 2 for 6 leds, 0 for 1 (1 would be 4 which we don't use on trees)
+# output = ndb output 1 to 16
+# cubesNum = number of cubes on the branch
+# branchStr = JDV or Charlie syntax, defined elsewhere
 
 
 import json
@@ -51,6 +59,34 @@ import re
 import os
 import sys
 import argparse
+
+# CHARLIE syntax starts at the LOWEST branch. The
+# LEFT side on the lowest branch is 1 and the numbers come around
+# clockwise.
+# In the case of the 3rd level of the Middle tree, which has 2 brnaches and
+# are both low, then it is the left most of the 4 lowest branches
+# We should rewrite everything In charlie syntax but It's easier and less
+# buggy to just put a conversion layer in...
+# JDV notation is specified in the README.md
+
+charlie_to_jdv = {
+    'a.1': '0.4.a',     'a.2': '0.3r.b',
+    'a.3': '0.3r.a',    'a.4': '0.2r.b',
+    'a.5': '0.2r.a',    'a.6': '0.1r.b',
+    'a.7': '0.1r.a',    'a.8': '0.0.b',
+    'a.9': '0.0.a',     'a.10': '0.1l.b',
+    'a.11': '0.1l.a',   'a.12': '0.2l.b',
+    'a.13': '0.2l.a',   'a.14': '0.3l.b',
+    'a.15': '0.3l.a',   'a.16': '0.4.b',
+    'b.1': '1.4.a',     'b.2': '1.2r.b',
+    'b.3': '1.2r.a',    'b.4': '1.0.b',
+    'b.5': '1.0.a',     'b.6': '1.2l.b',
+    'b.7': '1.2l.a',    'b.8': '1.4.b',
+    'c.1': '2.3r.b',    'c.2': '2.3r.a',
+    'c.3': '2.1r.b',    'c.4': '2.1r.a',
+    'c.5': '2.1l.b',    'c.6': '2.1l.a',
+    'c.7': '2.3l.b',    'c.8': '2.3l.a'
+}
 
 def tree_cubes_load_csv(csvFilename:str):
 
@@ -73,10 +109,15 @@ def tree_cubes_load_csv(csvFilename:str):
 
                 if cubesNum > 0:
                     branchStr = values[5]           # layer.branch.half
-                    bValues = branchStr.strip().split('.')
+
+                    # supporting 'charlie style' and 'jdv style'. Hash converts...
+                    branchStr = branchStr.strip().lower()
+                    branchStr = charlie_to_jdv.get(branchStr, branchStr)
+
+                    bValues = branchStr.split('.')
                     layer = int(bValues[0])
-                    branch = bValues[1].lower()
-                    half = bValues[2].lower()
+                    branch = bValues[1]
+                    half = bValues[2]
 
                     newCubes = tree_cube_make_object(ndb,output,tree,layer,branch,half,cubesNum,cubeSize,lineNum)
                     cubes.extend(newCubes)

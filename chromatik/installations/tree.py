@@ -79,7 +79,11 @@ class Tree:
             self.tags.append("CENTER")
         self.tags.append(self.piece_id)
 
-        self.repeat_count = sculpture_globals.pixels_per_cube[self.cubes_config[0]['cubeSizeIndex']]  # For the moment we do not allow different size cubes
+        # For the moment we do not allow different size cubes
+        if ( len(cubes_config) == 0):
+            print(' no cubes in tree: csv out of sync with trees, piece {} '.format(self.piece_id))
+            exit()
+        self.repeat_count = sculpture_globals.pixels_per_cube[self.cubes_config[0]['cubeSizeIndex']]  
 
         # set up branches and their mounting points...
         self.branches = []
