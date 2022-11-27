@@ -102,7 +102,7 @@ public final class Config {
      entwined.pattern.misko.Circles.class,
      entwined.pattern.misko.LineScan.class,
      // entwined.pattern.misko.Stringy.class,  oob exception on ctor, to debug.
-     entwined.pattern.misko.RainbowWaveScan.class,
+     entwined.pattern.misko.WaveScanRainbow.class,
      // entwined.pattern.misko.SyncSpinner.class, tbd
      entwined.pattern.misko.LightHouse.class,
      // entwined.pattern.misko.ShrubRiver.class,

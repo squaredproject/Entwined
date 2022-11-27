@@ -30,11 +30,11 @@ public class SparkleWave extends LXPattern {
 
   public SparkleWave(LX lx) {
     super(lx);
-      addParameter("sparkwaveSpeed", speedParam);
-      addParameter("sparkwaveSize", sizeParam);
-      addParameter("sparkwaveSparkleWidth", sparkleWidth);
-      addParameter("sparkwaveSaturationThreshhold", saturationThreshold);
-      addParameter("sparkwaveDirection", waveDirection);
+      addParameter("speed", speedParam);
+      addParameter("size", sizeParam);
+      addParameter("sparkleWidth", sparkleWidth);
+      addParameter("saturationThreshhold", saturationThreshold);
+      addParameter("direction", waveDirection);
 
       sparkleMap = new float[model.points.length];
   }

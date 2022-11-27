@@ -203,7 +203,7 @@ public class Entwined implements LXStudio.Plugin {
     lx.registry.addPattern(entwined.pattern.misko.ColorBlast.class);
     lx.registry.addPattern(entwined.pattern.misko.LightHouse.class);
     lx.registry.addPattern(entwined.pattern.misko.LineScan.class);
-    lx.registry.addPattern(entwined.pattern.misko.RainbowWaveScan.class);
+    lx.registry.addPattern(entwined.pattern.misko.WaveScanRainbow.class);
     lx.registry.addPattern(entwined.pattern.misko.ShrubRiver.class);
     lx.registry.addPattern(entwined.pattern.misko.Stringy.class);
     lx.registry.addPattern(entwined.pattern.misko.Vertigo.class);

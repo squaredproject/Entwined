@@ -349,7 +349,7 @@ abstract class Engine {
     registerPatternController("LineScan", new LineScan(lx));
     registerPatternController("WaveScan", new WaveScan(lx));
     registerPatternController("Stringy", new Stringy(lx));
-    registerPatternController("RainbowWaveScan", new RainbowWaveScan(lx));
+    registerPatternController("WaveScanRainbow", new RainbowWaveScan(lx));
     registerPatternController("SyncSpinner", new SyncSpinner(lx));
     registerPatternController("LightHouse", new LightHouse(lx));
     //registerPatternController("ShrubRiver", new ShrubRiver(lx));

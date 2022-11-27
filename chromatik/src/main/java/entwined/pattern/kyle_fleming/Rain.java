@@ -5,7 +5,7 @@ import entwined.core.MultiObjectPattern;
 import entwined.utils.EntwinedUtils;
 import entwined.utils.Vec2D;
 import heronarts.lx.LX;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.utils.LXUtils;
 
 public class Rain extends MultiObjectPattern<RainDrop> {
@@ -16,8 +16,8 @@ public class Rain extends MultiObjectPattern<RainDrop> {
   }
 
   @Override
-  protected BoundedParameter getFrequencyParameter() {
-    return new BoundedParameter("FREQ", 40, 1, 75);
+  protected CompoundParameter getFrequencyParameter() {
+    return new CompoundParameter("FREQ", 40, 1, 75);
   }
 
   @Override

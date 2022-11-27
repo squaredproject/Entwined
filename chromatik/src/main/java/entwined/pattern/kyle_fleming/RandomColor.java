@@ -14,7 +14,7 @@ public class RandomColor extends LXPattern {
 
   public RandomColor(LX lx) {
     super(lx);
-    addParameter("randomcolorSpeed", speed);
+    addParameter("speed", speed);
   }
 
   @Override

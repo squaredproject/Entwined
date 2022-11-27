@@ -2,7 +2,7 @@ package entwined.pattern.alchemy;
 
 import heronarts.lx.LX;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.model.LXPoint;
 
@@ -10,8 +10,8 @@ import entwined.core.CubeManager;
 
 public class Zebra extends LXPattern {
 
- BoundedParameter thickness =  new BoundedParameter ("THIC", 160,0,200);
- BoundedParameter  period= new BoundedParameter ("PERI", 500, 300, 3000);
+ CompoundParameter thickness =  new CompoundParameter ("THIC", 160,0,200);
+ CompoundParameter  period= new CompoundParameter ("PERI", 1000, 300, 3000);
   double timer = 0;
 
   SinLFO position =new SinLFO(0, 200, period);
