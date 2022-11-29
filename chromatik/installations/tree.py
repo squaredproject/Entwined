@@ -43,7 +43,7 @@ def index_ndb_outputs(cube_tree_config):
             cur_ndb_offset = 0
             cur_ndb_addr = cc['ipAddress']
         cc['ndbOffset'] = cur_ndb_offset
-        cur_ndb_offset += 1
+        cur_ndb_offset += 3 * sculpture_globals.pixels_per_cube[cc['cubeSizeIndex']]
 
 class Tree:
     rotational_positions = [[ 0, 1, 2, 3, 4, 5, 6, 7],
@@ -139,7 +139,8 @@ class Tree:
                 cur_ndb = cube_config["ipAddress"]
                 ndb_offset = 0
             cube_config["ndbOffset"] = ndb_offset
-            ndb_offset += 1
+            ndb_offset += 3 * sculpture_globals.pixels_per_cube[cube_config['cubeSizeIndex']]
+
         # Sort by layer
         self.cubes_config.sort(key=get_cube_config_layer_sort_key)
 
@@ -202,7 +203,7 @@ class PixelParser:
 
     def incr_cube(self):
         self.cur_cube_idx += 1
-        self.cur_ndb_offset += 1
+        self.cur_ndb_offset += 3 * self.repeat_count
 
 
     def open_layer(self, cube_config: dict):
