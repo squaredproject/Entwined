@@ -28,7 +28,7 @@ public class BleepBloop extends TSBufferedPattern {
     // for every shrub, add a Blip
     for (int shrubIdx = 0; shrubIdx <  model.sub("SHRUB").size(); shrubIdx++) {
       blips.add(new Blip(false, shrubIdx));
-      System.out.println("BleepBloop - found " + shrubIdx + " shrubs");
+      //System.out.println("BleepBloop - found " + shrubIdx + " shrubs");
     }
     //System.out.println("BleepBLoop: hue 1 " +  hue1 + " hue 2 " + hue2);
   }
