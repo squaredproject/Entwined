@@ -31,7 +31,7 @@ def get_cube_config_ndb_sort_key(cc):
     return cc['ipAddress'] + str(cc['outputIndex']).zfill(2) + str(cc['stringOffsetIndex']).zfill(3)
 
 def get_cube_config_layer_sort_key(cc):
-    return str(cc['layerIndex']) + cc['ipAddress'] + str(cc['ndbOffset']).zfill(3)
+    return str(cc['layerIndex']) + cc['ipAddress'] + str(cc['ndbOffset']).zfill(5)
 
 
 def index_ndb_outputs(cube_tree_config):
