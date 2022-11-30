@@ -8,7 +8,7 @@ import heronarts.lx.parameter.BoundedParameter;
 
 public class ScrambleEffect extends LXEffect {
 
-  final BoundedParameter amount = new BoundedParameter("SCRA");
+  final public BoundedParameter amount = new BoundedParameter("SCRA");
   final int offset;
 
   public ScrambleEffect(LX lx) {

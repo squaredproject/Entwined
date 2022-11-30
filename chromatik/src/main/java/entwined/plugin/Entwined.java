@@ -394,13 +394,28 @@ public class Entwined implements LXStudio.Plugin {
     // One-shot patterns
     // Patterns that use a parameter in addition to the fader for fading in and out
 
-    // straight up on/off on the effect - turn on or off the standard color effect
-    triggerables.setAction(0,0, new EventTrigger(Entwined.findMasterEffect(lx, ColorEffect.class)));
+    // other breadcrumbs:
+    // the "setAction" will register an action for the grid of APC40 / Triggers array
+    // 0,0 is the upper left corner <row>,<column>; so 0,1 is the second button on the top row
+    //    1,0 is the first button on the second row
 
-    // Instead of turning the action on or off, let's change the color. ReleaseDisables indicates that this
-    // is an effect that is always going to be on - we're just playing with its values.
+    // how to add one: look at the textures on the master channel.
+    // find one you want. Look up its class and find a parameter you want to change.
+    // Follow the pattern.
+
+    // Instead of turning the action on or off, let's change the color. 
+    // ReleaseDisables indicates that this is an effect that is always going to be on - we're just playing with its values.
+    CandyCloudTextureEffect cctEffect = Entwined.findMasterEffect(lx, CandyCloudTextureEffect.class);
+    triggerables.setAction(0,0, new EventTrigger(cctEffect, cctEffect.amount, 0.7).releaseDisables(false));
+    cctEffect.enabled.setValue(false);
+
+    // straight up on/off on the effect - turn on or off the standard color effect
+    // you don't want to do this. Effects have to be on all the time.
+    // triggerables.setAction(0,0, new EventTrigger(Entwined.findMasterEffect(lx, ColorEffect.class)));
+
+    // Instead of turning the action on or off, let's change a value. 
     ColorEffect colorEffect = Entwined.findMasterEffect(lx, ColorEffect.class);
-    triggerables.setAction(0,1, new EventTrigger(colorEffect, colorEffect.hueShift, 1).releaseDisables(false));
+    triggerables.setAction(0,1, new EventTrigger(colorEffect, colorEffect.hueShift, 1.0).releaseDisables(false));
     colorEffect.enabled.setValue(false);
 
     // The same sort of thing can be used for triggering patterns on the 'Events' channel..
@@ -474,6 +489,15 @@ public class Entwined implements LXStudio.Plugin {
     }
     lightning.enableTriggerMode();
     triggerables.setAction(1,1, lightning);
+
+    ScrambleEffect scrambleEffect = Entwined.findMasterEffect(lx, ScrambleEffect.class);
+    triggerables.setAction(1,7, new EventTrigger(scrambleEffect, scrambleEffect.amount, 1.0).releaseDisables(false));
+    scrambleEffect.enabled.setValue(false);
+
+    // 1.0 amount is a bit harsh
+    ColorStrobeTextureEffect cstEffect = Entwined.findMasterEffect(lx, ColorStrobeTextureEffect.class);
+    triggerables.setAction(1,8, new EventTrigger(cstEffect, cstEffect.amount, 0.7).releaseDisables(false));
+    cstEffect.enabled.setValue(false);
 
   }
 
