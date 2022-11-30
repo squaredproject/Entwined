@@ -63,6 +63,9 @@ sudo cp brightness-toggle.service /etc/systemd/system/
 sudo systemctl enable chromatik
 sudo systemctl enable brightness-toggle
 
+## AUTHORIZE LICENSE
+# java -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies-linux.jar heronarts.lx.studio.Chromatik --authorize  __LICENSE_KEY__
+
 cd ..; ./build.sh ; cd -
 cd ../installations; ./install.sh ggp-2022
 mkdir /home/pi/Chromatik; mkdir /home/pi/Chromatik/Projects/
