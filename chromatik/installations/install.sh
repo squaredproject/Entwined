@@ -13,6 +13,9 @@ rm ~/Chromatik/Fixtures/Entwined/*
 rm ~/Chromatik/Projects/entwined.lxp
 rm ~/Chromatik/autoplay.lxr
 
+if test -f "${1}/custom.sh"; then
+    $1/custom.sh $1
+fi
 
 echo "building LXF files from JSON descriptions"
 python fairy_circle.py --config $1/fairy_circles.json --fixtures_folder ~/Chromatik/Fixtures/Entwined
