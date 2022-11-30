@@ -57,8 +57,8 @@ echo -e "\n\n*********** Setting up entwined services **************\n\n"
 
 cd $HOME
 
-sudo cp Entwined/oldlx/pi_setup/chromatik.service /etc/systemd/system/
-sudo cp Entwined/oldlx/pi_setup/brightness-toggle.service /etc/systemd/system/
+sudo cp chromatik.service /etc/systemd/system/
+sudo cp brightness-toggle.service /etc/systemd/system/
 
 sudo systemctl enable chromatik
 sudo systemctl enable brightness-toggle
