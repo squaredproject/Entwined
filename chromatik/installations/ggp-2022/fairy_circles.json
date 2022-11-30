@@ -7,7 +7,7 @@
 			"pieceId" : "fairy-01",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 5,
-			"ipAddresses" : ["10.0.0.140", "10.0.0.141"]
+			"ipAddresses" : ["10.0.0.141", "10.0.0.147"]
 	},
 	{
 			"ry" : 300,
@@ -18,7 +18,7 @@
 			"pieceId" : "fairy-02",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
-			"ipAddresses" : ["10.0.0.142"]
+			"ipAddresses" : ["10.0.0.144"]
 	},
 	{
 			"ry" : 160,
@@ -29,7 +29,7 @@
 			"pieceId" : "fairy-03",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
-			"ipAddresses" : ["10.0.0.143"]
+			"ipAddresses" : ["10.0.0.130"]
 	},
 	{
 			"ry" : 30,
@@ -40,7 +40,7 @@
 			"pieceId" : "fairy-04",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
-			"ipAddresses" : ["10.0.0.144"]
+			"ipAddresses" : ["10.0.0.131"]
 	},
 	{
 			"ry" : 270,
@@ -51,7 +51,7 @@
 			"pieceId" : "fairy-05",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
-			"ipAddresses" : ["10.0.0.145"]
+			"ipAddresses" : ["10.0.0.132"]
 	},
 	{
 			"ry" : 90,
@@ -62,7 +62,7 @@
 			"pieceId" : "fairy-06",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
-			"ipAddresses" : ["10.0.0.146"]
+			"ipAddresses" : ["10.0.0.133"]
 	},
 	{
 			"ry" : 280,
@@ -73,7 +73,7 @@
 			"pieceId" : "fairy-07",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
-			"ipAddresses" : ["10.0.0.147"]
+			"ipAddresses" : ["10.0.0.140"]
 	},
 	{
 			"ry" : 100,
@@ -84,7 +84,7 @@
 			"pieceId" : "fairy-08",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
-			"ipAddresses" : ["10.0.0.148"]
+			"ipAddresses" : ["10.0.0.146"]
 	},
 	{
 			"ry" : 0,
@@ -95,7 +95,7 @@
 			"pieceId" : "fairy-09",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
-			"ipAddresses" : ["10.0.0.149"]
+			"ipAddresses" : ["10.0.0.137"]
 	},
 	{
 			"ry" : 340,

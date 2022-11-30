@@ -1,6 +1,6 @@
 {
   "version": "0.4.2-SNAPSHOT",
-  "timestamp": 1669592042934,
+  "timestamp": 1669759680530,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -1096,7 +1096,7 @@
       "channelMultithreaded": false,
       "networkMultithreaded": false,
       "framesPerSecond": 60.0,
-      "speed": 1.0,
+      "speed": 0.37068634137268275,
       "performanceMode": false
     },
     "children": {
@@ -1355,9 +1355,9 @@
         },
         "parameters": {
           "label": "Mixer",
-          "crossfader": 0.5263157612644136,
+          "crossfader": 0.5669291338582677,
           "crossfaderBlendMode": 0,
-          "focusedChannel": 0,
+          "focusedChannel": 6,
           "focusedChannelAux": 11,
           "cueA": false,
           "cueB": false,
@@ -1396,7 +1396,7 @@
                 "parameters": {
                   "label": "Blur",
                   "enabled": true,
-                  "level": 0.0,
+                  "level": 0.18110236220472442,
                   "decay": 1.0,
                   "mode": 0
                 },
@@ -1433,7 +1433,7 @@
                 "parameters": {
                   "label": "Speed",
                   "enabled": true,
-                  "speed": 1.0
+                  "speed": 0.37068634137268275
                 },
                 "children": {
                   "modulation": {
@@ -1467,8 +1467,8 @@
                 },
                 "parameters": {
                   "label": "Color",
-                  "enabled": false,
-                  "desaturation": 0.007874015748031496,
+                  "enabled": true,
+                  "desaturation": 0.0,
                   "hueShift": 0.0,
                   "sharp": 0.0,
                   "soft": 0.0,
@@ -2327,11 +2327,11 @@
             "parameters": {
               "label": "Test",
               "arm": false,
-              "selected": true,
-              "enabled": true,
+              "selected": false,
+              "enabled": false,
               "cue": false,
               "aux": false,
-              "fader": 1.0,
+              "fader": 0.9714654145298194,
               "crossfadeGroup": 0,
               "blendMode": 0,
               "midiMonitor": false,
@@ -2355,7 +2355,7 @@
             "effects": [],
             "clips": [
               {
-                "id": 242465,
+                "id": 275936,
                 "class": "heronarts.lx.clip.LXChannelClip",
                 "internal": {
                   "modulationColor": 0,
@@ -2363,7 +2363,7 @@
                 },
                 "parameters": {
                   "label": "Solid-1",
-                  "running": false,
+                  "running": true,
                   "trigger": false,
                   "length": 208387.0,
                   "loop": true,
@@ -2374,7 +2374,7 @@
                 },
                 "children": {
                   "snapshot": {
-                    "id": 242466,
+                    "id": 275937,
                     "class": "heronarts.lx.snapshot.LXClipSnapshot",
                     "internal": {
                       "modulationColor": 0,
@@ -3902,7 +3902,7 @@
                 ]
               }
             ],
-            "patternIndex": 0,
+            "patternIndex": 2,
             "patterns": [
               {
                 "id": 50478,
@@ -4274,7 +4274,7 @@
               "enabled": true,
               "cue": false,
               "aux": false,
-              "fader": 0.0,
+              "fader": 1.0,
               "crossfadeGroup": 0,
               "blendMode": 0,
               "midiMonitor": false,
@@ -23535,7 +23535,7 @@
             "parameters": {
               "label": "SHRUB",
               "arm": false,
-              "selected": false,
+              "selected": true,
               "enabled": true,
               "cue": false,
               "aux": false,
@@ -39741,7 +39741,7 @@
                   "compositeLevel": 1.0,
                   "trigger": false,
                   "boltAngle": 35.0,
-                  "propagationSpeed": 10.0,
+                  "propagationSpeed": 20.0,
                   "maxBoltWidth": 60.0,
                   "lightningChance": 5.0,
                   "forkingChance": 3.0,
@@ -39970,16 +39970,16 @@
         "children": {},
         "inputs": [
           {
-            "name": "IAC Driver",
-            "channel": true,
-            "control": false,
-            "sync": true
-          },
-          {
             "name": "Akai APC40",
             "channel": false,
             "control": true,
             "sync": false
+          },
+          {
+            "name": "IAC Driver",
+            "channel": true,
+            "control": false,
+            "sync": true
           }
         ],
         "surfaces": [
