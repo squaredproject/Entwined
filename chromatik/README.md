@@ -141,6 +141,24 @@ After you've got a PI up with this version, follow the instructions above (java 
 
 The only difference is the run command is `headless.sh`.
 
+# Getting a license
+
+Running with network output, with a plugin, requires a license. The  `headless.sh` file will only start if there is
+a license.
+
+Licenses are generated once when the pi is built, when you have a network connection. The software looks at the mac addresses
+and other things, makes a network request, returns a license, which is stored in the .license file in the Chromatik directory.
+
+In order to generate this file the first time, execute the same command that is in the `headless.sh` file, but add the `--authorize` parameter,
+and the license string granted to this project. Contact Charles Gadeken or Brian Bulkowski.
+
+
+From the same directory as `headless.sh`
+```
+java  -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies.jar heronarts.lx.studio.Chromatik --authorize <authkey>
+```
+
+
 # Connecting to Canopy
 
 As of writing, the configuration for the name of the installation in Canopy, and
