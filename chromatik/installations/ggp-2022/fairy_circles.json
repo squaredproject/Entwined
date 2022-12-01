@@ -40,7 +40,7 @@
 			"pieceId" : "fairy-04",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
-			"ipAddresses" : ["10.0.0.131"]
+			"ipAddresses" : ["10.0.0.165"]
 	},
 	{
 			"ry" : 270,
