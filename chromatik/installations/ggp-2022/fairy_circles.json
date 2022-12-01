@@ -66,8 +66,8 @@
 	},
 	{
 			"ry" : 280,
-			"x" : 360,
-			"z" : 900,
+			"x" : 300,
+			"z" : 876,
 			"radius" : 60,
 			"degrees" : 220,
 			"pieceId" : "fairy-07",
@@ -77,8 +77,8 @@
 	},
 	{
 			"ry" : 100,
-			"x" : 240,
-			"z" : 420,
+			"x" : 1140,
+			"z" : 1200,
 			"radius" : 60,
 			"degrees" : 220,
 			"pieceId" : "fairy-08",
@@ -88,36 +88,24 @@
 	},
 	{
 			"ry" : 0,
-			"x" : 1140,
-			"z" : 1260,
+			"x" : 1500,
+			"z" : 1080,
 			"radius" : 60,
 			"degrees" : 220,
 			"pieceId" : "fairy-09",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
-			"ipAddresses" : ["10.0.0.137"]
+			"ipAddresses" : ["10.0.0.164"]
 	},
 	{
 			"ry" : 340,
-			"x" : 1500,
-			"z" : 1080,
+			"x" : 996,
+			"z" : 540,
 			"radius" : 60,
 			"degrees" : 220,
 			"pieceId" : "fairy-10",
 			"cubeSizeIndex" : 0,
 			"clustersPerNdb" : 3,
-			"ipAddresses" : ["10.0.0.138"]
-	},
-	{
-			"ry" : 340,
-			"x" : 1080,
-			"z" : 480,
-			"radius" : 60,
-			"degrees" : 220,
-			"pieceId" : "fairy-11",
-			"cubeSizeIndex" : 0,
-			"clustersPerNdb" : 3,
-			"ipAddresses" : ["10.0.0.139"]
+			"ipAddresses" : ["10.0.0.149"]
 	}
-
 ]
