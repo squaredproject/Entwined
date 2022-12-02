@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo service lx-headless stop
+sudo service chromatik stop
 #sudo nmap  -sn 10.0.0.100-255 -oG - | awk '/Up$/{print $2}' > /home/entwined/Entwined/ddptest/ndb_ips.txt
 xs="1 2 3"
 for x in $xs; do

@@ -1,4 +1,4 @@
 #!/bin/bash
 
 echo "LIGHTS ON"
-sudo service lx-headless start
+sudo service chromatik start
