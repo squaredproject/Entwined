@@ -270,6 +270,9 @@ public class Entwined implements LXStudio.Plugin {
   public void initialize(LX lx) {
     log("Entwined.initialize()");
 
+    // Initialize configuration system from the json file
+    Config.Init("config.json");
+
     // Check if we are running from Eclipse/IDE mode, where the Entwined
     // plugin is on the classpath, not in a dynamic JAR, and was specified
     // from the CLI args. In this case we need to register our content classes
