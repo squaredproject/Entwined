@@ -1,22 +1,24 @@
 package entwined.plugin;
 
+import java.io.File;
+import java.io.FileReader;
 import java.util.HashMap;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import heronarts.lx.LX;
+
 public final class Config {
+
   // Change this when setting up a new installation!
   // it's used for Canopy and must be unique for each installation
   static final String installationId = "ggp";
 
-  static final boolean autoplayBMSet = true;
-
-  static final boolean enableAPC40 = true;
-  static final boolean enableSoundSyphon = false;
-
-  static final boolean enableOutputMinitree = false;
-  static final boolean enableOutputBigtree = false;
-
-  // these configure the mandated "pause" to keep crowds down
-  // set either to 0 to disable
+  // NB - the following 'pause' fields are vestigial, however, they are used in the
+  // packet data exchanged between the iPad and the app, which I do not want to
+  // change.  CSW, 11/2022
   static final double pauseRunMinutes = 0.0;
   static final double pausePauseMinutes = 0.0;
   static final double pauseFadeInSeconds = 0.0;
@@ -28,28 +30,21 @@ public final class Config {
 
 
   // the interaction server. Set to null to disable.
-  static final String canopyServer = "";
+  public static String canopyServer = "";
   //static final String canopyServer = "http://localhost:3000/lx";
   //static final String canopyServer = "https://entwined-api.charliestigler.com/lx";
 
-  static final String NDB_CONFIG_FILE = "data/entwinedNDBs.json";
-  static final String CUBE_CONFIG_FILE = "data/entwinedCubes.json";
-  static final String TREE_CONFIG_FILE = "data/entwinedTrees.json";
-  static final String SHRUB_CUBE_CONFIG_FILE = "data/entwinedShrubCubes.json";
-  static final String SHRUB_CONFIG_FILE = "data/entwinedShrubs.json";
-  static final String FAIRY_CIRCLE_CONFIG_FILE = "data/entwinedFairyCircles.json";
-  static final String SPOT_CONFIG_FILE = "data/entwinedSpots.json";
-
   // if this file doesn't exist you get a crash
-  static final String AUTOPLAY_FILE = "data/entwinedSetDec2021.json";
+  // static final String AUTOPLAY_FILE = "data/entwinedSetDec2021.json";
 
   static final int NUM_BASE_CHANNELS = 8;
   static final int NUM_SERVER_CHANNELS = 3;
 
-  public static final HashMap<String, String[]> groups = new HashMap<String, String[]>();
-  static {
+  public static HashMap<String, String[]> groups = new HashMap<String, String[]>();
+  /* static {
     groups.put("shrubies", new String[] {"shrub-1", "shrub-2"});
   }
+  */
 
   // These are the patterns available on the ipad, in the order that they are displayed on the device
   // Change this if you want to change the ipad display
@@ -85,7 +80,7 @@ public final class Config {
      entwined.pattern.irene_zhou.Cells.class,
      entwined.pattern.kyle_fleming.Fade.class,
      entwined.pattern.irene_zhou.Springs.class,
-     //entwined.pattern.kyle_fleming.BaseSlam.class, tbd
+     entwined.pattern.kyle_fleming.BassSlam.class,
      entwined.pattern.irene_zhou.Fireflies.class,
      entwined.pattern.irene_zhou.Bubbles.class,
      entwined.pattern.kyle_fleming.Wisps.class,
@@ -103,17 +98,17 @@ public final class Config {
      entwined.pattern.misko.LineScan.class,
      // entwined.pattern.misko.Stringy.class,  oob exception on ctor, to debug.
      entwined.pattern.misko.WaveScanRainbow.class,
-     // entwined.pattern.misko.SyncSpinner.class, tbd
+     entwined.pattern.misko.SyncSpinner.class,
      entwined.pattern.misko.LightHouse.class,
      // entwined.pattern.misko.ShrubRiver.class,
      entwined.pattern.misko.ColorBlast.class,
      entwined.pattern.misko.Vertigo.class,
      entwined.pattern.adam_n_katie.ExpandingCircles.class,
-     // entwined.pattern.adam_n_katie.SpiralArms.class,
+     entwined.pattern.adam_n_katie.SpiralArms.class,
      entwined.pattern.adam_n_katie.Sparks.class,
      entwined.pattern.adam_n_katie.Blooms.class,
      entwined.pattern.adam_n_katie.MovingPoint.class,
-     //entwined.pattern.adam_n_katie.WavesToMainTree.class,
+     entwined.pattern.adam_n_katie.WavesToMainTree.class,
      entwined.pattern.adam_n_katie.Undulation.class,
      entwined.pattern.adam_n_katie.HueRibbons.class,
      entwined.pattern.adam_n_katie.VerticalColorWaves.class,
@@ -128,4 +123,38 @@ public final class Config {
 
   };
 
+  static void Init(String configFilename) {
+    File configFile = new File(configFilename);
+    if ((configFile == null) || !configFile.exists()) {
+      return;
+    }
+
+    try (FileReader fr = new FileReader(configFile)) {
+      JsonObject obj = new Gson().fromJson(fr, JsonObject.class);
+
+      // Read the canopyserver address
+      if (obj.has("canopyServer")) {
+        canopyServer = obj.get("canopyServer").getAsString();
+        System.out.println("Config: Canopy server set to " + canopyServer);
+      }
+
+      // Read the interactive groupings
+      if (obj.has("interactiveGroups")) {
+        JsonObject interactiveGroups = obj.get("interactiveGroups").getAsJsonObject();
+        for (String key : interactiveGroups.keySet()) {
+          JsonArray componentsJson = interactiveGroups.get(key).getAsJsonArray();
+          String[] components = new String[componentsJson.size()];
+          for (int j=0; j<componentsJson.size(); ++j) {
+            components[j] = componentsJson.get(j).getAsString();
+            System.out.println("Adding component " + components[j] + " to group " + key);
+          }
+          groups.put(key, components);
+        }
+        System.out.println("Config: Interactive groups are " + groups);
+      }
+
+    } catch (Throwable x) {
+      LX.error(x, "Could not load config file: " + x.getMessage());
+    }
+  }
 }

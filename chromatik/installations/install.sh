@@ -24,4 +24,5 @@ python tree.py --tree_config $1/trees.json --branch_config $1/tree_branches.csv 
 python bench.py --config $1/bench.json --fixtures_folder ~/Chromatik/Fixtures/Entwined
 cp $1/entwined.lxp ~/Chromatik/Projects/
 cp $1/autoplay.lxr ~/Chromatik/
+cp $1/config.json ~/Chromatik/
 sudo systemctl restart chromatik
