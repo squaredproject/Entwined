@@ -36,6 +36,21 @@ instructions.](https://adoptium.net/temurin/releases/). While other distribution
 should work, please be cautious of licensing. OpenJDK, distributed by Oracle,
 only allows non-commercial use.
 
+---
+**NOTE**
+
+IF you have an M1 Mac, which is ARM instead of Intel, you need to make sure your JVM and JDK
+are `aarch64`, which is, ARM native (you want this anyway, its faster and better). Any Java 17 or better JVM that is native ARM (`aarch64`) should do.
+
+In the Adoptium download page, you have to scroll down a bit to get the `aarch64` build. You can
+probably check the version you are running with `java -version`. It's easy to just see the first mac
+build and choose it!
+
+If you have the Intel version, you will see the library `LWJGL` not found. Go back and
+make sure you're using a native ARM JDK.
+
+---
+
 ## Java debugger
 
 If you are debugging pattern or plugin code, you may wish to use a debugger. 
