@@ -23,7 +23,7 @@ import heronarts.lx.LXSerializable;
 import heronarts.lx.clip.LXClip;
 import heronarts.lx.mixer.LXBus;
 import heronarts.lx.modulator.LXModulator;
-import heronarts.lx.parameter.TriggerParameter;
+import heronarts.lx.parameter.LXParameterListener;
 import heronarts.lx.studio.LXStudio.UI;
 import heronarts.lx.studio.ui.modulation.UIModulator;
 import heronarts.lx.studio.ui.modulation.UIModulatorControls;
@@ -36,15 +36,14 @@ public class Recordings extends LXModulator implements UIModulatorControls<Recor
     super("Recordings");
   }
 
+  private UIButton play, record, stop;
+  private LXParameterListener clipListener;
+  private LXBus.ClipListener busListener;
 
   @Override
   public void buildModulatorControls(UI ui, UIModulator uiModulator, Recordings recordings) {
     uiModulator.setLayout(UIModulator.Layout.VERTICAL);
     uiModulator.setChildSpacing(4);
-
-    final TriggerParameter stopTrigger = new TriggerParameter("Stop");
-    final TriggerParameter stopPlaying = new TriggerParameter("Stop Playing");
-    final TriggerParameter stopRecording = new TriggerParameter("Stop Recording");
 
     final UILabel name = (UILabel)
       new UILabel(0, 0, uiModulator.getContentWidth() - 44, 18)
@@ -57,7 +56,7 @@ public class Recordings extends LXModulator implements UIModulatorControls<Recor
     final UIButton save = (UIButton) new UIButton(0, 0, 18, 18) {
       @Override
       public void onClick() {
-        stopTrigger.trigger();
+        lx.engine.clips.stopClips();
         ui.lx.showSaveFileDialog(
           "Save Recording",
           "Recording File",
@@ -78,7 +77,7 @@ public class Recordings extends LXModulator implements UIModulatorControls<Recor
     final UIButton open = (UIButton) new UIButton(0, 0, 18, 18) {
       @Override
       public void onClick() {
-        stopTrigger.trigger();
+        lx.engine.clips.stopClips();
         ui.lx.showOpenFileDialog(
           "Open Recording",
           "Recording File",
@@ -96,79 +95,111 @@ public class Recordings extends LXModulator implements UIModulatorControls<Recor
     .setMomentary(true)
     .setDescription("Open Recording...");
 
-    final UIButton play = (UIButton) new UIButton(0, 0, 67, 16) {
+    this.play = (UIButton) new UIButton(0, 0, 67, 16) {
       @Override
-      public void onToggle(boolean on) {
-        if (on) {
-          stopRecording.trigger();
-          playRecording(lx);
-        } else {
-          stopTrigger.trigger();
-        }
+      public void onClick() {
+        lx.engine.clips.stopClips();
+        playRecording(lx);
       }
     }
     .setLabel("PLAY")
+    .setMomentary(true)
     .setBorderRounding(2);
 
-    final UIButton record = (UIButton) new UIButton(0, 0, 66, 16) {
+    this.record = (UIButton) new UIButton(0, 0, 66, 16) {
       @Override
-      public void onToggle(boolean on) {
-        if (on) {
-          String label = name.getLabel();
-          if (!label.endsWith("*")) {
-            name.setLabel(label + "*");
-          }
-
-          stopPlaying.trigger();
-          for (LXBus bus : lx.engine.mixer.channels) {
-            bus.removeClip  (0);
-            LXClip clip = bus.addClip(0);
-            clip.loop.setValue(true);
-            bus.arm.setValue(true);
-          }
-          lx.engine.mixer.masterBus.removeClip(0);
-          lx.engine.mixer.masterBus.arm.setValue(true);
-          LXClip clip = lx.engine.mixer.masterBus.addClip(0);
-          clip.loop.setValue(true);
-          ui.lx.engine.clips.launchScene(0);
-        } else {
-          stopTrigger.trigger();
+      public void onClick() {
+        String label = name.getLabel();
+        if (!label.endsWith("*")) {
+          name.setLabel(label + "*");
         }
+
+        lx.engine.clips.stopClips();
+        for (LXBus bus : lx.engine.mixer.channels) {
+          bus.removeClip(0);
+          LXClip clip = bus.addClip(0);
+          clip.loop.setValue(true);
+          bus.arm.setValue(true);
+        }
+        lx.engine.mixer.masterBus.removeClip(0);
+        lx.engine.mixer.masterBus.arm.setValue(true);
+        LXClip clip = lx.engine.mixer.masterBus.addClip(0);
+        clip.loop.setValue(true);
+        ui.lx.engine.clips.launchScene(0);
+
       }
     }
     .setLabel("RECORD")
+    .setMomentary(true)
+    .setActiveColor(ui.theme.controlBackgroundColor)
     .setBorderRounding(2);
 
-    final UIButton stop = (UIButton) new UIButton(0, 0, 67, 16) {
+    this.stop = (UIButton) new UIButton(0, 0, 67, 16) {
       @Override
       public void onClick() {
-        stopTrigger.trigger();
+        ui.lx.engine.clips.stopClips();
       }
     }
     .setLabel("STOP")
     .setMomentary(true)
+    .setActiveColor(ui.theme.controlBackgroundColor)
     .setBorderRounding(2);
-
-    stopTrigger.addListener(p -> {
-      ui.lx.engine.clips.stopClips();
-      play.setActive(false);
-      record.setActive(false);
-    });
-
-    stopPlaying.addListener(p -> {
-      play.setActive(false);
-    });
-
-    stopRecording.addListener(p -> {
-      record.setActive(false);
-    });
 
     // Build UI
     uiModulator.addChildren(
       UI2dContainer.newHorizontalContainer(18, 4, name, save, open),
       UI2dContainer.newHorizontalContainer(16, 4, play, record, stop)
     );
+
+    this.clipListener = p -> {
+      if (listenedClip.running.isOn()) {
+        if (listenedClip.bus.arm.isOn()) {
+          play.setActiveColor(ui.theme.controlBackgroundColor);
+          play.setInactiveColor(ui.theme.controlBackgroundColor);
+          record.setActiveColor(ui.theme.recordingColor);
+          record.setInactiveColor(ui.theme.recordingColor);
+        } else {
+          play.setActiveColor(ui.theme.primaryColor);
+          play.setInactiveColor(ui.theme.primaryColor);
+          record.setActiveColor(ui.theme.controlBackgroundColor);
+          record.setInactiveColor(ui.theme.controlBackgroundColor);
+        }
+      } else {
+        play.setActiveColor(ui.theme.controlBackgroundColor);
+        play.setInactiveColor(ui.theme.controlBackgroundColor);
+        record.setActiveColor(ui.theme.controlBackgroundColor);
+        record.setInactiveColor(ui.theme.controlBackgroundColor);
+      }
+    };
+
+    ui.lx.engine.mixer.masterBus.addClipListener(this.busListener = new LXBus.ClipListener() {
+
+      @Override
+      public void clipAdded(LXBus bus, LXClip clip) {
+        if (clip.getIndex() == 0) {
+          if (listenedClip != null) {
+            listenedClip.running.removeListener(clipListener);
+            listenedClip.bus.arm.removeListener(clipListener);
+          }
+          listenedClip = clip;
+          listenedClip.running.addListener(clipListener);
+          listenedClip.bus.arm.addListener(clipListener);
+        }
+      }
+
+      @Override
+      public void clipRemoved(LXBus bus, LXClip clip) {
+        if (clip == listenedClip) {
+          listenedClip.running.removeListener(clipListener);
+          listenedClip.bus.arm.removeListener(clipListener);
+          listenedClip = null;
+        }
+      }
+
+    });
   }
+
+  private LXClip listenedClip = null;
 
   private void saveClip(LX lx, LXBus bus, JsonArray clips) {
     LXClip clip = bus.getClip(0);
@@ -232,6 +263,19 @@ public class Recordings extends LXModulator implements UIModulatorControls<Recor
   @Override
   protected double computeValue(double deltaMs) {
     return 0;
+  }
+
+  @Override
+  public void dispose() {
+    if (this.busListener != null) {
+      lx.engine.mixer.masterBus.removeClipListener(this.busListener);
+    }
+    if (this.listenedClip != null) {
+      this.listenedClip.running.removeListener(this.clipListener);
+      this.listenedClip.bus.arm.removeListener(this.clipListener);
+      this.listenedClip = null;
+    }
+    super.dispose();
   }
 
 }
