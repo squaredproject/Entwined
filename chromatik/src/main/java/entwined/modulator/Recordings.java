@@ -39,6 +39,7 @@ public class Recordings extends LXModulator implements UIModulatorControls<Recor
   private UIButton play, record, stop;
   private LXParameterListener clipListener;
   private LXBus.ClipListener busListener;
+  private boolean running = false;
 
   @Override
   public void buildModulatorControls(UI ui, UIModulator uiModulator, Recordings recordings) {
@@ -98,8 +99,12 @@ public class Recordings extends LXModulator implements UIModulatorControls<Recor
     this.play = (UIButton) new UIButton(0, 0, 67, 16) {
       @Override
       public void onClick() {
-        lx.engine.clips.stopClips();
-        playRecording(lx);
+        if (running) {
+          lx.engine.clips.stopClips();
+        } else {
+          lx.engine.clips.stopClips();
+          playRecording(lx);
+        }
       }
     }
     .setLabel("PLAY")
@@ -109,6 +114,11 @@ public class Recordings extends LXModulator implements UIModulatorControls<Recor
     this.record = (UIButton) new UIButton(0, 0, 66, 16) {
       @Override
       public void onClick() {
+        if (running) {
+          lx.engine.clips.stopClips();
+          return;
+        }
+
         String label = name.getLabel();
         if (!label.endsWith("*")) {
           name.setLabel(label + "*");
@@ -152,23 +162,24 @@ public class Recordings extends LXModulator implements UIModulatorControls<Recor
     );
 
     this.clipListener = p -> {
-      if (listenedClip.running.isOn()) {
-        if (listenedClip.bus.arm.isOn()) {
-          play.setActiveColor(ui.theme.controlBackgroundColor);
-          play.setInactiveColor(ui.theme.controlBackgroundColor);
-          record.setActiveColor(ui.theme.recordingColor);
-          record.setInactiveColor(ui.theme.recordingColor);
+      this.running = listenedClip.running.isOn();
+      if (this.running) {
+        if (this.listenedClip.bus.arm.isOn()) {
+          this.play.setActiveColor(ui.theme.controlBackgroundColor);
+          this.play.setInactiveColor(ui.theme.controlBackgroundColor);
+          this.record.setActiveColor(ui.theme.recordingColor);
+          this.record.setInactiveColor(ui.theme.recordingColor);
         } else {
-          play.setActiveColor(ui.theme.primaryColor);
-          play.setInactiveColor(ui.theme.primaryColor);
-          record.setActiveColor(ui.theme.controlBackgroundColor);
-          record.setInactiveColor(ui.theme.controlBackgroundColor);
+          this.play.setActiveColor(ui.theme.primaryColor);
+          this.play.setInactiveColor(ui.theme.primaryColor);
+          this.record.setActiveColor(ui.theme.controlBackgroundColor);
+          this.record.setInactiveColor(ui.theme.controlBackgroundColor);
         }
       } else {
-        play.setActiveColor(ui.theme.controlBackgroundColor);
-        play.setInactiveColor(ui.theme.controlBackgroundColor);
-        record.setActiveColor(ui.theme.controlBackgroundColor);
-        record.setInactiveColor(ui.theme.controlBackgroundColor);
+        this.play.setActiveColor(ui.theme.controlBackgroundColor);
+        this.play.setInactiveColor(ui.theme.controlBackgroundColor);
+        this.record.setActiveColor(ui.theme.controlBackgroundColor);
+        this.record.setInactiveColor(ui.theme.controlBackgroundColor);
       }
     };
 
