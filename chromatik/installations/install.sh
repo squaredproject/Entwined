@@ -24,5 +24,6 @@ python fairy_circle.py --config $1/fairy_circles.json --fixtures_folder $I/Fixtu
 python shrub.py --config $1/shrubs.json --fixtures_folder $I/Fixtures/Entwined
 python tree.py --tree_config $1/trees.json --branch_config $1/tree_branches.csv --fixtures_folder $I/Fixtures/Entwined
 cp $1/entwined.lxp $I/Projects
+cp $1/config.json $I
+
 [[ -e $1/autoplay.lxr ]] && cp $1/autoplay.lxr $I
-[[ -e $1/config.json ]] && cp $1/config.json $I

@@ -17,10 +17,10 @@ rm -f $D/autoplay.lxr $D/Projects/entwined.lxp $D/config.json
 echo "building LXF files from JSON descriptions"
 python fairy_circle.py --config $1/fairy_circles.json --fixtures_folder $D/Fixtures/Entwined
 python shrub.py --config $1/shrubs.json --fixtures_folder $D/Fixtures/Entwined
-python tree.py --tree_config $1/trees.json --branch_config $1/tree_branches.csv --fixtures_folder $D/Fixtures/Entwined
+python tree.py --tree_config $1/trees.json --branch_config $D/tree_branches.csv --fixtures_folder $D/Fixtures/Entwined
 cp $1/entwined.lxp $D/Projects
+
 [[ -e $1/autoplay.lxr ]] && cp $1/autoplay.lxr $D
-[[ -e $1/config.json ]] && cp $1/config.json $D 
 
 if test -f "${1}/custom.sh"; then
     echo "installing custom configuration (statuscake ddptest whatever)"
