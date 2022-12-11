@@ -14,7 +14,7 @@ public final class Config {
 
   // Change this when setting up a new installation!
   // it's used for Canopy and must be unique for each installation
-  static final String installationId = "ggp";
+  public static String installationId = "ggp";
 
   // NB - the following 'pause' fields are vestigial, however, they are used in the
   // packet data exchanged between the iPad and the app, which I do not want to
@@ -136,6 +136,11 @@ public final class Config {
       if (obj.has("canopyServer")) {
         canopyServer = obj.get("canopyServer").getAsString();
         System.out.println("Config: Canopy server set to " + canopyServer);
+      }
+
+      if (obj.has("installationId")) {
+        installationId = obj.get("installationId").getAsString();
+        System.out.println("Config: Installation id set to " + installationId);
       }
 
       // Read the interactive groupings
