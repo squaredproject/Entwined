@@ -8,7 +8,7 @@ then
         exit
 fi
 
-I="~/Chromatik"
+I="$HOME/Chromatik"
 
 mkdir -p $I/Fixtures/Entwined
 rm -rf $I/Fixtures/Entwined/*
