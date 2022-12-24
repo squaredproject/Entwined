@@ -183,6 +183,22 @@ However, that would mean power is running a long, long way, EG, halfway around t
 
 We've never done power runs that long, and at some point you get visible artifacts. Thus, let's stick to this.
 
+# Fallen log 2022
+
+## Config
+
+The fallen log has 6 channels. Please see the wiring diagram in this directory.
+
+There are 6 outputs, with number of cubes being 6, 4, 6, 6, 6, 4
+
+NDB columns:
+
+- smart 6 should be 0
+- Lights per string should be the list above: 6, 4, 6, 6, 6, 4
+- Starting slot should be: 1, 19, 31, 49, 67, 85
+
+( these are 1 pixel cubes, so every cube has RGB, thus 3 bytes. The Slot value is cubes * 3 + prior starting slot , or 1 if output 1)
+
 # Using NDBs
 
 ## NOTE: some very old "legacy" NDBs are running old firmware. Some of the common instructions
