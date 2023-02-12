@@ -1,0 +1,17 @@
+[Unit]
+Description=Play Music for Sculpture
+
+[Service]
+User=pi
+Group=audio
+SupplementaryGroups=dialout video games
+Environment="DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus"
+#ExecStart=/bin/cvlc -L sounds
+ExecStart=/bin/sh -c '/usr/bin/aplay --device sysdefault:CARD=Device  /home/pi/sounds/*'
+WorkingDirectory=/home/pi
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+
