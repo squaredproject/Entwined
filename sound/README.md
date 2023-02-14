@@ -10,6 +10,10 @@ I'm leaving this in slightly bad shape. It's running on an RPI but not from the 
 
 The service file has to be changed to point at the `Entwined/sound` directory.
 
+There is a problem where the production pi can't get to the internet, so it's time is off.
+
+`sudo date -s "13 FEB 2023 17:33:00"
+
 ## howto
 
 ### Use a RPI
@@ -43,16 +47,28 @@ Create a soft link from /etc/systemd/services to this file. SHould work from the
 
 ### service to turn on and off
 
-`crontab -e`
+`sudo crontab -e -u root`
 
 ```
-0 18 * * * systemctl restart sculpture_sound
+0 17 * * * systemctl restart sculpture_sound
 0 22 * * * systemctl stop sculpture_sound
 ```
+
+## How is it installed
+
+The pi is a RPI2, which don't have wifi, it's only on ethernet.
+
+The PI is configured to try to pick up a dynamic, and if it can't, pick up a static at 10.0.0.6 . Right now it's picking up a dynamic.
+
+Therefore, if you're on the main pi, use 'audio.local' to ssh to the audio pi.
+
+Request the password from the slack production channel.
 
 ## Where to put new sound files
 
 In this directory. They may have to be 16LE Stereo 48Kb WAV files. Not sure if MP3 files work.
+
+However, how to get the files to  
 
 ## HDMI pain
 
