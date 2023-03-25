@@ -1,0 +1,74 @@
+[
+	{
+			"ry" : 170,
+			"x" : 180,
+			"z" : -240,
+			"type" : "classic",
+			"cubeSizeIndex": 1,
+			"pieceId" : "shrub-1",
+			"shrubIpAddress" : "10.0.0.214"
+	},
+	{
+			"ry" : 130,
+			"x" : 60,
+			"z" : -108,
+			"type" : "classic",
+			"cubeSizeIndex": 0,
+			"pieceId" : "shrub-2",
+			"shrubIpAddress" : "10.0.0.215"
+	},
+	{
+			"ry" : 130,
+			"x" : -108,
+			"z" : -60,
+			"type" : "classic",
+			"cubeSizeIndex": 0,
+			"pieceId" : "shrub-3",
+			"shrubIpAddress" : "10.0.0.216"
+	},
+	{
+			"ry" : 0,
+			"x" : 0,
+			"z" : 0,
+			"type" : "classic",
+			"cubeSizeIndex": 0,
+			"pieceId" : "shrub-4",
+			"shrubIpAddress" : "10.0.0.202"
+	},
+	{
+			"ry" : 130,
+			"x" : 168,
+			"z" : 48,
+			"type" : "classic",
+			"cubeSizeIndex": 1,
+			"pieceId" : "shrub-5",
+			"shrubIpAddress" : "10.0.0.212"
+	},
+	{
+			"ry" : 130,
+			"x" : 72,
+			"z" : 96,
+			"type" : "classic",
+			"cubeSizeIndex": 0,
+			"pieceId" : "shrub-6",
+			"shrubIpAddress" : "10.0.0.211"
+	},
+	{
+			"ry" : 130,
+			"x" : -96,
+			"z" : 84,
+			"type" : "classic",
+			"cubeSizeIndex": 1,
+			"pieceId" : "shrub-7",
+			"shrubIpAddress" : "10.0.0.221"
+	},
+	{
+			"ry" : 130,
+			"x" : 12,
+			"z" : 168,
+			"type" : "classic",
+			"cubeSizeIndex": 0,
+			"pieceId" : "shrub-8",
+			"shrubIpAddress" : "10.0.0.223"
+	}
+]
