@@ -40,7 +40,7 @@
 			"x" : 168,
 			"z" : 48,
 			"type" : "classic",
-			"cubeSizeIndex": 1,
+			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-5",
 			"shrubIpAddress" : "10.0.0.212"
 	},
@@ -58,7 +58,7 @@
 			"x" : -96,
 			"z" : 84,
 			"type" : "classic",
-			"cubeSizeIndex": 1,
+			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-7",
 			"shrubIpAddress" : "10.0.0.221"
 	},
