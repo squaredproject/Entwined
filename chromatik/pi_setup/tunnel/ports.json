@@ -67,7 +67,7 @@
         "message": {
                 "name": "brian",
                 "port": 9076,
-		"comment": "IDK",
+		"comment": "Brian and Carolyns pet shrub",
 		"tunnel": " ssh -p 9091 -R  *:9076:localhost:22 ent@950arnold.ddns.net",
 		"ssh": " ssh -p 9076 pi@950arnold.ddns.net"
 
@@ -89,6 +89,17 @@
         "message": {
                 "name": "pastoria",
                 "port": 9078,
+		"comment": "Pastoria Sunnyvale",
+		"tunnel": " ssh -p 9091 -R  *:9078:localhost:22 ent@950arnold.ddns.net",
+		"ssh": " ssh -p 9078 pi@950arnold.ddns.net"
+
+	}
+}
+
+{
+        "message": {
+                "name": "transfix",
+                "port": 9079,
 		"comment": "Brian and Carolyn Shrub",
 		"tunnel": " ssh -p 9091 -R  *:9078:localhost:22 ent@950arnold.ddns.net",
 		"ssh": " ssh -p 9078 pi@950arnold.ddns.net"
