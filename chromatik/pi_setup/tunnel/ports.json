@@ -100,9 +100,9 @@
         "message": {
                 "name": "transfix",
                 "port": 9079,
-		"comment": "Brian and Carolyn Shrub",
-		"tunnel": " ssh -p 9091 -R  *:9078:localhost:22 ent@950arnold.ddns.net",
-		"ssh": " ssh -p 9078 pi@950arnold.ddns.net"
+		"comment": "TRANSFIX installation roving the world:Entwined",
+		"tunnel": " ssh -p 9091 -R  *:9079:localhost:22 ent@950arnold.ddns.net",
+		"ssh": " ssh -p 9079 pi@950arnold.ddns.net"
 
 	}
 }
