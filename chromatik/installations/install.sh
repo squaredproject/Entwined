@@ -14,11 +14,6 @@ mkdir -p $I/Fixtures/Entwined
 rm -rf $I/Fixtures/Entwined/*
 rm -f $I/autoplay.lxr $I/Projects/entwined.lxp $I/config.json
 
-
-if test -f "${1}/custom.sh"; then
-    $1/custom.sh $1
-fi
-
 echo "building LXF files from JSON descriptions"
 python fairy_circle.py --config $1/fairy_circles.json --fixtures_folder $I/Fixtures/Entwined
 python shrub.py --config $1/shrubs.json --fixtures_folder $I/Fixtures/Entwined
