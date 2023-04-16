@@ -51,7 +51,7 @@
 			"type" : "classic",
 			"cubeSizeIndex": 1,
 			"pieceId" : "shrub-6",
-			"shrubIpAddress" : "10.0.0.211"
+			"shrubIpAddress" : "10.0.0.215"
 	},
 	{
 			"ry" : 130,
@@ -69,6 +69,6 @@
 			"type" : "classic",
 			"cubeSizeIndex": 1,
 			"pieceId" : "shrub-8",
-			"shrubIpAddress" : "10.0.0.216"
+			"shrubIpAddress" : "10.0.0.202"
 	}
 ]
