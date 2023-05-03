@@ -19,7 +19,7 @@ sudo apt-get install -y emacs dos2unix figlet
 echo "figlet \"entwined meadow\"" >> ~/.bash_profile
 ######################
 ## Install Entwined ##
-######################
+z######################
 # no point in doing this because if we can execute this we already have entwined
 #cd $HOME
 #echo -e "\n\n********** downloading Entwined **************\n\n"
@@ -35,10 +35,36 @@ tar xvf OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.8_7.tar.gz
 sudo mkdir /opt/jdk
 sudo mv ./jdk-17.0.8+7/ /opt/jdk/
 sudo update-alternatives --install /usr/bin/java java /opt/jdk/jdk-17.0.8+7/bin/java 100
-sudo update-alternatives --config java
+sudo update-alternatives  --set java /opt/jdk/jdk-17.0.8+7/bin/java
 ### LATEST JAVA INSTALL
 
+##### MAVEN
 sudo apt install maven
+#####
+
+
+#### NETWORKING
+## unblock wlan access
+sudo rfkill unblock wlan
+
+
+# copy the info of the access point to connect to
+echo -e "\n\n ****************** Edit wpa_suplicant if you have a non-MIFI to connect to\n\n"
+sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
+
+## define wlan1 wireless interface
+sudo cat dhcpcd.conf >> /etc/dhcpcd.conf
+
+### enable Avahi mDNS so you can access the pi as pi.local
+### this is required for the ipad application to connect to the pi (is this true?)
+#echo -e "*********** enabling Avahi mDNS  **************"
+sudo apt-get install avahi-daemon
+sudo sed -i 's/^#host-name.*$/host-name=pi/' /etc/avahi/avahi-daemon.conf
+sudo sed -i 's/^#domain-name.*$/domain-name=local/' /etc/avahi/avahi-daemon.conf
+sudo systemctl enable avahi-daemon
+sudo systemctl restart avahi-daemon
+
+###### NETWORKING
 
 #####################################
 ## Entwined Service ##
@@ -51,6 +77,14 @@ cd $HOME/Entwined/chromatik/pi_setup
 
 sudo cp chromatik.service /etc/systemd/system/
 sudo systemctl enable chromatik
+
+#####################
+####### Slow frame ###
+####### Rate Fix   ###
+######################
+sudo sh -c 'sudo echo "net.ipv4.neigh.eth0.unres_qlen=1" >>  /etc/sysctl.conf '
+sudo sh -c 'echo "net.ipv4.neigh.eth0.unres_qlen_bytes=4096" >>  /etc/sysctl.conf '
+
 
 # this toggles on and off the lights every 15 minutes, shouldn't
 # be required in different places
