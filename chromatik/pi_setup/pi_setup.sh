@@ -61,7 +61,9 @@ sudo systemctl enable chromatik
 #sudo systemctl enable brightness-toggle
 
 ## AUTHORIZE LICENSE
+
 # java -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies-linux.jar heronarts.lx.studio.Chromatik --authorize  __LICENSE_KEY__
+
 echo -e "\n\n ****************** Please check script to execute file for getting a production license\n\n"
 
 cd ..; ./build.sh ; cd -
@@ -72,11 +74,11 @@ cd ../installations; ./install.sh ggp-2022
 
 ## install hostapd & others
 # sudo apt install -y hostapd dnsmasq 
+# sudo DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
 
 ## unblock wlan access
 sudo rfkill unblock wlan
 
-sudo DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
 
 # copy the info of the access point to connect to
 echo -e "\n\n ****************** Edit wpa_suplicant if you have a non-MIFI to connect to\n\n"
