@@ -70,7 +70,7 @@ cd ..; ./build.sh ; cd -
 
 echo -e "\n\n ****************** Please replace with installation you want: this is ggp-2022\n\n"
 
-cd ../installations; ./install.sh ggp-2022
+cd ../installations; ./install.sh ggp-2022 ; cd -
 
 ## install hostapd & others
 # sudo apt install -y hostapd dnsmasq 
