@@ -55,8 +55,10 @@ cd $HOME/Entwined/chromatik/pi_setup
 sudo cp chromatik.service /etc/systemd/system/
 sudo systemctl enable chromatik
 
-sudo cp brightness-toggle.service /etc/systemd/system/
-sudo systemctl enable brightness-toggle
+# this toggles on and off the lights every 15 minutes, shouldn't
+# be required in different places
+#sudo cp brightness-toggle.service /etc/systemd/system/
+#sudo systemctl enable brightness-toggle
 
 ## AUTHORIZE LICENSE
 # java -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies-linux.jar heronarts.lx.studio.Chromatik --authorize  __LICENSE_KEY__
@@ -69,7 +71,7 @@ echo -e "\n\n ****************** Please replace with installation you want: this
 cd ../installations; ./install.sh ggp-2022
 
 ## install hostapd & others
-sudo apt install -y hostapd dnsmasq 
+# sudo apt install -y hostapd dnsmasq 
 
 ## unblock wlan access
 sudo rfkill unblock wlan
@@ -81,29 +83,29 @@ echo -e "\n\n ****************** Edit wpa_suplicant if you have a non-MIFI to co
 sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
 
 ## define wlan1 wireless interface
-sudo cat dhcpcd.conf >> /etc/dhcpcd.conf
+#sudo cat dhcpcd.conf >> /etc/dhcpcd.conf
 
 ## enable routing
-sudo cp routed-ap.conf /etc/sysctl.d/
-sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-sudo netfilter-persistent save
+#sudo cp routed-ap.conf /etc/sysctl.d/
+#sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+#sudo netfilter-persistent save
 
 ### Uncomment line re IP forwarding
-echo -e "********** ip forwarding *****************"
-sudo cp /etc/sysctl.conf  /etc/sysctl.conf.orig
-sudo sed -i 's/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
+#echo -e "********** ip forwarding *****************"
+#sudo cp /etc/sysctl.conf  /etc/sysctl.conf.orig
+#sudo sed -i 's/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
 
 ### Add masquerade for outbound traffic
-sudo iptables -t nat -A  POSTROUTING -o wlan0 -j MASQUERADE
+#sudo iptables -t nat -A  POSTROUTING -o wlan0 -j MASQUERADE
 
 ### Save IP tables
-sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
+#sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
 
 ### load IP tables on reboot
-sudo cp /etc/rc.local /tmp/rc.local.orig
-sudo sed -i 's/exit 0/iptables-restore < \/etc\/iptables.ipv4.nat/' /etc/rc.local
+#sudo cp /etc/rc.local /tmp/rc.local.orig
+#sudo sed -i 's/exit 0/iptables-restore < \/etc\/iptables.ipv4.nat/' /etc/rc.local
 
-sudo cp dnsmasq.conf /etc/
+#sudo cp dnsmasq.conf /etc/
 
 ### enable ssh
 #   ASSUME SSH ALREADY INSTALLED OR YOU WOULDN'T BE ABLE TO EXECUTE THE SCRIPT
@@ -113,12 +115,12 @@ sudo cp dnsmasq.conf /etc/
 
 ### enable Avahi mDNS so you can access the pi as pi.local
 ### this is required for the ipad application to connect to the pi (is this true?)
-echo -e "*********** enabling Avahi mDNS  **************"
-sudo apt-get install avahi-daemon
-sudo sed -i 's/^#host-name.*$/host-name=pi/' /etc/avahi/avahi-daemon.conf
-sudo sed -i 's/^#domain-name.*$/domain-name=local/' /etc/avahi/avahi-daemon.conf
-sudo systemctl enable avahi-daemon
-sudo systemctl restart avahi-daemon
+#echo -e "*********** enabling Avahi mDNS  **************"
+#sudo apt-get install avahi-daemon
+#sudo sed -i 's/^#host-name.*$/host-name=pi/' /etc/avahi/avahi-daemon.conf
+#sudo sed -i 's/^#domain-name.*$/domain-name=local/' /etc/avahi/avahi-daemon.conf
+#sudo systemctl enable avahi-daemon
+#sudo systemctl restart avahi-daemon
 
 #####################
 ####### Slow frame ###
