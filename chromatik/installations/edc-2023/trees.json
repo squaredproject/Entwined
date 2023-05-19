@@ -1,11 +1,10 @@
 [
 	{
-		"canopyMajorLengths" : [240, 160, 96],
-		"layerBaseHeights" : [20, 71, 112],
-		"ry" : 135,
+		"canopyMajorLengths" : [180, 120],
+		"layerBaseHeights" : [43, 95],
+		"ry" : 180,
 		"x" : 0,
 		"z" : 0,
-		"pieceId": "tree-medium",
-    "center": true
+		"pieceId": "tree-small"
 	}
 ]
