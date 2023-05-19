@@ -1,8 +1,8 @@
 [
 	{
 			"ry" : 225,
-			"x" : 17.5,
-			"z" : -6,
+			"x" : 210,
+			"z" : -72,
 			"type" : "classic",
 			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-1",
@@ -10,8 +10,8 @@
 	},
 	{
 			"ry" : 45,
-			"x" : 12,
-			"z" : 17.5,
+			"x" : 144,
+			"z" : 210,
 			"type" : "classic",
 			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-2",
@@ -19,8 +19,8 @@
 	},
 	{
 			"ry" : 165,
-			"x" : -10.5,
-			"z" : 17.5,
+			"x" : -126,
+			"z" : 210,
 			"type" : "classic",
 			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-3",
@@ -28,8 +28,8 @@
 	},
 	{
 			"ry" : 165,
-			"x" : -17,
-			"z" : -6,
+			"x" : -204,
+			"z" : -72,
 			"type" : "classic",
 			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-4",
@@ -38,7 +38,7 @@
 	{
 			"ry" : 165,
 			"x" : 0,
-			"z" : -18.5,
+			"z" : -222,
 			"type" : "classic",
 			"cubeSizeIndex": 0,
 			"pieceId" : "shrub-5",
