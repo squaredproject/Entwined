@@ -19,6 +19,13 @@ python fairy_circle.py --config $1/fairy_circles.json --fixtures_folder $I/Fixtu
 python shrub.py --config $1/shrubs.json --fixtures_folder $I/Fixtures/Entwined
 python tree.py --tree_config $1/trees.json --branch_config $1/tree_branches.csv --fixtures_folder $I/Fixtures/Entwined
 python bench.py --config $1/bench.json --fixtures_folder $I/Fixtures/Entwined
+
+# remove this line when the following line is shown to work
+if [[ -f $1/elder_mother_cubes.csv ]]; then
+    python elder_mother.py --ndb_config $1/elder_ndb_ips.txt --cubes_config $1/elder_mother_cubes.csv --fixtures_folder $I/Fixtures/Entwined
+fi
+
+python elder_mother.py --
 cp $1/entwined.lxp $I/Projects
 cp $1/config.json $I
 
