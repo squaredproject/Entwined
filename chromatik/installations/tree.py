@@ -350,6 +350,10 @@ def main():
     # dicts for ndbs, trees, and cubes
     with open(args.tree_config) as tc_f:
         tree_configs = json.load(tc_f)
+    if not tree_configs:
+        print(" Empty tree configurations, exiting ")
+        exit()
+
     ndb_configs, cube_configs = tree_cubes_load_csv(args.branch_config)
 
     # divide the cubes in the cube_configs into a list associated
