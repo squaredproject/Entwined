@@ -22,11 +22,13 @@ python bench.py --config $1/bench.json --fixtures_folder $I/Fixtures/Entwined
 
 # remove this line when the following line is shown to work
 if [[ -f $1/elder_mother_cubes.csv ]]; then
-    python elder_mother.py --ndb_config $1/elder_ndb_ips.txt --cubes_config $1/elder_mother_cubes.csv --fixtures_folder $I/Fixtures/Entwined
+    python elder_mother.py --ndb_config $1/elder_ndb_ips.txt --cubes_config $1/elder_mother_cubes.csv --fixtures_folder $I/Fixtures/Entwined/
+    echo "Created elder mother fixtures"
 fi
 
-python elder_mother.py --
-cp $1/entwined.lxp $I/Projects
-cp $1/config.json $I
+cp $1/*.lxp $I/Projects
+if [ -f $1/config.json ]; then
+  cp $1/config.json $I
+fi
 
 [[ -e $1/autoplay.lxr ]] && cp $1/autoplay.lxr $I
