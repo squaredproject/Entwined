@@ -28,7 +28,16 @@ python fairy_circle.py --config $install_dir/fairy_circles.json --fixtures_folde
 python shrub.py --config $install_dir/shrubs.json --fixtures_folder $fixtures_dir
 python tree.py --tree_config $install_dir/trees.json --branch_config $install_dir/tree_branches.csv --fixtures_folder $fixtures_dir
 python bench.py --config $install_dir/bench.json --fixtures_folder $fixtures_dir
-cp $install_dir/entwined.lxp "$HOME/Chromatik/Projects"
+
+# elder mother is new. Check for the elder_mother_cubes.csv in the 
+# install directory and only run the script if it exists
+if (Test-Path -Path $install_dir/elder_mother_cubes.csv -PathType Leaf) {
+        python elder_mother.py --ndb_config $install_dir/elder_ndb_ips.txt --cubes_config $install_dir/elder_mother_cubes.csv --fixtures_folder $fixtures_dir
+}
+
+if (Test-Path -Path $install_dir/entwined.lxp) {
+        cp $install_dir/entwined.lxp "$HOME/Chromatik/Projects"
+}
 
 if (Test-Path -Path $install_dir/config.json -PathType Leaf) {
         cp $install_dir/config.json "$HOME/Chromatik"

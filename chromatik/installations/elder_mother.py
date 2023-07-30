@@ -52,7 +52,7 @@ def tree_load_ndb(ndbFilename: str):
 DELTA_Y = 8
 CUBES_PER_DROOP = 16
 
-def write_droop(n_cubes: int):
+def write_droop(n_cubes: int, fixtures_folder: str):
     lx_output = {"label": "droop_" + str(n_cubes),
                  "tags": ["DROOP"],
                  "components": [ {"type": "points", "coords": []} ],
@@ -61,15 +61,15 @@ def write_droop(n_cubes: int):
     for idx in range(n_cubes):
         coords.append({'x': 0, 'y': -idx * DELTA_Y, 'z': 0})
 
-    with open("droop_" + str(n_cubes) + ".lxf", "w") as output_f:
+    with open(fixtures_folder + "droop_" + str(n_cubes) + ".lxf", "w") as output_f:
         json.dump(lx_output, output_f, indent=4)
 
 
 
-def write_fixture_files(ndbs, branches):
+def write_fixture_files(ndbs, branches, fixtures_folder: str):
     # First, let's write fixture files that describe all possible types of droops -
     # from 6 cube to 16 cube.
-    write_droop(CUBES_PER_DROOP)
+    write_droop(CUBES_PER_DROOP, fixtures_folder)
 
     # now let's write the fixture file for each of the branches
     for ndb_idx in range(len(ndbs)):
@@ -89,7 +89,7 @@ def write_fixture_files(ndbs, branches):
             components.append({"type": "droop_" + str(CUBES_PER_DROOP), "x": droop[0], "y": droop[1], "z": droop[2]})
             n_cubes += CUBES_PER_DROOP
         outputs.append({"protocol": "ddp", "host": "10.0.0." + ndbs[ndb_idx], "start": 0, "num": n_cubes})
-        with open("branch_" + str(ndb_idx) + ".lxf", "w") as output_f:
+        with open(fixtures_folder + "branch_" + str(ndb_idx) + ".lxf", "w") as output_f:
             json.dump(lx_output, output_f, indent=4)
 
     # and now the final elder mother file -
@@ -101,11 +101,23 @@ def write_fixture_files(ndbs, branches):
     for branch_idx in range(len(branches)):
         components.append({"type": "branch_" + str(branch_idx)})
 
-    with open("elder_mother.lxf", "w") as output_f:
+    with open(fixtures_folder + "elder_mother.lxf", "w") as output_f:
         json.dump(lx_output, output_f, indent=4)
 
 
-if __name__ == "__main__":
-    ndbs = tree_load_ndb("ndb_ips.txt")
-    branches = tree_load_csv("elder_mother_cubes.csv")
-    write_fixture_files(ndbs, branches)
+
+def main():
+    parser = argparse.ArgumentParser(description="Create LxStudio configuration file from tree and cube definition files")
+    parser.add_argument('-t', '--ndb_config', type=str, required=True, help='NDB IPS JSON configuration file')
+    parser.add_argument('-b', '--cubes_config', type=str, required=True, help='Cubes CSV configuration file')
+    parser.add_argument('-f', '--fixtures_folder', type=str, required=True, help='Name of folder to hold lx configurations')
+
+    args = parser.parse_args()
+
+
+    ndbs = tree_load_ndb(args.ndb_config)
+    branches = tree_load_csv(args.cubes_config)
+    write_fixture_files(ndbs, branches, args.fixtures_folder)
+
+if __name__ == '__main__':
+    main()
