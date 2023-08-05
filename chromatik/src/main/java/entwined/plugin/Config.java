@@ -31,6 +31,10 @@ public final class Config {
 
   // the interaction server. Set to null to disable.
   public static String canopyServer = "";
+  public static Boolean NFCServerEnable = false;
+  public static int NFCNumActivities = -1;
+  public static short NFCPort = -1;
+
   //static final String canopyServer = "http://localhost:3000/lx";
   //static final String canopyServer = "https://entwined-api.charliestigler.com/lx";
 
@@ -156,6 +160,18 @@ public final class Config {
           groups.put(key, components);
         }
         System.out.println("Config: Interactive groups are " + groups);
+      }
+      if (obj.has("NFCServerEnable")) {
+        NFCServerEnable = obj.get("NFCServerEnable").getAsBoolean();
+        System.out.println("Config: NFC server set to " + NFCServerEnable);
+      }
+      if (obj.has("NFCPort")) {
+        NFCPort = obj.get("NFCPort").getAsShort();
+        System.out.println("Config: NFC port set to " + NFCPort);
+      }
+      if (obj.has("NFCNumActivities")) {
+        NFCNumActivities = obj.get("NFCNumActivities").getAsInt();
+        System.out.println("Config: NFC activities set to " + NFCNumActivities);
       }
 
     } catch (Throwable x) {

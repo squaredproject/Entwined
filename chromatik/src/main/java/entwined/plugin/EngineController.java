@@ -25,10 +25,10 @@ import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.LXListenableNormalizedParameter;
 
 /*
- * Provides interface and controls for the iPad app
+ * Provides interface and controls for external controllers (iPad app, NFC controller)
  */
 
-public class IPadServerController {
+public class EngineController {
   LX lx;
 
   int baseChannelIndex; // the starting channel that the engine controls - ie, 8
@@ -52,7 +52,7 @@ public class IPadServerController {
 
   double masterBrightnessStash = 1.0;
 
-  IPadServerController(LX lx) {
+  EngineController(LX lx) {
     this.lx = lx;
 
     baseChannelIndex = Config.NUM_BASE_CHANNELS;

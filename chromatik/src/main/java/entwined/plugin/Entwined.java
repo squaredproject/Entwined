@@ -53,7 +53,7 @@ public class Entwined implements LXStudio.Plugin {
 
   LX lx;
 
-  IPadServerController engineController;
+  EngineController engineController;
   CanopyController canopyController;
   Triggerables triggerables;
   InteractiveHSVEffect interactiveHSVEffect;
@@ -62,6 +62,7 @@ public class Entwined implements LXStudio.Plugin {
   InteractiveRainbowEffect interactiveRainbowEffect;
   InteractiveDesaturationEffect interactiveDesaturationEffect;
   AppServer iPadServer;
+  NFCServer nfcServer;
 
   BrightnessScaleEffect masterBrightnessEffect;
   BrightnessScaleEffect autoplayBrightnessEffect;
@@ -219,14 +220,17 @@ public class Entwined implements LXStudio.Plugin {
     lx.registry.addPattern(entwined.pattern.sydney_parcell.RoseGarden.class);
   }
 
-  /* configureServer */
-  private void configureServer() {
+  /* configureServers */
+  private void configureServers() {
     iPadServer = new AppServer(lx, engineController);
     iPadServer.start();
+    nfcServer = new NFCServer(lx, engineController);
+    nfcServer.start();
   }
 
-  private void shutdownIPadServer() {
+  private void shutdownServers() {
     iPadServer.shutdown();
+    nfcServer.shutdown();
   }
 
   private void shutdownCanopy() {
@@ -343,10 +347,10 @@ public class Entwined implements LXStudio.Plugin {
           }
 
           // Set up the low level iPad Controller
-          engineController = new IPadServerController(lx);  // XXX might want to have a listener on the controller, rather than newing up the engine controller here
+          engineController = new EngineController(lx);  // XXX might want to have a listener on the controller, rather than newing up the engine controller here
 
           // Set up high level iPad Server. Uses the iPadController to actually do the work.
-          configureServer(); // turns on the TCP listener
+          configureServers(); // turns on the TCP listener
 
           // Set up Canopy listener (also TCP) for interactive commands
           configureCanopy();
@@ -384,7 +388,7 @@ public class Entwined implements LXStudio.Plugin {
 
   @Override
   public void dispose() {
-    shutdownIPadServer();
+    shutdownServers();
     shutdownCanopy();
   }
 
