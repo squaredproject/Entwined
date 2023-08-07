@@ -160,7 +160,6 @@ public class EngineController {
   void setChannelVisibility(int channelIndex, double visibility) {
     // have to be sure
     LXAbstractChannel channel = lx.engine.mixer.getChannel(channelIndex);
-    //channel.enabled.setValue(true);
     channel.fader.setValue(visibility);
   }
 

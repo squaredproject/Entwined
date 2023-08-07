@@ -42,7 +42,7 @@ public final class Config {
   // static final String AUTOPLAY_FILE = "data/entwinedSetDec2021.json";
 
   static final int NUM_BASE_CHANNELS = 8;
-  static final int NUM_SERVER_CHANNELS = 3;
+  static final int NUM_SERVER_CHANNELS = 4;
 
   public static HashMap<String, String[]> groups = new HashMap<String, String[]>();
   /* static {

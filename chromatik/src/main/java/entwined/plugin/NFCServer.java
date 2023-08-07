@@ -67,6 +67,7 @@ public class NFCServer implements LXLoopTask {
       this.channelIdx = channelIdx;
       this.onOff = onOff;
       this.pattern = pattern;
+      System.out.println("Create new NFC trigger, onoff is " + onOff);
     }
   }
 
@@ -125,17 +126,15 @@ public class NFCServer implements LXLoopTask {
       return;
     }
 
-    if ((!trigger.onOff) &&
-        (this.activities[trigger.channelIdx] != null)) {
-      // Turn off whatever pattern was on that channel in engine TODO
+    if (!trigger.onOff) {
       this.activities[trigger.channelIdx] = null;
     } else {
       if (trigger.pattern.type == NFCPatternType.BASE_PATTERN) {
+        this.activities[trigger.channelIdx] = trigger.pattern;
         int channelIdx = engineController.baseChannelIndex + trigger.channelIdx;
         engineController.setChannelPattern(
             channelIdx,
             trigger.pattern.idx);
-        engineController.setChannelVisibility(channelIdx, 1.0);
       } else if (trigger.pattern.type == NFCPatternType.ONE_SHOT) {
         // TODO - trigger effect on effects channels in engine
         // engine.interactiveHSVEffect.resetPiece(pieceId);
@@ -150,13 +149,12 @@ public class NFCServer implements LXLoopTask {
         }
       }
     }
-
     modifyIntensities();
   }
 
   private void modifyIntensities() {
     int numBasePatterns = 0;
-    float intensityModifier = 100.0f;
+    float intensityModifier = 1.0f;
     for (NFCPattern pattern : this.activities) {
       if (pattern != null &&
           pattern.type == NFCPatternType.BASE_PATTERN) {
@@ -164,7 +162,7 @@ public class NFCServer implements LXLoopTask {
       }
     }
     if (numBasePatterns > 0) {
-      intensityModifier = 100.0f/numBasePatterns;
+      intensityModifier = 1.0f/numBasePatterns;
     }
     int idx = 0;
     for (NFCPattern pattern : this.activities) {
@@ -208,7 +206,8 @@ public class NFCServer implements LXLoopTask {
       if (tf != 'T'&& tf != 'F') {
         throw new RuntimeException("Does not contain T|F signal ");
       }
-      onOff = tf == 'T' ? true : false;
+      System.out.println("Parse NFC command, onoff is " + tf);
+      onOff = (tf == 'T');
 
       // Okay, string believed to be parseable
       // Check semantic validity
