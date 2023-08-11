@@ -5,8 +5,8 @@ echo "Rasberry Pi Entwined Setup"
 HOME=/home/pi
 
 #don't have all the pi checkins with the name name, force user to change
-#git config --global user.email "mizpoon@burningart.com"
-#git config --global user.name "Entwined Pi"
+git config --global user.email "mizpoon@burningart.com"
+git config --global user.name "Entwined Pi"
 
 #######################
 ## Update debian ######
@@ -19,7 +19,7 @@ sudo apt-get install -y emacs dos2unix figlet
 echo "figlet \"entwined meadow\"" >> ~/.bash_profile
 ######################
 ## Install Entwined ##
-######################
+z######################
 # no point in doing this because if we can execute this we already have entwined
 #cd $HOME
 #echo -e "\n\n********** downloading Entwined **************\n\n"
@@ -29,19 +29,42 @@ echo "figlet \"entwined meadow\"" >> ~/.bash_profile
 ## Temurin JDK 17 required
 # https://blog.adoptium.net/2021/12/eclipse-temurin-linux-installers-available/
 #####################################
+### LATEST JAVA INSTALL
+wget https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.8%2B7/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.8_7.tar.gz
+tar xvf OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.8_7.tar.gz 
+sudo mkdir /opt/jdk
+sudo mv ./jdk-17.0.8+7/ /opt/jdk/
+sudo update-alternatives --install /usr/bin/java java /opt/jdk/jdk-17.0.8+7/bin/java 100
+sudo update-alternatives  --set java /opt/jdk/jdk-17.0.8+7/bin/java
+### LATEST JAVA INSTALL
 
-echo -e "\n\n********** downloading Install correct java **************\n\n"
-sudo apt-get install -y wget apt-transport-https gnupg
+##### MAVEN
 sudo apt install maven
-sudo apt install -y wget apt-transport-https
-sudo mkdir -p /etc/apt/keyrings
-wget -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | sudo apt-key add -
-echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | sudo tee /etc/apt/sources.list.d/adoptium.list
+#####
 
-sudo apt update
-sudo apt upgrade
-sudo apt install temurin-17-jdk --fix-missing
-sudo update-alternatives --config java
+
+#### NETWORKING
+## unblock wlan access
+sudo rfkill unblock wlan
+
+
+# copy the info of the access point to connect to
+echo -e "\n\n ****************** Edit wpa_suplicant if you have a non-MIFI to connect to\n\n"
+sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
+
+## define wlan1 wireless interface
+sudo cat dhcpcd.conf >> /etc/dhcpcd.conf
+
+### enable Avahi mDNS so you can access the pi as pi.local
+### this is required for the ipad application to connect to the pi (is this true?)
+#echo -e "*********** enabling Avahi mDNS  **************"
+sudo apt-get install avahi-daemon
+sudo sed -i 's/^#host-name.*$/host-name=pi/' /etc/avahi/avahi-daemon.conf
+sudo sed -i 's/^#domain-name.*$/domain-name=local/' /etc/avahi/avahi-daemon.conf
+sudo systemctl enable avahi-daemon
+sudo systemctl restart avahi-daemon
+
+###### NETWORKING
 
 #####################################
 ## Entwined Service ##
@@ -54,6 +77,14 @@ cd $HOME/Entwined/chromatik/pi_setup
 
 sudo cp chromatik.service /etc/systemd/system/
 sudo systemctl enable chromatik
+
+#####################
+####### Slow frame ###
+####### Rate Fix   ###
+######################
+sudo sh -c 'sudo echo "net.ipv4.neigh.eth0.unres_qlen=1" >>  /etc/sysctl.conf '
+sudo sh -c 'echo "net.ipv4.neigh.eth0.unres_qlen_bytes=4096" >>  /etc/sysctl.conf '
+
 
 # this toggles on and off the lights every 15 minutes, shouldn't
 # be required in different places
@@ -72,6 +103,7 @@ echo -e "\n\n ****************** Please replace with installation you want: this
 
 cd ../installations; ./install.sh ggp-2022 ; cd -
 
+exit 0
 ## install hostapd & others
 # sudo apt install -y hostapd dnsmasq 
 # sudo DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
