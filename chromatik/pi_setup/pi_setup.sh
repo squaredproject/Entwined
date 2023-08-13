@@ -19,11 +19,7 @@ sudo apt-get install -y emacs dos2unix figlet
 echo "figlet \"entwined meadow\"" >> ~/.bash_profile
 ######################
 ## Install Entwined ##
-z######################
-# no point in doing this because if we can execute this we already have entwined
-#cd $HOME
-#echo -e "\n\n********** downloading Entwined **************\n\n"
-#cd $HOME;  git clone git@github.com:squaredproject/Entwined.git;
+######################
 
 #####################################
 ## Temurin JDK 17 required
@@ -47,22 +43,12 @@ sudo apt install maven
 ## unblock wlan access
 sudo rfkill unblock wlan
 
-
 # copy the info of the access point to connect to
 echo -e "\n\n ****************** Edit wpa_suplicant if you have a non-MIFI to connect to\n\n"
 sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
 
 ## define wlan1 wireless interface
 sudo cat dhcpcd.conf >> /etc/dhcpcd.conf
-
-### enable Avahi mDNS so you can access the pi as pi.local
-### this is required for the ipad application to connect to the pi (is this true?)
-#echo -e "*********** enabling Avahi mDNS  **************"
-sudo apt-get install avahi-daemon
-sudo sed -i 's/^#host-name.*$/host-name=pi/' /etc/avahi/avahi-daemon.conf
-sudo sed -i 's/^#domain-name.*$/domain-name=local/' /etc/avahi/avahi-daemon.conf
-sudo systemctl enable avahi-daemon
-sudo systemctl restart avahi-daemon
 
 ###### NETWORKING
 
@@ -93,7 +79,7 @@ sudo sh -c 'echo "net.ipv4.neigh.eth0.unres_qlen_bytes=4096" >>  /etc/sysctl.con
 
 ## AUTHORIZE LICENSE
 
-# java -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies-linux.jar heronarts.lx.studio.Chromatik --authorize  __LICENSE_KEY__
+# java -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies-linux.jar heronarts.lx.studio.Chromatik --authorize  __LICENSE_KEY__;  cp /home/pi/Chromatik/.license ~/
 
 echo -e "\n\n ****************** Please check script to execute file for getting a production license\n\n"
 
@@ -139,7 +125,7 @@ sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
 #sudo cp /etc/rc.local /tmp/rc.local.orig
 #sudo sed -i 's/exit 0/iptables-restore < \/etc\/iptables.ipv4.nat/' /etc/rc.local
 
-#sudo cp dnsmasq.conf /etc/
+
 
 ### enable ssh
 #   ASSUME SSH ALREADY INSTALLED OR YOU WOULDN'T BE ABLE TO EXECUTE THE SCRIPT
