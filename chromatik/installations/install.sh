@@ -11,6 +11,7 @@ fi
 I="$HOME/Chromatik"
 
 mkdir -p $I/Fixtures/Entwined/Projects
+[ -d $I/Projects ] || mkdir -p $I/Projects
 rm -rf $I/Fixtures/Entwined/*
 rm -f $I/autoplay.lxr $I/Projects/entwined.lxp $I/config.json
 
