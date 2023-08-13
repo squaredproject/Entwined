@@ -79,7 +79,7 @@ sudo sh -c 'echo "net.ipv4.neigh.eth0.unres_qlen_bytes=4096" >>  /etc/sysctl.con
 
 ## AUTHORIZE LICENSE
 
-# cd ..; java -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies-linux.jar heronarts.lx.studio.Chromatik --authorize  __LICENSE_KEY__;  cp /home/pi/Chromatik/license ~/; sudo systemctl restart chromatik; cd -
+# cd ..; java -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies-linux.jar heronarts.lx.studio.Chromatik --authorize  __LICENSE_KEY__;  cp /home/pi/Chromatik/.license ~/; sudo systemctl restart chromatik; cd -
 
 echo -e "\n\n ****************** Please check script to execute file for getting a production license\n\n"
 
