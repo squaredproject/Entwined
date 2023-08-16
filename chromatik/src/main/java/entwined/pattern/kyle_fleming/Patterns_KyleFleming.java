@@ -1,8 +1,8 @@
-/*
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import heronarts.lx.LX;
+import heronarts.lx.effect.LXEffect;
 import heronarts.lx.utils.LXUtils;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.effect.BlurEffect;
@@ -36,7 +36,7 @@ import entwined.utils.SimplexNoise;
 
 
 
-
+/*
 class RotationEffect extends ModelTransform {
 
   final BoundedParameter rotation = new BoundedParameter("ROT", 0, 0, 360);
@@ -54,60 +54,5 @@ class RotationEffect extends ModelTransform {
     }
   }
 }
-class SpinEffect extends ModelTransform {
-
-  final BoundedParameter spin = new BoundedParameter("SPIN");
-  final FunctionalParameter rotationPeriodMs = new FunctionalParameter() {
-    @Override
-    public double getValue() {
-      return 5000 - 4800 * spin.getValue();
-    }
-  };
-  final SawLFO rotation = new SawLFO(0, 360, rotationPeriodMs);
-
-  SpinEffect(LX lx) {
-    super(lx);
-
-    addModulator(rotation);
-
-    spin.addListener(new LXParameterListener() {
-      public void onParameterChanged(LXParameter parameter) {
-        if (spin.getValue() > 0) {
-          rotation.start();
-          rotation.setLooping(true);
-        } else {
-          rotation.setLooping(false);
-        }
-      }
-    });
-  }
-
-  void transform(LXModel model) {
-    if (rotation.getValue() > 0 && rotation.getValue() < 360) {
-      float rotationTheta = rotation.getValuef();
-      for (LXPoint cube : model.points) {
-        cube.transformedTheta = (cube.transformedTheta + 360 - rotationTheta) % 360;
-      }
-    }
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 */
+
