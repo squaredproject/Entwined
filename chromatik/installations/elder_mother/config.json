@@ -1,4 +1,5 @@
 {
   "installationId": "elder_mother",
-  "NFCServerEnable": true
+  "NFCServerEnable": true,
+  "numServerChannels": 4
 }

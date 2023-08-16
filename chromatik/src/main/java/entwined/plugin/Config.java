@@ -41,8 +41,8 @@ public final class Config {
   // if this file doesn't exist you get a crash
   // static final String AUTOPLAY_FILE = "data/entwinedSetDec2021.json";
 
-  static final int NUM_BASE_CHANNELS = 8;
-  static final int NUM_SERVER_CHANNELS = 4;
+  public static int NUM_BASE_CHANNELS = 8;
+  public static int NUM_SERVER_CHANNELS = 3;
 
   public static HashMap<String, String[]> groups = new HashMap<String, String[]>();
   /* static {
@@ -172,6 +172,15 @@ public final class Config {
       if (obj.has("NFCNumActivities")) {
         NFCNumActivities = obj.get("NFCNumActivities").getAsInt();
         System.out.println("Config: NFC activities set to " + NFCNumActivities);
+      }
+      if (obj.has("numBaseChannels")) {
+        NUM_BASE_CHANNELS = obj.get("numBaseChannels").getAsInt();
+        System.out.println("Config: NUM_BASE_CHANNELS set to " + NUM_BASE_CHANNELS);
+      }
+
+      if (obj.has("numServerChannels")) {
+        NUM_SERVER_CHANNELS = obj.get("numServerChannels").getAsInt();
+        System.out.println("Config: NUM_SERVER_CHANNELS set to " + NUM_SERVER_CHANNELS);
       }
 
     } catch (Throwable x) {
