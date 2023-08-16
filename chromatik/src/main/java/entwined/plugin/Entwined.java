@@ -23,7 +23,6 @@ import heronarts.lx.studio.LXStudio;
 import heronarts.lx.studio.LXStudio.UI;
 
 import entwined.core.Triggerable;
-// import entwined.core.TSPattern;
 import entwined.modulator.Recordings;
 import entwined.modulator.Triggerables;
 import entwined.pattern.anon.ColorEffect;
@@ -229,12 +228,21 @@ public class Entwined implements LXStudio.Plugin {
   }
 
   private void shutdownServers() {
-    iPadServer.shutdown();
-    nfcServer.shutdown();
+    if (iPadServer != null) {
+      iPadServer.shutdown();
+      iPadServer = null;
+    }
+    if (nfcServer != null) {
+      nfcServer.shutdown();
+      nfcServer = null;
+    }
   }
 
   private void shutdownCanopy() {
-    canopyController.shutdown();
+    if (canopyController != null) {
+      canopyController.shutdown();
+      canopyController = null;
+    }
   }
 
 
@@ -243,8 +251,6 @@ public class Entwined implements LXStudio.Plugin {
    */
   private void setupMasterEffects() {
 
-    // These effects go on the master channel. They should always be available
-    // XXX - why? Is the APC40 somehow linked to them?
     setupMasterEffect(lx, TSBlurEffect.class);
     setupMasterEffect(lx, ColorEffect.class);
     setupMasterEffect(lx, HueFilterEffect.class);
@@ -336,6 +342,15 @@ public class Entwined implements LXStudio.Plugin {
           // initialize or re-initialize things that depend upon the project
           // state here
 
+          // Rip down servers before building up again. This makes sure
+          // we can load new projects
+          shutdownCanopy();
+          shutdownServers();
+          if (engineController != null) {
+            engineController.shutdown();
+            engineController = null;
+          }
+
           // Set up the channels
           configureChannels();
 
@@ -370,18 +385,6 @@ public class Entwined implements LXStudio.Plugin {
               log(" autoplay file not found, continuing");
             }
           }
-
-          // bad code I know
-          // (shouldn't mess with engine internals)
-          // maybe need a way to specify a deck shouldn't be focused?
-          // essentially this lets us have extra decks for the drumpad
-          // patterns without letting them be assigned to channels
-          // -kf
-          // // This basically prevents the UI from changing (or accessing, really) the
-          // channels in the high range - the iPad channels and the effect channels - CSW
-          // And... Turning this on also prevents you from accessing the master channel,
-          // which is a no-go.
-          //lx.engine.mixer.focusedChannel.setRange(Config.NUM_BASE_CHANNELS);
         }
       }
     });
@@ -619,12 +622,6 @@ public class Entwined implements LXStudio.Plugin {
       (int) (Config.pausePauseMinutes * 60.0f) ,"run" ,firstPause);
   }
 
-  // NOTE! Entwined can be installed without any trees, or with
-  // trees not at 0.0. Several patterns make assumptions about the
-  // location of the "main tree", those have been removed until
-  // fixed - ShrubRiver, SpiralArms
-
-
   /*
   void registerPatternController(String name, LXPattern pattern) {
     LXTransition t = new DissolveTransition(lx).setDuration(dissolveTime);
@@ -850,7 +847,6 @@ public class Entwined implements LXStudio.Plugin {
     }
     return null;
   }
-
 
   @SuppressWarnings("unchecked")
   public static <T extends LXPattern> T findPatternWithName(LXChannel channel, Class<T> clazz, String name) {
