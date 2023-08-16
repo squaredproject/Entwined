@@ -326,6 +326,7 @@ public class Entwined implements LXStudio.Plugin {
       });
     });
 
+    Entwined entwined = this;
     lx.addProjectListener(new LX.ProjectListener() {
       @Override
       public void projectChanged(File file, Change change) {
@@ -347,7 +348,7 @@ public class Entwined implements LXStudio.Plugin {
           }
 
           // Set up the low level iPad Controller
-          engineController = new EngineController(lx);  // XXX might want to have a listener on the controller, rather than newing up the engine controller here
+          engineController = new EngineController(lx, entwined);  // XXX might want to have a listener on the controller, rather than newing up the engine controller here
 
           // Set up high level iPad Server. Uses the iPadController to actually do the work.
           configureServers(); // turns on the TCP listener

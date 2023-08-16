@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import entwined.core.TSTriggerablePattern;
 import entwined.modulator.Recordings;
 import entwined.pattern.anon.ColorEffect;
 import entwined.pattern.kyle_fleming.BrightnessScaleEffect;
@@ -49,11 +50,13 @@ public class EngineController {
   BrightnessScaleEffect masterBrightnessEffect;
   BrightnessScaleEffect autoplayBrightnessEffect;
   BoundedParameterProxy outputBrightness;
+  Entwined engine;
 
   double masterBrightnessStash = 1.0;
 
-  EngineController(LX lx) {
+  EngineController(LX lx, Entwined engine) {
     this.lx = lx;
+    this.engine = engine;
 
     baseChannelIndex = Config.NUM_BASE_CHANNELS;
     numServerChannels = Config.NUM_SERVER_CHANNELS;
@@ -67,6 +70,15 @@ public class EngineController {
   void shutdown() {
   }
 
+  <T extends TSTriggerablePattern> T findPatternEffect(Class<T> clazz) {
+    TSTriggerablePattern pattern = (TSTriggerablePattern)Entwined.findPattern(engine.effectsChannel, clazz);
+    pattern.enableTriggerMode();
+    return (T) pattern;
+  }
+
+  void addPatternEffect(TSTriggerablePattern pattern) {
+    engine.effectsChannel.addPattern(pattern);
+  }
   /*
    * getChannels()
    * Gets the 'iPad channels' only
@@ -241,7 +253,6 @@ public class EngineController {
     System.out.println("Get Master Hue: stub");
     return(0.0f);
   }
-
 
   void setAutoplay(boolean autoplay) {
     setAutoplay(autoplay, false);
