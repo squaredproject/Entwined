@@ -7,6 +7,9 @@ import java.util.HashMap;
 import heronarts.lx.LX;
 import heronarts.lx.LXLoopTask;
 
+import entwined.core.Triggerable;
+import entwined.core.TSTriggerablePattern;
+import entwined.pattern.ray_sykes.Lightning;
 
 // NFC server...
 // The point of this code is to allow interactivity from NFC cards. For Elder Mother, there are
@@ -44,16 +47,25 @@ public class NFCServer implements LXLoopTask {
     GLOBAL_MODIFIER
   }
 
-
+  // Okay. So all we're doing with triggers is setting
+  // the pattern enable = true on the pattern instance XXX.
+  // Is that also what I'm doing with the index? Can I unify them?
   public class NFCPattern {
-    public String patternClass;
     public NFCPatternType type;
-    public int idx;
+    public int idx;             // either idx or pattern
+    public Triggerable triggerable; // is valid; not both.
+    public String patternName;
 
-    public NFCPattern(String patternClass, NFCPatternType type, int idx) {
-      this.patternClass = patternClass;
+    public NFCPattern(String patternName, NFCPatternType type, int idx) {
       this.type = type;
       this.idx = idx;
+      this.triggerable = null;
+    }
+
+    public NFCPattern(String patternName, NFCPatternType type, Triggerable triggerable) {
+      this.type = type;
+      this.idx = -1;
+      this.triggerable = triggerable;
     }
   }
 
@@ -67,7 +79,6 @@ public class NFCServer implements LXLoopTask {
       this.channelIdx = channelIdx;
       this.onOff = onOff;
       this.pattern = pattern;
-      System.out.println("Create new NFC trigger, onoff is " + onOff);
     }
   }
 
@@ -104,13 +115,27 @@ public class NFCServer implements LXLoopTask {
 
   private void setupPatternMap() {
     this.patternMap = new HashMap<String, NFCPattern>();
-    this.patternMap.put("rainbow", new NFCPattern("com.entwined.rainbow", NFCPatternType.BASE_PATTERN, 4));
-    this.patternMap.put("fire", new NFCPattern("com.entwined.fire", NFCPatternType.BASE_PATTERN, 5));
-    this.patternMap.put("clouds", new NFCPattern("com.entwined.clouds", NFCPatternType.BASE_PATTERN, 10));
-    this.patternMap.put("red", new NFCPattern("red", NFCPatternType.GLOBAL_MODIFIER, 0));
-    this.patternMap.put("lightning", new NFCPattern("lightning", NFCPatternType.ONE_SHOT, 0));
-  }
+    // Standard patterns are at known locations on the patterns channel
+    this.patternMap.put("rainbow", new NFCPattern("rainbow", NFCPatternType.BASE_PATTERN, 4));
+    this.patternMap.put("fire", new NFCPattern("fire", NFCPatternType.BASE_PATTERN, 5));
+    this.patternMap.put("clouds", new NFCPattern("clouds",  NFCPatternType.BASE_PATTERN, 10));
+    this.patternMap.put("spin", new NFCPattern("spin", NFCPatternType.GLOBAL_MODIFIER, 0));
 
+    // one shots live in the standard effects channel
+    TSTriggerablePattern lightning = engineController.findPatternEffect(Lightning.class);
+    if (lightning == null) {
+      lightning = new Lightning(lx);
+      engineController.addPatternEffect(lightning);
+    }
+    lightning.enableTriggerMode();
+    this.patternMap.put(
+        "lightning",
+        new NFCPattern("lightning",
+          NFCPatternType.ONE_SHOT,
+          lightning
+          )
+    );
+  }
 
   public void loop(double deltaMs) {
     TSClient client = server.available();
@@ -136,15 +161,13 @@ public class NFCServer implements LXLoopTask {
             channelIdx,
             trigger.pattern.idx);
       } else if (trigger.pattern.type == NFCPatternType.ONE_SHOT) {
-        // TODO - trigger effect on effects channels in engine
-        // engine.interactiveHSVEffect.resetPiece(pieceId);
-        // engine.interactiveDesaturationEffect.onTriggeredPiece(pieceId);
+        trigger.pattern.triggerable.onTriggered();
       } else if (trigger.pattern.type == NFCPatternType.GLOBAL_MODIFIER) {
-        if (trigger.pattern.patternClass == "color1") {
+        if (trigger.pattern.patternName == "color1") {
           engineController.setHue(1.0); // XXX - read, or something..
-        } else if (trigger.pattern.patternClass == "spin") {
+        } else if (trigger.pattern.patternName == "spin") {
           //engineController.setSpin(10.0); // XXX - I don't actually have a spin..
-        } else if (trigger.pattern.patternClass == "speed") {
+        } else if (trigger.pattern.patternName == "speed") {
           engineController.setSpeed(1.0); // XXX what is a good value?
         }
       }
@@ -180,7 +203,8 @@ public class NFCServer implements LXLoopTask {
     int channelIdx;
     boolean onOff;
     NFCPattern pattern;
-    // Format of the command is channel/<channelid>/pattern/<patternName> ,[T|F]
+    String patternName;
+    // Format of the command is channel/<channelid>/pattern/<patternName> ,s [T|F]
     try {
       if (!command.startsWith("channel/")) {
         throw new RuntimeException("Does not start with 'channel/'");
@@ -196,17 +220,16 @@ public class NFCServer implements LXLoopTask {
       }
 
       int spacerIdx = command.indexOf(" ,");
-      if (spacerIdx < 0 || spacerIdx < 19) {
+      if (spacerIdx < 19) {
         throw new RuntimeException("Does not contain spacer characters");
       }
 
-      String patternName = command.substring(18, spacerIdx);
+      patternName = command.substring(18, spacerIdx);
 
       char tf = command.charAt(spacerIdx + 2);
       if (tf != 'T'&& tf != 'F') {
         throw new RuntimeException("Does not contain T|F signal ");
       }
-      System.out.println("Parse NFC command, onoff is " + tf);
       onOff = (tf == 'T');
 
       // Okay, string believed to be parseable
