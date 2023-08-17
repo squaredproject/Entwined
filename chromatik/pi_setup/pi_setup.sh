@@ -17,6 +17,12 @@ sudo apt-get dist-upgrade
 
 sudo apt-get install -y emacs dos2unix figlet
 echo "figlet \"entwined meadow\"" >> ~/.bash_profile
+
+#### fix any date issues
+sudo apt install systemd-timesyncd
+sudo timedatectl set-ntp true
+date
+
 ######################
 ## Install Entwined ##
 ######################
