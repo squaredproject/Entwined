@@ -1,10 +1,11 @@
 package entwined.pattern.kyle_fleming;
 
+import entwined.core.TSTriggerablePattern;
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.pattern.LXPattern;
 
-public class ColorStrobe extends LXPattern { // XXX TSTriggerablePattern {
+public class ColorStrobe extends TSTriggerablePattern {
 
   double timer = 0;
 

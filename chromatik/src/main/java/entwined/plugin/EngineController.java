@@ -24,6 +24,7 @@ import heronarts.lx.mixer.LXAbstractChannel;
 import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.LXListenableNormalizedParameter;
+import heronarts.lx.pattern.LXPattern;
 
 /*
  * Provides interface and controls for external controllers (iPad app, NFC controller)
@@ -70,9 +71,13 @@ public class EngineController {
   void shutdown() {
   }
 
-  <T extends TSTriggerablePattern> T findPatternEffect(Class<T> clazz) {
-    TSTriggerablePattern pattern = (TSTriggerablePattern)Entwined.findPattern(engine.effectsChannel, clazz);
-    pattern.enableTriggerMode();
+  <T extends TSTriggerablePattern> T setupPatternEffect(Class<T> clazz) {
+    TSTriggerablePattern pattern = (TSTriggerablePattern)Entwined.setupTriggerablePattern(lx, engine.effectsChannel, clazz);
+    if (pattern != null) {
+      pattern.enableTriggerMode();
+    } else {
+      System.out.println("Could not create pattern for class " + clazz);
+    }
     return (T) pattern;
   }
 
@@ -107,6 +112,24 @@ public class EngineController {
     if (abstractChannel instanceof LXChannel) {
       LXChannel channel = (LXChannel)abstractChannel;
       channel.goPatternIndex(patternIndex);
+    }
+  }
+
+  void setChannelPattern(int channelIndex, String patternName) {
+    if (isAutoplaying) {
+      System.out.println("ENTWINED: Attempting to remotely change channel during autoplay, aborting");
+      return;
+    }
+    System.out.println("Set channel pattern - idx " + channelIndex + " name " + patternName);
+    LXAbstractChannel abstractChannel = lx.engine.mixer.getChannel(channelIndex);
+    if (abstractChannel instanceof LXChannel) {
+      LXChannel channel = (LXChannel)abstractChannel;
+      LXPattern pattern = channel.getPattern(patternName); 
+      if (pattern != null) {
+        channel.goPattern(pattern);
+      } else {
+        System.out.println("could not find pattern for " + patternName);
+      }
     }
   }
 

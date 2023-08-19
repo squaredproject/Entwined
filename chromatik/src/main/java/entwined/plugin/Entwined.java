@@ -849,6 +849,16 @@ public class Entwined implements LXStudio.Plugin {
   }
 
   @SuppressWarnings("unchecked")
+  public static <T extends LXPattern> T findPatternWithNameOnly(LXChannel channel, String name) {
+    for (LXPattern pattern : channel.patterns) {
+      if (pattern.label.getString().equals(name)) {
+        return (T) pattern;
+      }
+    }
+    return null;
+  }
+
+  @SuppressWarnings("unchecked")
   public static <T extends LXPattern> T findPatternWithName(LXChannel channel, Class<T> clazz, String name) {
     for (LXPattern pattern : channel.patterns) {
       if (pattern.getClass().equals(clazz) && pattern.label.getString().equals(name)) {

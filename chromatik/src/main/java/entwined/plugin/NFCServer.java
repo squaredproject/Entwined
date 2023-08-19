@@ -10,6 +10,12 @@ import heronarts.lx.LXLoopTask;
 import entwined.core.Triggerable;
 import entwined.core.TSTriggerablePattern;
 import entwined.pattern.ray_sykes.Lightning;
+import entwined.pattern.irene_zhou.Bubbles;
+import entwined.pattern.kyle_fleming.BassSlam;
+import entwined.pattern.kyle_fleming.ColorStrobe;
+import entwined.pattern.kyle_fleming.Wisps;
+import entwined.pattern.kyle_fleming.Rain;
+import entwined.utils.EntwinedUtils;
 
 // NFC server...
 // The point of this code is to allow interactivity from NFC cards. For Elder Mother, there are
@@ -37,39 +43,48 @@ public class NFCServer implements LXLoopTask {
   TSServer server;
   EngineController engineController;
   HashMap<String, NFCPattern> patternMap;
+  HashMap<String, NFCOneShot> oneShotMap;
   NFCPattern[] activities; // XXX must make it size 4, or whatever the size is
   LX lx;
   private boolean enabled = false;
+  static final int ONE_SHOT_TIMEOUT_MS = 4000;
 
+  // Base structures:
+  // The system enables a number of NFCPatterns that can be triggered by the NFC cards.
+  // NFC patterns are either one-shots, global modifiers, or patterns running on one of
+  // the server pattern channels.
+  // A OSC style trigger will generate an NFCTrigger object, specifying which NFCPattern
+  // being effected, whether it's being turned on or off, and which channel it's being
+  // run on.
+  // One shot patterns will only be active for a short period of time. They are managed by
+  // a hashmap of NFCOneShots, which maintain active/inactive state.
+
+  // NFCPattern - the pattern that we're going to be running, with some metadata
   public enum NFCPatternType {
     BASE_PATTERN,
     ONE_SHOT,
     GLOBAL_MODIFIER
   }
 
-  // Okay. So all we're doing with triggers is setting
-  // the pattern enable = true on the pattern instance XXX.
-  // Is that also what I'm doing with the index? Can I unify them?
   public class NFCPattern {
     public NFCPatternType type;
-    public int idx;             // either idx or pattern
-    public Triggerable triggerable; // is valid; not both.
+    public Triggerable triggerable;
     public String patternName;
 
-    public NFCPattern(String patternName, NFCPatternType type, int idx) {
+    public NFCPattern(String patternName, NFCPatternType type) {
       this.type = type;
-      this.idx = idx;
       this.triggerable = null;
+      this.patternName = patternName;
     }
 
     public NFCPattern(String patternName, NFCPatternType type, Triggerable triggerable) {
       this.type = type;
-      this.idx = -1;
       this.triggerable = triggerable;
+      this.patternName = patternName;
     }
   }
 
-
+  // NFCTrigger - turn the specified pattern on or off on the specified channel
   public class NFCTrigger {
     public int channelIdx;
     public boolean onOff;
@@ -79,6 +94,19 @@ public class NFCServer implements LXLoopTask {
       this.channelIdx = channelIdx;
       this.onOff = onOff;
       this.pattern = pattern;
+    }
+  }
+
+  // NFCOneShot - for managing one shots
+  public class NFCOneShot {
+    public int timeout;
+    public Triggerable triggerable;
+    public boolean enabled;
+
+    public NFCOneShot(Triggerable triggerable) {
+      this.triggerable = triggerable;
+      this.timeout = -1;
+      this.enabled = false;
     }
   }
 
@@ -107,21 +135,21 @@ public class NFCServer implements LXLoopTask {
     short port = Config.NFCPort != -1 ? Config.NFCPort : 7777;
     int numActivities = Config.NFCNumActivities != -1 ? Config.NFCNumActivities : 4;
     this.activities = new NFCPattern[numActivities];
+    this.patternMap = new HashMap<String, NFCPattern>();
+    this.oneShotMap = new HashMap<String, NFCOneShot>();
     setupPatternMap();
 
     this.server = new TSServer(this, port);
   }
 
+  private NFCPattern createOneShot(String name, Class clazz) {
+    NFCPattern pattern = new NFCPattern(name, NFCPatternType.ONE_SHOT, engineController.setupPatternEffect(clazz));
+    this.oneShotMap.put(name, new NFCOneShot(pattern.triggerable));
+    return pattern;
+  }
 
   private void setupPatternMap() {
-    this.patternMap = new HashMap<String, NFCPattern>();
-    // Standard patterns are at known locations on the patterns channel
-    this.patternMap.put("rainbow", new NFCPattern("rainbow", NFCPatternType.BASE_PATTERN, 4));
-    this.patternMap.put("fire", new NFCPattern("fire", NFCPatternType.BASE_PATTERN, 5));
-    this.patternMap.put("clouds", new NFCPattern("clouds",  NFCPatternType.BASE_PATTERN, 10));
-    this.patternMap.put("spin", new NFCPattern("spin", NFCPatternType.GLOBAL_MODIFIER, 0));
-
-    // one shots live in the standard effects channel
+   /* // one shots live in the standard effects channel
     TSTriggerablePattern lightning = engineController.findPatternEffect(Lightning.class);
     if (lightning == null) {
       lightning = new Lightning(lx);
@@ -134,20 +162,71 @@ public class NFCServer implements LXLoopTask {
           NFCPatternType.ONE_SHOT,
           lightning
           )
-    );
+    ); */
+
+    // Standard patterns are at known locations on the patterns channel
+    this.patternMap.put("pattern1", new NFCPattern("TwisterGlobal", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("pattern2", new NFCPattern("MarkLottor", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("pattern3", new NFCPattern("Ripple",  NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("pattern4", new NFCPattern("Lattice", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("pattern5", new NFCPattern("Voranoi", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("pattern6", new NFCPattern("GalaxyCloud", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("pattern7", new NFCPattern("Fire", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("pattern8", new NFCPattern("AcidTrip", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("pattern9", new NFCPattern("SparkleHelix",  NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("pattern10", new NFCPattern("Fumes", NFCPatternType.BASE_PATTERN));
+    // One shots
+    this.patternMap.put("pattern11", createOneShot("Lightning", Lightning.class));
+    this.patternMap.put("pattern12", createOneShot("Wisps", Wisps.class));
+    this.patternMap.put("pattern13", createOneShot("BassSlam", BassSlam.class));
+    this.patternMap.put("pattern14", createOneShot("Bubbles", Bubbles.class));
+    this.patternMap.put("pattern15", createOneShot("Color_strobe", ColorStrobe.class));
+    this.patternMap.put("pattern16", createOneShot("Rain", Rain.class));
+    // Globals
+    this.patternMap.put("pattern17", new NFCPattern("scramble", NFCPatternType.GLOBAL_MODIFIER));
+    this.patternMap.put("pattern18", new NFCPattern("blur", NFCPatternType.GLOBAL_MODIFIER));
+    this.patternMap.put("pattern19", new NFCPattern("speed", NFCPatternType.GLOBAL_MODIFIER));
+    this.patternMap.put("pattern20", new NFCPattern("hue", NFCPatternType.GLOBAL_MODIFIER));
+
+    // XXX - the parameters for the various effects should be set up in the project file...
+    // XXX - make absolutely sure (again) that the effects in the effects channel can happen simultaneously
+  }
+
+  protected void handleOneShots() {
+    int curTime = EntwinedUtils.millis();
+    for (NFCOneShot oneShot : oneShotMap.values()) {
+      if (oneShot.enabled && oneShot.timeout < curTime) {
+        oneShot.triggerable.onReleased();
+        System.out.println("Releasing one shot, timeout  " + oneShot.timeout + " cur time " + curTime);
+        oneShot.enabled = false;
+      }
+    }
+  }
+
+  protected void triggerOneShot(String patternName) {
+    NFCOneShot oneShot = this.oneShotMap.get(patternName);
+    if (oneShot.enabled != true) {
+      System.out.println("Triggering one shot " + patternName);
+      oneShot.triggerable.onTriggered();  // XXX better understand what's going on here... XX
+    }
+    oneShot.enabled = true;
+    oneShot.timeout = EntwinedUtils.millis() + ONE_SHOT_TIMEOUT_MS;
   }
 
   public void loop(double deltaMs) {
-    TSClient client = server.available();
+    handleOneShots();
+    TSClient client = server.available(); // XXX  this needs not to block!
     if (client == null) return;
 
     String command = client.readStringUntil('\n');
     if (command == null) {
       return;
     }
+    System.out.println("Have OSC command " + command);
 
     NFCTrigger trigger = parseNFCCommand(command);
     if (trigger == null) {
+      System.out.println("could not find pattern for command " + command);
       return;
     }
 
@@ -159,14 +238,14 @@ public class NFCServer implements LXLoopTask {
         int channelIdx = engineController.baseChannelIndex + trigger.channelIdx;
         engineController.setChannelPattern(
             channelIdx,
-            trigger.pattern.idx);
+            trigger.pattern.patternName);
       } else if (trigger.pattern.type == NFCPatternType.ONE_SHOT) {
-        trigger.pattern.triggerable.onTriggered();
+        triggerOneShot(trigger.pattern.patternName);
       } else if (trigger.pattern.type == NFCPatternType.GLOBAL_MODIFIER) {
         if (trigger.pattern.patternName == "color1") {
-          engineController.setHue(1.0); // XXX - read, or something..
-        } else if (trigger.pattern.patternName == "spin") {
-          //engineController.setSpin(10.0); // XXX - I don't actually have a spin..
+          engineController.setHue(1.0); // XXX - red, or something..
+        } else if (trigger.pattern.patternName == "blur") {
+          engineController.setBlur(10.0); // XXX - I don't actually have a spin..
         } else if (trigger.pattern.patternName == "speed") {
           engineController.setSpeed(1.0); // XXX what is a good value?
         }
