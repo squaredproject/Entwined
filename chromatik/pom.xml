@@ -47,8 +47,6 @@
            <artifactId>engine.io-client</artifactId>
            <version>2.1.0</version>
        </dependency>
-
-<!--
        <dependency>
             <groupId>org.jcodec</groupId>
             <artifactId>jcodec</artifactId>
@@ -59,7 +57,6 @@
             <artifactId>jcodec-javase</artifactId>
             <version>0.2.5</version>
         </dependency>
--->
 
     </dependencies>
 
