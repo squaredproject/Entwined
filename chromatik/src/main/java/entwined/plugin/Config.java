@@ -34,6 +34,8 @@ public final class Config {
   public static Boolean NFCServerEnable = false;
   public static int NFCNumActivities = -1;
   public static short NFCPort = -1;
+  public static Boolean attractModeEnable = false;
+  public static int attractModeTimeout = 0;
 
   //static final String canopyServer = "http://localhost:3000/lx";
   //static final String canopyServer = "https://entwined-api.charliestigler.com/lx";
@@ -172,6 +174,14 @@ public final class Config {
       if (obj.has("NFCNumActivities")) {
         NFCNumActivities = obj.get("NFCNumActivities").getAsInt();
         System.out.println("Config: NFC activities set to " + NFCNumActivities);
+      }
+      if (obj.has("attractModeEnable")) {
+        attractModeEnable = obj.get("attractModeEnable").getAsBoolean();
+        System.out.println("Config: attractModeEnable set to " + attractModeEnable);
+      }
+      if (obj.has("attractModeTimeout")) {
+        attractModeTimeout = obj.get("attractModeTimeout").getAsInt();
+        System.out.println("Config: attractModeTimeout set to " + attractModeTimeout);
       }
       if (obj.has("numBaseChannels")) {
         NUM_BASE_CHANNELS = obj.get("numBaseChannels").getAsInt();

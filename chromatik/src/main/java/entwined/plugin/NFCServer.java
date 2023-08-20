@@ -23,7 +23,7 @@ import entwined.utils.EntwinedUtils;
 // the reader, where a raspberry pi will transmit the information on the card back to the NFC server.
 //
 // The information sent by the Raspberry Pi is as follows:
-// channel/<channelid>/pattern/<patternid> ,[T|F]
+// channel/<channelid>/pattern/<patternid> ,s [T|F]
 // This largely follows the OSC spec
 //
 // There are three types of patterns:
@@ -51,6 +51,7 @@ public class NFCServer implements LXLoopTask {
 
   static final int ATTRACT_MODE_TIMEOUT_MS = 1000*60*3;  // 3 minutes; should read from config file.XXX
   public int attractModeTimeout = -1;
+  public boolean attractModeEnable = false;
 
   // just an engineController.setAutoplay(T/F)
 
@@ -135,6 +136,8 @@ public class NFCServer implements LXLoopTask {
       return;
     }
     this.enabled = true;
+    this.attractModeEnable = Config.attractModeEnable;
+    this.attractModeTimeout = Config.attractModeEnable ? Config.attractModeTimeout : 0;
     this.engineController = engineController;
     this.lx = lx;
     short port = Config.NFCPort != -1 ? Config.NFCPort : 7777;
@@ -154,21 +157,6 @@ public class NFCServer implements LXLoopTask {
   }
 
   private void setupPatternMap() {
-   /* // one shots live in the standard effects channel
-    TSTriggerablePattern lightning = engineController.findPatternEffect(Lightning.class);
-    if (lightning == null) {
-      lightning = new Lightning(lx);
-      engineController.addPatternEffect(lightning);
-    }
-    lightning.enableTriggerMode();
-    this.patternMap.put(
-        "lightning",
-        new NFCPattern("lightning",
-          NFCPatternType.ONE_SHOT,
-          lightning
-          )
-    ); */
-
     // Standard patterns are at known locations on the patterns channel
     this.patternMap.put("pattern1", new NFCPattern("TwisterGlobal", NFCPatternType.BASE_PATTERN));
     this.patternMap.put("pattern2", new NFCPattern("MarkLottor", NFCPatternType.BASE_PATTERN));
@@ -223,7 +211,7 @@ public class NFCServer implements LXLoopTask {
     handleOneShots();
 
     // Turn on attract mode, if we've hit the timeout
-    if (attractModeTimeout < EntwinedUtils.millis()) {
+    if (attractModeEnable && attractModeTimeout < EntwinedUtils.millis()) {
       engineController.setAutoplay(true);
     }
     TSClient client = server.available(); // XXX  this needs not to block!
@@ -258,7 +246,7 @@ public class NFCServer implements LXLoopTask {
         if (trigger.pattern.patternName == "color1") {
           engineController.setHue(1.0); // XXX - red, or something..
         } else if (trigger.pattern.patternName == "blur") {
-          engineController.setBlur(10.0); // XXX - I don't actually have a spin..
+          engineController.setBlur(10.0); // XXX what is a good value here?
         } else if (trigger.pattern.patternName == "speed") {
           engineController.setSpeed(1.0); // XXX what is a good value?
         }
