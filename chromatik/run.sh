@@ -13,7 +13,7 @@ cp target/entwined-0.0.1-SNAPSHOT-jar-with-dependencies.jar ~/Chromatik/Packages
 
 if [[ $OSTYPE == 'darwin'* ]]; then
   RUNOPT="-XstartOnFirstThread"
-  if [[ $(uname -m) == 'x86_64' ]] then
+  if [[ $(uname -m) == 'x86_64' ]]; then
     JARTYPE="-macos"
     ARCHTYPE="-x86_64"
   fi
@@ -21,7 +21,7 @@ fi
 
 if [[ $OSTYPE == 'linux'* ]]; then
   JARTYPE="-linux"
-  if [[ $(uname -m) == 'arm64' ]] then
+  if [[ $(uname -m) == 'arm64' ]]; then
     ARCHTYPE="-aarch64"
   else
     ARCHTYPE="-amd64"
