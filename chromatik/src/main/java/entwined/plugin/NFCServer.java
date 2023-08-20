@@ -49,6 +49,11 @@ public class NFCServer implements LXLoopTask {
   private boolean enabled = false;
   static final int ONE_SHOT_TIMEOUT_MS = 4000;
 
+  static final int ATTRACT_MODE_TIMEOUT_MS = 1000*60*3;  // 3 minutes; should read from config file.XXX
+  public int attractModeTimeout = -1;
+
+  // just an engineController.setAutoplay(T/F)
+
   // Base structures:
   // The system enables a number of NFCPatterns that can be triggered by the NFC cards.
   // NFC patterns are either one-shots, global modifiers, or patterns running on one of
@@ -214,7 +219,13 @@ public class NFCServer implements LXLoopTask {
   }
 
   public void loop(double deltaMs) {
+    // Turn one shots off, if  they've timed out
     handleOneShots();
+
+    // Turn on attract mode, if we've hit the timeout
+    if (attractModeTimeout < EntwinedUtils.millis()) {
+      engineController.setAutoplay(true);
+    }
     TSClient client = server.available(); // XXX  this needs not to block!
     if (client == null) return;
 
@@ -229,6 +240,8 @@ public class NFCServer implements LXLoopTask {
       System.out.println("could not find pattern for command " + command);
       return;
     }
+    engineController.setAutoplay(false);
+    attractModeTimeout = EntwinedUtils.millis() + ATTRACT_MODE_TIMEOUT_MS;
 
     if (!trigger.onOff) {
       this.activities[trigger.channelIdx] = null;
