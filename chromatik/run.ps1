@@ -22,7 +22,7 @@ $cwd=(Get-Location).tostring()
 #Pop-Location
 
 # this works but not crazy about the output in a scrolling window
-$c_args = "-cp $cwd/lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies-windows.jar heronarts.lx.studio.Chromatik --warnings --disable-zeroconf --enable-plugin entwined.plugin.Entwined Projects/entwined.lxp".Split(" ")
+$c_args = "-cp $cwd/lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies-windows-amd64.jar heronarts.lx.studio.Chromatik --warnings --disable-zeroconf --enable-plugin entwined.plugin.Entwined Projects/entwined.lxp".Split(" ")
 Start-Process -FilePath "java" -ArgumentList $c_args -WorkingDirectory "~/Chromatik" 
 
 # this doesn't work, the directory ends up changed

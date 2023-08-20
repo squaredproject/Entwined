@@ -13,15 +13,25 @@ cp target/entwined-0.0.1-SNAPSHOT-jar-with-dependencies.jar ~/Chromatik/Packages
 
 if [[ $OSTYPE == 'darwin'* ]]; then
   RUNOPT="-XstartOnFirstThread"
+  if [[ $(uname -m) == 'x86_64' ]] then
+    JARTYPE="-macos"
+    ARCHTYPE="-x86_64"
+  fi
 fi
 
 if [[ $OSTYPE == 'linux'* ]]; then
   JARTYPE="-linux"
+  if [[ $(uname -m) == 'arm64' ]] then
+    ARCHTYPE="-aarch64"
+  else
+    ARCHTYPE="-amd64"
+  fi
 fi
+
 
 CWD=`pwd`
 
 echo $RUNOPT $JARTYPE $CWD
 
 cd ~/Chromatik
-java $RUNOPT -cp $CWD/lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies$JARTYPE.jar heronarts.lx.studio.Chromatik --warnings --disable-zeroconf --enable-plugin entwined.plugin.Entwined ~/Chromatik/Projects/entwined.lxp
+java $RUNOPT -cp $CWD/lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies$JARTYPE$ARCHTYPE.jar heronarts.lx.studio.Chromatik --warnings --disable-zeroconf --enable-plugin entwined.plugin.Entwined ~/Chromatik/Projects/entwined.lxp
