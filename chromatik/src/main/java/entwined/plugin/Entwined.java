@@ -113,6 +113,7 @@ public class Entwined implements LXStudio.Plugin {
     lx.registry.addPattern(entwined.pattern.bbulkow.MultiColor.class);
     lx.registry.addPattern(entwined.pattern.bbulkow.MultiColor2.class);
     lx.registry.addPattern(entwined.pattern.bbulkow.StripeStatic.class);
+    lx.registry.addPattern(entwined.pattern.bbulkow.VideoPlayer.class);
     lx.registry.addPattern(entwined.pattern.charlie_stigler.Burst.class);
     lx.registry.addPattern(entwined.pattern.colin_hunt.BeachBall.class);
     lx.registry.addPattern(entwined.pattern.colin_hunt.BleepBloop.class);

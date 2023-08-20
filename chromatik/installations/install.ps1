@@ -24,13 +24,18 @@ rm ~/Chromatik/autoplay.lxr -ea 0
 rm ~/Chromatik/Projects/entwined.lxp -ea 0
 
 echo "building LXF files from JSON descriptions"
-python fairy_circle.py --config $install_dir/fairy_circles.json --fixtures_folder $fixtures_dir
-python shrub.py --config $install_dir/shrubs.json --fixtures_folder $fixtures_dir
-python tree.py --tree_config $install_dir/trees.json --branch_config $install_dir/tree_branches.csv --fixtures_folder $fixtures_dir
-python bench.py --config $install_dir/bench.json --fixtures_folder $fixtures_dir
-
-# elder mother is new. Check for the elder_mother_cubes.csv in the 
-# install directory and only run the script if it exists
+if (Test-Path -Path $install_dir/fairy_circles.json -PathType Leaf) {
+        python fairy_circle.py --config $install_dir/fairy_circles.json --fixtures_folder $fixtures_dir
+}
+if (Test-Path -Path $install_dir/shrubs.json -PathType Leaf) {
+        python shrub.py --config $install_dir/shrubs.json --fixtures_folder $fixtures_dir
+}
+if (Test-Path -Path $install_dir/trees.json -PathType Leaf) {
+        python tree.py --tree_config $install_dir/trees.json --branch_config $install_dir/tree_branches.csv --fixtures_folder $fixtures_dir
+}
+if (Test-Path -Path $install_dir/bench.json -PathType Leaf) {
+        python bench.py --config $install_dir/bench.json --fixtures_folder $fixtures_dir
+}
 if (Test-Path -Path $install_dir/elder_mother_cubes.csv -PathType Leaf) {
         python elder_mother.py --ndb_config $install_dir/elder_ndb_ips.txt --cubes_config $install_dir/elder_mother_cubes.csv --fixtures_folder $fixtures_dir
 }
@@ -49,3 +54,7 @@ if (Test-Path -Path $install_dir/autoplay.lxr -PathType Leaf) {
 else {
         echo "no autoplay recording available, will not autoplay"
 }
+
+# copy video files over
+mkdir -p "$HOME/Chromatik/Videos" -ea 0
+cp ../videos/* "$HOME/Chromatik/Videos"

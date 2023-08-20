@@ -100,6 +100,7 @@ public final class Config {
      entwined.pattern.bbulkow.MultiColor.class,
      entwined.pattern.bbulkow.MultiColor2.class,
      entwined.pattern.bbulkow.StripeStatic.class,
+     entwined.pattern.bbulkow.VideoPlayer.class,
      entwined.pattern.misko.Circles.class,
      entwined.pattern.misko.LineScan.class,
      // entwined.pattern.misko.Stringy.class,  oob exception on ctor, to debug.

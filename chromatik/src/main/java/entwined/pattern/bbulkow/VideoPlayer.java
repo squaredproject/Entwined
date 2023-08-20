@@ -4,6 +4,7 @@ import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.StringParameter;
+import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.pattern.LXPattern;
 
 import entwined.core.CubeData;
@@ -28,15 +29,28 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
+import java.nio.file.DirectoryStream;
+
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 
 /**
 In order to be like a flag, have multiple colors on the sculpture
 */
 public class VideoPlayer extends LXPattern {
 
-  final StringParameter dirName = new StringParameter("VIDEODIR", "C:\\Users\\bbulk\\Downloads");
-  final StringParameter fileName = new StringParameter("VIDEOFILE", "entwined.mp4");
-  // todo: we'll probably want float parameters for the projection
+  // this ends up being in the Chromatik directory, a good place
+  final StringParameter dirName = new StringParameter("VIDEODIR", "Videos");
+  // I don't think I can run a function here to attempt to figure out the actual number
+  public final DiscreteParameter fileNumber = new DiscreteParameter("FNUM", 1, 1, 10);
 
   // let's declare a global that will be the array of RGB. The thread with frames can fill it,
   // the pattern loop can display it
@@ -48,8 +62,6 @@ public class VideoPlayer extends LXPattern {
 
 
   //
-  private File vidFile = null;
-  //
   int  vidFrameNumCur = 0;
   //
   BufferedImage vidBufferedImage = null;
@@ -60,30 +72,29 @@ public class VideoPlayer extends LXPattern {
   // Constructor and initial setup
   public VideoPlayer(LX lx) {
     super(lx);
-    addParameter("file",fileName);
-    addParameter("dir",dirName);
+    addParameter("FNUM",fileNumber);
 
-    // System.out.println(" VIDEO PLAYER INIT: user dir "+System.getProperty("user.dir"));
+    // set the max parameter to the number of files in the directory
+    long dfc = getDirectoryFileCount( dirName.getString());
+    //System.out.println(" +VideoPlayer+: number of directory files: "+dfc);
+    fileNumber.setRange(1,(int)dfc+1);
 
-    String fn = dirName.getString() + System.getProperty("file.separator") + fileName.getString();
-    try {
-      vidFile = new File(fn);
-      System.out.println("opened file "+fn);
-    }
-    catch (Exception ex) {
-      System.out.println(" unable to open file  "+fn+" "+ex.getMessage());
-      return;
-    }
+/*
+    List<String> filenames = getDirectoryFilenames(dirName.getString());
+    System.out.print(" +VideoPlayer: the files are");
+    System.out.println(filenames);
+*/
 
     // todo: consider: pick out or validate the frame rate, compression type, etc
 
     // let's try this for now. Would be better to start only when you have a file or something
-    videoReader = new VideoReader(vidFile);
+    videoReader = new VideoReader();
     readerThread = new Thread(videoReader);
     readerThread.start();
 
   } // VideoPlayer constructur
 
+// gets called when the specific instance goes active and inactive
   @Override
   protected void onActive() {
     super.onActive();
@@ -96,16 +107,56 @@ public class VideoPlayer extends LXPattern {
     videoReader.onInactive();
   }
 
+// Some file helpers
+  List<String> getDirectoryFilenames(String directory) {
+    List<String> s_s = new ArrayList<String>();
+    Path dir = Paths.get(directory);
+
+    try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
+        for (Path entry : stream) {
+          if (Files.isRegularFile(entry)) {
+            s_s.add(entry.toString());
+          }
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+        return(null);
+    }
+
+    Collections.sort(s_s);
+    return(s_s);
+  }
+
+  long getDirectoryFileCount(String directory) {
+
+    long ret = -1;
+    try {
+        ret = Files.list(Paths.get(directory))
+                              .filter(Files::isRegularFile)  // This ensures we're counting only files, not subdirectories
+                              .count();
+
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    return(ret);
+  }
 
 
+  // Separate thread. It will open a file and read into a shared buffer
+  // which is used in the run loop. It is controlled by a discrete parameters
+  // which is set to the number of files in the directory, and at the 
+  // end of a given file, will close and open the new file if necessary
+  // It would probably be better to implement a parameter listener
   class VideoReader implements Runnable {
 
     boolean active;
-    final File vidFile;
+    File vidFile;
+    int vidFileNumber;
 
-    public VideoReader(File file) {
-      vidFile = file;
+    public VideoReader() {
+      vidFile = null;
       active = false;
+      vidFileNumber = -1;
     }
 
     void onActive() {
@@ -120,62 +171,89 @@ public class VideoPlayer extends LXPattern {
 
     public void run() {
 
-      try {
-        if (vidFile == null) {
-          System.out.println("VideoReader: vidfile is null");
-          return;
-        }
-
-        FrameGrab grab = FrameGrab.createFrameGrab(NIOUtils.readableChannel(vidFile));
-
-        if (grab == null) {
-          System.out.println("VideoReader: could not create Grab object");
-          return;
-        }
+        File vidFile = null;
+        FrameGrab grab = null;
+        Picture picture = null;
 
         while (true) {
 
-          long delay_ms = 100;
+          // most videos are 30 fps. Should actually load this with the real fps
+          long delay_ms = 33;
 
           if (active) {
+
+            try { // big try for most of the loop
+
+              if (vidFile == null) {
+                List<String> filenames = getDirectoryFilenames(dirName.getString());
+                vidFileNumber = fileNumber.getValuei();
+                String fn = filenames.get( vidFileNumber - 1);
+                try {
+                  vidFile = new File(fn);
+                  System.out.println("VideoPlayer: opened file "+fn);
+                }
+                catch (Exception ex) {
+                  System.out.println("VideoPlayer: unable to open file  "+fn+" "+ex.getMessage());
+                  continue;
+                }
+
+                grab = FrameGrab.createFrameGrab(NIOUtils.readableChannel(vidFile));
+              }
 
               long start_ms = System.currentTimeMillis();
 
               // this gets the next one. 
-              Picture picture = grab.getNativeFrame();
+              picture = grab.getNativeFrame();
+              // null means end of file, loop
               if (picture == null) {
-                grab.seekToFramePrecise(0);
-                picture = grab.getNativeFrame();
-                System.out.println(" VideoReader: reached end of file, seeking to start ");
+                // only refresh the file and grab if the file number changed, for efficiency
+                if (vidFileNumber != fileNumber.getValuei()) {
+                  vidFile = null;
+                  grab = null;
+                  continue;
+                }
+                else { // loop to beginning
+                  grab.seekToFramePrecise(0);
+                  picture = grab.getNativeFrame();
+                }
               }
 
-              // System.out.println(" picture: height "+picture.getHeight()+ " width "+picture.getWidth());
-
-              // picture has getData() which returns an array of bytes. That is uncompressed,
-              // but it'll be in some particular color space. If you know the colorspace
-              // because you're always using the same file type youll remove an abstraction
-              // by not converting to a BufferedImage
-              // It def. has getWidth() and getHeight().
-              // You can check its color space too
-
               BufferedImage bImage = AWTUtil.toBufferedImage(picture);
-              vidBufferedImage = bImage;
+              if (bImage != null)    vidBufferedImage = bImage;
 
               vidFrameNumCur++;
 
               delay_ms -= System.currentTimeMillis() - start_ms;
               if (delay_ms < 0) delay_ms = 0;
 
-          } // if active
+            }
+            catch (Exception ex) {
+              System.out.println("VideoPlayer: unknown exception "+ex.getMessage());
+              continue;
+            }
 
-          Thread.sleep(delay_ms,0);
+            // System.out.println(" picture: height "+picture.getHeight()+ " width "+picture.getWidth());
+
+            // picture has getData() which returns an array of bytes. That is uncompressed,
+            // but it'll be in some particular color space. If you know the colorspace
+            // because you're always using the same file type youll remove an abstraction
+            // by not converting to a BufferedImage
+            // It def. has getWidth() and getHeight().
+            // You can check its color space too
+
+          } // if active
+          else {
+            // not active, close files and whatnot
+            if (grab != null) { grab = null; }
+            if (vidFile != null) { vidFile = null; }
+          }
+
+          try{
+            Thread.sleep(delay_ms,0);
+          } catch (InterruptedException ignored) { }
 
         } // loop
 
-      } catch (Exception ex) {
-        System.out.println(" VideoReader: Exception in VideoReader runnable: FrameGrab or getNative "+ex.getMessage()+" "+ex.toString() );
-        return;
-      }
     } // run
 
   } // VideoReader
@@ -200,25 +278,29 @@ public class VideoPlayer extends LXPattern {
     float yMax = model.yMax;
     float yMin = model.yMin;
     float ySize = yMax - yMin;
-    //System.out.println(" yMax "+yMax+" yMin "+yMin);
+    //System.out.println(" yMax ",yMax," yMin ",yMin);
 
     for (LXPoint cube : model.points) {
         // find the XYZ of the point
       CubeData cubeData = CubeManager.getCube(lx, cube.index);
-      //System.out.println(" got cube");
-      //System.out.println(" calculate y: ySize "+ySize+" localY "+cubeData.localY+" yMin "+yMin+" height "+height);
+
+      // Cylendrical projection 
+      // TODO: add limits and scaling
+
+      //System.out.println(" calculate y: ySize ",ySize," localY ",cubeData.localY," yMin ",yMin," height ",height);
       // find the X,Y within the video
+      // NOTE: Y in the sculpture, 0 is low, Y in video, 0 is high...
       int x = (int) ((cubeData.localTheta / 360.0) * width);
-      int y = (int) (((cubeData.localY - yMin) / ySize) * height);
-      //System.out.println(" map to vid: x "+x+" y "+y);
+      int y = (int) (((yMax - cubeData.localY) / ySize) * height);
+      //System.out.println(" map to vid: x ",x," y ",y);
 
       // pixel will be ARGB - split it out
       int pixel = bi.getRGB(x,y);
-      //System.out.println("vid color: "+ String.format("0x%08x",pixel));
+      //System.out.println("vid color: ", String.format("0x%08x",pixel));
 
       // LX has a very similar structure for its RGB.
 /* PROPERLY ABSTRACT THING
-      //System.out.println(" VIDRGB pixel: "+String.format("%x",pixel));
+      //System.out.println(" VIDRGB pixel: ", String.format("%x",pixel));
 
       int b = pixel & 0xff;
       pixel = pixel >> 8;
@@ -230,7 +312,7 @@ public class VideoPlayer extends LXPattern {
 
       // set the leds
       colors[cube.index] = LX.rgb(r,g,b);
-      //System.out.println(" LX RGB color: "+String.format("%x",LX.rgb(r,g,b)));
+      //System.out.println(" LX RGB color: ",String.format("%x",LX.rgb(r,g,b)));
 */ 
       // when using the default ARGB color space, it's the same as LX's ARGB color space,
       // so we can just copy an integer :-)

@@ -47,3 +47,6 @@ if [ -f $1/config.json ]; then
 fi
 
 [[ -e $1/autoplay.lxr ]] && cp $1/autoplay.lxr $I
+
+mkdir -p $I/Videos
+cp $1/../videos/* $I/Videos
