@@ -17,7 +17,7 @@ import heronarts.lx.utils.LXUtils;
 
 public class Lightning extends TSTriggerablePattern {
   int nShrubs = model.sub("SHRUB").size();
-  int nTrees = model.sub("TREES").size();
+  int nTrees = model.sub("TREE").size();
   private LightningLine[] bolts = new LightningLine[nTrees + nShrubs];
   final BoundedParameter boltAngle = new BoundedParameter("Angle", 35, 0, 55);
   final BoundedParameter propagationSpeed = new BoundedParameter("Speed", 10, 0.5, 20);

@@ -31,14 +31,20 @@ public final class Config {
 
   // the interaction server. Set to null to disable.
   public static String canopyServer = "";
+  public static Boolean NFCServerEnable = false;
+  public static int NFCNumActivities = -1;
+  public static short NFCPort = -1;
+  public static Boolean attractModeEnable = false;
+  public static int attractModeTimeout = 0;
+
   //static final String canopyServer = "http://localhost:3000/lx";
   //static final String canopyServer = "https://entwined-api.charliestigler.com/lx";
 
   // if this file doesn't exist you get a crash
   // static final String AUTOPLAY_FILE = "data/entwinedSetDec2021.json";
 
-  static final int NUM_BASE_CHANNELS = 8;
-  static final int NUM_SERVER_CHANNELS = 3;
+  public static int NUM_BASE_CHANNELS = 8;
+  public static int NUM_SERVER_CHANNELS = 3;
 
   public static HashMap<String, String[]> groups = new HashMap<String, String[]>();
   /* static {
@@ -156,6 +162,35 @@ public final class Config {
           groups.put(key, components);
         }
         System.out.println("Config: Interactive groups are " + groups);
+      }
+      if (obj.has("NFCServerEnable")) {
+        NFCServerEnable = obj.get("NFCServerEnable").getAsBoolean();
+        System.out.println("Config: NFC server set to " + NFCServerEnable);
+      }
+      if (obj.has("NFCPort")) {
+        NFCPort = obj.get("NFCPort").getAsShort();
+        System.out.println("Config: NFC port set to " + NFCPort);
+      }
+      if (obj.has("NFCNumActivities")) {
+        NFCNumActivities = obj.get("NFCNumActivities").getAsInt();
+        System.out.println("Config: NFC activities set to " + NFCNumActivities);
+      }
+      if (obj.has("attractModeEnable")) {
+        attractModeEnable = obj.get("attractModeEnable").getAsBoolean();
+        System.out.println("Config: attractModeEnable set to " + attractModeEnable);
+      }
+      if (obj.has("attractModeTimeout")) {
+        attractModeTimeout = obj.get("attractModeTimeout").getAsInt();
+        System.out.println("Config: attractModeTimeout set to " + attractModeTimeout);
+      }
+      if (obj.has("numBaseChannels")) {
+        NUM_BASE_CHANNELS = obj.get("numBaseChannels").getAsInt();
+        System.out.println("Config: NUM_BASE_CHANNELS set to " + NUM_BASE_CHANNELS);
+      }
+
+      if (obj.has("numServerChannels")) {
+        NUM_SERVER_CHANNELS = obj.get("numServerChannels").getAsInt();
+        System.out.println("Config: NUM_SERVER_CHANNELS set to " + NUM_SERVER_CHANNELS);
       }
 
     } catch (Throwable x) {

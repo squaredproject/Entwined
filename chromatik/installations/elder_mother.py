@@ -49,7 +49,7 @@ def tree_load_ndb(ndbFilename: str):
     return ndbs
 
 
-DELTA_Y = 8
+DELTA_Y = 6.75
 CUBES_PER_DROOP = 16
 
 def write_droop(n_cubes: int, fixtures_folder: str):
@@ -58,8 +58,10 @@ def write_droop(n_cubes: int, fixtures_folder: str):
                  "components": [ {"type": "points", "coords": []} ],
                 }
     coords = lx_output["components"][0]["coords"]
-    for idx in range(n_cubes):
+    for idx in range(n_cubes-1):
         coords.append({'x': 0, 'y': -idx * DELTA_Y, 'z': 0})
+    # final cube wire was mismanufactured, only 1.5" below the others
+    coords.append({'x':0, 'y': -(n_cubes-2)*DELTA_Y - 1.5, 'z':0})
 
     with open(fixtures_folder + "droop_" + str(n_cubes) + ".lxf", "w") as output_f:
         json.dump(lx_output, output_f, indent=4)

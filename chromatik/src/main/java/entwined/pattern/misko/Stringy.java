@@ -12,15 +12,11 @@ public class Stringy extends LXPattern {
   // private float waveWidth = 1;
   private float speedMult = 1000;
 
-  // this is a bomb. The number has to be bigger than something
-  // but it's not clear what. Add a bunch of cubes and it might explode.
-  final static int MAX_THING = 2300;
-
   private double total_ms1 =0.0;
   private double total_ms2 =0.0;
-  static float[][] d = new float[MAX_THING][MAX_THING]; //1900*1900*4bytes/(1024*1024)=13.8MB
-  static float[] norms = new float[MAX_THING]; //0.007MB
-  static float[][] shadow = new float[MAX_THING][3]; //0.021 MB
+  static float[][] d;
+  static float[] norms;
+  static float[][] shadow;
   private int n=3;
   private int current_cube_r[];
   private int current_cube_g[];
@@ -46,6 +42,10 @@ public class Stringy extends LXPattern {
     addModulator(wave100).start();
     addParameter("waveSlope", waveSlope);
     addParameter("speedParam", speedParam);
+
+    d = new float[model.points.length][model.points.length];
+    norms = new float[model.points.length];
+    shadow = new float[model.points.length][3];
 
     for (int i=0; i<model.points.length; i++) {
       shadow[i][0]=0;

@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import entwined.core.TSTriggerablePattern;
 import entwined.modulator.Recordings;
 import entwined.pattern.anon.ColorEffect;
 import entwined.pattern.kyle_fleming.BrightnessScaleEffect;
@@ -23,12 +24,13 @@ import heronarts.lx.mixer.LXAbstractChannel;
 import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.parameter.BoundedParameter;
 import heronarts.lx.parameter.LXListenableNormalizedParameter;
+import heronarts.lx.pattern.LXPattern;
 
 /*
- * Provides interface and controls for the iPad app
+ * Provides interface and controls for external controllers (iPad app, NFC controller)
  */
 
-public class IPadServerController {
+public class EngineController {
   LX lx;
 
   int baseChannelIndex; // the starting channel that the engine controls - ie, 8
@@ -49,11 +51,13 @@ public class IPadServerController {
   BrightnessScaleEffect masterBrightnessEffect;
   BrightnessScaleEffect autoplayBrightnessEffect;
   BoundedParameterProxy outputBrightness;
+  Entwined engine;
 
   double masterBrightnessStash = 1.0;
 
-  IPadServerController(LX lx) {
+  EngineController(LX lx, Entwined engine) {
     this.lx = lx;
+    this.engine = engine;
 
     baseChannelIndex = Config.NUM_BASE_CHANNELS;
     numServerChannels = Config.NUM_SERVER_CHANNELS;
@@ -67,6 +71,19 @@ public class IPadServerController {
   void shutdown() {
   }
 
+  <T extends TSTriggerablePattern> T setupPatternEffect(Class<T> clazz) {
+    TSTriggerablePattern pattern = (TSTriggerablePattern)Entwined.setupTriggerablePattern(lx, engine.effectsChannel, clazz);
+    if (pattern != null) {
+      pattern.enableTriggerMode();
+    } else {
+      System.out.println("Could not create pattern for class " + clazz);
+    }
+    return (T) pattern;
+  }
+
+  void addPatternEffect(TSTriggerablePattern pattern) {
+    engine.effectsChannel.addPattern(pattern);
+  }
   /*
    * getChannels()
    * Gets the 'iPad channels' only
@@ -95,6 +112,24 @@ public class IPadServerController {
     if (abstractChannel instanceof LXChannel) {
       LXChannel channel = (LXChannel)abstractChannel;
       channel.goPatternIndex(patternIndex);
+    }
+  }
+
+  void setChannelPattern(int channelIndex, String patternName) {
+    if (isAutoplaying) {
+      System.out.println("ENTWINED: Attempting to remotely change channel during autoplay, aborting");
+      return;
+    }
+    System.out.println("Set channel pattern - idx " + channelIndex + " name " + patternName);
+    LXAbstractChannel abstractChannel = lx.engine.mixer.getChannel(channelIndex);
+    if (abstractChannel instanceof LXChannel) {
+      LXChannel channel = (LXChannel)abstractChannel;
+      LXPattern pattern = channel.getPattern(patternName); 
+      if (pattern != null) {
+        channel.goPattern(pattern);
+      } else {
+        System.out.println("could not find pattern for " + patternName);
+      }
     }
   }
 
@@ -160,7 +195,6 @@ public class IPadServerController {
   void setChannelVisibility(int channelIndex, double visibility) {
     // have to be sure
     LXAbstractChannel channel = lx.engine.mixer.getChannel(channelIndex);
-    //channel.enabled.setValue(true);
     channel.fader.setValue(visibility);
   }
 
@@ -242,7 +276,6 @@ public class IPadServerController {
     System.out.println("Get Master Hue: stub");
     return(0.0f);
   }
-
 
   void setAutoplay(boolean autoplay) {
     setAutoplay(autoplay, false);
