@@ -284,33 +284,43 @@ public class NFCServer implements LXLoopTask {
     boolean onOff;
     NFCPattern pattern;
     String patternName;
-    // Format of the command is channel/<channelid>/pattern/<patternName> ,s [T|F]
+    // Format of the command is /channel/<channelid>/pattern/<patternName> ,s [T|F]
     try {
-      if (!command.startsWith("channel/")) {
-        throw new RuntimeException("Does not start with 'channel/'");
+      if (!command.startsWith("/channel/")) {
+        throw new RuntimeException("Does not start with '/channel/'");
       }
 
-      channelIdx = Character.getNumericValue(command.charAt(8));
+      channelIdx = Character.getNumericValue(command.charAt(9));
       if (channelIdx > 9 || channelIdx < 0) {
         throw new RuntimeException("Channel Idx OOB");
       }
 
-      if (!command.substring(9,18).equals("/pattern/")) {
+      if (!command.substring(10,19).equals("/pattern/")) {
         throw new RuntimeException("Does not contain '/pattern/' at correct location");
       }
 
-      int spacerIdx = command.indexOf(" ,");
-      if (spacerIdx < 19) {
-        throw new RuntimeException("Does not contain spacer characters");
+      int commaIdx = command.indexOf(",");
+      if (commaIdx < 20) {
+        throw new RuntimeException("Does not contain comma characters");
       }
 
-      patternName = command.substring(18, spacerIdx);
+      int patternNameEnd = command.indexOf('/', 20);
+      patternName = command.substring(19, patternNameEnd);
 
-      char tf = command.charAt(spacerIdx + 2);
-      if (tf != 'T'&& tf != 'F') {
+      int typeIdx = commaIdx + 1;
+      while (typeIdx < command.length() && command.charAt(typeIdx) == ' '){
+        typeIdx++;
+      }
+
+      int tIdx = command.indexOf('T', typeIdx+1);
+      int fIdx = command.indexOf('F', typeIdx+1);
+      if (tIdx > 0) {
+        onOff = true;
+      } else if (fIdx > 0) {
+        onOff = false;
+      } else {
         throw new RuntimeException("Does not contain T|F signal ");
       }
-      onOff = (tf == 'T');
 
       // Okay, string believed to be parseable
       // Check semantic validity
