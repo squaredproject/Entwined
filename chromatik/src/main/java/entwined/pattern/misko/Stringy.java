@@ -33,81 +33,7 @@ public class Stringy extends LXPattern {
 	private int halo_c=40; // connectivity //transc must be smaller than halo c
 	private int current_cube[][]; // n x 3 (RGB)
 	final BoundedParameter speedParam = new BoundedParameter("Speed", 5, 20, .01);
-	final BoundedParameter waveSlope = new BoundedParameter("wvSlope", 360, 1, 720);
-	final SawLFO wave360 = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
-	final SinLFO wave100 = new SinLFO(0, 100, speedParam.getValuef() * speedMult);
 	private int update=0;
-
-	private class Sprite {
-		float bias_xyz[];
-		float rgb[];
-		int current_cube;
-		double ms_since_last_update;
-		float color_density;
-		int sprite_id;
-		float velocity[];
-		int stay_away;
-		float inv_bias_xyz[];
-			
-		public void transistion() {
-			float new_p = (float)Math.random();
-			for (int j=0; j<trans_c; j++) { //connectivity
-				float p = trans_mat[this.current_cube][j];
-				if (new_p>p) {
-					new_p-=p;
-				} else {
-					this.current_cube=conn_mat[this.current_cube][j];
-					break;
-				}
-			}
-		}
-
-		public void add_ms(double ms) {
-
-			this.ms_since_last_update+=ms;
-		}
-
-		public Sprite(int sprite_id, float rgb[], int current_cube) {
-			this.velocity = new float[3];
-			this.bias_xyz = new float[]{1.0f,1.0f,1.0f};
-			this.inv_bias_xyz = new float[]{1.0f,1.0f,1.0f};
-			this.ms_since_last_update=0;
-			this.sprite_id = sprite_id;
-			this.rgb=rgb.clone();
-			this.stay_away=-1;
-			if (current_cube==-1) {
-				while (1==1) {
-					current_cube=(int)(Math.random() * (model.points.length - 1) + 0);
-					if (sprite_at_cube[current_cube]==-1) {
-						this.current_cube=current_cube;
-						break;
-					}	
-				}
-			}
-			assert(sprite_at_cube[this.current_cube]==-1);
-			sprite_at_cube[this.current_cube]=this.sprite_id;
-			this.current_cube=current_cube;
-			this.color_density=8.0f;
-		}
-
-		public void shadow() {
-			for (int k=0; k<3; k++) {
-				shadow[this.current_cube][k]=Math.max(this.rgb[k],shadow[this.current_cube][k]);
-			}
-			for (int j=1; j<halo_c; j++) { // the c nearest neighbors
-				int neighbor=conn_mat[this.current_cube][j];
-				for (int k=0; k<3; k++) {
-					shadow[neighbor][k]=Math.max(
-						shadow[neighbor][k],
-						Math.min(
-								1.0f,
-								this.rgb[k]*halo_mat[this.current_cube][j]*this.color_density)
-							);
-
-				}
-			}
-		}
-	}
 
 	private void vec3_mul(float a[], float b[], float c[]) {
 		for (int k=0; k<3; k++) {
@@ -174,12 +100,64 @@ public class Stringy extends LXPattern {
 	}
 
 
-	public class SpriteBias extends Sprite {
+	public class Sprite  {
+		float bias_xyz[];
+		float rgb[];
+		int current_cube;
+		double ms_since_last_update;
+		float color_density;
+		int sprite_id;
+		float velocity[];
+		int stay_away;
+		float inv_bias_xyz[];
 		float stay_prob;
 		float acceleration;
 		float angular;
-		public SpriteBias(int sprite_id, float rgb[], int current_cube, float bias_xyz[], float stay_prob, float color_density, int stay_away, float angular) {
-			super(sprite_id, rgb, current_cube);
+
+		public void add_ms(double ms) {
+
+			this.ms_since_last_update+=ms;
+		}
+
+
+		public void shadow() {
+			for (int k=0; k<3; k++) {
+				shadow[this.current_cube][k]=Math.max(this.rgb[k],shadow[this.current_cube][k]);
+			}
+			for (int j=1; j<halo_c; j++) { // the c nearest neighbors
+				int neighbor=conn_mat[this.current_cube][j];
+				for (int k=0; k<3; k++) {
+					shadow[neighbor][k]=Math.max(
+						shadow[neighbor][k],
+						Math.min(
+								1.0f,
+								this.rgb[k]*halo_mat[this.current_cube][j]*this.color_density)
+							);
+
+				}
+			}
+		}
+		public Sprite(int sprite_id, float rgb[], int current_cube, float bias_xyz[], float stay_prob, float color_density, int stay_away, float angular) {
+			this.velocity = new float[3];
+			this.bias_xyz = new float[]{1.0f,1.0f,1.0f};
+			this.inv_bias_xyz = new float[]{1.0f,1.0f,1.0f};
+			this.ms_since_last_update=0;
+			this.sprite_id = sprite_id;
+			this.rgb=rgb.clone();
+			this.stay_away=-1;
+			if (current_cube==-1) {
+				while (1==1) {
+					current_cube=(int)(Math.random() * (model.points.length - 1) + 0);
+					if (sprite_at_cube[current_cube]==-1) {
+						this.current_cube=current_cube;
+						break;
+					}	
+				}
+			}
+			assert(sprite_at_cube[this.current_cube]==-1);
+			sprite_at_cube[this.current_cube]=this.sprite_id;
+			this.current_cube=current_cube;
+			this.color_density=8.0f;
 			this.bias_xyz=bias_xyz.clone();
 			this.stay_prob=stay_prob;
 			this.velocity =  new float[3];
@@ -315,9 +293,6 @@ public class Stringy extends LXPattern {
 	public Stringy(LX lx) {
 		super(lx);
 		assert(trans_c<=halo_c);
-		addModulator(wave360).start();
-		addModulator(wave100).start();
-		addParameter("waveSlope", waveSlope);
 		addParameter("speedParam", speedParam);
 
 		center = new float[3];
@@ -404,20 +379,20 @@ public class Stringy extends LXPattern {
 	
 
 		for (int i=0; i<(n/2-1); i++) {
-			sprites[i*2]=new SpriteBias(i*2,
+			sprites[i*2]=new Sprite(i*2,
 					new float[]{1.0f,0.0f,0.0f},
 					-1,
 					bias_to_y, 0.01f, 1.0f, -1,0.0f);
-			sprites[i*2+1]=new SpriteBias(i*2+1,
+			sprites[i*2+1]=new Sprite(i*2+1,
 					new float[]{0.0f,1.0f,0.0f},
 					-1,
 					bias_to_notz, 0.01f, 1.0f, 2,0.0f);
 		}
-		sprites[n-2]=new SpriteBias(n-2,
+		sprites[n-2]=new Sprite(n-2,
 				new float[]{0.0f,0.0f,1.0f},
 				-1,
 				bias_to_none, 0.1f, 10.0f, 1,0.05f);
-		sprites[n-1]=new SpriteBias(n-1,
+		sprites[n-1]=new Sprite(n-1,
 				new float[]{0.0f,0.0f,1.0f},
 				-1,
 				bias_to_none, 0.1f, 10.0f, 1,0.05f);
