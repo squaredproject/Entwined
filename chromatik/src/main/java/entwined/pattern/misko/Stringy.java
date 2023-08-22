@@ -18,32 +18,112 @@ public class Stringy extends LXPattern {
 	private double total_ms1 =0.0;
 	private double total_ms2 =0.0;
 	static float[][] trans_mat;
+	static float stay_prob=0.05f;
 	static float[][] halo_mat;
 	static float[][] dist_mat;
+	static float[][][] three_dist_mat;
 	static int[][] conn_mat; 
 	static float[] norms;
 	static float[][] shadow;
 	private int n=5; // number of sprites
+	private Sprite[] sprites;
 	private int trans_c=10; // connectivity
-	private int halo_c=10; // connectivity //transc must be smaller than halo c
+	private int halo_c=30; // connectivity //transc must be smaller than halo c
 	private int current_cube[][]; // n x 3 (RGB)
 	final BoundedParameter speedParam = new BoundedParameter("Speed", 5, 20, .01);
 	final BoundedParameter waveSlope = new BoundedParameter("wvSlope", 360, 1, 720);
 	final SawLFO wave360 = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
 	final SinLFO wave100 = new SinLFO(0, 100, speedParam.getValuef() * speedMult);
+	private int update=0;
+
+	private class Sprite {
+		float rgb[];
+		int current_cube;
+		
+		public void transistion() {
+			float new_p = (float)Math.random();
+			for (int j=0; j<trans_c; j++) { //connectivity
+				float p = trans_mat[this.current_cube][j];
+				if (new_p>p) {
+					new_p-=p;
+				} else {
+					this.current_cube=conn_mat[this.current_cube][j];
+					break;
+				}
+			}
+		}
+
+		public Sprite(float rgb[], int current_cube) {
+			this.rgb=rgb.clone();
+			this.current_cube=current_cube;
+		}
+
+		public void shadow() {
+			for (int k=0; k<3; k++) {
+				shadow[this.current_cube][k]=Math.max(this.rgb[k],shadow[this.current_cube][k]);
+			}
+			for (int j=1; j<halo_c; j++) { // the c nearest neighbors
+				int neighbor=conn_mat[this.current_cube][j];
+				for (int k=0; k<3; k++) {
+					shadow[neighbor][k]=Math.min(
+						1,
+						new_shadow(
+							shadow[neighbor][k],this.rgb[k]*halo_mat[this.current_cube][j]));
+					//shadow[neighbor][k]=this.rgb[k];
+				}
+			}
+		}
+	}
+
+	public class SpriteCompute extends Sprite {
+		public SpriteCompute(float rgb[], int current_cube) {
+			super(rgb, current_cube);
+		}
+		public void transistion() {
+			//lets recompute the transistion probabilities here
+			float trans_p[] = new float[trans_c];
+			float norm=0.0f;
+			trans_p[0]=stay_prob;
+			for (int j=1; j<trans_c; j++) {
+				trans_p[j]=diffs_to_dist(three_dist_mat[this.current_cube][j]);
+				norm+=trans_p[j];
+			}
+			for (int j=1; j<trans_c; j++) {
+				trans_p[j]*=(1-trans_p[0])/norm;
+			}
+			float new_p = (float)Math.random();
+			for (int j=0; j<trans_c; j++) { //connectivity
+				float p = trans_p[j];
+				if (new_p>p) {
+					new_p-=p;
+				} else {
+					this.current_cube=conn_mat[this.current_cube][j];
+					break;
+				}
+			}
+		}
+	}
+
+	private float diffs_to_dist(float diffs[]) {
+		float sum=0.0f;
+		for (int i=0; i<3; i++){ 
+			sum+=Math.pow(diffs[i],2);
+		}
+		return (float)(Math.pow(sum,0.5));
+	}
 
 	private class PDCube implements Comparable<PDCube> {
-		float probability;
-		float distance;
+		float diffs[];
 		int cube;
-		public PDCube(float probability, float distance, int cube) {
-			this.probability=probability;
-			this.distance=distance;
+		float distance;
+		public PDCube(float diffs[], int cube) {
+			this.diffs=diffs.clone();
 			this.cube=cube;
+			this.distance=diffs_to_dist(this.diffs);
 		}
 		@Override public int compareTo(PDCube a)
 		{
-			if (this.probability>a.probability) {
+			if (this.distance<a.distance) {
 				return 1;
 			}
 			return -1;
@@ -71,8 +151,10 @@ public class Stringy extends LXPattern {
 		trans_mat = new float[model.points.length][trans_c];
 		halo_mat = new float[model.points.length][halo_c];
 		dist_mat = new float[model.points.length][halo_c];
+		three_dist_mat = new float[model.points.length][halo_c][3];
 		conn_mat = new int[model.points.length][halo_c];
 		shadow = new float[model.points.length][3];
+		sprites = new Sprite[n];
 
 		for (int i=0; i<model.points.length; i++) {
 			shadow[i][0]=0;
@@ -86,14 +168,17 @@ public class Stringy extends LXPattern {
 					float d = dist(cubei.x,cubei.y,cubei.z,cubej.x,cubej.y,cubej.z);
 					assert(d!=0.0f);
 					assert(Float.isInfinite(1.0f/d));
-					pQueue.add( new PDCube(1.0f/d,d,j)); // add it 
+					pQueue.add( new PDCube(
+								new float[]{cubei.x-cubej.x,
+								cubei.y-cubej.y,
+								cubei.z-cubej.z},j)); // add it 
 					while (pQueue.size()>=halo_c) { // remove the smallest probabilities
 						pQueue.poll();
 					}
 				}
 			}
 			Iterator<PDCube> it = pQueue.iterator();
-			trans_mat[i][0]=0.2f; // default stay probability
+			trans_mat[i][0]=stay_prob; // default stay probability
 			halo_mat[i][0]=0.0f; // default stay probability
 			dist_mat[i][0]=0.0f;
 			conn_mat[i][0]=i;
@@ -103,10 +188,13 @@ public class Stringy extends LXPattern {
   			while (it.hasNext()) {
 				PDCube pc = pQueue.poll(); // gonna pop the smallest prop, so go backwards
 				if (j<trans_c) {
-					trans_mat[i][j]=pc.probability;
+					trans_mat[i][j]=1.0f/pc.distance;
 				}
-				halo_mat[i][j]=pc.probability;
+				halo_mat[i][j]=1.0f/pc.distance;
 				dist_mat[i][j]=pc.distance;
+				for (int k=0; k<3; k++) {
+					three_dist_mat[i][j][k]=pc.diffs[k];
+				}
 				conn_mat[i][j--]=pc.cube;
 			}
 			for (j=2; j<halo_c; j++) {
@@ -114,11 +202,11 @@ public class Stringy extends LXPattern {
 			}
 
 			float trans_norm=trans_mat[i][0];
-			for (j=0; j<trans_c; j++) {
+			for (j=1; j<trans_c; j++) {
 				trans_norm+=trans_mat[i][j];
 			}
-			for (j=0; j<trans_c; j++) {
-				trans_mat[i][j]/=trans_norm;
+			for (j=1; j<trans_c; j++) {
+				trans_mat[i][j]*=(1-trans_mat[i][0])/trans_norm; // keep the original stay probability
 			}
 
 			float halo_norm=trans_mat[i][0];
@@ -129,11 +217,9 @@ public class Stringy extends LXPattern {
 				halo_mat[i][j]/=trans_norm;
 			}
 		}
-		current_cube = new int[n][3];
+
 		for (int i=0; i<n; i++) {
-			current_cube[i][0]=(int)(Math.random() * (model.points.length - 0 + 1) + 0);
-			current_cube[i][1]=(int)(Math.random() * (model.points.length - 0 + 1) + 0);
-			current_cube[i][2]=(int)(Math.random() * (model.points.length - 0 + 1) + 0);
+			sprites[i]=new SpriteCompute(new float[]{1.0f,0.2f,0.2f},(int)(Math.random() * (model.points.length - 0 + 1) + 0));
 		}
 	}
 
@@ -149,13 +235,7 @@ public class Stringy extends LXPattern {
 
 	//decay the shadow on this cube
 	private float new_shadow(float old_shadow, float current_p) {
-		//float d_shadow = (float)(current_d*current_d/(0.0005*0.0005))*0.1f; //d_shadow proportional to distance to sprite
-		//float d_shadow = Math.min(1.0f,1.0f/current_d);
-		//if (current_d==0.0) {
-		//	d_shadow=1.0f;
-		//}
-		//System.out.println(""+current_d+" " +d_shadow);
-		float d_shadow=Math.max(0.4f,current_p);
+		float d_shadow=Math.max(0.1f,current_p);
 		float m_shadow = (old_shadow);
 		if (d_shadow>m_shadow) {
 			return (d_shadow);
@@ -185,44 +265,22 @@ public class Stringy extends LXPattern {
 				colors[cube.index] = LX.hsb( h  , 100, Math.min(100,v));
 			}
 			if (total_ms2>10) {
-				//low brightness
+				//fade the tails
 				for (int i=0; i<model.points.length; i++ ) {
 					for (int k=0; k<3; k++) {
 						shadow[i][k]*=0.99f;
 					}
-					//colors[cube.index] = LX.hsb( 50,50,50);
 				}
+				//update shadows
 				for (int i=0; i<n; i++) { // for each sprite lets see which cubes need updates
-					for (int k=0; k<3; k++) { // RGB
-						int cc=current_cube[i][k];
-						shadow[cc][k]=1; // full shadow because its a hit!
-						for (int j=1; j<halo_c; j++) { // the c nearest neighbors
-							int neighbor=conn_mat[cc][j];
-							shadow[neighbor][k]=Math.min(1,new_shadow(shadow[neighbor][k],halo_mat[cc][j]));
-						}
-					}
+					sprites[i].shadow();
 				}
 				total_ms2=0;
 			}
 			//move the sprites to a new cube based on probability
-			if (total_ms1>10*speedParam.getValuef()) {
-
+			if (total_ms1>speedParam.getValuef()) {
 				//transition to new cube
-				for (int i=0; i<n; i++) { //sprite 
-					for (int k=0; k<3; k++) { //channel
-						int cc = current_cube[i][k];
-						float new_p = (float)Math.random();
-						for (int j=0; j<trans_c; j++) { //connectivity
-							float p = trans_mat[cc][j];
-							if (new_p>p) {
-								new_p-=p;
-							} else {
-								current_cube[i][k]=conn_mat[cc][j];
-								break;
-							}
-						}
-					}
-				}
+				sprites[(update++)%n].transistion();
 				total_ms1=0;
 			}
 		}
