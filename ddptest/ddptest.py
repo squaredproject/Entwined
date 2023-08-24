@@ -461,17 +461,17 @@ def arg_init():
     if args.lpc:
         LEDS_PER_CUBE = args.lpc
     if args.cubes:
-        args.leds = args.cubes * LEDS_PER_CUBE
+        NUM_LEDS = args.cubes * LEDS_PER_CUBE
     # and so is this! must be last
-    if args.leds:
+    elif args.leds:   # there is a default, so this will be true
         print( "arg leds: {}".format(args.leds))
         NUM_LEDS = args.leds
-        leds = bytearray(NUM_LEDS * 3) 
-    if args.color:
-        COLOR = args.color
-    if (args.leds * 3 > 1490):
+    if (NUM_LEDS * 3 > 1490):
         print( " MTU will exceed 1500, aborting ")
         exit(-1)
+    leds = bytearray(NUM_LEDS * 3)
+    if args.color:
+        COLOR = args.color
 
     return args
 
