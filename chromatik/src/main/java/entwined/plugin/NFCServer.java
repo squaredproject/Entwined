@@ -42,6 +42,7 @@ public class NFCServer implements LXLoopTask {
   // XXX - why final on some of these things?
   TSServer server;
   EngineController engineController;
+  Boolean autoPlaying = false;
   HashMap<String, NFCPattern> patternMap;
   HashMap<String, NFCOneShot> oneShotMap;
   NFCPattern[] activities; // XXX must make it size 4, or whatever the size is
@@ -212,7 +213,11 @@ public class NFCServer implements LXLoopTask {
 
     // Turn on attract mode, if we've hit the timeout
     if (attractModeEnable && attractModeTimeout < EntwinedUtils.millis()) {
-      engineController.setAutoplay(true);
+      if (!autoPlaying) {
+        System.out.println("Attract mode enable!!!");
+        engineController.setAutoplay(true);
+        autoPlaying = true;
+      }
     }
     TSClient client = server.available(); // XXX  this needs not to block!
     if (client == null) return;
@@ -228,7 +233,9 @@ public class NFCServer implements LXLoopTask {
       System.out.println("could not find pattern for command " + command);
       return;
     }
+    System.out.println("Trigger received, turn off autoplay");
     engineController.setAutoplay(false);
+    autoPlaying = false;
     attractModeTimeout = EntwinedUtils.millis() + ATTRACT_MODE_TIMEOUT_MS;
 
     if (!trigger.onOff) {
