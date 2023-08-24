@@ -48,5 +48,6 @@ fi
 
 [[ -e $1/autoplay.lxr ]] && cp $1/autoplay.lxr $I
 
+# this one is independant of the installation
 mkdir -p $I/Videos
-cp $1/../videos/* $I/Videos
+cp ../videos/* $I/Videos
