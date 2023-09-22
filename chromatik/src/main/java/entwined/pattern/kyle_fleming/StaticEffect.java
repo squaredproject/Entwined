@@ -17,6 +17,14 @@ public class StaticEffect extends LXEffect {
     addParameter("amount", amount);
   }
 
+  public int getAmount() {
+    return (int)(amount.getValue());
+  }
+
+  public void setAmount(double val) {
+    amount.setValue(val);
+  }
+
   @Override
   protected void run(double deltaMs, double strength) {
     if (amount.getValue() > 0) {

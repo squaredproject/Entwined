@@ -15,8 +15,8 @@ import entwined.pattern.kyle_fleming.CandyTextureEffect;
 import entwined.pattern.kyle_fleming.ColorStrobeTextureEffect;
 import entwined.pattern.kyle_fleming.FadeTextureEffect;
 import entwined.pattern.kyle_fleming.ScrambleEffect;
+import entwined.pattern.kyle_fleming.StaticEffect;
 import entwined.pattern.kyle_fleming.SpeedEffect;
-import entwined.pattern.kyle_fleming.TSBlurEffect;
 import heronarts.lx.LX;
 import heronarts.lx.effect.BlurEffect;
 import heronarts.lx.effect.LXEffect;
@@ -47,6 +47,7 @@ public class EngineController {
   SpeedEffect speedEffect;
   // SpinEffect spinEffect;
   BlurEffect blurEffect;
+  StaticEffect staticEffect;
   ScrambleEffect scrambleEffect;
   BrightnessScaleEffect masterBrightnessEffect;
   BrightnessScaleEffect autoplayBrightnessEffect;
@@ -164,8 +165,9 @@ public class EngineController {
     // Essentially, I've got a race condition going on that I cannot win - I need general effects, then ipad effects,
     // and then global effects.
     speedEffect = Entwined.setupMasterEffect(lx, SpeedEffect.class);
-    blurEffect = Entwined.setupMasterEffect(lx, TSBlurEffect.class);  // XXX - replace with standard blur effect?
+    blurEffect = Entwined.setupMasterEffect(lx, BlurEffect.class);  // XXX - replace with standard blur effect?
     scrambleEffect = Entwined.setupMasterEffect(lx, ScrambleEffect.class);
+    staticEffect = Entwined.setupMasterEffect(lx, StaticEffect.class);
     masterBrightnessEffect = Entwined.setupMasterEffectWithName(lx, BrightnessScaleEffect.class, Entwined.masterBrightnessName);
     autoplayBrightnessEffect = Entwined.setupMasterEffectWithName(lx, BrightnessScaleEffect.class, Entwined.autoplayBrightnessName);
 
@@ -196,6 +198,9 @@ public class EngineController {
     // have to be sure
     LXAbstractChannel channel = lx.engine.mixer.getChannel(channelIndex);
     channel.fader.setValue(visibility);
+    if (visibility > 0) {
+      channel.enabled.setValue(true);
+    }
   }
 
   void setActiveColorEffect(int effectIndex) {
@@ -220,6 +225,11 @@ public class EngineController {
   void setSpeed(double amount) {
     if (!isAutoplaying) {
       speedEffect.speed.setValue(amount);
+      if (amount > 0) {
+        speedEffect.enable();
+      } else {
+        speedEffect.disable();
+      }
     }
   }
 
@@ -234,12 +244,33 @@ public class EngineController {
   void setBlur(double amount) {
     if (!isAutoplaying) {
       blurEffect.level.setValue(amount);
+      if (amount > 0) { 
+        blurEffect.enable();
+      } else {
+        blurEffect.disable();
+      }
     }
   }
 
   void setScramble(double amount) {
     if (!isAutoplaying) {
       scrambleEffect.setAmount(amount);
+      if (amount > 0) {
+        scrambleEffect.enable();
+      } else {
+        scrambleEffect.disable();
+      }
+    }
+  }
+
+  void setStatic(double amount) {
+    if (!isAutoplaying) {
+      staticEffect.setAmount(amount);
+      if (amount > 0) {
+        staticEffect.enable();
+      } else {
+        staticEffect.disable();
+      }
     }
   }
 

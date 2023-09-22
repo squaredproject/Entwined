@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 import heronarts.lx.LX;
+import heronarts.lx.effect.BlurEffect;
 import heronarts.lx.LXDeviceComponent;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.midi.LXMidiInput;
@@ -44,7 +45,6 @@ import entwined.pattern.kyle_fleming.GhostEffect;
 import entwined.pattern.kyle_fleming.ScrambleEffect;
 import entwined.pattern.kyle_fleming.SpeedEffect;
 import entwined.pattern.kyle_fleming.StaticEffect;
-import entwined.pattern.kyle_fleming.TSBlurEffect;
 import entwined.pattern.kyle_fleming.Wisps;
 import entwined.pattern.ray_sykes.Lightning;
 
@@ -252,7 +252,8 @@ public class Entwined implements LXStudio.Plugin {
    */
   private void setupMasterEffects() {
 
-    setupMasterEffect(lx, TSBlurEffect.class);
+    System.out.println("*** SETUP MASTER EFFECTS ***");
+    setupMasterEffect(lx, BlurEffect.class);
     setupMasterEffect(lx, ColorEffect.class);
     setupMasterEffect(lx, HueFilterEffect.class);
     setupMasterEffect(lx, GhostEffect.class);
