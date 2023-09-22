@@ -143,7 +143,7 @@ Mac & Linux: `run.sh`
 You should see a window with some blinking lights. If the window is not the
 correct size, resize it (the value is sticky).
 
-# Headless mode (raspberry pi, although mac and maybe windows should work)
+# Headless mode (raspberry pi)
 
 ## Prerequsites
 
@@ -172,6 +172,7 @@ From the same directory as `headless.sh`
 ```
 java  -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies.jar heronarts.lx.studio.Chromatik --authorize <authkey>
 ```
+
 
 # Connecting to Canopy
 
@@ -203,20 +204,6 @@ However, if you prefer to run directly from Eclipse, such as for pattern develop
 
 - Run `uninstall.sh` to ensure that the built Entwined package JAR is removed from the Chromatik content folder
 - Use the `Entwined.launch` Run Configuration for Eclipse to launch
-
-# Using the video player pattern
-
-There is now a somewhat special pattern called Video Player.
-
-If you put videos in the Chromatik/Videos directory, you can play them on sculptures using this plugin.
-
-You choose the file with a knob which is the numerical index of the file in the directory (lexographically). `a.mp4` would be 1, `b.mp4` would be 2.
-
-This plugin has only been tested with MP4 files.
-
-The video will be projected as a cylendar. This means it might stretch or otherwise be a bit weird. TODO for the future is add some knobs that would allow correction for different zoom factors.
-
-The install script now copies the contents of the checked in `chromatik` to the installation's `~/Chromatik`. Please be judicious in checking in video files.
 
 # Using Chromatik
 
