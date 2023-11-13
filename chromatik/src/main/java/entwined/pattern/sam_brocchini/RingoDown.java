@@ -10,7 +10,7 @@ import java.util.Random;
 
 import entwined.core.CubeManager;
 
-public class RingMaster extends LXPattern {
+public class RingoDown extends LXPattern {
 
   CompoundParameter thickness =  new CompoundParameter ("Thickness", 10, 0, 40);
   CompoundParameter colorOfCubes =  new CompoundParameter ("Color", 20, 0, 360);
@@ -19,7 +19,7 @@ public class RingMaster extends LXPattern {
 
   SawLFO position = new SawLFO(350, 0, speed);
 
-  public RingMaster(LX lx) {
+  public RingoDown(LX lx) {
     super(lx);
     addParameter("thickness", thickness);
     addParameter("color", colorOfCubes);
