@@ -15,7 +15,6 @@ public class FreeFall extends LXPattern {
         10f, 400f);
     final BoundedParameter blobHeightParam = new BoundedParameter("HGT", 60f,
         10f, 400f);
-    // Size of simplex noise blobs. Number from 0 to 2.
     final BoundedParameter fillParam = new BoundedParameter("FIL", 25f, 0.001f,
         100f);
 
