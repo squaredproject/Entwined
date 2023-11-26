@@ -96,7 +96,7 @@ def write_fixture_files(ndbs, branches, fixtures_folder: str):
 
     # and now the final elder mother file -
     lx_output = {"label": "elder_mother",
-                 "tags": ["TREE"],
+                 "tags": ["TREE", "elder_mother"],
                  "components": [],
                 }
     components = lx_output["components"]
