@@ -19,11 +19,10 @@ run them within Powershell.
 
 ## LX Studio
 
-You don't need to install LX Studio. Chromatik is what you need, and it's right here.
+You don't need to install LX Studio. Chromatik is what you need, and the libraries are in this repo. You don't need to download anything extra.
 
 If you'd like to read about it, this is [your best starting point for LX Studio](https://github.com/heronarts/LXStudio)
-but don't read the installation guide, because it walks through an installation
-with Processing.
+but don't read the installation guide: it discussed Processing, which Chromatik doesn't use.
 
 ## JDK
 
