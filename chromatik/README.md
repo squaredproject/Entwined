@@ -7,7 +7,7 @@ programming and use is the same. The installation is different, see below.
 
 [Check here for an Entwined based guide to using Chromatik](USE.md).
 
-# Prerequisites (Interactive, Headless at end)
+# Prerequisites (Interactive instructions: Headless at end)
 
 ## (Windows) Powershell
 
