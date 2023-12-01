@@ -32,6 +32,7 @@ use of Java. Please use Processing 4 (available from Processing) to resolve thos
 # Making Patterns for Elder Mother
 
 See the complete README on pattern development [here](https://github.com/squaredproject/Entwined/tree/master/chromatik/src/main/java/entwined/pattern).
+OR follow through with our full [video tutorial](https://drive.google.com/drive/folders/1ZngvyDN9qjn0nojwjSn4Cn7enOzynoKP?usp=sharing)
 
 # Testing pieces in the shop
 
