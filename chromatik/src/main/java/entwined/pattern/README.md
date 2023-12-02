@@ -1,6 +1,6 @@
 # **Writing Patterns for Elder Mother**
 
-*A video of this whole process is coming soon...*
+Finally! You can follow [this video tutorial](https://drive.google.com/drive/folders/1ZngvyDN9qjn0nojwjSn4Cn7enOzynoKP?usp=sharing) on writing patterns for Elder Mother!
 
 This doc will teach you how to write patterns for [Elder Mother](https://www.charlesgadeken.com/elder-mother), Charlie Gadeken's latest sculpture which debuted at Burning Man 2023. 
 
