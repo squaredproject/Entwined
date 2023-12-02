@@ -36,6 +36,9 @@ if (Test-Path -Path $install_dir/trees.json -PathType Leaf) {
 if (Test-Path -Path $install_dir/bench.json -PathType Leaf) {
         python bench.py --config $install_dir/bench.json --fixtures_folder $fixtures_dir
 }
+if (Test-Path -Path $install_dir/spots.json -PathType Leaf) {
+        python spot.py --config $install_dir/spots.json --fixtures_folder $fixtures_dir
+}
 if (Test-Path -Path $install_dir/elder_mother_cubes.csv -PathType Leaf) {
         python elder_mother.py --ndb_config $install_dir/elder_ndb_ips.txt --cubes_config $install_dir/elder_mother_cubes.csv --fixtures_folder $fixtures_dir
 }

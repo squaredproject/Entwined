@@ -36,6 +36,11 @@ then
   python bench.py --config $1/bench.json --fixtures_folder $I/Fixtures/Entwined
 fi
 
+if [ -f $1/spots.json ]
+then
+  python spot.py --config $1/spots.json --fixtures_folder $I/Fixtures/Entwined
+fi
+
 if [[ -f $1/elder_mother_cubes.csv ]]; then
     python elder_mother.py --ndb_config $1/elder_ndb_ips.txt --cubes_config $1/elder_mother_cubes.csv --fixtures_folder $I/Fixtures/Entwined/
     echo "Created elder mother fixtures"
