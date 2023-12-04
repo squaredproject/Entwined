@@ -6,7 +6,7 @@
 			"type" : "classic",
 			"cubeSizeIndex": 1,
 			"pieceId" : "shrub-1",
-			"shrubIpAddress" : "10.0.0.216"
+			"shrubIpAddress" : "10.0.0.119"
 	},
 	{
 			"ry" : 0,
@@ -15,7 +15,7 @@
 			"type" : "king",
 			"cubeSizeIndex": 1,
 			"pieceId" : "shrub-2",
-			"shrubIpAddress" : "10.0.0.225"
+			"shrubIpAddress" : "10.0.0.118"
 	},
 	{
 			"ry" : 0,
@@ -24,7 +24,7 @@
 			"type" : "king",
 			"cubeSizeIndex": 1,
 			"pieceId" : "shrub-3",
-			"shrubIpAddress" : "10.0.0.221"
+			"shrubIpAddress" : "10.0.0.120"
 	},
 	{
 			"ry" : 0,
@@ -33,6 +33,6 @@
 			"type" : "classic",
 			"cubeSizeIndex": 1,
 			"pieceId" : "shrub-4",
-			"shrubIpAddress" : "10.0.0.226"
+			"shrubIpAddress" : "10.0.0.113"
 	}
 ]
