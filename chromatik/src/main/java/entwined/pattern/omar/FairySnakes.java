@@ -186,6 +186,11 @@ public class FairySnakes extends TSBufferedPattern {
     if (alternate == true) {
       path = snakePathsAlternate.get(pieceId);
     }
+    // this is an error case. The function doesn't have any kind of error return though
+    if (path == null) {
+      System.out.println(" can't create snakes ");
+      return;
+    }
 
     for (int i = 0; i < snakeLength; i++) {
       int index = (int)(Math.round(i + counter + offset) % path.size());
