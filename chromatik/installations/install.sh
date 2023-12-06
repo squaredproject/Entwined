@@ -56,3 +56,8 @@ fi
 # this one is independant of the installation
 mkdir -p $I/Videos
 cp ../videos/* $I/Videos
+
+# move ddptest_ndb_ips.txt tp ddbptest folder and rename
+if [[ -f $1/ddptest_ndb_ips.txt ]]; then
+    cp $1/ddptest_ndb_ips.txt  ../../ddptest/ndb_ips.txt
+fi

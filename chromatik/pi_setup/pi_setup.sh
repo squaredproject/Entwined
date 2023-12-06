@@ -77,6 +77,9 @@ sudo systemctl enable chromatik
 sudo sh -c 'sudo echo "net.ipv4.neigh.eth0.unres_qlen=1" >>  /etc/sysctl.conf '
 sudo sh -c 'echo "net.ipv4.neigh.eth0.unres_qlen_bytes=4096" >>  /etc/sysctl.conf '
 
+# copy the info of the access point to connect to
+echo -e "\n\n ****************** Edit wpa_suplicant if you have a non-MIFI to connect to\n\n"
+sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
 
 # this toggles on and off the lights every 15 minutes, shouldn't
 # be required in different places
@@ -104,9 +107,7 @@ exit 0
 sudo rfkill unblock wlan
 
 
-# copy the info of the access point to connect to
-echo -e "\n\n ****************** Edit wpa_suplicant if you have a non-MIFI to connect to\n\n"
-sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
+
 
 ## define wlan1 wireless interface
 #sudo cat dhcpcd.conf >> /etc/dhcpcd.conf
