@@ -40,6 +40,48 @@
             "y" : 24,
             "pieceId" : "spot-6",
             "ipAddress" : "10.0.0.85"
-	}
+	},
+        {
+            "x" : 500,
+            "z" : 12,
+            "y" : 24,
+            "pieceId" : "spot-7",
+            "ipAddress" : "10.0.0.86"
+    },
+    {
+            "x" : 510,
+            "z" : 0,
+            "y" : 24,
+            "pieceId" : "spot-8",
+            "ipAddress" : "10.0.0.87"
+    },
+    {
+            "x" : 500,
+            "z" : -12,
+            "y" : 24,
+            "pieceId" : "spot-9",
+            "ipAddress" : "10.0.0.88"
+    },
+    {
+            "x" : -500,
+            "z" : 12,
+            "y" : 24,
+            "pieceId" : "spot-10",
+            "ipAddress" : "10.0.0.89"
+    },
+    {
+            "x" : -510,
+            "z" : 0,
+            "y" : 24,
+            "pieceId" : "spot-11",
+            "ipAddress" : "10.0.0.90"
+    },
+    {
+            "x" : -500,
+            "z" : -12,
+            "y" : 24,
+            "pieceId" : "spot-12",
+            "ipAddress" : "10.0.0.91"
+    }
 
 ]
