@@ -1,7 +1,7 @@
 [
 	{
 			"ry" : 0,
-			"x" : 428,
+			"x" : 452,
 			"z" : 0,
 			"type" : "classic",
 			"cubeSizeIndex": 1,
@@ -10,7 +10,7 @@
 	},
 	{
 			"ry" : 0,
-			"x" : 358,
+			"x" : 350,
 			"z" : 0,
 			"type" : "king",
 			"cubeSizeIndex": 1,
@@ -19,7 +19,7 @@
 	},
 	{
 			"ry" : 0,
-			"x" : -358,
+			"x" : -350,
 			"z" : 0,
 			"type" : "king",
 			"cubeSizeIndex": 1,
@@ -28,7 +28,7 @@
 	},
 	{
 			"ry" : 0,
-			"x" : -428,
+			"x" : -452,
 			"z" : 0,
 			"type" : "classic",
 			"cubeSizeIndex": 1,
