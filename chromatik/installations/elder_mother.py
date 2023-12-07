@@ -56,6 +56,7 @@ def write_droop(n_cubes: int, fixtures_folder: str):
     lx_output = {"label": "droop_" + str(n_cubes),
                  "tags": ["DROOP"],
                  "components": [ {"type": "points", "coords": []} ],
+                 "meta": {"name": "droop_" + str(n_cubes)},
                 }
     coords = lx_output["components"][0]["coords"]
     for idx in range(n_cubes-1):
@@ -82,6 +83,7 @@ def write_fixture_files(ndbs, branches, fixtures_folder: str):
                      "tags": ["BRANCH"],
                      "components": [],
                      "outputs": [],
+                     "meta": {"name": "branch_" + str(ndb_idx)},
                     }
         components = lx_output["components"]
         outputs = lx_output["outputs"]
@@ -98,6 +100,7 @@ def write_fixture_files(ndbs, branches, fixtures_folder: str):
     lx_output = {"label": "elder_mother",
                  "tags": ["TREE", "elder_mother"],
                  "components": [],
+                 "meta": {"name": "elder_mother"},
                 }
     components = lx_output["components"]
     for branch_idx in range(len(branches)):
