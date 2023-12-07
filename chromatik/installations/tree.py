@@ -196,7 +196,7 @@ class PixelParser:
     def create_container_output(self) -> dict:
         return {"label": self.piece_id,
                 "tags": self.tags,
-                "metadata" : self.metadata,
+                "meta" : self.metadata,
                 "components": self.components
                }
 
