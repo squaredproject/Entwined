@@ -42,7 +42,11 @@ then
 fi
 
 if [[ -f $1/elder_mother_cubes.csv ]]; then
-    python elder_mother.py --ndb_config $1/elder_ndb_ips.txt --cubes_config $1/elder_mother_cubes.csv --fixtures_folder $I/Fixtures/Entwined/
+    ELDER_MOTHER_CONFIG=""
+    if [[ -f $1/elder_mother.json ]]; then
+      ELDER_MOTHER_CONFIG="--elder_config $1/elder_mother.json"
+    fi
+    python elder_mother.py --ndb_config $1/elder_ndb_ips.txt --cubes_config $1/elder_mother_cubes.csv $ELDER_MOTHER_CONFIG --fixtures_folder $I/Fixtures/Entwined/
     echo "Created elder mother fixtures"
 fi
 

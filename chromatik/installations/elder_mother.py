@@ -37,6 +37,15 @@ def tree_load_csv(csvFilename: str):
     return branches
 
 
+def load_elder(elder_filename: str):
+    print(f"loading elder json from {elder_filename}")
+    elder = {}
+    with open(elder_filename, "r") as elder_f:
+        print("Opened json file successfully")
+        elder = json.load(elder_f)
+    return elder
+
+
 def tree_load_ndb(ndbFilename: str):
     ndbs = []
     with open(ndbFilename, "r") as ndb_f:
@@ -69,9 +78,10 @@ def write_droop(n_cubes: int, fixtures_folder: str):
 
 
 
-def write_fixture_files(ndbs, branches, fixtures_folder: str):
+def write_fixture_files(ndbs, branches, elder_mother, fixtures_folder: str):
     # First, let's write fixture files that describe all possible types of droops -
     # from 6 cube to 16 cube.
+    # NB - actually, all droops are the same - 16 cubes!
     write_droop(CUBES_PER_DROOP, fixtures_folder)
 
     # now let's write the fixture file for each of the branches
@@ -100,7 +110,11 @@ def write_fixture_files(ndbs, branches, fixtures_folder: str):
     lx_output = {"label": "elder_mother",
                  "tags": ["TREE", "elder_mother"],
                  "components": [],
-                 "meta": {"name": "elder_mother"},
+                 "meta": {"name": "elder_mother",
+                          "base_x": elder_mother["x"],
+                          "base_y": 0,
+                          "base_z": elder_mother["z"],
+                          "ry": elder_mother["ry"]},
                 }
     components = lx_output["components"]
     for branch_idx in range(len(branches)):
@@ -115,14 +129,23 @@ def main():
     parser = argparse.ArgumentParser(description="Create LxStudio configuration file from tree and cube definition files")
     parser.add_argument('-t', '--ndb_config', type=str, required=True, help='NDB IPS JSON configuration file')
     parser.add_argument('-b', '--cubes_config', type=str, required=True, help='Cubes CSV configuration file')
+    parser.add_argument('-e', '--elder_config', type=str, required=False, help='Define Elder mother position and rotation (default 0)')
     parser.add_argument('-f', '--fixtures_folder', type=str, required=True, help='Name of folder to hold lx configurations')
 
     args = parser.parse_args()
 
+    elder_mother = {}
+    elder_mother["ry"] = 0
+    elder_mother["x"] = 0
+    elder_mother["y"] = 0
+    elder_mother["z"] = 0
+
+    if args.elder_config:
+        elder_mother = load_elder(args.elder_config)
 
     ndbs = tree_load_ndb(args.ndb_config)
     branches = tree_load_csv(args.cubes_config)
-    write_fixture_files(ndbs, branches, args.fixtures_folder)
+    write_fixture_files(ndbs, branches, elder_mother, args.fixtures_folder)
 
 if __name__ == '__main__':
     main()
