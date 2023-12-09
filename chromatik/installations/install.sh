@@ -62,6 +62,3 @@ if [[ -f $1/ddptest_ndb_ips.txt ]]; then
     cp $1/ddptest_ndb_ips.txt  ../../ddptest/ndb_ips.txt
 fi
 
-if [[ -f $1/custom.sh ]]; then
-    $1/custom.sh $1
-fi
