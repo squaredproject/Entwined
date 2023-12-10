@@ -16,7 +16,7 @@ The latest version of LX Studio, it runs without the Processing engine,
 avoiding complexity and making the software faster and easier to install.
 
 Chromatik is the way to run Entwined!
-[Please see the readme in the Chromatik directory](chromatik/README.md).
+[Please see the readme in the Chromatik directory](chromatik/README.md) or [Video walkthrough here](https://drive.google.com/drive/folders/1ZngvyDN9qjn0nojwjSn4Cn7enOzynoKP)
 
 The `oldlx` directory continues to exist, and supports all the versions before 2022.
 
