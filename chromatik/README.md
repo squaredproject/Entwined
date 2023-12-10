@@ -1,6 +1,6 @@
 # Entwined for Chromatik
 
-Welcome to 2022's revamp of Entwined, featuring the latest version of LX Studio, Chromatik.
+Welcome to 2022's revamp of Entwined, featuring the latest version of LX Studio, Chromatik. [Full video walkthrough here](https://drive.google.com/drive/folders/1ZngvyDN9qjn0nojwjSn4Cn7enOzynoKP)
 
 If you're looking for Chromatik documentation, see LX Studio. The
 programming and use is the same. The installation is different, see below.
