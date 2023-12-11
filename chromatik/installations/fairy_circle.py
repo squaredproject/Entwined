@@ -121,7 +121,7 @@ class FairyCircle:
 
         # default is circle (it was first), includes arcs
         if 'shape' not in config:
-            config['shape'] == 'circle'
+            config['shape'] = 'circle'
 
         if config['shape'] == 'line':
             if 'separation' not in config:
