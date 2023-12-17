@@ -235,6 +235,12 @@ def pattern_black():
     color_fill(leds, palette['black'])
     leds_send(leds)
 
+# set to color in palette and exit
+def pattern_color(color: str):
+    global leds
+    color_fill(leds, palette[color])
+    leds_send(leds)
+
 # ring around the HSV, high fps
 def pattern_hsv():
     global leds
@@ -512,10 +518,10 @@ def main():
         pattern_cube_color(args.cubes)
     elif args.pattern == 'strobe':
         pattern_strobe()
-    elif args.pattern == 'black':
-        pattern_black()
     elif args.pattern == 'cube_color':
         pattern_cube_color()
+    elif args.pattern in palette:
+        pattern_color(args.pattern)
     else:
         print(' pattern must be one of palette, hsv, order, shrub_rank, shrub_rank_order, cube_order, cube_color')
 
