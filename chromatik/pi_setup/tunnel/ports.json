@@ -117,6 +117,16 @@
 
 	}
 }
+{
+        "message": {
+                "name": "fnnch",
+                "port": 9081,
+		"comment": "EDC 2023 installation vegas:Entwined",
+		"tunnel": " ssh -p 9091 -R  *:9081:localhost:22 ent@950arnold.ddns.net",
+		"ssh": " ssh -p 9081 pi@950arnold.ddns.net"
+
+	}
+}
 
 
 {
