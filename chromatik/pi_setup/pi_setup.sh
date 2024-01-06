@@ -22,6 +22,9 @@ echo "figlet \"entwined meadow\"" >> ~/.bash_profile
 sudo apt install ntp -y 
 sudo apt install systemd-timesyncd -y
 sudo timedatectl set-ntp true -y
+# sudo apt install htpdate
+
+### for date issues also use sudo raspi-config 
 
 ######################
 ## Install Entwined ##
