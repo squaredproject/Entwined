@@ -8,7 +8,7 @@
                 "pieceId" : "baby-5",
                 "cubeSizeIndex" : 0,
                 "clustersPerNdb" : 3,
-                "ipAddresses" : ["10.0.0.113"]
+                "ipAddresses" : ["10.0.0.143"]
         },
         {
                 "ry" : 0,
