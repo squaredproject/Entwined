@@ -109,7 +109,7 @@
 
 {
         "message": {
-                "name": "edc",
+                "name": "napa",
                 "port": 9080,
 		"comment": "EDC 2023 installation vegas:Entwined",
 		"tunnel": " ssh -p 9091 -R  *:9080:localhost:22 ent@950arnold.ddns.net",
