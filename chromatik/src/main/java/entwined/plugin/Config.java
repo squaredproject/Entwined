@@ -14,7 +14,7 @@ public final class Config {
 
   // Change this when setting up a new installation!
   // it's used for Canopy and must be unique for each installation
-  public static String installationId = "ggp";
+  public static String installationId = "travel";
 
   // NB - the following 'pause' fields are vestigial, however, they are used in the
   // packet data exchanged between the iPad and the app, which I do not want to

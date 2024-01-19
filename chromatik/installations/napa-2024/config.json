@@ -1,4 +1,4 @@
 { "canopyServer": "https://entwined-api.charliestigler.com/lx",
-  "interactiveGroups": {"myShrubies": ["shrub-01", "shrub-02"]},
+  "interactiveGroups": {"myShrubies": ["shrub-01", "shrub-02", "shrub-03", "shrub-04", "shrub-05", "shrub-06"]},
   "installationId": "travel"
 }
