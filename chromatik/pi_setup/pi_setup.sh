@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "Rasberry Pi Entwined Setup"
 
@@ -65,7 +65,7 @@ OS=`cat /etc/debian_version`
 if [[ "$OS" =~ ^12.*$ ]];
 then
     echo "Debian12 detected: needs new networking commands"
-    ./debian12/networking.sh 
+    ./networking.sh 
 else
     echo "Debian 11 or less detected."
     sudo cat dhcpcd.conf >> /etc/dhcpcd.conf
