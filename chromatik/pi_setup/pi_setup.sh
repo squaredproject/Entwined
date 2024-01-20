@@ -19,9 +19,12 @@ sudo apt-get install -y emacs dos2unix figlet
 echo "figlet \"entwined meadow\"" >> ~/.bash_profile
 
 #### fix any date issues
+###  first configure locale using raspi-config 
 sudo apt install ntp -y 
 sudo apt install systemd-timesyncd -y
 sudo timedatectl set-ntp true -y
+# sudo apt install htpdate
+
 
 ######################
 ## Install Entwined ##
@@ -88,8 +91,7 @@ sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
 
 ## AUTHORIZE LICENSE
 
-# cd ..; java -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies-linux.jar heronarts.lx.studio.Chromatik --authorize  __LICENSE_KEY__;  cp /home/pi/Chromatik/.license ~/; sudo systemctl restart chromatik; cd -
-
+# cd ..; java -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies.jar heronarts.lx.studio.Chromatik --authorize  __LICENSE_KEY__;  cp /home/pi/Chromatik/.license ~/; sudo systemctl restart chromatik; cd -
 echo -e "\n\n ****************** Please check script to execute file for getting a production license\n\n"
 
 cd ..; ./build.sh ; cd -

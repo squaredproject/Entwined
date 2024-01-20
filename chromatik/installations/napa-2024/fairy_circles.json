@@ -1,0 +1,24 @@
+[
+        {
+                "ry" : 30,
+                "x" : 227,
+                "z" : -262,
+                "shape": "line",
+                "separation" : 60,
+                "pieceId" : "piece-9",
+                "cubeSizeIndex" : 0,
+                "clustersPerNdb" : 3,
+                "ipAddresses" : ["10.0.0.143"]
+        },
+        {
+                "ry" : 0,
+                "x" : 0,
+                "z" : -257,
+                "shape": "line",
+                "separation" : 72,
+                "pieceId" : "piece-10",
+                "cubeSizeIndex" : 0,
+                "clustersPerNdb" : 3,
+                "ipAddresses" : ["10.0.0.130"]
+        }
+]
