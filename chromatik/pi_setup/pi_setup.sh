@@ -16,8 +16,9 @@ sudo apt-get update
 sudo apt-get dist-upgrade
 
 sudo apt-get install -y emacs dos2unix figlet
-echo "figlet \"entwined meadow\"" >> ~/.bash_profile
-
+BANNER="entwined meadow"  # text banner when logging into pi
+grep $BANNER ~/.bash_profile || echo "figlet \"entwined meadow\"" >> ~/.bash_profile
+xsx
 #### fix any date issues
 ###  first configure locale using raspi-config 
 sudo apt install ntp -y 
