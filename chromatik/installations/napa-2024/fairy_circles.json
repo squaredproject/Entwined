@@ -5,7 +5,7 @@
                 "z" : -262,
                 "shape": "line",
                 "separation" : 60,
-                "pieceId" : "baby-5",
+                "pieceId" : "piece-9",
                 "cubeSizeIndex" : 0,
                 "clustersPerNdb" : 3,
                 "ipAddresses" : ["10.0.0.143"]
@@ -16,7 +16,7 @@
                 "z" : -257,
                 "shape": "line",
                 "separation" : 72,
-                "pieceId" : "baby-8",
+                "pieceId" : "piece-10",
                 "cubeSizeIndex" : 0,
                 "clustersPerNdb" : 3,
                 "ipAddresses" : ["10.0.0.130"]

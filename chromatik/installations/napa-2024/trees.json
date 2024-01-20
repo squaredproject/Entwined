@@ -5,7 +5,7 @@
 		"ry" : 0,
 		"x" : 135,
 		"z" : 0,
-		"pieceId" : "sapling-1"
+		"pieceId" : "piece-7"
 	},
 	{
 		"canopyMajorLengths" : [100],
@@ -13,6 +13,6 @@
 		"ry" : 0,
 		"x" : 0,
 		"z" : 0,
-		"pieceId" : "sapling-2"
+		"pieceId" : "piece-8"
 	}
 ]
