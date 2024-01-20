@@ -1,0 +1,9 @@
+[Match]
+Name=e*
+
+[Network]
+Address=10.0.0.10/16
+#Gateway=192.168.50.1
+#DNS=84.200.69.80 1.1.1.1
+#MulticastDNS=yes
+EOF
