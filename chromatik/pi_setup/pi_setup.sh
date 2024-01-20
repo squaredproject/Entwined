@@ -109,9 +109,9 @@ echo -e "\n\n ****************** Please check script to execute file for getting
 
 cd ..; ./build.sh ; cd -
 
-echo -e "\n\n ****************** Please replace with installation you want: this is ggp-2022\n\n"
+echo -e "\n\n ****************** Please replace with installation you want: this is ggp-2023\n\n"
 
-cd ../installations; ./install.sh ggp-2022 ; cd -
+cd ../installations; ./install.sh ggp-2023 ; cd -
 
 exit 0
 ## install hostapd & others
