@@ -56,8 +56,21 @@ sudo rfkill unblock wlan
 echo -e "\n\n ****************** Edit wpa_suplicant if you have a non-MIFI to connect to\n\n"
 sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
 
-## define wlan1 wireless interface
-sudo cat dhcpcd.conf >> /etc/dhcpcd.conf
+
+####
+#### Newer pi installations use debian12 with completely different networking tools
+#### Detect the version of debian and change how static ips are allocated if needed
+OS=`cat /etc/debian_version`
+
+if [[ "$OS" =~ ^12.*$ ]];
+then
+    echo "Debian12 detected: needs new networking commands"
+    ./debian12/networking.sh 
+else
+    echo "Debian 11 or less detected."
+    sudo cat dhcpcd.conf >> /etc/dhcpcd.conf
+fi
+
 
 ###### NETWORKING
 
