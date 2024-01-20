@@ -16,22 +16,8 @@ sudo systemctl enable systemd-networkd.service systemd-resolved.service
 
 
 # static ip address for eth0
-sudo cat > /etc/systemd/network/04-wired.network <<EOF
-[Match]
-Name=e*
+# static ip address for wlan
+sudo cp  ./04-wired.network /etc/systemd/network/
+sudo cp  ./08-wifi.network /etc/systemd/network/
 
-[Network]
-Address=10.0.0.10/16
-#MulticastDNS=yes
-EOF
-
-# wifi ip
-sudo cat > /etc/systemd/network/08-wifi.network <<EOF
-[Match]
-Name=wl*
-
-[Network]
-Address=10.0.0.10/16
-MulticastDNS=yes
-EOF
-
+sudo systemctl restart networking
