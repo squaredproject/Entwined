@@ -61,6 +61,7 @@ public final class Config {
      entwined.pattern.kyle_fleming.CandyCloud.class,
      entwined.pattern.colin_hunt.BeachBall.class,
      entwined.pattern.colin_hunt.Breath.class,
+     entwined.pattern.sam_brocchini.RingoDown.class,
      entwined.pattern.mark_lottor.MarkLottor.class,
      entwined.pattern.ray_sykes.Ripple.class,
      entwined.pattern.ray_sykes.Stripes.class,

@@ -161,28 +161,32 @@ public class NFCServer implements LXLoopTask {
 
   private void setupPatternMap() {
     // Standard patterns are at known locations on the patterns channel
-    this.patternMap.put("pattern1", new NFCPattern("TwisterGlobal", NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern2", new NFCPattern("MarkLottor", NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern3", new NFCPattern("Ripple",  NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern4", new NFCPattern("Lattice", NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern5", new NFCPattern("Voranoi", NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern6", new NFCPattern("GalaxyCloud", NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern7", new NFCPattern("Fire", NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern8", new NFCPattern("AcidTrip", NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern9", new NFCPattern("SparkleHelix",  NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern10", new NFCPattern("Fumes", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("TwisterGlobal", new NFCPattern("TwisterGlobal", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("MarkLottor", new NFCPattern("MarkLottor", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("Ripple", new NFCPattern("Ripple",  NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("Lattice", new NFCPattern("Lattice", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("Voronoi", new NFCPattern("Voranoi", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("GalaxyCloud", new NFCPattern("GalaxyCloud", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("Fire", new NFCPattern("Fire", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("AcidTrip", new NFCPattern("AcidTrip", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("SparkleHelix", new NFCPattern("SparkleHelix",  NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("Cells", new NFCPattern("Cells", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("RingoDown", new NFCPattern("RingoDown", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("Explosions", new NFCPattern("Explosions", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("ColoredLeaves", new NFCPattern("ColoredLeaves", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("Fumes", new NFCPattern("Fumes", NFCPatternType.BASE_PATTERN));
     // One shots
-    this.patternMap.put("pattern11", createOneShot("Lightning", Lightning.class));
-    this.patternMap.put("pattern12", createOneShot("Wisps", Wisps.class));
-    this.patternMap.put("pattern13", createOneShot("BassSlam", BassSlam.class));
-    this.patternMap.put("pattern14", createOneShot("Bubbles", Bubbles.class));
-    this.patternMap.put("pattern15", createOneShot("Color_strobe", ColorStrobe.class));
-    this.patternMap.put("pattern16", createOneShot("Rain", Rain.class));
+    this.patternMap.put("Lightning", createOneShot("Lightning", Lightning.class));
+    this.patternMap.put("Wisps", createOneShot("Wisps", Wisps.class));
+    this.patternMap.put("BassSlam", createOneShot("BassSlam", BassSlam.class));
+    this.patternMap.put("Bubbles", createOneShot("Bubbles", Bubbles.class));
+    this.patternMap.put("ColorStrobe", createOneShot("ColorStrobe", ColorStrobe.class));
+    this.patternMap.put("Rain", createOneShot("Rain", Rain.class));
     // Globals
-    this.patternMap.put("pattern17", new NFCPattern("static", NFCPatternType.GLOBAL_MODIFIER));
-    this.patternMap.put("pattern18", new NFCPattern("blur", NFCPatternType.GLOBAL_MODIFIER));
-    this.patternMap.put("pattern19", new NFCPattern("speed", NFCPatternType.GLOBAL_MODIFIER));
-    this.patternMap.put("pattern20", new NFCPattern("scramble", NFCPatternType.GLOBAL_MODIFIER));
+    this.patternMap.put("Static", new NFCPattern("static", NFCPatternType.GLOBAL_MODIFIER));
+    this.patternMap.put("Blur", new NFCPattern("blur", NFCPatternType.GLOBAL_MODIFIER));
+    this.patternMap.put("Speed", new NFCPattern("speed", NFCPatternType.GLOBAL_MODIFIER));
+    this.patternMap.put("Scramble", new NFCPattern("scramble", NFCPatternType.GLOBAL_MODIFIER));
 
     // XXX - the parameters for the various effects should be set up in the project file...
     // XXX - make absolutely sure (again) that the effects in the effects channel can happen simultaneously
@@ -284,7 +288,6 @@ public class NFCServer implements LXLoopTask {
         triggerOneShot(trigger.pattern.patternName);
       } else if (trigger.pattern.type == NFCPatternType.GLOBAL_MODIFIER) {
         this.activities[trigger.channelIdx] = trigger.pattern;
-        int channelIdx = engineController.baseChannelIndex + trigger.channelIdx;
         if (trigger.pattern.patternName == "static") {
           engineController.setStatic(1.0);
         } else if (trigger.pattern.patternName == "blur") {
