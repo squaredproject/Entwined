@@ -98,9 +98,9 @@
 
 {
         "message": {
-                "name": "transfix",
+                "name": "civiccenter",
                 "port": 9079,
-		"comment": "TRANSFIX installation roving the world:Entwined",
+		"comment": "Entwined at UN Plaza",
 		"tunnel": " ssh -p 9091 -R  *:9079:localhost:22 ent@950arnold.ddns.net",
 		"ssh": " ssh -p 9079 pi@950arnold.ddns.net"
 
