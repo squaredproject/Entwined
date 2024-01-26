@@ -50,8 +50,8 @@ public class zisdetestAll4 extends LXPattern {
                 if (cube.x > -130 && cube.x < 0 && cube.y > 40 && cube.y < 400
                     && cube.z > -20 && cube.z < 20) {
                     // colors[cube.index] = LX.hsb(30, 75, 100);}
-                    // colors[cube1.index] = LX.hsb(30, 75, 100);}
-                    colors[cube1.index] = LX.hsb(colorOfCubes.getValuef(), 50,
+                    // BB: there was a 'cube1' here. Cube scopes, so there's no reason to use 'cube1'
+                    colors[cube.index] = LX.hsb(colorOfCubes.getValuef(), 50,
                         100);
                 } //
             }
