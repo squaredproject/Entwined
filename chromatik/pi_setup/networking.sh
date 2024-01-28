@@ -11,7 +11,7 @@ sudo systemctl disable --now avahi-daemon libnss-mdns
 sudo apt --autoremove purge avahi-daemon
 sudo apt install libnss-resolve
 sudo ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-sudo apt-mark hold avahi-daemon dhcpcd dhcpcd5 ifupdown isc-dhcp-client isc-dhcp-common libnss-mdns openresolv raspberrypi-net-mods rsyslog
+sudo apt-mark hold dhcpcd dhcpcd5 isc-dhcp-client isc-dhcp-common libnss-mdns openresolv raspberrypi-net-mods rsyslog
 sudo systemctl enable systemd-networkd.service systemd-resolved.service
 
 
@@ -20,4 +20,5 @@ sudo systemctl enable systemd-networkd.service systemd-resolved.service
 sudo cp  ./04-wired.network /etc/systemd/network/
 sudo cp  ./08-wifi.network /etc/systemd/network/
 
-sudo systemctl restart systemd-networkd
+#sudo systemctl restart systemd-networkd
+sudo reboot
