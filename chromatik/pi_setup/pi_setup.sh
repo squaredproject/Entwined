@@ -8,7 +8,7 @@ HOME=/home/pi
 # script exits if these keys are not installed
 GITHUB=`ssh -T git@github.com 2>&1`
 SUCCESS="successfully authenticated"
-if  ![[ "$GITHUB" =~ $SUCCESS ]]; then
+if ! [[ "$GITHUB" =~ $SUCCESS ]]; then
     echo "Error! This pi doesn't have the right ssh keys to connect to github.  Exiting (please add the ssh keys from Google drive"
     exit 0;
 fi
