@@ -2,6 +2,9 @@
 Name=wl*
 
 [Network]
-Address==192.168.10.1/24
+LLMNR=no
+LinkLocalAddressing=no
 MulticastDNS=yes
-EOF
+DHCP=ipv4
+#Address=10.0.0.11/16
+#MulticastDNS=yes
