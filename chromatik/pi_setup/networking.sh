@@ -20,4 +20,4 @@ sudo systemctl enable systemd-networkd.service systemd-resolved.service
 sudo cp  ./04-wired.network /etc/systemd/network/
 sudo cp  ./08-wifi.network /etc/systemd/network/
 
-sudo systemctl restart networking
+sudo systemctl restart systemd-networkd
