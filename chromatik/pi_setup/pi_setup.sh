@@ -4,9 +4,23 @@ echo "Rasberry Pi Entwined Setup"
 
 HOME=/home/pi
 
-#don't have all the pi checkins with the name name, force user to change
+# pi needs canonical github ssh keys installed manually
+# script exits if these keys are not installed
+GITHUB=`ssh -T git@github.com 2>&1`
+SUCCESS="successfully authenticated"
+if  ![[ "$GITHUB" =~ $SUCCESS ]]; then
+    echo "Error! This pi doesn't have the right ssh keys to connect to github.  Exiting (please add the ssh keys from Google drive"
+    exit 0;
+fi
+
+# github setup
 git config --global user.email "mizpoon@burningart.com"
 git config --global user.name "Entwined Pi"
+
+# this will only work with the canonical ssh keys
+cd $HOME; mv Entwined Entwined.old;
+git clone git@github.com:squaredproject/Entwined.git
+cd -
 
 #######################
 ## Update debian ######
@@ -36,6 +50,8 @@ sudo timedatectl set-ntp true -y
 ######################
 ## Install Entwined ##
 ######################
+
+
 
 #####################################
 ## Temurin JDK 17 required
