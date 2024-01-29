@@ -24,13 +24,12 @@ echo "Getting port for config ${1} from tunnels.json"
 sudo apt-get install jq
 
 PORT=`jq 'select(.message.name == "'${1}'") | .message.port' ports.json`
-
+SSH=`jq 'select(.message.name == "'${1}'") | .message.ssh' ports.json`
 if [ -z "$PORT" ]
 	then
 	    echo "tunnel.sh: cannot figure out what port to use for ssh tunnel setup, exiting early "
 	    exit 1
 	fi
-
 
 
 # set up tunnel
@@ -59,3 +58,5 @@ CRONSTRING=$(crontab -l)
 if [[ "$CRONSTRING" != *"entwined-tunnel"* ]];  then
 	(crontab -l 2>/dev/null; echo "*/15 * * * * sudo systemctl restart entwined-tunnel") |  crontab -
 fi
+
+echo "Tunnel Creation Done: Test out new tunnel with this ssh cmd:$SSH"
