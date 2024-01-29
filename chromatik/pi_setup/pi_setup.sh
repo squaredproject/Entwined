@@ -51,6 +51,8 @@ sudo timedatectl set-ntp true -y
 ## Install Entwined ##
 ######################
 
+### install pip, numpy if needed
+sudo apt install python3-pip; pip install numpy --break-system-packages
 
 
 #####################################
