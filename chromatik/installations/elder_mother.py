@@ -38,11 +38,19 @@ def tree_load_csv(csvFilename: str):
 
 
 def load_elder(elder_filename: str):
-    print(f"loading elder json from {elder_filename}")
-    elder = {}
-    with open(elder_filename, "r") as elder_f:
-        print("Opened json file successfully")
-        elder = json.load(elder_f)
+    if os.path.isfile(elder_filename):
+        print(f"loading elder json from {elder_filename}")
+        elder = {}
+        with open(elder_filename, "r") as elder_f:
+            # print("Opened elder json file successfully")
+            elder = json.load(elder_f)
+    else:
+        elder_mother = {}
+        elder_mother["ry"] = 0
+        elder_mother["x"] = 0
+        elder_mother["y"] = 0
+        elder_mother["z"] = 0
+    
     return elder
 
 
@@ -129,20 +137,12 @@ def main():
     parser = argparse.ArgumentParser(description="Create LxStudio configuration file from tree and cube definition files")
     parser.add_argument('-t', '--ndb_config', type=str, required=True, help='NDB IPS JSON configuration file')
     parser.add_argument('-b', '--cubes_config', type=str, required=True, help='Cubes CSV configuration file')
-    parser.add_argument('-e', '--elder_config', type=str, required=False, help='Define Elder mother position and rotation (default 0)')
+    parser.add_argument('-e', '--elder_config', type=str, required=True, help='Define Elder mother position and rotation (default 0)')
     parser.add_argument('-f', '--fixtures_folder', type=str, required=True, help='Name of folder to hold lx configurations')
 
     args = parser.parse_args()
 
-    elder_mother = {}
-    elder_mother["ry"] = 0
-    elder_mother["x"] = 0
-    elder_mother["y"] = 0
-    elder_mother["z"] = 0
-
-    if args.elder_config:
-        elder_mother = load_elder(args.elder_config)
-
+    elder_mother = load_elder(args.elder_config)
     ndbs = tree_load_ndb(args.ndb_config)
     branches = tree_load_csv(args.cubes_config)
     write_fixture_files(ndbs, branches, elder_mother, args.fixtures_folder)
