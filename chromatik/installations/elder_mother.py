@@ -7,11 +7,12 @@
 # 'droops' that hang down.
 
 
+import argparse
 import json
 import re
+import numpy as np
 import os
 import sys
-import argparse
 
 def tree_load_csv(csvFilename: str):
     branches = {} # dict with string is IP address, value is array of 16 ints for output length
@@ -50,7 +51,7 @@ def load_elder(elder_filename: str):
         elder_mother["x"] = 0
         elder_mother["y"] = 0
         elder_mother["z"] = 0
-    
+
     return elder
 
 
@@ -93,6 +94,13 @@ def write_fixture_files(ndbs, branches, elder_mother, fixtures_folder: str):
     write_droop(CUBES_PER_DROOP, fixtures_folder)
 
     # now let's write the fixture file for each of the branches
+    # We'll need to take into account the rotation and translation offset of the
+    # elder mother
+    sin_ry = np.sin(elder_mother["ry"]/180)
+    cos_ry = np.cos(elder_mother["ry"]/180)
+    x = elder_mother["x"]
+    y = elder_mother["y"]
+    z = elder_mother["z"]
     for ndb_idx in range(len(ndbs)):
         if str(ndb_idx+1) not in branches:
             print(f"ndb {ndb_idx} does not have associated branch")
@@ -108,7 +116,10 @@ def write_fixture_files(ndbs, branches, elder_mother, fixtures_folder: str):
         branch = branches[str(ndb_idx+1)]
         n_cubes = 0
         for droop in branch:
-            components.append({"type": "droop_" + str(CUBES_PER_DROOP), "x": droop[0], "y": droop[1], "z": droop[2]})
+            components.append({"type": "droop_" + str(CUBES_PER_DROOP),
+                               "x": droop[0]*cos_ry + droop[2]*sin_ry + x,
+                               "z": droop[2]*cos_ry - droop[0]*sin_ry + z,
+                               "y": droop[1] + y})
             n_cubes += CUBES_PER_DROOP
         outputs.append({"protocol": "ddp", "host": "10.0.0." + ndbs[ndb_idx], "start": 0, "num": n_cubes})
         with open(fixtures_folder + "branch_" + str(ndb_idx) + ".lxf", "w") as output_f:
@@ -137,7 +148,7 @@ def main():
     parser = argparse.ArgumentParser(description="Create LxStudio configuration file from tree and cube definition files")
     parser.add_argument('-t', '--ndb_config', type=str, required=True, help='NDB IPS JSON configuration file')
     parser.add_argument('-b', '--cubes_config', type=str, required=True, help='Cubes CSV configuration file')
-    parser.add_argument('-e', '--elder_config', type=str, required=True, help='Define Elder mother position and rotation (default 0)')
+    parser.add_argument('-e', '--elder_config', type=str, required=True, help='Define Elder mother position and rotation')
     parser.add_argument('-f', '--fixtures_folder', type=str, required=True, help='Name of folder to hold lx configurations')
 
     args = parser.parse_args()
