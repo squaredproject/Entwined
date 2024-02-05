@@ -34,14 +34,28 @@ public class TimedISDEShrubSweep extends LXPattern {
     @Override
     public void run(double deltaMs) {
         if (getChannel().fader.getNormalized() == 0) return;
-        float xVal = x.getValuef();
-        float yVal = y.getValuef();
-        float zVal = z.getValuef();
+        double xVal = x.getValuef();
+        double yVal = y.getValuef();
+        double zVal = z.getValuef();
 // double myrot;
         double myrot = Math.toRadians(rot.getValuef());
         time_elapsed += deltaMs;
 
-                        //Rotates points
+//
+       xVal =  (Math.cos(myrot) * xVal - Math.sin(myrot) * zVal);
+        zVal =  (Math.sin(myrot) * xVal + Math.cos(myrot) * zVal);
+      for (LXPoint cube : model.points) {
+            if (Math.abs(cube.x - xVal) < beam.getValuef() ||
+            Math.abs(cube.y - yVal) < beam.getValuef() ||
+            Math.abs(cube.z - zVal) < beam.getValuef()) {
+        colors[cube.index] = LX.hsb(300, 50, 100);
+    } else {
+        colors[cube.index] = LX.hsb(420, 100, 0);
+    } 
+      }
+    }
+}
+//Rotates points
 /* 
 [newx]   [ c 0 -s ] [x]
 [newy] = [ 0 1  0 ] [y]
@@ -61,17 +75,59 @@ float nxmax = (float) (Math.cos(rot) * xmax - Math.sin(rot) * zmax);
 float nzmax = (float) (Math.sin(rot) * xmax + Math.cos(rot) * zmax);
 */
 
+/*
+if (time_elapsed > 4000) {
+    xVal =  (Math.cos(myrot) * xVal - Math.sin(myrot) * zVal);
+    zVal =  (Math.sin(myrot) * xVal + Math.cos(myrot) * zVal);
+  for (LXPoint cube : model.points) {
+        if (Math.abs(cube.x - xVal) < beam.getValuef() ||
+        Math.abs(cube.y - yVal) < beam.getValuef() ||
+        Math.abs(cube.z - zVal) < beam.getValuef()) {
+    colors[cube.index] = LX.hsb(300, 50, 100);
+} else {
+    colors[cube.index] = LX.hsb(300, 50, 0);
+}  // else
+    }  // for points
+}  // iftime 4s
+else if (time_elapsed > 2000) {
+    for (LXPoint cube : model.points) {
+        if (Math.abs(cube.x - xVal) < beam.getValuef() ||
+        Math.abs(cube.y - yVal) < beam.getValuef() ||
+        Math.abs(cube.z - zVal) < beam.getValuef()) {
+    colors[cube.index] = LX.hsb(135, 50, 100);
+} else {
+    colors[cube.index] = LX.hsb(135, 100, 0);
+}  // else
+    }  // for points
+}  // iftime 2s
+else 
+    {
+//        System.out.println("B4Timelaps: " +time_elapsed +" Myrot: " +myrot +" xval: " +xVal +" zval: " +zVal);
+ //       System.out.println("B4Timelaps: " +time_elapsed +" sinMyrot: " +Math.sin(myrot) +" cosMyrot: " +Math.cos(myrot));
 
-
+      xVal = (float) (Math.cos(myrot) * xVal - Math.sin(myrot) * zVal);
+      zVal = (float) (Math.sin(myrot) * xVal + Math.cos(myrot) * zVal);
+//      System.out.println("Timelaps: " +time_elapsed +" Myrot: " +myrot +" xval: " +xVal +" zval: " +zVal);
+//      System.out.println("Timelaps: " +time_elapsed +" sinMyrot: " +Math.sin(myrot) +" cosMyrot: " +Math.cos(myrot));
 
         for (LXPoint cube : model.points) {
             if (Math.abs(cube.x - xVal) < beam.getValuef() ||
                     Math.abs(cube.y - yVal) < beam.getValuef() ||
                     Math.abs(cube.z - zVal) < beam.getValuef()) {
-                colors[cube.index] = LX.hsb(135, 100, 100);
+                colors[cube.index] = LX.hsb(300, 50, 100);
             } else {
-                colors[cube.index] = LX.hsb(135, 100, 0);
-            }
-        }
+                colors[cube.index] = LX.hsb(300, 50, 0);
+            }  // else
+        }  // for points
+    } // else end
+    if (time_elapsed > 5000) {
+        time_elapsed = 0;
+        xVal =  (Math.cos(myrot) * xVal - Math.sin(myrot) * zVal);
+        zVal = (Math.sin(myrot) * xVal + Math.cos(myrot) * zVal);
+  
     }
-}
+
+
+    }  // override run
+}  // class timedisde
+*/
