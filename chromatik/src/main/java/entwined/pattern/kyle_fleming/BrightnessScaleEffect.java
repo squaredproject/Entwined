@@ -3,11 +3,11 @@ package entwined.pattern.kyle_fleming;
 import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.effect.LXEffect;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 public class BrightnessScaleEffect extends LXEffect {
 
-  final BoundedParameter amount = new BoundedParameter("Brightness", 1);
+  final CompoundParameter amount = new CompoundParameter("Brightness", 1);
 
   public BrightnessScaleEffect(LX lx) {
     super(lx);
@@ -23,7 +23,7 @@ public class BrightnessScaleEffect extends LXEffect {
     amount.setValue(val);
   }
 
-  public BoundedParameter getParameter() {
+  public CompoundParameter getParameter() {
     return(amount);
   }
 

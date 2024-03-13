@@ -5,32 +5,32 @@ import entwined.utils.Vec3D;
 
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.parameter.LXParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class DiscreteColors extends LXPattern {
-    final BoundedParameter hue1Param = new BoundedParameter("HU1", 60, 1, 360);
-    // final BoundedParameter sat1Param = new BoundedParameter("SAT1", 100, 0, 100);
-    // final BoundedParameter bright1Param = new BoundedParameter("BRIGHT1", 100, 0,
+    final CompoundParameter hue1Param = new CompoundParameter("HU1", 60, 1, 360);
+    // final CompoundParameter sat1Param = new CompoundParameter("SAT1", 100, 0, 100);
+    // final CompoundParameter bright1Param = new CompoundParameter("BRIGHT1", 100, 0,
     // 100);
 
-    final BoundedParameter hue2Param = new BoundedParameter("HU2", 240, 1, 360);
-    // final BoundedParameter sat2Param = new BoundedParameter("SAT2", 100, 0, 100);
-    // final BoundedParameter bright2Param = new BoundedParameter("BRIGHT2", 100, 0,
+    final CompoundParameter hue2Param = new CompoundParameter("HU2", 240, 1, 360);
+    // final CompoundParameter sat2Param = new CompoundParameter("SAT2", 100, 0, 100);
+    // final CompoundParameter bright2Param = new CompoundParameter("BRIGHT2", 100, 0,
     // 100);
 
-    final BoundedParameter hue3Param = new BoundedParameter("HU3", 300, 1, 360);
-    // final BoundedParameter sat3Param = new BoundedParameter("SAT3", 0, 0, 100);
-    // final BoundedParameter bright3Param = new BoundedParameter("BRIGHT3", 0, 0, 100);
+    final CompoundParameter hue3Param = new CompoundParameter("HU3", 300, 1, 360);
+    // final CompoundParameter sat3Param = new CompoundParameter("SAT3", 0, 0, 100);
+    // final CompoundParameter bright3Param = new CompoundParameter("BRIGHT3", 0, 0, 100);
 
     final DiscreteParameter numberOfColorsParam = new DiscreteParameter("NUM", 2, 1, 4);
 
     final DiscreteParameter xRotationParam = new DiscreteParameter("PITCH", 0, -360, 360);
     final DiscreteParameter yRotationParam = new DiscreteParameter("YAW", 0, -360, 360);
 
-    final BoundedParameter adjustParam = new BoundedParameter("ADJUST", 0, -1, 1);
+    final CompoundParameter adjustParam = new CompoundParameter("ADJUST", 0, -1, 1);
 
     final Vec3D directionVector = new Vec3D();
     final Vec3D cubeUtilityVector = new Vec3D();

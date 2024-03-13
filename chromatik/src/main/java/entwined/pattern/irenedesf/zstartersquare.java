@@ -2,7 +2,7 @@ package entwined.pattern.irenedesf;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 import entwined.utils.EntwinedUtils;
 /** An RGB wave that covers the whole field. */
@@ -12,12 +12,12 @@ public class zstartersquare extends LXPattern {
   private float maxz = -Float.MAX_VALUE;
   // private float waveWidth = 1;
 //  private float speedMult = 1000;
-//  final BoundedParameter speedParam = new BoundedParameter("Speed", 5, 20, .01);
-//  final BoundedParameter waveSlope = new BoundedParameter("waveSlope", 360, 1, 720);
+//  final CompoundParameter speedParam = new CompoundParameter("Speed", 5, 20, .01);
+//  final CompoundParameter waveSlope = new CompoundParameter("waveSlope", 360, 1, 720);
 //  final SawLFO wave = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
    private float speedMult = 1;
-  final BoundedParameter speedParam = new BoundedParameter("Speed", 1, 1, .01);
-  final BoundedParameter waveSlope = new BoundedParameter("waveSlope", 1, 1, 1);
+  final CompoundParameter speedParam = new CompoundParameter("Speed", 1, 1, .01);
+  final CompoundParameter waveSlope = new CompoundParameter("waveSlope", 1, 1, 1);
   final SawLFO wave = new SawLFO(300, 300, speedParam.getValuef() * speedMult);
   // add speed, wave width
   // Constructor and initial setup

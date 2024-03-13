@@ -7,23 +7,23 @@ import entwined.utils.VecUtils;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.utils.LXUtils;
 
 @LXCategory(LXCategory.TEST)
 public class ClusterLineTest extends LXPattern {
 
-  final BoundedParameter y;
-  final BoundedParameter theta;
-  final BoundedParameter spin;
+  final CompoundParameter y;
+  final CompoundParameter theta;
+  final CompoundParameter spin;
 
   public ClusterLineTest(LX lx) {
     super(lx);
 
-    addParameter("\u0398", theta = new BoundedParameter("\u0398", 0, -90, 430));
-    addParameter("Y", y = new BoundedParameter("Y", 200, model.yMin, model.yMax));
-    addParameter("spin", spin = new BoundedParameter("SPIN", 0, -90, 430));
+    addParameter("\u0398", theta = new CompoundParameter("\u0398", 0, -90, 430));
+    addParameter("Y", y = new CompoundParameter("Y", 200, model.yMin, model.yMax));
+    addParameter("spin", spin = new CompoundParameter("SPIN", 0, -90, 430));
   }
 
   @Override

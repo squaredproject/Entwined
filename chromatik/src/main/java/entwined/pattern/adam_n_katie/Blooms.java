@@ -4,7 +4,7 @@ import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.ModelBuffer;
 import heronarts.lx.color.LXColor;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.model.LXModel;
 
@@ -22,16 +22,16 @@ public class Blooms extends AutographedPattern{
   };
 
   // Parameters (to show up on UI).
-  final BoundedParameter shrubBloomsPerTreeBloomParam =
-    new BoundedParameter("SPT", 2.5 * shrubIdxCnt, 1, 10 * shrubIdxCnt);
-  final BoundedParameter treeBloomRadiusSpeedParam =
-    new BoundedParameter("TSP", 25, 1, 100);
-  final BoundedParameter treeFadePercentagePerSParam  =
-    new BoundedParameter("TFD", 25, 1, 100);
-  final BoundedParameter shrubBloomRadiusSpeedParam =
-    new BoundedParameter("SSP", 40, 1, 100);
-  final BoundedParameter shrubFadePercentagePerSParam  =
-    new BoundedParameter("SFD", 50, 1, 100);
+  final CompoundParameter shrubBloomsPerTreeBloomParam =
+    new CompoundParameter("SPT", 2.5 * shrubIdxCnt, 1, 10 * shrubIdxCnt);
+  final CompoundParameter treeBloomRadiusSpeedParam =
+    new CompoundParameter("TSP", 25, 1, 100);
+  final CompoundParameter treeFadePercentagePerSParam  =
+    new CompoundParameter("TFD", 25, 1, 100);
+  final CompoundParameter shrubBloomRadiusSpeedParam =
+    new CompoundParameter("SSP", 40, 1, 100);
+  final CompoundParameter shrubFadePercentagePerSParam  =
+    new CompoundParameter("SFD", 50, 1, 100);
 
   // Variables
   private PieceType desiredSculptureType = PieceType.TREE;

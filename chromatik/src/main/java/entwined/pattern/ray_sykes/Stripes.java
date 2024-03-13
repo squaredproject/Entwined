@@ -4,13 +4,13 @@ import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.utils.LXUtils;
 
 public class Stripes extends LXPattern {
-  final BoundedParameter minSpacing = new BoundedParameter("MinSpacing", 0.5, .3, 2.5);
-  final BoundedParameter maxSpacing = new BoundedParameter("MaxSpacing", 2, .3, 2.5);
+  final CompoundParameter minSpacing = new CompoundParameter("MinSpacing", 0.5, .3, 2.5);
+  final CompoundParameter maxSpacing = new CompoundParameter("MaxSpacing", 2, .3, 2.5);
   final SinLFO spacing = new SinLFO(minSpacing, maxSpacing, 8000);
   final SinLFO slopeFactor = new SinLFO(0.05, 0.2, 19000);
 

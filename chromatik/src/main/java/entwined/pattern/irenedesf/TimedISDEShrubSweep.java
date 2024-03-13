@@ -4,31 +4,31 @@ package entwined.pattern.irenedesf;
 import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 //  @LXCategory(LXCategory.TEST)
 public class TimedISDEShrubSweep extends LXPattern {
 
-    final BoundedParameter x;
-    final BoundedParameter y;
-    final BoundedParameter z;
-    final BoundedParameter beam;
-    final BoundedParameter rot;
+    final CompoundParameter x;
+    final CompoundParameter y;
+    final CompoundParameter z;
+    final CompoundParameter beam;
+    final CompoundParameter rot;
     private double time_elapsed = 0;
     private float time_max = 0;
 
     public TimedISDEShrubSweep(LX lx) {
         super(lx);
-        addParameter("x", x = new BoundedParameter("X", 0, model.xMin, model.xMax));
+        addParameter("x", x = new CompoundParameter("X", 0, model.xMin, model.xMax));
         // the following y param should light the two shortest rods of a shrub when the beam is set to 1
         // may be useful for adjusting the rotation of the shrubs in the JSON config
-//        addParameter(y = new BoundedParameter("Y", 20.8, model.yMin, model.yMax));
-        addParameter("y", y = new BoundedParameter("Y", 0, model.yMin, model.yMax));
-        addParameter("z", z = new BoundedParameter("Z", 0, model.zMin, model.zMax));
-        addParameter("beam", beam = new BoundedParameter("beam", 12, 1, 25));
+//        addParameter(y = new CompoundParameter("Y", 20.8, model.yMin, model.yMax));
+        addParameter("y", y = new CompoundParameter("Y", 0, model.yMin, model.yMax));
+        addParameter("z", z = new CompoundParameter("Z", 0, model.zMin, model.zMax));
+        addParameter("beam", beam = new CompoundParameter("beam", 12, 1, 25));
     //
-        addParameter("rot", rot = new BoundedParameter( "rot",0,0,360));
+        addParameter("rot", rot = new CompoundParameter( "rot",0,0,360));
     }
 
     @Override

@@ -6,14 +6,14 @@ import entwined.utils.EntwinedUtils;
 import entwined.utils.Vec2D;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.utils.LXUtils;
 
 public class Voronoi extends LXPattern {
-  final BoundedParameter speed = new BoundedParameter("SPEED", 1, 0, 5);
-  final BoundedParameter width = new BoundedParameter("WIDTH", 0.75, 0.5, 1.25);
-  final BoundedParameter hue = new BoundedParameter("HUE", 0, 0, 360);
+  final CompoundParameter speed = new CompoundParameter("SPEED", 1, 0, 5);
+  final CompoundParameter width = new CompoundParameter("WIDTH", 0.75, 0.5, 1.25);
+  final CompoundParameter hue = new CompoundParameter("HUE", 0, 0, 360);
   final int NUM_SITES = 15;
   private Site[] sites = new Site[NUM_SITES];
 

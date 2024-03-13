@@ -3,7 +3,7 @@ package entwined.pattern.evy;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.TriangleLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 /*
@@ -16,7 +16,7 @@ public class CircleBreath extends LXPattern {
   static final float MAX_BRIGHTNESS = 80;
 
 
-  final BoundedParameter hue = new BoundedParameter("HUE", 200, 0, 360);
+  final CompoundParameter hue = new CompoundParameter("HUE", 200, 0, 360);
   // have the circle go further than MAX_R so it pauses in full brightness
   final TriangleLFO radiusModulator = new TriangleLFO(0, MAX_R + PAUSE_LENGTH_INCHES, 10000);
 

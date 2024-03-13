@@ -4,7 +4,7 @@ import entwined.utils.SimplexNoise;
 import entwined.utils.Vec3D;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 /**
 Undulating cloud-like patterns.
@@ -20,10 +20,10 @@ public class Undulation extends AutographedPattern{
 
 
   // Parameters (to show up on UI).
-  final BoundedParameter sizeParam =
-    new BoundedParameter("size", 50, 0, 100);
-  final BoundedParameter durationParam =
-    new BoundedParameter("duration", 25, 0, 100);
+  final CompoundParameter sizeParam =
+    new CompoundParameter("size", 50, 0, 100);
+  final CompoundParameter durationParam =
+    new CompoundParameter("duration", 25, 0, 100);
 
   // Variables
   private float elapsedNoiseTimeS = 0.0f;

@@ -6,15 +6,15 @@ import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class VerticalSweep extends LXPattern {
 
-  final BoundedParameter saturationParam = new BoundedParameter("Saturation", 100, 0, 100);
-  final BoundedParameter hue1Param = new BoundedParameter("Hue1", 60, 0, 360);
-  final BoundedParameter hue2Param = new BoundedParameter("Hue2", 110, 0, 360);
-  final BoundedParameter hue3Param = new BoundedParameter("Hue3", 180, 0, 360);
+  final CompoundParameter saturationParam = new CompoundParameter("Saturation", 100, 0, 100);
+  final CompoundParameter hue1Param = new CompoundParameter("Hue1", 60, 0, 360);
+  final CompoundParameter hue2Param = new CompoundParameter("Hue2", 110, 0, 360);
+  final CompoundParameter hue3Param = new CompoundParameter("Hue3", 180, 0, 360);
 
   final SawLFO range = new SawLFO(0, 1, 5000);
 

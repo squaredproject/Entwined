@@ -5,22 +5,22 @@ import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 @LXCategory(LXCategory.TEST)
 public class TestShrubLayers extends LXPattern {
 
-  final BoundedParameter rodLayer;
-  final BoundedParameter clusterIndex;
-  final BoundedParameter shrubIndex;
+  final CompoundParameter rodLayer;
+  final CompoundParameter clusterIndex;
+  final CompoundParameter shrubIndex;
 
   public TestShrubLayers(LX lx) {
     super(lx);
     // lowest level means turning that param off
-    addParameter("rodLayer", rodLayer = new BoundedParameter("layer", 0, 0, 5));
-    addParameter("clusterIndex", clusterIndex = new BoundedParameter("clusterIndex", -1, -1, 11));
-    addParameter("shrubIndex", shrubIndex = new BoundedParameter("shrubIndex", -1, -1, 19));
+    addParameter("rodLayer", rodLayer = new CompoundParameter("layer", 0, 0, 5));
+    addParameter("clusterIndex", clusterIndex = new CompoundParameter("clusterIndex", -1, -1, 11));
+    addParameter("shrubIndex", shrubIndex = new CompoundParameter("shrubIndex", -1, -1, 19));
   }
 
   @Override

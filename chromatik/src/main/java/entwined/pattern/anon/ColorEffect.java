@@ -4,19 +4,19 @@ import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.modulator.DampedParameter;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import entwined.utils.EntwinedUtils;
 
 public class ColorEffect extends LXEffect {
 
-  public final BoundedParameter desaturation = new BoundedParameter("WHT", 0);
-  public final BoundedParameter hueShift = new BoundedParameter("HUE", 0, 360);
-  final BoundedParameter sharp = new BoundedParameter("SHRP", 0);
-  final BoundedParameter soft = new BoundedParameter("SOFT", 0);
-  public final BoundedParameter mono = new BoundedParameter("MON", 0);
-  final BoundedParameter rainbow = new BoundedParameter("ACID", 0);
+  public final CompoundParameter desaturation = new CompoundParameter("WHT", 0);
+  public final CompoundParameter hueShift = new CompoundParameter("HUE", 0, 360);
+  final CompoundParameter sharp = new CompoundParameter("SHRP", 0);
+  final CompoundParameter soft = new CompoundParameter("SOFT", 0);
+  public final CompoundParameter mono = new CompoundParameter("MON", 0);
+  final CompoundParameter rainbow = new CompoundParameter("ACID", 0);
 
   private final DampedParameter hueShiftd = new DampedParameter(hueShift, 180);
   private final DampedParameter rainbowd = new DampedParameter(rainbow, 1);

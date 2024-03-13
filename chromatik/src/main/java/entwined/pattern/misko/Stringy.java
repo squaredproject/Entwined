@@ -4,7 +4,7 @@ import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class Stringy extends LXPattern {
@@ -21,8 +21,8 @@ public class Stringy extends LXPattern {
   private int current_cube_r[];
   private int current_cube_g[];
   private int current_cube_b[];
-  final BoundedParameter speedParam = new BoundedParameter("Speed", 5, 20, .01);
-  final BoundedParameter waveSlope = new BoundedParameter("wvSlope", 360, 1, 720);
+  final CompoundParameter speedParam = new CompoundParameter("Speed", 5, 20, .01);
+  final CompoundParameter waveSlope = new CompoundParameter("wvSlope", 360, 1, 720);
   final SawLFO wave360 = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
   final SinLFO wave100 = new SinLFO(0, 100, speedParam.getValuef() * speedMult);
 

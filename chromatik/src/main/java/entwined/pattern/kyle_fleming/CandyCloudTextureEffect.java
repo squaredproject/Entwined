@@ -6,11 +6,11 @@ import heronarts.lx.color.LXColor;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 public class CandyCloudTextureEffect extends LXEffect {
 
-  public final BoundedParameter amount = new BoundedParameter("CLOU");
+  public final CompoundParameter amount = new CompoundParameter("CLOU");
 
   double time = 0;
   final double scale = 2400;

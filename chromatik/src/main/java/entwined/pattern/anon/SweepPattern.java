@@ -4,7 +4,7 @@ import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.LXParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.utils.LXUtils;
@@ -22,9 +22,9 @@ public class SweepPattern extends LXPattern {
 
   final SawLFO offset = new SawLFO(0, LX.TWO_PIf, 9000);
 
-  final BoundedParameter amplitude = new BoundedParameter("AMP", 10*FEET, 0, 20*FEET);
-  final BoundedParameter speed = new BoundedParameter("SPEED", 1, 0, 3);
-  final BoundedParameter height = new BoundedParameter("HEIGHT", 0, -300, 300);
+  final CompoundParameter amplitude = new CompoundParameter("AMP", 10*FEET, 0, 20*FEET);
+  final CompoundParameter speed = new CompoundParameter("SPEED", 1, 0, 3);
+  final CompoundParameter height = new CompoundParameter("HEIGHT", 0, -300, 300);
   final SinLFO amp = new SinLFO(0, amplitude, 5000);
 
   public SweepPattern(LX lx) {

@@ -7,7 +7,7 @@ import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import entwined.core.TSBufferedPattern;
 import entwined.utils.EntwinedUtils;
 
@@ -17,10 +17,10 @@ import entwined.utils.EntwinedUtils;
 // that shrub light up (by changing the shrub's lightUpOffset)
 public class FirefliesNcase extends TSBufferedPattern {
 
-  final BoundedParameter hue = new BoundedParameter("HUE", 52, 0, 360);
+  final CompoundParameter hue = new CompoundParameter("HUE", 52, 0, 360);
   final SawLFO cycle = new SawLFO(0, 100, 3000); // fireflies flash every 3 seconds
   // neighboring fireflies must be within this distance to have their clock move forward
-  final BoundedParameter flyRadius = new BoundedParameter("FLY_RADIUS", 1000, 0, 2000);
+  final CompoundParameter flyRadius = new CompoundParameter("FLY_RADIUS", 1000, 0, 2000);
 
   // maps the shrub id to the offset from `cycle`, that determines when it uniquely lights up
   static final Map<Integer, Float> lightUpOffset = new HashMap<Integer, Float>();
@@ -32,7 +32,7 @@ public class FirefliesNcase extends TSBufferedPattern {
   // If `reset == false` and `resetTimer < 0` then we switch `reset = true` and reset.
   // Once `resetTimer > 0` we flip `reset` back to false, to be ready for the next cycle.
   // (If anyone has any ideas for cleaner ways to do this I'd love to hear them, since this feels convoluted.)
-  final BoundedParameter resetInterval = new BoundedParameter("RESET_INTERVAL", 10000, 0, 30000);
+  final CompoundParameter resetInterval = new CompoundParameter("RESET_INTERVAL", 10000, 0, 30000);
   final SawLFO resetTimer = new SawLFO(-1, 1, resetInterval);
   static Boolean reset = true; // start with true since we run `reset` in the constructor
 

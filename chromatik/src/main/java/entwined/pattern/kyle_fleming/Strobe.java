@@ -3,13 +3,13 @@ package entwined.pattern.kyle_fleming;
 import entwined.core.TSTriggerablePattern;
 import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 
 public class Strobe extends TSTriggerablePattern {
 
-  final BoundedParameter speed = new BoundedParameter("SPEE", 200, 3000, 30).setExponent(.5);
-  final BoundedParameter balance = new BoundedParameter("BAL", .5, .01, .99);
+  final CompoundParameter speed = new CompoundParameter("SPEE", 200, 3000, 30).setExponent(.5);
+  final CompoundParameter balance = new CompoundParameter("BAL", .5, .01, .99);
 
   int timer = 0;
   boolean on = false;

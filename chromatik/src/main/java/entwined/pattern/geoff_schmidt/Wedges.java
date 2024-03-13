@@ -4,14 +4,14 @@ import entwined.core.CubeManager;
 import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class Wedges extends LXPattern {
-  final BoundedParameter pSpeed = new BoundedParameter("SPD", .52);
-  final BoundedParameter pCount = new BoundedParameter("COUNT", 4.0/15.0);
-  final BoundedParameter pSat = new BoundedParameter("SAT", 5.0/15.0);
-  final BoundedParameter pHue = new BoundedParameter("HUE", .5);
+  final CompoundParameter pSpeed = new CompoundParameter("SPD", .52);
+  final CompoundParameter pCount = new CompoundParameter("COUNT", 4.0/15.0);
+  final CompoundParameter pSat = new CompoundParameter("SAT", 5.0/15.0);
+  final CompoundParameter pHue = new CompoundParameter("HUE", .5);
   double rotation = 0; // degrees
 
   public Wedges(LX lx) {

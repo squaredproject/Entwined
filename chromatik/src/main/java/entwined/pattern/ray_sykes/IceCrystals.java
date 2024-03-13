@@ -4,15 +4,15 @@ import entwined.core.CubeManager;
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.utils.LXUtils;
 
 public class IceCrystals extends LXPattern {
   private IceCrystalLine crystal;
-  final BoundedParameter propagationSpeed = new BoundedParameter("Speed", 5, 1, 20);
-  final BoundedParameter lineWidth = new BoundedParameter("Width", 60, 20, 150);
+  final CompoundParameter propagationSpeed = new CompoundParameter("Speed", 5, 1, 20);
+  final CompoundParameter lineWidth = new CompoundParameter("Width", 60, 20, 150);
   final DiscreteParameter recursionDepth = new DiscreteParameter("Danger", 7, 12);
   final IceCrystalSettings settingsObj;
 

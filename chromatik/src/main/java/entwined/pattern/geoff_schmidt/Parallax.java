@@ -4,14 +4,14 @@ import entwined.core.CubeManager;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class Parallax extends LXPattern {
-  final BoundedParameter pHue = new BoundedParameter("HUE", 0.5);
-  final BoundedParameter pSpeed = new BoundedParameter("SPD", 0);
-  final BoundedParameter pCount = new BoundedParameter("BARS", .25);
-  final BoundedParameter pBounceMag = new BoundedParameter("BNC", 0);
+  final CompoundParameter pHue = new CompoundParameter("HUE", 0.5);
+  final CompoundParameter pSpeed = new CompoundParameter("SPD", 0);
+  final CompoundParameter pCount = new CompoundParameter("BARS", .25);
+  final CompoundParameter pBounceMag = new CompoundParameter("BNC", 0);
   final SinLFO bounceLFO = new SinLFO(-1.0, 1.0, 750);
   ColorBar[] colorBars;
   double now = 0;

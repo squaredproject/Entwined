@@ -3,18 +3,18 @@ package entwined.pattern.misko;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class ColorBlast extends LXPattern {
 
   private float speedMult = 1000;
-  final BoundedParameter hue = new BoundedParameter("hue", 135, 0, 360);
-  final BoundedParameter width = new BoundedParameter("width", 0.15, 0, 2);
-  final BoundedParameter globalTheta = new BoundedParameter("globalTheta", 1.0, 0, 1.0);
-  final BoundedParameter colorSpeed = new BoundedParameter("colorSpeed", 85, 0, 200);
-  final BoundedParameter speedParam = new BoundedParameter("Speed", 5, 20, .01);
-  final BoundedParameter glow = new BoundedParameter("glow", 0.1, 0.0, 1.0);
+  final CompoundParameter hue = new CompoundParameter("hue", 135, 0, 360);
+  final CompoundParameter width = new CompoundParameter("width", 0.15, 0, 2);
+  final CompoundParameter globalTheta = new CompoundParameter("globalTheta", 1.0, 0, 1.0);
+  final CompoundParameter colorSpeed = new CompoundParameter("colorSpeed", 85, 0, 200);
+  final CompoundParameter speedParam = new CompoundParameter("Speed", 5, 20, .01);
+  final CompoundParameter glow = new CompoundParameter("glow", 0.1, 0.0, 1.0);
   final SawLFO wave = new SawLFO(0, 360, 1000);
   float total_ms=0;
   int shrub_offset[];

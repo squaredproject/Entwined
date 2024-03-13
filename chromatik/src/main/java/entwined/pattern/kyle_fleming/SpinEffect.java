@@ -3,7 +3,7 @@ package entwined.pattern.kyle_fleming;
 import heronarts.lx.LX;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.modulator.SawLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.FunctionalParameter;
 import heronarts.lx.parameter.LXParameter;
 import heronarts.lx.parameter.LXParameterListener;
@@ -17,7 +17,7 @@ import entwined.core.CubeManager;
 
 public class SpinEffect extends LXEffect{
 
-  public final BoundedParameter spin = new BoundedParameter("SPIN");
+  public final CompoundParameter spin = new CompoundParameter("SPIN");
   final FunctionalParameter rotationPeriodMs = new FunctionalParameter() {
     @Override
     public double getValue() {

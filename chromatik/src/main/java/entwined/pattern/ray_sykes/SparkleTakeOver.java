@@ -6,7 +6,7 @@ import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.utils.LXUtils;
 
@@ -17,7 +17,7 @@ public class SparkleTakeOver extends LXPattern {
   boolean resetDone = false;
   final SinLFO timing = new SinLFO(6000, 10000, 20000);
   final SawLFO coverage = new SawLFO(0, 100, timing);
-  final BoundedParameter hueVariation = new BoundedParameter("HueVar", 0.1, 0.1, 0.4);
+  final CompoundParameter hueVariation = new CompoundParameter("HueVar", 0.1, 0.1, 0.4);
   float hueSeparation = 180;
   float newHueVal;
   float oldHueVal;

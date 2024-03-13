@@ -3,7 +3,7 @@ package entwined.pattern.adam_n_katie;
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 //----------------------------------------------------------------------------
 /**
@@ -15,10 +15,10 @@ public class Sparks extends AutographedPattern{
 
 
   // Parameters (to show up on UI).
-  final BoundedParameter sparkProbabilityPercentagePerSParam =
-    new BoundedParameter("SPS", 3, 1, 100);
-  final BoundedParameter sparkFadePercentagePerSParam  =
-    new BoundedParameter("SFD", 25, 1, 100);
+  final CompoundParameter sparkProbabilityPercentagePerSParam =
+    new CompoundParameter("SPS", 3, 1, 100);
+  final CompoundParameter sparkFadePercentagePerSParam  =
+    new CompoundParameter("SFD", 25, 1, 100);
 
   public Sparks(LX lx){
     super(lx);

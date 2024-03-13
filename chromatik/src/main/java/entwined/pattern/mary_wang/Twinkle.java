@@ -4,13 +4,13 @@ import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class Twinkle extends LXPattern {
 
   private SinLFO[] bright;
-  final BoundedParameter brightnessParam = new BoundedParameter("Brightness", 0.8, 0.5, 1);
+  final CompoundParameter brightnessParam = new CompoundParameter("Brightness", 0.8, 0.5, 1);
   final int numBrights = 18;
   final int density = 20;
   int[] sparkleTimeOuts;

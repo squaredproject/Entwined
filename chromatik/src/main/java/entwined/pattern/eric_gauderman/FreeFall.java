@@ -3,19 +3,19 @@ package entwined.pattern.eric_gauderman;
 import entwined.utils.SimplexNoise;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class FreeFall extends LXPattern {
 
     float height = 0.0f;
-    final BoundedParameter velocityParam = new BoundedParameter("VEL", 10f,
+    final CompoundParameter velocityParam = new CompoundParameter("VEL", 10f,
         -100f, 100f);
-    final BoundedParameter blobWidthParam = new BoundedParameter("WID", 90f,
+    final CompoundParameter blobWidthParam = new CompoundParameter("WID", 90f,
         10f, 400f);
-    final BoundedParameter blobHeightParam = new BoundedParameter("HGT", 60f,
+    final CompoundParameter blobHeightParam = new CompoundParameter("HGT", 60f,
         10f, 400f);
-    final BoundedParameter fillParam = new BoundedParameter("FIL", 25f, 0.001f,
+    final CompoundParameter fillParam = new CompoundParameter("FIL", 25f, 0.001f,
         100f);
 
     public FreeFall(LX lx) {

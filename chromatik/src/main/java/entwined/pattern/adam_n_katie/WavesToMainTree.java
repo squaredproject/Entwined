@@ -5,7 +5,7 @@ import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 /**
 Circular hue cycle waves starting far from the main tree and moving toward it.
@@ -16,10 +16,10 @@ public class WavesToMainTree extends AutographedPattern{
   static final float speedMult = 1000;
 
   // Parameters (to show up on UI).
-  final BoundedParameter speedParam =
-    new BoundedParameter("Speed", 5, 20, .01);
-  final BoundedParameter waveSlope =
-    new BoundedParameter("waveSlope", 360, 1, 720);
+  final CompoundParameter speedParam =
+    new CompoundParameter("Speed", 5, 20, .01);
+  final CompoundParameter waveSlope =
+    new CompoundParameter("waveSlope", 360, 1, 720);
   final SawLFO wave =
     new SawLFO(0, 360, speedParam.getValuef() * speedMult);
 

@@ -3,7 +3,7 @@ package entwined.pattern.colin_hunt;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 /**
@@ -13,8 +13,8 @@ public class BeachBall extends LXPattern {
 
   // Variable Declarations go here
 
-  final BoundedParameter speed = new BoundedParameter("Speed", 5000, 20000, 1000);
-  final BoundedParameter swirlMult = new BoundedParameter("Swirl", .5, 2, .1);
+  final CompoundParameter speed = new CompoundParameter("Speed", 5000, 20000, 1000);
+  final CompoundParameter swirlMult = new CompoundParameter("Swirl", .5, 2, .1);
   final SawLFO spinner = new SawLFO(0, 360, speed);
 
   // Constructor

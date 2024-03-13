@@ -10,13 +10,13 @@ import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.LinearEnvelope;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 public class Fire extends TSTriggerablePattern {
-  final BoundedParameter maxHeight = new BoundedParameter("HEIGHT", 5.0, 0.3, 12);
-  final BoundedParameter flameSize = new BoundedParameter("SIZE", 30, 10, 75);
-  final BoundedParameter flameCount = new BoundedParameter ("FLAMES", 75, 0, 75);
-  final BoundedParameter hue = new BoundedParameter("HUE", 0, 0, 360);
+  final CompoundParameter maxHeight = new CompoundParameter("HEIGHT", 5.0, 0.3, 12);
+  final CompoundParameter flameSize = new CompoundParameter("SIZE", 30, 10, 75);
+  final CompoundParameter flameCount = new CompoundParameter ("FLAMES", 75, 0, 75);
+  final CompoundParameter hue = new CompoundParameter("HUE", 0, 0, 360);
   private LinearEnvelope fireHeight = new LinearEnvelope(0,0,500);
 
   private float height = 0;

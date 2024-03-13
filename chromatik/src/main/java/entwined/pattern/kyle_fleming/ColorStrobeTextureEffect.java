@@ -4,11 +4,11 @@ import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.effect.LXEffect;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 public class ColorStrobeTextureEffect extends LXEffect {
 
-  public final BoundedParameter amount = new BoundedParameter("SEIZ", 0, 0, 1).setExponent(2);
+  public final CompoundParameter amount = new CompoundParameter("SEIZ", 0, 0, 1).setExponent(2);
 
   public ColorStrobeTextureEffect(LX lx) {
     super(lx);

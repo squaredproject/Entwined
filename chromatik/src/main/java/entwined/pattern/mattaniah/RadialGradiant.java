@@ -2,7 +2,7 @@ package entwined.pattern.mattaniah;
 
 import heronarts.lx.LX;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.model.LXPoint;
 
@@ -17,12 +17,12 @@ public class RadialGradiant extends LXPattern {
     private float speedMult = 1000;
 
 
-    final BoundedParameter speedParam = new BoundedParameter("Speed", 5, 20, .01);
+    final CompoundParameter speedParam = new CompoundParameter("Speed", 5, 20, .01);
     // final SawLFO wave360 = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
     final SinLFO wave360 = new SinLFO(0, 360, speedParam.getValuef() * speedMult);
 
-    // final BoundedParameter waveSlope = new BoundedParameter("waveSlope", 360, 1, 720);
-    final BoundedParameter waveSlope = new BoundedParameter("waveSlope", 0.04, 0.00001, 0.15);
+    // final CompoundParameter waveSlope = new CompoundParameter("waveSlope", 360, 1, 720);
+    final CompoundParameter waveSlope = new CompoundParameter("waveSlope", 0.04, 0.00001, 0.15);
 
     // Constructor and initial setup
     // Remember to use addParameter and addModulator if you're using Parameters or sin waves

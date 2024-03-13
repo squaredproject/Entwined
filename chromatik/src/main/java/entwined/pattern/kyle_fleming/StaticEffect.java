@@ -4,11 +4,11 @@ import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.effect.LXEffect;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 public class StaticEffect extends LXEffect {
 
-  final BoundedParameter amount = new BoundedParameter("STTC", 0, 0, 1);
+  final CompoundParameter amount = new CompoundParameter("STTC", 0, 0, 1);
 
   private boolean isCreatingStatic = false;
 

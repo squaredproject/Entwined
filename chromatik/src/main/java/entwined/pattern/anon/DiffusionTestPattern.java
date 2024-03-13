@@ -4,15 +4,15 @@ import heronarts.lx.LX;
 import heronarts.lx.LXCategory;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.pattern.LXPattern;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 @LXCategory(LXCategory.TEST)
 public class DiffusionTestPattern extends LXPattern {
 
-  final BoundedParameter hue = new BoundedParameter("HUE", 0, 360);
-  final BoundedParameter sat = new BoundedParameter("SAT", 1);
-  final BoundedParameter brt = new BoundedParameter("BRT", 1);
-  final BoundedParameter spread = new BoundedParameter("SPREAD", 0, 360);
+  final CompoundParameter hue = new CompoundParameter("HUE", 0, 360);
+  final CompoundParameter sat = new CompoundParameter("SAT", 1);
+  final CompoundParameter brt = new CompoundParameter("BRT", 1);
+  final CompoundParameter spread = new CompoundParameter("SPREAD", 0, 360);
 
   public DiffusionTestPattern(LX lx) {
     super(lx);

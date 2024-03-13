@@ -9,13 +9,13 @@ import heronarts.lx.modulator.Accelerator;
 import heronarts.lx.modulator.Click;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BooleanParameter;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.LXParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.utils.LXUtils;
 
 public class Springs extends LXPattern {
-  final BoundedParameter hue = new BoundedParameter("HUE", 0, 0, 360);
+  final CompoundParameter hue = new CompoundParameter("HUE", 0, 0, 360);
   private BooleanParameter automated = new BooleanParameter("AUTO", true);
   private final Accelerator gravity = new Accelerator(0, 0, 0);
   private final Click reset = new Click(9600);

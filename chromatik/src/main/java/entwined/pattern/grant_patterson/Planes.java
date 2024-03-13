@@ -5,7 +5,7 @@ import entwined.utils.Vec3D;
 import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.pattern.LXPattern;
 
@@ -25,16 +25,16 @@ public class Planes extends LXPattern {
  // Number of planes
  final DiscreteParameter countParam = new DiscreteParameter("count", 3, 1, 10);
  // Rate of change of position, rotation, and color
- final BoundedParameter positionSpeedParam = new BoundedParameter("posSpd", 0.2, 0.01, 1);
- final BoundedParameter rotationSpeedParam = new BoundedParameter("rotSpd", 0.1, 0, 1);
- final BoundedParameter colorSpeedParam = new BoundedParameter("clrSpd", 0.2, 0.01, 1);
+ final CompoundParameter positionSpeedParam = new CompoundParameter("posSpd", 0.2, 0.01, 1);
+ final CompoundParameter rotationSpeedParam = new CompoundParameter("rotSpd", 0.1, 0, 1);
+ final CompoundParameter colorSpeedParam = new CompoundParameter("clrSpd", 0.2, 0.01, 1);
  // Width of each rendered plane
- final BoundedParameter sizeParam = new BoundedParameter("size", .5, .1, 5);
+ final CompoundParameter sizeParam = new CompoundParameter("size", .5, .1, 5);
  // How different each plane is from the others in position, rotation, and color
  // (0 means all planes have the same position/rotation/color)
- final BoundedParameter positionVarianceParam = new BoundedParameter("posVar", 0.5, 0, 0.5);
- final BoundedParameter rotationVarianceParam = new BoundedParameter("rotVar", 0.5, 0, 0.5);
- final BoundedParameter colorVarianceParam = new BoundedParameter("clrVar", 0.3, 0, 0.3);
+ final CompoundParameter positionVarianceParam = new CompoundParameter("posVar", 0.5, 0, 0.5);
+ final CompoundParameter rotationVarianceParam = new CompoundParameter("rotVar", 0.5, 0, 0.5);
+ final CompoundParameter colorVarianceParam = new CompoundParameter("clrVar", 0.3, 0, 0.3);
 
  public Planes(LX lx) {
    super(lx);

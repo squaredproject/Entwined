@@ -11,17 +11,17 @@ import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 /**
 Interconnected growth
 */
 public class Growth extends TSBufferedPattern {
 
- final BoundedParameter growthSpeedParam = new BoundedParameter("spd", 2, .1, 10);
- final BoundedParameter lifeSpeedParam = new BoundedParameter("life", 5, 0, 10);
- final BoundedParameter fertilityParam = new BoundedParameter("fert", 1.15, 1, 3);
- final BoundedParameter angleParam = new BoundedParameter("angl", 60, 30, 180);
+ final CompoundParameter growthSpeedParam = new CompoundParameter("spd", 2, .1, 10);
+ final CompoundParameter lifeSpeedParam = new CompoundParameter("life", 5, 0, 10);
+ final CompoundParameter fertilityParam = new CompoundParameter("fert", 1.15, 1, 3);
+ final CompoundParameter angleParam = new CompoundParameter("angl", 60, 30, 180);
 
  private class Root {
    // Width of fade at start/end of growing/dying root
