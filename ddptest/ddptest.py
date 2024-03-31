@@ -69,7 +69,7 @@ COLOR = "blue"
 palette = {
     'red': (0xff, 0x00, 0x00),
     'green': (0x00, 0xff, 0x00),
-    'blue': (0x00, 0x00, 0xbb),
+    'blue': (0x00, 0x00, 0xff),
     'ltblue': (0xad, 0xd8, 0xe6),
     'dimblue': (0x1a, 0x22, 0x39),
     'yellow': (0xff, 0xff, 0x00),
@@ -414,6 +414,31 @@ def pattern_strobe():
         leds_send(leds)
         time.sleep(0.3)
 
+def pattern_strobe_white():
+    global leds, palette
+    while True:
+        leds_color_fill ( palette["black"] )
+        leds_send(leds)
+        time.sleep(0.3)
+        leds_color_fill ( palette["white"] )
+        leds_send(leds)
+        time.sleep(0.3)
+
+def pattern_strobe_all():
+    global leds, palette
+    while True:
+        leds_color_fill ( palette["white"] )
+        leds_send(leds)
+        time.sleep(0.3) # white is important because it'll show a color cast
+        leds_color_fill ( palette["red"] )
+        leds_send(leds)
+        time.sleep(0.9)
+        leds_color_fill ( palette["green"] )
+        leds_send(leds)
+        time.sleep(0.3)
+        leds_color_fill ( palette["blue"] )
+        leds_send(leds)
+        time.sleep(0.3)
 
 palette_order = [
     (0xff, 0x00, 0x00),
@@ -519,12 +544,16 @@ def main():
         pattern_cube_color(args.cubes)
     elif args.pattern == 'strobe':
         pattern_strobe()
+    elif args.pattern == 'strobe_white':
+        pattern_strobe_white()
+    elif args.pattern == 'strobe_all':
+        pattern_strobe_all()
     elif args.pattern == 'cube_color':
         pattern_cube_color()
     elif args.pattern in palette:
         pattern_color(args.pattern)
     else:
-        print(' pattern must be one of palette, hsv, order, shrub_rank, shrub_rank_order, cube_order, cube_color')
+        print(' pattern must be one of palette, hsv, order, shrub_rank, shrub_rank_order, cube_order, cube_color, strobe, strobe_white')
 
 
 
