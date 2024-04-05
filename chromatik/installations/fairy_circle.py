@@ -57,7 +57,22 @@ class FairyCircle:
 
                 ndb_cubes.append(cluster_cubes)
 
-        return(ndb_cubes)
+        # populate cubes from ndb_cubes, with strange rules
+        if (self.clusters_per_ndb == 5):
+            self.cubes += ndb_cubes[1]
+            self.cubes += ndb_cubes[0]
+            self.cubes += ndb_cubes[2]
+            self.cubes += ndb_cubes[3]
+            self.cubes += ndb_cubes[4]
+        elif (self.clusters_per_ndb == 3):
+            self.cubes += ndb_cubes[0]
+            self.cubes += ndb_cubes[1]
+            self.cubes += ndb_cubes[2]
+        else:
+            print(f'only supports 3 and 5 clusters per ndb, not {self.clusters_per_ndb}')
+            exit()
+
+        return
 
     # this routine is for straight lines of babies / miniclusters
     # to use: tags: 'shape' is 'line'
@@ -100,7 +115,80 @@ class FairyCircle:
 
             cluster_distance += self.distance
 
-        return(ndb_cubes)
+        # populate cubes from ndb_cubes, with strange rules
+        if (self.clusters_per_ndb == 5):
+            self.cubes += ndb_cubes[1]
+            self.cubes += ndb_cubes[0]
+            self.cubes += ndb_cubes[2]
+            self.cubes += ndb_cubes[3]
+            self.cubes += ndb_cubes[4]
+        elif (self.clusters_per_ndb == 3):
+            self.cubes += ndb_cubes[0]
+            self.cubes += ndb_cubes[1]
+            self.cubes += ndb_cubes[2]
+        else:
+            print(f'only supports 3 and 5 clusters per ndb, not {self.clusters_per_ndb}')
+            exit()
+
+        return
+
+# free is:
+# no clusters per ndb, separation, but a list of 'clusters'
+# each clusters has an x,y,z,ry offset
+# one cluster has 'ndb': true which is where the ndb is located
+
+
+    def free_add_cubes(self, config):
+        if isinstance(config.clusters, list) is not True:
+            print(f'Free position must have a list of clusters, fix it please')
+            exit()
+
+        ndb_cubes = []
+        for cluster in clusters:
+            # print(f'line: next cluster: distance {cluster_distance}')
+            cluster_cubes = []
+            stem_rotation = 0
+            stem_rot_step = (2*np.pi)/float(self.MINICLUSTER_N_CUBES)
+
+            for idx in range(self.MINICLUSTER_N_CUBES):
+                # initial position, relative to the minicluster center...
+                cube_pos = np.array([self.MINICLUSTER_RADIUS * np.cos(stem_rotation),
+                                     self.MINICLUSTER_HEIGHTS[idx],
+                                     self.MINICLUSTER_RADIUS * np.sin(stem_rotation)])
+                # rotate around local center
+                cube_pos = np.dot(cube_pos, cluster['yz'])
+                # change to relative to the center of the line
+                if 'z' not in cluster:
+                    cluster['z'] = 0
+                # apply local and global transform
+                cube_pos += np.array([cluster['x'], cluster['y'], cluster['z']])
+                cube_pos += self.translation
+
+                cluster_cubes.append(cube_pos)
+                stem_rotation += stem_rot_step
+
+            cluster_cubes.reverse()   # because apparently we wire these counterclockwise
+
+            ndb_cubes.append(cluster_cubes)
+
+        # add to cubes based on reorder based on NDB location
+        # which has the ndb is denoted by "ndb": true in the json file
+        # cubes are ordered by those to the left (lower output) and those to the right
+        ndb_cluster = -1
+        for idx, cluster in enumerate(clusters):
+            if 'ndb' in cluster:
+                ndb_cluster = idx
+                break
+        if ndb_cluster == -1:
+            print(f'clusters array must have one ndb, please fix')
+            exit()
+        for idx in range(ndb_cluster-1, 0, -1):
+            self.cubes += ndb_cubes[idx]
+        self.cubes[ndb_cluster]
+        for idx in range(ndb_cluster+1,len(clusters)):
+            self.cubes += ndb_cubes[idx]
+
+        return
 
 
     def __init__(self, config):
@@ -133,7 +221,7 @@ class FairyCircle:
                 print(f'lines must have only one NDB not {len(self.ip_addrs)}')
                 exit()          
 
-            ndb_cubes = self.line_add_cubes(config)
+            self.line_add_cubes(config)
 
         if (config['shape'] == 'circle') or (config['shape'] == 'arc'):
             if 'radius' not in config:
@@ -147,25 +235,26 @@ class FairyCircle:
                 arc = 2.0 * np.pi
             self.arc_step = arc / (self.clusters_per_ndb*len(self.ip_addrs)) # the number of ndbs is the size of the ip_addr array
 
-            ndb_cubes = self.circle_add_cubes(config)
+            self.circle_add_cubes(config)
 
-        # print(f' processed shape, ndb cubes is {ndb_cubes}')
+        # free shape has an array of offsets from the center point.
+        # that array is called 'locations' (maybe a better name)
+        # There is no clusters per ndb because it is calculated
+        # the location of the controlling NDB is in the positions ("ndb": true)
 
-        # there's an issue here about how the miniclusters are actually attached to the ndbs, which is not
-        # in rotational order.  Instead of 1-2-3-4-5, it's 2-1-3-4-5 (for 5) but 1-2-3 (for 3)
-        if (self.clusters_per_ndb == 5):
-            self.cubes += ndb_cubes[1]
-            self.cubes += ndb_cubes[0]
-            self.cubes += ndb_cubes[2]
-            self.cubes += ndb_cubes[3]
-            self.cubes += ndb_cubes[4]
-        elif (self.clusters_per_ndb == 3):
-            self.cubes += ndb_cubes[0]
-            self.cubes += ndb_cubes[1]
-            self.cubes += ndb_cubes[2]
-        else:
-            print(f'only supports 3 and 5 clusters per ndb, not {self.clusters_per_ndb}')
-            exit()
+        if (config['shape'] == 'free'):
+            if 'separation' in config:
+                print('shape free must NOT separation please fix')
+                exit()
+            if 'clusters' not in config:
+                print('shape free must have locations, please fix')
+                exit()
+
+            self.free_add_cubes(config)
+
+        # print(f' processed shape, cubes is {self.cubes}')
+        return
+
 
     def write_fixture_file(self, folder):
         folder_path = Path(folder)
