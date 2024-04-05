@@ -41,7 +41,7 @@ public class zisdeAnimateMe1 extends LXPattern {
     @Override
     public void run(double deltaMs) {
         time_elapsed += deltaMs;
-double myspd = 1;
+        double myspd = 1;
 //  double myspd = spd.getValuef();
         xwidth = 30;
         xstartloc = 0;
