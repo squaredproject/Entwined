@@ -139,7 +139,8 @@ class FairyCircle:
 
 
     def free_add_cubes(self, config):
-        if isinstance(config.clusters, list) is not True:
+        clusters = config['clusters']
+        if isinstance(clusters, list) is not True:
             print(f'Free position must have a list of clusters, fix it please')
             exit()
 
@@ -156,7 +157,7 @@ class FairyCircle:
                                      self.MINICLUSTER_HEIGHTS[idx],
                                      self.MINICLUSTER_RADIUS * np.sin(stem_rotation)])
                 # rotate around local center
-                cube_pos = np.dot(cube_pos, cluster['yz'])
+                cube_pos = np.dot(cube_pos, cluster['ry'])
                 # change to relative to the center of the line
                 if 'z' not in cluster:
                     cluster['z'] = 0
@@ -184,7 +185,7 @@ class FairyCircle:
             exit()
         for idx in range(ndb_cluster-1, 0, -1):
             self.cubes += ndb_cubes[idx]
-        self.cubes[ndb_cluster]
+        self.cubes += ndb_cubes[ndb_cluster]
         for idx in range(ndb_cluster+1,len(clusters)):
             self.cubes += ndb_cubes[idx]
 
