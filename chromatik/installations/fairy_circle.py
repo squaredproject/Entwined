@@ -183,7 +183,7 @@ class FairyCircle:
         if ndb_cluster == -1:
             print(f'clusters array must have one ndb, please fix')
             exit()
-        for idx in range(ndb_cluster-1, 0, -1):
+        for idx in range(ndb_cluster-1, -1, -1):
             self.cubes += ndb_cubes[idx]
         self.cubes += ndb_cubes[ndb_cluster]
         for idx in range(ndb_cluster+1,len(clusters)):
@@ -278,15 +278,28 @@ class FairyCircle:
             # NB - the multiple leds in one cube issue does not occur with fairy circles...
             coords.append({'x': cube[0], 'y': cube[1], 'z': cube[2]})
 
-        num_cubes_per_ndb = self.MINICLUSTER_N_CUBES * self.clusters_per_ndb
-        total_cubes = 0
-        for ip_addr in self.ip_addrs:
+        # breadcrumb: start is the start of the cube list. Which means if we have a
+        # full fairy circle with multiple NDBs, we need the NDBs in the list to cover
+        # the cubes.
+
+        # there are two patterns. If there are multiple NDBs, then clusters_per_ndb is set.
+        # if there is only one NDB, use the number of cubes.
+        if (len(self.ip_addrs) == 1):
             outputs.append({'protocol': 'ddp',
-                      'host': ip_addr,
-                      'start': total_cubes,
-                      'num' : num_cubes_per_ndb
-                     })
-            total_cubes += num_cubes_per_ndb
+                'host': self.ip_addrs[0],
+                'start': 0,
+                'num' : len(self.cubes)
+                })
+        else:
+            num_cubes_per_ndb = self.MINICLUSTER_N_CUBES * self.clusters_per_ndb
+            total_cubes = 0
+            for ip_addr in self.ip_addrs:
+                outputs.append({'protocol': 'ddp',
+                          'host': ip_addr,
+                          'start': total_cubes,
+                          'num' : num_cubes_per_ndb
+                         })
+                total_cubes += num_cubes_per_ndb
 
         with open(file_path, 'w+') as output_f:
             json.dump(lx_config, output_f, indent=4)
