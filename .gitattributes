@@ -1,0 +1,13 @@
+* text=auto
+
+*.c text
+*.h text
+*.java text
+*.json text
+*.lxf text
+*.lxp text
+
+*.png binary
+*.jpg binary
+*.hex binary
+*.bin binary
