@@ -1,13 +1,33 @@
 [
 	{
 			"ry" : 0,
-			"x" : 452,
-			"y" : 48,
-			"z" : 0,
+			"x" : -385,
+			"y" : -3,
+			"z" : 350,
 			"type" : "devil",
 			"ledsPerCube": 6,
-			"pieceId" : "fruit-1",
-			"ipAddress" : "10.0.0.119"
+			"pieceId" : "fruit-1.0",
+			"ipAddress" : "10.242.0.178"
+	},
+	{
+			"ry" : 0,
+			"x" : -375,
+			"y" : -3,
+			"z" : -150,
+			"type" : "devil",
+			"ledsPerCube": 6,
+			"pieceId" : "fruit-2.0",
+			"ipAddress" : "10.242.0.146"
+	},
+	{
+			"ry" : 0,
+			"x" : -200,
+			"y" : -3,
+			"z" : -600,
+			"type" : "devil",
+			"ledsPerCube": 6,
+			"pieceId" : "fruit-3.0",
+			"ipAddress" : "10.242.0.57"
 	},
 	{
 			"ry" : 0,
@@ -16,7 +36,98 @@
 			"z" : 0,
 			"type" : "devil",
 			"ledsPerCube": 6,
-			"pieceId" : "fruit-2",
-			"ipAddress" : "10.0.0.120"
+			"pieceId" : "fruit-3.1",
+			"ipAddress" : "10.242.0.203"
+	},
+	{
+			"ry" : 0,
+			"x" : 0,
+			"y" : -3,
+			"z" : -620,
+			"type" : "devil",
+			"ledsPerCube": 6,
+			"pieceId" : "fruit-4.0",
+			"ipAddress" : "10.242.0.190"
+	},
+	{
+			"ry" : 0,
+			"x" : 410,
+			"y" : -3,
+			"z" : -620,
+			"type" : "devil",
+			"ledsPerCube": 6,
+			"pieceId" : "fruit-5.0",
+			"ipAddress" : "10.242.0.223"
+	},
+	{
+			"ry" : 0,
+			"x" : 410,
+			"y" : -3,
+			"z" : -620,
+			"type" : "devil",
+			"ledsPerCube": 6,
+			"pieceId" : "fruit-5.1",
+			"ipAddress" : "10.242.0.208"
+	},
+	{
+			"ry" : 0,
+			"x" : 550,
+			"y" : -3,
+			"z" : -280,
+			"type" : "devil",
+			"ledsPerCube": 6,
+			"pieceId" : "fruit-6.0",
+			"ipAddress" : "10.242.0.185"
+	},
+	{
+			"ry" : 0,
+			"x" : 570,
+			"y" : -3,
+			"z" : -260,
+			"type" : "devil",
+			"ledsPerCube": 6,
+			"pieceId" : "fruit-6.1",
+			"ipAddress" : "10.242.0.166"
+	},
+	{
+			"ry" : 0,
+			"x" : 580,
+			"y" : -3,
+			"z" : -285,
+			"type" : "devil",
+			"ledsPerCube": 6,
+			"pieceId" : "fruit-6.2",
+			"ipAddress" : "10.242.0.206"
+	},
+		{
+			"ry" : 0,
+			"x" : 700,
+			"y" : -3,
+			"z" : -260,
+			"type" : "devil",
+			"ledsPerCube": 6,
+			"pieceId" : "fruit-7.0",
+			"ipAddress" : "10.242.0.210"
+	},
+	{
+			"ry" : 0,
+			"x" : 700,
+			"y" : -3,
+			"z" : -240,
+			"type" : "devil",
+			"ledsPerCube": 6,
+			"pieceId" : "fruit-7.1",
+			"ipAddress" : "10.242.0.212"
+	},
+	{
+			"ry" : 0,
+			"x" : 730,
+			"y" : -3,
+			"z" : -250,
+			"type" : "devil",
+			"ledsPerCube": 6,
+			"pieceId" : "fruit-7.2",
+			"ipAddress" : "10.242.0.173"
 	}
+
 ]
