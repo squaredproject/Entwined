@@ -157,7 +157,7 @@ class FairyCircle:
                                      self.MINICLUSTER_HEIGHTS[idx],
                                      self.MINICLUSTER_RADIUS * np.sin(stem_rotation)])
                 # rotate around local center
-                cube_pos = np.dot(cube_pos, cluster['ry'])
+                cube_pos += np.dot(cube_pos, cluster['ry'])
                 # change to relative to the center of the line
                 if 'z' not in cluster:
                     cluster['z'] = 0
