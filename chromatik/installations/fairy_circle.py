@@ -163,7 +163,6 @@ class FairyCircle:
                     cluster['z'] = 0
                 # apply local and global transform
                 cube_pos += np.array([cluster['x'], cluster['y'], cluster['z']])
-                cube_pos += self.translation
 
                 cluster_cubes.append(cube_pos)
                 stem_rotation += stem_rot_step
