@@ -61,6 +61,15 @@ else {
         echo "no autoplay recording available, will not autoplay"
 }
 
+echo "copy random fixtures and models"
+
+if (Test-Path -Path $install_dir/Fixtures) {
+        cp -r $install_dir/Fixtures/* $fixtures_dir/..
+}
+if (Test-Path -Path $install_dir/Models) {
+        cp -r $install_dir/Models/* $fixtures_dir/../../Models
+}
+
 # copy video files over
 mkdir -p "$HOME/Chromatik/Videos" -ea 0
 cp ../videos/* "$HOME/Chromatik/Videos"

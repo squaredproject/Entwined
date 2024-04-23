@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# Source of truth: https://github.com/squaredproject/Entwined
+# Author: Brian Bulkowski brian@bulkowski.org
+# Fixture files for Entwined "Fruit" clusters
+
 # Turn an Entwined shrub definition file into an LXstudio fixture file(s)
 
 # NOTE: I am sorry about "fruits". It's not english. But we need to have a plural
@@ -10,8 +14,6 @@ import json
 from pathlib import Path
 
 import numpy as np
-
-import sculpture_globals
 
 
 # Fruit are defined as follows:
@@ -38,9 +40,9 @@ class Fruit:
     # number of layers per fruit
     layers = 3
     # Y distance from Y=0 to a given layer
-    y_distance_layers = [ 0, 12, 24 ]
+    y_distance_layers = [ 0, 6, 4 ]
     # radial distance of each layer (to center point of cube)
-    rad_distance_layers = [ 6, 12, 6 ]
+    rad_distance_layers = [ 4, 8, 4 ]
     # Rotation of a given layer
     ry_layers = [ 0, 60, -60 ]
     # number of cubes in a layer
@@ -53,7 +55,10 @@ class Fruit:
         self.ledsPerCube = config['ledsPerCube']
         self.type = config['type'] + 'Fruit'
 
+
+#        print(f"rotation in degrees: {config['ry']}")
         rot = (np.pi / 180.0) * config['ry'] # get into radians
+#        print(f"rotation in radians: {rot}")
         self.rotation = np.array([
             [np.cos(rot),0,np.sin(rot)],
             [0,1,0],
@@ -70,33 +75,39 @@ class Fruit:
     def calculate_cubes(self):
         # See above for distances
         for layer_idx in range(self.layers):
+
             radius = self.rad_distance_layers[layer_idx]
-            ry_layer = (np.pi / 180.0) * self.ry_layers[layer_idx] # get into radians
             y_distance = self.y_distance_layers[ layer_idx ]
+
+            ry_layer = (np.pi / 180.0) * self.ry_layers[layer_idx] # get into radians
+            ry_rotation = np.array([[np.cos(ry_layer), 0, np.sin(ry_layer)],
+                                  [0, 1, 0],
+                                  [-np.sin(ry_layer), 0, np.cos(ry_layer)]])
+
+
+            cube_rot_step = (2*np.pi)/float(self.ncube_layers[layer_idx])
+            cube_rotation = 0
+
             for cube_idx in range(self.ncube_layers[layer_idx]):
 
+                # starting position: 
                 cube_pos = np.array(
-                    [ radius,
+                    [ radius * np.cos(cube_rotation),
                       y_distance,
-                      0
+                      radius * np.sin(cube_rotation)
                     ])
-
-                # transform this cube into fruit coordinate
-                theta = -(cube_idx + 1) * np.pi/6
-                theta += ry_layer
-                rot = np.array([
-                    [np.cos(theta),0,np.sin(theta)],
-                    [0,1,0],
-                    [-np.sin(theta), 0, np.cos(theta)]])
-                cube_pos = np.dot(rot, cube_pos)
+                
+                # rotate by the layer's rotation offset
+                cube_pos = np.dot(cube_pos, ry_rotation)
+                # rotate by the clusters value
+                cube_pos = np.dot(cube_pos, self.rotation)
 
                 # And transform into global coordinates...
-                cube_pos = np.dot(self.rotation, cube_pos)
-                cube_pos = cube_pos + self.translation
+                cube_pos += self.translation
 
                 # add to the output list (leds per cube is handled in the repeate parameter in the fixture file)
                 self.cubes.append([cube_pos[0], cube_pos[1], cube_pos[2]])
-
+                cube_rotation -= cube_rot_step 
 
     def write_fixture_file(self, config_folder):
         folder = Path(config_folder)

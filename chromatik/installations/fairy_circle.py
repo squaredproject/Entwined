@@ -50,7 +50,7 @@ class FairyCircle:
                     cube_pos += self.translation
 
                     cluster_cubes.append(cube_pos)
-                    stem_rotation += stem_rot_step
+                    stem_rotation -= stem_rot_step
 
                 cluster_rotation += self.arc_step
                 cluster_cubes.reverse()   # because apparently we wire these counterclockwise
@@ -107,7 +107,7 @@ class FairyCircle:
                 cube_pos += self.translation
 
                 cluster_cubes.append(cube_pos)
-                stem_rotation += stem_rot_step
+                stem_rotation -= stem_rot_step
 
             cluster_cubes.reverse()   # because apparently we wire these counterclockwise
 
@@ -159,13 +159,13 @@ class FairyCircle:
                 # rotate around local center
                 cube_pos += np.dot(cube_pos, cluster['ry'])
                 # change to relative to the center of the line
-                if 'z' not in cluster:
-                    cluster['z'] = 0
+                if 'y' not in cluster:
+                    cluster['y'] = 0
                 # apply local and global transform
                 cube_pos += np.array([cluster['x'], cluster['y'], cluster['z']])
 
                 cluster_cubes.append(cube_pos)
-                stem_rotation += stem_rot_step
+                stem_rotation -= stem_rot_step
 
             cluster_cubes.reverse()   # because apparently we wire these counterclockwise
 
