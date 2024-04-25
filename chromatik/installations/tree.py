@@ -351,7 +351,7 @@ def main():
     with open(args.tree_config) as tc_f:
         tree_configs = json.load(tc_f)
     if not tree_configs:
-        print(" Empty tree configurations, exiting ")
+        print(" Empty tree configurations, exiting tree.py ")
         exit()
 
     ndb_configs, cube_configs = tree_cubes_load_csv(args.branch_config)

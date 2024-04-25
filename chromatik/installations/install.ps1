@@ -54,14 +54,12 @@ if (Test-Path -Path $install_dir/config.json -PathType Leaf) {
         cp $install_dir/config.json "$HOME/Chromatik"
 }
 
-if (Test-Path -Path $install_dir/autoplay.lxr -PathType Leaf) {
-        cp $install_dir/autoplay.lxr "$HOME/Chromatik" 
+if (Test-Path -Path $install_dir/*.lxr -PathType Leaf) {
+        cp $install_dir/*.lxr "$HOME/Chromatik" 
 }
 else {
         echo "no autoplay recording available, will not autoplay"
 }
-
-echo "copy random fixtures and models"
 
 if (Test-Path -Path $install_dir/Fixtures) {
         cp -r $install_dir/Fixtures/* $fixtures_dir/../ -ea 0
