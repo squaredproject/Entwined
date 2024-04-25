@@ -1,0 +1,110 @@
+{
+  "label": "baby_heart",
+  "tag": "baby_heart",
+  "components": [
+    {
+      "type": "baby_heart/baby_R1",
+      "host": "10.25.25.3"
+    },
+    {
+      "type": "baby_heart/baby_R2",
+      "host": "10.25.25.2"
+    },
+    {
+      "type": "baby_heart/baby_R3",
+      "host": "10.25.25.3"
+    },
+    {
+      "type": "baby_heart/baby_R4",
+      "host": "10.25.25.3"
+    },
+    {
+      "type": "baby_heart/baby_R5",
+      "host": "10.25.25.2"
+    },
+    {
+      "type": "baby_heart/baby_R6",
+      "host": "10.25.25.2"
+    },
+    {
+      "type": "baby_heart/baby_R7",
+      "host": "10.25.25.3"
+    },
+    {
+      "type": "baby_heart/baby_R8",
+      "host": "10.25.25.3"
+    },
+    {
+      "type": "baby_heart/baby_R9",
+      "host": "10.25.25.2"
+    },
+    {
+      "type": "baby_heart/baby_R10",
+      "host": "10.25.25.3"
+    },
+    {
+      "type": "baby_heart/baby_R11",
+      "host": "10.25.25.2"
+    },
+    {
+      "type": "baby_heart/baby_R12",
+      "host": "10.25.25.2"
+    },
+    {
+      "type": "baby_heart/baby_R13",
+      "host": "10.25.25.3"
+    },
+    {
+      "type": "baby_heart/baby_L1",
+      "host": "10.25.25.2"
+    },
+    {
+      "type": "baby_heart/baby_L2",
+      "host": "10.25.25.3"
+    },
+    {
+      "type": "baby_heart/baby_L3",
+      "host": "10.25.25.3"
+    },
+    {
+      "type": "baby_heart/baby_L4",
+      "host": "10.25.25.3"
+    },
+    {
+      "type": "baby_heart/baby_L5",
+      "host": "10.25.25.3"
+    },
+    {
+      "type": "baby_heart/baby_L6",
+      "host": "10.25.25.2"
+    },
+    {
+      "type": "baby_heart/baby_L7",
+      "host": "10.25.25.2"
+    },
+    {
+      "type": "baby_heart/baby_L8",
+      "host": "10.25.25.2"
+    },
+    {
+      "type": "baby_heart/baby_L9",
+      "host": "10.25.25.2"
+    },
+    {
+      "type": "baby_heart/baby_L10",
+      "host": "10.25.25.2"
+    },
+    {
+      "type": "baby_heart/baby_L11",
+      "host": "10.25.25.2"
+    },
+    {
+      "type": "baby_heart/baby_L12",
+      "host": "10.25.25.3"
+    },
+    {
+      "type": "baby_heart/baby_L13",
+      "host": "10.25.25.3"
+    }
+  ]
+}

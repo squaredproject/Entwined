@@ -1,0 +1,29 @@
+{
+  label: "BC_SR_along_bldg rhres",
+  tag: "bitcube",
+
+  parameters: {
+    "host1": { "type": "string", "default": "10.240.100.11", "label": "Host1", "description": "Output host 1" },
+    "universe1": { type: "int", default: 30 },
+    "channel1": { type: "int", default: 0 },
+    "byteOrder": { type: "string", default: "RGB", options: ["RGB","GRB","RBG","BGR","BRG","GBR"] }
+  },
+
+  transforms: [
+    /* This fixture's dimensions are in feet. Scale to inches to match other fixtures. */
+    { scale: 12 }
+  ],
+  
+  components: [
+    /* DA: We have 2 groups of cubes.  One has 27 elements, the other 22. */
+    /* test simply for now -- add better geometry later */
+
+    { type: "strip", numPoints: 27, spacing: 4, x: -2, y: 2, z: "-94", direction: { z: -1 } }
+  ],
+
+  outputs: [
+    /* Output 1: stage right bitcubes outside along building */
+    { host: "$host1", protocol: "artnet", universe: "$universe1", channel: "$channel1", byteOrder: "$byteOrder", num: 27 }
+ 
+ ]
+}

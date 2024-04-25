@@ -1,0 +1,38 @@
+{
+  "label": "cb0",
+  "tag": "cb00",
+  "output": {
+    "protocol": "artnet",
+    "universe": 0,
+    "start": 0,
+    "channel": 10,
+    "host": "10.122.20.1",
+    "byteOrder": "rgb"
+  },
+  "components": [
+    {
+      "x": 200.0,
+      "y": -202.0,
+      "z": 0.0,
+      "tag": "B0",
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 200.0,
+      "y": -201.0,
+      "z": 0.0,
+      "tag": "B0",
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+  ]
+}

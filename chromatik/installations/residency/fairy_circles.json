@@ -4,27 +4,27 @@
 		"x" : 274,
 		"z" : -159,
 		"shape": "free",
-		"pieceId" : "baby-1",
+		"pieceId" : "ent-shrub-1",
 		"cubeSizeIndex" : 0,
 		"ipAddresses" : ["10.242.0.108"],
 		"clusters": [
 			{
 				"ry" : 0,
-				"x" : -546,
-				"z" : 202,
+				"x" : -564,
+				"z" : 212,
 				"y" : -84,
 				"ndb": true					
 			},
 			{
 				"ry" : 0,
-				"x" : -546,
-				"z" : 286,
+				"x" : -564,
+				"z" : 296,
 				"y" : -84
 			},
 			{
 				"ry" : 0,
-				"x" : -408,
-				"z" : 262,
+				"x" : -422,
+				"z" : 272,
 				"y" : -84
 			}
 		]
@@ -34,27 +34,27 @@
 		"x" : 274,
 		"z" : -159,
 		"shape": "free",
-		"pieceId" : "baby-2",
+		"pieceId" : "ent-shrub-2",
 		"cubeSizeIndex" : 0,
 		"ipAddresses" : ["10.242.0.165"],
 		"clusters": [
 			{
 				"ry" : 0,
-				"x" : -486,
-				"z" : -176,
+				"x" : -504,
+				"z" : -166,
 				"y" : -84,
 				"ndb": true	
 			},
 			{
 				"ry" : 0,
-				"x" : -402,
-				"z" : -176,
+				"x" : -420,
+				"z" : -166,
 				"y" : -84		
 			},
 			{
 				"ry" : 0,
-				"x" : -426,
-				"z" : -248,
+				"x" : -410,
+				"z" : -238,
 				"y" : -84
 			}
 		]
@@ -64,7 +64,7 @@
 		"x" : 274,
 		"z" : -159,
 		"shape": "free",
-		"pieceId" : "baby-4",
+		"pieceId" : "ent-shrub-5",
 		"cubeSizeIndex" : 0,
 		"ipAddresses" : ["10.242.0.143"],
 		"clusters": [
@@ -101,7 +101,7 @@
 		"x" : 274,
 		"z" : -159,
 		"shape": "free",
-		"pieceId" : "baby-6",
+		"pieceId" : "ent-shrub-6",
 		"cubeSizeIndex" : 0,
 		"ipAddresses" : ["10.242.0.109"],
 		"clusters": [
@@ -114,13 +114,13 @@
 			},
 			{
 				"ry" : 0,
-				"x" : 354,
+				"x" : 348,
 				"z" : -364,
 				"y" : -84				
 			},
 			{
 				"ry" : 0,
-				"x" : 318,
+				"x" : 303,
 				"z" : -268,
 				"y" : -84
 			}
@@ -132,7 +132,7 @@
 		"x" : 274,
 		"z" : -159,
 		"shape": "free",
-		"pieceId" : "baby-7",
+		"pieceId" : "ent-shrub-7",
 		"cubeSizeIndex" : 0,
 		"ipAddresses" : ["10.242.0.130"],
 		"clusters": [

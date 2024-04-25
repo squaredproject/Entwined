@@ -1,0 +1,147 @@
+{
+  "version": "1.0.1-SNAPSHOT",
+  "timestamp": 1713912569772,
+  "fixtures": [
+    {
+      "jsonFixtureType": "baby_heart",
+      "jsonParameters": {},
+      "id": 338020,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "baby_heart 1",
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "baby_heart"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "brandeaux_head",
+      "jsonParameters": {},
+      "id": 339037,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "brandeaux_head 2",
+        "x": -184.0,
+        "y": 133.0,
+        "z": 500.0,
+        "yaw": 0.0,
+        "pitch": -25.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "brando",
+        "fixtureType": "brandeaux_head"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "risers/Risers_rhres",
+      "jsonParameters": {
+        "host1": "10.250.10.10",
+        "universe1": 10,
+        "channel1": 0,
+        "host2": "10.250.10.10",
+        "universe2": 20,
+        "channel2": 0,
+        "byteOrder": "BRG"
+      },
+      "id": 342755,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "Risers rhres 3",
+        "x": 252.0,
+        "y": 0.0,
+        "z": 312.0,
+        "yaw": 0.0,
+        "pitch": -90.0,
+        "roll": 90.0,
+        "scale": 1.0,
+        "selected": true,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 0.5874419320607558,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "risers/Risers_rhres"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "speaker_lights/speaker_lights",
+      "jsonParameters": {},
+      "id": 345889,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "speaker_lights, rhres 4",
+        "x": -100.0,
+        "y": 0.0,
+        "z": 364.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "speaker_lights/speaker_lights"
+      },
+      "children": {}
+    }
+  ],
+  "normalization": {
+    "normalizationMode": 0,
+    "normalizationX": 0.0,
+    "normalizationY": 0.0,
+    "normalizationZ": 0.0,
+    "normalizationWidth": 1000.0,
+    "normalizationHeight": 1000.0,
+    "normalizationDepth": 1000.0
+  }
+}

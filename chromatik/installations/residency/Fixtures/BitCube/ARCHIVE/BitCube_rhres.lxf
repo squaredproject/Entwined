@@ -1,0 +1,141 @@
+{
+  label: "BitCube rhres",
+  tag: "bitcube",
+
+  /* Initial setup with 4 hosts/universes.  If not all are needed, delete or comment out the corresponding Outputs & Parameters.
+   * It's OK for two hosts here to have the same IP and different universes.
+   */
+
+  parameters: {
+    "host1": { "type": "string", "default": "192.168.4.72", "label": "Host1", "description": "Output host 1" },
+    "universe1": { type: "int", default: 0 },
+    "channel1": { type: "int", default: 0 },
+
+    "host2": { "type": "string", "default": "192.168.4.72", "label": "Host2", "description": "Output host 2" },
+    "universe2": { type: "int", default: 0 },
+    "channel2": { type: "int", default: 0 },
+
+    "host3": { "type": "string", "default": "192.168.4.72", "label": "Host3", "description": "Output host 3" },
+    "universe3": { type: "int", default: 0 },
+    "channel3": { type: "int", default: 0 },
+
+    "host4": { "type": "string", "default": "192.168.4.72", "label": "Host4", "description": "Output host 4" },
+    "universe4": { type: "int", default: 0 },
+    "channel4": { type: "int", default: 0 },
+
+    "byteOrder": { type: "string", default: "RGB", options: ["RGB","GRB","RBG","BGR","BRG","GBR"] }
+  },
+
+  transforms: [
+    /* This fixture's dimensions are in feet. Scale to inches to match other fixtures. */
+    { scale: 12 }
+  ],
+  
+  components: [
+    /* DA: We have 10 cubes along y (JKB: now z), then 13 units of building, then 12 cubes. */
+
+    /* JKB: 12 cubes starting from 10-12 gap */
+    { id: "A", type: "strip", numPoints: 4, instances: 12, spacing: 4, x: -2, y: 2, z: "-94-($instance*4)", direction: { y: 1 } },
+
+    /* JKB: 10 cubes starting from 10-12 gap ie building */
+    { id: "B", type: "strip", numPoints: 4, instances: 10, spacing: 4, x: -2, y: 2, z: "-2-((9-$instance)*4)", direction: { y: 1 } },
+
+    /* Along x, we have 24 cubes followed by a ~5.5' foot space */
+    { id: "C", type: "strip", numPoints: 4, instances: 24, spacing: 4, x: "-6-($instance*4)", y: 2, z: "-2", direction: { y: 1 } },
+
+    /* Now the weird door and hallway stuff */
+
+    /* JKB: starting from the end, back towards doorway, then short L */
+    { id: "D", type: "strip", numPoints: 4, instances: 5, spacing: 4, x: "-102+($instance*4)", y: 2, z: "-14", direction: { y: 1 } },
+
+    /* Doorway */
+    { id: "doorway", type: "strip", numPoints: 2, spacing: 4, x: "-82", y: 10, z: "-14", direction: { y: 1 } },
+
+    /* Short L, from doorway */
+    { id: "shortL", type: "strip", numPoints: 4, instances: 3, spacing: 4, x: "-78", y: 2, z: "-14+($instance*4)", direction: { y: 1 } }
+  ],
+
+  outputs: [
+    /* Output 1: 12 cubes */
+    { host: "$host1", protocol: "artnet", universe: "$universe1", channel: "$channel1", byteOrder: "$byteOrder",
+      segments: [
+        { componentId: "A[0]", reverse: false },
+        { componentId: "A[1]", reverse: true },
+        { componentId: "A[2]", reverse: false },
+        { componentId: "A[3]", reverse: true },
+        { componentId: "A[4]", reverse: false },
+        { componentId: "A[5]", reverse: true },
+        { componentId: "A[6]", reverse: false },
+        { componentId: "A[7]", reverse: true },
+        { componentId: "A[8]", reverse: false },
+        { componentId: "A[9]", reverse: true },
+        { componentId: "A[10]", reverse: false },
+        { componentId: "A[11]", reverse: true }
+      ]
+    },
+
+    /* Output 2: 10 cubes + 24 cubes long side */
+    { host: "$host2", protocol: "artnet", universe: "$universe2", channel: "$channel2", byteOrder: "$byteOrder",
+      segments: [
+        { componentId: "B[0]", reverse: false },
+        { componentId: "B[1]", reverse: true },
+        { componentId: "B[2]", reverse: false },
+        { componentId: "B[3]", reverse: true },
+        { componentId: "B[4]", reverse: false },
+        { componentId: "B[5]", reverse: true },
+        { componentId: "B[6]", reverse: false },
+        { componentId: "B[7]", reverse: true },
+        { componentId: "B[8]", reverse: false },
+        { componentId: "B[9]", reverse: true },
+        { componentId: "C[0]", reverse: false },
+        { componentId: "C[1]", reverse: true },
+        { componentId: "C[2]", reverse: false },
+        { componentId: "C[3]", reverse: true },
+        { componentId: "C[4]", reverse: false },
+        { componentId: "C[5]", reverse: true },
+        { componentId: "C[6]", reverse: false },
+        { componentId: "C[7]", reverse: true },
+        { componentId: "C[8]", reverse: false },
+        { componentId: "C[9]", reverse: true },
+        { componentId: "C[10]", reverse: false },
+        { componentId: "C[11]", reverse: true },
+        { componentId: "C[12]", reverse: false },
+        { componentId: "C[13]", reverse: true },
+        { componentId: "C[14]", reverse: false },
+        { componentId: "C[15]", reverse: true },
+        { componentId: "C[16]", reverse: false },
+        { componentId: "C[17]", reverse: true },
+        { componentId: "C[18]", reverse: false },
+        { componentId: "C[19]", reverse: true },
+        { componentId: "C[20]", reverse: false },
+        { componentId: "C[21]", reverse: true },
+        { componentId: "C[22]", reverse: false },
+        { componentId: "C[23]", reverse: true }
+      ]
+    },
+
+    /* Output 3: Left of door -> doorway -> short L */
+    { host: "$host3", protocol: "artnet", universe: "$universe3", channel: "$channel3", byteOrder: "$byteOrder",
+      segments: [
+        { componentId: "D[0]", reverse: false },
+        { componentId: "D[1]", reverse: true },
+        { componentId: "D[2]", reverse: false },
+        { componentId: "D[3]", reverse: true },
+        { componentId: "D[4]", reverse: false },
+        { componentId: "doorway", reverse: true },
+        { componentId: "shortL[0]", reverse: true },
+        { componentId: "shortL[1]", reverse: false },
+        { componentId: "shortL[2]", reverse: true }
+      ]
+    }
+
+    /* Output 4: Unused, available if needed
+    { host: "$host4", protocol: "artnet", universe: "$universe4", channel: "$channel4", byteOrder: "$byteOrder",
+      segments: [
+        { },
+        { }
+      ]
+    } */
+
+  ]
+}

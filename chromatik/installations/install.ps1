@@ -18,7 +18,7 @@ if (! ( Test-Path -Path $install_dir )) {
 
 
 mkdir -p $fixtures_dir -ea 0
-mkdir -p "$HOME/Chromatik/Projects" -ea 0
+mkdir -p "$fixtures_dir/../../Projects"  -ea 0
 rm $fixtures_dir/*
 rm ~/Chromatik/autoplay.lxr -ea 0
 rm ~/Chromatik/Projects/entwined.lxp -ea 0
@@ -64,10 +64,11 @@ else {
 echo "copy random fixtures and models"
 
 if (Test-Path -Path $install_dir/Fixtures) {
-        cp -r $install_dir/Fixtures/* $fixtures_dir/..
+        cp -r $install_dir/Fixtures/* $fixtures_dir/../ -ea 0
 }
 if (Test-Path -Path $install_dir/Models) {
-        cp -r $install_dir/Models/* $fixtures_dir/../../Models
+        mkdir -p "$fixtures_dir/../../Models"  -ea 0
+        cp -r $install_dir/Models/* $fixtures_dir/../../Models -ea 0
 }
 
 # copy video files over

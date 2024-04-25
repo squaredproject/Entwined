@@ -1,0 +1,26 @@
+{
+  "label": "B122",
+  "tags": [
+    "B122",
+    "head",
+    "accent",
+    "11",
+    "1",
+    "10.4.13.191"
+  ],
+  "output": {
+    "protocol": "kinet",
+    "kinetPort": "1",
+    "host": "10.4.13.191"
+  },
+  "components": [
+    {
+      "x": 152.0,
+      "y": -109.0,
+      "z": 0.0,
+      "type": "strip",
+      "direction": { "x": -1 },
+      "numPoints": 40
+    }
+  ]
+}

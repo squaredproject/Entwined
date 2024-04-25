@@ -1,0 +1,26 @@
+{
+  "label": "B112",
+  "tags": [
+    "B112",
+    "head", 
+    "accent",
+   "7",
+    "1",
+    "10.4.13.22"
+  ],
+  "output": {
+    "protocol": "kinet",
+    "kinetPort": "1",
+    "host": "10.4.13.22"
+  },
+  "components": [
+    {
+      "x": 252.0,
+      "y": -69.0,
+      "z": 0.0,
+      "type": "strip",
+      "direction": { "y": -1 },
+      "numPoints": 40
+    }
+  ]
+}

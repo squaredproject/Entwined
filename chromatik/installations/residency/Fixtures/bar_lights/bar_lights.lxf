@@ -1,0 +1,100 @@
+{
+  label: "bar_lights, rhres",
+  tag: "bar_lights",
+
+  /* Initial setup with 2 universes, I think?  
+   * It's OK for two hosts here to have the same IP and different universes.
+   */
+
+  parameters: {
+    "host1": { "type": "string", "default": "10.42.10.10", "label": "Host1", "description": "Output host 1" },
+    "universe1": { type: "int", default: 30 },
+    "channel1": { type: "int", default: 0 },
+
+    "host2": { "type": "string", "default": "10.42.10.10", "label": "Host2", "description": "Output host 2" },
+    "universe2": { type: "int", default: 40 },
+    "channel2": { type: "int", default: 0 },
+
+    "host3": { "type": "string", "default": "10.42.10.10", "label": "Host3", "description": "Output host 3" },
+    "universe3": { type: "int", default: 10 },
+    "channel3": { type: "int", default: 0 },
+
+    "host4": { "type": "string", "default": "10.42.10.10", "label": "Host4", "description": "Output host 4" },
+    "universe4": { type: "int", default: 20 },
+    "channel4": { type: "int", default: 0 },
+
+    "byteOrder": { type: "string", default: "BRG" }
+  },
+
+  transforms: [
+    /* This fixture's dimensions are in inches. */
+    { scale: 1, X: -590, Y:-338, Z:182, Pitch:-90 },
+  ],
+  
+  components: [
+    /* DA: We have four strips, each with 3 or 4 segments */ 
+
+    /* DA: Strip 1 -- front of bar (away from building) */
+    { id: "A1", type: "strip", numPoints: 40, spacing: 1.9685, x: 0, y: 9, z: 0, direction: { x: -1 } },
+    { id: "A2", type: "strip", numPoints: 40, spacing: 1.9685, x: -82, y: 9, z: 0, direction: { z: -1 } },
+    { id: "A3", type: "strip", numPoints: 40, spacing: 1.9685, x: -82, y: 9, z: -106, direction: { z: -1 } },
+    { id: "A4", type: "strip", numPoints: 40, spacing: 1.9685, x: -82, y: 9, z: -188, direction: { x: 1 } }, 
+
+    /* DA: Strip 2 -- left of bar (from building) */
+    { id: "B1", type: "strip", numPoints: 40, spacing: 1.9685, x: 13, y: 9, z: -188, direction: { z: -1 } },
+    { id: "B2", type: "strip", numPoints: 30, spacing: 1.9685, x: 13, y: 9, z: -270, direction: { x: 1 } },
+    { id: "B3", type: "strip", numPoints: 40, spacing: 1.9685, x: 85, y: 9, z: -270, direction: { z: 1 } },
+
+    /* DA: Strip 3 -- back of bar, (near building) */
+    { id: "C1", type: "strip", numPoints: 40, spacing: 1.9685, x: 82, y: 9, z: 0, direction: { x: 1 } }, 
+    { id: "C2", type: "strip", numPoints: 40, spacing: 1.9685, x: 167, y: 9, z: 0, direction: { z: -1 } },
+    { id: "C3", type: "strip", numPoints: 40, spacing: 1.9685, x: 167, y: 9, z: -82, direction: { z: -1 } },
+    { id: "C4", type: "strip", numPoints: 40, spacing: 1.9685, x: 167, y: 9, z: -188, direction: { x: -1 } }, 
+
+    /* DA: Strip 4 -- right of bar (from building) */
+    { id: "D1", type: "strip", numPoints: 45, spacing: 1.9685, x: 0, y: 9, z: 0, direction: { z: 1 } },
+    { id: "D2", type: "strip", numPoints: 20, spacing: 1.9685, x: 0, y: 9, z: 89, direction: { x: 1 } },
+    { id: "D3", type: "strip", numPoints: 21, spacing: 1.9685, x: 40, y: 9, z: 89, direction: { x: 1 } },
+    { id: "D4", type: "strip", numPoints: 45, spacing: 1.9685, x: 85, y: 9, z: 89, direction: { z: -1 } },
+    ]
+,
+
+  outputs: [
+    /* Output 1: 1 strip */
+    { host: "$host1", protocol: "artnet", universe: "$universe1", channel: "$channel1", byteOrder: "$byteOrder",
+      segments: [
+        { componentId: "A1", reverse: false },
+        { componentId: "A2", reverse: false },
+        { componentId: "A3", reverse: false },
+        { componentId: "A4", reverse: false },
+      ]
+    },
+
+    /* Output 2: 1  strip */
+    { host: "$host2", protocol: "artnet", universe: "$universe2", channel: "$channel2", byteOrder: "$byteOrder",
+      segments: [
+        { componentId: "B1", reverse: false },
+        { componentId: "B2", reverse: false },
+        { componentId: "B3", reverse: false },
+      ]
+    },
+    /* Output 3: 1 strip */
+    { host: "$host3", protocol: "artnet", universe: "$universe3", channel: "$channel3", byteOrder: "$byteOrder",
+      segments: [
+        { componentId: "C1", reverse: false },
+        { componentId: "C2", reverse: false },
+        { componentId: "C3", reverse: false },
+        { componentId: "C4", reverse: false },
+      ]
+    },
+    /* Output 4: 1 strip */
+    { host: "$host4", protocol: "artnet", universe: "$universe4", channel: "$channel4", byteOrder: "$byteOrder",
+      segments: [
+        { componentId: "D1", reverse: false },
+        { componentId: "D2", reverse: false },
+        { componentId: "D3", reverse: false },
+        { componentId: "D4", reverse: false },
+      ]
+    }
+  ]
+}

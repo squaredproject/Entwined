@@ -1,0 +1,186 @@
+{
+  "label": "brandeaux_head",
+  "tag": "brandeaux_head",
+  "components": [
+    {
+      "tag": "mouth",
+      "type": "brandeaux_head_2024/B28",
+      "host": "10.4.170.112"
+    },
+    {
+      "tag": "mouth",
+      "type": "brandeaux_head_2024/B29",
+      "host": "10.4.170.112"
+    },
+    {
+      "tag": "mouth",
+      "type": "brandeaux_head_2024/B30",
+      "host": "10.4.170.112"
+    },
+    {
+      "tag": "mouth",
+      "type": "brandeaux_head_2024/B31",
+      "host": "10.4.170.112"
+    },
+    {
+      "tag": "mouth",
+      "type": "brandeaux_head_2024/B42",
+      "host": "10.4.170.112"
+    },
+    {
+      "tag": "mouth",
+      "type": "brandeaux_head_2024/B43",
+      "host": "10.4.170.112"
+    },
+    {
+      "tag": "mouth",
+      "type": "brandeaux_head_2024/B44",
+      "host": "10.4.170.112"
+    },
+    {
+      "tag": "mouth",
+      "type": "brandeaux_head_2024/B45",
+      "host": "10.4.170.112"
+    },
+    {
+      "tag": "mouth",
+      "type": "brandeaux_head_2024/B46",
+      "host": "10.4.170.112"
+    },
+    {
+      "tag": "mouth",
+      "type": "brandeaux_head_2024/B47",
+      "host": "10.4.170.112"
+    },
+    {
+      "tags": [ "ears", "leftEar" ],
+      "type": "brandeaux_head_2024/B67",
+      "host": "10.4.1.166"
+    },
+    {
+      "tags": [ "ears", "leftEar" ],
+      "type": "brandeaux_head_2024/B64",
+      "host": "10.4.7.144"
+    },
+    {
+      "tags": [ "ears", "leftEar" ],
+      "type": "brandeaux_head_2024/B72",
+      "host": "10.4.1.74"
+    },
+    {
+      "tags": [ "ears", "leftEar" ],
+      "type": "brandeaux_head_2024/B76",
+      "host": "10.4.16.118"
+    },
+    {
+      "tags": [ "ears", "rightEar" ],
+      "type": "brandeaux_head_2024/B100",
+      "host": "10.4.13.54"
+    },
+    {
+      "tags": [ "ears", "rightEar" ],
+      "type": "brandeaux_head_2024/B102",
+      "host": "10.4.7.185"
+    },
+    {
+      "tags": [ "ears", "rightEar" ],
+      "type": "brandeaux_head_2024/B106",
+      "host": "10.4.1.71"
+    },
+    {
+      "tags": [ "ears", "rightEar" ],
+      "type": "brandeaux_head_2024/B110",
+      "host": "10.4.10.134"
+    },
+    {
+      "tags": [ "headLine", "headTop" ],
+      "type": "brandeaux_head_2024/B84",
+      "host": "10.4.16.111"
+    },
+    {
+      "tags": [ "headLine", "headTop" ],
+      "type": "brandeaux_head_2024/B87",
+      "host": "10.4.10.250"
+    },
+    {
+      "tags": [ "headLine", "headTop" ],
+      "type": "brandeaux_head_2024/B89",
+      "host": "10.4.16.197"
+    },
+    {
+      "tags": [ "headLine", "headTop" ],
+      "type": "brandeaux_head_2024/B95",
+      "host": "10.4.1.188"
+    },
+    {
+      "tags": [ "headLine", "headRight" ],
+      "type": "brandeaux_head_2024/B92",
+      "host": "10.4.1.161"
+    },
+    {
+      "tags": [ "headLine", "headRight" ],
+      "type": "brandeaux_head_2024/B104",
+      "host": "10.4.10.195"
+    },
+    {
+      "tags": [ "headLine", "headRight" ],
+      "type": "brandeaux_head_2024/B112",
+      "host": "10.4.13.22"
+    },
+    {
+      "tags": [ "headLine", "headBottom" ],
+      "type": "brandeaux_head_2024/B116",
+      "host": "10.4.13.211"
+    },
+    {
+      "tags": [ "headLine", "headBottom" ],
+      "type": "brandeaux_head_2024/B135",
+      "host": "10.4.1.65"
+    },
+    {
+      "tags": [ "headLine", "headBottom" ],
+      "type": "brandeaux_head_2024/B119",
+      "host": "10.4.6.242"
+    },
+    {
+      "tags": [ "headLine", "headBottom" ],
+      "type": "brandeaux_head_2024/B122",
+      "host": "10.4.13.191"
+    },
+    {
+      "tags": [ "headLine", "headLeft" ],
+      "type": "brandeaux_head_2024/B124",
+      "host": "10.4.16.138"
+    },    
+    {
+      "tags": [ "headLine", "headLeft" ],
+      "type": "brandeaux_head_2024/B77",
+      "host": "10.4.10.157"
+    },
+    {
+      "tags": [ "headLine", "headLeft" ],
+      "type": "brandeaux_head_2024/B81",
+      "host": "10.4.1.120"
+    },
+    {
+      "tags": [ "eyes", "leftEye" ],
+      "type": "brandeaux_head_2024/B131",
+      "host": "10.4.170.112"
+    },
+    {
+      "tags": [ "eyes", "leftEye" ],
+      "type": "brandeaux_head_2024/B133",
+      "host": "10.4.170.112"
+    },
+    {
+      "tags": [ "eyes", "rightEye" ],
+      "type": "brandeaux_head_2024/B132",
+      "host": "10.4.170.112"
+    },
+    {
+      "tags": [ "eyes", "rightEye" ],
+      "type": "brandeaux_head_2024/B134",
+      "host": "10.4.170.112"
+    }
+  ]
+}

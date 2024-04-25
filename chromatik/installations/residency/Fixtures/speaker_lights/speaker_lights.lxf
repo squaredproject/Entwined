@@ -1,0 +1,47 @@
+{
+  label: "speaker_lights, rhres",
+  tag: "speaker_lights",
+
+/* Speaker Light IPs
+   10.4.10.44 Leftmost #1
+   10.4.22.180 #2
+   10.4.16.136 #3
+   10.4.10.150 #4
+   10.4.16.131 #5
+*/   
+
+  /* Initial setup trying with strip fixture on 1 inch spacking
+   * Following Brandeaux Fixtures but with a strip
+   */
+  transforms: [
+    /* This fixture's dimensions are in inches. */
+    { y: -72},
+  ],
+  
+  components: [
+    /* DA: We have one strip, running center of house underneath the speakers */
+
+    /* DA: Strip 1 */
+    { id: "S1", type: "strip", numPoints: 39, spacing: 1, x: 0, y: 0, z: 0, direction: { x: 1 } },
+    { id: "S2", type: "strip", numPoints: 39, spacing: 1, x: 39, y: 0, z: 0, direction: { x: 1 } },
+    { id: "S3", type: "strip", numPoints: 39, spacing: 1, x: 78, y: 0, z: 0, direction: { x: 1 } },
+    { id: "S4", type: "strip", numPoints: 39, spacing: 1, x: 117, y: 0, z: 0, direction: { x: 1 } },
+    { id: "S5", type: "strip", numPoints: 39, spacing: 1, x: 156, y: 0, z: 0, direction: { x: 1 } }
+  ],
+  
+"outputs": [
+   {"protocol": "kinet", "kinetPort": "1", "host": "10.4.10.44", "label":"speaker1", "type":"string",
+   	segments:[{ componentId: "S1", reverse: true }]},
+   {"protocol": "kinet", "kinetPort": "1", "host": "10.4.22.180", "label":"speaker2", "type":"string",
+      	segments:[{ componentId: "S2", reverse: true }]},
+   {"protocol": "kinet", "kinetPort": "1", "host": "10.4.16.136", "label":"speaker3", "type":"string",
+   	segments:[{ componentId: "S3", reverse: true }]},
+   {"protocol": "kinet", "kinetPort": "1", "host": "10.4.10.150", "label":"speaker4", "type":"string",
+      	segments:[{ componentId: "S4", reverse: true }]},
+   {"protocol": "kinet", "kinetPort": "1", "host": "10.4.16.131", "label":"speaker5", "type":"string",
+      	segments:[{ componentId: "S5", reverse: true }]}   
+]
+}
+
+
+

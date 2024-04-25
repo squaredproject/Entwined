@@ -1,0 +1,37 @@
+{
+  label: "BitCube portos",
+  tag: "bitcube",
+
+  parameters: {
+    "host1": { "type": "string", "default": "10.240.100.13", "label": "Host1", "description": "Output host 1" },
+    "universe1": { type: "int", default: 20 },
+    "channel1": { type: "int", default: 0 },
+
+     "byteOrder": { type: "string", default: "GRB", options: ["RGB","GRB","RBG","BGR","BRG","GBR"] }
+  },
+
+  transforms: [
+    /* This fixture's dimensions are in feet. Scale to inches to match other fixtures. */
+    { scale: 12 }
+  ],
+  
+  components: [
+    /* BB: We have 15 cubes along x, then 3 along negative Z, then the reverse */
+
+    /* bottom row, main side */
+    { type: "strip", numPoints: 15, spacing: 4, x: "0", y: 2, z: "0", direction: { x: 1 } }, 
+    /* bottom row round the corner */
+    { type: "strip", numPoints: 3, spacing: 4, x: "60", y: 2, z: "0", direction: { z: -1 } }, 
+    /* top row round the corner */
+    { type: "strip", numPoints: 3, spacing: 4, x: "60", y: 6, z: "-8", direction: { z: 1 } }, 
+    /* top row, main side */
+    { type: "strip", numPoints: 15, spacing: 4, x: "56", y: 6, z: "0", direction: { x: -1 } } 
+
+  ],
+
+  outputs: [
+    /* Output 1: Outdoor cubes, left->right, bottom row -> top row */
+    { host: "$host1", protocol: "artnet", universe: "$universe1", channel: "$channel1", byteOrder: "$byteOrder", num: 36 },
+
+  ]
+}

@@ -8,9 +8,12 @@ then
         exit
 fi
 
-I="$HOME/Chromatik"
+# I="$HOME/Chromatik"
+I=/mnt/c/Users/bbulk/Chromatik
 
-mkdir -p $I/Fixtures/Entwined/Projects
+echo "started $I"
+mkdir -p $I/Fixtures/Entwined
+echo "mkdir $I/Fixtures/Entwined"
 [ -d $I/Projects ] || mkdir -p $I/Projects
 rm -rf $I/Fixtures/Entwined/*
 rm -f $I/autoplay.lxr $I/Projects/entwined.lxp $I/config.json
@@ -18,6 +21,7 @@ rm -f $I/autoplay.lxr $I/Projects/entwined.lxp $I/config.json
 echo "building LXF files from JSON descriptions"
 if [ -f $1/shrubs.json ]
 then
+  echo "shrubs!"
   python shrub.py --config $1/shrubs.json --fixtures_folder $I/Fixtures/Entwined
 fi
 
@@ -52,6 +56,15 @@ if [ -f $1/config.json ]; then
 fi
 
 [[ -e $1/autoplay.lxr ]] && cp $1/autoplay.lxr $I
+
+if [[ -e $1/Fixtures ]]; then
+  cp -r $1/Fixtures/* $I/Fixtures
+fi
+
+if [[ -e $1/Models ]]; then
+  mkdir -p $I/Models
+  cp -r $1/Models/* $I/Models
+fi
 
 # this one is independant of the installation
 mkdir -p $I/Videos
