@@ -69,7 +69,7 @@ class FairyCircle:
             self.cubes += ndb_cubes[1]
             self.cubes += ndb_cubes[2]
         else:
-            print(f'only supports 3 and 5 clusters per ndb, not {self.clusters_per_ndb}')
+            print("only supports 3 and 5 clusters per ndb, not " + self.clusters_per_ndb)
             exit()
 
         return
