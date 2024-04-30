@@ -69,7 +69,7 @@ class FairyCircle:
             self.cubes += ndb_cubes[1]
             self.cubes += ndb_cubes[2]
         else:
-            print("only supports 3 and 5 clusters per ndb, not " + self.clusters_per_ndb)
+            println("only supports 3 and 5 clusters per ndb, not " + self.clusters_per_ndb)
             exit()
 
         return
@@ -127,7 +127,7 @@ class FairyCircle:
             self.cubes += ndb_cubes[1]
             self.cubes += ndb_cubes[2]
         else:
-            print(f'only supports 3 and 5 clusters per ndb, not {self.clusters_per_ndb}')
+            println("only supports 3 and 5 clusters per ndb, not "+self.clusters_per_ndb)
             exit()
 
         return
@@ -141,7 +141,7 @@ class FairyCircle:
     def free_add_cubes(self, config):
         clusters = config['clusters']
         if isinstance(clusters, list) is not True:
-            print(f'Free position must have a list of clusters, fix it please')
+            println("Free position must have a list of clusters, fix it please")
             exit()
 
         ndb_cubes = []
@@ -180,7 +180,7 @@ class FairyCircle:
                 ndb_cluster = idx
                 break
         if ndb_cluster == -1:
-            print(f'clusters array must have one ndb, please fix')
+            println("clusters array must have one ndb, please fix")
             exit()
         for idx in range(ndb_cluster-1, -1, -1):
             self.cubes += ndb_cubes[idx]
@@ -213,19 +213,19 @@ class FairyCircle:
 
         if config['shape'] == 'line':
             if 'separation' not in config:
-                print('shape line must have separation, distance between babies in inches')
+                println("shape line must have separation, distance between babies in inches")
                 exit()
             self.distance = config['separation']  # distance between babies
 
             if len(self.ip_addrs) != 1:
-                print(f'lines must have only one NDB not {len(self.ip_addrs)}')
+                println("lines must have only one NDB not " + len(self.ip_addrs))
                 exit()          
 
             self.line_add_cubes(config)
 
         if (config['shape'] == 'circle') or (config['shape'] == 'arc'):
             if 'radius' not in config:
-                print('shape circle must have radius, try gain')
+                println("shape circle must have radius, try again")
                 exit()
 
             self.radius = config['radius']
@@ -244,10 +244,10 @@ class FairyCircle:
 
         if (config['shape'] == 'free'):
             if 'separation' in config:
-                print('shape free must NOT separation please fix')
+                println('shape free must NOT separation please fix')
                 exit()
             if 'clusters' not in config:
-                print('shape free must have locations, please fix')
+                println('shape free must have locations, please fix')
                 exit()
 
             self.free_add_cubes(config)
