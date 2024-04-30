@@ -66,7 +66,8 @@ fi
 
 # this one is independant of the installation
 mkdir -p $I/Videos
-cp ../videos/* $I/Videos
+# it is common to have subsequent copies complain on an overwite. Ignore the error.s
+cp ../videos/* $I/Videos 2>/dev/null
 
 # move ddptest_ndb_ips.txt tp ddbptest folder and rename
 if [[ -f $1/ddptest_ndb_ips.txt ]]; then
