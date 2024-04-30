@@ -146,8 +146,7 @@ class Tree:
 
 
 class PixelParser:
-
-# this appears to be python 3.9, trying to be more inclusive of python version
+# possible version issue with python here?
 #    def __init__(self, output_folder: Path, piece_id: str, tags: [str], metadata: [dict], repeat_count: int):
     def __init__(self, output_folder, piece_id: str, tags, metadata, repeat_count: int):
 
