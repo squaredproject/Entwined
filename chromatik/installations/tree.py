@@ -147,7 +147,10 @@ class Tree:
 
 class PixelParser:
 
-    def __init__(self, output_folder: Path, piece_id: str, tags: [str], metadata: [dict], repeat_count: int):
+# this appears to be python 3.9, trying to be more inclusive of python version
+#    def __init__(self, output_folder: Path, piece_id: str, tags: [str], metadata: [dict], repeat_count: int):
+    def __init__(self, output_folder: Path, piece_id: str, tags, metadata, repeat_count: int):
+
         # statics
         self.piece_id = piece_id
         self.output_folder = output_folder
