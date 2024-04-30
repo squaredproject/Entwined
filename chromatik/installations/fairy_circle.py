@@ -255,7 +255,6 @@ class FairyCircle:
         # print(f' processed shape, cubes is {self.cubes}')
         return
 
-
     def write_fixture_file(self, folder):
         folder_path = Path(folder)
         folder_path.mkdir(parents=True, exist_ok=True)
