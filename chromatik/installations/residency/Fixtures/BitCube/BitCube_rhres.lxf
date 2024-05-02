@@ -19,27 +19,31 @@
     /* DA: We have 10 cubes along y (JKB: now z), then 13 units of building, then 12 cubes. */
 
     /* Row 4 */
-    { type: "strip", numPoints: 7, spacing: 4, x: "-106", y: 14, z: "-14", direction: { x: 1 } }, /* Left of doorway */
-    { type: "strip", numPoints: 3, spacing: 4, x: "-78", y: 14, z: "-14", direction: { z: 1 } },  /* Short L, from doorway */
-    { type: "strip", numPoints: 24, spacing: 4, x: "-98", y: 14, z: "-2", direction: { x: 1 } }, /* Long wall */
+    { type: "strip", numPoints: 7, spacing: 4, x: "-106", y: 14, z: "-14", direction: { x: 1 }, tags: ["stayon"] }, /* Left of doorway */
+    { type: "strip", numPoints: 3, spacing: 4, x: "-78", y: 14, z: "-14", direction: { z: 1 }, tags: ["stayon"] },  /* Short L, from doorway */
+    { type: "strip", numPoints: 6, spacing: 4, x: "-98", y: 14, z: "-2", direction: { x: 1 }, tags: ["stayon"] }, /* Long wall near entrance */
+    { type: "strip", numPoints: 18, spacing: 4, x: "-74", y: 14, z: "-2", direction: { x: 1 } }, /* Long wall near bar */
     { type: "strip", numPoints: 10, spacing: 4, x: -2, y: 14, z: "-2", direction: { z: -1 } }, /* L to building */
 
     /* Row 3 */
-    { type: "strip", numPoints: 7, spacing: 4, x: "-106", y: 10, z: "-14", direction: { x: 1 } }, /* Left of doorway */
-    { type: "strip", numPoints: 3, spacing: 4, x: "-78", y: 10, z: "-14", direction: { z: 1 } },  /* Short L, from doorway */
-    { type: "strip", numPoints: 24, spacing: 4, x: "-98", y: 10, z: "-2", direction: { x: 1 } }, /* Long wall */
-    { type: "strip", numPoints: 10, spacing: 4, x: -2, y: 10, z: "-2", direction: { z: -1 } }, /* L to building */
+    { type: "strip", numPoints: 7, spacing: 4, x: "-106", y: 10, z: "-14", direction: { x: 1 }, tags: ["stayon"] }, /* Left of doorway */
+    { type: "strip", numPoints: 3, spacing: 4, x: "-78", y: 10, z: "-14", direction: { z: 1 }, tags: ["stayon"] },  /* Short L, from doorway */
+    { type: "strip", numPoints: 6, spacing: 4, x: "-98", y: 10, z: "-2", direction: { x: 1 }, tags: ["stayon"]  }, /* Long wall near entrance */
+    { type: "strip", numPoints: 18, spacing: 4, x: "-74", y: 10, z: "-2", direction: { x: 1 } }, /* Long wall near bar */
+    { type: "strip", numPoints: 10, spacing: 4, x: -2, y: 10, z: "-2", direction: { z: -1 }}, /* L to building */
 
     /* Row 2 */
-    { type: "strip", numPoints: 7, spacing: 4, x: "-106", y: 6, z: "-14", direction: { x: 1 } }, /* Left of doorway */
-    { type: "strip", numPoints: 3, spacing: 4, x: "-78", y: 6, z: "-14", direction: { z: 1 } },  /* Short L, from doorway */
-    { type: "strip", numPoints: 24, spacing: 4, x: "-98", y: 6, z: "-2", direction: { x: 1 } }, /* Long wall */
+    { type: "strip", numPoints: 7, spacing: 4, x: "-106", y: 6, z: "-14", direction: { x: 1 }, tags: ["stayon"] }, /* Left of doorway */
+    { type: "strip", numPoints: 3, spacing: 4, x: "-78", y: 6, z: "-14", direction: { z: 1 }, tags: ["stayon"] },  /* Short L, from doorway */
+    { type: "strip", numPoints: 6, spacing: 4, x: "-98", y: 6, z: "-2", direction: { x: 1 }, tags: ["stayon"]  }, /* Long wall near entrance */
+    { type: "strip", numPoints: 18, spacing: 4, x: "-74", y: 6, z: "-2", direction: { x: 1 } }, /* Long wall near bar */
     { type: "strip", numPoints: 10, spacing: 4, x: -2, y: 6, z: "-2", direction: { z: -1 } }, /* L to building */
 
     /* Row 1 */
-    { type: "strip", numPoints: 7, spacing: 4, x: "-106", y: 2, z: "-14", direction: { x: 1 } }, /* Left of doorway */
-    { type: "strip", numPoints: 3, spacing: 4, x: "-78", y: 2, z: "-14", direction: { z: 1 } },  /* Short L, from doorway */
-    { type: "strip", numPoints: 24, spacing: 4, x: "-98", y: 2, z: "-2", direction: { x: 1 } }, /* Long wall */
+    { type: "strip", numPoints: 7, spacing: 4, x: "-106", y: 2, z: "-14", direction: { x: 1 }, tags: ["stayon"] }, /* Left of doorway */
+    { type: "strip", numPoints: 3, spacing: 4, x: "-78", y: 2, z: "-14", direction: { z: 1 }, tags: ["stayon"] },  /* Short L, from doorway */
+    { type: "strip", numPoints: 6, spacing: 4, x: "-98", y: 2, z: "-2", direction: { x: 1 }, tags: ["stayon"]  }, /* Long wall near entrance */
+    { type: "strip", numPoints: 18, spacing: 4, x: "-74", y: 2, z: "-2", direction: { x: 1 } }, /* Long wall near bar */
     { type: "strip", numPoints: 10, spacing: 4, x: -2, y: 2, z: "-2", direction: { z: -1 } }, /* L to building */
 
   ],
