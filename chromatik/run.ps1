@@ -4,7 +4,7 @@
 # mvn package
 
 mkdir -p ~/Chromatik/Packages -ea 0
-rm -Force -ea 0 ~/Chromatik/Packages/entwined-1.0.1-SNAPSHOT.jar
+rm -Force -ea 0 ~/Chromatik/Packages/entwined-1.0.1-SNAPSHOT-jar-with-dependencies.jar
 cp target/entwined-1.0.1-SNAPSHOT-jar-with-dependencies.jar ~/Chromatik/Packages
 
 # get the Fixtures and initial project with the installations scripts
@@ -22,8 +22,8 @@ $cwd=(Get-Location).tostring()
 #Pop-Location
 
 # this works but not crazy about the output in a scrolling window
-$c_args = "-cp $cwd/lib/chromatik-1.0.1-windows-x64.jar heronarts.lx.studio.Chromatik --warnings --disable-zeroconf --enable-plugin entwined.plugin.Entwined Projects/entwined.lxp".Split(" ")
-Start-Process -FilePath "java" -ArgumentList $c_args -WorkingDirectory "~/Chromatik" 
+$c_args = "-cp $cwd/lib/chromatik-1.0.1-SNAPSHOT-windows-x64.jar heronarts.lx.studio.Chromatik --warnings --disable-zeroconf --enable-plugin entwined.plugin.Entwined Projects/entwined.lxp".Split(" ")
+Start-Process -FilePath "java" -ArgumentList $c_args -WorkingDirectory "~/Chromatik" -RedirectStandardOutput entwined.out -RedirectStandardError entwined.err
 
 # this doesn't work, the directory ends up changed
 # cd "~/Chromatik"
