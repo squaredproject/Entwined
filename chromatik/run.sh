@@ -4,7 +4,7 @@
 # mvn package
 
 mkdir -p ~/Chromatik/Packages
-rm -f ~/Chromatik/Packages/entwined-1.0.1-SNAPSHOT.jar
+rm -f ~/Chromatik/Packages/entwined-*.jar
 cp target/entwined-1.0.1-SNAPSHOT-jar-with-dependencies.jar ~/Chromatik/Packages
 
 #fixtures are now copied using the installation folder
