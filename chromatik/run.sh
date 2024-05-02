@@ -15,7 +15,7 @@ if [[ $OSTYPE == 'darwin'* ]]; then
   RUNOPT="-XstartOnFirstThread"
   if [[ $(uname -m) == 'x86_64' ]]; then
     JARTYPE="-macos"
-    ARCHTYPE="-x86_64"
+    ARCHTYPE="-x64"
   fi
 fi
 
@@ -24,7 +24,7 @@ if [[ $OSTYPE == 'linux'* ]]; then
   if [[ $(uname -m) == 'arm64' ]]; then
     ARCHTYPE="-aarch64"
   else
-    ARCHTYPE="-amd64"
+    ARCHTYPE="-x64"
   fi
 fi
 
