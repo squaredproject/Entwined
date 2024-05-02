@@ -8,9 +8,9 @@ then
         exit
 fi
 
-I="$HOME/Chromatik"
+# I="$HOME/Chromatik"
 # Use this for WSL testing
-# I="/mnt/c/Users/bbulk/Chromatik"
+I="/mnt/c/Users/bbulk/Chromatik"
 
 mkdir -p $I/Fixtures/Entwined
 [ -d $I/Projects ] || mkdir -p $I/Projects

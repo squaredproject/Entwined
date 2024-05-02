@@ -4,8 +4,8 @@
 # mvn package
 
 mkdir -p ~/Chromatik/Packages
-rm -f ~/Chromatik/Packages/entwined-1.0.0-SNAPSHOT.jar
-cp target/entwined-1.0.0-SNAPSHOT-jar-with-dependencies.jar ~/Chromatik/Packages
+rm -f ~/Chromatik/Packages/entwined-1.0.1-SNAPSHOT.jar
+cp target/entwined-1.0.1-SNAPSHOT-jar-with-dependencies.jar ~/Chromatik/Packages
 
 #fixtures are now copied using the installation folder
 #mkdir -p ~/Chromatik/Fixtures/Entwined
@@ -34,4 +34,4 @@ CWD=`pwd`
 echo $RUNOPT $JARTYPE $CWD
 
 cd ~/Chromatik
-java $RUNOPT -cp $CWD/lib/chromatik-1.0.0-SNAPSHOT-jar-with-dependencies$JARTYPE$ARCHTYPE.jar heronarts.lx.studio.Chromatik --warnings --disable-zeroconf --enable-plugin entwined.plugin.Entwined ~/Chromatik/Projects/entwined.lxp
+java $RUNOPT -cp $CWD/lib/chromatik-1.0.1-SNAPSHOT-jar-with-dependencies$JARTYPE$ARCHTYPE.jar heronarts.lx.studio.Chromatik --warnings --disable-zeroconf --enable-plugin entwined.plugin.Entwined ~/Chromatik/Projects/entwined.lxp
