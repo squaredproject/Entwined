@@ -34,4 +34,4 @@ CWD=`pwd`
 echo $RUNOPT $JARTYPE $CWD
 
 cd ~/Chromatik
-java $RUNOPT -cp $CWD/lib/chromatik-1.0.1-SNAPSHOT-jar-with-dependencies$JARTYPE$ARCHTYPE.jar heronarts.lx.studio.Chromatik --warnings --disable-zeroconf --enable-plugin entwined.plugin.Entwined ~/Chromatik/Projects/entwined.lxp
+java $RUNOPT -cp $CWD/lib/chromatik-1.0.1-SNAPSHOT$JARTYPE$ARCHTYPE.jar heronarts.lx.studio.Chromatik --warnings --disable-zeroconf --enable-plugin entwined.plugin.Entwined ~/Chromatik/Projects/entwined.lxp
