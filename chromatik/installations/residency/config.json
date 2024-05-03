@@ -1,4 +1,4 @@
-{ "canopyServer": "",
+{ "canopyServer": "https://entwined-api.charliestigler.com/lx",
   "interactiveGroups": {},
   "installationId": "residency",
   "NFCServerEnable": false,
