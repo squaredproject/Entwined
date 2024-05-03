@@ -16,6 +16,10 @@ if (! ( Test-Path -Path $install_dir )) {
         exit
 }
 
+## WARNING! FOOTGUNS!
+## The license file exists within the Chromatik directory.
+## Therefore we clean a lot of the directory, but not all of it,
+## it would be cleaner to expunge all of Chromatik... but dangerous!
 
 mkdir -p $fixtures_dir -ea 0
 mkdir -p "$fixtures_dir/../../Projects"  -ea 0
@@ -27,10 +31,10 @@ rm ~/Chromatik/Projects/entwined.lxp -ea 0
 # hope all the pre-existing things are correct
 try {
     # have to add the error action 
-    if(Get-Command -Name booger -ErrorAction Stop) {
+    if(Get-Command -Name python -ErrorAction Stop) {
 
         echo "building LXF files from JSON descriptions"
-        
+
         if (Test-Path -Path $install_dir/fairy_circles.json -PathType Leaf) {
                 python fairy_circle.py --config $install_dir/fairy_circles.json --fixtures_folder $fixtures_dir
         }
