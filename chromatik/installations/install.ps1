@@ -23,27 +23,39 @@ rm $fixtures_dir/*
 rm ~/Chromatik/autoplay.lxr -ea 0
 rm ~/Chromatik/Projects/entwined.lxp -ea 0
 
-echo "building LXF files from JSON descriptions"
-if (Test-Path -Path $install_dir/fairy_circles.json -PathType Leaf) {
-        python fairy_circle.py --config $install_dir/fairy_circles.json --fixtures_folder $fixtures_dir
+# some machines don't have python. Sad but true. If so, don't execute the python parts.
+# hope all the pre-existing things are correct
+try {
+    # have to add the error action 
+    if(Get-Command -Name booger -ErrorAction Stop) {
+
+        echo "building LXF files from JSON descriptions"
+        
+        if (Test-Path -Path $install_dir/fairy_circles.json -PathType Leaf) {
+                python fairy_circle.py --config $install_dir/fairy_circles.json --fixtures_folder $fixtures_dir
+        }
+        if (Test-Path -Path $install_dir/shrubs.json -PathType Leaf) {
+                python shrub.py --config $install_dir/shrubs.json --fixtures_folder $fixtures_dir
+        }
+        if (Test-Path -Path $install_dir/trees.json -PathType Leaf) {
+                python tree.py --tree_config $install_dir/trees.json --branch_config $install_dir/tree_branches.csv --fixtures_folder $fixtures_dir
+        }
+        if (Test-Path -Path $install_dir/bench.json -PathType Leaf) {
+                python bench.py --config $install_dir/bench.json --fixtures_folder $fixtures_dir
+        }
+        if (Test-Path -Path $install_dir/spots.json -PathType Leaf) {
+                python spot.py --config $install_dir/spots.json --fixtures_folder $fixtures_dir
+        }
+        if (Test-Path -Path $install_dir/fruits.json -PathType Leaf) {
+                python fruit.py --config $install_dir/fruits.json --fixtures_folder $fixtures_dir
+        }
+        if (Test-Path -Path $install_dir/elder_mother_cubes.csv -PathType Leaf) {
+                python elder_mother.py --ndb_config $install_dir/elder_ndb_ips.txt --cubes_config $install_dir/elder_mother_cubes.csv --elder_config $install_dir/elder_mother.json --fixtures_folder $fixtures_dir
+        }
+    }
 }
-if (Test-Path -Path $install_dir/shrubs.json -PathType Leaf) {
-        python shrub.py --config $install_dir/shrubs.json --fixtures_folder $fixtures_dir
-}
-if (Test-Path -Path $install_dir/trees.json -PathType Leaf) {
-        python tree.py --tree_config $install_dir/trees.json --branch_config $install_dir/tree_branches.csv --fixtures_folder $fixtures_dir
-}
-if (Test-Path -Path $install_dir/bench.json -PathType Leaf) {
-        python bench.py --config $install_dir/bench.json --fixtures_folder $fixtures_dir
-}
-if (Test-Path -Path $install_dir/spots.json -PathType Leaf) {
-        python spot.py --config $install_dir/spots.json --fixtures_folder $fixtures_dir
-}
-if (Test-Path -Path $install_dir/fruits.json -PathType Leaf) {
-        python fruit.py --config $install_dir/fruits.json --fixtures_folder $fixtures_dir
-}
-if (Test-Path -Path $install_dir/elder_mother_cubes.csv -PathType Leaf) {
-        python elder_mother.py --ndb_config $install_dir/elder_ndb_ips.txt --cubes_config $install_dir/elder_mother_cubes.csv --elder_config $install_dir/elder_mother.json --fixtures_folder $fixtures_dir
+Catch {
+    echo "Python does not exist, not building fixtures, just copying from prebuilt"
 }
 
 if (Test-Path -Path $install_dir/entwined.lxp) {
