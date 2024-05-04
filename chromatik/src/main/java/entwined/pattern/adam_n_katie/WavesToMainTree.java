@@ -46,7 +46,8 @@ public class WavesToMainTree extends AutographedPattern{
         centerElement_z = centerElement.cz;
       }
     } catch (Exception e) {
-      System.out.println("WavesToMainTree: no center object, using 0,0 of sculpture");
+      // Too noisy, common to not have a center object
+      // System.out.println("WavesToMainTree: no center object, using 0,0 of sculpture");
     }
     theMainTreePos0To1 =
       PosRawToPos0To1(centerElement_x, 0.0f, centerElement_z);

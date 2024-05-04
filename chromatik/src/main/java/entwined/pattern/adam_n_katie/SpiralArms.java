@@ -52,7 +52,8 @@ public class SpiralArms extends AutographedPattern{
         centerElement_z = centerElement.cz;
       }
     } catch (Exception e) {
-      System.out.println(" SpiralArms: no center object, using 0,0 of sculpture");
+      // Too noisy. Common to not have a center tag object
+      // System.out.println(" SpiralArms: no center object, using 0,0 of sculpture");
     }
 
     theMainTreePos0To1 =
