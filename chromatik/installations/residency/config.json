@@ -1,8 +1,9 @@
-{ "canopyServer": "https://entwined-api.charliestigler.com/lx",
+{ "canopyServer": "",
   "interactiveGroups": {},
   "installationId": "residency",
+  "IpadServerEnable": false,
   "NFCServerEnable": false,
-  "numServerChannels": 4,
+  "numServerChannels": 0,
   "attractModeEnable": false,
   "attractModeTimeout": 0
 }
