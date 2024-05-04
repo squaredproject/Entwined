@@ -135,6 +135,7 @@ public class NFCServer implements LXLoopTask {
 
   NFCServer(LX lx, EngineController engineController) {
     if (!Config.NFCServerEnable) {
+      this.enabled = false;
       return;
     }
     this.enabled = true;
