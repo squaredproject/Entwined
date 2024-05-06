@@ -67,6 +67,8 @@ class AppServer {
     }
 
     public void shutdown() {
+        if (!enabled) return;
+
         lx.engine.removeLoopTask(parseClientTask);
         server.stop();
     }
