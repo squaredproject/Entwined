@@ -2,8 +2,6 @@
 
 echo "making fixtures from directory: $1 WILL REMOVE EXISTING ENTWINED FIXTURES"
 
-# for running on macos, make sure to config python: sudo ln -s /Library/Developer/CommandLineTools/usr/bin/python3 /Library/Developer/CommandLineTools/usr/bin/python
-
 if [[ ! -d $1 ]]
 then
         echo "directory does not exist, try again"
