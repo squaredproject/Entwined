@@ -3,7 +3,7 @@
   tag: "bitcube",
 
   parameters: {
-    "host1": { "type": "string", "default": "10.240.10.9", "label": "Host1", "description": "Output host 1" },
+    "host1": { "type": "string", "default": "10.42.10.99", "label": "Host1", "description": "Output host 1" },
     "universe1": { type: "int", default: 13 },
     "channel1": { type: "int", default: 0 },
 
