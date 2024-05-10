@@ -2,7 +2,9 @@
 
 param ($install_dir)
 # powershell knows ~ but python doesn't so use $HOME
-$fixtures_dir = "$HOME/Chromatik/Fixtures/Entwined/"
+$chromatik_dir = "$HOME/Chromatik"
+$fixtures_dir = "${chromatik_dir}/Fixtures/Entwined/"
+
 
 if (!$install_dir) {
         echo "required parameter: directory to install"
@@ -21,8 +23,8 @@ if (! ( Test-Path -Path $install_dir )) {
 ## Therefore we clean a lot of the directory, but not all of it,
 ## it would be cleaner to expunge all of Chromatik... but dangerous!
 
-mkdir -p $fixtures_dir -ea 0
-mkdir -p "$fixtures_dir/../../Projects"  -ea 0
+mkdir -p $fixtures_dir -ea 0 > $null
+mkdir -p "$fixtures_dir/../../Projects"  -ea 0 > $null
 rm $fixtures_dir/*
 rm ~/Chromatik/autoplay.lxr -ea 0
 rm ~/Chromatik/Projects/entwined.lxp -ea 0
@@ -63,28 +65,28 @@ Catch {
 }
 
 if (Test-Path -Path $install_dir/entwined.lxp) {
-        cp $install_dir/entwined.lxp "$HOME/Chromatik/Projects"
+        cp $install_dir/entwined.lxp "${chromatik_dir}/Projects"
 }
 
 if (Test-Path -Path $install_dir/config.json -PathType Leaf) {
-        cp $install_dir/config.json "$HOME/Chromatik"
+        cp $install_dir/config.json "${chromatik_dir}"
 }
 
 if (Test-Path -Path $install_dir/*.lxr -PathType Leaf) {
-        cp $install_dir/*.lxr "$HOME/Chromatik" 
+        cp $install_dir/*.lxr "${chromatik_dir}/Projects" 
 }
 else {
         echo "no autoplay recording available, will not autoplay"
 }
 
 if (Test-Path -Path $install_dir/Fixtures) {
-        cp -r $install_dir/Fixtures/* $fixtures_dir/../ -ea 0
+        cp -r $install_dir/Fixtures/* ${chromatik_dir}/Fixtures -ea 0
 }
 if (Test-Path -Path $install_dir/Models) {
-        mkdir -p "$fixtures_dir/../../Models"  -ea 0
-        cp -r $install_dir/Models/* $fixtures_dir/../../Models -ea 0
+        mkdir -p "${chromatik_dir}/Models"  -ea 0
+        cp -r $install_dir/Models/* ${chromatik_dir}/Models -ea 0
 }
 
 # copy video files over
-mkdir -p "$HOME/Chromatik/Videos" -ea 0
-cp ../videos/* "$HOME/Chromatik/Videos"
+mkdir -p "${chromatik_dir}/Videos" -ea 0 > $null
+cp ../videos/* "${chromatik_dir}/Videos"
