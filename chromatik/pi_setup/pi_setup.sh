@@ -114,6 +114,12 @@ cd $HOME/Entwined/chromatik/pi_setup
 sudo cp chromatik.service /etc/systemd/system/
 sudo systemctl enable chromatik
 
+
+cd $HOME/Entwined/chromatik/; ./build.sh
+cd $HOME/Entwined/chromatik/installations; ./install.sh ggp-2023
+cd $HOME/Entwined/chromatik/; 
+
+
 #####################
 ####### Slow frame ###
 ####### Rate Fix   ###
