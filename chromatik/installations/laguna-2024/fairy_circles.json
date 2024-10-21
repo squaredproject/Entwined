@@ -1,24 +1,35 @@
 [
         {
-                "ry" : 30,
-                "x" : 227,
-                "z" : -262,
+                "ry" : 0,
+                "x" : -124,
+                "z" : 132,
                 "shape": "line",
                 "separation" : 60,
                 "pieceId" : "piece-9",
                 "cubeSizeIndex" : 0,
                 "clustersPerNdb" : 3,
-                "ipAddresses" : ["10.0.0.143"]
+                "ipAddresses" : ["10.0.0.133"]
         },
         {
                 "ry" : 0,
-                "x" : 0,
-                "z" : -257,
+                "x" : -35,
+                "z" : -50,
                 "shape": "line",
                 "separation" : 72,
                 "pieceId" : "piece-10",
                 "cubeSizeIndex" : 0,
                 "clustersPerNdb" : 3,
-                "ipAddresses" : ["10.0.0.130"]
-        }
+                "ipAddresses" : ["10.0.0.149"]
+        },
+        {
+                "ry" : 0,
+                "x" : 182,
+                "z" : -63,
+                "shape": "line",
+                "separation" : 72,
+                "pieceId" : "piece-10",
+                "cubeSizeIndex" : 0,
+                "clustersPerNdb" : 3,
+                "ipAddresses" : ["10.0.0.147"]
+        },
 ]
