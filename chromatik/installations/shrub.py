@@ -116,7 +116,6 @@ class Shrub:
                 theta = (cluster_idx + 1) * np.pi/6
                 if self.clockwise:
                     theta = - theta
-                print(f'theta: {theta} cluster_idx {cluster_idx}')
                 rot = np.array([
                     [np.cos(theta),0,np.sin(theta)],
                     [0,1,0],
