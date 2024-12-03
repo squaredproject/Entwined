@@ -69,6 +69,10 @@ class Shrub:
         self.piece_id = shrub_config['pieceId']
         self.ip_addr = shrub_config['shrubIpAddress']
         self.cube_size_index = shrub_config['cubeSizeIndex']
+        self.clockwise = False
+        if 'direction' in shrub_config:
+            if shrub_config['direction'].startswith('counter'):
+                self.clockwise = True
         if 'type' in shrub_config:
             self.type = shrub_config['type']
         else:
@@ -109,7 +113,9 @@ class Shrub:
                     ])
 
                 # Now transform into shrub coordinates...
-                theta = -(cluster_idx + 1) * np.pi/6
+                theta = (cluster_idx + 1) * np.pi/6
+                if self.clockwise:
+                    theta = - theta
                 rot = np.array([
                     [np.cos(theta),0,np.sin(theta)],
                     [0,1,0],
