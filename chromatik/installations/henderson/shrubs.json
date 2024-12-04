@@ -7,7 +7,7 @@
 			"cubeSizeIndex": 0,
 			"pieceId" : "piece-1",
 			"shrubIpAddress" : "10.0.0.115",
-			"direction" : "counterclockwise"
+			"direction" : "clockwise"
 	},
 	{
 			"ry" : 0,
@@ -17,7 +17,7 @@
 			"cubeSizeIndex": 0,
 			"pieceId" : "piece-2",
 			"shrubIpAddress" : "10.0.0.117",
-			"direction" : "counterclockwise"
+			"direction" : "clockwise"
 	},
 	{
 			"ry" : 22.5,
@@ -27,7 +27,7 @@
 			"cubeSizeIndex": 0,
 			"pieceId" : "piece-3",
 			"shrubIpAddress" : "10.0.0.119",
-			"direction" : "counterclockwise"
+			"direction" : "clockwise"
 	},
 	{
 			"ry" : 0,
@@ -37,6 +37,6 @@
 			"cubeSizeIndex": 0,
 			"pieceId" : "piece-4",
 			"shrubIpAddress" : "10.0.0.113",
-			"direction" : "counterclockwise"
+			"direction" : "clockwise"
 	}
 ]
