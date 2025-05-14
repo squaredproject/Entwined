@@ -172,6 +172,18 @@ From the same directory as `headless.sh`
 java  -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies.jar heronarts.lx.studio.Chromatik --authorize <authkey>
 ```
 
+# Troubleshooting
+
+## Switching back and forth between Chromatik 1 and Chromatik 0.43
+
+A breadcrumb for the unwary. If you get an error that `bind failed` what's really happening
+is you likely have two different copies of the plugin in the Chromatik directory.
+
+This is Chromatik\Packages\entwined.
+
+They have two different names, and the build script tries to do the right thing to remove any
+wayward ones, but check that first. You get the error because it goes though and sets up the ports,
+then does it again, and the second bind fails.
 
 # Connecting to Canopy
 
