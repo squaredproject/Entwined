@@ -1,7 +1,7 @@
 { "canopyServer": "https://entwined-api.charliestigler.com/lx",
   "interactiveGroups": {"myShrubies": ["shrub-01", "shrub-02"]},
   "installationId": "ggp",
-  "NFCServerEnable": true,
+  "NFCServerEnable": false,
   "numServerChannels": 4,
   "attractModeEnable": false,
   "attractModeTimeout": 0
