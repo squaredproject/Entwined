@@ -69,6 +69,11 @@ if command -v $PY &> /dev/null ; then
       echo "Created elder mother fixtures"
   fi
 
+  if [[ -f $1/led_heart_data.csv ]]; then
+      python3 led_heart.py --csv $1/led_heart_data.csv --fixtures_folder $I/Fixtures/Entwined/
+      echo "Created led heart fixtures"
+  fi
+
 else
   echo "No python detected, skipping building fixture files from json descriptions"
 fi
