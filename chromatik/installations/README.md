@@ -35,3 +35,11 @@ collaboratively filled out on site.)
 
 When the .lxf fixture files have been generated, they should be put in the
 FIXTURES directory of LXStudio
+
+## LED HEART
+
+A new kind of Entwined!
+
+If you have an LED heart, you need to download the CSV that has the XYZ format.
+Place it in the fixture file. Use the led-heart directory as an example.
+See the header on the led-heart.py for any further information.
