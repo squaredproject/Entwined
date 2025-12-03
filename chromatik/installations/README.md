@@ -42,4 +42,6 @@ A new kind of Entwined!
 
 If you have an LED heart, you need to download the CSV that has the XYZ format.
 Place it in the fixture file. Use the led-heart directory as an example.
+Save the entire tab as CSV from Google Sheets, move it to the right directory, etc.
+
 See the header on the led-heart.py for any further information.
