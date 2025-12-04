@@ -2,6 +2,10 @@
 """
 DDP LED Mapper - Interactive tool for mapping LED installations
 Allows you to navigate through LEDs one by one to determine physical layout
+
+Uses only built-in Python libraries for cross-platform keyboard input:
+- Windows: msvcrt
+- Unix/Mac: termios, tty, select, os.read()
 """
 
 import socket
@@ -10,18 +14,13 @@ import argparse
 import sys
 import os
 
-# Try to import keyboard library for cross-platform keyboard input
-try:
-    import keyboard
-    HAS_KEYBOARD = True
-except ImportError:
-    HAS_KEYBOARD = False
-    # Fallback to msvcrt on Windows or termios on Unix
-    if os.name == 'nt':
-        import msvcrt
-    else:
-        import termios
-        import tty
+# Platform-specific keyboard imports (all are built-in)
+if os.name == 'nt':
+    import msvcrt
+else:
+    import termios
+    import tty
+    import select
 
 # Color palette from ddptest.py
 palette = {
@@ -223,80 +222,51 @@ class LEDMapper:
                 self.enter_jump_mode()
     
     def handle_keyboard_unix(self):
-        """Handle keyboard input on Unix using termios"""
+        """Handle keyboard input on Unix using termios.
+        
+        Uses os.read() to read all available buffered bytes at once,
+        which is simpler and more reliable than reading byte-by-byte.
+        """
         import select
-        # Check if input is available (non-blocking)
+        
+        # Check if any input is available
         if select.select([sys.stdin], [], [], 0)[0]:
-            ch = sys.stdin.read(1)
-            print(f"\n[DEBUG] Waiting for input... Received: {repr(ch)} (ord={ord(ch) if ch else 'N/A'})", flush=True)
-            if ch == '\x1b':  # ESC or arrow key start
-                # Try to read rest of arrow key sequence with longer timeout for Mac compatibility
-                ch2 = sys.stdin.read(1) if select.select([sys.stdin], [], [], 0.5)[0] else ''
-                print(f"[DEBUG] Escape sequence ch2: {repr(ch2)} (ord={ord(ch2) if ch2 else 'N/A'})", flush=True)
-                ch3 = ''
-                if ch2 == '[':
-                    ch3 = sys.stdin.read(1) if select.select([sys.stdin], [], [], 0.5)[0] else ''
-                    print(f"[DEBUG] Escape sequence ch3: {repr(ch3)} (ord={ord(ch3) if ch3 else 'N/A'})", flush=True)
-                
-                if ch2 == '[' and ch3:
-                    if ch3 == 'A':  # Up
-                        print("[DEBUG] Arrow UP detected", flush=True)
-                        self.prev_led()
-                    elif ch3 == 'B':  # Down
-                        print("[DEBUG] Arrow DOWN detected", flush=True)
-                        self.next_led()
-                    elif ch3 == 'D':  # Left
-                        print("[DEBUG] Arrow LEFT detected", flush=True)
-                        self.prev_led()
-                    elif ch3 == 'C':  # Right
-                        print("[DEBUG] Arrow RIGHT detected", flush=True)
-                        self.next_led()
-                    else:
-                        print(f"[DEBUG] Unknown escape sequence: ESC [ {repr(ch3)}", flush=True)
-                elif ch2 == '' and ch3 == '':
-                    # This is a plain ESC key (no additional characters in time)
-                    print("[DEBUG] Plain ESC detected - exiting", flush=True)
-                    self.running = False
-                else:
-                    # Incomplete or unrecognized escape sequence - do NOT exit, just ignore
-                    print(f"[DEBUG] Incomplete/unrecognized escape sequence: ESC {repr(ch2)} {repr(ch3)} - ignoring", flush=True)
-            elif ch.lower() == 'q':
+            # Read all available bytes at once (up to 10 should be plenty for any key sequence)
+            data = os.read(sys.stdin.fileno(), 10).decode('utf-8', errors='ignore')
+            print(f"\n[DEBUG] Waiting for input... Received: {repr(data)}", flush=True)
+            
+            # Check for arrow keys (escape sequences)
+            if data == '\x1b[A':  # Up arrow
+                print("[DEBUG] Arrow UP detected", flush=True)
+                self.prev_led()
+            elif data == '\x1b[B':  # Down arrow
+                print("[DEBUG] Arrow DOWN detected", flush=True)
+                self.next_led()
+            elif data == '\x1b[C':  # Right arrow
+                print("[DEBUG] Arrow RIGHT detected", flush=True)
+                self.next_led()
+            elif data == '\x1b[D':  # Left arrow
+                print("[DEBUG] Arrow LEFT detected", flush=True)
+                self.prev_led()
+            elif data == '\x1b':  # Plain ESC key
+                print("[DEBUG] ESC detected - exiting", flush=True)
+                self.running = False
+            elif data.lower() == 'q':
                 print("[DEBUG] 'q' detected - exiting", flush=True)
                 self.running = False
-            elif ch in ['h', 'H', '?']:
+            elif data in ['h', 'H', '?']:
                 print("[DEBUG] Help requested", flush=True)
                 self.print_help()
-            elif ch.lower() in ['j', 'g']:
+            elif data.lower() in ['j', 'g']:
                 print("[DEBUG] Jump mode requested", flush=True)
                 self.enter_jump_mode()
             else:
-                print(f"[DEBUG] Unhandled key: {repr(ch)}", flush=True)
-    
-    def handle_keyboard_library(self):
-        """Handle keyboard input using keyboard library"""
-        try:
-            if keyboard.is_pressed('right') or keyboard.is_pressed('down'):
-                self.next_led()
-                time.sleep(0.2)  # Debounce
-            elif keyboard.is_pressed('left') or keyboard.is_pressed('up'):
-                self.prev_led()
-                time.sleep(0.2)  # Debounce
-            elif keyboard.is_pressed('q') or keyboard.is_pressed('esc'):
-                self.running = False
-            elif keyboard.is_pressed('h') or keyboard.is_pressed('?'):
-                self.print_help()
-            elif keyboard.is_pressed('j') or keyboard.is_pressed('g'):
-                self.enter_jump_mode()
-                time.sleep(0.2)  # Debounce
-        except:
-            pass  # Ignore keyboard errors
+                print(f"[DEBUG] Unhandled input: {repr(data)}", flush=True)
     
     def handle_keyboard(self):
-        """Handle keyboard input - dispatch to appropriate method"""
+        """Handle keyboard input - dispatch to appropriate method based on OS"""
         if self.jump_mode:
             self.handle_jump_input()
-        elif HAS_KEYBOARD:
-            self.handle_keyboard_library()
         elif os.name == 'nt':
             self.handle_keyboard_windows()
         else:
@@ -331,19 +301,30 @@ class LEDMapper:
                     self.jump_buffer += ch.decode()
                     print(ch.decode(), end='', flush=True)
         else:
-            # Unix version
+            # Unix version - use os.read() for consistency with handle_keyboard_unix()
             import select
             if select.select([sys.stdin], [], [], 0)[0]:
-                ch = sys.stdin.read(1)
-                if ch == '\n':
+                data = os.read(sys.stdin.fileno(), 10).decode('utf-8', errors='ignore')
+                print(f"[DEBUG] Jump input received: {repr(data)}", flush=True)
+                if data == '\n' or data == '\r':
                     self.exit_jump_mode()
-                elif ch == '\x1b':
+                elif data == '\x1b' or data.startswith('\x1b'):
+                    # ESC key or any escape sequence cancels jump mode
                     print("\nCancelled")
                     self.jump_mode = False
                     self.print_status()
-                elif ch.isdigit():
-                    self.jump_buffer += ch
-                    print(ch, end='', flush=True)
+                elif data == '\x7f' or data == '\x08':  # Backspace (DEL on Mac, BS on others)
+                    if self.jump_buffer:
+                        self.jump_buffer = self.jump_buffer[:-1]
+                        min_idx = 0 if self.zero_index else 1
+                        max_idx = self.num_leds - 1 if self.zero_index else self.num_leds
+                        print(f"\rEnter LED index ({min_idx}-{max_idx}), then press Enter: {self.jump_buffer}  ", end='', flush=True)
+                else:
+                    # Add any digits from the input
+                    for ch in data:
+                        if ch.isdigit():
+                            self.jump_buffer += ch
+                            print(ch, end='', flush=True)
     
     def exit_jump_mode(self):
         """Exit jump mode and jump to entered LED"""
@@ -363,8 +344,9 @@ class LEDMapper:
         """Main loop"""
         self.init_network()
         
-        # Set up terminal for non-blocking input on Unix
-        if not HAS_KEYBOARD and os.name != 'nt':
+        # Set up terminal for non-blocking input on Unix/Mac
+        old_settings = None
+        if os.name != 'nt':
             old_settings = termios.tcgetattr(sys.stdin)
             try:
                 tty.setcbreak(sys.stdin.fileno())
@@ -404,8 +386,8 @@ class LEDMapper:
             print("\nExiting...")
             
         finally:
-            # Restore terminal settings on Unix
-            if not HAS_KEYBOARD and os.name != 'nt':
+            # Restore terminal settings on Unix/Mac
+            if os.name != 'nt' and old_settings:
                 try:
                     termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_settings)
                 except:
@@ -455,12 +437,6 @@ Examples:
     if (args.leds * 3 > 1490):
         print("Error: Too many LEDs - MTU will exceed 1500 bytes", file=sys.stderr)
         sys.exit(1)
-    
-    # Check for keyboard library
-    if not HAS_KEYBOARD:
-        print("Note: 'keyboard' library not found. Using basic keyboard input.")
-        print("For better experience, install: pip install keyboard")
-        print()
     
     # Create and run mapper
     mapper = LEDMapper(
