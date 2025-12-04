@@ -227,41 +227,28 @@ class LEDMapper:
         Uses os.read() to read all available buffered bytes at once,
         which is simpler and more reliable than reading byte-by-byte.
         """
-        import select
-        
         # Check if any input is available
         if select.select([sys.stdin], [], [], 0)[0]:
             # Read all available bytes at once (up to 10 should be plenty for any key sequence)
             data = os.read(sys.stdin.fileno(), 10).decode('utf-8', errors='ignore')
-            print(f"\n[DEBUG] Waiting for input... Received: {repr(data)}", flush=True)
             
             # Check for arrow keys (escape sequences)
             if data == '\x1b[A':  # Up arrow
-                print("[DEBUG] Arrow UP detected", flush=True)
                 self.prev_led()
             elif data == '\x1b[B':  # Down arrow
-                print("[DEBUG] Arrow DOWN detected", flush=True)
                 self.next_led()
             elif data == '\x1b[C':  # Right arrow
-                print("[DEBUG] Arrow RIGHT detected", flush=True)
                 self.next_led()
             elif data == '\x1b[D':  # Left arrow
-                print("[DEBUG] Arrow LEFT detected", flush=True)
                 self.prev_led()
             elif data == '\x1b':  # Plain ESC key
-                print("[DEBUG] ESC detected - exiting", flush=True)
                 self.running = False
             elif data.lower() == 'q':
-                print("[DEBUG] 'q' detected - exiting", flush=True)
                 self.running = False
             elif data in ['h', 'H', '?']:
-                print("[DEBUG] Help requested", flush=True)
                 self.print_help()
             elif data.lower() in ['j', 'g']:
-                print("[DEBUG] Jump mode requested", flush=True)
                 self.enter_jump_mode()
-            else:
-                print(f"[DEBUG] Unhandled input: {repr(data)}", flush=True)
     
     def handle_keyboard(self):
         """Handle keyboard input - dispatch to appropriate method based on OS"""
@@ -304,22 +291,17 @@ class LEDMapper:
             # Unix version - use os.read() for consistency with handle_keyboard_unix()
             if select.select([sys.stdin], [], [], 0)[0]:
                 data = os.read(sys.stdin.fileno(), 10).decode('utf-8', errors='ignore')
-                print(f"[DEBUG] Jump input received: {repr(data)}", flush=True)
                 if data == '\n' or data == '\r':
-                    print("[DEBUG] Enter key - executing jump", flush=True)
                     self.exit_jump_mode()
                 elif data.lower() in ['j', 'g']:
                     # Allow pressing 'j' or 'g' again to confirm (in addition to Enter)
-                    print("[DEBUG] 'j'/'g' pressed - executing jump", flush=True)
                     self.exit_jump_mode()
                 elif data == '\x1b' or data.startswith('\x1b'):
                     # ESC key or any escape sequence cancels jump mode
-                    print("[DEBUG] ESC/arrow - cancelling jump", flush=True)
                     print("\nCancelled")
                     self.jump_mode = False
                     self.print_status()
                 elif data == '\x7f' or data == '\x08':  # Backspace (DEL on Mac, BS on others)
-                    print("[DEBUG] Backspace detected", flush=True)
                     if self.jump_buffer:
                         self.jump_buffer = self.jump_buffer[:-1]
                         min_idx = 0 if self.zero_index else 1
@@ -331,8 +313,6 @@ class LEDMapper:
                         if ch.isdigit():
                             self.jump_buffer += ch
                             print(ch, end='', flush=True)
-                        else:
-                            print(f"[DEBUG] Ignoring non-digit: {repr(ch)}", flush=True)
     
     def exit_jump_mode(self):
         """Exit jump mode and jump to entered LED"""
