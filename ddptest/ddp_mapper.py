@@ -224,32 +224,53 @@ class LEDMapper:
     
     def handle_keyboard_unix(self):
         """Handle keyboard input on Unix using termios"""
-        # This is a simplified version - would need more work for full arrow key support
         import select
+        # Check if input is available (non-blocking)
         if select.select([sys.stdin], [], [], 0)[0]:
             ch = sys.stdin.read(1)
+            print(f"\n[DEBUG] Waiting for input... Received: {repr(ch)} (ord={ord(ch) if ch else 'N/A'})", flush=True)
             if ch == '\x1b':  # ESC or arrow key start
-                # Try to read rest of arrow key sequence
-                ch2 = sys.stdin.read(1) if select.select([sys.stdin], [], [], 0.1)[0] else ''
-                ch3 = sys.stdin.read(1) if ch2 == '[' and select.select([sys.stdin], [], [], 0.1)[0] else ''
-                
+                # Try to read rest of arrow key sequence with longer timeout for Mac compatibility
+                ch2 = sys.stdin.read(1) if select.select([sys.stdin], [], [], 0.5)[0] else ''
+                print(f"[DEBUG] Escape sequence ch2: {repr(ch2)} (ord={ord(ch2) if ch2 else 'N/A'})", flush=True)
+                ch3 = ''
                 if ch2 == '[':
+                    ch3 = sys.stdin.read(1) if select.select([sys.stdin], [], [], 0.5)[0] else ''
+                    print(f"[DEBUG] Escape sequence ch3: {repr(ch3)} (ord={ord(ch3) if ch3 else 'N/A'})", flush=True)
+                
+                if ch2 == '[' and ch3:
                     if ch3 == 'A':  # Up
+                        print("[DEBUG] Arrow UP detected", flush=True)
                         self.prev_led()
                     elif ch3 == 'B':  # Down
+                        print("[DEBUG] Arrow DOWN detected", flush=True)
                         self.next_led()
                     elif ch3 == 'D':  # Left
+                        print("[DEBUG] Arrow LEFT detected", flush=True)
                         self.prev_led()
                     elif ch3 == 'C':  # Right
+                        print("[DEBUG] Arrow RIGHT detected", flush=True)
                         self.next_led()
+                    else:
+                        print(f"[DEBUG] Unknown escape sequence: ESC [ {repr(ch3)}", flush=True)
+                elif ch2 == '' and ch3 == '':
+                    # This is a plain ESC key (no additional characters in time)
+                    print("[DEBUG] Plain ESC detected - exiting", flush=True)
+                    self.running = False
                 else:
-                    self.running = False  # Plain ESC
+                    # Incomplete or unrecognized escape sequence - do NOT exit, just ignore
+                    print(f"[DEBUG] Incomplete/unrecognized escape sequence: ESC {repr(ch2)} {repr(ch3)} - ignoring", flush=True)
             elif ch.lower() == 'q':
+                print("[DEBUG] 'q' detected - exiting", flush=True)
                 self.running = False
             elif ch in ['h', 'H', '?']:
+                print("[DEBUG] Help requested", flush=True)
                 self.print_help()
             elif ch.lower() in ['j', 'g']:
+                print("[DEBUG] Jump mode requested", flush=True)
                 self.enter_jump_mode()
+            else:
+                print(f"[DEBUG] Unhandled key: {repr(ch)}", flush=True)
     
     def handle_keyboard_library(self):
         """Handle keyboard input using keyboard library"""
