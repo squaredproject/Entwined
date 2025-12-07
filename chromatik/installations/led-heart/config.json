@@ -1,0 +1,7 @@
+{
+  "installationId": "led_heart",
+  "NFCServerEnable": false,
+  "numServerChannels": 4,
+  "attractModeEnable": true,
+  "attractModeTimeout": 3000
+}
