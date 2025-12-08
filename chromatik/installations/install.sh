@@ -48,6 +48,11 @@ if [[ -f $1/elder_mother_cubes.csv ]]; then
     echo "Created elder mother fixtures"
 fi
 
+if [[ -f $1/led_heart_data.csv ]]; then
+    python3 led_heart.py --csv $1/led_heart_data.csv --fixtures_folder $I/Fixtures/Entwined/
+    echo "Created led heart fixtures"
+fi
+
 cp $1/*.lxp $I/Projects
 if [ -f $1/config.json ]; then
   cp $1/config.json $I

@@ -45,6 +45,10 @@ if (Test-Path -Path $install_dir/fruits.json -PathType Leaf) {
 if (Test-Path -Path $install_dir/elder_mother_cubes.csv -PathType Leaf) {
         python elder_mother.py --ndb_config $install_dir/elder_ndb_ips.txt --cubes_config $install_dir/elder_mother_cubes.csv --elder_config $install_dir/elder_mother.json --fixtures_folder $fixtures_dir
 }
+if (Test-Path -Path $install_dir/led_heart_data.csv -PathType Leaf) {
+        python led_heart.py --csv $install_dir/led_heart_data.csv --fixtures_folder $fixtures_dir
+        echo "Created led heart fixtures"
+}
 
 if (Test-Path -Path $install_dir/entwined.lxp) {
         cp $install_dir/entwined.lxp "$HOME/Chromatik/Projects"
