@@ -169,8 +169,7 @@ and the license string granted to this project. Contact Charles Gadeken or Brian
 
 From the same directory as `headless.sh`
 ```
-java  -cp lib/chromatik-1.0.1-SNAPSHOT-jar-with-dependencies.jar heronarts.lx.studio.Chromatik --authorize BULKOWSKI
-III
+java  -cp lib/chromatik-1.0.1-SNAPSHOT-jar-with-dependencies.jar heronarts.lx.studio.Chromatik --authorize <KEY>
 ```
 
 
