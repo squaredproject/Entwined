@@ -1,0 +1,27 @@
+{
+  "label": "B135",
+  "tags": [
+    "B135",
+    "head",
+    "accent",
+    "9",
+    "short",
+    "1",
+    "10.4.1.65"
+  ],
+  "output": {
+    "protocol": "kinet",
+    "kinetPort": "1",
+    "host": "10.4.1.65"
+  },
+  "components": [
+    {
+      "x": 212.0,
+      "y": -109.0,
+      "z": 0.0,
+      "type": "strip",
+      "direction": { "x": -1 },
+      "numPoints": 20
+    }
+  ]
+}

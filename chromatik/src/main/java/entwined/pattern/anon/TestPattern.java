@@ -5,14 +5,14 @@ import heronarts.lx.LXCategory;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 @LXCategory(LXCategory.TEST)
 public class TestPattern extends LXPattern {
 
   int CUBE_MOD = 14;
 
-  final BoundedParameter period = new BoundedParameter("RATE", 3000, 2000, 6000);
+  final CompoundParameter period = new CompoundParameter("RATE", 3000, 2000, 6000);
   final SinLFO cubeIndex = new SinLFO(0, CUBE_MOD, period);
 
   public TestPattern(LX lx) {

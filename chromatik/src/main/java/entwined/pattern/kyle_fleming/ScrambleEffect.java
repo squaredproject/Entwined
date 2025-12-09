@@ -4,11 +4,11 @@ import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXModel;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 public class ScrambleEffect extends LXEffect {
 
-  final public BoundedParameter amount = new BoundedParameter("SCRA");
+  final public CompoundParameter amount = new CompoundParameter("SCRA");
   final int offset;
 
   public ScrambleEffect(LX lx) {

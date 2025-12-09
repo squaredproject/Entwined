@@ -4,19 +4,19 @@ import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.utils.LXUtils;
 
 public class MultiSine extends LXPattern {
   final int numLayers = 3;
   int[][] distLayerDivisors = {{50, 140, 200}, {360, 60, 45}};
-  final BoundedParameter brightEffect = new BoundedParameter("Bright", 100, 0, 100);
+  final CompoundParameter brightEffect = new CompoundParameter("Bright", 100, 0, 100);
 
-  final BoundedParameter[] timingSettings =  {
-    new BoundedParameter("T1", 6300, 5000, 30000),
-    new BoundedParameter("T2", 4300, 2000, 10000),
-    new BoundedParameter("T3", 11000, 10000, 20000)
+  final CompoundParameter[] timingSettings =  {
+    new CompoundParameter("T1", 6300, 5000, 30000),
+    new CompoundParameter("T2", 4300, 2000, 10000),
+    new CompoundParameter("T3", 11000, 10000, 20000)
   };
   SinLFO[] frequencies = {
     new SinLFO(0, 1, timingSettings[0]),

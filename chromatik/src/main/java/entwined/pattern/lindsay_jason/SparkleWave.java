@@ -2,7 +2,7 @@ package entwined.pattern.lindsay_jason;
 
 import entwined.core.CubeManager;
 import heronarts.lx.LX;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.model.LXPoint;
@@ -22,10 +22,10 @@ public class SparkleWave extends LXPattern {
   int baseSaturation = 50;
   int sparkleBrightness = 90;
 
-  final BoundedParameter speedParam = new BoundedParameter("Speed", 50, 0, 100);
-  final BoundedParameter sizeParam = new BoundedParameter("Size", 35, 0, 50);
-  final BoundedParameter sparkleWidth = new BoundedParameter("Sparkle width", 5, 1, 50);
-  final BoundedParameter saturationThreshold = new BoundedParameter("Saturation threshold", 0.99, 0.1, 0.99999);
+  final CompoundParameter speedParam = new CompoundParameter("Speed", 50, 0, 100);
+  final CompoundParameter sizeParam = new CompoundParameter("Size", 35, 0, 50);
+  final CompoundParameter sparkleWidth = new CompoundParameter("Sparkle width", 5, 1, 50);
+  final CompoundParameter saturationThreshold = new CompoundParameter("Saturation threshold", 0.99, 0.1, 0.99999);
   final BooleanParameter waveDirection = new BooleanParameter("Direction", true);
 
   public SparkleWave(LX lx) {

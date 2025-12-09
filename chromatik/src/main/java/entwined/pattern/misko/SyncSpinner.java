@@ -5,16 +5,16 @@ import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 public class SyncSpinner extends TSBufferedPattern {
 
   private float speedMult = 1000;
-  final BoundedParameter hue = new BoundedParameter("hue", 135, 0, 360);
-  final BoundedParameter globalTheta = new BoundedParameter("gTheta", 1.0, 0, 1.0);
-  final BoundedParameter colorSpeed = new BoundedParameter("cSpeed", 100, 0, 200);
-  final BoundedParameter speedParam = new BoundedParameter("Speed", 5, 20, .01);
-  final BoundedParameter glow = new BoundedParameter("glow", 0.1, 0.0, 1.0);
+  final CompoundParameter hue = new CompoundParameter("hue", 135, 0, 360);
+  final CompoundParameter globalTheta = new CompoundParameter("gTheta", 1.0, 0, 1.0);
+  final CompoundParameter colorSpeed = new CompoundParameter("cSpeed", 100, 0, 200);
+  final CompoundParameter speedParam = new CompoundParameter("Speed", 5, 20, .01);
+  final CompoundParameter glow = new CompoundParameter("glow", 0.1, 0.0, 1.0);
   final SawLFO wave = new SawLFO(0, 12, 1000);
   float total_ms=0;
   int shrub_offset[];

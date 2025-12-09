@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 import heronarts.lx.LX;
+import heronarts.lx.effect.BlurEffect;
 import heronarts.lx.LXDeviceComponent;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.midi.LXMidiInput;
@@ -44,7 +45,6 @@ import entwined.pattern.kyle_fleming.GhostEffect;
 import entwined.pattern.kyle_fleming.ScrambleEffect;
 import entwined.pattern.kyle_fleming.SpeedEffect;
 import entwined.pattern.kyle_fleming.StaticEffect;
-import entwined.pattern.kyle_fleming.TSBlurEffect;
 import entwined.pattern.kyle_fleming.Wisps;
 import entwined.pattern.ray_sykes.Lightning;
 
@@ -128,6 +128,7 @@ public class Entwined implements LXStudio.Plugin {
     lx.registry.addPattern(entwined.pattern.colin_hunt.Wreathes.class);
     lx.registry.addPattern(entwined.pattern.eric_gauderman.CounterSpin.class);
     lx.registry.addPattern(entwined.pattern.eric_gauderman.DiscreteColors.class);
+    lx.registry.addPattern(entwined.pattern.eric_gauderman.FreeFall.class);
     lx.registry.addPattern(entwined.pattern.eric_gauderman.Radar.class);
     lx.registry.addPattern(entwined.pattern.eric_gauderman.UpDown.class);
     lx.registry.addPattern(entwined.pattern.evy.CircleBreath.class);
@@ -252,7 +253,8 @@ public class Entwined implements LXStudio.Plugin {
    */
   private void setupMasterEffects() {
 
-    setupMasterEffect(lx, TSBlurEffect.class);
+    System.out.println("*** SETUP MASTER EFFECTS ***");
+    setupMasterEffect(lx, BlurEffect.class);
     setupMasterEffect(lx, ColorEffect.class);
     setupMasterEffect(lx, HueFilterEffect.class);
     setupMasterEffect(lx, GhostEffect.class);
@@ -308,10 +310,12 @@ public class Entwined implements LXStudio.Plugin {
         return;
       }
       apc.addListener(new LXMidiListener() {
+        @Override
         public void noteOnReceived(MidiNoteOn note) {
           noteReceived(note, true);
         }
 
+        @Override
         public void noteOffReceived(MidiNote note) {
           noteReceived(note, false);
         }
@@ -355,16 +359,16 @@ public class Entwined implements LXStudio.Plugin {
           // Set up the channels
           configureChannels();
 
-          // Grab the triggerables object if it exists
-          triggerables = findModulator(lx, Triggerables.class);
+// Grab the triggerables object if it exists
+      triggerables = findModulator(lx, Triggerables.class);
+    
+      // Set up triggerable events
+      if (triggerables != null) {
+        configureTriggeredEffects();
+      }
 
-          // Set up triggerable events
-          if (triggerables != null) {
-            configureTriggeredEffects();
-          }
-
-          // Set up the low level iPad Controller
-          engineController = new EngineController(lx, entwined);  // XXX might want to have a listener on the controller, rather than newing up the engine controller here
+      // Set up the low level iPad Controller
+      engineController = new EngineController(lx, entwined);  // XXX might want to have a listener on the controller, rather than newing up the engine controller here
 
           // Set up high level iPad Server. Uses the iPadController to actually do the work.
           configureServers(); // turns on the TCP listener
@@ -372,18 +376,18 @@ public class Entwined implements LXStudio.Plugin {
           // Set up Canopy listener (also TCP) for interactive commands
           configureCanopy();
 
-          Recordings recordings = findModulator(lx, Recordings.class);
-          if (recordings != null) {
+      Recordings recordings = findModulator(lx, Recordings.class); 
+      if (recordings != null) {
             // TODO - perhaps come up with a more elegant solution here for specifying
-            // what the file to auto-play is?
-            File autoplayFile = new File("autoplay.lxr");
-            if ((autoplayFile != null) && autoplayFile.exists()) {
-              log("Auto-playing saved recording file: " + autoplayFile);
-              recordings.openRecording(lx, autoplayFile);
-              recordings.playRecording(lx);
+        // what the file to auto-play is?
+        File autoplayFile = new File("autoplay.lxr");
+if ((autoplayFile != null) && autoplayFile.exists()) {
+          log("Auto-playing saved recording file: " + autoplayFile); 
+          recordings.openRecording(lx, autoplayFile);
+          recordings.playRecording(lx);
             }
             else {
-              log(" autoplay file not found, continuing");
+          log(" autoplay file not found, continuing");
             }
           }
         }
@@ -401,7 +405,7 @@ public class Entwined implements LXStudio.Plugin {
   void configureTriggerables()
   {
     // There are several types of triggerables -
-    // Events (which derive from LXEvent)
+      // Events (which derive from LXEvent)
     // Standard patterns
     // One-shot patterns
     // Patterns that use a parameter in addition to the fader for fading in and out
@@ -410,8 +414,8 @@ public class Entwined implements LXStudio.Plugin {
     // the "setAction" will register an action for the grid of APC40 / Triggers array
     // 0,0 is the upper left corner <row>,<column>; so 0,1 is the second button on the top row
     //    1,0 is the first button on the second row
-
-    // how to add one: look at the textures on the master channel.
+          
+          // how to add one: look at the textures on the master channel.
     // find one you want. Look up its class and find a parameter you want to change.
     // Follow the pattern.
 
@@ -819,7 +823,7 @@ public class Entwined implements LXStudio.Plugin {
     return findEffectWithName(lx.engine.mixer.masterBus, clazz, name);
   }
 
-  @SuppressWarnings("unchecked")
+   @SuppressWarnings("unchecked")
   public static <T extends LXEffect> T findEffect(LXBus bus, Class<T> clazz) {
     for (LXEffect effect : bus.effects) {
       if (effect.getClass().equals(clazz)) {
@@ -888,3 +892,4 @@ public class Entwined implements LXStudio.Plugin {
   }
 
 }
+  

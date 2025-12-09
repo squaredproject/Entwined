@@ -5,7 +5,12 @@ import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.StringParameter;
 import heronarts.lx.parameter.DiscreteParameter;
+import heronarts.lx.parameter.ObjectParameter;
 import heronarts.lx.pattern.LXPattern;
+
+import heronarts.lx.studio.LXStudio.UI;
+import heronarts.lx.studio.ui.device.UIDevice;
+import heronarts.lx.studio.ui.device.UIDeviceControls;
 
 import entwined.core.CubeData;
 import entwined.core.CubeManager;
@@ -45,12 +50,16 @@ import java.util.List;
 /**
 In order to be like a flag, have multiple colors on the sculpture
 */
-public class VideoPlayer extends LXPattern {
+public class VideoPlayer extends LXPattern implements UIDeviceControls<VideoPlayer> {
 
   // this ends up being in the Chromatik directory, a good place
   final StringParameter dirName = new StringParameter("VIDEODIR", "Videos");
   // I don't think I can run a function here to attempt to figure out the actual number
-  public final DiscreteParameter fileNumber = new DiscreteParameter("FNUM", 1, 1, 10);
+  final DiscreteParameter fileNumber = new DiscreteParameter("FNUM", 1, 1, 10);
+
+  final ObjectParameter<String> filePicker = 
+      new ObjectParameter<String>("Files", 
+          new String[] { "One 1", "Two 2", "Three" } );
 
   // let's declare a global that will be the array of RGB. The thread with frames can fill it,
   // the pattern loop can display it
@@ -73,6 +82,7 @@ public class VideoPlayer extends LXPattern {
   public VideoPlayer(LX lx) {
     super(lx);
     addParameter("FNUM",fileNumber);
+    addParameter("Files",this.filePicker );
 
     // set the max parameter to the number of files in the directory
     long dfc = getDirectoryFileCount( dirName.getString());
@@ -105,6 +115,13 @@ public class VideoPlayer extends LXPattern {
   protected void onInactive() {
     super.onInactive();
     videoReader.onInactive();
+  }
+
+// picklist UI helper
+  @Override
+  public void buildDeviceControls(UI ui, UIDevice uiDevice, VideoPlayer device) {
+    uiDevice.setLayout(UIDevice.Layout.HORIZONTAL, 4);
+    addColumn(uiDevice, "Column A",newDropMenu(device.filePicker)).setChildSpacing(6);
   }
 
 // Some file helpers

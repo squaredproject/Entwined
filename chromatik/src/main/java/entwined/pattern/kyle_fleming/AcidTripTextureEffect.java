@@ -7,11 +7,11 @@ import heronarts.lx.color.LXColor;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 public class AcidTripTextureEffect extends LXEffect {
 
-  final BoundedParameter amount = new BoundedParameter("ACID");
+  final CompoundParameter amount = new CompoundParameter("ACID");
 
   final SawLFO trails = new SawLFO(360, 0, 7000);
 

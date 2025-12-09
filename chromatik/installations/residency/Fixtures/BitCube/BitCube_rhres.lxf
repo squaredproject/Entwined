@@ -1,0 +1,52 @@
+{
+  label: "BitCube rhres2",
+  tag: "bitcube",
+
+  parameters: {
+    "host1": { "type": "string", "default": "10.240.100.10", "label": "Host1", "description": "Output host 1" },
+    "universe1": { type: "int", default: 0 },
+    "channel1": { type: "int", default: 0 },
+
+     "byteOrder": { type: "string", default: "RGB", options: ["RGB","GRB","RBG","BGR","BRG","GBR"] }
+  },
+
+  transforms: [
+    /* This fixture's dimensions are in feet. Scale to inches to match other fixtures. */
+    { scale: 12 }
+  ],
+  
+  components: [
+    /* DA: We have 10 cubes along y (JKB: now z), then 13 units of building, then 12 cubes. */
+
+    /* Row 4 */
+    { type: "strip", numPoints: 7, spacing: 4, x: "-106", y: 14, z: "-14", direction: { x: 1 } }, /* Left of doorway */
+    { type: "strip", numPoints: 3, spacing: 4, x: "-78", y: 14, z: "-14", direction: { z: 1 } },  /* Short L, from doorway */
+    { type: "strip", numPoints: 24, spacing: 4, x: "-98", y: 14, z: "-2", direction: { x: 1 } }, /* Long wall */
+    { type: "strip", numPoints: 10, spacing: 4, x: -2, y: 14, z: "-2", direction: { z: -1 } }, /* L to building */
+
+    /* Row 3 */
+    { type: "strip", numPoints: 7, spacing: 4, x: "-106", y: 10, z: "-14", direction: { x: 1 } }, /* Left of doorway */
+    { type: "strip", numPoints: 3, spacing: 4, x: "-78", y: 10, z: "-14", direction: { z: 1 } },  /* Short L, from doorway */
+    { type: "strip", numPoints: 24, spacing: 4, x: "-98", y: 10, z: "-2", direction: { x: 1 } }, /* Long wall */
+    { type: "strip", numPoints: 10, spacing: 4, x: -2, y: 10, z: "-2", direction: { z: -1 } }, /* L to building */
+
+    /* Row 2 */
+    { type: "strip", numPoints: 7, spacing: 4, x: "-106", y: 6, z: "-14", direction: { x: 1 } }, /* Left of doorway */
+    { type: "strip", numPoints: 3, spacing: 4, x: "-78", y: 6, z: "-14", direction: { z: 1 } },  /* Short L, from doorway */
+    { type: "strip", numPoints: 24, spacing: 4, x: "-98", y: 6, z: "-2", direction: { x: 1 } }, /* Long wall */
+    { type: "strip", numPoints: 10, spacing: 4, x: -2, y: 6, z: "-2", direction: { z: -1 } }, /* L to building */
+
+    /* Row 1 */
+    { type: "strip", numPoints: 7, spacing: 4, x: "-106", y: 2, z: "-14", direction: { x: 1 } }, /* Left of doorway */
+    { type: "strip", numPoints: 3, spacing: 4, x: "-78", y: 2, z: "-14", direction: { z: 1 } },  /* Short L, from doorway */
+    { type: "strip", numPoints: 24, spacing: 4, x: "-98", y: 2, z: "-2", direction: { x: 1 } }, /* Long wall */
+    { type: "strip", numPoints: 10, spacing: 4, x: -2, y: 2, z: "-2", direction: { z: -1 } }, /* L to building */
+
+  ],
+
+  outputs: [
+    /* Output 1: Outdoor cubes, left->right, bottom row -> top row */
+    { host: "$host1", protocol: "artnet", universe: "$universe1", channel: "$channel1", byteOrder: "$byteOrder", num: 176 },
+
+  ]
+}

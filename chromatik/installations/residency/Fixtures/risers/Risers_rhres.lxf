@@ -1,0 +1,53 @@
+{
+  label: "Risers rhres",
+  tag: "risers",
+
+  /* Initial setup with 2 universes, I think?  
+   * It's OK for two hosts here to have the same IP and different universes.
+   */
+
+  parameters: {
+    "host1": { "type": "string", "default": "10.250.10.10", "label": "Host1", "description": "Output host 1" },
+    "universe1": { type: "int", default: 10 },
+    "channel1": { type: "int", default: 0 },
+
+    "host2": { "type": "string", "default": "10.250.10.10", "label": "Host2", "description": "Output host 2" },
+    "universe2": { type: "int", default: 20 },
+    "channel2": { type: "int", default: 0 },
+
+    "byteOrder": { type: "string", default: "BRG", options: ["RGB","GRB","RBG","BGR","BRG","GBR"] }
+  },
+
+  transforms: [
+    /* This fixture's dimensions are in inches. */
+    { scale: 1 },
+    { z: -72}
+  ],
+  
+  components: [
+    /* DA: We have two strips, running from about x -300 to +180 or so, y=-250, z= -1600, with 250 LEDs */
+
+    /* DA: Strip 1 */
+    { id: "A", type: "strip", numPoints: 250, spacing: 1.9685, x: 0, y: 0, z: 12, direction: { x: 1 } },
+
+    /* DA: Strip 2 */
+    { id: "B", type: "strip", numPoints: 250, spacing: 1.9685, x: 0, y: 48, z: 0, direction: { x: 1 } },
+  ],
+
+  outputs: [
+    /* Output 1: 1 strip */
+    { host: "$host1", protocol: "artnet", universe: "$universe1", channel: "$channel1", byteOrder: "$byteOrder",
+      segments: [
+        { componentId: "A", reverse: true },
+      ]
+    },
+
+    /* Output 2: 1 strip */
+    { host: "$host2", protocol: "artnet", universe: "$universe2", channel: "$channel2", byteOrder: "$byteOrder",
+      segments: [
+        { componentId: "B", reverse: true },
+      ]
+    },
+
+  ]
+}

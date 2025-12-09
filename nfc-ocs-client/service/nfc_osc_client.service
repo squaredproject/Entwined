@@ -1,0 +1,8 @@
+[Unit]
+Description=NfcOscClient
+
+[Service]
+ExecStart=/home/eldermother/nfc_controller/nfc-ocs-client/run_osc_nfc_client.sh
+
+[Install]
+WantedBy=multi-user.target

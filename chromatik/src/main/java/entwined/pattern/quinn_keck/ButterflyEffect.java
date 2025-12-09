@@ -4,7 +4,7 @@ import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 
@@ -15,7 +15,7 @@ public class ButterflyEffect extends LXPattern {
    final SinLFO brightSin = new SinLFO(minValue, maxValue, 5000);
 
   float startValue = 65;
-  final BoundedParameter satParam = new BoundedParameter("Saturation", startValue, minValue, maxValue);
+  final CompoundParameter satParam = new CompoundParameter("Saturation", startValue, minValue, maxValue);
 
   float periodMs = 10;
   final SawLFO hueSaw = new SawLFO(minValue, maxValue, periodMs);

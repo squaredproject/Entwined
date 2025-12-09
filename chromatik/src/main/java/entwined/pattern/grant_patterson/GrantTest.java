@@ -7,7 +7,7 @@ import heronarts.lx.LXComponent;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.pattern.LXPattern;
 
@@ -17,9 +17,9 @@ Testing position, theta, distance from center
 @LXComponent.Hidden
 class GrantTest extends LXPattern {
  final DiscreteParameter whichParam = new DiscreteParameter("which", 0, 0, 23);
- final BoundedParameter angleParam = new BoundedParameter("angle", 0, 0, 2*Math.PI);
- final BoundedParameter sizeParam = new BoundedParameter("size", .5, .1, 5);
- final BoundedParameter distParam = new BoundedParameter("dist", .5, 0, 1);
+ final CompoundParameter angleParam = new CompoundParameter("angle", 0, 0, 2*Math.PI);
+ final CompoundParameter sizeParam = new CompoundParameter("size", .5, .1, 5);
+ final CompoundParameter distParam = new CompoundParameter("dist", .5, 0, 1);
 
  private class Grower {
    LXModel sculpture;

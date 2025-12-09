@@ -42,6 +42,7 @@ public class NFCServer implements LXLoopTask {
   // XXX - why final on some of these things?
   TSServer server;
   EngineController engineController;
+  Boolean autoPlaying = false;
   HashMap<String, NFCPattern> patternMap;
   HashMap<String, NFCOneShot> oneShotMap;
   NFCPattern[] activities; // XXX must make it size 4, or whatever the size is
@@ -49,9 +50,10 @@ public class NFCServer implements LXLoopTask {
   private boolean enabled = false;
   static final int ONE_SHOT_TIMEOUT_MS = 4000;
 
-  static final int ATTRACT_MODE_TIMEOUT_MS = 1000*60*3;  // 3 minutes; should read from config file.XXX
+  private int ATTRACT_MODE_DELTA_MS = 4000;  // Default value, read from config
   public int attractModeTimeout = -1;
   public boolean attractModeEnable = false;
+  private int numActivities;
 
   // just an engineController.setAutoplay(T/F)
 
@@ -137,17 +139,18 @@ public class NFCServer implements LXLoopTask {
     }
     this.enabled = true;
     this.attractModeEnable = Config.attractModeEnable;
-    this.attractModeTimeout = Config.attractModeEnable ? Config.attractModeTimeout : 0;
+    this.ATTRACT_MODE_DELTA_MS = Config.attractModeEnable ? Config.attractModeTimeout : 0;
     this.engineController = engineController;
     this.lx = lx;
     short port = Config.NFCPort != -1 ? Config.NFCPort : 7777;
-    int numActivities = Config.NFCNumActivities != -1 ? Config.NFCNumActivities : 4;
-    this.activities = new NFCPattern[numActivities];
+    this.numActivities = Config.NFCNumActivities != -1 ? Config.NFCNumActivities : 4;
+    this.activities = new NFCPattern[this.numActivities];
     this.patternMap = new HashMap<String, NFCPattern>();
     this.oneShotMap = new HashMap<String, NFCOneShot>();
     setupPatternMap();
 
     this.server = new TSServer(this, port);
+    System.out.println("NFC Server Init, Attract Mode " + this.attractModeEnable + ", timeout " + this.ATTRACT_MODE_DELTA_MS);
   }
 
   private NFCPattern createOneShot(String name, Class clazz) {
@@ -158,28 +161,32 @@ public class NFCServer implements LXLoopTask {
 
   private void setupPatternMap() {
     // Standard patterns are at known locations on the patterns channel
-    this.patternMap.put("pattern1", new NFCPattern("TwisterGlobal", NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern2", new NFCPattern("MarkLottor", NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern3", new NFCPattern("Ripple",  NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern4", new NFCPattern("Lattice", NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern5", new NFCPattern("Voranoi", NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern6", new NFCPattern("GalaxyCloud", NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern7", new NFCPattern("Fire", NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern8", new NFCPattern("AcidTrip", NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern9", new NFCPattern("SparkleHelix",  NFCPatternType.BASE_PATTERN));
-    this.patternMap.put("pattern10", new NFCPattern("Fumes", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("TwisterGlobal", new NFCPattern("TwisterGlobal", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("MarkLottor", new NFCPattern("MarkLottor", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("Ripple", new NFCPattern("Ripple",  NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("Lattice", new NFCPattern("Lattice", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("Voronoi", new NFCPattern("Voranoi", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("GalaxyCloud", new NFCPattern("GalaxyCloud", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("Fire", new NFCPattern("Fire", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("AcidTrip", new NFCPattern("AcidTrip", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("SparkleHelix", new NFCPattern("SparkleHelix",  NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("Cells", new NFCPattern("Cells", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("RingoDown", new NFCPattern("RingoDown", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("Explosions", new NFCPattern("Explosions", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("ColoredLeaves", new NFCPattern("ColoredLeaves", NFCPatternType.BASE_PATTERN));
+    this.patternMap.put("Fumes", new NFCPattern("Fumes", NFCPatternType.BASE_PATTERN));
     // One shots
-    this.patternMap.put("pattern11", createOneShot("Lightning", Lightning.class));
-    this.patternMap.put("pattern12", createOneShot("Wisps", Wisps.class));
-    this.patternMap.put("pattern13", createOneShot("BassSlam", BassSlam.class));
-    this.patternMap.put("pattern14", createOneShot("Bubbles", Bubbles.class));
-    this.patternMap.put("pattern15", createOneShot("Color_strobe", ColorStrobe.class));
-    this.patternMap.put("pattern16", createOneShot("Rain", Rain.class));
+    this.patternMap.put("Lightning", createOneShot("Lightning", Lightning.class));
+    this.patternMap.put("Wisps", createOneShot("Wisps", Wisps.class));
+    this.patternMap.put("BassSlam", createOneShot("BassSlam", BassSlam.class));
+    this.patternMap.put("Bubbles", createOneShot("Bubbles", Bubbles.class));
+    this.patternMap.put("ColorStrobe", createOneShot("ColorStrobe", ColorStrobe.class));
+    this.patternMap.put("Rain", createOneShot("Rain", Rain.class));
     // Globals
-    this.patternMap.put("pattern17", new NFCPattern("scramble", NFCPatternType.GLOBAL_MODIFIER));
-    this.patternMap.put("pattern18", new NFCPattern("blur", NFCPatternType.GLOBAL_MODIFIER));
-    this.patternMap.put("pattern19", new NFCPattern("speed", NFCPatternType.GLOBAL_MODIFIER));
-    this.patternMap.put("pattern20", new NFCPattern("hue", NFCPatternType.GLOBAL_MODIFIER));
+    this.patternMap.put("Static", new NFCPattern("static", NFCPatternType.GLOBAL_MODIFIER));
+    this.patternMap.put("Blur", new NFCPattern("blur", NFCPatternType.GLOBAL_MODIFIER));
+    this.patternMap.put("Speed", new NFCPattern("speed", NFCPatternType.GLOBAL_MODIFIER));
+    this.patternMap.put("Scramble", new NFCPattern("scramble", NFCPatternType.GLOBAL_MODIFIER));
 
     // XXX - the parameters for the various effects should be set up in the project file...
     // XXX - make absolutely sure (again) that the effects in the effects channel can happen simultaneously
@@ -206,13 +213,44 @@ public class NFCServer implements LXLoopTask {
     oneShot.timeout = EntwinedUtils.millis() + ONE_SHOT_TIMEOUT_MS;
   }
 
+  protected Boolean runningInteractive() {
+    for (NFCPattern activity : this.activities) {
+      if (activity != null) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private void disableGlobalActivity(NFCPattern activity) {
+    if (activity != null && activity.type == NFCPatternType.GLOBAL_MODIFIER) {
+      if (activity.patternName == "speed") {
+        engineController.setSpeed(1.0);
+      }else if (activity.patternName == "static") {
+        engineController.setStatic(0.0);
+      } else if (activity.patternName == "blur") {
+        engineController.setBlur(0.0);
+      } else if (activity.patternName == "scramble") {
+        engineController.setScramble(0.0);
+      }
+    }
+  }
+
   public void loop(double deltaMs) {
     // Turn one shots off, if  they've timed out
     handleOneShots();
 
+    if (runningInteractive()) {
+      attractModeTimeout = EntwinedUtils.millis() + ATTRACT_MODE_DELTA_MS;
+    }
+
     // Turn on attract mode, if we've hit the timeout
     if (attractModeEnable && attractModeTimeout < EntwinedUtils.millis()) {
-      engineController.setAutoplay(true);
+      if (!autoPlaying) {
+        System.out.println("Attract mode enable!!!");
+        engineController.setAutoplay(true);
+        autoPlaying = true;
+      }
     }
     TSClient client = server.available(); // XXX  this needs not to block!
     if (client == null) return;
@@ -228,12 +266,15 @@ public class NFCServer implements LXLoopTask {
       System.out.println("could not find pattern for command " + command);
       return;
     }
+    System.out.println("Trigger received, turn off autoplay");
     engineController.setAutoplay(false);
-    attractModeTimeout = EntwinedUtils.millis() + ATTRACT_MODE_TIMEOUT_MS;
-
-    if (!trigger.onOff) {
-      this.activities[trigger.channelIdx] = null;
-    } else {
+    autoPlaying = false;
+    attractModeTimeout = EntwinedUtils.millis() + ATTRACT_MODE_DELTA_MS;
+    System.out.println("Attract mode enable is " + this.attractModeEnable + ", timeout is " + this.attractModeTimeout + ", currentTime is " + EntwinedUtils.millis());
+    disableGlobalActivity(this.activities[trigger.channelIdx]);
+    if (!trigger.onOff) {  // Turn off
+        this.activities[trigger.channelIdx] = null;
+    } else {  // Turn on
       if (trigger.pattern.type == NFCPatternType.BASE_PATTERN) {
         this.activities[trigger.channelIdx] = trigger.pattern;
         int channelIdx = engineController.baseChannelIndex + trigger.channelIdx;
@@ -241,14 +282,20 @@ public class NFCServer implements LXLoopTask {
             channelIdx,
             trigger.pattern.patternName);
       } else if (trigger.pattern.type == NFCPatternType.ONE_SHOT) {
+        // nb - turn on effects channel in case it got turned off by the
+        // autoplay
+        engineController.setChannelVisibility(engineController.baseChannelIndex + this.numActivities, 1.0);
         triggerOneShot(trigger.pattern.patternName);
       } else if (trigger.pattern.type == NFCPatternType.GLOBAL_MODIFIER) {
-        if (trigger.pattern.patternName == "color1") {
-          engineController.setHue(1.0); // XXX - red, or something..
+        this.activities[trigger.channelIdx] = trigger.pattern;
+        if (trigger.pattern.patternName == "static") {
+          engineController.setStatic(1.0);
         } else if (trigger.pattern.patternName == "blur") {
-          engineController.setBlur(10.0); // XXX what is a good value here?
-        } else if (trigger.pattern.patternName == "speed") {
-          engineController.setSpeed(1.0); // XXX what is a good value?
+          engineController.setBlur(1.0); // XXX what is a good value here?
+        } else if (trigger.pattern.patternName == "scramble") {
+          engineController.setScramble(1.0);
+        } else if (trigger.pattern.patternName == "speed1") {
+          engineController.setSpeed(5.0);
         }
       }
     }
@@ -264,8 +311,12 @@ public class NFCServer implements LXLoopTask {
         numBasePatterns++;
       }
     }
-    if (numBasePatterns > 0) {
-      intensityModifier = 1.0f/numBasePatterns;
+    if (numBasePatterns == 2) {
+      intensityModifier = 0.80f;
+    } else if (numBasePatterns == 3) {
+      intensityModifier = 0.66f;
+    } else if (numBasePatterns >= 4) {
+      intensityModifier = 0.50f;
     }
     int idx = 0;
     for (NFCPattern pattern : this.activities) {
@@ -286,40 +337,31 @@ public class NFCServer implements LXLoopTask {
     String patternName;
     // Format of the command is /channel/<channelid>/pattern/<patternName> ,s [T|F]
     try {
-      if (!command.startsWith("/channel/")) {
-        throw new RuntimeException("Does not start with '/channel/'");
+      int channelStarterIdx = command.indexOf("/channel/");
+      if (channelStarterIdx < 0) {
+        throw new RuntimeException("Could not find '/channel/'");
       }
 
-      channelIdx = Character.getNumericValue(command.charAt(9));
-      if (channelIdx > 9 || channelIdx < 0) {
-        throw new RuntimeException("Channel Idx OOB");
-      }
+      channelIdx = Character.getNumericValue(command.charAt(channelStarterIdx + 9));
 
-      if (!command.substring(10,19).equals("/pattern/")) {
+      if (!command.substring(channelStarterIdx + 10,channelStarterIdx + 19).equals("/pattern/")) {
         throw new RuntimeException("Does not contain '/pattern/' at correct location");
       }
 
       int commaIdx = command.indexOf(",");
-      if (commaIdx < 20) {
+      if (commaIdx < 19) {
         throw new RuntimeException("Does not contain comma characters");
       }
 
-      int patternNameEnd = command.indexOf('/', 20);
-      patternName = command.substring(19, patternNameEnd);
+      int enabledIdx = command.indexOf("/enable");
+      patternName = command.substring(channelStarterIdx + 19, enabledIdx);
 
-      int typeIdx = commaIdx + 1;
-      while (typeIdx < command.length() && command.charAt(typeIdx) == ' '){
-        typeIdx++;
-      }
+      String tfStr = command.substring(commaIdx);
 
-      int tIdx = command.indexOf('T', typeIdx+1);
-      int fIdx = command.indexOf('F', typeIdx+1);
-      if (tIdx > 0) {
-        onOff = true;
-      } else if (fIdx > 0) {
-        onOff = false;
-      } else {
-        throw new RuntimeException("Does not contain T|F signal ");
+      int isT = tfStr.indexOf('T');
+      onOff = false;
+      if (isT >= 0) {
+          onOff = true;
       }
 
       // Okay, string believed to be parseable

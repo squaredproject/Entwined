@@ -3,7 +3,7 @@ package entwined.pattern.lorenz;
 import heronarts.lx.LX;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.model.LXModel;
@@ -61,10 +61,10 @@ public class Fountain extends LXPattern {
   private double nextStateTimerMs = 0;
 
   // Speed of the main wave running over the shrubs in x-direction.
-  final BoundedParameter waveParam = new BoundedParameter("Wave", 4, 1, 10);
+  final CompoundParameter waveParam = new CompoundParameter("Wave", 4, 1, 10);
 
   // Height of the smaller ripple wave running over the shrubs in z-direction.
-  final BoundedParameter rippleParam = new BoundedParameter("Ripple", 0.8, 0, 5);
+  final CompoundParameter rippleParam = new CompoundParameter("Ripple", 0.8, 0, 5);
 
   // A slow large wave to run across the shrubs in global x-axis.
   final SawLFO wave = new SawLFO(0, 2 * Math.PI, 3000);

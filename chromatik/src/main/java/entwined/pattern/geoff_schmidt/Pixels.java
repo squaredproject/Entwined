@@ -3,14 +3,14 @@ package entwined.pattern.geoff_schmidt;
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.modulator.SawLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class Pixels extends LXPattern {
-  final BoundedParameter pSpeed = new BoundedParameter("SPD", 2.0/15.0);
-  final BoundedParameter pLifetime = new BoundedParameter("LIFE", 3.0/15.0);
-  final BoundedParameter pHue = new BoundedParameter("HUE", 0.5);
-  final BoundedParameter pSat = new BoundedParameter("SAT", 0.5);
+  final CompoundParameter pSpeed = new CompoundParameter("SPD", 2.0/15.0);
+  final CompoundParameter pLifetime = new CompoundParameter("LIFE", 3.0/15.0);
+  final CompoundParameter pHue = new CompoundParameter("HUE", 0.5);
+  final CompoundParameter pSat = new CompoundParameter("SAT", 0.5);
   final SawLFO hueLFO = new SawLFO(0.0, 1.0, 1000);
 
   PixelState[] pixelStates;

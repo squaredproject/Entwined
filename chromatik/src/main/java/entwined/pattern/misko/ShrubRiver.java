@@ -4,20 +4,20 @@ import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class ShrubRiver extends LXPattern {
 
   private float speedMult = 1000;
-  final BoundedParameter hue = new BoundedParameter("hue", 135, 0, 360);
-  final BoundedParameter treeHue = new BoundedParameter("treeHue", 135, 0, 360);
-  final BoundedParameter globalTheta = new BoundedParameter("globalTheta", 1.0, 0, 1.0);
-  final BoundedParameter colorSpeed = new BoundedParameter("colorSpeed", 100, 0, 200);
-  final BoundedParameter speedParam = new BoundedParameter("Speed", 5, 20, .01);
-  final BoundedParameter glow = new BoundedParameter("glow", 0.5, 0.1, 1.0);
-  final BoundedParameter color_offset = new BoundedParameter("color_offset", 50, 0.0 , 360);
-  final BoundedParameter width = new BoundedParameter("width", 360, 0.1, 1000.0);
+  final CompoundParameter hue = new CompoundParameter("hue", 135, 0, 360);
+  final CompoundParameter treeHue = new CompoundParameter("treeHue", 135, 0, 360);
+  final CompoundParameter globalTheta = new CompoundParameter("globalTheta", 1.0, 0, 1.0);
+  final CompoundParameter colorSpeed = new CompoundParameter("colorSpeed", 100, 0, 200);
+  final CompoundParameter speedParam = new CompoundParameter("Speed", 5, 20, .01);
+  final CompoundParameter glow = new CompoundParameter("glow", 0.5, 0.1, 1.0);
+  final CompoundParameter color_offset = new CompoundParameter("color_offset", 50, 0.0 , 360);
+  final CompoundParameter width = new CompoundParameter("width", 360, 0.1, 1000.0);
 
   final SawLFO wave = new SawLFO(0, 12, 1000);
   float total_ms=0;
@@ -28,6 +28,7 @@ public class ShrubRiver extends LXPattern {
   }
 
   // XXX wtf is this shrub order thing? I think it's specific to the install, which is... problematic.
+  // BBB this is certainly installation specific
   private int shrub_order[] = { 15, 0, 2, 1 , 4, 3, 9, 10, 13, 12, 11, 5, 6, 8, 7 , 14, 18, 19 , 17, 16 };;
   //private int shrub_order[] = { 0, 1, 2, 3, 4, 9, 10, 5, 6, 7, 8, 11, 12, 13, 14 ,15, 16, 17, 18 };;
   private float shrub_dists[]; // total dist along path to this shrub
@@ -90,8 +91,19 @@ public class ShrubRiver extends LXPattern {
       }
     }
 
+    // shrub_order is hardcoded for a particular installation and will thus fail.
+    // the get function on shrub will throw an IndexOutOfBounds exception
+
     for (int i=0; i<shrub_order.length; i++) {
-      LXModel shrub = model.sub("SHRUB").get(i);
+      LXModel shrub;
+      try {
+        shrub = model.sub("SHRUB").get(i);
+      }
+      catch (Exception e) {
+        // usually happens when the array is longer than the number of shrubs
+        continue;
+      }
+
       float shrub_p = shrub_dists[i];
       float dist_p = (1.0f+shrub_p-time_p)%1.0f;
       if ( (1.0f-dist_p) < dist_p ) {

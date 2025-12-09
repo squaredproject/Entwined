@@ -6,14 +6,14 @@ import entwined.utils.EntwinedUtils;
 import entwined.utils.Vec2D;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.utils.LXUtils;
 
 public class Fumes extends LXPattern {
-  final BoundedParameter speed = new BoundedParameter("SPEED", 2, 0, 20);
-  final BoundedParameter hue = new BoundedParameter("HUE", 0, 0, 360);
-  final BoundedParameter sat = new BoundedParameter("SAT", 25, 0, 100);
+  final CompoundParameter speed = new CompoundParameter("SPEED", 2, 0, 20);
+  final CompoundParameter hue = new CompoundParameter("HUE", 0, 0, 360);
+  final CompoundParameter sat = new CompoundParameter("SAT", 25, 0, 100);
   final int NUM_SITES = 15;
   private Site[] sites = new Site[NUM_SITES];
 

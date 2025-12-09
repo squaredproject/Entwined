@@ -5,7 +5,7 @@ import entwined.core.CubeManager;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class Circles extends LXPattern {
@@ -16,8 +16,8 @@ public class Circles extends LXPattern {
   // private float waveWidth = 1;
   private float speedMult = 1000;
 
-  final BoundedParameter speedParam = new BoundedParameter("Speed", 5, 20, .01);
-  final BoundedParameter waveSlope = new BoundedParameter("wvSlope", 360, 1, 720);
+  final CompoundParameter speedParam = new CompoundParameter("Speed", 5, 20, .01);
+  final CompoundParameter waveSlope = new CompoundParameter("wvSlope", 360, 1, 720);
   final SawLFO wave360 = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
   final SawLFO wave100 = new SawLFO(0, 100, speedParam.getValuef() * speedMult);
 

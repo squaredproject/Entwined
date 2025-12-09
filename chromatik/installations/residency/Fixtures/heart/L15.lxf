@@ -1,0 +1,126 @@
+{
+  "output": {
+    "protocol": "kinet",
+    "kinetPort": 15,
+    "host": "10.222.20.14"
+  },
+  "components": [
+    {
+      "numPoints": 4,
+      "spacing": 3.077768087387085,
+      "x": 2,
+      "y": 122.59375,
+      "z": -23.5,
+      "tag": "edge",
+      "type": "strip",
+      "direction": {
+        "x": 12,
+        "y": 2.75,
+        "z": 0
+      }
+    },
+    {
+      "numPoints": 3,
+      "spacing": 3.7647857666015625,
+      "x": 14,
+      "y": 126,
+      "z": -22.95833396911621,
+      "tag": "edge",
+      "type": "strip",
+      "direction": {
+        "x": 9,
+        "y": 6,
+        "z": 3.25
+      }
+    },
+    {
+      "numPoints": 3,
+      "spacing": 3.9228675365448,
+      "x": 22.5,
+      "y": 131.9166717529297,
+      "z": -18.83333396911621,
+      "tag": "edge",
+      "type": "strip",
+      "direction": {
+        "x": 6,
+        "y": 5.5,
+        "z": 8.5
+      }
+    },
+    {
+      "numPoints": 3,
+      "spacing": 3.80879807472229,
+      "x": 27.5,
+      "y": 136.8333282470703,
+      "z": -9.875,
+      "tag": "edge",
+      "type": "strip",
+      "direction": {
+        "x": 0,
+        "y": 2,
+        "z": 11.25
+      }
+    },
+    {
+      "numPoints": 3,
+      "spacing": 3.80879807472229,
+      "x": 27.5,
+      "y": 138.1666717529297,
+      "z": 2.375,
+      "tag": "edge",
+      "type": "strip",
+      "direction": {
+        "x": 0,
+        "y": -2,
+        "z": 11.25
+      }
+    },
+    {
+      "numPoints": 3,
+      "spacing": 3.9228675365448,
+      "x": 26.5,
+      "y": 135.5833282470703,
+      "z": 13.166666984558105,
+      "tag": "edge",
+      "type": "strip",
+      "direction": {
+        "x": -6,
+        "y": -5.5,
+        "z": 8.5
+      }
+    },
+    {
+      "numPoints": 3,
+      "spacing": 3.7647857666015625,
+      "x": 20,
+      "y": 130,
+      "z": 20.79166603088379,
+      "tag": "edge",
+      "type": "strip",
+      "direction": {
+        "x": -9,
+        "y": -6,
+        "z": 3.25
+      }
+    },
+    {
+      "numPoints": 4,
+      "spacing": 3.077768087387085,
+      "x": 11,
+      "y": 124.65625,
+      "z": 23.5,
+      "tag": "edge",
+      "type": "strip",
+      "direction": {
+        "x": -12,
+        "y": -2.75,
+        "z": 0
+      }
+    }
+  ],
+  "label": "L15",
+  "tags": [
+    "L15",
+    "exterior"
+  ]
+}

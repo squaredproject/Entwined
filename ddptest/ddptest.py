@@ -69,7 +69,9 @@ COLOR = "blue"
 palette = {
     'red': (0xff, 0x00, 0x00),
     'green': (0x00, 0xff, 0x00),
-    'blue': (0x00, 0x00, 0xbb),
+    'blue': (0x00, 0x00, 0xff),
+    'ltblue': (0xad, 0xd8, 0xe6),
+    'dimblue': (0x1a, 0x22, 0x39),
     'yellow': (0xff, 0xff, 0x00),
     'black': (0x00, 0x00, 0x00),
     'white': (0xff, 0xff, 0xff),
@@ -232,6 +234,12 @@ def pattern_palette():
 def pattern_black():
     global leds
     color_fill(leds, palette['black'])
+    leds_send(leds)
+
+# set to color in palette and exit
+def pattern_color(color: str):
+    global leds
+    color_fill(leds, palette[color])
     leds_send(leds)
 
 # ring around the HSV, high fps
@@ -406,6 +414,31 @@ def pattern_strobe():
         leds_send(leds)
         time.sleep(0.3)
 
+def pattern_strobe_white():
+    global leds, palette
+    while True:
+        leds_color_fill ( palette["black"] )
+        leds_send(leds)
+        time.sleep(0.3)
+        leds_color_fill ( palette["white"] )
+        leds_send(leds)
+        time.sleep(0.3)
+
+def pattern_strobe_all():
+    global leds, palette
+    while True:
+        leds_color_fill ( palette["white"] )
+        leds_send(leds)
+        time.sleep(0.3) # white is important because it'll show a color cast
+        leds_color_fill ( palette["red"] )
+        leds_send(leds)
+        time.sleep(0.9)
+        leds_color_fill ( palette["green"] )
+        leds_send(leds)
+        time.sleep(0.3)
+        leds_color_fill ( palette["blue"] )
+        leds_send(leds)
+        time.sleep(0.3)
 
 palette_order = [
     (0xff, 0x00, 0x00),
@@ -461,17 +494,17 @@ def arg_init():
     if args.lpc:
         LEDS_PER_CUBE = args.lpc
     if args.cubes:
-        args.leds = args.cubes * LEDS_PER_CUBE
+        NUM_LEDS = args.cubes * LEDS_PER_CUBE
     # and so is this! must be last
-    if args.leds:
+    elif args.leds:   # there is a default, so this will be true
         print( "arg leds: {}".format(args.leds))
         NUM_LEDS = args.leds
-        leds = bytearray(NUM_LEDS * 3) 
-    if args.color:
-        COLOR = args.color
-    if (args.leds * 3 > 1490):
+    if (NUM_LEDS * 3 > 1490):
         print( " MTU will exceed 1500, aborting ")
         exit(-1)
+    leds = bytearray(NUM_LEDS * 3)
+    if args.color:
+        COLOR = args.color
 
     return args
 
@@ -511,12 +544,16 @@ def main():
         pattern_cube_color(args.cubes)
     elif args.pattern == 'strobe':
         pattern_strobe()
-    elif args.pattern == 'black':
-        pattern_black()
+    elif args.pattern == 'strobe_white':
+        pattern_strobe_white()
+    elif args.pattern == 'strobe_all':
+        pattern_strobe_all()
     elif args.pattern == 'cube_color':
         pattern_cube_color()
+    elif args.pattern in palette:
+        pattern_color(args.pattern)
     else:
-        print(' pattern must be one of palette, hsv, order, shrub_rank, shrub_rank_order, cube_order, cube_color')
+        print(' pattern must be one of palette, hsv, order, shrub_rank, shrub_rank_order, cube_order, cube_color, strobe, strobe_white')
 
 
 

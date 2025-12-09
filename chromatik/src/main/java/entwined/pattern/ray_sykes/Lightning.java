@@ -11,7 +11,7 @@ import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BooleanParameter;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.utils.LXUtils;
 
 
@@ -19,11 +19,11 @@ public class Lightning extends TSTriggerablePattern {
   int nShrubs = model.sub("SHRUB").size();
   int nTrees = model.sub("TREE").size();
   private LightningLine[] bolts = new LightningLine[nTrees + nShrubs];
-  final BoundedParameter boltAngle = new BoundedParameter("Angle", 35, 0, 55);
-  final BoundedParameter propagationSpeed = new BoundedParameter("Speed", 10, 0.5, 20);
-  final BoundedParameter maxBoltWidth = new BoundedParameter("Width", 60, 20, 150);
-  final BoundedParameter lightningChance = new BoundedParameter("Chance", 5, 1, 10);
-  final BoundedParameter forkingChance = new BoundedParameter("Fork", 3, 1, 10);
+  final CompoundParameter boltAngle = new CompoundParameter("Angle", 35, 0, 55);
+  final CompoundParameter propagationSpeed = new CompoundParameter("Speed", 10, 0.5, 20);
+  final CompoundParameter maxBoltWidth = new CompoundParameter("Width", 60, 20, 150);
+  final CompoundParameter lightningChance = new CompoundParameter("Chance", 5, 1, 10);
+  final CompoundParameter forkingChance = new CompoundParameter("Fork", 3, 1, 10);
   final BooleanParameter firesOnBeat = new BooleanParameter("Beat");
   int[] randomCheckTimeOuts = new int[nTrees + nShrubs];
   private final ModelBuffer myBuffer = new ModelBuffer(lx, LXColor.BLACK);

@@ -15,19 +15,24 @@ Chromatik is the newest platform for art lighting made by [Mark Slee](https://mc
 The latest version of LX Studio, it runs without the Processing engine,
 avoiding complexity and making the software faster and easier to install.
 
-Chromatik is the way to run Entwined! 
-[Please see the readme in the Chromatik directory](chromatik/README.md).
+Chromatik is the way to run Entwined!
+[Please see the readme in the Chromatik directory](chromatik/README.md) or [Video walkthrough here](https://drive.google.com/drive/folders/1ZngvyDN9qjn0nojwjSn4Cn7enOzynoKP)
 
-The `oldlx` directory continues to exist, and supports all the versions before 2022. 
+The `oldlx` directory continues to exist, and supports all the versions before 2022.
 
 # Running Entwined prior to 2022
 
 Some older installations (reno, scottsdale, tiburon, pastoria) still
-use the older version of LX studio. 
-[This version is still in active use, please see the `oldlx` directory](oldlx/README.md). 
+use the older version of LX studio.
+[This version is still in active use, please see the `oldlx` directory](oldlx/README.md).
 
 It has been reported that newer MacOS likely requires Processing 4 due to its
 use of Java. Please use Processing 4 (available from Processing) to resolve those issues.
+
+# Making Patterns for Elder Mother
+
+See the complete README on pattern development [here](https://github.com/squaredproject/Entwined/tree/master/chromatik/src/main/java/entwined/pattern).
+OR follow through with our full [video tutorial](https://drive.google.com/drive/folders/1ZngvyDN9qjn0nojwjSn4Cn7enOzynoKP?usp=sharing)
 
 # Testing pieces in the shop
 
@@ -44,6 +49,7 @@ see the `ddptest` subdirectory.
 ## Testing a shrub
 
 There is a service 'ddptest.service'. When installed and activated as per the usual:
+
 ```
 sudo cp ddptest.service /etc/systemd/server
 sudo systemctl start ddptest.service
@@ -82,4 +88,3 @@ You'll have to register the public key of of the rpi with your account. It's pre
 Go to `~/.ssh`. `cat id_ed25519.pub`, copy the output.
 If there is no ed25519 public key generate one: `ssh-keygen -t ed25519 -C "my-email-address"`
 Go to github.com with your login. Go to your profile. Go to settings under your profile (right side). Add a key, which is in the left menu. Use the friendly add button and paste your key in. After you've done all your work, you can delete that key (for proper security).
-

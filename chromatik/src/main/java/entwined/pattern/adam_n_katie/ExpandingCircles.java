@@ -3,7 +3,7 @@ package entwined.pattern.adam_n_katie;
 import entwined.utils.Vec3D;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 /**
 Bright expanding circles starting at random locations.
@@ -13,14 +13,14 @@ public class ExpandingCircles extends AutographedPattern{
   static final float durationMaxS = 30.0f;
 
   // Parameters (to show up on UI).
-  final BoundedParameter durationParam =
-    new BoundedParameter("Duration", 30, 0, 100);
-  final BoundedParameter widthParam =
-    new BoundedParameter("Width", 50, 0, 100);
-  final BoundedParameter crestParam =
-    new BoundedParameter("Crest", 3, 0, 100);
-  final BoundedParameter fadeParam =
-    new BoundedParameter("Fade", 8, 1, 100);
+  final CompoundParameter durationParam =
+    new CompoundParameter("Duration", 30, 0, 100);
+  final CompoundParameter widthParam =
+    new CompoundParameter("Width", 50, 0, 100);
+  final CompoundParameter crestParam =
+    new CompoundParameter("Crest", 3, 0, 100);
+  final CompoundParameter fadeParam =
+    new CompoundParameter("Fade", 8, 1, 100);
 
   // Variables.
   private float circleSourcePosX0To1 = 0.5f;

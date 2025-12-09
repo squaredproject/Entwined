@@ -1,0 +1,27 @@
+{
+  "label": "B95",
+  "tags": [
+    "B95",
+    "head",
+    "accent",
+    "4",
+    "short",
+    "1",
+    "10.4.1.188"
+  ],
+  "output": {
+    "protocol": "kinet",
+    "kinetPort": "1",
+    "host": "10.4.1.188"
+  },
+  "components": [
+    {
+      "x": 233.0,
+      "y": -8.0,
+      "z": 0.0,
+      "type": "strip",
+      "direction": { "x": 1 },
+      "numPoints": 20
+    }
+  ]
+}

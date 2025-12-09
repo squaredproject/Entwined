@@ -10,15 +10,15 @@ import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.LinearEnvelope;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.utils.LXUtils;
 
 public class Bubbles extends TSTriggerablePattern {
   public final DiscreteParameter ballCount = new DiscreteParameter("NUM", 10, 1, 150);
-  final BoundedParameter maxRadius = new BoundedParameter("RAD", 50, 5, 100);
-  final BoundedParameter speed = new BoundedParameter("SPEED", 1, 0, 5);
-  final BoundedParameter hue = new BoundedParameter("HUE", 0, 0, 360);
+  final CompoundParameter maxRadius = new CompoundParameter("RAD", 50, 5, 100);
+  final CompoundParameter speed = new CompoundParameter("SPEED", 1, 0, 5);
+  final CompoundParameter hue = new CompoundParameter("HUE", 0, 0, 360);
   private LinearEnvelope decay = new LinearEnvelope(0,0,2000);
   private int numBubbles = 0;
   private List<Bubble> bubbles;

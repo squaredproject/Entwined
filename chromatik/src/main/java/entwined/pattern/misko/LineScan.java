@@ -4,7 +4,7 @@ import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class LineScan extends LXPattern {
@@ -16,11 +16,11 @@ public class LineScan extends LXPattern {
   private float nz = 0;
   private float n = 0;
   private double total_ms =0.0;
-  final BoundedParameter speedParam = new BoundedParameter("Speed", 5, 20, .01);
-  final BoundedParameter waveSlope = new BoundedParameter("wvSlope", 360, 1, 720);
-  final BoundedParameter theta = new BoundedParameter("theta", 45, 0, 360);
-  final BoundedParameter hue = new BoundedParameter("hue", 45, 0, 360);
-  final BoundedParameter wave_width = new BoundedParameter("wvWidth", 500, 10, 1500);
+  final CompoundParameter speedParam = new CompoundParameter("Speed", 5, 20, .01);
+  final CompoundParameter waveSlope = new CompoundParameter("wvSlope", 360, 1, 720);
+  final CompoundParameter theta = new CompoundParameter("theta", 45, 0, 360);
+  final CompoundParameter hue = new CompoundParameter("hue", 45, 0, 360);
+  final CompoundParameter wave_width = new CompoundParameter("wvWidth", 500, 10, 1500);
   final SawLFO wave360 = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
   final SinLFO wave100 = new SinLFO(0, 100, speedParam.getValuef() * speedMult);
 

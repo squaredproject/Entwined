@@ -1,0 +1,81 @@
+{
+  /* BitCube garden at RHRES */
+  /* LXF file by JKB */
+
+  label: "BitCube garden",
+  tag: "bitcube",
+
+  parameters: {
+    "host1": { "type": "string", "default": "10.240.100.13", "label": "Host1", "description": "Output host 1" },
+    "universe1": { type: "int", default: 10 },
+    "channel1": { type: "int", default: 0 },
+
+    "pOffsetX": { type: "int", default: 40, "description": "sporto stack offset on X axis" },
+    "pOffsetZ": { type: "int", default: 14, "description": "porto stack offset on Z axis" },
+
+    "host2": { "type": "string", "default": "10.240.100.12", "label": "Host2", "description": "Output host 2" },
+    "universe2": { type: "int", default: 30 },
+    "channel2": { type: "int", default: 0 },
+
+    "byteOrder": { type: "string", default: "RGB", options: ["RGB","GRB","RBG","BGR","BRG","GBR"] }
+  },
+
+  transforms: [
+    /* This fixture's dimensions are in feet. Scale to inches to match other fixtures. */
+    { scale: 12 },
+    { yaw: -90 }
+  ],
+  
+  components: [
+
+    /* L */
+    { id: "A", type: "point", spacing: 4, x: "-28", y: 2, z: -2 },
+    { id: "B", type: "strip", numPoints: 2, instances: 8, spacing: 4, x: "-24+($instance*4)", y: 2, z: -2, direction: { y: 1 } },
+    { id: "C", type: "strip", numPoints: 2, instances: 5, spacing: 4, x: 4, y: 2, z: "-6-($instance*4)", direction: { y: 1 } },
+
+    /* Porto stack */ 
+    { id: "P", type: "strip", numPoints: 2, spacing: 4, x: "$pOffsetX", y: 2, z: "0-$pOffsetZ", direction: { y: 1 } },
+    { id: "Q", type: "strip", numPoints: 2, instances: 7, spacing: 4, x: "$pOffsetX-4", y: 2, z: "0-$pOffsetZ-($instance*4)", direction: { y: 1 } },
+    { id: "R", type: "strip", numPoints: 2, instances: 3, spacing: 4, x: "$pOffsetX-8-($instance*4)", y: 2, z: "0-$pOffsetZ-24", direction: { y: 1 } }
+
+  ],
+
+  outputs: [
+    /* Output 1: L */
+    { host: "$host1", protocol: "artnet", universe: "$universe1", channel: "$channel1", byteOrder: "$byteOrder",
+      segments: [
+        { componentId: "A" },
+        { componentId: "B[0]", reverse: false },
+        { componentId: "B[1]", reverse: true },
+        { componentId: "B[2]", reverse: false },
+        { componentId: "B[3]", reverse: true },
+        { componentId: "B[4]", reverse: false },
+        { componentId: "B[5]", reverse: true },
+        { componentId: "B[6]", reverse: false },
+        { componentId: "B[7]", reverse: truee },
+        { componentId: "C[0]", reverse: false },
+        { componentId: "C[1]", reverse: true },
+        { componentId: "C[2]", reverse: false },
+        { componentId: "C[3]", reverse: true },
+        { componentId: "C[4]", reverse: false }
+      ]
+    },
+
+    /* Output 2: Porto stack */ 
+    { host: "$host2", protocol: "artnet", universe: "$universe2", channel: "$channel2", byteOrder: "$byteOrder",
+      segments: [
+        { componentId: "P" },
+        { componentId: "Q[0]", reverse: true },
+        { componentId: "Q[1]", reverse: false },
+        { componentId: "Q[2]", reverse: true },
+        { componentId: "Q[3]", reverse: false },
+        { componentId: "Q[4]", reverse: true },
+        { componentId: "Q[5]", reverse: false },
+        { componentId: "Q[6]", reverse: true },
+        { componentId: "R[0]", reverse: false },
+        { componentId: "R[1]", reverse: true },
+        { componentId: "R[2]", reverse: false }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+[
+	{
+		"canopyMajorLengths" : [300, 200, 120],
+		"layerBaseHeights" : [220, 260, 300],
+		"ry" :90,
+		"x" : 0,
+		"z" : 0,
+		"pieceId": "tree-large",
+    	"center": true
+	}
+]

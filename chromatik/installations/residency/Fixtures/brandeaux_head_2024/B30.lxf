@@ -1,0 +1,27 @@
+{
+  "label": "B30",
+  "tags": [
+    "B30",
+    "head",
+    "mouth2left",
+    "7",
+    "10.4.170.112"
+  ],
+  "output": {
+    "protocol": "kinet",
+    "kinetPort": "7",
+    "host": "10.4.170.112"
+  },
+  "components": [
+    {
+      "type": "strip",
+      "instances": 6,
+      "x": "161.05 - $instance*1.65",
+      "y": -91.0,
+      "z": 0.0,
+      "direction": { "y": 1 },
+      "spacing": 1.65,
+      "numPoints": 12
+    }
+  ]
+}

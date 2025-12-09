@@ -2,7 +2,7 @@ package entwined.pattern.anon;
 
 import heronarts.lx.LX;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.transform.LXProjection;
 import heronarts.lx.transform.LXVector;
@@ -21,7 +21,7 @@ public class SeeSaw extends LXPattern {
   final SinLFO rx = new SinLFO(-70, 70, 11000);
   final SinLFO width = new SinLFO(1*FEET, 8*FEET, 13000);
 
-  final BoundedParameter bgLevel = new BoundedParameter("BG", 25, 0, 50);
+  final CompoundParameter bgLevel = new CompoundParameter("BG", 25, 0, 50);
 
   public SeeSaw(LX lx) {
     super(lx);

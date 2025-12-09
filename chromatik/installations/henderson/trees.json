@@ -1,0 +1,18 @@
+[
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 247,
+		"x" : -105,
+		"z" : -95,
+		"pieceId" : "piece-5"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [24],
+		"ry" : 157,
+		"x" : 108,
+		"z" : 85,
+		"pieceId" : "piece-6"
+	}
+]

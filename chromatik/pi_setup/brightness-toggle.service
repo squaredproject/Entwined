@@ -3,8 +3,8 @@ Description=Entwined Brightness Toggle
 After=network.target
 
 [Service]
-ExecStart=/home/ent/Entwined/oldlx/brightness-toggle.sh
-WorkingDirectory=/home/ent/Entwined/oldlx
+ExecStart=/home/ent/Entwined/chromatik/brightness-toggle.sh
+WorkingDirectory=/home/ent/Entwined/chromatik
 StandardOutput=inherit
 StandardError=inherit
 Restart=always

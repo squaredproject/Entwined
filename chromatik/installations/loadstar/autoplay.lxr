@@ -1,0 +1,4118 @@
+{
+  "version": "0.4.2-SNAPSHOT",
+  "timestamp": 1723229103315,
+  "clips": [
+    {
+      "path": "/channel/1",
+      "clip": {
+        "class": "heronarts.lx.clip.LXChannelClip",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true,
+          "modulationsExpanded": true
+        },
+        "parameters": {
+          "label": "CircleBreath-1",
+          "running": false,
+          "trigger": false,
+          "length": 441223.9414036101,
+          "loop": true,
+          "snapshotEnabled": true,
+          "snapshotTransitionEnabled": true,
+          "automationEnabled": true,
+          "customSnapshotTransition": false
+        },
+        "children": {
+          "snapshot": {
+            "class": "heronarts.lx.snapshot.LXClipSnapshot",
+            "internal": {
+              "modulationColor": 0,
+              "modulationControlsExpanded": true,
+              "modulationsExpanded": true
+            },
+            "parameters": {
+              "label": "Snapshot",
+              "transitionTimeSecs": 1.0
+            },
+            "children": {},
+            "views": [
+              {
+                "scope": "MIXER",
+                "type": "CHANNEL_FADER",
+                "enabled": true,
+                "channelPath": "/lx/mixer/channel/1",
+                "channelEnabled": true,
+                "channelFader": 0.0
+              },
+              {
+                "scope": "MIXER",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/1/crossfadeGroup",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/1/compositeMode",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "ACTIVE_PATTERN",
+                "enabled": true,
+                "channelPath": "/lx/mixer/channel/1",
+                "activePatternIndex": 9
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/1/pattern/10/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/1/pattern/10/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/1/pattern/10/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/1/pattern/10/recall",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/1/pattern/10/compositeMode",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/1/pattern/10/compositeLevel",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/1/pattern/10/hue",
+                "value": 200.0,
+                "normalizedValue": 0.5555555555555556
+              }
+            ]
+          }
+        },
+        "index": 0,
+        "parameterLanes": [
+          {
+            "laneType": "midiNote",
+            "events": []
+          },
+          {
+            "laneType": "pattern",
+            "events": [
+              {
+                "cursor": 0.0,
+                "patternIndex": 9
+              },
+              {
+                "cursor": 24655.998632598556,
+                "patternIndex": 27
+              },
+              {
+                "cursor": 43382.58654333597,
+                "patternIndex": 20
+              },
+              {
+                "cursor": 62115.40937596871,
+                "patternIndex": 72
+              },
+              {
+                "cursor": 80834.72321116058,
+                "patternIndex": 3
+              },
+              {
+                "cursor": 99561.31112189581,
+                "patternIndex": 76
+              },
+              {
+                "cursor": 118286.85987898197,
+                "patternIndex": 1
+              },
+              {
+                "cursor": 137013.44778971712,
+                "patternIndex": 53
+              },
+              {
+                "cursor": 155744.19231504863,
+                "patternIndex": 24
+              },
+              {
+                "cursor": 174462.46699659104,
+                "patternIndex": 79
+              },
+              {
+                "cursor": 193194.25067557133,
+                "patternIndex": 22
+              },
+              {
+                "cursor": 211916.68197170994,
+                "patternIndex": 33
+              },
+              {
+                "cursor": 230637.03496055026,
+                "patternIndex": 58
+              },
+              {
+                "cursor": 249360.50541033785,
+                "patternIndex": 23
+              },
+              {
+                "cursor": 262255.36304222886,
+                "patternIndex": 80
+              },
+              {
+                "cursor": 268132.81608163216,
+                "patternIndex": 16
+              },
+              {
+                "cursor": 276160.2780210582,
+                "patternIndex": 35
+              },
+              {
+                "cursor": 288193.67727782816,
+                "patternIndex": 11
+              },
+              {
+                "cursor": 302820.80404279346,
+                "patternIndex": 23
+              },
+              {
+                "cursor": 321531.8046487866,
+                "patternIndex": 2
+              },
+              {
+                "cursor": 340277.0973252007,
+                "patternIndex": 13
+              },
+              {
+                "cursor": 344199.74398321094,
+                "patternIndex": 42
+              },
+              {
+                "cursor": 347999.7265673664,
+                "patternIndex": 65
+              },
+              {
+                "cursor": 349611.9321081818,
+                "patternIndex": 2
+              },
+              {
+                "cursor": 354157.48408824607,
+                "patternIndex": 53
+              },
+              {
+                "cursor": 358704.04495788534,
+                "patternIndex": 10
+              },
+              {
+                "cursor": 359690.4867398202,
+                "patternIndex": 4
+              },
+              {
+                "cursor": 364233.76871834067,
+                "patternIndex": 63
+              },
+              {
+                "cursor": 365553.9007271995,
+                "patternIndex": 58
+              },
+              {
+                "cursor": 370098.44381768926,
+                "patternIndex": 34
+              },
+              {
+                "cursor": 374643.4913529661,
+                "patternIndex": 38
+              },
+              {
+                "cursor": 379185.0077747302,
+                "patternIndex": 49
+              },
+              {
+                "cursor": 383732.3253115491,
+                "patternIndex": 59
+              },
+              {
+                "cursor": 388280.3995155491,
+                "patternIndex": 32
+              },
+              {
+                "cursor": 395899.5243078467,
+                "patternIndex": 25
+              },
+              {
+                "cursor": 416424.4765096687,
+                "patternIndex": 45
+              },
+              {
+                "cursor": 419084.6543177977,
+                "patternIndex": 28
+              }
+            ]
+          },
+          {
+            "laneType": "parameter",
+            "events": [
+              {
+                "cursor": 2554.239669529557,
+                "normalized": 0.011428571306169033
+              },
+              {
+                "cursor": 2585.414279003067,
+                "normalized": 0.0342857139185071
+              },
+              {
+                "cursor": 2617.628042125694,
+                "normalized": 0.04571428522467613
+              },
+              {
+                "cursor": 2634.2545005115658,
+                "normalized": 0.057142856530845165
+              },
+              {
+                "cursor": 2649.8418052483207,
+                "normalized": 0.0685714278370142
+              },
+              {
+                "cursor": 2666.4682636341927,
+                "normalized": 0.07999999914318323
+              },
+              {
+                "cursor": 2682.0555683709476,
+                "normalized": 0.1028571417555213
+              },
+              {
+                "cursor": 2697.6428731077026,
+                "normalized": 0.11428571306169033
+              },
+              {
+                "cursor": 2794.284162475583,
+                "normalized": 0.12571428436785936
+              },
+              {
+                "cursor": 2875.3381471067087,
+                "normalized": 0.1371428556740284
+              },
+              {
+                "cursor": 2957.4312853869515,
+                "normalized": 0.15999999828636646
+              },
+              {
+                "cursor": 2989.645048509578,
+                "normalized": 0.1714285695925355
+              },
+              {
+                "cursor": 3020.819657983088,
+                "normalized": 0.18285714089870453
+              },
+              {
+                "cursor": 3054.0725747548317,
+                "normalized": 0.19428571220487356
+              },
+              {
+                "cursor": 3086.2863378774587,
+                "normalized": 0.21714285481721163
+              },
+              {
+                "cursor": 3119.5392546492026,
+                "normalized": 0.22857142612338066
+              },
+              {
+                "cursor": 3151.7530177718295,
+                "normalized": 0.2399999974295497
+              },
+              {
+                "cursor": 3185.0059345435734,
+                "normalized": 0.2514285687357187
+              },
+              {
+                "cursor": 3263.9816118764647,
+                "normalized": 0.26285714004188776
+              },
+              {
+                "cursor": 3280.6080702623367,
+                "normalized": 0.2742857113480568
+              },
+              {
+                "cursor": 3296.1953749990917,
+                "normalized": 0.2857142826542258
+              },
+              {
+                "cursor": 3328.4091381217186,
+                "normalized": 0.3085714252665639
+              },
+              {
+                "cursor": 3377.2493596302174,
+                "normalized": 0.3199999965727329
+              },
+              {
+                "cursor": 3392.8366643669724,
+                "normalized": 0.33142856787890196
+              },
+              {
+                "cursor": 3425.0504274895993,
+                "normalized": 0.342857139185071
+              },
+              {
+                "cursor": 3441.6768858754713,
+                "normalized": 0.35428571049124
+              },
+              {
+                "cursor": 3473.8906489980977,
+                "normalized": 0.36571428179740906
+              },
+              {
+                "cursor": 3506.1044121207246,
+                "normalized": 0.3885714244097471
+              },
+              {
+                "cursor": 3522.7308705065966,
+                "normalized": 0.39999999571591616
+              },
+              {
+                "cursor": 3555.9837872783405,
+                "normalized": 0.4114285670220852
+              },
+              {
+                "cursor": 3571.5710920150955,
+                "normalized": 0.4228571383282542
+              },
+              {
+                "cursor": 3669.251535032093,
+                "normalized": 0.43428570963442326
+              },
+              {
+                "cursor": 3750.3055196632185,
+                "normalized": 0.4457142809405923
+              },
+              {
+                "cursor": 3814.7330459084724,
+                "normalized": 0.4571428522467613
+              },
+              {
+                "cursor": 3831.3595042943443,
+                "normalized": 0.4799999948590994
+              },
+              {
+                "cursor": 3847.9859626802163,
+                "normalized": 0.4914285661652684
+              },
+              {
+                "cursor": 3863.5732674169712,
+                "normalized": 0.5028571374714375
+              },
+              {
+                "cursor": 3911.374335276353,
+                "normalized": 0.5142857087776065
+              },
+              {
+                "cursor": 3926.961640013108,
+                "normalized": 0.5257142800837755
+              },
+              {
+                "cursor": 3959.1754031357345,
+                "normalized": 0.5371428513899446
+              },
+              {
+                "cursor": 4055.8166925036153,
+                "normalized": 0.5485714226961136
+              },
+              {
+                "cursor": 4089.069609275359,
+                "normalized": 0.5599999940022826
+              },
+              {
+                "cursor": 4153.497135520613,
+                "normalized": 0.5714285653084517
+              },
+              {
+                "cursor": 4169.0844402573675,
+                "normalized": 0.5828571366146207
+              },
+              {
+                "cursor": 4202.337357029111,
+                "normalized": 0.5942857079207897
+              },
+              {
+                "cursor": 4218.963815414983,
+                "normalized": 0.6171428505331278
+              },
+              {
+                "cursor": 4250.138424888493,
+                "normalized": 0.6285714218392968
+              },
+              {
+                "cursor": 4266.764883274365,
+                "normalized": 0.6399999931454659
+              },
+              {
+                "cursor": 4283.391341660237,
+                "normalized": 0.6514285644516349
+              },
+              {
+                "cursor": 4315.605104782864,
+                "normalized": 0.6628571357578039
+              },
+              {
+                "cursor": 4332.231563168736,
+                "normalized": 0.674285707063973
+              },
+              {
+                "cursor": 4378.993477379001,
+                "normalized": 0.685714278370142
+              },
+              {
+                "cursor": 4395.619935764873,
+                "normalized": 0.697142849676311
+              },
+              {
+                "cursor": 4460.047462010127,
+                "normalized": 0.70857142098248
+              },
+              {
+                "cursor": 4542.14060029037,
+                "normalized": 0.7199999922886491
+              },
+              {
+                "cursor": 4606.568126535623,
+                "normalized": 0.7314285635948181
+              },
+              {
+                "cursor": 4654.369194395005,
+                "normalized": 0.7428571349009871
+              },
+              {
+                "cursor": 4687.622111166749,
+                "normalized": 0.7542857062071562
+              },
+              {
+                "cursor": 4703.209415903504,
+                "normalized": 0.7657142775133252
+              },
+              {
+                "cursor": 4751.010483762886,
+                "normalized": 0.7771428488194942
+              },
+              {
+                "cursor": 4832.064468394012,
+                "normalized": 0.7885714201256633
+              },
+              {
+                "cursor": 4912.079299376021,
+                "normalized": 0.7999999914318323
+              },
+              {
+                "cursor": 4958.841213586285,
+                "normalized": 0.8114285627380013
+              },
+              {
+                "cursor": 5024.307893480656,
+                "normalized": 0.8228571340441704
+              },
+              {
+                "cursor": 5056.521656603283,
+                "normalized": 0.8342857053503394
+              },
+              {
+                "cursor": 5073.148114989155,
+                "normalized": 0.8457142766565084
+              },
+              {
+                "cursor": 5105.361878111782,
+                "normalized": 0.8685714192688465
+              },
+              {
+                "cursor": 5153.162945971164,
+                "normalized": 0.8799999905750155
+              },
+              {
+                "cursor": 5185.376709093791,
+                "normalized": 0.8914285618811846
+              },
+              {
+                "cursor": 5233.177776953173,
+                "normalized": 0.9028571331873536
+              },
+              {
+                "cursor": 5329.8190663210535,
+                "normalized": 0.9257142757996917
+              },
+              {
+                "cursor": 5362.03282944368,
+                "normalized": 0.9485714184120297
+              },
+              {
+                "cursor": 5378.659287829552,
+                "normalized": 0.9599999897181988
+              },
+              {
+                "cursor": 5507.51434032006,
+                "normalized": 0.9714285610243678
+              },
+              {
+                "cursor": 5539.728103442687,
+                "normalized": 0.9828571323305368
+              },
+              {
+                "cursor": 5587.529171302069,
+                "normalized": 0.9942857036367059
+              },
+              {
+                "cursor": 5604.155629687941,
+                "normalized": 1.0
+              },
+              {
+                "cursor": 201034.66495815813,
+                "normalized": 0.9771428573876619
+              },
+              {
+                "cursor": 201051.291416544,
+                "normalized": 0.9428571406751871
+              },
+              {
+                "cursor": 201083.50517966662,
+                "normalized": 0.9085714239627123
+              },
+              {
+                "cursor": 201099.09248440337,
+                "normalized": 0.8971428526565433
+              },
+              {
+                "cursor": 201115.71894278924,
+                "normalized": 0.8857142813503742
+              },
+              {
+                "cursor": 201131.306247526,
+                "normalized": 0.8742857100442052
+              },
+              {
+                "cursor": 201147.93270591187,
+                "normalized": 0.8514285674318671
+              },
+              {
+                "cursor": 201195.73377377124,
+                "normalized": 0.8399999961256981
+              },
+              {
+                "cursor": 201341.21528464762,
+                "normalized": 0.8285714248195291
+              },
+              {
+                "cursor": 201404.60365724374,
+                "normalized": 0.81714285351336
+              },
+              {
+                "cursor": 201454.48303240136,
+                "normalized": 0.805714282207191
+              },
+              {
+                "cursor": 201504.36240755898,
+                "normalized": 0.794285710901022
+              },
+              {
+                "cursor": 201551.12432176922,
+                "normalized": 0.7828571395948529
+              },
+              {
+                "cursor": 201583.33808489185,
+                "normalized": 0.7714285682886839
+              },
+              {
+                "cursor": 201744.40690050495,
+                "normalized": 0.7599999969825149
+              },
+              {
+                "cursor": 201876.3794139428,
+                "normalized": 0.7485714256763458
+              },
+              {
+                "cursor": 201956.3942449248,
+                "normalized": 0.7371428543701768
+              },
+              {
+                "cursor": 201973.02070331067,
+                "normalized": 0.7257142830640078
+              },
+              {
+                "cursor": 202020.82177117004,
+                "normalized": 0.7142857117578387
+              },
+              {
+                "cursor": 346755.51349902456,
+                "normalized": 0.7257142830640078
+              },
+              {
+                "cursor": 346759.2968349307,
+                "normalized": 0.7485714256763458
+              },
+              {
+                "cursor": 346763.0801708369,
+                "normalized": 0.7714285682886839
+              },
+              {
+                "cursor": 346767.1157291368,
+                "normalized": 0.794285710901022
+              },
+              {
+                "cursor": 346770.89906504296,
+                "normalized": 0.805714282207191
+              },
+              {
+                "cursor": 346774.9346233429,
+                "normalized": 0.81714285351336
+              },
+              {
+                "cursor": 346783.0057399427,
+                "normalized": 0.8285714248195291
+              },
+              {
+                "cursor": 346806.2102001672,
+                "normalized": 0.8399999961256981
+              },
+              {
+                "cursor": 346818.0646526732,
+                "normalized": 0.8514285674318671
+              },
+              {
+                "cursor": 346821.84798857936,
+                "normalized": 0.8628571387380362
+              },
+              {
+                "cursor": 346833.4502186916,
+                "normalized": 0.8742857100442052
+              },
+              {
+                "cursor": 346841.52133529144,
+                "normalized": 0.8857142813503742
+              },
+              {
+                "cursor": 346857.1591237036,
+                "normalized": 0.8971428526565433
+              },
+              {
+                "cursor": 346869.0135762096,
+                "normalized": 0.9085714239627123
+              },
+              {
+                "cursor": 346876.8324704157,
+                "normalized": 0.9199999952688813
+              },
+              {
+                "cursor": 346888.6869229217,
+                "normalized": 0.9428571378812194
+              },
+              {
+                "cursor": 346932.06917464576,
+                "normalized": 0.9542857091873884
+              },
+              {
+                "cursor": 346943.671404758,
+                "normalized": 0.9657142804935575
+              },
+              {
+                "cursor": 346951.74252135784,
+                "normalized": 0.9771428517997265
+              },
+              {
+                "cursor": 346955.77807965776,
+                "normalized": 0.9999999944120646
+              },
+              {
+                "cursor": 346959.8136379577,
+                "normalized": 1.0
+              },
+              {
+                "cursor": 437327.6638430954,
+                "normalized": 0.988571428693831
+              },
+              {
+                "cursor": 437345.8920422089,
+                "normalized": 0.9771428573876619
+              },
+              {
+                "cursor": 437398.2981146603,
+                "normalized": 0.9542857147753239
+              },
+              {
+                "cursor": 437416.5263137738,
+                "normalized": 0.9428571434691548
+              },
+              {
+                "cursor": 437450.7041871117,
+                "normalized": 0.9200000008568168
+              },
+              {
+                "cursor": 437486.02132289414,
+                "normalized": 0.885714284144342
+              },
+              {
+                "cursor": 437538.4273953455,
+                "normalized": 0.8628571415320039
+              },
+              {
+                "cursor": 437589.69420535234,
+                "normalized": 0.8285714248195291
+              },
+              {
+                "cursor": 437607.92240446585,
+                "normalized": 0.81714285351336
+              },
+              {
+                "cursor": 437626.15060357936,
+                "normalized": 0.805714282207191
+              },
+              {
+                "cursor": 437644.37880269287,
+                "normalized": 0.794285710901022
+              },
+              {
+                "cursor": 437661.4677393618,
+                "normalized": 0.7485714256763458
+              },
+              {
+                "cursor": 437695.6456126997,
+                "normalized": 0.7371428543701768
+              },
+              {
+                "cursor": 437713.8738118132,
+                "normalized": 0.7257142830640078
+              },
+              {
+                "cursor": 437800.4577576024,
+                "normalized": 0.7142857117578387
+              },
+              {
+                "cursor": 437852.8638300538,
+                "normalized": 0.7028571404516697
+              },
+              {
+                "cursor": 437869.9527667227,
+                "normalized": 0.6799999978393316
+              },
+              {
+                "cursor": 437887.04170339165,
+                "normalized": 0.6685714265331626
+              },
+              {
+                "cursor": 437905.26990250516,
+                "normalized": 0.6457142839208245
+              },
+              {
+                "cursor": 437923.49810161866,
+                "normalized": 0.6228571413084865
+              },
+              {
+                "cursor": 437940.5870382876,
+                "normalized": 0.5999999986961484
+              },
+              {
+                "cursor": 437977.0434365146,
+                "normalized": 0.5885714273899794
+              },
+              {
+                "cursor": 438047.67770807946,
+                "normalized": 0.5771428560838103
+              },
+              {
+                "cursor": 438064.7666447484,
+                "normalized": 0.5657142847776413
+              },
+              {
+                "cursor": 438100.08378053084,
+                "normalized": 0.5542857134714723
+              },
+              {
+                "cursor": 438117.1727171998,
+                "normalized": 0.5314285708591342
+              },
+              {
+                "cursor": 438135.4009163133,
+                "normalized": 0.5199999995529652
+              },
+              {
+                "cursor": 438152.4898529822,
+                "normalized": 0.4971428569406271
+              },
+              {
+                "cursor": 438223.1241245471,
+                "normalized": 0.48571428563445807
+              },
+              {
+                "cursor": 438242.4915861052,
+                "normalized": 0.47428571432828903
+              },
+              {
+                "cursor": 438277.80872188765,
+                "normalized": 0.45142857171595097
+              },
+              {
+                "cursor": 438296.03692100116,
+                "normalized": 0.44000000040978193
+              },
+              {
+                "cursor": 438314.26512011467,
+                "normalized": 0.4285714291036129
+              },
+              {
+                "cursor": 438331.3540567836,
+                "normalized": 0.41714285779744387
+              },
+              {
+                "cursor": 438348.44299345254,
+                "normalized": 0.40571428649127483
+              },
+              {
+                "cursor": 438366.67119256605,
+                "normalized": 0.38285714387893677
+              },
+              {
+                "cursor": 438384.89939167956,
+                "normalized": 0.3600000012665987
+              },
+              {
+                "cursor": 438420.216527462,
+                "normalized": 0.34857142996042967
+              },
+              {
+                "cursor": 438437.30546413094,
+                "normalized": 0.33714285865426064
+              },
+              {
+                "cursor": 438489.71153658227,
+                "normalized": 0.3257142873480916
+              },
+              {
+                "cursor": 438540.978346589,
+                "normalized": 0.31428571604192257
+              },
+              {
+                "cursor": 438559.20654570253,
+                "normalized": 0.30285714473575354
+              },
+              {
+                "cursor": 438576.29548237147,
+                "normalized": 0.28000000212341547
+              },
+              {
+                "cursor": 438593.3844190404,
+                "normalized": 0.2571428595110774
+              },
+              {
+                "cursor": 438611.6126181539,
+                "normalized": 0.21142857428640127
+              },
+              {
+                "cursor": 438645.79049149173,
+                "normalized": 0.20000000298023224
+              },
+              {
+                "cursor": 438664.01869060524,
+                "normalized": 0.1885714316740632
+              },
+              {
+                "cursor": 438750.6026363945,
+                "normalized": 0.17714286036789417
+              },
+              {
+                "cursor": 438785.91977217695,
+                "normalized": 0.16571428906172514
+              },
+              {
+                "cursor": 438804.14797129045,
+                "normalized": 0.1542857177555561
+              },
+              {
+                "cursor": 438822.37617040396,
+                "normalized": 0.14285714644938707
+              },
+              {
+                "cursor": 438839.4651070729,
+                "normalized": 0.12000000383704901
+              },
+              {
+                "cursor": 438856.55404374184,
+                "normalized": 0.10857143253087997
+              },
+              {
+                "cursor": 438874.78224285535,
+                "normalized": 0.08571428991854191
+              },
+              {
+                "cursor": 438891.8711795243,
+                "normalized": 0.06285714730620384
+              },
+              {
+                "cursor": 438908.9601161932,
+                "normalized": 0.05142857600003481
+              },
+              {
+                "cursor": 438944.27725197567,
+                "normalized": 0.040000004693865776
+              },
+              {
+                "cursor": 438962.5054510892,
+                "normalized": 0.028571433387696743
+              },
+              {
+                "cursor": 439033.1397226541,
+                "normalized": 0.005714290775358677
+              },
+              {
+                "cursor": 439050.228659323,
+                "normalized": 0.0
+              }
+            ],
+            "path": "/fader",
+            "componentId": 512237,
+            "parameterPath": "fader"
+          }
+        ]
+      }
+    },
+    {
+      "path": "/channel/2",
+      "clip": {
+        "class": "heronarts.lx.clip.LXChannelClip",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true,
+          "modulationsExpanded": true
+        },
+        "parameters": {
+          "label": "SparkleHelix-1",
+          "running": false,
+          "trigger": false,
+          "length": 441223.9414036101,
+          "loop": true,
+          "snapshotEnabled": true,
+          "snapshotTransitionEnabled": true,
+          "automationEnabled": true,
+          "customSnapshotTransition": false
+        },
+        "children": {
+          "snapshot": {
+            "class": "heronarts.lx.snapshot.LXClipSnapshot",
+            "internal": {
+              "modulationColor": 0,
+              "modulationControlsExpanded": true,
+              "modulationsExpanded": true
+            },
+            "parameters": {
+              "label": "Snapshot",
+              "transitionTimeSecs": 1.0
+            },
+            "children": {},
+            "views": [
+              {
+                "scope": "MIXER",
+                "type": "CHANNEL_FADER",
+                "enabled": true,
+                "channelPath": "/lx/mixer/channel/2",
+                "channelEnabled": true,
+                "channelFader": 0.0
+              },
+              {
+                "scope": "MIXER",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/2/crossfadeGroup",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/2/compositeMode",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "ACTIVE_PATTERN",
+                "enabled": true,
+                "channelPath": "/lx/mixer/channel/2",
+                "activePatternIndex": 58
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/2/pattern/59/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/2/pattern/59/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/2/pattern/59/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/2/pattern/59/recall",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/2/pattern/59/compositeMode",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/2/pattern/59/compositeLevel",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/2/pattern/59/minCoil",
+                "value": 0.02,
+                "normalizedValue": 0.33333333333333326
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/2/pattern/59/maxCoil",
+                "value": 0.03,
+                "normalizedValue": 0.5555555555555555
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/2/pattern/59/sparkle",
+                "value": 80.0,
+                "normalizedValue": 0.5333333333333333
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/2/pattern/59/sparkleSat",
+                "value": 50.0,
+                "normalizedValue": 0.5
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/2/pattern/59/double",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              }
+            ]
+          }
+        },
+        "index": 0,
+        "parameterLanes": [
+          {
+            "laneType": "midiNote",
+            "events": []
+          },
+          {
+            "laneType": "pattern",
+            "events": [
+              {
+                "cursor": 0.0,
+                "patternIndex": 58
+              },
+              {
+                "cursor": 95590.70502862021,
+                "patternIndex": 59
+              },
+              {
+                "cursor": 189240.2710406817,
+                "patternIndex": 49
+              },
+              {
+                "cursor": 323894.8400468778,
+                "patternIndex": 18
+              },
+              {
+                "cursor": 353237.1245734722,
+                "patternIndex": 30
+              },
+              {
+                "cursor": 355718.2362607375,
+                "patternIndex": 43
+              }
+            ]
+          },
+          {
+            "laneType": "parameter",
+            "events": [
+              {
+                "cursor": 12692.222670314979,
+                "normalized": 0.011428571306169033
+              },
+              {
+                "cursor": 12788.86395968286,
+                "normalized": 0.022857142612338066
+              },
+              {
+                "cursor": 12837.704181191359,
+                "normalized": 0.0342857139185071
+              },
+              {
+                "cursor": 12903.17086108573,
+                "normalized": 0.04571428522467613
+              },
+              {
+                "cursor": 12919.797319471601,
+                "normalized": 0.057142856530845165
+              },
+              {
+                "cursor": 12967.598387330983,
+                "normalized": 0.0685714278370142
+              },
+              {
+                "cursor": 13063.200523049747,
+                "normalized": 0.07999999914318323
+              },
+              {
+                "cursor": 13095.414286172374,
+                "normalized": 0.09142857044935226
+              },
+              {
+                "cursor": 13193.094729189372,
+                "normalized": 0.1028571417555213
+              },
+              {
+                "cursor": 13257.522255434626,
+                "normalized": 0.11428571306169033
+              },
+              {
+                "cursor": 13306.362476943124,
+                "normalized": 0.12571428436785936
+              },
+              {
+                "cursor": 13338.576240065751,
+                "normalized": 0.1371428556740284
+              },
+              {
+                "cursor": 13371.829156837495,
+                "normalized": 0.14857142698019743
+              },
+              {
+                "cursor": 13469.509599854493,
+                "normalized": 0.15999999828636646
+              },
+              {
+                "cursor": 13600.442959643235,
+                "normalized": 0.1714285695925355
+              },
+              {
+                "cursor": 13633.695876414979,
+                "normalized": 0.18285714089870453
+              },
+              {
+                "cursor": 13664.870485888488,
+                "normalized": 0.19428571220487356
+              },
+              {
+                "cursor": 13698.123402660232,
+                "normalized": 0.2057142835110426
+              },
+              {
+                "cursor": 13729.298012133742,
+                "normalized": 0.21714285481721163
+              },
+              {
+                "cursor": 13778.138233642241,
+                "normalized": 0.22857142612338066
+              },
+              {
+                "cursor": 13810.351996764868,
+                "normalized": 0.2399999974295497
+              },
+              {
+                "cursor": 13842.565759887495,
+                "normalized": 0.2514285687357187
+              },
+              {
+                "cursor": 13874.779523010122,
+                "normalized": 0.26285714004188776
+              },
+              {
+                "cursor": 13908.032439781866,
+                "normalized": 0.2742857113480568
+              },
+              {
+                "cursor": 13924.658898167738,
+                "normalized": 0.2857142826542258
+              },
+              {
+                "cursor": 13974.538273325354,
+                "normalized": 0.29714285396039486
+              },
+              {
+                "cursor": 14168.860005710232,
+                "normalized": 0.3085714252665639
+              },
+              {
+                "cursor": 14200.034615183742,
+                "normalized": 0.3199999965727329
+              },
+              {
+                "cursor": 14216.661073569614,
+                "normalized": 0.33142856787890196
+              },
+              {
+                "cursor": 14232.248378306369,
+                "normalized": 0.342857139185071
+              },
+              {
+                "cursor": 14248.874836692241,
+                "normalized": 0.35428571049124
+              },
+              {
+                "cursor": 14281.088599814868,
+                "normalized": 0.36571428179740906
+              },
+              {
+                "cursor": 14559.581777778223,
+                "normalized": 0.3771428531035781
+              },
+              {
+                "cursor": 14575.169082514978,
+                "normalized": 0.3885714244097471
+              },
+              {
+                "cursor": 16160.917551067516,
+                "normalized": 0.39999999571591616
+              },
+              {
+                "cursor": 16276.263606119503,
+                "normalized": 0.4114285670220852
+              },
+              {
+                "cursor": 16324.064673978884,
+                "normalized": 0.4228571383282542
+              },
+              {
+                "cursor": 16665.946224538366,
+                "normalized": 0.43428570963442326
+              },
+              {
+                "cursor": 16792.72296973063,
+                "normalized": 0.4457142809405923
+              },
+              {
+                "cursor": 195262.16643731392,
+                "normalized": 0.4571428522467613
+              },
+              {
+                "cursor": 195278.7928956998,
+                "normalized": 0.46857142355293036
+              },
+              {
+                "cursor": 195294.38020043654,
+                "normalized": 0.4914285661652684
+              },
+              {
+                "cursor": 195342.1812682959,
+                "normalized": 0.5028571374714375
+              },
+              {
+                "cursor": 195358.80772668179,
+                "normalized": 0.5142857087776065
+              },
+              {
+                "cursor": 195391.0214898044,
+                "normalized": 0.5257142800837755
+              },
+              {
+                "cursor": 195423.23525292703,
+                "normalized": 0.5371428513899446
+              },
+              {
+                "cursor": 195455.44901604965,
+                "normalized": 0.5485714226961136
+              },
+              {
+                "cursor": 195569.7559174525,
+                "normalized": 0.5599999940022826
+              },
+              {
+                "cursor": 195717.3157356271,
+                "normalized": 0.5714285653084517
+              },
+              {
+                "cursor": 195830.58348338085,
+                "normalized": 0.5828571366146207
+              },
+              {
+                "cursor": 195910.59831436284,
+                "normalized": 0.5942857079207897
+              },
+              {
+                "cursor": 195942.81207748546,
+                "normalized": 0.6057142792269588
+              },
+              {
+                "cursor": 196038.4142132042,
+                "normalized": 0.6171428505331278
+              },
+              {
+                "cursor": 196086.21528106357,
+                "normalized": 0.6285714218392968
+              },
+              {
+                "cursor": 196183.89572408056,
+                "normalized": 0.6399999931454659
+              },
+              {
+                "cursor": 196232.73594558905,
+                "normalized": 0.6514285644516349
+              },
+              {
+                "cursor": 196409.3920659389,
+                "normalized": 0.6628571357578039
+              },
+              {
+                "cursor": 196490.44605057003,
+                "normalized": 0.685714278370142
+              },
+              {
+                "cursor": 196507.0725089559,
+                "normalized": 0.697142849676311
+              },
+              {
+                "cursor": 196522.65981369265,
+                "normalized": 0.70857142098248
+              },
+              {
+                "cursor": 196553.83442316615,
+                "normalized": 0.7199999922886491
+              },
+              {
+                "cursor": 196993.3964167426,
+                "normalized": 0.7314285635948181
+              },
+              {
+                "cursor": 197025.6101798652,
+                "normalized": 0.7428571349009871
+              },
+              {
+                "cursor": 197075.48955502282,
+                "normalized": 0.7542857062071562
+              },
+              {
+                "cursor": 197189.79645642568,
+                "normalized": 0.7657142775133252
+              },
+              {
+                "cursor": 197287.47689944267,
+                "normalized": 0.7771428488194942
+              },
+              {
+                "cursor": 197304.10335782854,
+                "normalized": 0.7885714201256633
+              },
+              {
+                "cursor": 197319.6906625653,
+                "normalized": 0.7999999914318323
+              },
+              {
+                "cursor": 197335.27796730204,
+                "normalized": 0.8114285627380013
+              },
+              {
+                "cursor": 197367.49173042466,
+                "normalized": 0.8228571340441704
+              },
+              {
+                "cursor": 197383.0790351614,
+                "normalized": 0.8342857053503394
+              },
+              {
+                "cursor": 197447.50656140666,
+                "normalized": 0.8457142766565084
+              },
+              {
+                "cursor": 197773.80080722936,
+                "normalized": 0.8571428479626775
+              },
+              {
+                "cursor": 197823.68018238698,
+                "normalized": 0.8685714192688465
+              },
+              {
+                "cursor": 197921.36062540396,
+                "normalized": 0.8799999905750155
+              },
+              {
+                "cursor": 198050.21567789448,
+                "normalized": 0.8914285618811846
+              },
+              {
+                "cursor": 198066.84213628035,
+                "normalized": 0.9028571331873536
+              },
+              {
+                "cursor": 198083.46859466622,
+                "normalized": 0.9142857044935226
+              },
+              {
+                "cursor": 198132.30881617471,
+                "normalized": 0.9257142757996917
+              },
+              {
+                "cursor": 198197.77549606908,
+                "normalized": 0.9371428471058607
+              },
+              {
+                "cursor": 198408.7236868398,
+                "normalized": 0.9485714184120297
+              },
+              {
+                "cursor": 198439.8982963133,
+                "normalized": 0.9599999897181988
+              },
+              {
+                "cursor": 198456.52475469917,
+                "normalized": 0.9714285610243678
+              },
+              {
+                "cursor": 198796.32799796038,
+                "normalized": 0.9828571323305368
+              },
+              {
+                "cursor": 198812.95445634626,
+                "normalized": 0.9942857036367059
+              },
+              {
+                "cursor": 198828.541761083,
+                "normalized": 1.0
+              },
+              {
+                "cursor": 215275.22656565567,
+                "normalized": 0.988571428693831
+              },
+              {
+                "cursor": 215324.06678716416,
+                "normalized": 0.9771428573876619
+              },
+              {
+                "cursor": 215339.6540919009,
+                "normalized": 0.9657142860814929
+              },
+              {
+                "cursor": 215355.24139663766,
+                "normalized": 0.9542857147753239
+              },
+              {
+                "cursor": 215387.45515976028,
+                "normalized": 0.9314285721629858
+              },
+              {
+                "cursor": 215419.6689228829,
+                "normalized": 0.9200000008568168
+              },
+              {
+                "cursor": 215436.29538126878,
+                "normalized": 0.9085714295506477
+              },
+              {
+                "cursor": 215468.5091443914,
+                "normalized": 0.8971428582444787
+              },
+              {
+                "cursor": 215484.09644912815,
+                "normalized": 0.8857142869383097
+              },
+              {
+                "cursor": 215500.72290751402,
+                "normalized": 0.8742857156321406
+              },
+              {
+                "cursor": 215582.81604579426,
+                "normalized": 0.8628571443259716
+              },
+              {
+                "cursor": 215990.16427624808,
+                "normalized": 0.8514285730198026
+              },
+              {
+                "cursor": 216054.59180249332,
+                "normalized": 0.8400000017136335
+              },
+              {
+                "cursor": 216215.66061810643,
+                "normalized": 0.8285714304074645
+              },
+              {
+                "cursor": 216264.50083961492,
+                "normalized": 0.8171428591012955
+              },
+              {
+                "cursor": 216670.80991641962,
+                "normalized": 0.8057142877951264
+              },
+              {
+                "cursor": 216687.4363748055,
+                "normalized": 0.7942857164889574
+              },
+              {
+                "cursor": 216818.36973459422,
+                "normalized": 0.7828571451827884
+              },
+              {
+                "cursor": 216850.58349771684,
+                "normalized": 0.7714285738766193
+              },
+              {
+                "cursor": 216899.42371922533,
+                "normalized": 0.7600000025704503
+              },
+              {
+                "cursor": 217371.1994759244,
+                "normalized": 0.7485714312642813
+              },
+              {
+                "cursor": 217563.442901011,
+                "normalized": 0.7371428599581122
+              },
+              {
+                "cursor": 217596.69581778275,
+                "normalized": 0.7257142886519432
+              },
+              {
+                "cursor": 217612.2831225195,
+                "normalized": 0.7142857173457742
+              },
+              {
+                "cursor": 217644.49688564212,
+                "normalized": 0.7028571460396051
+              },
+              {
+                "cursor": 217677.74980241386,
+                "normalized": 0.6914285747334361
+              },
+              {
+                "cursor": 217708.92441188736,
+                "normalized": 0.6800000034272671
+              },
+              {
+                "cursor": 217937.53821469308,
+                "normalized": 0.668571432121098
+              },
+              {
+                "cursor": 217969.7519778157,
+                "normalized": 0.657142860814929
+              },
+              {
+                "cursor": 218130.8207934288,
+                "normalized": 0.64571428950876
+              },
+              {
+                "cursor": 218178.62186128818,
+                "normalized": 0.6342857182025909
+              },
+              {
+                "cursor": 218195.24831967405,
+                "normalized": 0.6228571468964219
+              },
+              {
+                "cursor": 218243.04938753342,
+                "normalized": 0.6114285755902529
+              },
+              {
+                "cursor": 218259.6758459193,
+                "normalized": 0.6000000042840838
+              },
+              {
+                "cursor": 218275.26315065604,
+                "normalized": 0.5885714329779148
+              },
+              {
+                "cursor": 218291.88960904191,
+                "normalized": 0.5771428616717458
+              },
+              {
+                "cursor": 218550.638867672,
+                "normalized": 0.5657142903655767
+              },
+              {
+                "cursor": 218581.8134771455,
+                "normalized": 0.5314285736531019
+              },
+              {
+                "cursor": 218615.06639391725,
+                "normalized": 0.5085714310407639
+              },
+              {
+                "cursor": 218647.28015703987,
+                "normalized": 0.4971428597345948
+              },
+              {
+                "cursor": 218661.8283081275,
+                "normalized": 0.4857142884284258
+              },
+              {
+                "cursor": 218695.08122489924,
+                "normalized": 0.47428571712225676
+              },
+              {
+                "cursor": 218807.30981900386,
+                "normalized": 0.4628571458160877
+              },
+              {
+                "cursor": 218840.5627357756,
+                "normalized": 0.4514285745099187
+              },
+              {
+                "cursor": 218872.77649889822,
+                "normalized": 0.44000000320374966
+              },
+              {
+                "cursor": 218889.4029572841,
+                "normalized": 0.4171428605914116
+              },
+              {
+                "cursor": 219019.2971634237,
+                "normalized": 0.40571428928524256
+              },
+              {
+                "cursor": 219034.88446816045,
+                "normalized": 0.3942857179790735
+              },
+              {
+                "cursor": 219067.09823128307,
+                "normalized": 0.3828571466729045
+              },
+              {
+                "cursor": 219114.89929914245,
+                "normalized": 0.37142857536673546
+              },
+              {
+                "cursor": 219130.4866038792,
+                "normalized": 0.3600000040605664
+              },
+              {
+                "cursor": 219292.59457314142,
+                "normalized": 0.3485714327543974
+              },
+              {
+                "cursor": 219323.76918261492,
+                "normalized": 0.3257142901420593
+              },
+              {
+                "cursor": 219340.3956410008,
+                "normalized": 0.3142857188358903
+              },
+              {
+                "cursor": 219355.98294573755,
+                "normalized": 0.2914285762235522
+              },
+              {
+                "cursor": 219372.60940412342,
+                "normalized": 0.26857143361121416
+              },
+              {
+                "cursor": 219404.82316724604,
+                "normalized": 0.25714286230504513
+              },
+              {
+                "cursor": 219420.4104719828,
+                "normalized": 0.2457142909988761
+              },
+              {
+                "cursor": 219518.09091499978,
+                "normalized": 0.23428571969270706
+              },
+              {
+                "cursor": 219534.71737338565,
+                "normalized": 0.22285714838653803
+              },
+              {
+                "cursor": 219583.55759489414,
+                "normalized": 0.211428577080369
+              },
+              {
+                "cursor": 219599.1448996309,
+                "normalized": 0.20000000577419996
+              },
+              {
+                "cursor": 219615.77135801676,
+                "normalized": 0.18857143446803093
+              },
+              {
+                "cursor": 219647.98512113938,
+                "normalized": 0.1771428631618619
+              },
+              {
+                "cursor": 219664.61157952526,
+                "normalized": 0.16571429185569286
+              },
+              {
+                "cursor": 219680.198884262,
+                "normalized": 0.15428572054952383
+              },
+              {
+                "cursor": 219761.25286889312,
+                "normalized": 0.1428571492433548
+              },
+              {
+                "cursor": 219809.0539367525,
+                "normalized": 0.13142857793718576
+              },
+              {
+                "cursor": 219842.30685352423,
+                "normalized": 0.12000000663101673
+              },
+              {
+                "cursor": 219857.89415826098,
+                "normalized": 0.09714286401867867
+              },
+              {
+                "cursor": 219891.14707503273,
+                "normalized": 0.0742857214063406
+              },
+              {
+                "cursor": 219922.32168450623,
+                "normalized": 0.06285715010017157
+              },
+              {
+                "cursor": 219938.9481428921,
+                "normalized": 0.05142857879400253
+              },
+              {
+                "cursor": 220036.6285859091,
+                "normalized": 0.0400000074878335
+              },
+              {
+                "cursor": 220133.26987527695,
+                "normalized": 0.028571436181664467
+              },
+              {
+                "cursor": 220149.89633366282,
+                "normalized": 0.017142864875495434
+              },
+              {
+                "cursor": 220247.5767766798,
+                "normalized": 0.005714293569326401
+              },
+              {
+                "cursor": 220264.20323506568,
+                "normalized": 0.0
+              },
+              {
+                "cursor": 326911.5030902631,
+                "normalized": 0.011428571306169033
+              },
+              {
+                "cursor": 327124.52958833193,
+                "normalized": 0.022857142612338066
+              },
+              {
+                "cursor": 327140.1168930687,
+                "normalized": 0.0342857139185071
+              },
+              {
+                "cursor": 327204.54441931396,
+                "normalized": 0.04571428522467613
+              },
+              {
+                "cursor": 327220.13172405073,
+                "normalized": 0.057142856530845165
+              },
+              {
+                "cursor": 327284.559250296,
+                "normalized": 0.0685714278370142
+              },
+              {
+                "cursor": 327510.0555921543,
+                "normalized": 0.07999999914318323
+              },
+              {
+                "cursor": 327591.1095767854,
+                "normalized": 0.09142857044935226
+              },
+              {
+                "cursor": 327719.9646292759,
+                "normalized": 0.1028571417555213
+              },
+              {
+                "cursor": 327735.5519340127,
+                "normalized": 0.11428571306169033
+              },
+              {
+                "cursor": 327751.13923874946,
+                "normalized": 0.12571428436785936
+              },
+              {
+                "cursor": 327767.7656971353,
+                "normalized": 0.14857142698019743
+              },
+              {
+                "cursor": 327799.9794602579,
+                "normalized": 0.1714285695925355
+              },
+              {
+                "cursor": 327847.7805281173,
+                "normalized": 0.18285714089870453
+              },
+              {
+                "cursor": 327896.6207496258,
+                "normalized": 0.19428571220487356
+              },
+              {
+                "cursor": 328075.3551772738,
+                "normalized": 0.2057142835110426
+              },
+              {
+                "cursor": 328091.98163565964,
+                "normalized": 0.22857142612338066
+              },
+              {
+                "cursor": 328124.19539878226,
+                "normalized": 0.2399999974295497
+              },
+              {
+                "cursor": 328140.8218571681,
+                "normalized": 0.26285714004188776
+              },
+              {
+                "cursor": 328188.6229250275,
+                "normalized": 0.2742857113480568
+              },
+              {
+                "cursor": 328220.8366881501,
+                "normalized": 0.29714285396039486
+              },
+              {
+                "cursor": 328254.0896049218,
+                "normalized": 0.3199999965727329
+              },
+              {
+                "cursor": 328270.71606330766,
+                "normalized": 0.342857139185071
+              },
+              {
+                "cursor": 328334.10443590384,
+                "normalized": 0.35428571049124
+              },
+              {
+                "cursor": 328366.31819902646,
+                "normalized": 0.3771428531035781
+              },
+              {
+                "cursor": 328430.7457252717,
+                "normalized": 0.3885714244097471
+              },
+              {
+                "cursor": 328446.3330300085,
+                "normalized": 0.39999999571591616
+              },
+              {
+                "cursor": 328478.5467931311,
+                "normalized": 0.4114285670220852
+              },
+              {
+                "cursor": 328495.17325151694,
+                "normalized": 0.43428570963442326
+              },
+              {
+                "cursor": 328527.38701463956,
+                "normalized": 0.4457142809405923
+              },
+              {
+                "cursor": 328544.0134730254,
+                "normalized": 0.4571428522467613
+              },
+              {
+                "cursor": 328559.6007777622,
+                "normalized": 0.4799999948590994
+              },
+              {
+                "cursor": 328591.8145408848,
+                "normalized": 0.4914285661652684
+              },
+              {
+                "cursor": 328768.4706612347,
+                "normalized": 0.5028571374714375
+              },
+              {
+                "cursor": 328799.6452707082,
+                "normalized": 0.5257142800837755
+              },
+              {
+                "cursor": 328815.23257544497,
+                "normalized": 0.5485714226961136
+              },
+              {
+                "cursor": 328847.4463385676,
+                "normalized": 0.5599999940022826
+              },
+              {
+                "cursor": 328863.03364330437,
+                "normalized": 0.5714285653084517
+              },
+              {
+                "cursor": 328896.28656007606,
+                "normalized": 0.5828571366146207
+              },
+              {
+                "cursor": 328926.4220159005,
+                "normalized": 0.5942857079207897
+              },
+              {
+                "cursor": 328959.6749326722,
+                "normalized": 0.6057142792269588
+              },
+              {
+                "cursor": 328976.301391058,
+                "normalized": 0.6171428505331278
+              },
+              {
+                "cursor": 329006.4368468824,
+                "normalized": 0.6285714218392968
+              },
+              {
+                "cursor": 329023.06330526824,
+                "normalized": 0.6399999931454659
+              },
+              {
+                "cursor": 329055.27706839086,
+                "normalized": 0.6514285644516349
+              },
+              {
+                "cursor": 329104.1172898993,
+                "normalized": 0.6628571357578039
+              },
+              {
+                "cursor": 329135.2918993729,
+                "normalized": 0.685714278370142
+              },
+              {
+                "cursor": 329167.5056624955,
+                "normalized": 0.697142849676311
+              },
+              {
+                "cursor": 329184.13212088135,
+                "normalized": 0.70857142098248
+              },
+              {
+                "cursor": 329200.7585792672,
+                "normalized": 0.7199999922886491
+              },
+              {
+                "cursor": 329232.9723423898,
+                "normalized": 0.7314285635948181
+              },
+              {
+                "cursor": 329248.5596471266,
+                "normalized": 0.7428571349009871
+              },
+              {
+                "cursor": 329312.98717337183,
+                "normalized": 0.7542857062071562
+              },
+              {
+                "cursor": 329344.1617828454,
+                "normalized": 0.7657142775133252
+              },
+              {
+                "cursor": 329376.375545968,
+                "normalized": 0.7771428488194942
+              },
+              {
+                "cursor": 329536.40520793205,
+                "normalized": 0.7885714201256633
+              },
+              {
+                "cursor": 329585.2454294405,
+                "normalized": 0.7999999914318323
+              },
+              {
+                "cursor": 329634.085650949,
+                "normalized": 0.8228571340441704
+              },
+              {
+                "cursor": 329649.67295568576,
+                "normalized": 0.8342857053503394
+              },
+              {
+                "cursor": 329714.100481931,
+                "normalized": 0.8457142766565084
+              },
+              {
+                "cursor": 329761.9015497904,
+                "normalized": 0.8571428479626775
+              },
+              {
+                "cursor": 329908.42221431585,
+                "normalized": 0.8685714192688465
+              },
+              {
+                "cursor": 329956.22328217526,
+                "normalized": 0.8914285618811846
+              },
+              {
+                "cursor": 329972.8497405611,
+                "normalized": 0.9028571331873536
+              },
+              {
+                "cursor": 329988.4370452979,
+                "normalized": 0.9142857044935226
+              },
+              {
+                "cursor": 330004.02435003466,
+                "normalized": 0.9257142757996917
+              },
+              {
+                "cursor": 330020.6508084205,
+                "normalized": 0.9371428471058607
+              },
+              {
+                "cursor": 330863.404417854,
+                "normalized": 0.9257142757996917
+              },
+              {
+                "cursor": 330913.28379301156,
+                "normalized": 0.9142857044935226
+              },
+              {
+                "cursor": 330929.9102513974,
+                "normalized": 0.9028571331873536
+              },
+              {
+                "cursor": 330977.7113192568,
+                "normalized": 0.8799999905750155
+              },
+              {
+                "cursor": 331010.9642360285,
+                "normalized": 0.8685714192688465
+              },
+              {
+                "cursor": 331043.1779991511,
+                "normalized": 0.8571428479626775
+              },
+              {
+                "cursor": 331059.80445753696,
+                "normalized": 0.8457142766565084
+              },
+              {
+                "cursor": 331123.19283013314,
+                "normalized": 0.8342857053503394
+              },
+              {
+                "cursor": 331154.36743960663,
+                "normalized": 0.8228571340441704
+              },
+              {
+                "cursor": 331186.58120272926,
+                "normalized": 0.8114285627380013
+              },
+              {
+                "cursor": 331236.4605778868,
+                "normalized": 0.7999999914318323
+              },
+              {
+                "cursor": 331285.30079939525,
+                "normalized": 0.7885714201256633
+              },
+              {
+                "cursor": 331365.31563037727,
+                "normalized": 0.7771428488194942
+              },
+              {
+                "cursor": 331381.9420887631,
+                "normalized": 0.7657142775133252
+              },
+              {
+                "cursor": 331429.74315662245,
+                "normalized": 0.7542857062071562
+              },
+              {
+                "cursor": 331526.3844459903,
+                "normalized": 0.7428571349009871
+              },
+              {
+                "cursor": 331558.59820911294,
+                "normalized": 0.7314285635948181
+              },
+              {
+                "cursor": 331621.98658170906,
+                "normalized": 0.7199999922886491
+              },
+              {
+                "cursor": 331704.0797199892,
+                "normalized": 0.70857142098248
+              },
+              {
+                "cursor": 331769.5463998835,
+                "normalized": 0.697142849676311
+              },
+              {
+                "cursor": 350362.5459519656,
+                "normalized": 0.685714278370142
+              },
+              {
+                "cursor": 350366.3292878718,
+                "normalized": 0.6628571357578039
+              },
+              {
+                "cursor": 350374.14818207786,
+                "normalized": 0.6514285644516349
+              },
+              {
+                "cursor": 350378.1837403778,
+                "normalized": 0.6399999931454659
+              },
+              {
+                "cursor": 350381.96707628394,
+                "normalized": 0.6171428505331278
+              },
+              {
+                "cursor": 350385.7504121901,
+                "normalized": 0.5942857079207897
+              },
+              {
+                "cursor": 350389.78597049,
+                "normalized": 0.5828571366146207
+              },
+              {
+                "cursor": 350397.35264230234,
+                "normalized": 0.5714285653084517
+              },
+              {
+                "cursor": 357012.6415854343,
+                "normalized": 0.5828571366146207
+              },
+              {
+                "cursor": 357020.4604796404,
+                "normalized": 0.5942857079207897
+              },
+              {
+                "cursor": 357024.4960379403,
+                "normalized": 0.6057142792269588
+              },
+              {
+                "cursor": 357032.56715454016,
+                "normalized": 0.6171428505331278
+              },
+              {
+                "cursor": 357067.87828966434,
+                "normalized": 0.6285714218392968
+              },
+              {
+                "cursor": 357087.5516363764,
+                "normalized": 0.6399999931454659
+              },
+              {
+                "cursor": 357106.97276069474,
+                "normalized": 0.6628571357578039
+              },
+              {
+                "cursor": 357130.68166570674,
+                "normalized": 0.674285707063973
+              },
+              {
+                "cursor": 357138.5005599128,
+                "normalized": 0.685714278370142
+              },
+              {
+                "cursor": 357162.2094649248,
+                "normalized": 0.697142849676311
+              },
+              {
+                "cursor": 357177.847253337,
+                "normalized": 0.70857142098248
+              },
+              {
+                "cursor": 357205.33949425514,
+                "normalized": 0.7199999922886491
+              },
+              {
+                "cursor": 357232.57951277954,
+                "normalized": 0.7314285635948181
+              },
+              {
+                "cursor": 357240.3984069856,
+                "normalized": 0.7428571349009871
+              },
+              {
+                "cursor": 357260.0717536977,
+                "normalized": 0.7542857062071562
+              },
+              {
+                "cursor": 357271.4217614162,
+                "normalized": 0.7657142775133252
+              },
+              {
+                "cursor": 357287.56399461586,
+                "normalized": 0.7771428488194942
+              },
+              {
+                "cursor": 357326.91068803996,
+                "normalized": 0.7885714201256633
+              },
+              {
+                "cursor": 357334.72958224604,
+                "normalized": 0.7999999914318323
+              },
+              {
+                "cursor": 433162.5203456567,
+                "normalized": 0.7885714201256633
+              },
+              {
+                "cursor": 433216.0656805527,
+                "normalized": 0.7771428488194942
+              },
+              {
+                "cursor": 433233.1546172216,
+                "normalized": 0.7657142775133252
+              },
+              {
+                "cursor": 433267.33249055943,
+                "normalized": 0.7542857062071562
+              },
+              {
+                "cursor": 433284.4214272284,
+                "normalized": 0.7428571349009871
+              },
+              {
+                "cursor": 433320.8778254554,
+                "normalized": 0.7314285635948181
+              },
+              {
+                "cursor": 433337.9667621243,
+                "normalized": 0.7199999922886491
+              },
+              {
+                "cursor": 433409.7402961338,
+                "normalized": 0.70857142098248
+              },
+              {
+                "cursor": 433426.82923280273,
+                "normalized": 0.697142849676311
+              },
+              {
+                "cursor": 433462.1463685852,
+                "normalized": 0.685714278370142
+              },
+              {
+                "cursor": 433479.2353052541,
+                "normalized": 0.6628571357578039
+              },
+              {
+                "cursor": 433531.64137770544,
+                "normalized": 0.6514285644516349
+              },
+              {
+                "cursor": 433548.7303143744,
+                "normalized": 0.6399999931454659
+              },
+              {
+                "cursor": 433585.1867126014,
+                "normalized": 0.6285714218392968
+              },
+              {
+                "cursor": 433620.50384838384,
+                "normalized": 0.6171428505331278
+              },
+              {
+                "cursor": 433671.7706583906,
+                "normalized": 0.6057142792269588
+              },
+              {
+                "cursor": 433689.9988575041,
+                "normalized": 0.5942857079207897
+              },
+              {
+                "cursor": 433707.08779417304,
+                "normalized": 0.5599999912083149
+              },
+              {
+                "cursor": 433742.4049299555,
+                "normalized": 0.5485714199021459
+              },
+              {
+                "cursor": 433814.17846396496,
+                "normalized": 0.5371428485959768
+              },
+              {
+                "cursor": 433868.8630613055,
+                "normalized": 0.5257142772898078
+              },
+              {
+                "cursor": 433956.5862695393,
+                "normalized": 0.5142857059836388
+              },
+              {
+                "cursor": 434027.2205411042,
+                "normalized": 0.5028571346774697
+              },
+              {
+                "cursor": 434044.30947777315,
+                "normalized": 0.4914285633713007
+              },
+              {
+                "cursor": 434062.53767688666,
+                "normalized": 0.47999999206513166
+              },
+              {
+                "cursor": 434096.71555022453,
+                "normalized": 0.46857142075896263
+              },
+              {
+                "cursor": 434132.032686007,
+                "normalized": 0.4571428494527936
+              },
+              {
+                "cursor": 434237.98409335426,
+                "normalized": 0.44571427814662457
+              },
+              {
+                "cursor": 434291.5294282502,
+                "normalized": 0.43428570684045553
+              },
+              {
+                "cursor": 434325.7073015881,
+                "normalized": 0.41142856422811747
+              },
+              {
+                "cursor": 434343.9355007016,
+                "normalized": 0.39999999292194843
+              },
+              {
+                "cursor": 434378.1133740395,
+                "normalized": 0.37714285030961037
+              },
+              {
+                "cursor": 434449.88690804894,
+                "normalized": 0.36571427900344133
+              },
+              {
+                "cursor": 434466.9758447179,
+                "normalized": 0.3314285622909665
+              },
+              {
+                "cursor": 434502.2929805003,
+                "normalized": 0.3199999909847975
+              },
+              {
+                "cursor": 434519.38191716926,
+                "normalized": 0.2971428483724594
+              },
+              {
+                "cursor": 434572.9272520652,
+                "normalized": 0.2857142770662904
+              },
+              {
+                "cursor": 434659.5111978545,
+                "normalized": 0.2628571344539523
+              },
+              {
+                "cursor": 434695.9675960815,
+                "normalized": 0.23999999184161425
+              },
+              {
+                "cursor": 434713.05653275043,
+                "normalized": 0.20571427512913942
+              },
+              {
+                "cursor": 434781.4122794261,
+                "normalized": 0.1942857038229704
+              },
+              {
+                "cursor": 434870.2747501045,
+                "normalized": 0.18285713251680136
+              },
+              {
+                "cursor": 434923.8200850005,
+                "normalized": 0.17142856121063232
+              },
+              {
+                "cursor": 434940.9090216694,
+                "normalized": 0.1257142759859562
+              },
+              {
+                "cursor": 434977.36541989644,
+                "normalized": 0.11428570467978716
+              },
+              {
+                "cursor": 434995.59361900995,
+                "normalized": 0.09142856206744909
+              },
+              {
+                "cursor": 435012.6825556789,
+                "normalized": 0.07999999076128006
+              },
+              {
+                "cursor": 435049.1389539059,
+                "normalized": 0.06857141945511103
+              },
+              {
+                "cursor": 435084.45608968835,
+                "normalized": 0.057142848148941994
+              },
+              {
+                "cursor": 435156.2296236978,
+                "normalized": 0.04571427684277296
+              },
+              {
+                "cursor": 435174.4578228113,
+                "normalized": 0.03428570553660393
+              },
+              {
+                "cursor": 435192.68602192483,
+                "normalized": 0.022857134230434895
+              },
+              {
+                "cursor": 435209.77495859377,
+                "normalized": 0.0
+              }
+            ],
+            "path": "/fader",
+            "componentId": 951322,
+            "parameterPath": "fader"
+          }
+        ]
+      }
+    },
+    {
+      "path": "/channel/3",
+      "clip": {
+        "class": "heronarts.lx.clip.LXChannelClip",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true,
+          "modulationsExpanded": true
+        },
+        "parameters": {
+          "label": "StripeStatic-1",
+          "running": false,
+          "trigger": false,
+          "length": 441223.9414036101,
+          "loop": true,
+          "snapshotEnabled": true,
+          "snapshotTransitionEnabled": true,
+          "automationEnabled": true,
+          "customSnapshotTransition": false
+        },
+        "children": {
+          "snapshot": {
+            "class": "heronarts.lx.snapshot.LXClipSnapshot",
+            "internal": {
+              "modulationColor": 0,
+              "modulationControlsExpanded": true,
+              "modulationsExpanded": true
+            },
+            "parameters": {
+              "label": "Snapshot",
+              "transitionTimeSecs": 1.0
+            },
+            "children": {},
+            "views": [
+              {
+                "scope": "MIXER",
+                "type": "CHANNEL_FADER",
+                "enabled": true,
+                "channelPath": "/lx/mixer/channel/3",
+                "channelEnabled": true,
+                "channelFader": 0.0
+              },
+              {
+                "scope": "MIXER",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/3/crossfadeGroup",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/3/compositeMode",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "ACTIVE_PATTERN",
+                "enabled": true,
+                "channelPath": "/lx/mixer/channel/3",
+                "activePatternIndex": 65
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/3/pattern/66/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/3/pattern/66/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/3/pattern/66/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/3/pattern/66/recall",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/3/pattern/66/compositeMode",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/3/pattern/66/compositeLevel",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/3/pattern/66/width",
+                "value": 36.0,
+                "normalizedValue": 0.10526315789473684
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/3/pattern/66/hue1",
+                "value": 55.0,
+                "normalizedValue": 0.15041782729805014
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/3/pattern/66/bright1",
+                "value": 100.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/3/pattern/66/hue2",
+                "value": 200.0,
+                "normalizedValue": 0.5543175487465181
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/3/pattern/66/bright2",
+                "value": 100.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/3/pattern/66/hue3",
+                "value": 300.0,
+                "normalizedValue": 0.8328690807799443
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/3/pattern/66/bright3",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              }
+            ]
+          }
+        },
+        "index": 0,
+        "parameterLanes": [
+          {
+            "laneType": "midiNote",
+            "events": []
+          },
+          {
+            "laneType": "pattern",
+            "events": [
+              {
+                "cursor": 0.0,
+                "patternIndex": 65
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "/channel/4",
+      "clip": {
+        "class": "heronarts.lx.clip.LXChannelClip",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true,
+          "modulationsExpanded": true
+        },
+        "parameters": {
+          "label": "Twinkle-1",
+          "running": false,
+          "trigger": false,
+          "length": 441223.9414036101,
+          "loop": true,
+          "snapshotEnabled": true,
+          "snapshotTransitionEnabled": true,
+          "automationEnabled": true,
+          "customSnapshotTransition": false
+        },
+        "children": {
+          "snapshot": {
+            "class": "heronarts.lx.snapshot.LXClipSnapshot",
+            "internal": {
+              "modulationColor": 0,
+              "modulationControlsExpanded": true,
+              "modulationsExpanded": true
+            },
+            "parameters": {
+              "label": "Snapshot",
+              "transitionTimeSecs": 1.0
+            },
+            "children": {},
+            "views": [
+              {
+                "scope": "MIXER",
+                "type": "CHANNEL_FADER",
+                "enabled": true,
+                "channelPath": "/lx/mixer/channel/4",
+                "channelEnabled": true,
+                "channelFader": 0.0
+              },
+              {
+                "scope": "MIXER",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/4/crossfadeGroup",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/4/compositeMode",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "ACTIVE_PATTERN",
+                "enabled": true,
+                "channelPath": "/lx/mixer/channel/4",
+                "activePatternIndex": 68
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/4/pattern/69/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/4/pattern/69/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/4/pattern/69/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/4/pattern/69/recall",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/4/pattern/69/compositeMode",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/4/pattern/69/compositeLevel",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/4/pattern/69/brightness",
+                "value": 0.8,
+                "normalizedValue": 0.6000000000000001
+              }
+            ]
+          }
+        },
+        "index": 0,
+        "parameterLanes": [
+          {
+            "laneType": "midiNote",
+            "events": []
+          },
+          {
+            "laneType": "pattern",
+            "events": [
+              {
+                "cursor": 0.0,
+                "patternIndex": 68
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "/channel/5",
+      "clip": {
+        "class": "heronarts.lx.clip.LXChannelClip",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true,
+          "modulationsExpanded": true
+        },
+        "parameters": {
+          "label": "DiscreteColors-1",
+          "running": false,
+          "trigger": false,
+          "length": 441223.9414036101,
+          "loop": true,
+          "snapshotEnabled": true,
+          "snapshotTransitionEnabled": true,
+          "automationEnabled": true,
+          "customSnapshotTransition": false
+        },
+        "children": {
+          "snapshot": {
+            "class": "heronarts.lx.snapshot.LXClipSnapshot",
+            "internal": {
+              "modulationColor": 0,
+              "modulationControlsExpanded": true,
+              "modulationsExpanded": true
+            },
+            "parameters": {
+              "label": "Snapshot",
+              "transitionTimeSecs": 1.0
+            },
+            "children": {},
+            "views": [
+              {
+                "scope": "MIXER",
+                "type": "CHANNEL_FADER",
+                "enabled": true,
+                "channelPath": "/lx/mixer/channel/5",
+                "channelEnabled": true,
+                "channelFader": 0.0
+              },
+              {
+                "scope": "MIXER",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/5/crossfadeGroup",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/5/compositeMode",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "ACTIVE_PATTERN",
+                "enabled": true,
+                "channelPath": "/lx/mixer/channel/5",
+                "activePatternIndex": 17
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/5/pattern/18/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/5/pattern/18/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/5/pattern/18/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/5/pattern/18/recall",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/5/pattern/18/compositeMode",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/5/pattern/18/compositeLevel",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/5/pattern/18/HU1",
+                "value": 60.0,
+                "normalizedValue": 0.16434540389972144
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/5/pattern/18/HU2",
+                "value": 240.0,
+                "normalizedValue": 0.6657381615598886
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/5/pattern/18/HU3",
+                "value": 300.0,
+                "normalizedValue": 0.8328690807799443
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/5/pattern/18/ncolors",
+                "value": 2,
+                "normalizedValue": 0.5
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/5/pattern/18/xrot",
+                "value": 0,
+                "normalizedValue": 0.5006954102920723
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/5/pattern/18/yrot",
+                "value": 0,
+                "normalizedValue": 0.5006954102920723
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/5/pattern/18/adjustment",
+                "value": 0.0,
+                "normalizedValue": 0.5
+              }
+            ]
+          }
+        },
+        "index": 0,
+        "parameterLanes": [
+          {
+            "laneType": "midiNote",
+            "events": []
+          },
+          {
+            "laneType": "pattern",
+            "events": [
+              {
+                "cursor": 0.0,
+                "patternIndex": 17
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "/channel/6",
+      "clip": {
+        "class": "heronarts.lx.clip.LXChannelClip",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true,
+          "modulationsExpanded": true
+        },
+        "parameters": {
+          "label": "Twister-1",
+          "running": false,
+          "trigger": false,
+          "length": 441223.9414036101,
+          "loop": true,
+          "snapshotEnabled": true,
+          "snapshotTransitionEnabled": true,
+          "automationEnabled": true,
+          "customSnapshotTransition": false
+        },
+        "children": {
+          "snapshot": {
+            "class": "heronarts.lx.snapshot.LXClipSnapshot",
+            "internal": {
+              "modulationColor": 0,
+              "modulationControlsExpanded": true,
+              "modulationsExpanded": true
+            },
+            "parameters": {
+              "label": "Snapshot",
+              "transitionTimeSecs": 1.0
+            },
+            "children": {},
+            "views": [
+              {
+                "scope": "MIXER",
+                "type": "CHANNEL_FADER",
+                "enabled": true,
+                "channelPath": "/lx/mixer/channel/6",
+                "channelEnabled": true,
+                "channelFader": 0.0
+              },
+              {
+                "scope": "MIXER",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/6/crossfadeGroup",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/6/compositeMode",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "ACTIVE_PATTERN",
+                "enabled": true,
+                "channelPath": "/lx/mixer/channel/6",
+                "activePatternIndex": 69
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/6/pattern/70/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/6/pattern/70/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/6/pattern/70/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/6/pattern/70/recall",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/6/pattern/70/compositeMode",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/6/pattern/70/compositeLevel",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              }
+            ]
+          }
+        },
+        "index": 0,
+        "parameterLanes": [
+          {
+            "laneType": "midiNote",
+            "events": []
+          },
+          {
+            "laneType": "pattern",
+            "events": [
+              {
+                "cursor": 0.0,
+                "patternIndex": 69
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "/channel/7",
+      "clip": {
+        "class": "heronarts.lx.clip.LXChannelClip",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true,
+          "modulationsExpanded": true
+        },
+        "parameters": {
+          "label": "Bubbles-1",
+          "running": false,
+          "trigger": false,
+          "length": 441223.9414036101,
+          "loop": true,
+          "snapshotEnabled": true,
+          "snapshotTransitionEnabled": true,
+          "automationEnabled": true,
+          "customSnapshotTransition": false
+        },
+        "children": {
+          "snapshot": {
+            "class": "heronarts.lx.snapshot.LXClipSnapshot",
+            "internal": {
+              "modulationColor": 0,
+              "modulationControlsExpanded": true,
+              "modulationsExpanded": true
+            },
+            "parameters": {
+              "label": "Snapshot",
+              "transitionTimeSecs": 1.0
+            },
+            "children": {},
+            "views": [
+              {
+                "scope": "MIXER",
+                "type": "CHANNEL_FADER",
+                "enabled": true,
+                "channelPath": "/lx/mixer/channel/7",
+                "channelEnabled": true,
+                "channelFader": 1.0
+              },
+              {
+                "scope": "MIXER",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/7/crossfadeGroup",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/7/compositeMode",
+                "value": 1,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/7/pattern/1/enabled",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/7/pattern/2/enabled",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/7/pattern/3/enabled",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/7/pattern/4/enabled",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/7/pattern/5/enabled",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/7/pattern/6/enabled",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/7/pattern/7/enabled",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "PATTERNS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/channel/7/pattern/8/enabled",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              }
+            ]
+          }
+        },
+        "index": 0,
+        "parameterLanes": [
+          {
+            "laneType": "midiNote",
+            "events": []
+          },
+          {
+            "laneType": "pattern",
+            "events": []
+          }
+        ]
+      }
+    },
+    {
+      "path": "/master",
+      "clip": {
+        "class": "heronarts.lx.clip.LXMasterClip",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true,
+          "modulationsExpanded": true
+        },
+        "parameters": {
+          "label": "Clip-1",
+          "running": false,
+          "trigger": false,
+          "length": 441223.9414036101,
+          "loop": true,
+          "snapshotEnabled": true,
+          "snapshotTransitionEnabled": true,
+          "automationEnabled": true,
+          "customSnapshotTransition": false
+        },
+        "children": {
+          "snapshot": {
+            "class": "heronarts.lx.snapshot.LXClipSnapshot",
+            "internal": {
+              "modulationColor": 0,
+              "modulationControlsExpanded": true,
+              "modulationsExpanded": true
+            },
+            "parameters": {
+              "label": "Snapshot",
+              "transitionTimeSecs": 1.0
+            },
+            "children": {},
+            "views": [
+              {
+                "scope": "MASTER",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/fader",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/1/enabled",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/2/enabled",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/3/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/3/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/3/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/3/amount",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/4/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/4/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/4/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/4/amount",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/5/enabled",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/6/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/6/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/6/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/6/speed",
+                "value": 1.0391536491169882,
+                "normalizedValue": 0.30800000805407773
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/7/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/7/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/7/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/7/level",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/7/decay",
+                "value": 1.0,
+                "normalizedValue": 0.25459631350847767
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/7/decayFactor",
+                "value": 0.5,
+                "normalizedValue": 0.494949494949495
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/7/mode",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/8/enabled",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/9/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/9/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/9/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/9/amount",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/10/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/10/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/10/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/10/amount",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/11/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/11/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/11/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/11/debugId",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/12/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/12/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/12/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/12/debugId",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/13/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/13/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/13/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/13/debugId",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/14/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/14/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/14/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/14/debugId",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/15/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/15/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/15/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/16/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/16/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/16/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/16/level",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/16/decay",
+                "value": 1.0,
+                "normalizedValue": 0.25459631350847767
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/16/decayFactor",
+                "value": 0.5,
+                "normalizedValue": 0.494949494949495
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/16/mode",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/17/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/17/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/17/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/17/hue_filter",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/17/amount",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/18/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/18/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/18/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/18/amount",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/19/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/19/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/19/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/19/amount",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/20/view",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/20/viewPriority",
+                "value": 0,
+                "normalizedValue": 0.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/20/enabled",
+                "value": 1.0,
+                "normalizedValue": 1.0
+              },
+              {
+                "scope": "EFFECTS",
+                "type": "PARAMETER",
+                "enabled": true,
+                "parameterPath": "/lx/mixer/master/effect/20/amount",
+                "value": 0.0,
+                "normalizedValue": 0.0
+              }
+            ]
+          }
+        },
+        "index": 0,
+        "parameterLanes": [
+          {
+            "laneType": "parameter",
+            "events": [
+              {
+                "cursor": 341492.9070946671,
+                "normalized": 0.30800000805407773
+              },
+              {
+                "cursor": 341653.9759102802,
+                "normalized": 0.2920000072941185
+              },
+              {
+                "cursor": 341669.0817285549,
+                "normalized": 0.26800000708550226
+              },
+              {
+                "cursor": 342224.6562103096,
+                "normalized": 0.25200000632554304
+              },
+              {
+                "cursor": 342235.58655478305,
+                "normalized": 0.23600000556558381
+              },
+              {
+                "cursor": 342246.00880159915,
+                "normalized": 0.2280000051856042
+              },
+              {
+                "cursor": 342283.5019406272,
+                "normalized": 0.22000000480562462
+              },
+              {
+                "cursor": 342860.9244814987,
+                "normalized": 0.20400000404566537
+              },
+              {
+                "cursor": 342868.6044577438,
+                "normalized": 0.1479999985918404
+              },
+              {
+                "cursor": 342873.9909008737,
+                "normalized": 0.13199999783188116
+              },
+              {
+                "cursor": 342878.350862383,
+                "normalized": 0.12399999745190154
+              },
+              {
+                "cursor": 391136.818124705,
+                "normalized": 0.13199999783188116
+              },
+              {
+                "cursor": 391149.35301404435,
+                "normalized": 0.13999999821186077
+              },
+              {
+                "cursor": 391190.51861335034,
+                "normalized": 0.1479999985918404
+              },
+              {
+                "cursor": 391219.6687761708,
+                "normalized": 0.15599999897182
+              },
+              {
+                "cursor": 391283.4220123769,
+                "normalized": 0.1639999993517996
+              },
+              {
+                "cursor": 391339.8276536527,
+                "normalized": 0.17199999973177924
+              },
+              {
+                "cursor": 391388.5449719395,
+                "normalized": 0.18000000011175882
+              },
+              {
+                "cursor": 391485.31977203133,
+                "normalized": 0.18800000049173843
+              },
+              {
+                "cursor": 391519.5125977705,
+                "normalized": 0.19600000087171804
+              },
+              {
+                "cursor": 391704.4351830732,
+                "normalized": 0.20400000125169765
+              },
+              {
+                "cursor": 391974.7703409422,
+                "normalized": 0.21200000163167726
+              },
+              {
+                "cursor": 392598.7330607845,
+                "normalized": 0.22000000201165687
+              },
+              {
+                "cursor": 392643.32838145917,
+                "normalized": 0.22800000239163648
+              },
+              {
+                "cursor": 392879.9654016162,
+                "normalized": 0.23600000277161612
+              },
+              {
+                "cursor": 393051.93247063505,
+                "normalized": 0.24400000315159573
+              },
+              {
+                "cursor": 393126.38836347946,
+                "normalized": 0.2520000035315753
+              },
+              {
+                "cursor": 393136.5900181262,
+                "normalized": 0.2600000039115549
+              },
+              {
+                "cursor": 393385.05454463064,
+                "normalized": 0.26800000429153453
+              },
+              {
+                "cursor": 393423.17425290094,
+                "normalized": 0.27600000467151414
+              },
+              {
+                "cursor": 393750.31080187805,
+                "normalized": 0.28400000505149375
+              },
+              {
+                "cursor": 393973.1374201225,
+                "normalized": 0.300000005811453
+              },
+              {
+                "cursor": 394002.8674211581,
+                "normalized": 0.30800000619143264
+              },
+              {
+                "cursor": 394050.66848849494,
+                "normalized": 0.3160000065714122
+              },
+              {
+                "cursor": 395375.46358333307,
+                "normalized": 0.3240000069513918
+              }
+            ],
+            "path": "/effect/6/speed",
+            "componentId": 515835,
+            "parameterPath": "speed"
+          }
+        ]
+      }
+    }
+  ]
+}

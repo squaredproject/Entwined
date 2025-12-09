@@ -38,19 +38,27 @@ public class GlobalEffects extends LXModulator implements UIModulatorControls<Gl
     if (color != null) {
       this.knobs[0].setParameter(color.hueShift);
       this.knobs[1].setParameter(color.desaturation);
+    } else {
+      System.out.println("Could not find master color effect");
     }
     HueFilterEffect hueFilter = Entwined.findMasterEffect(this.lx, HueFilterEffect.class);
     if (hueFilter != null) {
       this.knobs[2].setParameter(hueFilter.hueFilter);
       this.knobs[3].setParameter(hueFilter.amount);
+    } else {
+      System.out.println("could not find master huefilter effect");
     }
     BlurEffect blur = Entwined.findMasterEffect(this.lx, BlurEffect.class);
     if (blur != null) {
       this.knobs[4].setParameter(blur.level);
+    } else {
+      System.out.println("Could not find master blur effect");
     }
     SpeedEffect speed = Entwined.findMasterEffect(this.lx, SpeedEffect.class);
     if (speed != null) {
       this.knobs[5].setParameter(speed.speed);
+    } else {
+      System.out.println("Could not find master speed effect");
     }
     /*
     SpinEffect spin = findEffect(SpinEffect.class);
@@ -61,6 +69,8 @@ public class GlobalEffects extends LXModulator implements UIModulatorControls<Gl
     CandyCloudTextureEffect candyCloud = Entwined.findMasterEffect(this.lx, CandyCloudTextureEffect.class);
     if (candyCloud != null) {
       this.knobs[7].setParameter(candyCloud.amount);
+    } else {
+      System.out.println("Could not find master candy cloud effect");
     }
   }
 

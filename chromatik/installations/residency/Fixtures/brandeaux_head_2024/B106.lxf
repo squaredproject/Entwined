@@ -1,0 +1,27 @@
+{
+  "label": "B106",
+  "tags": [
+    "B106",
+    "head",
+    "accent",
+    "LR3",
+    "right_ear_bottom",
+    "1",
+    "10.4.1.71"
+  ],
+  "output": {
+    "protocol": "kinet",
+    "kinetPort": "1",
+    "host": "10.4.1.71"
+  },
+  "components": [
+    {
+      "x": 286.0,
+      "y": -88.0,
+      "z": 0.0,
+      "type": "strip",
+      "direction": { "x": -1 },
+      "numPoints": 20
+    }
+  ]
+}

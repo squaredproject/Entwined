@@ -9,17 +9,17 @@ import heronarts.lx.model.LXPoint;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 // import org.apache.commons.lang3.ArrayUtils;
 
 public class SparkleHelix extends LXPattern {
-  final BoundedParameter minCoil = new BoundedParameter("MinCOIL", .02, .005, .05);
-  final BoundedParameter maxCoil = new BoundedParameter("MaxCOIL", .03, .005, .05);
-  final BoundedParameter sparkle = new BoundedParameter("Spark", 80, 160, 10);
-  final BoundedParameter sparkleSaturation = new BoundedParameter("Sat", 50, 0, 100);
-  final BoundedParameter counterSpiralStrength = new BoundedParameter("Double", 0, 0, 1);
+  final CompoundParameter minCoil = new CompoundParameter("MinCOIL", .02, .005, .05);
+  final CompoundParameter maxCoil = new CompoundParameter("MaxCOIL", .03, .005, .05);
+  final CompoundParameter sparkle = new CompoundParameter("Spark", 80, 160, 10);
+  final CompoundParameter sparkleSaturation = new CompoundParameter("Sat", 50, 0, 100);
+  final CompoundParameter counterSpiralStrength = new CompoundParameter("Double", 0, 0, 1);
 
   final SinLFO coil = new SinLFO(minCoil, maxCoil, 8000);
   final SinLFO rate = new SinLFO(6000, 1000, 19000);

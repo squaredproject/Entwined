@@ -1,0 +1,41 @@
+[
+    {
+        "ry" : 135,
+		"x" : -170,
+		"z" : 0,
+        "shape": "arc",
+        "radius": 60,
+        "degrees": 160,
+        "separation": 70,
+        "pieceId" : "baby-1",
+        "cubeSizeIndex" : 0,
+        "clustersPerNdb" : 3,
+        "ipAddresses" : ["10.0.0.133"]
+},
+    {
+        "ry" : 345,
+        "x" : -143,
+        "z" : -144,
+        "shape": "arc",
+        "radius": 60,
+        "degrees": 180,
+        "separation" : 75,
+        "pieceId" : "baby-2",
+        "cubeSizeIndex" : 0,
+        "clustersPerNdb" : 3,
+        "ipAddresses" : ["10.0.0.147"]
+},
+    {
+        "ry" : 225,
+        "x" : 10,
+        "z" : -170,
+        "shape": "arc",
+        "radius": 68,
+        "degrees": 180,
+        "separation" : 60,
+        "pieceId" : "baby-3",
+        "cubeSizeIndex" : 0,
+        "clustersPerNdb" : 3,
+        "ipAddresses" : ["10.0.0.149"]
+ }   
+]

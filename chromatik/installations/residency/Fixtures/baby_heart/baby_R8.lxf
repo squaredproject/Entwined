@@ -1,0 +1,639 @@
+{
+  "label": "baby_R8",
+  "tags": [
+    "r",
+    "h",
+    "10.25.25.3_2",
+    "R8",
+    "ck",
+    "exterior",
+    "baby_heart"
+  ],
+  "output": {
+    "protocol": "kinet",
+    "kinetPort": 2,
+    "host": "10.25.25.3"
+  },
+  "components": [
+    {
+      "x": 0.0,
+      "y": 39.6,
+      "z": 34.5,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 3.688,
+      "y": 38.494,
+      "z": 33.415,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 7.376,
+      "y": 37.387,
+      "z": 32.331,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 11.063,
+      "y": 36.281,
+      "z": 31.246,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 14.751,
+      "y": 35.175,
+      "z": 30.161,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 18.161,
+      "y": 33.95,
+      "z": 28.614,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 21.137,
+      "y": 32.54,
+      "z": 26.343,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 24.113,
+      "y": 31.131,
+      "z": 24.072,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 27.089,
+      "y": 29.721,
+      "z": 21.801,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 30.064,
+      "y": 28.312,
+      "z": 19.53,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 33.04,
+      "y": 26.902,
+      "z": 17.259,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 36.003,
+      "y": 25.497,
+      "z": 14.979,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 36.655,
+      "y": 24.976,
+      "z": 11.067,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 37.307,
+      "y": 24.454,
+      "z": 7.155,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 37.959,
+      "y": 23.932,
+      "z": 3.243,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 38.389,
+      "y": 23.589,
+      "z": -0.669,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 37.737,
+      "y": 24.111,
+      "z": -4.58,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 37.085,
+      "y": 24.632,
+      "z": -8.492,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 36.433,
+      "y": 25.154,
+      "z": -12.404,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 34.999,
+      "y": 25.974,
+      "z": -15.764,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 32.023,
+      "y": 27.384,
+      "z": -18.035,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 29.047,
+      "y": 28.793,
+      "z": -20.306,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 26.071,
+      "y": 30.203,
+      "z": -22.577,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 23.096,
+      "y": 31.613,
+      "z": -24.848,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 20.12,
+      "y": 33.022,
+      "z": -27.119,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 17.144,
+      "y": 34.432,
+      "z": -29.39,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 13.491,
+      "y": 35.553,
+      "z": -30.532,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 9.803,
+      "y": 36.659,
+      "z": -31.617,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 6.115,
+      "y": 37.765,
+      "z": -32.701,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 2.427,
+      "y": 38.872,
+      "z": -33.786,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "x": 0.0,
+      "y": 39.6,
+      "z": -34.5,
+      "tags": [
+        "r",
+        "h",
+        "10.25.25.3_2",
+        "R8",
+        "ck",
+        "exterior",
+        "baby_heart"
+      ],
+      "type": "point",
+      "direction": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    }
+  ]
+}

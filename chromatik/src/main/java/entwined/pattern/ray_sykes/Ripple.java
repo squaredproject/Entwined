@@ -4,13 +4,13 @@ import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.utils.LXUtils;
 
 public class Ripple extends LXPattern {
-  final BoundedParameter speed = new BoundedParameter("Speed", 15000, 25000, 8000);
-  final BoundedParameter baseBrightness = new BoundedParameter("Bright", 0, 0, 100);
+  final CompoundParameter speed = new CompoundParameter("Speed", 15000, 25000, 8000);
+  final CompoundParameter baseBrightness = new CompoundParameter("Bright", 0, 0, 100);
   final SawLFO rippleAge = new SawLFO(0, 100, speed);
 
   boolean resetDone = false;

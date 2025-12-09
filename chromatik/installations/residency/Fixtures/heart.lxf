@@ -1,0 +1,134 @@
+{
+  "label": "heart",
+  "tag": "heart",
+  "components": [
+    {
+      "type": "heart/R1",
+      "host": "10.222.20.15"
+    },
+    {
+      "type": "heart/R2",
+      "host": "10.222.20.15"
+    },
+    {
+      "type": "heart/R3",
+      "host": "10.222.20.15"
+    },
+    {
+      "type": "heart/R4",
+      "host": "10.222.20.15"
+    },
+    {
+      "type": "heart/R5",
+      "host": "10.222.20.15"
+    },
+    {
+      "type": "heart/R6",
+      "host": "10.222.20.15"
+    },
+    {
+      "type": "heart/R7",
+      "host": "10.222.20.15"
+    },
+    {
+      "type": "heart/R8",
+      "host": "10.222.20.15"
+    },
+    {
+      "type": "heart/R9",
+      "host": "10.222.20.15"
+    },
+    {
+      "type": "heart/R10",
+      "host": "10.222.20.15"
+    },
+    {
+      "type": "heart/R11",
+      "host": "10.222.20.15"
+    },
+    {
+      "type": "heart/R12",
+      "host": "10.222.20.15"
+    },
+    {
+      "type": "heart/R13",
+      "host": "10.222.20.15"
+    },
+    {
+      "type": "heart/R14",
+      "host": "10.222.20.15"
+    },
+    {
+      "type": "heart/R15",
+      "host": "10.222.20.15"
+    },
+    {
+      "type": "heart/R16",
+      "host": "10.222.20.15"
+    },
+    {
+      "type": "heart/L1",
+      "host": "10.222.20.14"
+    },
+    {
+      "type": "heart/L2",
+      "host": "10.222.20.14"
+    },
+    {
+      "type": "heart/L3",
+      "host": "10.222.20.14"
+    },
+    {
+      "type": "heart/L4",
+      "host": "10.222.20.14"
+    },
+    {
+      "type": "heart/L5",
+      "host": "10.222.20.14"
+    },
+    {
+      "type": "heart/L6",
+      "host": "10.222.20.14"
+    },
+    {
+      "type": "heart/L7",
+      "host": "10.222.20.14"
+    },
+    {
+      "type": "heart/L8",
+      "host": "10.222.20.14"
+    },
+    {
+      "type": "heart/L9",
+      "host": "10.222.20.14"
+    },
+    {
+      "type": "heart/L10",
+      "host": "10.222.20.14"
+    },
+    {
+      "type": "heart/L11",
+      "host": "10.222.20.14"
+    },
+    {
+      "type": "heart/L12",
+      "host": "10.222.20.14"
+    },
+    {
+      "type": "heart/L13",
+      "host": "10.222.20.14"
+    },
+    {
+      "type": "heart/L14",
+      "host": "10.222.20.14"
+    },
+    {
+      "type": "heart/L15",
+      "host": "10.222.20.14"
+    },
+    {
+      "type": "heart/L16",
+      "host": "10.222.20.14"
+    }
+  ]
+}

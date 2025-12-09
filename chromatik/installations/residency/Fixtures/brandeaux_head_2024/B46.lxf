@@ -1,0 +1,27 @@
+{
+  "label": "B46",
+  "tags": [
+    "B46",
+    "head",
+    "mouth5left",
+    "13",
+    "10.4.170.112"
+  ],
+  "output": {
+    "protocol": "kinet",
+    "kinetPort": "13",
+    "host": "10.4.170.112"
+  },
+  "components": [
+    {
+      "type": "strip",
+      "instances": 6,
+      "x": "220.45 - $instance*1.65",
+      "y": -91.0,
+      "z": 0.0,
+      "direction": { "y": 1 },
+      "spacing": 1.65,
+      "numPoints": 12
+    }
+  ]
+}

@@ -3,12 +3,12 @@ package entwined.pattern.anon;
 import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.effect.LXEffect;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 public class HueFilterEffect extends LXEffect {
 
-  public final BoundedParameter hueFilter = new BoundedParameter("HUEF", 0, 360); // 0 to 360 starting at 0
-  public final BoundedParameter amount = new BoundedParameter("HDEG", 0, 180);
+  public final CompoundParameter hueFilter = new CompoundParameter("HUEF", 0, 360); // 0 to 360 starting at 0
+  public final CompoundParameter amount = new CompoundParameter("HDEG", 0, 180);
 
   //private float[] hsb = new float[3];
 

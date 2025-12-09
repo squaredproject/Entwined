@@ -18,7 +18,7 @@ if (! ( Test-Path -Path $install_dir )) {
 
 
 mkdir -p $fixtures_dir -ea 0
-mkdir -p "$HOME/Chromatik/Projects" -ea 0
+mkdir -p "$fixtures_dir/../../Projects"  -ea 0
 rm $fixtures_dir/*
 rm ~/Chromatik/autoplay.lxr -ea 0
 rm ~/Chromatik/Projects/entwined.lxp -ea 0
@@ -36,8 +36,18 @@ if (Test-Path -Path $install_dir/trees.json -PathType Leaf) {
 if (Test-Path -Path $install_dir/bench.json -PathType Leaf) {
         python bench.py --config $install_dir/bench.json --fixtures_folder $fixtures_dir
 }
+if (Test-Path -Path $install_dir/spots.json -PathType Leaf) {
+        python spot.py --config $install_dir/spots.json --fixtures_folder $fixtures_dir
+}
+if (Test-Path -Path $install_dir/fruits.json -PathType Leaf) {
+        python fruit.py --config $install_dir/fruits.json --fixtures_folder $fixtures_dir
+}
 if (Test-Path -Path $install_dir/elder_mother_cubes.csv -PathType Leaf) {
-        python elder_mother.py --ndb_config $install_dir/elder_ndb_ips.txt --cubes_config $install_dir/elder_mother_cubes.csv --fixtures_folder $fixtures_dir
+        python elder_mother.py --ndb_config $install_dir/elder_ndb_ips.txt --cubes_config $install_dir/elder_mother_cubes.csv --elder_config $install_dir/elder_mother.json --fixtures_folder $fixtures_dir
+}
+if (Test-Path -Path $install_dir/led_heart_data.csv -PathType Leaf) {
+        python led_heart.py --csv $install_dir/led_heart_data.csv --fixtures_folder $fixtures_dir
+        echo "Created led heart fixtures"
 }
 
 if (Test-Path -Path $install_dir/entwined.lxp) {
@@ -48,11 +58,19 @@ if (Test-Path -Path $install_dir/config.json -PathType Leaf) {
         cp $install_dir/config.json "$HOME/Chromatik"
 }
 
-if (Test-Path -Path $install_dir/autoplay.lxr -PathType Leaf) {
-        cp $install_dir/autoplay.lxr "$HOME/Chromatik" 
+if (Test-Path -Path $install_dir/*.lxr -PathType Leaf) {
+        cp $install_dir/*.lxr "$HOME/Chromatik" 
 }
 else {
         echo "no autoplay recording available, will not autoplay"
+}
+
+if (Test-Path -Path $install_dir/Fixtures) {
+        cp -r $install_dir/Fixtures/* $fixtures_dir/../ -ea 0
+}
+if (Test-Path -Path $install_dir/Models) {
+        mkdir -p "$fixtures_dir/../../Models"  -ea 0
+        cp -r $install_dir/Models/* $fixtures_dir/../../Models -ea 0
 }
 
 # copy video files over

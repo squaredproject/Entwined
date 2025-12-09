@@ -2,19 +2,19 @@ package entwined.pattern.bbulkow;
 
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class StripeStatic extends LXPattern {
 
   // stripes: width in inches
-  final BoundedParameter widthParam = new BoundedParameter("WIDTH", 3*12, 12, 20*12);
-  final BoundedParameter hue1Param = new BoundedParameter("HUE1", 55, 1, 360);
-  final BoundedParameter bright1Param = new BoundedParameter("BRIGHT1", 100, 0, 100);
-  final BoundedParameter hue2Param = new BoundedParameter("HUE2", 200, 1, 360);
-  final BoundedParameter bright2Param = new BoundedParameter("BRIGHT2", 100, 0, 100);
-  final BoundedParameter hue3Param = new BoundedParameter("HUE3", 300, 1, 360);
-  final BoundedParameter bright3Param = new BoundedParameter("BRIGHT3", 0, 0, 100);
+  final CompoundParameter widthParam = new CompoundParameter("WIDTH", 3*12, 12, 20*12);
+  final CompoundParameter hue1Param = new CompoundParameter("HUE1", 55, 1, 360);
+  final CompoundParameter bright1Param = new CompoundParameter("BRIGHT1", 100, 0, 100);
+  final CompoundParameter hue2Param = new CompoundParameter("HUE2", 200, 1, 360);
+  final CompoundParameter bright2Param = new CompoundParameter("BRIGHT2", 100, 0, 100);
+  final CompoundParameter hue3Param = new CompoundParameter("HUE3", 300, 1, 360);
+  final CompoundParameter bright3Param = new CompoundParameter("BRIGHT3", 0, 0, 100);
 
 
   public StripeStatic(LX lx) {

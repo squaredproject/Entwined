@@ -19,7 +19,7 @@ if __name__ == "__main__":
         exit(-1)
 
     onOff = args.onOff in ['true', 'TRUE', 't', 'True']
-    osc_string = f"/channel/{args.channel}/pattern/{args.pattern},s{'T' if onOff else 'F'}\n"
+    osc_string = f"channel/{args.channel}/pattern/{args.pattern} ,{'T' if onOff else 'F'}\n"
 
     # Open TCP connection
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:

@@ -1,0 +1,10 @@
+[Match]
+Name=wl*
+
+[Network]
+LLMNR=no
+LinkLocalAddressing=no
+MulticastDNS=yes
+DHCP=ipv4
+#Address=10.0.0.11/16
+#MulticastDNS=yes

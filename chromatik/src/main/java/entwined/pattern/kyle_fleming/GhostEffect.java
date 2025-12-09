@@ -8,12 +8,12 @@ import heronarts.lx.LX;
 import heronarts.lx.LXLayer;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.effect.LXEffect;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.LXParameter;
 
 public class GhostEffect extends LXEffect {
 
-  final BoundedParameter amount = new BoundedParameter("GHOS", 0, 0, 1).setExponent(2);
+  final CompoundParameter amount = new CompoundParameter("GHOS", 0, 0, 1).setExponent(2);
 
   public GhostEffect(LX lx) {
     super(lx);

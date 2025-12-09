@@ -5,11 +5,11 @@ import heronarts.lx.color.LXColor;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 public class CandyTextureEffect extends LXEffect {
 
-  public final BoundedParameter amount = new BoundedParameter("CAND");
+  public final CompoundParameter amount = new CompoundParameter("CAND");
 
   double time = 0;
 

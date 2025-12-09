@@ -5,17 +5,17 @@ import entwined.core.MultiObjectPattern;
 import entwined.utils.EntwinedUtils;
 import entwined.utils.Vec2D;
 import heronarts.lx.LX;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.utils.LXUtils;
 
 public class Wisps extends MultiObjectPattern<Wisp> {
 
-  final BoundedParameter baseColor = new BoundedParameter("COLR", 210, 360);
-  final BoundedParameter colorVariability = new BoundedParameter("CVAR", 10, 180);
-  final BoundedParameter direction = new BoundedParameter("DIR", 90, 360);
-  final BoundedParameter directionVariability = new BoundedParameter("DVAR", 20, 180);
-  final BoundedParameter thickness = new BoundedParameter("WIDT", 3.5f, 1, 20).setExponent(2);
-  final BoundedParameter speed = new BoundedParameter("SPEE", 10, 1, 20).setExponent(2);
+  final CompoundParameter baseColor = new CompoundParameter("COLR", 210, 360);
+  final CompoundParameter colorVariability = new CompoundParameter("CVAR", 10, 180);
+  final CompoundParameter direction = new CompoundParameter("DIR", 90, 360);
+  final CompoundParameter directionVariability = new CompoundParameter("DVAR", 20, 180);
+  final CompoundParameter thickness = new CompoundParameter("WIDT", 3.5f, 1, 20).setExponent(2);
+  final CompoundParameter speed = new CompoundParameter("SPEE", 10, 1, 20).setExponent(2);
   // Possible other parameters:
   //  Distance
   //  Distance variability

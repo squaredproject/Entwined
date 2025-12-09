@@ -3,13 +3,13 @@ package entwined.pattern.kyle_fleming;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class Fade extends LXPattern {
 
-  final BoundedParameter speed = new BoundedParameter("SPEE", 11000, 100000, 1000).setExponent(0.5);
-  final BoundedParameter smoothness = new BoundedParameter("SMOO", 100, 1, 100).setExponent(2);
+  final CompoundParameter speed = new CompoundParameter("SPEE", 11000, 100000, 1000).setExponent(0.5);
+  final CompoundParameter smoothness = new CompoundParameter("SMOO", 100, 1, 100).setExponent(2);
 
   final SinLFO colr = new SinLFO(0, 360, speed);
 

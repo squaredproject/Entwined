@@ -1,0 +1,721 @@
+{
+  "version": "1.0.1-SNAPSHOT",
+  "timestamp": 1713912042088,
+  "fixtures": [
+    {
+      "jsonFixtureType": "BitCube/BitCube_rhres",
+      "jsonParameters": {
+        "host1": "10.240.100.10",
+        "universe1": 0,
+        "channel1": 0,
+        "byteOrder": "RGB"
+      },
+      "id": 438888,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "BitCube rhres 8",
+        "x": -856.0,
+        "y": -72.0,
+        "z": 552.0,
+        "yaw": -90.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": true,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "bc-bar",
+        "fixtureType": "BitCube/BitCube_rhres"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "BitCube/BitCube_portos",
+      "jsonParameters": {
+        "host1": "10.240.100.13",
+        "universe1": 20,
+        "channel1": 0,
+        "byteOrder": "RGB"
+      },
+      "id": 705706,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "BitCube_portos 25",
+        "x": 227.0,
+        "y": -72.0,
+        "z": 652.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "BitCube/BitCube_portos"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "heart",
+      "jsonParameters": {},
+      "id": 700092,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "heart 6",
+        "x": -504.0,
+        "y": 60.0,
+        "z": 100.0,
+        "yaw": 90.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "heart"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "bar_lights/bar_lights",
+      "jsonParameters": {
+        "host1": "10.42.10.10",
+        "universe1": 30,
+        "channel1": 0,
+        "host2": "10.42.10.10",
+        "universe2": 40,
+        "channel2": 0,
+        "host3": "10.42.10.10",
+        "universe3": 10,
+        "channel3": 0,
+        "host4": "10.42.10.10",
+        "universe4": 20,
+        "channel4": 0,
+        "byteOrder": "BRG"
+      },
+      "id": 703245,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "bar_lights, rhres 7",
+        "x": -548.0,
+        "y": -84.0,
+        "z": 186.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "bar_lights/bar_lights"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/ent-shrub-1",
+      "jsonParameters": {},
+      "id": 703473,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "ent-shrub-1 8",
+        "x": -53.0,
+        "y": 0.0,
+        "z": 47.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/ent-shrub-1"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/ent-shrub-2",
+      "jsonParameters": {},
+      "id": 703583,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "ent-shrub-2 9",
+        "x": -37.0,
+        "y": 0.0,
+        "z": 36.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/ent-shrub-2"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/ent-shrub-5",
+      "jsonParameters": {},
+      "id": 703693,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "ent-shrub-5 10",
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/ent-shrub-5"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/ent-shrub-6",
+      "jsonParameters": {},
+      "id": 703803,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "ent-shrub-6 11",
+        "x": 122.0,
+        "y": 0.0,
+        "z": 122.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/ent-shrub-6"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/ent-shrub-7",
+      "jsonParameters": {},
+      "id": 703913,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "ent-shrub-7 12",
+        "x": 160.0,
+        "y": 0.0,
+        "z": 178.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/ent-shrub-7"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/fruit-1.0",
+      "jsonParameters": {},
+      "id": 704023,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "fruit-1.0 13",
+        "x": -185.0,
+        "y": 0.0,
+        "z": 4.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/fruit-1.0"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/fruit-2.0",
+      "jsonParameters": {},
+      "id": 704133,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "fruit-2.0 14",
+        "x": -186.0,
+        "y": 0.0,
+        "z": -72.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/fruit-2.0"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/fruit-3.0",
+      "jsonParameters": {},
+      "id": 704243,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "fruit-3.0 15",
+        "x": -218.0,
+        "y": 20.0,
+        "z": 55.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/fruit-3.0"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/fruit-3.1",
+      "jsonParameters": {},
+      "id": 704353,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "fruit-3.1 16",
+        "x": -833.0,
+        "y": -30.0,
+        "z": -485.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/fruit-3.1"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/fruit-4.0",
+      "jsonParameters": {},
+      "id": 704463,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "fruit-4.0 17",
+        "x": -199.0,
+        "y": 0.0,
+        "z": 7.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/fruit-4.0"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/fruit-5.0",
+      "jsonParameters": {},
+      "id": 704573,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "fruit-5.0 18",
+        "x": -214.0,
+        "y": 0.0,
+        "z": -15.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/fruit-5.0"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/fruit-5.1",
+      "jsonParameters": {},
+      "id": 704683,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "fruit-5.1 19",
+        "x": -116.0,
+        "y": 18.0,
+        "z": -5.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/fruit-5.1"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/fruit-6.0",
+      "jsonParameters": {},
+      "id": 704793,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "fruit-6.0 20",
+        "x": -152.0,
+        "y": 0.0,
+        "z": 63.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/fruit-6.0"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/fruit-6.1",
+      "jsonParameters": {},
+      "id": 704903,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "fruit-6.1 21",
+        "x": -112.0,
+        "y": 0.0,
+        "z": 161.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/fruit-6.1"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/fruit-6.2",
+      "jsonParameters": {},
+      "id": 705013,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "fruit-6.2 22",
+        "x": -18.0,
+        "y": 0.0,
+        "z": 21.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/fruit-6.2"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/fruit-7.0",
+      "jsonParameters": {},
+      "id": 705123,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "fruit-7.0 23",
+        "x": 140.0,
+        "y": 4.0,
+        "z": 159.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/fruit-7.0"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/fruit-7.1",
+      "jsonParameters": {},
+      "id": 705233,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "fruit-7.1 24",
+        "x": 120.0,
+        "y": 4.0,
+        "z": 264.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/fruit-7.1"
+      },
+      "children": {}
+    },
+    {
+      "jsonFixtureType": "entwined/fruit-7.2",
+      "jsonParameters": {},
+      "id": 720176,
+      "class": "heronarts.lx.structure.JsonFixture",
+      "internal": {
+        "modulationColor": 0,
+        "modulationControlsExpanded": true,
+        "modulationsExpanded": true
+      },
+      "parameters": {
+        "label": "fruit-7.2 26",
+        "x": 269.0,
+        "y": 28.0,
+        "z": 213.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "roll": 0.0,
+        "scale": 1.0,
+        "selected": false,
+        "deactivate": false,
+        "enabled": true,
+        "brightness": 1.0,
+        "identify": false,
+        "mute": false,
+        "solo": false,
+        "tags": "",
+        "fixtureType": "entwined/fruit-7.2"
+      },
+      "children": {}
+    }
+  ],
+  "normalization": {
+    "normalizationMode": 0,
+    "normalizationX": 0.0,
+    "normalizationY": 0.0,
+    "normalizationZ": 0.0,
+    "normalizationWidth": 1000.0,
+    "normalizationHeight": 1000.0,
+    "normalizationDepth": 1000.0
+  }
+}

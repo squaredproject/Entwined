@@ -2,12 +2,12 @@ package entwined.pattern.kyle_fleming;
 
 import heronarts.lx.LX;
 import heronarts.lx.effect.LXEffect;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.LXParameter;
 
 public class SpeedEffect extends LXEffect {
 
-  public final BoundedParameter speed = new BoundedParameter("SPEED", 1, .1, 10).setExponent(2);
+  public final CompoundParameter speed = new CompoundParameter("SPEED", 1, .1, 10).setExponent(2);
 
   public SpeedEffect(final LX lx) {
     super(lx);

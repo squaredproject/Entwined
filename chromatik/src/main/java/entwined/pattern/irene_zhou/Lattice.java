@@ -7,15 +7,15 @@ import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.utils.LXUtils;
 
 public class Lattice extends LXPattern {
   final SawLFO spin = new SawLFO(0, 4320, 24000);
   final SinLFO yClimb = new SinLFO(60, 30, 24000);
-  final BoundedParameter hue = new BoundedParameter("HUE", 0, 0, 360);
-  final BoundedParameter yHeight = new BoundedParameter("HEIGHT", 0, -500, 500);
+  final CompoundParameter hue = new CompoundParameter("HUE", 0, 0, 360);
+  final CompoundParameter yHeight = new CompoundParameter("HEIGHT", 0, -500, 500);
 
   float coil(float basis) {
     return EntwinedUtils.sin(basis*LX.PIf);

@@ -10,7 +10,7 @@ import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 /*
 
@@ -59,7 +59,7 @@ public class FairySnakes extends TSBufferedPattern {
   List<SnakeConfig> snakeConfigs;
   HashMap<String, Integer> numSnakesPerCircle;
 
-  final BoundedParameter speedParam = new BoundedParameter("Speed", 3, 0.1, 20);
+  final CompoundParameter speedParam = new CompoundParameter("Speed", 3, 0.1, 20);
   final SinLFO snakeFadeInSin = new SinLFO(0.0, 0.9, 1000 * 30);
 
   public FairySnakes(LX lx) {
@@ -185,6 +185,11 @@ public class FairySnakes extends TSBufferedPattern {
     List<LXPoint> path = snakePaths.get(pieceId);
     if (alternate == true) {
       path = snakePathsAlternate.get(pieceId);
+    }
+    // this is an error case. The function doesn't have any kind of error return though
+    if (path == null) {
+      System.out.println(" can't create snakes ");
+      return;
     }
 
     for (int i = 0; i < snakeLength; i++) {

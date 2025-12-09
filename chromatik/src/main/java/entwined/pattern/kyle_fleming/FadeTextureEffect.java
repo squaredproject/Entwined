@@ -4,11 +4,11 @@ import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.modulator.SawLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 public class FadeTextureEffect extends LXEffect {
 
-  public final BoundedParameter amount = new BoundedParameter("FADE");
+  public final CompoundParameter amount = new CompoundParameter("FADE");
 
   final SawLFO colr = new SawLFO(0, 360, 10000);
 

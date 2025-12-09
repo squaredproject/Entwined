@@ -4,15 +4,15 @@ import entwined.utils.EntwinedUtils;
 import entwined.utils.SimplexNoise;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class CandyCloud extends LXPattern {
 
-  final BoundedParameter darkness = new BoundedParameter("DARK", 8, 0, 12);
+  final CompoundParameter darkness = new CompoundParameter("DARK", 8, 0, 12);
 
-  final BoundedParameter scale = new BoundedParameter("SCAL", 2400, 600, 10000);
-  final BoundedParameter speed = new BoundedParameter("SPD", 1, 1, 2);
+  final CompoundParameter scale = new CompoundParameter("SCAL", 2400, 600, 10000);
+  final CompoundParameter speed = new CompoundParameter("SPD", 1, 1, 2);
 
   double time = 0;
 

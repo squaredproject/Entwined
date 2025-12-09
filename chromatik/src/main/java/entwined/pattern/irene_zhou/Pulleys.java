@@ -13,15 +13,15 @@ import heronarts.lx.modulator.Accelerator;
 import heronarts.lx.modulator.Click;
 import heronarts.lx.modulator.LinearEnvelope;
 import heronarts.lx.parameter.BooleanParameter;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.DiscreteParameter;
 import heronarts.lx.parameter.LXParameter;
 
 public class Pulleys extends TSTriggerablePattern { //ported from SugarCubes
-  private BoundedParameter sz = new BoundedParameter("SIZE", 0.5);
-  private BoundedParameter beatAmount = new BoundedParameter("BEAT", 0);
+  private CompoundParameter sz = new CompoundParameter("SIZE", 0.5);
+  private CompoundParameter beatAmount = new CompoundParameter("BEAT", 0);
   private BooleanParameter automated = new BooleanParameter("AUTO", true);
-  private BoundedParameter speed = new BoundedParameter("SPEED", 1, -3, 3);
+  private CompoundParameter speed = new CompoundParameter("SPEED", 1, -3, 3);
   final DiscreteParameter pulleyCount = new DiscreteParameter("NUM", 1, 1, 5);
   private Click dropPulley = new Click(4000);
 

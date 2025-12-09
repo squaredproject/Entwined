@@ -1,13 +1,13 @@
 # Entwined for Chromatik
 
-Welcome to 2022's revamp of Entwined, featuring the latest version of LX Studio, Chromatik.
+Welcome to 2022's revamp of Entwined, featuring the latest version of LX Studio, Chromatik. [Full video walkthrough here](https://drive.google.com/drive/folders/1ZngvyDN9qjn0nojwjSn4Cn7enOzynoKP)
 
 If you're looking for Chromatik documentation, see LX Studio. The
 programming and use is the same. The installation is different, see below.
 
 [Check here for an Entwined based guide to using Chromatik](USE.md).
 
-# Prerequisites (Interactive, Headless at end)
+# Prerequisites (Interactive instructions: Headless at end)
 
 ## (Windows) Powershell
 
@@ -19,11 +19,10 @@ run them within Powershell.
 
 ## LX Studio
 
-You don't need to install LX Studio. Chromatik is what you need, and it's right here.
+You don't need to install LX Studio. Chromatik is what you need, and the libraries are in this repo. You don't need to download anything extra.
 
 If you'd like to read about it, this is [your best starting point for LX Studio](https://github.com/heronarts/LXStudio)
-but don't read the installation guide, because it walks through an installation
-with Processing.
+but don't read the installation guide: it discussed Processing, which Chromatik doesn't use.
 
 ## JDK
 
@@ -143,7 +142,7 @@ Mac & Linux: `run.sh`
 You should see a window with some blinking lights. If the window is not the
 correct size, resize it (the value is sticky).
 
-# Headless mode (raspberry pi, although mac and maybe windows should work)
+# Headless mode (raspberry pi)
 
 ## Prerequsites
 
@@ -172,6 +171,19 @@ From the same directory as `headless.sh`
 ```
 java  -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies.jar heronarts.lx.studio.Chromatik --authorize <authkey>
 ```
+
+# Troubleshooting
+
+## Switching back and forth between Chromatik 1 and Chromatik 0.43
+
+A breadcrumb for the unwary. If you get an error that `bind failed` what's really happening
+is you likely have two different copies of the plugin in the Chromatik directory.
+
+This is Chromatik\Packages\entwined.
+
+They have two different names, and the build script tries to do the right thing to remove any
+wayward ones, but check that first. You get the error because it goes though and sets up the ports,
+then does it again, and the second bind fails.
 
 # Connecting to Canopy
 
@@ -203,20 +215,6 @@ However, if you prefer to run directly from Eclipse, such as for pattern develop
 
 - Run `uninstall.sh` to ensure that the built Entwined package JAR is removed from the Chromatik content folder
 - Use the `Entwined.launch` Run Configuration for Eclipse to launch
-
-# Using the video player pattern
-
-There is now a somewhat special pattern called Video Player.
-
-If you put videos in the Chromatik/Videos directory, you can play them on sculptures using this plugin.
-
-You choose the file with a knob which is the numerical index of the file in the directory (lexographically). `a.mp4` would be 1, `b.mp4` would be 2.
-
-This plugin has only been tested with MP4 files.
-
-The video will be projected as a cylendar. This means it might stretch or otherwise be a bit weird. TODO for the future is add some knobs that would allow correction for different zoom factors.
-
-The install script now copies the contents of the checked in `chromatik` to the installation's `~/Chromatik`. Please be judicious in checking in video files.
 
 # Using Chromatik
 

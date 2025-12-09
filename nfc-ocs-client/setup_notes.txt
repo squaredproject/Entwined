@@ -1,0 +1,31 @@
+# Starting the service
+sudo systemctl daemon-reload
+sudo systemctl enable nfc_osc_client.service
+
+sudo systemctl start nfc_osc_client.service
+sudo systemctl stop nfc_osc_client.service 
+
+sudo systemctl status nfc_osc_client.service 
+
+sudo nano /lib/systemd/system/nfc_osc_client.service
+
+# Setting up the static ip
+sudo nano /etc/dhcpcd.conf
+edit the eth0 section
+
+static ip_address=10.0.0.11/24
+static routers=10.0.0.1
+static domain_name_servers=10.0.0.1
+
+use route to view gateway and mask
+
+on laptop:
+static ip_address=10.0.0.10 or whatever
+gateway = 10.0.0.1
+mask = 255.255.255.0
+
+# wifi network
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+
+# rpi ip during mdns mode
+169.254.131.179

@@ -1,0 +1,27 @@
+{
+  "label": "B100",
+  "tags": [
+    "B100",
+    "head",
+    "accent",
+    "LR1",
+    "right_ear_top",
+    "1",
+    "10.4.13.54"
+  ],
+  "output": {
+    "protocol": "kinet",
+    "kinetPort": "1",
+    "host": "10.4.13.54"
+  },
+  "components": [
+    {
+      "x": 267.0,
+      "y": -47.0,
+      "z": 0.0,
+      "type": "strip",
+      "direction": { "x": 1 },
+      "numPoints": 20
+    }
+  ]
+}

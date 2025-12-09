@@ -1,0 +1,67 @@
+{
+  label: "BitCube-rhres_da_try",
+  tag: "bitcube",
+  
+  parameters: {
+   "host": {
+     "type": "string",
+     "default": "192.168.4.72",
+     "label": "Host",
+     "description": "Output host"
+    },
+    "universe": { type: "int", default: 0 },
+    "channel": { type: "int", default: 0 }
+  },
+  
+  transforms: [
+    { x: 2, y: 2, z: 2 },
+    { scaleX: -12, scaleY: 12, scaleZ: 12 }
+  ],
+  
+  components: [
+    /* We have 10 cubes along y, then 13 units of building, then 12 cubes. */
+    { type: "strip", numPoints: 10, spacing: 4, x: 2, y: 2, z: 2, direction: { y: 1 } },
+    { type: "strip", numPoints: 10, spacing: 4, x: 2, y: 2, z: 6, direction: { y: 1 } },
+    { type: "strip", numPoints: 10, spacing: 4, x: 2, y: 2, z: 10, direction: { y: 1 } },
+    { type: "strip", numPoints: 10, spacing: 4, x: 2, y: 2, z: 14, direction: { y: 1 } },
+
+    /* Now the 12 cubes */
+    { type: "strip", numPoints: 12, spacing: 4, x: 2, y: 94, z: 2, direction: { y: 1 } },
+    { type: "strip", numPoints: 12, spacing: 4, x: 2, y: 94, z: 6, direction: { y: 1 } },
+    { type: "strip", numPoints: 12, spacing: 4, x: 2, y: 94, z: 10, direction: { y: 1 } },
+    { type: "strip", numPoints: 12, spacing: 4, x: 2, y: 94, z: 14, direction: { y: 1 } },
+
+    /* Now the x axis */
+    /* # Along x, we have 24 cubes followed by a ~5.5' foot space */
+    { type: "strip", numPoints: 24, spacing: 4, x: 6, y: 2, z: 2, direction: { x: 1 } },
+    { type: "strip", numPoints: 24, spacing: 4, x: 6, y: 2, z: 6, direction: { x: 1 } },
+    { type: "strip", numPoints: 24, spacing: 4, x: 6, y: 2, z: 10, direction: { x: 1 } },
+    { type: "strip", numPoints: 24, spacing: 4, x: 6, y: 2, z: 14, direction: { x: 1 } },
+
+    /* Now the weird door and hallway stuff */
+    /*# So the doorway part is
+    # 2+(24*4)+3,5, 2+3*4, {2,6,10,14}
+    # 2+(23*4)+3,5, 2+3*4, {2,6,10,14}
+    # 2+(22*4)+3,5, 2+3*4, {2,6,10,14}
+    # 2+(21*4)+3,5, 2+3*4, {2,6,10,14}
+    # 2+(20*4)+3,5, 2+3*4, {2,6,10,14} */
+    { type: "strip", numPoints: 5, spacing: 4, x: 85.5, y: 14, z: 2, direction: { x: 1 } },
+    { type: "strip", numPoints: 5, spacing: 4, x: 85.5, y: 14, z: 6, direction: { x: 1 } },
+    { type: "strip", numPoints: 5, spacing: 4, x: 85.5, y: 14, z: 10, direction: { x: 1 } },
+    { type: "strip", numPoints: 5, spacing: 4, x: 85.5, y: 14, z: 14, direction: { x: 1 } },
+    /* Now the door */
+    { type: "strip", numPoints: 2, spacing: 4, x:81.5, y: 14, z:10, direction: { z:1 } },
+    /* And the last bit */
+    { type: "strip", numPoints: 3, spacing: 4, x:77.5, y: 6, z:2, direction: { y:1 } },
+    { type: "strip", numPoints: 3, spacing: 4, x:77.5, y: 6, z:6, direction: { y:1 } },
+    { type: "strip", numPoints: 3, spacing: 4, x:77.5, y: 6, z:10, direction: { y:1 } },
+    { type: "strip", numPoints: 3, spacing: 4, x:77.5, y: 6, z:14, direction: { y:1 } },
+
+  ],
+  
+  output: {
+    host: "$host",
+    protocol: "artnet"
+  }
+}
+

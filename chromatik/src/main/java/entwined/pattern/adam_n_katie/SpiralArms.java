@@ -4,7 +4,7 @@ import entwined.utils.Vec3D;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXModel;
 import heronarts.lx.model.LXPoint;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 
 //----------------------------------------------------------------------------
 /**
@@ -19,14 +19,14 @@ public class SpiralArms extends AutographedPattern{
   static final float maxSpinsPerS = 2;
 
   // Parameters (to show up on UI).
-  final BoundedParameter numArmsParam =
-    new BoundedParameter("Num", 15, 1, 100);
-  final BoundedParameter armThicknessParam =
-    new BoundedParameter("THC", 30, 1, 100);
-  final BoundedParameter twistParam =
-    new BoundedParameter("TWS", 10, 0, 100);
-  final BoundedParameter rotSpeedParam =
-    new BoundedParameter("SPD", 3, 1, 100);
+  final CompoundParameter numArmsParam =
+    new CompoundParameter("Num", 15, 1, 100);
+  final CompoundParameter armThicknessParam =
+    new CompoundParameter("THC", 30, 1, 100);
+  final CompoundParameter twistParam =
+    new CompoundParameter("TWS", 10, 0, 100);
+  final CompoundParameter rotSpeedParam =
+    new CompoundParameter("SPD", 3, 1, 100);
 
   // Variables
   private Vec3D theMainTreePos0To1;

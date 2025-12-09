@@ -146,8 +146,10 @@ class Tree:
 
 
 class PixelParser:
+# possible version issue with python here?
+#    def __init__(self, output_folder: Path, piece_id: str, tags: [str], metadata: [dict], repeat_count: int):
+    def __init__(self, output_folder, piece_id: str, tags, metadata, repeat_count: int):
 
-    def __init__(self, output_folder: Path, piece_id: str, tags: [str], metadata: [dict], repeat_count: int):
         # statics
         self.piece_id = piece_id
         self.output_folder = output_folder
@@ -196,7 +198,7 @@ class PixelParser:
     def create_container_output(self) -> dict:
         return {"label": self.piece_id,
                 "tags": self.tags,
-                "metadata" : self.metadata,
+                "meta" : self.metadata,
                 "components": self.components
                }
 
@@ -351,7 +353,7 @@ def main():
     with open(args.tree_config) as tc_f:
         tree_configs = json.load(tc_f)
     if not tree_configs:
-        print(" Empty tree configurations, exiting ")
+        print(" Empty tree configurations, exiting tree.py ")
         exit()
 
     ndb_configs, cube_configs = tree_cubes_load_csv(args.branch_config)

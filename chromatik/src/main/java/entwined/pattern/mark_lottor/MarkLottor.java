@@ -4,7 +4,7 @@ import heronarts.lx.LX;
 import heronarts.lx.color.LXColor;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.model.LXPoint;
 import entwined.utils.EntwinedUtils;
@@ -13,10 +13,10 @@ import entwined.core.CubeManager;
 public class MarkLottor extends LXPattern {
 
   // These parameters will be knobs on the UI
-  final BoundedParameter p1 = new BoundedParameter("SIZ", 0.25);
-  final BoundedParameter p2 = new BoundedParameter("NUM", 0.75);
-  final BoundedParameter p3 = new BoundedParameter("SPD", 0.5);
-  final BoundedParameter p4 = new BoundedParameter("DIM", 0.17);
+  final CompoundParameter p1 = new CompoundParameter("SIZ", 0.25);
+  final CompoundParameter p2 = new CompoundParameter("NUM", 0.75);
+  final CompoundParameter p3 = new CompoundParameter("SPD", 0.5);
+  final CompoundParameter p4 = new CompoundParameter("DIM", 0.17);
 
   // This is an example modulator
   final SinLFO verticalPosition = new SinLFO(model.yMin, model.yMax, 5000);
