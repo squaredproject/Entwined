@@ -32,7 +32,7 @@ public class Stringy extends LXPattern {
 	private int trans_c=25; // connectivity
 	private int halo_c=40; // connectivity //transc must be smaller than halo c
 	private int current_cube[][]; // n x 3 (RGB)
-	final BoundedParameter speedParam = new BoundedParameter("Speed", 5, 20, .01);
+	final CompoundParameter speedParam = new CompoundParameter("Speed", 5, 20, .01);
 	private int update=0;
 
 	private void vec3_mul(float a[], float b[], float c[]) {
