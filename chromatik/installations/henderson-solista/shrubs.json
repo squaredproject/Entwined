@@ -1,6 +1,6 @@
 [
 	{
-			"ry" : 180,
+			"ry" : 220,
 			"x" : -404,
 			"z" : -86,
 			"type" : "classic",
@@ -10,7 +10,7 @@
 			"direction" : "clockwise"
 	},
 	{
-			"ry" : 0,
+			"ry" : -25,
 			"x" : -262,
 			"z" : 190,
 			"type" : "classic",
@@ -20,7 +20,7 @@
 			"direction" : "clockwise"
 	},
 	{
-			"ry" : 22.5,
+			"ry" : -25,
 			"x" : -130,
 			"z" : 55,
 			"type" : "classic",
@@ -30,7 +30,7 @@
 			"direction" : "clockwise"
 	},
 	{
-			"ry" : 0,
+			"ry" : 180,
 			"x" : 76,
 			"z" : -72,
 			"type" : "classic",
@@ -40,7 +40,7 @@
 			"direction" : "clockwise"
 	},
 	{
-			"ry" : 0,
+			"ry" : 90,
 			"x" : 212,
 			"z" : 0,
 			"type" : "classic",
@@ -50,7 +50,7 @@
 			"direction" : "clockwise"
 	},
 	{
-			"ry" : 0,
+			"ry" : -90,
 			"x" : -265,
 			"z" : -195,
 			"type" : "king",
@@ -59,7 +59,7 @@
 			"shrubIpAddress" : "10.0.0.118"
 	},
 	{
-			"ry" : 0,
+			"ry" : 90,
 			"x" : 435,
 			"z" : 222,
 			"type" : "king",
