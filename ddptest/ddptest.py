@@ -251,7 +251,7 @@ def pattern_hsv():
         color_fill(leds, hsv_to_rgb( h, 1.0, 1.0) )
         if h > 1.0:  h = 0.0
         leds_send(leds)
-        time.sleep(0.2)
+        time.sleep(0.05)
 
 # just hit each pixel one by one:
 def pattern_order():
