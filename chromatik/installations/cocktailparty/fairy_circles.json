@@ -1,0 +1,90 @@
+[
+	{
+			"ry" : 30,
+			"x" : 274,
+			"z" : -159,
+			"shape": "line",
+			"separation" : 38,
+			"pieceId" : "baby-5",
+			"cubeSizeIndex" : 0,
+			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.132"]
+	},
+	{
+			"ry" : 30,
+			"x" : 167,
+			"z" : -215,
+			"shape": "line",
+			"separation" : 38,
+			"pieceId" : "baby-8",
+			"cubeSizeIndex" : 0,
+			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.147"]
+	},
+	{
+			"ry" : 150,
+			"x" : -167,
+			"z" : -215,
+			"shape": "line",
+			"separation" : 38,
+			"pieceId" : "baby-3",
+			"cubeSizeIndex" : 0,
+			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.141"]
+	},
+	{
+			"ry" : -30,
+			"x" : -274,
+			"z" : -159,
+			"shape": "line",
+			"separation" : 38,
+			"pieceId" : "baby-4",
+			"cubeSizeIndex" : 0,
+			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.133"]
+	},
+	{
+			"ry" : 210,
+			"x" : -274,
+			"z" : 159,
+			"shape": "line",
+			"separation" : 38,
+			"pieceId" : "baby-1",
+			"cubeSizeIndex" : 0,
+			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.140"]
+	},
+	{
+			"ry" : 30,
+			"x" : -167,
+			"z" : 214,
+			"shape": "line",
+			"separation" : 38,
+			"pieceId" : "baby-10",
+			"cubeSizeIndex" : 0,
+			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.149"]
+	},
+	{
+			"ry" : 150,
+			"x" : 167,
+			"z" : 214,
+			"shape": "line",
+			"separation" : 38,
+			"pieceId" : "baby-2",
+			"cubeSizeIndex" : 0,
+			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.164"]
+	},
+	{
+			"ry" : 150,
+			"x" : 274,
+			"z" : 159,
+			"shape": "line",
+			"separation" : 38,
+			"pieceId" : "baby-6",
+			"cubeSizeIndex" : 0,
+			"clustersPerNdb" : 3,
+			"ipAddresses" : ["10.0.0.146"]
+	}
+]
