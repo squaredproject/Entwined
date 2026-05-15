@@ -22,7 +22,7 @@
 			"x" : 470,
 			"z" : 540,
 			"type" : "classic",
-			"cubeSizeIndex": 0,
+			"cubeSizeIndex": 1,
 			"pieceId" : "shrub-3",
 			"shrubIpAddress" : "10.0.0.214"
 	},
@@ -31,7 +31,7 @@
 			"x" : 685,
 			"z" : 435,
 			"type" : "classic",
-			"cubeSizeIndex": 0,
+			"cubeSizeIndex": 1,
 			"pieceId" : "shrub-4",
 			"shrubIpAddress" : "10.0.0.109"
 	},
@@ -58,7 +58,7 @@
 			"x" : 830,
 			"z" : 405,
 			"type" : "classic",
-			"cubeSizeIndex": 0,
+			"cubeSizeIndex": 1,
 			"pieceId" : "shrub-7",
 			"shrubIpAddress" : "10.0.0.111"
 	},
