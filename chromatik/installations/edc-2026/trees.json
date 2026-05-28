@@ -1,0 +1,26 @@
+[
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [30],
+		"ry" : -90,
+		"x" : 590,
+		"z" : 335,
+		"pieceId" : "sapling-1"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [30],
+		"ry" : 0,
+		"x" : -1650,
+		"z" : 560,
+		"pieceId" : "sapling-2"
+	},
+	{
+		"canopyMajorLengths" : [100],
+		"layerBaseHeights" : [30],
+		"ry" : -45,
+		"x" : -430,
+		"z" : 530,
+		"pieceId" : "sapling-3"
+	}
+]
