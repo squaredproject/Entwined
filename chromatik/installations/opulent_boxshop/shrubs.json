@@ -5,7 +5,7 @@
 			"z" : -108,
 			"type" : "classic",
 			"cubeSizeIndex": 1,
-			"pieceId" : "shrub-1",
+			"pieceId" : "piece-15",
 			"shrubIpAddress" : "10.0.0.222"
 	},
 	{
@@ -14,7 +14,7 @@
 			"z" : -60,
 			"type" : "classic",
 			"cubeSizeIndex": 1,
-			"pieceId" : "shrub-2",
+			"pieceId" : "piece-16",
 			"shrubIpAddress" : "10.0.0.225"
 	},
 	{
@@ -23,7 +23,7 @@
 			"z" : 0,
 			"type" : "classic",
 			"cubeSizeIndex": 1,
-			"pieceId" : "shrub-3",
+			"pieceId" : "piece-17",
 			"shrubIpAddress" : "10.0.0.214"
 	}
 ]

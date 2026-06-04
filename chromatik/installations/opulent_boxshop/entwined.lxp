@@ -1,6 +1,6 @@
 {
   "version": "0.4.2-SNAPSHOT",
-  "timestamp": 1780007938061,
+  "timestamp": 1780593711856,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -124,9 +124,9 @@
     },
     "fixtures": [
       {
-        "jsonFixtureType": "Entwined/shrub-2",
+        "jsonFixtureType": "Entwined/piece-15",
         "jsonParameters": {},
-        "id": 349207,
+        "id": 480414,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
@@ -134,7 +134,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "shrub-2 2",
+          "label": "piece-15 1",
           "x": 0.0,
           "y": 0.0,
           "z": 0.0,
@@ -150,14 +150,14 @@
           "mute": false,
           "solo": false,
           "tags": "",
-          "fixtureType": "Entwined/shrub-2"
+          "fixtureType": "Entwined/piece-15"
         },
         "children": {}
       },
       {
-        "jsonFixtureType": "Entwined/shrub-3",
+        "jsonFixtureType": "Entwined/piece-16",
         "jsonParameters": {},
-        "id": 350537,
+        "id": 480728,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
@@ -165,38 +165,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "shrub-3 3",
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0,
-          "yaw": 0.0,
-          "pitch": 0.0,
-          "roll": 0.0,
-          "scale": 1.0,
-          "selected": false,
-          "deactivate": false,
-          "enabled": true,
-          "brightness": 1.0,
-          "identify": false,
-          "mute": false,
-          "solo": false,
-          "tags": "",
-          "fixtureType": "Entwined/shrub-3"
-        },
-        "children": {}
-      },
-      {
-        "jsonFixtureType": "Entwined/shrub-1",
-        "jsonParameters": {},
-        "id": 466771,
-        "class": "heronarts.lx.structure.JsonFixture",
-        "internal": {
-          "modulationColor": 0,
-          "modulationControlsExpanded": true,
-          "modulationsExpanded": true
-        },
-        "parameters": {
-          "label": "shrub-1 8",
+          "label": "piece-16 2",
           "x": 0.0,
           "y": 0.0,
           "z": 0.0,
@@ -212,7 +181,38 @@
           "mute": false,
           "solo": false,
           "tags": "",
-          "fixtureType": "Entwined/shrub-1"
+          "fixtureType": "Entwined/piece-16"
+        },
+        "children": {}
+      },
+      {
+        "jsonFixtureType": "Entwined/piece-17",
+        "jsonParameters": {},
+        "id": 480886,
+        "class": "heronarts.lx.structure.JsonFixture",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true,
+          "modulationsExpanded": true
+        },
+        "parameters": {
+          "label": "piece-17 3",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "roll": 0.0,
+          "scale": 1.0,
+          "selected": false,
+          "deactivate": false,
+          "enabled": true,
+          "brightness": 1.0,
+          "identify": false,
+          "mute": false,
+          "solo": false,
+          "tags": "",
+          "fixtureType": "Entwined/piece-17"
         },
         "children": {}
       }
@@ -232,7 +232,7 @@
       "channelMultithreaded": false,
       "networkMultithreaded": false,
       "framesPerSecond": 60.0,
-      "speed": 0.48004178708270684,
+      "speed": 0.4318371364958099,
       "performanceMode": false
     },
     "children": {
@@ -684,7 +684,7 @@
                   "view": 0,
                   "viewPriority": 0,
                   "enabled": true,
-                  "speed": 0.48004178708270684
+                  "speed": 0.4318371364958099
                 },
                 "children": {
                   "modulation": {
@@ -1661,7 +1661,7 @@
             ],
             "clips": [
               {
-                "id": 464534,
+                "id": 477729,
                 "class": "heronarts.lx.clip.LXMasterClip",
                 "internal": {
                   "modulationColor": 0,
@@ -1681,7 +1681,7 @@
                 },
                 "children": {
                   "snapshot": {
-                    "id": 464535,
+                    "id": 477730,
                     "class": "heronarts.lx.snapshot.LXClipSnapshot",
                     "internal": {
                       "modulationColor": 0,
@@ -24275,7 +24275,7 @@
             },
             "parameters": {
               "label": "Test",
-              "fader": 5.563297971216493E-4,
+              "fader": 0.008385385934636,
               "arm": false,
               "selected": true,
               "enabled": true,
@@ -24306,7 +24306,7 @@
             "effects": [],
             "clips": [
               {
-                "id": 464510,
+                "id": 477705,
                 "class": "heronarts.lx.clip.LXChannelClip",
                 "internal": {
                   "modulationColor": 0,
@@ -24326,7 +24326,7 @@
                 },
                 "children": {
                   "snapshot": {
-                    "id": 464511,
+                    "id": 477706,
                     "class": "heronarts.lx.snapshot.LXClipSnapshot",
                     "internal": {
                       "modulationColor": 0,
@@ -38463,7 +38463,7 @@
                 ]
               }
             ],
-            "patternIndex": 0,
+            "patternIndex": 3,
             "patterns": [
               {
                 "id": 50478,
@@ -38876,7 +38876,7 @@
             },
             "parameters": {
               "label": "Channel-7",
-              "fader": 0.01595982164144516,
+              "fader": 0.9988101367939781,
               "arm": false,
               "selected": false,
               "enabled": true,
@@ -38907,7 +38907,7 @@
             "effects": [],
             "clips": [
               {
-                "id": 464512,
+                "id": 477707,
                 "class": "heronarts.lx.clip.LXChannelClip",
                 "internal": {
                   "modulationColor": 0,
@@ -38927,7 +38927,7 @@
                 },
                 "children": {
                   "snapshot": {
-                    "id": 464513,
+                    "id": 477708,
                     "class": "heronarts.lx.snapshot.LXClipSnapshot",
                     "internal": {
                       "modulationColor": 0,
@@ -56157,7 +56157,7 @@
             },
             "parameters": {
               "label": "Channel-7",
-              "fader": 0.9989338852190366,
+              "fader": 2.201124715292128E-4,
               "arm": false,
               "selected": false,
               "enabled": true,
@@ -56188,7 +56188,7 @@
             "effects": [],
             "clips": [
               {
-                "id": 464514,
+                "id": 477709,
                 "class": "heronarts.lx.clip.LXChannelClip",
                 "internal": {
                   "modulationColor": 0,
@@ -56208,7 +56208,7 @@
                 },
                 "children": {
                   "snapshot": {
-                    "id": 464515,
+                    "id": 477710,
                     "class": "heronarts.lx.snapshot.LXClipSnapshot",
                     "internal": {
                       "modulationColor": 0,
@@ -75018,7 +75018,7 @@
             },
             "parameters": {
               "label": "Channel-7",
-              "fader": 0.0016183035913854837,
+              "fader": 0.999825848848913,
               "arm": false,
               "selected": false,
               "enabled": true,
@@ -75049,7 +75049,7 @@
             "effects": [],
             "clips": [
               {
-                "id": 464516,
+                "id": 477711,
                 "class": "heronarts.lx.clip.LXChannelClip",
                 "internal": {
                   "modulationColor": 0,
@@ -75069,7 +75069,7 @@
                 },
                 "children": {
                   "snapshot": {
-                    "id": 464517,
+                    "id": 477712,
                     "class": "heronarts.lx.snapshot.LXClipSnapshot",
                     "internal": {
                       "modulationColor": 0,
@@ -91538,7 +91538,7 @@
             "effects": [],
             "clips": [
               {
-                "id": 464518,
+                "id": 477713,
                 "class": "heronarts.lx.clip.LXChannelClip",
                 "internal": {
                   "modulationColor": 0,
@@ -91558,7 +91558,7 @@
                 },
                 "children": {
                   "snapshot": {
-                    "id": 464519,
+                    "id": 477714,
                     "class": "heronarts.lx.snapshot.LXClipSnapshot",
                     "internal": {
                       "modulationColor": 0,
@@ -96047,7 +96047,7 @@
             "effects": [],
             "clips": [
               {
-                "id": 464520,
+                "id": 477715,
                 "class": "heronarts.lx.clip.LXChannelClip",
                 "internal": {
                   "modulationColor": 0,
@@ -96067,7 +96067,7 @@
                 },
                 "children": {
                   "snapshot": {
-                    "id": 464521,
+                    "id": 477716,
                     "class": "heronarts.lx.snapshot.LXClipSnapshot",
                     "internal": {
                       "modulationColor": 0,
@@ -100556,7 +100556,7 @@
             "effects": [],
             "clips": [
               {
-                "id": 464522,
+                "id": 477717,
                 "class": "heronarts.lx.clip.LXChannelClip",
                 "internal": {
                   "modulationColor": 0,
@@ -100576,7 +100576,7 @@
                 },
                 "children": {
                   "snapshot": {
-                    "id": 464523,
+                    "id": 477718,
                     "class": "heronarts.lx.snapshot.LXClipSnapshot",
                     "internal": {
                       "modulationColor": 0,
@@ -105065,7 +105065,7 @@
             "effects": [],
             "clips": [
               {
-                "id": 464524,
+                "id": 477719,
                 "class": "heronarts.lx.clip.LXChannelClip",
                 "internal": {
                   "modulationColor": 0,
@@ -105085,7 +105085,7 @@
                 },
                 "children": {
                   "snapshot": {
-                    "id": 464525,
+                    "id": 477720,
                     "class": "heronarts.lx.snapshot.LXClipSnapshot",
                     "internal": {
                       "modulationColor": 0,
@@ -109574,7 +109574,7 @@
             "effects": [],
             "clips": [
               {
-                "id": 464526,
+                "id": 477721,
                 "class": "heronarts.lx.clip.LXChannelClip",
                 "internal": {
                   "modulationColor": 0,
@@ -109594,7 +109594,7 @@
                 },
                 "children": {
                   "snapshot": {
-                    "id": 464527,
+                    "id": 477722,
                     "class": "heronarts.lx.snapshot.LXClipSnapshot",
                     "internal": {
                       "modulationColor": 0,
@@ -112780,7 +112780,7 @@
             "effects": [],
             "clips": [
               {
-                "id": 464528,
+                "id": 477723,
                 "class": "heronarts.lx.clip.LXChannelClip",
                 "internal": {
                   "modulationColor": 0,
@@ -112800,7 +112800,7 @@
                 },
                 "children": {
                   "snapshot": {
-                    "id": 464529,
+                    "id": 477724,
                     "class": "heronarts.lx.snapshot.LXClipSnapshot",
                     "internal": {
                       "modulationColor": 0,
@@ -115986,7 +115986,7 @@
             "effects": [],
             "clips": [
               {
-                "id": 464530,
+                "id": 477725,
                 "class": "heronarts.lx.clip.LXChannelClip",
                 "internal": {
                   "modulationColor": 0,
@@ -116006,7 +116006,7 @@
                 },
                 "children": {
                   "snapshot": {
-                    "id": 464531,
+                    "id": 477726,
                     "class": "heronarts.lx.snapshot.LXClipSnapshot",
                     "internal": {
                       "modulationColor": 0,
@@ -119192,7 +119192,7 @@
             "effects": [],
             "clips": [
               {
-                "id": 464532,
+                "id": 477727,
                 "class": "heronarts.lx.clip.LXChannelClip",
                 "internal": {
                   "modulationColor": 0,
@@ -119212,7 +119212,7 @@
                 },
                 "children": {
                   "snapshot": {
-                    "id": 464533,
+                    "id": 477728,
                     "class": "heronarts.lx.snapshot.LXClipSnapshot",
                     "internal": {
                       "modulationColor": 0,
@@ -120104,22 +120104,22 @@
         "depth": 2.0,
         "camera": {
           "active": false,
-          "radius": 291.4903315463774,
-          "theta": 322.2698060204275,
-          "phi": 41.467273565009236,
-          "x": 7.537766073277453,
-          "y": 99.48847678303719,
-          "z": -137.59175713546574
+          "radius": 221.50873637905852,
+          "theta": 313.26980476872995,
+          "phi": 30.70640488155186,
+          "x": -16.64401961863041,
+          "y": 13.277456402778625,
+          "z": -51.58712391555309
         },
         "cue": [
           {
             "active": false,
-            "radius": 291.4903315463774,
-            "theta": 322.2698060204275,
-            "phi": 41.467273565009236,
-            "x": 7.537766073277453,
-            "y": 99.48847678303719,
-            "z": -137.59175713546574
+            "radius": 221.50873637905852,
+            "theta": 313.26980476872995,
+            "phi": 30.70640488155186,
+            "x": -16.64401961863041,
+            "y": 13.277456402778625,
+            "z": -51.58712391555309
           },
           {
             "active": false,
@@ -120197,12 +120197,12 @@
         "depth": 2.0,
         "camera": {
           "active": false,
-          "radius": 120.0,
+          "radius": 135.3885040283203,
           "theta": 0.0,
           "phi": 0.0,
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
+          "x": 60.273841857910156,
+          "y": 37.5,
+          "z": -112.30853271484375
         },
         "cue": [
           {
