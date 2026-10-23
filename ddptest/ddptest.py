@@ -54,6 +54,7 @@
 import socket
 import time
 import argparse
+import math
 
 
 DESTINATION_IP = "10.0.0.1"
@@ -236,11 +237,29 @@ def pattern_black():
     color_fill(leds, palette['black'])
     leds_send(leds)
 
-# set to color in palette and exit
-def pattern_color(color: str):
+# send once by default, or refresh at 20 fps for a duration (0 means forever)
+def leds_send_for(duration=None):
+    deadline = None if duration is None or duration == 0 else time.monotonic() + duration
+    while True:
+        leds_send(leds)
+        if duration is None:
+            return
+        if deadline is None:
+            time.sleep(0.05)
+        else:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                return
+            time.sleep(min(0.05, remaining))
+            if time.monotonic() >= deadline:
+                return
+
+
+# set to color in palette, optionally refreshing until the duration expires
+def pattern_color(color: str, duration=None):
     global leds
     color_fill(leds, palette[color])
-    leds_send(leds)
+    leds_send_for(duration)
 
 # ring around the HSV, high fps
 def pattern_hsv():
@@ -456,8 +475,8 @@ def pattern_cube_color(n_cubes: int):
         leds_send(leds)
         time.sleep(5)
 
-# one shot and exit
-def pattern_cube_color(n_cubes: int):
+# one shot by default, optionally refreshing until the duration expires
+def pattern_cube_color(n_cubes: int, duration=None):
     global leds, COLOR
     if COLOR in palette:
         rgb = palette[COLOR]
@@ -473,7 +492,7 @@ def pattern_cube_color(n_cubes: int):
     for c_idx in range(n_cubes):
         cube_set(c_idx, rgb)
 
-    leds_send(leds)
+    leds_send_for(duration)
 
 
 def arg_init():
@@ -484,10 +503,17 @@ def arg_init():
     parser.add_argument('--cubes', '-c', type=int, help='number of cubes')
     parser.add_argument('--lpc', type=int, default=6, help='leds per cube (default 6, 4 could be)')
     parser.add_argument('--color', type=str, default='blue', help='color to set all cubes to')
+    parser.add_argument('--duration', type=float, metavar='SECONDS',
+                        help='refresh a solid color for this many seconds; 0 runs until Ctrl+C; omitted sends once')
 
     global DESTINATION_IP, NUM_LEDS, leds, LEDS_PER_CUBE, COLOR
 
     args = parser.parse_args()
+    if args.duration is not None:
+        if not math.isfinite(args.duration) or args.duration < 0:
+            parser.error('--duration must be a finite number of seconds >= 0')
+        if args.pattern not in palette and args.pattern != 'cube_color':
+            parser.error('--duration requires a named color pattern (such as white) or cube_color')
     if args.host:
         DESTINATION_IP = args.host
     # fugly! this is ordering dependant
@@ -541,7 +567,7 @@ def main():
         if not args.cubes:
             print(" cube color, you must have cubes try again")
             exit(-1)
-        pattern_cube_color(args.cubes)
+        pattern_cube_color(args.cubes, args.duration)
     elif args.pattern == 'strobe':
         pattern_strobe()
     elif args.pattern == 'strobe_white':
@@ -551,7 +577,7 @@ def main():
     elif args.pattern == 'cube_color':
         pattern_cube_color()
     elif args.pattern in palette:
-        pattern_color(args.pattern)
+        pattern_color(args.pattern, args.duration)
     else:
         print(' pattern must be one of palette, hsv, order, shrub_rank, shrub_rank_order, cube_order, cube_color, strobe, strobe_white')
 
@@ -559,4 +585,10 @@ def main():
 
 # only effects when we're being run as a module but whatever
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        if sock is not None:
+            sock.close()
