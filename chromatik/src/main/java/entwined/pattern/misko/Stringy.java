@@ -17,17 +17,22 @@ public class Stringy extends LXPattern {
 
 	private double total_ms1 =0.0;
 	private double total_ms2 =0.0;
-	static float[][] trans_mat;
+	private float[][] trans_mat;
 	static float stay_prob=0.3f; // [0,1] , larger means lazier
-	static float[][] halo_mat;
-	static float[] center;
-	static int[][] conn_mat; 
-	static float[][] cube_xyz; 
-	static int[] sprite_at_cube; 
+	private float[][] halo_mat;
+	private float[] center;
+	private int[][] conn_mat; 
+	private float[][] cube_xyz; 
+	private int[] sprite_at_cube; 
 	static float[] norms;
 	static float fade[]=new float[]{0.95f,0.95f,0.95f};
-	static float[][] shadow;
-	private int n=14; // number of sprites
+	private float[][] shadow;
+	private int n=14; // number of sprites (maximum; scaled down on smaller models, see constructor)
+	// Stringy needs room to string: the neighbor tables are halo_c wide and the sprites
+	// need free cubes to move into. Models smaller than this bypass the pattern entirely
+	// (it stays in the channel list so autoplay pattern indices are unaffected, and renders nothing).
+	private static final int MIN_CUBES = 40;
+	private boolean bypass = false;
 	private Sprite[] sprites;
 	private int trans_c=25; // connectivity
 	private int halo_c=40; // connectivity //transc must be smaller than halo c
@@ -146,13 +151,15 @@ public class Stringy extends LXPattern {
 			this.rgb=rgb.clone();
 			this.stay_away=-1;
 			if (current_cube==-1) {
-				while (1==1) {
-					current_cube=(int)(Math.random() * (model.points.length - 1) + 0);
-					if (sprite_at_cube[current_cube]==-1) {
-						this.current_cube=current_cube;
-						break;
-					}	
+				// random probes over the full range, then a linear scan, so this can never spin forever
+				for (int attempt=0; attempt<4*model.points.length && current_cube==-1; attempt++) {
+					int c=(int)(Math.random() * model.points.length);
+					if (sprite_at_cube[c]==-1) current_cube=c;
 				}
+				for (int c=0; c<model.points.length && current_cube==-1; c++) {
+					if (sprite_at_cube[c]==-1) current_cube=c;
+				}
+				if (current_cube==-1) current_cube=0; // more sprites than cubes: double up rather than hang
 			}
 			assert(sprite_at_cube[this.current_cube]==-1);
 			sprite_at_cube[this.current_cube]=this.sprite_id;
@@ -295,6 +302,13 @@ public class Stringy extends LXPattern {
 		assert(trans_c<=halo_c);
 		addParameter("speedParam", speedParam);
 
+		if (model.points.length < MIN_CUBES) {
+			bypass = true;
+			return;
+		}
+		// one sprite per four cubes, capped at the original 14, even so the creation loop can work in pairs
+		n = Math.min(n, model.points.length / 4) & ~1;
+
 		center = new float[3];
 		trans_mat = new float[model.points.length][trans_c];
 		sprite_at_cube = new int[model.points.length];
@@ -378,24 +392,26 @@ public class Stringy extends LXPattern {
 		vec3_norm(bias_to_notz,bias_to_notz);
 	
 
-		for (int i=0; i<(n/2-1); i++) {
-			sprites[i*2]=new Sprite(i*2,
+		for (int i=0; i<n-2; i+=2) {
+			sprites[i]=new Sprite(i,
 					new float[]{1.0f,0.0f,0.0f},
 					-1,
 					bias_to_y, 0.01f, 1.0f, -1,0.0f);
-			sprites[i*2+1]=new Sprite(i*2+1,
+			sprites[i+1]=new Sprite(i+1,
 					new float[]{0.0f,1.0f,0.0f},
 					-1,
 					bias_to_notz, 0.01f, 1.0f, 2,0.0f);
 		}
-		sprites[n-2]=new Sprite(n-2,
-				new float[]{0.0f,0.0f,1.0f},
-				-1,
-				bias_to_none, 0.1f, 10.0f, 1,0.05f);
-		sprites[n-1]=new Sprite(n-1,
-				new float[]{0.0f,0.0f,1.0f},
-				-1,
-				bias_to_none, 0.1f, 10.0f, 1,0.05f);
+		if (n>=2) {
+			sprites[n-2]=new Sprite(n-2,
+					new float[]{0.0f,0.0f,1.0f},
+					-1,
+					bias_to_none, 0.1f, 10.0f, 1,0.05f);
+			sprites[n-1]=new Sprite(n-1,
+					new float[]{0.0f,0.0f,1.0f},
+					-1,
+					bias_to_none, 0.1f, 10.0f, 1,0.05f);
+		}
 	}
 
 
@@ -411,6 +427,7 @@ public class Stringy extends LXPattern {
 	// This is the pattern loop, which will run continuously via LX
 	@Override
 		public void run(double deltaMs) {
+			if (bypass) return; // too few cubes to string, see constructor
 			if (getChannel().fader.getNormalized() == 0) return;
 
 			total_ms1+=deltaMs;
