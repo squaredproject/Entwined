@@ -1,0 +1,14 @@
+[        
+	{
+        "ry" : 0,
+        "x" : 0,
+        "z" : 0,
+        "shape": "free",
+        "pieceId" : "baby-1",
+        "cubeSizeIndex" : 0,
+        "ipAddresses" : ["10.0.0.140"],
+        "clusters" : [
+			{ "x" : 0, "z" : 0, "ry" : 0, "ndb" : true }
+	    ]
+    }
+]
